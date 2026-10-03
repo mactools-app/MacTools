@@ -58,6 +58,12 @@
             "value": "Очистить корзину"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çöpü Boşalt"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очистить все элементы в корзине."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çöpün tamamını boşaltır."
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Пусто"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boşalt"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Опорожнение…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boşaltılıyor…"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Корзина пуста"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çöp boş"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d элементов"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d öğe"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Не удалось очистить корзину. Проверьте разрешение автоматизации."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çöp boşaltılamadı. Otomasyon iznini denetleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -501,33 +543,155 @@
     "permission.automation.description": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "يُستخدم لقراءة سلة المهملات وإفراغها." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Wird zum Lesen und Leeren des Papierkorbs verwendet." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Used to read and empty Trash." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Se usa para leer y vaciar la Papelera." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Utilisé pour lire et vider la corbeille." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ゴミ箱の読み取りと消去に使用します。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "휴지통을 읽고 비우는 데 사용됩니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Usado para ler e esvaziar o Lixo." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Используется для чтения и очистки Корзины." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "用于读取并清空废纸篓。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "用於讀取並清空垃圾桶。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُستخدم لقراءة سلة المهملات وإفراغها."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird zum Lesen und Leeren des Papierkorbs verwendet."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Used to read and empty Trash."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se usa para leer y vaciar la Papelera."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisé pour lire et vider la corbeille."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ゴミ箱の読み取りと消去に使用します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "휴지통을 읽고 비우는 데 사용됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usado para ler e esvaziar o Lixo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Используется для чтения и очистки Корзины."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çöpü okumak ve boşaltmak için kullanılır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于读取并清空废纸篓。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用於讀取並清空垃圾桶。"
+          }
+        }
       }
     },
     "permission.automation.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "أتمتة Finder" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Finder-Automatisierung" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Finder Automation" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Automatización de Finder" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Automatisation du Finder" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "Finderオートメーション" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "Finder 자동화" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Automação do Finder" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Автоматизация Finder" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "Finder 自动化" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "Finder 自動化" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أتمتة Finder"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder-Automatisierung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder Automation"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatización de Finder"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatisation du Finder"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finderオートメーション"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder 자동화"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automação do Finder"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматизация Finder"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder Otomasyonu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder 自动化"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder 自動化"
+          }
+        }
       }
     }
   },

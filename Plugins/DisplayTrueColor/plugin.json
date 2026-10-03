@@ -39,6 +39,10 @@
       "displayName": "True Tone",
       "summary": "Автоматически настраивайте цвета дисплея в соответствии с окружающим освещением."
     },
+    "tr": {
+      "displayName": "True Tone",
+      "summary": "Ekran renklerini ortam ışığına uyacak şekilde otomatik olarak ayarlayın."
+    },
     "zh-Hans": {
       "displayName": "原彩显示",
       "summary": "自动调节显示器颜色以适应环境光"
@@ -122,6 +126,9 @@
         "True Tone"
       ],
       "ru": [
+        "True Tone"
+      ],
+      "tr": [
         "True Tone"
       ],
       "zh-Hans": [

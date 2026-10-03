@@ -39,6 +39,10 @@
       "displayName": "Режим очистки",
       "summary": "Сделайте экран черным и временно отключите ввод с клавиатуры."
     },
+    "tr": {
+      "displayName": "Temizlik Modu",
+      "summary": "Ekranı karartın ve klavye girişini geçici olarak devre dışı bırakın."
+    },
     "zh-Hans": {
       "displayName": "清洁模式",
       "summary": "屏幕全黑并临时禁用键盘输入"
@@ -122,6 +126,9 @@
       ],
       "ru": [
         "Режим очистки"
+      ],
+      "tr": [
+        "Temizlik Modu"
       ],
       "zh-Hans": [
         "清洁模式"

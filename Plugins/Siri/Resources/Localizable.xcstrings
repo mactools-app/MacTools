@@ -4,16 +4,22 @@
     "从命令面板向 Siri 发送消息": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "从命令面板向 Siri 发送消息"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Send messages to Siri from the command palette"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komut paletinden Siri'ye ileti gönderin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从命令面板向 Siri 发送消息"
           }
         }
       }
@@ -21,16 +27,22 @@
     "辅助功能": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "辅助功能"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Accessibility"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "辅助功能"
           }
         }
       }
@@ -38,16 +50,22 @@
     "允许向 Siri 输入并发送消息": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "允许向 Siri 输入并发送消息"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Allow MacTools to enter and send messages in Siri"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools'un Siri'ye ileti girmesine ve göndermesine izin verin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许向 Siri 输入并发送消息"
           }
         }
       }
@@ -55,16 +73,22 @@
     "询问 Siri — 新对话": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "询问 Siri — 新对话"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Ask Siri — New Conversation"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri'ye Sor — Yeni Sohbet"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "询问 Siri — 新对话"
           }
         }
       }
@@ -72,16 +96,22 @@
     "消息": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "消息"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Message"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İleti"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "消息"
           }
         }
       }
@@ -89,16 +119,22 @@
     "输入发给 Siri 的消息": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "输入发给 Siri 的消息"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Enter a message for Siri"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri'ye gönderilecek iletiyi girin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入发给 Siri 的消息"
           }
         }
       }
@@ -106,16 +142,22 @@
     "Siri · 新对话": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Siri · 新对话"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Siri · New Conversation"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri · Yeni Sohbet"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri · 新对话"
           }
         }
       }
@@ -123,16 +165,22 @@
     "发送": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "发送"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Send"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gönder"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发送"
           }
         }
       }
@@ -140,16 +188,22 @@
     "需要 macOS 27 和 Siri AI": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "需要 macOS 27 和 Siri AI"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Requires macOS 27 and Siri AI"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 27 ve Siri AI gerektirir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要 macOS 27 和 Siri AI"
           }
         }
       }
@@ -157,16 +211,22 @@
     "请先授予辅助功能权限": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请先授予辅助功能权限"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Grant Accessibility permission first"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce Erişilebilirlik iznini verin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请先授予辅助功能权限"
           }
         }
       }
@@ -174,16 +234,22 @@
     "正在向 Siri 发送消息": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在向 Siri 发送消息"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Sending a message to Siri"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri'ye ileti gönderiliyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在向 Siri 发送消息"
           }
         }
       }
@@ -191,16 +257,22 @@
     "Siri 暂不可用": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Siri 暂不可用"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Siri is unavailable"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri şu anda kullanılamıyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri 暂不可用"
           }
         }
       }
@@ -208,16 +280,22 @@
     "取消": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "取消"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Cancel"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
           }
         }
       }
@@ -225,13 +303,19 @@
     "Siri": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Siri"
           }
         },
-        "en": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "Siri"
@@ -242,16 +326,22 @@
     "在命令面板输入触发短语和消息，按 Return 发送。": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在命令面板输入触发短语和消息，按 Return 发送。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Type your trigger phrase followed by your message in the command palette, then press Return."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komut paletine tetikleyici ifadenizi ve ardından iletinizi yazın, göndermek için Return tuşuna basın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在命令面板输入触发短语和消息，按 Return 发送。"
           }
         }
       }
@@ -259,16 +349,22 @@
     "Siri 中有未发送的草稿，请先处理。": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Siri 中有未发送的草稿，请先处理。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Siri has an unsent draft. Finish it before trying again."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri'de gönderilmemiş bir taslak var. Yeniden denemeden önce onu tamamlayın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri 中有未发送的草稿，请先处理。"
           }
         }
       }
@@ -276,16 +372,22 @@
     "请选择要使用的 Siri 窗口后重试。": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请选择要使用的 Siri 窗口后重试。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Select the Siri window you want to use, then try again."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanmak istediğiniz Siri penceresini seçip yeniden deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请选择要使用的 Siri 窗口后重试。"
           }
         }
       }
@@ -293,16 +395,22 @@
     "Siri 对话已更改，已停止发送。": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Siri 对话已更改，已停止发送。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The Siri conversation changed. Sending stopped."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri sohbeti değişti. Gönderme durduruldu."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri 对话已更改，已停止发送。"
           }
         }
       }
@@ -310,16 +418,22 @@
     "消息内容已更改，已停止发送。": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "消息内容已更改，已停止发送。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The message changed. Sending stopped."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İleti değişti. Gönderme durduruldu."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "消息内容已更改，已停止发送。"
           }
         }
       }
@@ -327,16 +441,22 @@
     "消息可能已发送，请在 Siri 中确认，避免重复发送。": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "消息可能已发送，请在 Siri 中确认，避免重复发送。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The message may have been sent. Check Siri before trying again."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İleti gönderilmiş olabilir. Yeniden denemeden önce Siri'de kontrol edin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "消息可能已发送，请在 Siri 中确认，避免重复发送。"
           }
         }
       }
@@ -344,16 +464,22 @@
     "等待 Siri 超时，请检查 Siri 后重试。": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "等待 Siri 超时，请检查 Siri 后重试。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Siri did not become ready in time. Check Siri before trying again."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri zamanında hazır olmadı. Yeniden denemeden önce Siri'yi kontrol edin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待 Siri 超时，请检查 Siri 后重试。"
           }
         }
       }
@@ -361,16 +487,22 @@
     "无法识别 Siri 输入界面，请检查 Siri 后重试。": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无法识别 Siri 输入界面，请检查 Siri 后重试。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Could not find the expected Siri controls. Check Siri before trying again."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beklenen Siri denetimleri bulunamadı. Yeniden denemeden önce Siri'yi kontrol edin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法识别 Siri 输入界面，请检查 Siri 后重试。"
           }
         }
       }
@@ -378,16 +510,22 @@
     "在命令面板输入触发短语和消息": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在命令面板输入触发短语和消息"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Type your trigger phrase followed by your message in the command palette"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komut paletine tetikleyici ifadenizi ve ardından iletinizi yazın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在命令面板输入触发短语和消息"
           }
         }
       }
@@ -395,16 +533,22 @@
     "正在打开 Siri…": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在打开 Siri…"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Opening Siri…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri açılıyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在打开 Siri…"
           }
         }
       }
@@ -412,16 +556,22 @@
     "正在准备新对话…": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在准备新对话…"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Preparing a new conversation…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni sohbet hazırlanıyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在准备新对话…"
           }
         }
       }
@@ -429,16 +579,22 @@
     "正在输入消息…": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在输入消息…"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Entering the message…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İleti giriliyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在输入消息…"
           }
         }
       }
@@ -446,16 +602,22 @@
     "正在发送消息…": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在发送消息…"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Sending the message…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İleti gönderiliyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在发送消息…"
           }
         }
       }
@@ -463,16 +625,22 @@
     "消息已发送": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "消息已发送"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Message sent"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İleti gönderildi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "消息已发送"
           }
         }
       }
@@ -480,16 +648,22 @@
     "已取消；Siri 中的草稿会保留。": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已取消；Siri 中的草稿会保留。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Cancelled. Any draft in Siri is preserved."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal edildi; Siri'deki taslak korunur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已取消；Siri 中的草稿会保留。"
           }
         }
       }
@@ -497,16 +671,22 @@
     "metadata.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "从命令面板向 Siri 发送消息"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Send messages to Siri from the command palette"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komut paletinden Siri'ye ileti gönderin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从命令面板向 Siri 发送消息"
           }
         }
       }
@@ -514,16 +694,22 @@
     "询问 Siri": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "询问 Siri"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Ask Siri"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri'ye Sor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "询问 Siri"
           }
         }
       }
@@ -531,16 +717,22 @@
     "开始新的 Siri 对话": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开始新的 Siri 对话"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Start a new Siri conversation"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni bir Siri sohbeti başlatın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始新的 Siri 对话"
           }
         }
       }

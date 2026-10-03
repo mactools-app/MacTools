@@ -39,6 +39,10 @@
       "displayName": "Разрешение дисплея",
       "summary": "Просмотр и переключение разрешения для каждого дисплея."
     },
+    "tr": {
+      "displayName": "Ekran Çözünürlüğü",
+      "summary": "Her ekranın çözünürlüğünü görüntüleyin ve değiştirin."
+    },
     "zh-Hans": {
       "displayName": "显示器分辨率",
       "summary": "查看并切换每个显示器的分辨率"
@@ -65,6 +69,7 @@
       "ko": "디스플레이를 선택하고 논리적 크기, 픽셀 크기 및 새로 고침 빈도를 지정하세요.",
       "pt": "Selecione um monitor e especifique o tamanho lógico, o tamanho em pixels e a taxa de atualização.",
       "ru": "Выберите дисплей и укажите логический размер, размер в пикселях и частоту обновления.",
+      "tr": "Bir ekran seçin ve mantıksal boyut, piksel boyutu ile yenileme hızını belirtin.",
       "zh-Hans": "选择显示器，并指定逻辑尺寸、像素尺寸和刷新率。",
       "zh-Hant": "選擇顯示器，並指定邏輯尺寸、像素尺寸和更新率。"
     }
@@ -132,6 +137,9 @@
       ],
       "ru": [
         "Разрешение дисплея"
+      ],
+      "tr": [
+        "Ekran Çözünürlüğü"
       ],
       "zh-Hans": [
         "显示器分辨率"

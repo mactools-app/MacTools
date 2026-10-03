@@ -58,6 +58,12 @@
             "value": "%d активных сессий"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d etkin oturum"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d%% выше среднего дневного значения (%@)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Günlük ortalamanızdan %d%% yüksek (%@)"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "%d%% ниже среднего дневного значения (%@)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Günlük ortalamanızdan %d%% düşük (%@)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "На уровне среднего показателя за день (%@)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Günlük ortalamanızla aynı (%@)"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "%@ слов · %@ вызовов инструментов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ sözcük · %@ araç çağrısı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Время работы ИИ"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Çalışma Süresi"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Нет кодирования"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kodlama etkinliği yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет активности ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi etkinliği yok"
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Сегодня"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bugün"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Вчера"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dün"
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Закрыть"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Крючки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hook'lar"
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "Разрешения"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzinler"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -979,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Вы нажали %@ раз. Это все равно, что стучать по столу примерно %d минут."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ kez tıkladınız. Bu, masanızı yaklaşık %d dakika tıklamaya bedel."
           }
         },
         "zh-Hans": {
@@ -1052,6 +1136,12 @@
             "value": "Сегодня вы нажали %@ клавиш. Речь идет о написании %d полных страниц."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bugün %@ tuş vuruşu yaptınız. Bu, yaklaşık %d tam sayfa yazmaya denk geliyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1121,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Разрешите мониторинг ввода и включите его, чтобы начать сбор локальной статистики."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel istatistik toplamaya başlamak için Girdi İzleme izni verin ve bunu açın."
           }
         },
         "zh-Hans": {
@@ -1194,6 +1290,12 @@
             "value": "Клики"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tıklama"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1263,6 +1365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ключи"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuş"
           }
         },
         "zh-Hans": {
@@ -1336,6 +1444,12 @@
             "value": "Свитки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1405,6 +1519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Клики"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tıklama"
           }
         },
         "zh-Hans": {
@@ -1478,6 +1598,12 @@
             "value": "Нажатия клавиш"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuş vuruşu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1547,6 +1673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Экранное время"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Süresi"
           }
         },
         "zh-Hans": {
@@ -1620,6 +1752,12 @@
             "value": "Свитки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1689,6 +1827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Экранное время"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Süresi"
           }
         },
         "zh-Hans": {
@@ -1762,6 +1906,12 @@
             "value": "Статистика активности"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlik İstatistikleri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1831,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пока никаких действий"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz etkinlik yok"
           }
         },
         "zh-Hans": {
@@ -1904,6 +2060,12 @@
             "value": "Включите отслеживание, чтобы увидеть рейтинг приложения"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama sıralamasını görmek için izlemeyi açın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1973,6 +2135,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Лучшие приложения по экранному времени"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Süresine Göre En Çok Kullanılan Uygulamalar"
           }
         },
         "zh-Hans": {
@@ -2046,6 +2214,12 @@
             "value": "Инструменты кодирования"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kodlama Araçları"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2115,6 +2289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ввод"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi"
           }
         },
         "zh-Hans": {
@@ -2188,6 +2368,12 @@
             "value": "Тенденции"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eğilimler"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2257,6 +2443,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "ИИ слушает"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay zekâ etkinliği dinleniyor"
           }
         },
         "zh-Hans": {
@@ -2330,6 +2522,12 @@
             "value": "Выкл."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2399,6 +2597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ входы"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ girdi"
           }
         },
         "zh-Hans": {
@@ -2472,6 +2676,12 @@
             "value": "Не удалось установить перехватчик: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hook yükleme başarısız: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2489,17 +2699,78 @@
     "error.hook.uninstallFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "فشل إلغاء تثبيت الخطافات: %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Hooks konnten nicht deinstalliert werden: %@" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Failed to uninstall Hooks: %@" } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudieron desinstalar los hooks: %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible de désinstaller les hooks : %@" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "Hook をアンインストールできませんでした: %@" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "Hook을 제거하지 못했습니다: %@" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível desinstalar os hooks: %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось удалить хуки: %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "Hook 卸载失败：%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "Hook 解除安裝失敗：%@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فشل إلغاء تثبيت الخطافات: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hooks konnten nicht deinstalliert werden: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to uninstall Hooks: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron desinstalar los hooks: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de désinstaller les hooks : %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hook をアンインストールできませんでした: %@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hook을 제거하지 못했습니다: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível desinstalar os hooks: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось удалить хуки: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hook'lar kaldırılamadı: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hook 卸载失败：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hook 解除安裝失敗：%@"
+          }
+        }
       }
     },
     "error.hook.invalidJSON": {
@@ -2557,6 +2828,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно проанализировать файл конфигурации: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapılandırma dosyası çözümlenemedi: %@"
           }
         },
         "zh-Hans": {
@@ -2630,6 +2907,12 @@
             "value": "Не удалось привязать сокет: %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soket bağlama başarısız: %d"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2699,6 +2982,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось создать сокет: %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soket oluşturulamadı: %d"
           }
         },
         "zh-Hans": {
@@ -2772,6 +3061,12 @@
             "value": "Не удалось прослушать сокет: %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soket dinleme başarısız: %d"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2841,6 +3136,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Путь к сокету слишком длинный: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soket yolu çok uzun: %@"
           }
         },
         "zh-Hans": {
@@ -2914,6 +3215,12 @@
             "value": "Не удалось запустить прослушиватель активности ИИ: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay zekâ etkinlik dinleyicisi başlatılamadı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2983,6 +3290,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ошибка установки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleme Başarısız"
           }
         },
         "zh-Hans": {
@@ -3056,6 +3369,12 @@
             "value": "Установлен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3125,6 +3444,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Слушает"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dinleniyor"
           }
         },
         "zh-Hans": {
@@ -3198,6 +3523,12 @@
             "value": "Установлено: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklendi: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3267,6 +3598,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не установлено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklü Değil"
           }
         },
         "zh-Hans": {
@@ -3340,6 +3677,12 @@
             "value": "Отслеживайте ввод данных, время использования приложений на переднем плане и активность ИИ-кодирования."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdileri, ön plandaki uygulama kullanım süresini ve yapay zekâ kodlama etkinliğini izler."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3409,6 +3752,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Статистика активности"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlik İstatistikleri"
           }
         },
         "zh-Hans": {
@@ -3482,6 +3831,12 @@
             "value": "Отслеживание активности"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlik İzleme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3551,6 +3906,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Установить или обновить AI-хуки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Hook'larını Yükle veya Güncelle"
           }
         },
         "zh-Hans": {
@@ -3624,6 +3985,12 @@
             "value": "Открыть настройки мониторинга ввода"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi İzleme Ayarlarını Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3693,6 +4060,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очистить сегодняшнюю статистику"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bugünün İstatistiklerini Temizle"
           }
         },
         "zh-Hans": {
@@ -3766,6 +4139,12 @@
             "value": "Прослушивание активности ИИ"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay zekâ etkinliği dinleniyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3835,6 +4214,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отслеживание ввода и активности ИИ-кодирования"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi ve yapay zekâ kodlama etkinliğini izler"
           }
         },
         "zh-Hans": {
@@ -3908,6 +4293,12 @@
             "value": "%@ ввел данные сегодня"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bugün %@ girdi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3925,17 +4316,78 @@
     "settings.section.status": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "الحالة" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Status" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Status" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Estado" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "État" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ステータス" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "상태" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Estado" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Состояние" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "状态" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "狀態" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحالة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "État"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ステータス"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "상태"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Состояние"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durum"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "状态"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "狀態"
+          }
+        }
       }
     },
     "settings.aiHooks.button": {
@@ -3993,6 +4445,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Установить или обновить хуки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hook'ları Yükle veya Güncelle"
           }
         },
         "zh-Hans": {
@@ -4066,6 +4524,12 @@
             "value": "Записывайте подсказки, вызовы инструментов и время выполнения от Claude Code, Cursor и Codex."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude Code, Cursor ve Codex'ten istemleri, araç çağrılarını ve yürütme sürelerini kaydeder."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4135,6 +4599,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Записывает настройки ловушки для Claude Code, Cursor и Codex. Скрипты отправляют события активности локально через сокет Unix."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude Code, Cursor ve Codex için hook ayarlarını yazar. Yapay zekâ etkinliği dinleme, Girdi İzleme gerektirmez."
           }
         },
         "zh-Hans": {
@@ -4208,6 +4678,12 @@
             "value": "Приемы для инструментов искусственного интеллекта"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Araç Hook'ları"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4277,6 +4753,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть настройки системы"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarlarını Aç"
           }
         },
         "zh-Hans": {
@@ -4350,6 +4832,12 @@
             "value": "Считает события клавиатуры, щелчка мыши и прокрутки."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klavye, fare tıklaması ve kaydırma etkinliklerini sayar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4419,6 +4907,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Статистика клавиатуры, мыши и прокрутки требует разрешения MacTools в мониторинге ввода. Время использования приложений переднего плана по-прежнему можно записать."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klavye, fare ve kaydırma istatistikleri için Girdi İzleme'de MacTools'a izin vermeniz gerekir. Ön plan uygulaması kullanım süresi yine de kaydedilebilir."
           }
         },
         "zh-Hans": {
@@ -4492,6 +4986,12 @@
             "value": "Мониторинг ввода"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi İzleme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4561,6 +5061,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выкл."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
           }
         },
         "zh-Hans": {
@@ -4634,6 +5140,12 @@
             "value": "Требуется разрешение"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin Gerekli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4703,6 +5215,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Бег"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalışıyor"
           }
         },
         "zh-Hans": {
@@ -4776,6 +5294,12 @@
             "value": "Удалить хуки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hook'ları Kaldır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4845,6 +5369,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалить AI-хуки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Hook'larını Kaldır"
           }
         },
         "zh-Hans": {
@@ -4918,6 +5448,12 @@
             "value": "Удалить хуки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hook'ları Kaldır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4987,6 +5523,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удаляет только записи и сценарии хуков, созданные MacTools; настройки других инструментов не затрагиваются."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca MacTools'un yazdığı Hook girdilerini ve betiklerini kaldırır; diğer araç yapılandırmaları değişmez."
           }
         },
         "zh-Hans": {

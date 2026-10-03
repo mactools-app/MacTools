@@ -4,64 +4,208 @@
     "action.setMode.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Choose when macOS automatically hides the menu bar." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "选择 macOS 何时自动隐藏菜单栏。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose when macOS automatically hides the menu bar."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS'un menü çubuğunu ne zaman otomatik gizleyeceğini seçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择 macOS 何时自动隐藏菜单栏。"
+          }
+        }
       }
     },
     "action.setMode.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Set Menu Bar Visibility" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "设置菜单栏显示方式" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set Menu Bar Visibility"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğu Görünürlüğünü Ayarla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置菜单栏显示方式"
+          }
+        }
       }
     },
     "error.modeVerificationRestored": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Could not verify the menu bar setting. The original mode was restored." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法验证菜单栏设置，已恢复原来的模式。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not verify the menu bar setting. The original mode was restored."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü çubuğu ayarı doğrulanamadı. Özgün mod geri yüklendi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法验证菜单栏设置，已恢复原来的模式。"
+          }
+        }
       }
     },
     "error.modeVerificationUnrestored": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Could not verify the menu bar setting, and the original mode could not be fully restored." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法验证菜单栏设置，也无法完整恢复原来的模式。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not verify the menu bar setting, and the original mode could not be fully restored."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü çubuğu ayarı doğrulanamadı ve özgün mod tam olarak geri yüklenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法验证菜单栏设置，也无法完整恢复原来的模式。"
+          }
+        }
       }
     },
     "mode.always": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Always" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "始终" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Always"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her Zaman"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "始终"
+          }
+        }
       }
     },
     "mode.desktopOnly": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "On Desktop Only" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "仅在桌面上" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On Desktop Only"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca Masaüstünde"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅在桌面上"
+          }
+        }
       }
     },
     "mode.fullScreenOnly": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "In Full Screen Only" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "仅在全屏幕显示时" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Full Screen Only"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca Tam Ekranda"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅在全屏幕显示时"
+          }
+        }
       }
     },
     "mode.never": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Never" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "永不" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Never"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永不"
+          }
+        }
       }
     },
     "parameter.mode.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Visibility" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "显示方式" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visibility"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünürlük"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示方式"
+          }
+        }
       }
     },
     "action.hide.title": {
@@ -119,6 +263,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скрыть строку меню"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğunu Gizle"
           }
         },
         "zh-Hans": {
@@ -192,6 +342,12 @@
             "value": "Показать строку меню"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğunu Göster"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -261,6 +417,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Автоматическое скрытие строки меню"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğunu Otomatik Gizle"
           }
         },
         "zh-Hans": {
@@ -334,6 +496,12 @@
             "value": "Автоматически скрыть строку меню, чтобы освободить место на экране."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daha fazla ekran alanı için menü çubuğunu otomatik gizleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -403,6 +571,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
           }
         },
         "zh-Hans": {
@@ -476,6 +650,12 @@
             "value": "Выкл."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -545,6 +725,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось переключить автоматическое скрытие строки меню."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü çubuğu otomatik gizleme değiştirilemedi."
           }
         },
         "zh-Hans": {
@@ -618,6 +804,12 @@
             "value": "Для изменения автоскрытия строки меню требуется управление приложением «Системные события»."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü çubuğu otomatik gizlemeyi değiştirmek System Events'i denetlemeyi gerektirir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -687,6 +879,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "При первом использовании macOS запросит доступ к автоматизации."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS, bu özellik ilk kez kullanıldığında Otomasyon erişimi isteyecek."
           }
         },
         "zh-Hans": {
@@ -760,6 +958,12 @@
             "value": "Автоматизация"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -775,74 +979,80 @@
       }
     },
     "permission.automation.status": {
-        "localizations": {
-            "ar": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "تأكيد عند الاستخدام"
-                }
-            },
-            "de": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Bestätigung bei Verwendung"
-                }
-            },
-            "en": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirm on Use"
-                }
-            },
-            "es": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmar al usar"
-                }
-            },
-            "fr": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmation à l’utilisation"
-                }
-            },
-            "ja": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "使用時に確認"
-                }
-            },
-            "ko": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "사용 시 확인"
-                }
-            },
-            "pt": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmar ao usar"
-                }
-            },
-            "ru": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Подтверждение при использовании"
-                }
-            },
-            "zh-Hans": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "按需确认"
-                }
-            },
-            "zh-Hant": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "按需確認"
-                }
-            }
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأكيد عند الاستخدام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestätigung bei Verwendung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm on Use"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar al usar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmation à l’utilisation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用時に確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사용 시 확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar ao usar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтверждение при использовании"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanırken Onayla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需确认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需確認"
+          }
         }
+      }
     }
   },
   "version": "1.0"

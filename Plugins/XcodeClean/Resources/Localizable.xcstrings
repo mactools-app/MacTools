@@ -58,6 +58,12 @@
             "value": "Архивы и dSYM выпущенных сборок. Очищайте осторожно."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yayınlanmış derleme arşivleri ve dSYM dosyaları. Temizlerken dikkatli olun."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Архивы"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arşivler"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Промежуточные файлы сборки, индексы и журналы"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Derleme ara dosyaları, indeksler ve günlükler"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -266,6 +284,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DerivedData"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "DerivedData"
@@ -342,6 +366,12 @@
             "value": "Символы, загруженные для отладки старых устройств"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eski aygıtlarda hata ayıklamak için indirilen sembol dosyaları"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Файлы поддержки устройств"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aygıt Destek Dosyaları"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Кэши рендеринга предпросмотров SwiftUI"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SwiftUI önizleme işleme önbellekleri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Кэши предпросмотра"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önizleme Önbellekleri"
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Кэши среды симулятора. Существующие симуляторы не затрагиваются."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simulator çalışma zamanı önbellekleri. Var olan simülatörler etkilenmez."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Кэши симулятора"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simulator Önbellekleri"
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Кэши сеанса и состояния интерфейса Xcode"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode oturum ve arayüz durumu önbellekleri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Кэши приложения Xcode"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode Uygulama Önbellekleri"
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "Отмена"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -979,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очистить %d объектов · %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d Öğeyi Temizle · %@"
           }
         },
         "zh-Hans": {
@@ -1052,6 +1136,12 @@
             "value": "Снять выбор"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümünün Seçimini Kaldır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1121,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите объекты для очистки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlenecek öğeleri seçin"
           }
         },
         "zh-Hans": {
@@ -1194,6 +1290,12 @@
             "value": "Выбрать все"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümünü Seç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1263,6 +1365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d объектов"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d öğe"
           }
         },
         "zh-Hans": {
@@ -1336,6 +1444,12 @@
             "value": "Нет объектов для очистки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlenecek öğe yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1405,6 +1519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выбрано %d/%d · %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d/%d seçili · %@"
           }
         },
         "zh-Hans": {
@@ -1478,6 +1598,12 @@
             "value": "Подтвердите очистку кэшей Xcode"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode Önbellek Temizliğini Onayla"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1547,6 +1673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очистить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizle"
           }
         },
         "zh-Hans": {
@@ -1620,6 +1752,12 @@
             "value": "Сканировать"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tara"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1689,6 +1827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Остановить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durdur"
           }
         },
         "zh-Hans": {
@@ -1762,6 +1906,12 @@
             "value": "Категории очистки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizleme Kategorileri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1831,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d объектов"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d öğe"
           }
         },
         "zh-Hans": {
@@ -1904,6 +2060,12 @@
             "value": "Осторожно"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikkat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1973,6 +2135,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Можно очистить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlenebilir"
           }
         },
         "zh-Hans": {
@@ -2046,6 +2214,12 @@
             "value": "Путь больше не существует"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yol artık mevcut değil"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2115,6 +2289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Вне разрешенных путей"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin verilen yolların dışında"
           }
         },
         "zh-Hans": {
@@ -2188,6 +2368,12 @@
             "value": "Xcode запущен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode çalışıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2257,6 +2443,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ход появится здесь после сканирования"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama sonrasında canlı ilerleme burada görünür"
           }
         },
         "zh-Hans": {
@@ -2330,6 +2522,12 @@
             "value": "Журнал сканирования"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama Günlüğü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2399,6 +2597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очистка завершена"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizleme tamamlandı"
           }
         },
         "zh-Hans": {
@@ -2472,6 +2676,12 @@
             "value": "Очистка…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizleniyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2541,6 +2751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Освобождено %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ alan serbest bırakıldı"
           }
         },
         "zh-Hans": {
@@ -2614,6 +2830,12 @@
             "value": "Выберите категории и сканируйте"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kategorileri seçin, ardından tarayın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2683,6 +2905,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сканирование завершено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama tamamlandı"
           }
         },
         "zh-Hans": {
@@ -2756,6 +2984,12 @@
             "value": "Найдено %d для очистки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d temizlenebilir öğe bulundu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2825,6 +3059,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сканирование…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taranıyor…"
           }
         },
         "zh-Hans": {
@@ -2898,6 +3138,12 @@
             "value": "Выбор изменился. Сканируйте снова."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçim değişti. Yeniden tarayın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2967,6 +3213,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Закройте Xcode перед сканированием или очисткой"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taramadan veya temizlemeden önce Xcode'dan çıkın"
           }
         },
         "zh-Hans": {
@@ -3040,6 +3292,12 @@
             "value": "Можно очистить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlenebilir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3109,6 +3367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Оценка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tahmini"
           }
         },
         "zh-Hans": {
@@ -3182,6 +3446,12 @@
             "value": "Ошибки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başarısız"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3251,6 +3521,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Защищено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Korumalı"
           }
         },
         "zh-Hans": {
@@ -3324,6 +3600,12 @@
             "value": "Освобождено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Serbest bırakılan"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3393,6 +3675,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaldırılan"
           }
         },
         "zh-Hans": {
@@ -3466,6 +3754,12 @@
             "value": "Пропущено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atlanan"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3535,6 +3829,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очистка Xcode"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode Temizleme"
           }
         },
         "zh-Hans": {
@@ -3608,6 +3908,12 @@
             "value": "Закройте Xcode, чтобы не повлиять на активные сборки или индексы."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin derlemeleri veya indeksleri etkilememek için Xcode'dan çıkın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3677,6 +3983,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Xcode запущен"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode çalışıyor"
           }
         },
         "zh-Hans": {
@@ -3750,6 +4062,12 @@
             "value": "Не удалось развернуть путь %@ (статус glob %d)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ yolu genişletilemedi (glob durumu %d)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3819,6 +4137,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очищает DerivedData, файлы поддержки устройств, архивы и кэши Xcode по категориям."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode DerivedData, aygıt destek dosyaları, arşiv ve önbelleklerini kategoriye göre temizleyin."
           }
         },
         "zh-Hans": {
@@ -3892,6 +4216,12 @@
             "value": "Очистка Xcode"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode Temizleme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3961,6 +4291,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очистить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizle"
           }
         },
         "zh-Hans": {
@@ -4034,6 +4370,12 @@
             "value": "Очистка…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizleniyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4103,6 +4445,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сканировать"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tara"
           }
         },
         "zh-Hans": {
@@ -4176,6 +4524,12 @@
             "value": "Сканирование…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taranıyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4245,6 +4599,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Остановить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durdur"
           }
         },
         "zh-Hans": {
@@ -4318,6 +4678,12 @@
             "value": "Очистка завершена"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizleme tamamlandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4387,6 +4753,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очистка…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizleniyor…"
           }
         },
         "zh-Hans": {
@@ -4460,6 +4832,12 @@
             "value": "Освобождено %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ alan serbest bırakıldı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4529,6 +4907,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ожидание сканирования"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama bekleniyor"
           }
         },
         "zh-Hans": {
@@ -4602,6 +4986,12 @@
             "value": "Сканирование завершено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama tamamlandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4671,6 +5061,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d объектов, %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d öğe, %@"
           }
         },
         "zh-Hans": {
@@ -4744,6 +5140,12 @@
             "value": "Сканирование…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taranıyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4813,6 +5215,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выбор изменился. Сканируйте снова."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçim değişti. Yeniden tarayın."
           }
         },
         "zh-Hans": {
@@ -4886,6 +5294,12 @@
             "value": "Сначала закройте Xcode"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce Xcode'dan çıkın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4955,6 +5369,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Можно очистить: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlenebilir: %@"
           }
         },
         "zh-Hans": {
@@ -5028,6 +5448,12 @@
             "value": "Больше не существует: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artık mevcut değil: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5097,6 +5523,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отклонено вне разрешенных путей: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin verilen yolların dışında olduğu için reddedildi: %@"
           }
         },
         "zh-Hans": {
@@ -5170,6 +5602,12 @@
             "value": "Xcode запущен: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode çalışıyor: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5239,6 +5677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сканирование: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taranıyor: %@"
           }
         },
         "zh-Hans": {
@@ -5312,6 +5756,12 @@
             "value": "Сканирование завершено: %d объектов, %d можно очистить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama tamamlandı: %d öğe, %d temizlenebilir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5381,6 +5831,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Развернуто %@ → %d объектов"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ → %d öğe olarak genişletildi"
           }
         },
         "zh-Hans": {
@@ -5454,6 +5910,12 @@
             "value": "Сканирование не удалось: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama başarısız oldu: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5523,6 +5985,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сканирование начато: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama başladı: %@"
           }
         },
         "zh-Hans": {
@@ -5596,6 +6064,12 @@
             "value": "Сканирование остановлено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama durduruldu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5665,6 +6139,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Xcode запущен. Операция прервана."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode başlatıldı. İşlem kesildi."
           }
         },
         "zh-Hans": {

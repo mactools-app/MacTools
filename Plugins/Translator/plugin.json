@@ -39,6 +39,10 @@
       "displayName": "Переводчик",
       "summary": "Перевод выбранного текста или области снимка экрана по горячим клавишам."
     },
+    "tr": {
+      "displayName": "Çevirmen",
+      "summary": "Seçili metni veya ekran görüntüsü bölgelerini kısayollarla çevirin."
+    },
     "zh-Hans": {
       "displayName": "翻译",
       "summary": "划词与截图快捷键翻译"
@@ -126,6 +130,9 @@
       ],
       "ru": [
         "Переводчик"
+      ],
+      "tr": [
+        "Çevirmen"
       ],
       "zh-Hans": [
         "翻译"

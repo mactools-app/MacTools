@@ -58,6 +58,12 @@
             "value": "Отключить средний щелчок"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta Tıklamayı Devre Dışı Bırak"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включить средний щелчок"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta Tıklamayı Etkinleştir"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Средний щелчок"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta Tıklama"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Преобразуйте касания трекпада в средние щелчки."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad dokunuşlarını orta tıklamaya dönüştürün."
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Универсальный доступ"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Для отправки событий мыши функции среднего щелчка требуется доступ к Универсальному доступу."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta Tıklama, fare olayları göndermek için Erişilebilirlik izni gerektirir."
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Откройте Системные настройки → Конфиденциальность и безопасность → Универсальный доступ и разрешите доступ для MacTools."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Erişilebilirlik'i açın ve MacTools'a izin verin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Этот жест касания используется в «%@». Сначала отключите соответствующее назначение."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu dokunma hareketi “%@” tarafından kullanılıyor. Önce eşleşen eşlemeyi devre dışı bırakın."
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Для среднего щелчка требуется Универсальный доступ. Сначала предоставьте его в настройках."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta Tıklama, Erişilebilirlik izni gerektirir. Önce Ayarlar'dan izin verin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Количество пальцев"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parmak Sayısı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -839,6 +905,12 @@
             "value": "Выберите, сколько пальцев нужно для среднего щелчка."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta tıklamayı tetiklemek için kaç parmak gerektiğini seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -908,6 +980,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d parmak"
           }
         },
         "zh-Hans": {

@@ -39,6 +39,10 @@
       "displayName": "ИИ-ассистент",
       "summary": "Обрабатывайте выделенный текст с помощью ИИ: перевод, резюме, стилистика и другое."
     },
+    "tr": {
+      "displayName": "Yapay Zekâ Asistanı",
+      "summary": "Seçili metni yapay zekâ ile işleyin: çevirin, özetleyin, iyileştirin ve daha fazlası."
+    },
     "zh-Hans": {
       "displayName": "AI 助手",
       "summary": "划词调用 AI 翻译、总结、润色等"
@@ -63,6 +67,7 @@
       "ko": "번역",
       "pt": "Traduzir",
       "ru": "Перевести",
+      "tr": "Çevir",
       "zh-Hans": "翻译",
       "zh-Hant": "翻譯"
     },
@@ -76,6 +81,7 @@
       "ko": "「번역」으로 선택한 텍스트를 처리합니다.",
       "pt": "Processa a seleção atual com «Traduzir».",
       "ru": "Обрабатывает выделенный текст с помощью «Перевести».",
+      "tr": "Geçerli seçimi \"Çevir\" ile işle.",
       "zh-Hans": "用「翻译」处理当前选中文本。",
       "zh-Hant": "用「翻譯」處理目前選取的文字。"
     },
@@ -89,6 +95,7 @@
       "ko": "요약",
       "pt": "Resumir",
       "ru": "Резюме",
+      "tr": "Özetle",
       "zh-Hans": "总结",
       "zh-Hant": "摘要"
     },
@@ -102,6 +109,7 @@
       "ko": "「요약」으로 선택한 텍스트를 처리합니다.",
       "pt": "Processa a seleção atual com «Resumir».",
       "ru": "Обрабатывает выделенный текст с помощью «Резюме».",
+      "tr": "Geçerli seçimi \"Özetle\" ile işle.",
       "zh-Hans": "用「总结」处理当前选中文本。",
       "zh-Hant": "用「摘要」處理目前選取的文字。"
     },
@@ -115,6 +123,7 @@
       "ko": "다듬기",
       "pt": "Refinar",
       "ru": "Отполировать",
+      "tr": "İyileştir",
       "zh-Hans": "润色",
       "zh-Hant": "潤飾"
     },
@@ -128,6 +137,7 @@
       "ko": "「다듬기」로 선택한 텍스트를 처리합니다.",
       "pt": "Processa a seleção atual com «Refinar».",
       "ru": "Обрабатывает выделенный текст с помощью «Отполировать».",
+      "tr": "Geçerli seçimi \"İyileştir\" ile işle.",
       "zh-Hans": "用「润色」处理当前选中文本。",
       "zh-Hant": "用「潤飾」處理目前選取的文字。"
     }
@@ -142,7 +152,9 @@
     "scheme": "AIAssistantPlugin"
   },
   "capabilities": {
-    "panelItems": ["row"],
+    "panelItems": [
+      "row"
+    ],
     "settings": "form"
   },
   "permissions": [
@@ -200,6 +212,9 @@
       ],
       "ru": [
         "ИИ-ассистент"
+      ],
+      "tr": [
+        "Yapay Zekâ Asistanı"
       ],
       "zh-Hans": [
         "AI 助手"

@@ -39,6 +39,10 @@
       "displayName": "Stage Manager",
       "summary": "Включите Stage Manager, чтобы сфокусировать текущее окно и оставить другие в стороне."
     },
+    "tr": {
+      "displayName": "Stage Manager",
+      "summary": "Geçerli pencereye odaklanmak ve diğerlerini yanda tutmak için Stage Manager'ı açın."
+    },
     "zh-Hans": {
       "displayName": "台前调度",
       "summary": "开启台前调度，集中显示当前窗口并把其他窗口收纳到侧边"
@@ -121,6 +125,9 @@
         "Organizador Visual"
       ],
       "ru": [
+        "Stage Manager"
+      ],
+      "tr": [
         "Stage Manager"
       ],
       "zh-Hans": [

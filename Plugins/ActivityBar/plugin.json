@@ -39,6 +39,10 @@
       "displayName": "Статистика активности",
       "summary": "Отслеживайте ввод данных, время использования приложений на переднем плане и активность ИИ-кодирования."
     },
+    "tr": {
+      "displayName": "Etkinlik İstatistikleri",
+      "summary": "Girdi etkinliğini, ön plandaki uygulama kullanım süresini ve yapay zekâ ile kodlama etkinliğini izleyin."
+    },
     "zh-Hans": {
       "displayName": "活动统计",
       "summary": "统计输入、前台应用使用时长和 AI 编程活动"
@@ -125,6 +129,9 @@
       ],
       "ru": [
         "Статистика активности"
+      ],
+      "tr": [
+        "Etkinlik İstatistikleri"
       ],
       "zh-Hans": [
         "活动统计"

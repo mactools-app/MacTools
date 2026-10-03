@@ -58,6 +58,12 @@
             "value": "Выключить системный звук"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Sesini Sessize Al"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -129,6 +135,12 @@
             "value": "Включить системный звук"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Sesini Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -146,17 +158,78 @@
     "action.setMute.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعيين كتم صوت النظام" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Systemstummschaltung festlegen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Set System Mute" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Configurar silencio del sistema" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Régler le silence du système" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "システムのミュートを設定" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "시스템 음소거 설정" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Definir silêncio do sistema" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Настроить отключение звука системы" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "设置系统静音" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "設定系統靜音" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعيين كتم صوت النظام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Systemstummschaltung festlegen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set System Mute"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configurar silencio del sistema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Régler le silence du système"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムのミュートを設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 음소거 설정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Definir silêncio do sistema"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настроить отключение звука системы"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Sessizliğini Ayarla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置系统静音"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定系統靜音"
+          }
+        }
       }
     },
     "metadata.title": {
@@ -214,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отключение звука"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Sesini Sessize Al"
           }
         },
         "zh-Hans": {
@@ -287,6 +366,12 @@
             "value": "Быстро отключить или восстановить звук системы."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem ses çıkışını hızlıca sessize alır veya geri getirir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -356,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отключено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sessiz"
           }
         },
         "zh-Hans": {
@@ -429,6 +520,12 @@
             "value": "Включить звук"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses Açık"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -500,6 +597,12 @@
             "value": "Не удалось отключить звук."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses sessize alınamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -569,6 +672,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось включить звук."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses açılamadı."
           }
         },
         "zh-Hans": {

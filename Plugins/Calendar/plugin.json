@@ -39,6 +39,10 @@
       "displayName": "Календарь",
       "summary": "Просмотр дат, праздников и событий календаря."
     },
+    "tr": {
+      "displayName": "Takvim",
+      "summary": "Tarihleri, tatilleri ve takvim etkinliklerini görüntüleyin."
+    },
     "zh-Hans": {
       "displayName": "日历",
       "summary": "查看日期、节假日和系统日程"
@@ -120,6 +124,9 @@
       ],
       "ru": [
         "Календарь"
+      ],
+      "tr": [
+        "Takvim"
       ],
       "zh-Hans": [
         "日历"

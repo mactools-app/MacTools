@@ -1,318 +1,4029 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
-  "search.footer.complete": {
-    "extractionState": "manual",
-    "localizations": {
-      "zh-Hans": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "补全"
+    "search.footer.complete": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamamla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "补全"
+          }
         }
-      },
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Complete"
+      }
+    },
+    "search.action.goTo": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتقال"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gehe zu"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go To"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ir a"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accéder"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移動"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이동"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ir para"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перейти"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Git"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往"
+          }
+        }
+      }
+    },
+    "search.action.open": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開く"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟"
+          }
+        }
+      }
+    },
+    "search.action.run": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausführen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecutar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécuter"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "実行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "실행"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполнить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalıştır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "执行"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行"
+          }
+        }
+      }
+    },
+    "search.clear": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسح البحث"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suche löschen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear Search"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar búsqueda"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effacer la recherche"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "検索を消去"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "검색 지우기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limpar busca"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очистить поиск"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aramayı Temizle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除搜索"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除搜尋"
+          }
+        }
+      }
+    },
+    "search.close": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إغلاق البحث"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suche schließen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close Search"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar búsqueda"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fermer la recherche"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "検索を閉じる"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "검색 닫기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fechar busca"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Закрыть поиск"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aramayı Kapat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭搜索"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關閉搜尋"
+          }
+        }
+      }
+    },
+    "search.dragHandle.help": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسحب للتحريك والمحاذاة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zum Bewegen und Ausrichten ziehen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag to move and align"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrastra para mover y alinear"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faites glisser pour déplacer et aligner"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ドラッグして移動・整列"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "드래그하여 이동 및 정렬"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arraste para mover e alinhar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перетащите, чтобы переместить и выровнять"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taşımak ve hizalamak için sürükleyin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖动以移动并对齐"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖移以移動並對齊"
+          }
+        }
+      }
+    },
+    "search.command.appearance.system.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدام مظهر النظام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Systemdarstellung verwenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use System Appearance"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar la apariencia del sistema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser l’apparence du système"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムの外観を使用"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 화면 모드 사용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar a aparência do sistema"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использовать системное оформление"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Görünümünü Kullan"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用系统外观"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用系統外觀"
+          }
+        }
+      }
+    },
+    "search.command.appearance.system.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اجعل مظهر MacTools يتبع النظام تلقائيًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Darstellung von MacTools automatisch an das System anpassen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Make MacTools follow the system appearance automatically."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hacer que la apariencia de MacTools siga automáticamente la del sistema."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adapter automatiquement l’apparence de MacTools au système."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacToolsの外観をシステムに自動的に合わせます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 화면 모드를 시스템에 자동으로 맞춥니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fazer o MacTools seguir automaticamente a aparência do sistema."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматически подстраивать оформление MacTools под систему."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools'un görünümünü otomatik olarak sistem görünümüne uydurur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让 MacTools 外观自动跟随系统。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讓 MacTools 外觀自動跟隨系統。"
+          }
+        }
+      }
+    },
+    "search.command.appearance.dark.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدام المظهر الداكن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dunkle Darstellung verwenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use Dark Appearance"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar la apariencia oscura"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser l’apparence sombre"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダークモードを使用"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다크 모드 사용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar a aparência escura"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использовать тёмное оформление"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karanlık Görünümü Kullan"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用深色外观"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用深色外觀"
+          }
+        }
+      }
+    },
+    "search.command.appearance.dark.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ثبّت مظهر MacTools على الوضع الداكن."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Darstellung von MacTools dauerhaft auf Dunkel stellen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep MacTools in Dark appearance."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantener MacTools con la apariencia oscura."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conserver l’apparence sombre de MacTools."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacToolsの外観をダークに固定します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 화면 모드를 다크로 고정합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manter o MacTools com a aparência escura."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Всегда использовать тёмное оформление MacTools."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools'u Karanlık görünümde tutar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将 MacTools 外观固定为深色。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "將 MacTools 外觀固定為深色。"
+          }
+        }
+      }
+    },
+    "search.command.appearance.light.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدام المظهر الفاتح"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Helle Darstellung verwenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use Light Appearance"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar la apariencia clara"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser l’apparence claire"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ライトモードを使用"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "라이트 모드 사용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar a aparência clara"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использовать светлое оформление"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aydınlık Görünümü Kullan"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用浅色外观"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用淺色外觀"
+          }
+        }
+      }
+    },
+    "search.command.appearance.light.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ثبّت مظهر MacTools على الوضع الفاتح."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Darstellung von MacTools dauerhaft auf Hell stellen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep MacTools in Light appearance."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantener MacTools con la apariencia clara."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conserver l’apparence claire de MacTools."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacToolsの外観をライトに固定します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 화면 모드를 라이트로 고정합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manter o MacTools com a aparência clara."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Всегда использовать светлое оформление MacTools."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools'u Aydınlık görünümde tutar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将 MacTools 外观固定为浅色。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "將 MacTools 外觀固定為淺色。"
+          }
+        }
+      }
+    },
+    "search.command.launchAtLogin.enable.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل عند تسجيل الدخول"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beim Anmelden starten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable Launch at Login"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activar inicio al iniciar sesión"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activer l’ouverture à la connexion"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ログイン時に起動"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로그인 시 실행 켜기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativar abertura ao iniciar sessão"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включить запуск при входе"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum Açılışında Başlatmayı Etkinleştir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启登录时启动"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟登入時啟動"
+          }
+        }
+      }
+    },
+    "search.command.launchAtLogin.enable.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شغّل MacTools تلقائيًا عند تسجيل الدخول."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools bei der Anmeldung automatisch starten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start MacTools automatically when you log in."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar MacTools automáticamente al iniciar sesión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir automatiquement MacTools à la connexion."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ログイン時にMacToolsを自動的に起動します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로그인할 때 MacTools를 자동으로 실행합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar o MacTools automaticamente ao iniciar sessão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматически запускать MacTools при входе."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum açtığınızda MacTools otomatik olarak başlatılır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登录系统时自动启动 MacTools。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登入系統時自動啟動 MacTools。"
+          }
+        }
+      }
+    },
+    "search.command.launchAtLogin.disable.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف التشغيل عند تسجيل الدخول"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start bei Anmeldung deaktivieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disable Launch at Login"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desactivar inicio al iniciar sesión"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Désactiver l’ouverture à la connexion"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ログイン時の起動をオフ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로그인 시 실행 끄기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desativar abertura ao iniciar sessão"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отключить запуск при входе"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum Açılışında Başlatmayı Devre Dışı Bırak"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭登录时启动"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關閉登入時啟動"
+          }
+        }
+      }
+    },
+    "search.command.launchAtLogin.disable.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا تشغّل MacTools تلقائيًا عند تسجيل الدخول."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools bei der Anmeldung nicht mehr automatisch starten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop starting MacTools automatically when you log in."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dejar de iniciar MacTools automáticamente al iniciar sesión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne plus ouvrir automatiquement MacTools à la connexion."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ログイン時にMacToolsを自動起動しません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로그인할 때 MacTools를 자동으로 실행하지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deixar de iniciar o MacTools automaticamente ao iniciar sessão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не запускать MacTools автоматически при входе."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum açtığınızda MacTools'un otomatik olarak başlatılmasını durdurur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登录系统时不再自动启动 MacTools。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登入系統時不再自動啟動 MacTools。"
+          }
+        }
+      }
+    },
+    "search.detail.about": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإصدار والتحديثات وروابط المشروع."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version, Updates und Projektlinks."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version, updates, and project links."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versión, actualizaciones y enlaces del proyecto."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version, mises à jour et liens du projet."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バージョン、アップデート、プロジェクトリンク。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "버전, 업데이트 및 프로젝트 링크."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versão, atualizações e links do projeto."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Версия, обновления и ссылки проекта."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sürüm, güncellemeler ve proje bağlantıları."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "版本、更新和项目链接。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "版本、更新與專案連結。"
+          }
+        }
+      }
+    },
+    "search.detail.general": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المظهر واللغة وأيقونة شريط القوائم والتشغيل عند تسجيل الدخول ونسخ التفضيلات احتياطيًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erscheinungsbild, Sprache, Menüleistensymbol, Anmeldestart und Einstellungssicherung."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance, language, menu bar icon, launch at login, and preferences backup."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apariencia, idioma, icono de la barra de menús, inicio de sesión y copia de preferencias."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apparence, langue, icône de la barre des menus, ouverture de session et sauvegarde des préférences."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外観、言語、メニューバーアイコン、ログイン時の起動、設定のバックアップ。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "모양, 언어, 메뉴 막대 아이콘, 로그인 시 실행 및 환경설정 백업."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aparência, idioma, ícone da barra de menus, início de sessão e backup das preferências."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оформление, язык, значок строки меню, запуск при входе и резервная копия настроек."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm, dil, menü çubuğu simgesi, oturum açılışında başlatma ve tercihler yedeği."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外观、语言、菜单栏图标、登录启动和偏好备份。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外觀、語言、選單列圖示、登入啟動與偏好備份。"
+          }
+        }
+      }
+    },
+    "search.empty.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جرّب اسم إضافة أو إعدادًا أو ميزة أو أمرًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versuche einen Plugin-Namen, eine Einstellung, Funktion oder einen Befehl."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try a plugin name, setting, feature, or command."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prueba con el nombre de un plugin, ajuste, función o comando."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Essayez un nom de module, un réglage, une fonction ou une commande."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プラグイン名、設定、機能、またはコマンドを試してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플러그인 이름, 설정, 기능 또는 명령을 검색해 보세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tente um nome de plugin, ajuste, recurso ou comando."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Попробуйте название плагина, настройку, функцию или команду."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir eklenti adı, ayar, özellik veya komut deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尝试插件名称、设置、功能或命令。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "嘗試外掛名稱、設定、功能或指令。"
+          }
+        }
+      }
+    },
+    "search.empty.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد نتائج"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Ergebnisse"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Results"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin resultados"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun résultat"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "結果なし"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "결과 없음"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nenhum resultado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ничего не найдено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonuç Yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到结果"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找不到結果"
+          }
+        }
+      }
+    },
+    "search.footer.actionFormat": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ «%2$@»"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ „%2$@“"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ “%2$@”"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ «%2$@»"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ « %2$@ »"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@「%2$@」"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ ‘%2$@’"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ “%2$@”"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ «%2$@»"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ “%2$@”"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@“%2$@”"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@「%2$@」"
+          }
+        }
+      }
+    },
+    "search.footer.actions": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إجراءات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktionen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actions"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actions"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "작업"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ações"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Действия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylemler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作"
+          }
+        }
+      }
+    },
+    "search.footer.keyboard": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ تحديد　↩ فتح　⌘↩ إعدادات　Tab إجراءات　⌘1–9 فتح سريع"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ Auswählen　↩ Öffnen　⌘↩ Einstellungen　Tab Aktionen　⌘1–9 Schnell öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ Select　↩ Open　⌘↩ Settings　Tab Actions　⌘1–9 Quick Open"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ Seleccionar　↩ Abrir　⌘↩ Ajustes　Tab Acciones　⌘1–9 Apertura rápida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ Sélectionner　↩ Ouvrir　⌘↩ Réglages　Tab Actions　⌘1–9 Ouverture rapide"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ 選択　↩ 開く　⌘↩ 設定　Tab 操作　⌘1–9 クイックオープン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ 선택　↩ 열기　⌘↩ 설정　Tab 작업　⌘1–9 빠르게 열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ Selecionar　↩ Abrir　⌘↩ Ajustes　Tab Ações　⌘1–9 Abertura rápida"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ Выбрать　↩ Открыть　⌘↩ Настройки　Tab Действия　⌘1–9 Быстро открыть"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ Seç　↩ Aç　⌘↩ Ayarlar　Tab Eylemler　⌘1–9 Hızlı Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ 选择　↩ 打开　⌘↩ 设置　Tab 操作　⌘1–9 快速打开"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑↓ 選擇　↩ 開啟　⌘↩ 設定　Tab 操作　⌘1–9 快速開啟"
+          }
+        }
+      }
+    },
+    "search.footer.open": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開く"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟"
+          }
+        }
+      }
+    },
+    "search.footer.quickOpen": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح سريع"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schnell öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Open"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apertura rápida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouverture rapide"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クイックオープン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "빠르게 열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abertura rápida"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Быстро открыть"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hızlı Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速打开"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速開啟"
+          }
+        }
+      }
+    },
+    "search.footer.select": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحديد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccionar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionner"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선택"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecionar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇"
+          }
+        }
+      }
+    },
+    "search.footer.settings": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
+        }
+      }
+    },
+    "search.footer.tryAnotherQuery": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جرّب بحثًا آخر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Andere Suche versuchen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try another search"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prueba otra búsqueda"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Essayez une autre recherche"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "別の検索を試す"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다른 검색어 사용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tente outra busca"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Попробуйте другой запрос"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başka bir arama deneyin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尝试其他关键词"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "嘗試其他關鍵字"
+          }
+        }
+      }
+    },
+    "search.group.commands": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأوامر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commands"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comandos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commandes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コマンド"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "명령"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comandos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Команды"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komutlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "命令"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指令"
+          }
+        }
+      }
+    },
+    "search.group.navigation": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التنقل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Navigation"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Navigation"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Navegación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Navigation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ナビゲーション"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "탐색"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Navegação"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навигация"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gezinme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导航"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "導覽"
+          }
+        }
+      }
+    },
+    "search.group.recent": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأخيرة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zuletzt verwendet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recent"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recientes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Récentes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최근 항목"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recentes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Недавние"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son Eylemler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近操作"
+          }
+        }
+      }
+    },
+    "search.group.settings": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
+        }
+      }
+    },
+    "search.group.suggested": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مقترحة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschläge"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggested"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sugerencias"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggestions"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "おすすめ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "추천"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sugestões"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Рекомендуемое"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önerilen"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "建议"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "建議"
+          }
+        }
+      }
+    },
+    "search.origin.globalShortcutFormat": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاختصار العام %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Globaler Kurzbefehl %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Global Shortcut %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atajo global %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raccourci global %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "グローバルショートカット %@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전역 단축키 %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atalho global %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Глобальное сочетание %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Global Kısayol %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全局快捷键 %@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全域快速鍵 %@"
+          }
+        }
+      }
+    },
+    "search.origin.keyboard": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختصار MacTools ⌘K"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools-Kurzbefehl ⌘K"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools Shortcut ⌘K"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atajo de MacTools ⌘K"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raccourci MacTools ⌘K"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacToolsショートカット ⌘K"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 단축키 ⌘K"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atalho do MacTools ⌘K"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сочетание MacTools ⌘K"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools Kısayolu ⌘K"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 快捷键 ⌘K"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 快速鍵 ⌘K"
+          }
+        }
+      }
+    },
+    "search.origin.settingsSidebar": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "من التنقل بين الإعدادات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aus der Einstellungsnavigation"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "From Settings Navigation"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desde la navegación de ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Depuis la navigation des réglages"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定ナビゲーションから"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정 탐색에서"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Da navegação de ajustes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Из навигации по настройкам"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar Gezinmesinden"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "来自设置导航"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "來自設定導覽"
+          }
+        }
+      }
+    },
+    "search.prompt": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابحث في الإضافات والإعدادات والأوامر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plugins, Einstellungen und Befehle durchsuchen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search plugins, settings, and commands"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar plugins, ajustes y comandos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher des modules, réglages et commandes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プラグイン、設定、コマンドを検索"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플러그인, 설정 및 명령 검색"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar plugins, ajustes e comandos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск плагинов, настроек и команд"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti, ayar ve komut arayın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索插件、设置和命令"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜尋外掛、設定與指令"
+          }
+        }
+      }
+    },
+    "search.recent.clear": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسح الإجراءات الأخيرة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letzte Aktionen löschen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear Recent Actions"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar acciones recientes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effacer les actions récentes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近の操作を消去"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최근 동작 지우기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limpar ações recentes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очистить недавние действия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son Eylemleri Temizle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除最近操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除最近操作"
+          }
+        }
+      }
+    },
+    "search.recent.disable": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف تسجيل الإجراءات الأخيرة ومسحها"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufzeichnung letzter Aktionen beenden und löschen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop Recording and Clear Recent Actions"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dejar de registrar y borrar acciones recientes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter l’enregistrement et effacer les actions récentes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近の操作の記録を停止して消去"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최근 동작 기록 중지 및 지우기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parar de registrar e limpar ações recentes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остановить запись и очистить недавние действия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydı Durdur ve Son Eylemleri Temizle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止记录并清除最近操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止記錄並清除最近操作"
+          }
+        }
+      }
+    },
+    "search.recent.enable": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل الإجراءات الأخيرة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letzte Aktionen aktivieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable Recent Actions"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activar acciones recientes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activer les actions récentes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近の操作を有効にする"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최근 동작 활성화"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativar ações recentes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включить недавние действия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son Eylemleri Etkinleştir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用最近操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "啟用最近操作"
+          }
+        }
+      }
+    },
+    "search.recent.loadFailed": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر تحميل الإجراءات الأخيرة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letzte Aktionen konnten nicht geladen werden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recent Actions Couldn’t Be Loaded"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron cargar las acciones recientes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de charger les actions récentes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近の操作を読み込めませんでした"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최근 동작을 불러올 수 없음"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível carregar as ações recentes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось загрузить недавние действия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son Eylemler Yüklenemedi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法加载最近操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法載入最近操作"
+          }
+        }
+      }
+    },
+    "search.recent.manage": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إدارة الإجراءات الأخيرة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letzte Aktionen verwalten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manage Recent Actions"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gestionar acciones recientes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gérer les actions récentes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近の操作を管理"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최근 동작 관리"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerenciar ações recentes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Управлять недавними действиями"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son Eylemleri Yönet"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "管理最近操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "管理最近操作"
+          }
+        }
+      }
+    },
+    "search.recent.reset": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تعيين الإجراءات الأخيرة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letzte Aktionen zurücksetzen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Recent Actions"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restablecer acciones recientes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réinitialiser les actions récentes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近の操作をリセット"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최근 동작 재설정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redefinir ações recentes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сбросить недавние действия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son Eylemleri Sıfırla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置最近操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置最近操作"
+          }
+        }
+      }
+    },
+    "search.recent.updateFailed": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر تحديث الإجراءات الأخيرة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letzte Aktionen konnten nicht aktualisiert werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recent Actions couldn’t be updated."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron actualizar las acciones recientes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de mettre à jour les actions récentes."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近の操作を更新できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최근 동작을 업데이트할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível atualizar as ações recentes."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось обновить недавние действия."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son Eylemler güncellenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法更新最近操作。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法更新最近操作。"
+          }
+        }
+      }
+    },
+    "search.resultCountFormat": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "variations": {
+            "plural": {
+              "zero": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "لا نتائج"
+                }
+              },
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "نتيجة واحدة"
+                }
+              },
+              "two": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "نتيجتان"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d نتائج"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d نتيجة"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d نتيجة"
+                }
+              }
+            }
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d Ergebnis"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d Ergebnisse"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d result"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d results"
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d resultado"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d resultados"
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d résultat"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d résultats"
+                }
+              }
+            }
+          }
+        },
+        "ja": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d件の結果"
+                }
+              }
+            }
+          }
+        },
+        "ko": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "결과 %d개"
+                }
+              }
+            }
+          }
+        },
+        "pt": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d resultado"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d resultados"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d результат"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d результата"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d результатов"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d результата"
+                }
+              }
+            }
+          }
+        },
+        "tr": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d sonuç"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d 个结果"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hant": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d 個結果"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "search.subtitle.appSettings": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعدادات التطبيق"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Einstellungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes de la app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages de l’app"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリ設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 설정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes do app"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки приложения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Ayarları"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "應用程式設定"
+          }
+        }
+      }
+    },
+    "search.subtitle.customSetting": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
+        }
+      }
+    },
+    "search.subtitle.macTools": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools"
+          }
+        }
+      }
+    },
+    "search.subtitle.plugins": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإضافات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plugins"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plugins"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plugins"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modules"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プラグイン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플러그인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plugins"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Плагины"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklentiler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "插件"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外掛"
+          }
+        }
+      }
+    },
+    "search.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البحث في MacTools"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools durchsuchen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search MacTools"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar en MacTools"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher dans MacTools"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacToolsを検索"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 검색"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar no MacTools"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск в MacTools"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools'ta Ara"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索 MacTools"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜尋 MacTools"
+          }
         }
       }
     }
-  },
-    "search.action.goTo": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "انتقال" } }, "de": { "stringUnit": { "state": "translated", "value": "Gehe zu" } }, "en": { "stringUnit": { "state": "translated", "value": "Go To" } }, "es": { "stringUnit": { "state": "translated", "value": "Ir a" } }, "fr": { "stringUnit": { "state": "translated", "value": "Accéder" } }, "ja": { "stringUnit": { "state": "translated", "value": "移動" } }, "ko": { "stringUnit": { "state": "translated", "value": "이동" } }, "pt": { "stringUnit": { "state": "translated", "value": "Ir para" } }, "ru": { "stringUnit": { "state": "translated", "value": "Перейти" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "前往" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "前往" } }
-    } },
-    "search.action.open": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "فتح" } }, "de": { "stringUnit": { "state": "translated", "value": "Öffnen" } }, "en": { "stringUnit": { "state": "translated", "value": "Open" } }, "es": { "stringUnit": { "state": "translated", "value": "Abrir" } }, "fr": { "stringUnit": { "state": "translated", "value": "Ouvrir" } }, "ja": { "stringUnit": { "state": "translated", "value": "開く" } }, "ko": { "stringUnit": { "state": "translated", "value": "열기" } }, "pt": { "stringUnit": { "state": "translated", "value": "Abrir" } }, "ru": { "stringUnit": { "state": "translated", "value": "Открыть" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "打开" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "開啟" } }
-    } },
-    "search.action.run": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تشغيل" } }, "de": { "stringUnit": { "state": "translated", "value": "Ausführen" } }, "en": { "stringUnit": { "state": "translated", "value": "Run" } }, "es": { "stringUnit": { "state": "translated", "value": "Ejecutar" } }, "fr": { "stringUnit": { "state": "translated", "value": "Exécuter" } }, "ja": { "stringUnit": { "state": "translated", "value": "実行" } }, "ko": { "stringUnit": { "state": "translated", "value": "실행" } }, "pt": { "stringUnit": { "state": "translated", "value": "Executar" } }, "ru": { "stringUnit": { "state": "translated", "value": "Выполнить" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "执行" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "執行" } }
-    } },
-    "search.clear": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "مسح البحث" } }, "de": { "stringUnit": { "state": "translated", "value": "Suche löschen" } }, "en": { "stringUnit": { "state": "translated", "value": "Clear Search" } }, "es": { "stringUnit": { "state": "translated", "value": "Borrar búsqueda" } }, "fr": { "stringUnit": { "state": "translated", "value": "Effacer la recherche" } }, "ja": { "stringUnit": { "state": "translated", "value": "検索を消去" } }, "ko": { "stringUnit": { "state": "translated", "value": "검색 지우기" } }, "pt": { "stringUnit": { "state": "translated", "value": "Limpar busca" } }, "ru": { "stringUnit": { "state": "translated", "value": "Очистить поиск" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "清除搜索" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "清除搜尋" } }
-    } },
-    "search.close": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "إغلاق البحث" } }, "de": { "stringUnit": { "state": "translated", "value": "Suche schließen" } }, "en": { "stringUnit": { "state": "translated", "value": "Close Search" } }, "es": { "stringUnit": { "state": "translated", "value": "Cerrar búsqueda" } }, "fr": { "stringUnit": { "state": "translated", "value": "Fermer la recherche" } }, "ja": { "stringUnit": { "state": "translated", "value": "検索を閉じる" } }, "ko": { "stringUnit": { "state": "translated", "value": "검색 닫기" } }, "pt": { "stringUnit": { "state": "translated", "value": "Fechar busca" } }, "ru": { "stringUnit": { "state": "translated", "value": "Закрыть поиск" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "关闭搜索" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "關閉搜尋" } }
-    } },
-    "search.dragHandle.help": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "اسحب للتحريك والمحاذاة" } }, "de": { "stringUnit": { "state": "translated", "value": "Zum Bewegen und Ausrichten ziehen" } }, "en": { "stringUnit": { "state": "translated", "value": "Drag to move and align" } }, "es": { "stringUnit": { "state": "translated", "value": "Arrastra para mover y alinear" } }, "fr": { "stringUnit": { "state": "translated", "value": "Faites glisser pour déplacer et aligner" } }, "ja": { "stringUnit": { "state": "translated", "value": "ドラッグして移動・整列" } }, "ko": { "stringUnit": { "state": "translated", "value": "드래그하여 이동 및 정렬" } }, "pt": { "stringUnit": { "state": "translated", "value": "Arraste para mover e alinhar" } }, "ru": { "stringUnit": { "state": "translated", "value": "Перетащите, чтобы переместить и выровнять" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "拖动以移动并对齐" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "拖移以移動並對齊" } }
-    } },
-    "search.command.appearance.system.title": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "استخدام مظهر النظام" } },
-      "de": { "stringUnit": { "state": "translated", "value": "Systemdarstellung verwenden" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Use System Appearance" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Usar la apariencia del sistema" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Utiliser l’apparence du système" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "システムの外観を使用" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "시스템 화면 모드 사용" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Usar a aparência do sistema" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Использовать системное оформление" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "使用系统外观" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "使用系統外觀" } }
-    } },
-    "search.command.appearance.system.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "اجعل مظهر MacTools يتبع النظام تلقائيًا." } },
-      "de": { "stringUnit": { "state": "translated", "value": "Die Darstellung von MacTools automatisch an das System anpassen." } },
-      "en": { "stringUnit": { "state": "translated", "value": "Make MacTools follow the system appearance automatically." } },
-      "es": { "stringUnit": { "state": "translated", "value": "Hacer que la apariencia de MacTools siga automáticamente la del sistema." } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Adapter automatiquement l’apparence de MacTools au système." } },
-      "ja": { "stringUnit": { "state": "translated", "value": "MacToolsの外観をシステムに自動的に合わせます。" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "MacTools 화면 모드를 시스템에 자동으로 맞춥니다." } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Fazer o MacTools seguir automaticamente a aparência do sistema." } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Автоматически подстраивать оформление MacTools под систему." } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "让 MacTools 外观自动跟随系统。" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "讓 MacTools 外觀自動跟隨系統。" } }
-    } },
-    "search.command.appearance.dark.title": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "استخدام المظهر الداكن" } },
-      "de": { "stringUnit": { "state": "translated", "value": "Dunkle Darstellung verwenden" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Use Dark Appearance" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Usar la apariencia oscura" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Utiliser l’apparence sombre" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "ダークモードを使用" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "다크 모드 사용" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Usar a aparência escura" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Использовать тёмное оформление" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "使用深色外观" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "使用深色外觀" } }
-    } },
-    "search.command.appearance.dark.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "ثبّت مظهر MacTools على الوضع الداكن." } },
-      "de": { "stringUnit": { "state": "translated", "value": "Die Darstellung von MacTools dauerhaft auf Dunkel stellen." } },
-      "en": { "stringUnit": { "state": "translated", "value": "Keep MacTools in Dark appearance." } },
-      "es": { "stringUnit": { "state": "translated", "value": "Mantener MacTools con la apariencia oscura." } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Conserver l’apparence sombre de MacTools." } },
-      "ja": { "stringUnit": { "state": "translated", "value": "MacToolsの外観をダークに固定します。" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "MacTools 화면 모드를 다크로 고정합니다." } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Manter o MacTools com a aparência escura." } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Всегда использовать тёмное оформление MacTools." } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "将 MacTools 外观固定为深色。" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "將 MacTools 外觀固定為深色。" } }
-    } },
-    "search.command.appearance.light.title": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "استخدام المظهر الفاتح" } },
-      "de": { "stringUnit": { "state": "translated", "value": "Helle Darstellung verwenden" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Use Light Appearance" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Usar la apariencia clara" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Utiliser l’apparence claire" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "ライトモードを使用" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "라이트 모드 사용" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Usar a aparência clara" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Использовать светлое оформление" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "使用浅色外观" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "使用淺色外觀" } }
-    } },
-    "search.command.appearance.light.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "ثبّت مظهر MacTools على الوضع الفاتح." } },
-      "de": { "stringUnit": { "state": "translated", "value": "Die Darstellung von MacTools dauerhaft auf Hell stellen." } },
-      "en": { "stringUnit": { "state": "translated", "value": "Keep MacTools in Light appearance." } },
-      "es": { "stringUnit": { "state": "translated", "value": "Mantener MacTools con la apariencia clara." } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Conserver l’apparence claire de MacTools." } },
-      "ja": { "stringUnit": { "state": "translated", "value": "MacToolsの外観をライトに固定します。" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "MacTools 화면 모드를 라이트로 고정합니다." } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Manter o MacTools com a aparência clara." } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Всегда использовать светлое оформление MacTools." } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "将 MacTools 外观固定为浅色。" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "將 MacTools 外觀固定為淺色。" } }
-    } },
-    "search.command.launchAtLogin.enable.title": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تشغيل عند تسجيل الدخول" } },
-      "de": { "stringUnit": { "state": "translated", "value": "Beim Anmelden starten" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Enable Launch at Login" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Activar inicio al iniciar sesión" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Activer l’ouverture à la connexion" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "ログイン時に起動" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "로그인 시 실행 켜기" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Ativar abertura ao iniciar sessão" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Включить запуск при входе" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "开启登录时启动" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "開啟登入時啟動" } }
-    } },
-    "search.command.launchAtLogin.enable.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "شغّل MacTools تلقائيًا عند تسجيل الدخول." } },
-      "de": { "stringUnit": { "state": "translated", "value": "MacTools bei der Anmeldung automatisch starten." } },
-      "en": { "stringUnit": { "state": "translated", "value": "Start MacTools automatically when you log in." } },
-      "es": { "stringUnit": { "state": "translated", "value": "Iniciar MacTools automáticamente al iniciar sesión." } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Ouvrir automatiquement MacTools à la connexion." } },
-      "ja": { "stringUnit": { "state": "translated", "value": "ログイン時にMacToolsを自動的に起動します。" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "로그인할 때 MacTools를 자동으로 실행합니다." } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Iniciar o MacTools automaticamente ao iniciar sessão." } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Автоматически запускать MacTools при входе." } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "登录系统时自动启动 MacTools。" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "登入系統時自動啟動 MacTools。" } }
-    } },
-    "search.command.launchAtLogin.disable.title": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "إيقاف التشغيل عند تسجيل الدخول" } },
-      "de": { "stringUnit": { "state": "translated", "value": "Start bei Anmeldung deaktivieren" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Disable Launch at Login" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Desactivar inicio al iniciar sesión" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Désactiver l’ouverture à la connexion" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "ログイン時の起動をオフ" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "로그인 시 실행 끄기" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Desativar abertura ao iniciar sessão" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Отключить запуск при входе" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "关闭登录时启动" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "關閉登入時啟動" } }
-    } },
-    "search.command.launchAtLogin.disable.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "لا تشغّل MacTools تلقائيًا عند تسجيل الدخول." } },
-      "de": { "stringUnit": { "state": "translated", "value": "MacTools bei der Anmeldung nicht mehr automatisch starten." } },
-      "en": { "stringUnit": { "state": "translated", "value": "Stop starting MacTools automatically when you log in." } },
-      "es": { "stringUnit": { "state": "translated", "value": "Dejar de iniciar MacTools automáticamente al iniciar sesión." } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Ne plus ouvrir automatiquement MacTools à la connexion." } },
-      "ja": { "stringUnit": { "state": "translated", "value": "ログイン時にMacToolsを自動起動しません。" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "로그인할 때 MacTools를 자동으로 실행하지 않습니다." } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Deixar de iniciar o MacTools automaticamente ao iniciar sessão." } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Не запускать MacTools автоматически при входе." } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "登录系统时不再自动启动 MacTools。" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "登入系統時不再自動啟動 MacTools。" } }
-    } },
-    "search.detail.about": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "الإصدار والتحديثات وروابط المشروع." } }, "de": { "stringUnit": { "state": "translated", "value": "Version, Updates und Projektlinks." } }, "en": { "stringUnit": { "state": "translated", "value": "Version, updates, and project links." } }, "es": { "stringUnit": { "state": "translated", "value": "Versión, actualizaciones y enlaces del proyecto." } }, "fr": { "stringUnit": { "state": "translated", "value": "Version, mises à jour et liens du projet." } }, "ja": { "stringUnit": { "state": "translated", "value": "バージョン、アップデート、プロジェクトリンク。" } }, "ko": { "stringUnit": { "state": "translated", "value": "버전, 업데이트 및 프로젝트 링크." } }, "pt": { "stringUnit": { "state": "translated", "value": "Versão, atualizações e links do projeto." } }, "ru": { "stringUnit": { "state": "translated", "value": "Версия, обновления и ссылки проекта." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "版本、更新和项目链接。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "版本、更新與專案連結。" } }
-    } },
-    "search.detail.general": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "المظهر واللغة وأيقونة شريط القوائم والتشغيل عند تسجيل الدخول ونسخ التفضيلات احتياطيًا." } }, "de": { "stringUnit": { "state": "translated", "value": "Erscheinungsbild, Sprache, Menüleistensymbol, Anmeldestart und Einstellungssicherung." } }, "en": { "stringUnit": { "state": "translated", "value": "Appearance, language, menu bar icon, launch at login, and preferences backup." } }, "es": { "stringUnit": { "state": "translated", "value": "Apariencia, idioma, icono de la barra de menús, inicio de sesión y copia de preferencias." } }, "fr": { "stringUnit": { "state": "translated", "value": "Apparence, langue, icône de la barre des menus, ouverture de session et sauvegarde des préférences." } }, "ja": { "stringUnit": { "state": "translated", "value": "外観、言語、メニューバーアイコン、ログイン時の起動、設定のバックアップ。" } }, "ko": { "stringUnit": { "state": "translated", "value": "모양, 언어, 메뉴 막대 아이콘, 로그인 시 실행 및 환경설정 백업." } }, "pt": { "stringUnit": { "state": "translated", "value": "Aparência, idioma, ícone da barra de menus, início de sessão e backup das preferências." } }, "ru": { "stringUnit": { "state": "translated", "value": "Оформление, язык, значок строки меню, запуск при входе и резервная копия настроек." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "外观、语言、菜单栏图标、登录启动和偏好备份。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "外觀、語言、選單列圖示、登入啟動與偏好備份。" } }
-    } },
-    "search.empty.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "جرّب اسم إضافة أو إعدادًا أو ميزة أو أمرًا." } }, "de": { "stringUnit": { "state": "translated", "value": "Versuche einen Plugin-Namen, eine Einstellung, Funktion oder einen Befehl." } }, "en": { "stringUnit": { "state": "translated", "value": "Try a plugin name, setting, feature, or command." } }, "es": { "stringUnit": { "state": "translated", "value": "Prueba con el nombre de un plugin, ajuste, función o comando." } }, "fr": { "stringUnit": { "state": "translated", "value": "Essayez un nom de module, un réglage, une fonction ou une commande." } }, "ja": { "stringUnit": { "state": "translated", "value": "プラグイン名、設定、機能、またはコマンドを試してください。" } }, "ko": { "stringUnit": { "state": "translated", "value": "플러그인 이름, 설정, 기능 또는 명령을 검색해 보세요." } }, "pt": { "stringUnit": { "state": "translated", "value": "Tente um nome de plugin, ajuste, recurso ou comando." } }, "ru": { "stringUnit": { "state": "translated", "value": "Попробуйте название плагина, настройку, функцию или команду." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "尝试插件名称、设置、功能或命令。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "嘗試外掛名稱、設定、功能或指令。" } }
-    } },
-    "search.empty.title": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "لا توجد نتائج" } }, "de": { "stringUnit": { "state": "translated", "value": "Keine Ergebnisse" } }, "en": { "stringUnit": { "state": "translated", "value": "No Results" } }, "es": { "stringUnit": { "state": "translated", "value": "Sin resultados" } }, "fr": { "stringUnit": { "state": "translated", "value": "Aucun résultat" } }, "ja": { "stringUnit": { "state": "translated", "value": "結果なし" } }, "ko": { "stringUnit": { "state": "translated", "value": "결과 없음" } }, "pt": { "stringUnit": { "state": "translated", "value": "Nenhum resultado" } }, "ru": { "stringUnit": { "state": "translated", "value": "Ничего не найдено" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "未找到结果" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "找不到結果" } }
-    } },
-    "search.footer.actionFormat": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "%1$@ «%2$@»" } }, "de": { "stringUnit": { "state": "translated", "value": "%1$@ „%2$@“" } }, "en": { "stringUnit": { "state": "translated", "value": "%1$@ “%2$@”" } }, "es": { "stringUnit": { "state": "translated", "value": "%1$@ «%2$@»" } }, "fr": { "stringUnit": { "state": "translated", "value": "%1$@ « %2$@ »" } }, "ja": { "stringUnit": { "state": "translated", "value": "%1$@「%2$@」" } }, "ko": { "stringUnit": { "state": "translated", "value": "%1$@ ‘%2$@’" } }, "pt": { "stringUnit": { "state": "translated", "value": "%1$@ “%2$@”" } }, "ru": { "stringUnit": { "state": "translated", "value": "%1$@ «%2$@»" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "%1$@“%2$@”" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "%1$@「%2$@」" } }
-    } },
-    "search.footer.actions": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "إجراءات" } }, "de": { "stringUnit": { "state": "translated", "value": "Aktionen" } }, "en": { "stringUnit": { "state": "translated", "value": "Actions" } }, "es": { "stringUnit": { "state": "translated", "value": "Acciones" } }, "fr": { "stringUnit": { "state": "translated", "value": "Actions" } }, "ja": { "stringUnit": { "state": "translated", "value": "操作" } }, "ko": { "stringUnit": { "state": "translated", "value": "작업" } }, "pt": { "stringUnit": { "state": "translated", "value": "Ações" } }, "ru": { "stringUnit": { "state": "translated", "value": "Действия" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "操作" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "操作" } }
-    } },
-    "search.footer.keyboard": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "↑↓ تحديد　↩ فتح　⌘↩ إعدادات　Tab إجراءات　⌘1–9 فتح سريع" } }, "de": { "stringUnit": { "state": "translated", "value": "↑↓ Auswählen　↩ Öffnen　⌘↩ Einstellungen　Tab Aktionen　⌘1–9 Schnell öffnen" } }, "en": { "stringUnit": { "state": "translated", "value": "↑↓ Select　↩ Open　⌘↩ Settings　Tab Actions　⌘1–9 Quick Open" } }, "es": { "stringUnit": { "state": "translated", "value": "↑↓ Seleccionar　↩ Abrir　⌘↩ Ajustes　Tab Acciones　⌘1–9 Apertura rápida" } }, "fr": { "stringUnit": { "state": "translated", "value": "↑↓ Sélectionner　↩ Ouvrir　⌘↩ Réglages　Tab Actions　⌘1–9 Ouverture rapide" } }, "ja": { "stringUnit": { "state": "translated", "value": "↑↓ 選択　↩ 開く　⌘↩ 設定　Tab 操作　⌘1–9 クイックオープン" } }, "ko": { "stringUnit": { "state": "translated", "value": "↑↓ 선택　↩ 열기　⌘↩ 설정　Tab 작업　⌘1–9 빠르게 열기" } }, "pt": { "stringUnit": { "state": "translated", "value": "↑↓ Selecionar　↩ Abrir　⌘↩ Ajustes　Tab Ações　⌘1–9 Abertura rápida" } }, "ru": { "stringUnit": { "state": "translated", "value": "↑↓ Выбрать　↩ Открыть　⌘↩ Настройки　Tab Действия　⌘1–9 Быстро открыть" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "↑↓ 选择　↩ 打开　⌘↩ 设置　Tab 操作　⌘1–9 快速打开" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "↑↓ 選擇　↩ 開啟　⌘↩ 設定　Tab 操作　⌘1–9 快速開啟" } }
-    } },
-    "search.footer.open": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "فتح" } }, "de": { "stringUnit": { "state": "translated", "value": "Öffnen" } }, "en": { "stringUnit": { "state": "translated", "value": "Open" } }, "es": { "stringUnit": { "state": "translated", "value": "Abrir" } }, "fr": { "stringUnit": { "state": "translated", "value": "Ouvrir" } }, "ja": { "stringUnit": { "state": "translated", "value": "開く" } }, "ko": { "stringUnit": { "state": "translated", "value": "열기" } }, "pt": { "stringUnit": { "state": "translated", "value": "Abrir" } }, "ru": { "stringUnit": { "state": "translated", "value": "Открыть" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "打开" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "開啟" } }
-    } },
-    "search.footer.quickOpen": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "فتح سريع" } }, "de": { "stringUnit": { "state": "translated", "value": "Schnell öffnen" } }, "en": { "stringUnit": { "state": "translated", "value": "Quick Open" } }, "es": { "stringUnit": { "state": "translated", "value": "Apertura rápida" } }, "fr": { "stringUnit": { "state": "translated", "value": "Ouverture rapide" } }, "ja": { "stringUnit": { "state": "translated", "value": "クイックオープン" } }, "ko": { "stringUnit": { "state": "translated", "value": "빠르게 열기" } }, "pt": { "stringUnit": { "state": "translated", "value": "Abertura rápida" } }, "ru": { "stringUnit": { "state": "translated", "value": "Быстро открыть" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "快速打开" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "快速開啟" } }
-    } },
-    "search.footer.select": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تحديد" } }, "de": { "stringUnit": { "state": "translated", "value": "Auswählen" } }, "en": { "stringUnit": { "state": "translated", "value": "Select" } }, "es": { "stringUnit": { "state": "translated", "value": "Seleccionar" } }, "fr": { "stringUnit": { "state": "translated", "value": "Sélectionner" } }, "ja": { "stringUnit": { "state": "translated", "value": "選択" } }, "ko": { "stringUnit": { "state": "translated", "value": "선택" } }, "pt": { "stringUnit": { "state": "translated", "value": "Selecionar" } }, "ru": { "stringUnit": { "state": "translated", "value": "Выбрать" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "选择" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "選擇" } }
-    } },
-    "search.footer.settings": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "الإعدادات" } }, "de": { "stringUnit": { "state": "translated", "value": "Einstellungen" } }, "en": { "stringUnit": { "state": "translated", "value": "Settings" } }, "es": { "stringUnit": { "state": "translated", "value": "Ajustes" } }, "fr": { "stringUnit": { "state": "translated", "value": "Réglages" } }, "ja": { "stringUnit": { "state": "translated", "value": "設定" } }, "ko": { "stringUnit": { "state": "translated", "value": "설정" } }, "pt": { "stringUnit": { "state": "translated", "value": "Ajustes" } }, "ru": { "stringUnit": { "state": "translated", "value": "Настройки" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "设置" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "設定" } }
-    } },
-    "search.footer.tryAnotherQuery": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "جرّب بحثًا آخر" } }, "de": { "stringUnit": { "state": "translated", "value": "Andere Suche versuchen" } }, "en": { "stringUnit": { "state": "translated", "value": "Try another search" } }, "es": { "stringUnit": { "state": "translated", "value": "Prueba otra búsqueda" } }, "fr": { "stringUnit": { "state": "translated", "value": "Essayez une autre recherche" } }, "ja": { "stringUnit": { "state": "translated", "value": "別の検索を試す" } }, "ko": { "stringUnit": { "state": "translated", "value": "다른 검색어 사용" } }, "pt": { "stringUnit": { "state": "translated", "value": "Tente outra busca" } }, "ru": { "stringUnit": { "state": "translated", "value": "Попробуйте другой запрос" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "尝试其他关键词" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "嘗試其他關鍵字" } }
-    } },
-    "search.group.commands": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "الأوامر" } }, "de": { "stringUnit": { "state": "translated", "value": "Befehle" } }, "en": { "stringUnit": { "state": "translated", "value": "Commands" } }, "es": { "stringUnit": { "state": "translated", "value": "Comandos" } }, "fr": { "stringUnit": { "state": "translated", "value": "Commandes" } }, "ja": { "stringUnit": { "state": "translated", "value": "コマンド" } }, "ko": { "stringUnit": { "state": "translated", "value": "명령" } }, "pt": { "stringUnit": { "state": "translated", "value": "Comandos" } }, "ru": { "stringUnit": { "state": "translated", "value": "Команды" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "命令" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "指令" } }
-    } },
-    "search.group.navigation": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "التنقل" } }, "de": { "stringUnit": { "state": "translated", "value": "Navigation" } }, "en": { "stringUnit": { "state": "translated", "value": "Navigation" } }, "es": { "stringUnit": { "state": "translated", "value": "Navegación" } }, "fr": { "stringUnit": { "state": "translated", "value": "Navigation" } }, "ja": { "stringUnit": { "state": "translated", "value": "ナビゲーション" } }, "ko": { "stringUnit": { "state": "translated", "value": "탐색" } }, "pt": { "stringUnit": { "state": "translated", "value": "Navegação" } }, "ru": { "stringUnit": { "state": "translated", "value": "Навигация" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "导航" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "導覽" } }
-    } },
-    "search.group.recent": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "الأخيرة" } }, "de": { "stringUnit": { "state": "translated", "value": "Zuletzt verwendet" } }, "en": { "stringUnit": { "state": "translated", "value": "Recent" } }, "es": { "stringUnit": { "state": "translated", "value": "Recientes" } }, "fr": { "stringUnit": { "state": "translated", "value": "Récentes" } }, "ja": { "stringUnit": { "state": "translated", "value": "最近" } }, "ko": { "stringUnit": { "state": "translated", "value": "최근 항목" } }, "pt": { "stringUnit": { "state": "translated", "value": "Recentes" } }, "ru": { "stringUnit": { "state": "translated", "value": "Недавние" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "最近操作" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "最近操作" } }
-    } },
-    "search.group.settings": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "الإعدادات" } }, "de": { "stringUnit": { "state": "translated", "value": "Einstellungen" } }, "en": { "stringUnit": { "state": "translated", "value": "Settings" } }, "es": { "stringUnit": { "state": "translated", "value": "Ajustes" } }, "fr": { "stringUnit": { "state": "translated", "value": "Réglages" } }, "ja": { "stringUnit": { "state": "translated", "value": "設定" } }, "ko": { "stringUnit": { "state": "translated", "value": "설정" } }, "pt": { "stringUnit": { "state": "translated", "value": "Ajustes" } }, "ru": { "stringUnit": { "state": "translated", "value": "Настройки" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "设置" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "設定" } }
-    } },
-    "search.group.suggested": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "مقترحة" } }, "de": { "stringUnit": { "state": "translated", "value": "Vorschläge" } }, "en": { "stringUnit": { "state": "translated", "value": "Suggested" } }, "es": { "stringUnit": { "state": "translated", "value": "Sugerencias" } }, "fr": { "stringUnit": { "state": "translated", "value": "Suggestions" } }, "ja": { "stringUnit": { "state": "translated", "value": "おすすめ" } }, "ko": { "stringUnit": { "state": "translated", "value": "추천" } }, "pt": { "stringUnit": { "state": "translated", "value": "Sugestões" } }, "ru": { "stringUnit": { "state": "translated", "value": "Рекомендуемое" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "建议" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "建議" } }
-    } },
-    "search.origin.globalShortcutFormat": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "الاختصار العام %@" } }, "de": { "stringUnit": { "state": "translated", "value": "Globaler Kurzbefehl %@" } }, "en": { "stringUnit": { "state": "translated", "value": "Global Shortcut %@" } }, "es": { "stringUnit": { "state": "translated", "value": "Atajo global %@" } }, "fr": { "stringUnit": { "state": "translated", "value": "Raccourci global %@" } }, "ja": { "stringUnit": { "state": "translated", "value": "グローバルショートカット %@" } }, "ko": { "stringUnit": { "state": "translated", "value": "전역 단축키 %@" } }, "pt": { "stringUnit": { "state": "translated", "value": "Atalho global %@" } }, "ru": { "stringUnit": { "state": "translated", "value": "Глобальное сочетание %@" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "全局快捷键 %@" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "全域快速鍵 %@" } }
-    } },
-    "search.origin.keyboard": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "اختصار MacTools ⌘K" } }, "de": { "stringUnit": { "state": "translated", "value": "MacTools-Kurzbefehl ⌘K" } }, "en": { "stringUnit": { "state": "translated", "value": "MacTools Shortcut ⌘K" } }, "es": { "stringUnit": { "state": "translated", "value": "Atajo de MacTools ⌘K" } }, "fr": { "stringUnit": { "state": "translated", "value": "Raccourci MacTools ⌘K" } }, "ja": { "stringUnit": { "state": "translated", "value": "MacToolsショートカット ⌘K" } }, "ko": { "stringUnit": { "state": "translated", "value": "MacTools 단축키 ⌘K" } }, "pt": { "stringUnit": { "state": "translated", "value": "Atalho do MacTools ⌘K" } }, "ru": { "stringUnit": { "state": "translated", "value": "Сочетание MacTools ⌘K" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "MacTools 快捷键 ⌘K" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "MacTools 快速鍵 ⌘K" } }
-    } },
-    "search.origin.settingsSidebar": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "من التنقل بين الإعدادات" } }, "de": { "stringUnit": { "state": "translated", "value": "Aus der Einstellungsnavigation" } }, "en": { "stringUnit": { "state": "translated", "value": "From Settings Navigation" } }, "es": { "stringUnit": { "state": "translated", "value": "Desde la navegación de ajustes" } }, "fr": { "stringUnit": { "state": "translated", "value": "Depuis la navigation des réglages" } }, "ja": { "stringUnit": { "state": "translated", "value": "設定ナビゲーションから" } }, "ko": { "stringUnit": { "state": "translated", "value": "설정 탐색에서" } }, "pt": { "stringUnit": { "state": "translated", "value": "Da navegação de ajustes" } }, "ru": { "stringUnit": { "state": "translated", "value": "Из навигации по настройкам" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "来自设置导航" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "來自設定導覽" } }
-    } },
-    "search.prompt": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "ابحث في الإضافات والإعدادات والأوامر" } }, "de": { "stringUnit": { "state": "translated", "value": "Plugins, Einstellungen und Befehle durchsuchen" } }, "en": { "stringUnit": { "state": "translated", "value": "Search plugins, settings, and commands" } }, "es": { "stringUnit": { "state": "translated", "value": "Buscar plugins, ajustes y comandos" } }, "fr": { "stringUnit": { "state": "translated", "value": "Rechercher des modules, réglages et commandes" } }, "ja": { "stringUnit": { "state": "translated", "value": "プラグイン、設定、コマンドを検索" } }, "ko": { "stringUnit": { "state": "translated", "value": "플러그인, 설정 및 명령 검색" } }, "pt": { "stringUnit": { "state": "translated", "value": "Buscar plugins, ajustes e comandos" } }, "ru": { "stringUnit": { "state": "translated", "value": "Поиск плагинов, настроек и команд" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "搜索插件、设置和命令" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "搜尋外掛、設定與指令" } }
-    } },
-    "search.recent.clear": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "مسح الإجراءات الأخيرة" } }, "de": { "stringUnit": { "state": "translated", "value": "Letzte Aktionen löschen" } }, "en": { "stringUnit": { "state": "translated", "value": "Clear Recent Actions" } }, "es": { "stringUnit": { "state": "translated", "value": "Borrar acciones recientes" } }, "fr": { "stringUnit": { "state": "translated", "value": "Effacer les actions récentes" } }, "ja": { "stringUnit": { "state": "translated", "value": "最近の操作を消去" } }, "ko": { "stringUnit": { "state": "translated", "value": "최근 동작 지우기" } }, "pt": { "stringUnit": { "state": "translated", "value": "Limpar ações recentes" } }, "ru": { "stringUnit": { "state": "translated", "value": "Очистить недавние действия" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "清除最近操作" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "清除最近操作" } }
-    } },
-    "search.recent.disable": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "إيقاف تسجيل الإجراءات الأخيرة ومسحها" } }, "de": { "stringUnit": { "state": "translated", "value": "Aufzeichnung letzter Aktionen beenden und löschen" } }, "en": { "stringUnit": { "state": "translated", "value": "Stop Recording and Clear Recent Actions" } }, "es": { "stringUnit": { "state": "translated", "value": "Dejar de registrar y borrar acciones recientes" } }, "fr": { "stringUnit": { "state": "translated", "value": "Arrêter l’enregistrement et effacer les actions récentes" } }, "ja": { "stringUnit": { "state": "translated", "value": "最近の操作の記録を停止して消去" } }, "ko": { "stringUnit": { "state": "translated", "value": "최근 동작 기록 중지 및 지우기" } }, "pt": { "stringUnit": { "state": "translated", "value": "Parar de registrar e limpar ações recentes" } }, "ru": { "stringUnit": { "state": "translated", "value": "Остановить запись и очистить недавние действия" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "停止记录并清除最近操作" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "停止記錄並清除最近操作" } }
-    } },
-    "search.recent.enable": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تشغيل الإجراءات الأخيرة" } }, "de": { "stringUnit": { "state": "translated", "value": "Letzte Aktionen aktivieren" } }, "en": { "stringUnit": { "state": "translated", "value": "Enable Recent Actions" } }, "es": { "stringUnit": { "state": "translated", "value": "Activar acciones recientes" } }, "fr": { "stringUnit": { "state": "translated", "value": "Activer les actions récentes" } }, "ja": { "stringUnit": { "state": "translated", "value": "最近の操作を有効にする" } }, "ko": { "stringUnit": { "state": "translated", "value": "최근 동작 활성화" } }, "pt": { "stringUnit": { "state": "translated", "value": "Ativar ações recentes" } }, "ru": { "stringUnit": { "state": "translated", "value": "Включить недавние действия" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "启用最近操作" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "啟用最近操作" } }
-    } },
-    "search.recent.loadFailed": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تعذر تحميل الإجراءات الأخيرة" } }, "de": { "stringUnit": { "state": "translated", "value": "Letzte Aktionen konnten nicht geladen werden" } }, "en": { "stringUnit": { "state": "translated", "value": "Recent Actions Couldn’t Be Loaded" } }, "es": { "stringUnit": { "state": "translated", "value": "No se pudieron cargar las acciones recientes" } }, "fr": { "stringUnit": { "state": "translated", "value": "Impossible de charger les actions récentes" } }, "ja": { "stringUnit": { "state": "translated", "value": "最近の操作を読み込めませんでした" } }, "ko": { "stringUnit": { "state": "translated", "value": "최근 동작을 불러올 수 없음" } }, "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível carregar as ações recentes" } }, "ru": { "stringUnit": { "state": "translated", "value": "Не удалось загрузить недавние действия" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法加载最近操作" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法載入最近操作" } }
-    } },
-    "search.recent.manage": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "إدارة الإجراءات الأخيرة" } }, "de": { "stringUnit": { "state": "translated", "value": "Letzte Aktionen verwalten" } }, "en": { "stringUnit": { "state": "translated", "value": "Manage Recent Actions" } }, "es": { "stringUnit": { "state": "translated", "value": "Gestionar acciones recientes" } }, "fr": { "stringUnit": { "state": "translated", "value": "Gérer les actions récentes" } }, "ja": { "stringUnit": { "state": "translated", "value": "最近の操作を管理" } }, "ko": { "stringUnit": { "state": "translated", "value": "최근 동작 관리" } }, "pt": { "stringUnit": { "state": "translated", "value": "Gerenciar ações recentes" } }, "ru": { "stringUnit": { "state": "translated", "value": "Управлять недавними действиями" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "管理最近操作" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "管理最近操作" } }
-    } },
-    "search.recent.reset": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "إعادة تعيين الإجراءات الأخيرة" } }, "de": { "stringUnit": { "state": "translated", "value": "Letzte Aktionen zurücksetzen" } }, "en": { "stringUnit": { "state": "translated", "value": "Reset Recent Actions" } }, "es": { "stringUnit": { "state": "translated", "value": "Restablecer acciones recientes" } }, "fr": { "stringUnit": { "state": "translated", "value": "Réinitialiser les actions récentes" } }, "ja": { "stringUnit": { "state": "translated", "value": "最近の操作をリセット" } }, "ko": { "stringUnit": { "state": "translated", "value": "최근 동작 재설정" } }, "pt": { "stringUnit": { "state": "translated", "value": "Redefinir ações recentes" } }, "ru": { "stringUnit": { "state": "translated", "value": "Сбросить недавние действия" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "重置最近操作" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "重置最近操作" } }
-    } },
-    "search.recent.updateFailed": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تعذر تحديث الإجراءات الأخيرة." } }, "de": { "stringUnit": { "state": "translated", "value": "Letzte Aktionen konnten nicht aktualisiert werden." } }, "en": { "stringUnit": { "state": "translated", "value": "Recent Actions couldn’t be updated." } }, "es": { "stringUnit": { "state": "translated", "value": "No se pudieron actualizar las acciones recientes." } }, "fr": { "stringUnit": { "state": "translated", "value": "Impossible de mettre à jour les actions récentes." } }, "ja": { "stringUnit": { "state": "translated", "value": "最近の操作を更新できませんでした。" } }, "ko": { "stringUnit": { "state": "translated", "value": "최근 동작을 업데이트할 수 없습니다." } }, "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível atualizar as ações recentes." } }, "ru": { "stringUnit": { "state": "translated", "value": "Не удалось обновить недавние действия." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法更新最近操作。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法更新最近操作。" } }
-    } },
-    "search.resultCountFormat": { "extractionState": "manual", "localizations": {
-      "ar": { "variations": { "plural": {
-        "zero": { "stringUnit": { "state": "translated", "value": "لا نتائج" } },
-        "one": { "stringUnit": { "state": "translated", "value": "نتيجة واحدة" } },
-        "two": { "stringUnit": { "state": "translated", "value": "نتيجتان" } },
-        "few": { "stringUnit": { "state": "translated", "value": "%d نتائج" } },
-        "many": { "stringUnit": { "state": "translated", "value": "%d نتيجة" } },
-        "other": { "stringUnit": { "state": "translated", "value": "%d نتيجة" } }
-      } } },
-      "de": { "variations": { "plural": {
-        "one": { "stringUnit": { "state": "translated", "value": "%d Ergebnis" } },
-        "other": { "stringUnit": { "state": "translated", "value": "%d Ergebnisse" } }
-      } } },
-      "en": { "variations": { "plural": {
-        "one": { "stringUnit": { "state": "translated", "value": "%d result" } },
-        "other": { "stringUnit": { "state": "translated", "value": "%d results" } }
-      } } },
-      "es": { "variations": { "plural": {
-        "one": { "stringUnit": { "state": "translated", "value": "%d resultado" } },
-        "other": { "stringUnit": { "state": "translated", "value": "%d resultados" } }
-      } } },
-      "fr": { "variations": { "plural": {
-        "one": { "stringUnit": { "state": "translated", "value": "%d résultat" } },
-        "other": { "stringUnit": { "state": "translated", "value": "%d résultats" } }
-      } } },
-      "ja": { "variations": { "plural": {
-        "other": { "stringUnit": { "state": "translated", "value": "%d件の結果" } }
-      } } },
-      "ko": { "variations": { "plural": {
-        "other": { "stringUnit": { "state": "translated", "value": "결과 %d개" } }
-      } } },
-      "pt": { "variations": { "plural": {
-        "one": { "stringUnit": { "state": "translated", "value": "%d resultado" } },
-        "other": { "stringUnit": { "state": "translated", "value": "%d resultados" } }
-      } } },
-      "ru": { "variations": { "plural": {
-        "one": { "stringUnit": { "state": "translated", "value": "%d результат" } },
-        "few": { "stringUnit": { "state": "translated", "value": "%d результата" } },
-        "many": { "stringUnit": { "state": "translated", "value": "%d результатов" } },
-        "other": { "stringUnit": { "state": "translated", "value": "%d результата" } }
-      } } },
-      "zh-Hans": { "variations": { "plural": {
-        "other": { "stringUnit": { "state": "translated", "value": "%d 个结果" } }
-      } } },
-      "zh-Hant": { "variations": { "plural": {
-        "other": { "stringUnit": { "state": "translated", "value": "%d 個結果" } }
-      } } }
-    } },
-    "search.subtitle.appSettings": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "إعدادات التطبيق" } }, "de": { "stringUnit": { "state": "translated", "value": "App-Einstellungen" } }, "en": { "stringUnit": { "state": "translated", "value": "App Settings" } }, "es": { "stringUnit": { "state": "translated", "value": "Ajustes de la app" } }, "fr": { "stringUnit": { "state": "translated", "value": "Réglages de l’app" } }, "ja": { "stringUnit": { "state": "translated", "value": "アプリ設定" } }, "ko": { "stringUnit": { "state": "translated", "value": "앱 설정" } }, "pt": { "stringUnit": { "state": "translated", "value": "Ajustes do app" } }, "ru": { "stringUnit": { "state": "translated", "value": "Настройки приложения" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "应用设置" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "應用程式設定" } }
-    } },
-    "search.subtitle.customSetting": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "الإعدادات" } }, "de": { "stringUnit": { "state": "translated", "value": "Einstellungen" } }, "en": { "stringUnit": { "state": "translated", "value": "Settings" } }, "es": { "stringUnit": { "state": "translated", "value": "Ajustes" } }, "fr": { "stringUnit": { "state": "translated", "value": "Réglages" } }, "ja": { "stringUnit": { "state": "translated", "value": "設定" } }, "ko": { "stringUnit": { "state": "translated", "value": "설정" } }, "pt": { "stringUnit": { "state": "translated", "value": "Ajustes" } }, "ru": { "stringUnit": { "state": "translated", "value": "Настройки" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "设置" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "設定" } }
-    } },
-    "search.subtitle.macTools": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "MacTools" } }, "de": { "stringUnit": { "state": "translated", "value": "MacTools" } }, "en": { "stringUnit": { "state": "translated", "value": "MacTools" } }, "es": { "stringUnit": { "state": "translated", "value": "MacTools" } }, "fr": { "stringUnit": { "state": "translated", "value": "MacTools" } }, "ja": { "stringUnit": { "state": "translated", "value": "MacTools" } }, "ko": { "stringUnit": { "state": "translated", "value": "MacTools" } }, "pt": { "stringUnit": { "state": "translated", "value": "MacTools" } }, "ru": { "stringUnit": { "state": "translated", "value": "MacTools" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "MacTools" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "MacTools" } }
-    } },
-    "search.subtitle.plugins": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "الإضافات" } }, "de": { "stringUnit": { "state": "translated", "value": "Plugins" } }, "en": { "stringUnit": { "state": "translated", "value": "Plugins" } }, "es": { "stringUnit": { "state": "translated", "value": "Plugins" } }, "fr": { "stringUnit": { "state": "translated", "value": "Modules" } }, "ja": { "stringUnit": { "state": "translated", "value": "プラグイン" } }, "ko": { "stringUnit": { "state": "translated", "value": "플러그인" } }, "pt": { "stringUnit": { "state": "translated", "value": "Plugins" } }, "ru": { "stringUnit": { "state": "translated", "value": "Плагины" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "插件" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "外掛" } }
-    } },
-    "search.title": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "البحث في MacTools" } }, "de": { "stringUnit": { "state": "translated", "value": "MacTools durchsuchen" } }, "en": { "stringUnit": { "state": "translated", "value": "Search MacTools" } }, "es": { "stringUnit": { "state": "translated", "value": "Buscar en MacTools" } }, "fr": { "stringUnit": { "state": "translated", "value": "Rechercher dans MacTools" } }, "ja": { "stringUnit": { "state": "translated", "value": "MacToolsを検索" } }, "ko": { "stringUnit": { "state": "translated", "value": "MacTools 검색" } }, "pt": { "stringUnit": { "state": "translated", "value": "Buscar no MacTools" } }, "ru": { "stringUnit": { "state": "translated", "value": "Поиск в MacTools" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "搜索 MacTools" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "搜尋 MacTools" } }
-    } }
   },
   "version": "1.0"
 }

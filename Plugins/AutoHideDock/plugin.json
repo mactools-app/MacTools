@@ -39,6 +39,10 @@
       "displayName": "Автоскрытие Dock",
       "summary": "Скройте Dock автоматически, чтобы рабочий стол стал чище."
     },
+    "tr": {
+      "displayName": "Dock'u Otomatik Gizleme",
+      "summary": "Daha temiz bir masaüstü için Dock'u otomatik olarak gizleyin."
+    },
     "zh-Hans": {
       "displayName": "自动隐藏程序坞",
       "summary": "自动隐藏程序坞，提供更干净的桌面环境"
@@ -125,6 +129,9 @@
       ],
       "ru": [
         "Автоскрытие Dock"
+      ],
+      "tr": [
+        "Dock'u Otomatik Gizleme"
       ],
       "zh-Hans": [
         "自动隐藏程序坞"

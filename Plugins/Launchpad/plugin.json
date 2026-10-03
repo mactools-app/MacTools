@@ -39,6 +39,10 @@
       "displayName": "Launchpad",
       "summary": "Открывайте сетку приложений глобальным сочетанием клавиш или из строки меню, ищите и запускайте приложения."
     },
+    "tr": {
+      "displayName": "Launchpad",
+      "summary": "Uygulama ızgarasını genel bir kısayolla veya menü çubuğundan açın, ardından uygulamaları arayıp başlatın."
+    },
     "zh-Hans": {
       "displayName": "启动台",
       "summary": "用全局热键或菜单栏打开应用网格，搜索并启动。"
@@ -115,6 +119,9 @@
         "Launchpad"
       ],
       "ru": [
+        "Launchpad"
+      ],
+      "tr": [
         "Launchpad"
       ],
       "zh-Hans": [

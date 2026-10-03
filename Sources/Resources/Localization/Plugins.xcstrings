@@ -1,343 +1,1459 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
-  "plugin.requirement.macOS": {
-    "extractionState": "manual",
-    "localizations": {
-      "zh-Hans": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "需要 macOS %@ 或更高版本。"
-        }
-      },
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Requires macOS %@ or later."
-        }
-      }
-    }
-  },
-  "plugin.requirement.application": {
-    "extractionState": "manual",
-    "localizations": {
-      "zh-Hans": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "未找到所需应用：%@。"
-        }
-      },
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Required app not found: %@."
+    "plugin.requirement.macOS": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requires macOS %@ or later."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS %@ veya üzerini gerektirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要 macOS %@ 或更高版本。"
+          }
         }
       }
-    }
-  },
-  "plugin.requirement.recheck": {
-    "extractionState": "manual",
-    "localizations": {
-      "zh-Hans": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "重新检查"
-        }
-      },
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Check Again"
+    },
+    "plugin.requirement.application": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Required app not found: %@."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerekli uygulama bulunamadı: %@."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到所需应用：%@。"
+          }
         }
       }
-    }
-  },
+    },
+    "plugin.requirement.recheck": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check Again"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden Kontrol Et"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新检查"
+          }
+        }
+      }
+    },
     "plugin.management.hideFromDashboardFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إخفاء %@ من لوحة المعلومات" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%@ im Dashboard ausblenden" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Hide %@ from Dashboard" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Ocultar %@ del panel" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Masquer %@ du tableau de bord" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%@をダッシュボードから隠す" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%@을(를) 대시보드에서 가리기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Ocultar %@ do painel" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Скрыть %@ с панели управления" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "从仪表盘隐藏%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "從儀表板隱藏%@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء %@ من لوحة المعلومات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ im Dashboard ausblenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide %@ from Dashboard"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar %@ del panel"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer %@ du tableau de bord"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@をダッシュボードから隠す"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@을(를) 대시보드에서 가리기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar %@ do painel"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скрыть %@ с панели управления"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Öğesini Gösterge Panelinden Gizle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从仪表盘隐藏%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "從儀表板隱藏%@"
+          }
+        }
       }
     },
     "plugin.management.hideFromFeaturePanelFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إخفاء %@ من لوحة الميزات" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%@ im Funktionsbereich ausblenden" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Hide %@ from Feature Panel" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Ocultar %@ del panel de funciones" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Masquer %@ du panneau de fonctionnalités" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%@を機能パネルから隠す" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%@을(를) 기능 패널에서 가리기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Ocultar %@ do painel de recursos" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Скрыть %@ с панели функций" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "从功能面板隐藏%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "從功能面板隱藏%@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء %@ من لوحة الميزات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ im Funktionsbereich ausblenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide %@ from Feature Panel"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar %@ del panel de funciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer %@ du panneau de fonctionnalités"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@を機能パネルから隠す"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@을(를) 기능 패널에서 가리기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar %@ do painel de recursos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скрыть %@ с панели функций"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Öğesini Özellik Panelinden Gizle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从功能面板隐藏%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "從功能面板隱藏%@"
+          }
+        }
       }
     },
     "plugin.management.moveToBottom": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "نقل إلى أسفل القائمة" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Ans Ende verschieben" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Move to Bottom" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Mover al final" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Déplacer en bas de la liste" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "一番下に移動" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "맨 아래로 이동" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Mover para o fim" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Переместить в конец" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "移到底部" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "移到底部" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل إلى أسفل القائمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ans Ende verschieben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move to Bottom"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover al final"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacer en bas de la liste"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一番下に移動"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "맨 아래로 이동"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover para o fim"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переместить в конец"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En Alta Taşı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移到底部"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移到底部"
+          }
+        }
       }
     },
     "plugin.management.moveToTop": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "نقل إلى أعلى القائمة" } },
-        "de": { "stringUnit": { "state": "translated", "value": "An den Anfang verschieben" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Move to Top" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Mover al principio" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Déplacer en haut de la liste" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "一番上に移動" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "맨 위로 이동" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Mover para o início" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Переместить в начало" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "移到顶部" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "移到頂部" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل إلى أعلى القائمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An den Anfang verschieben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move to Top"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover al principio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacer en haut de la liste"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一番上に移動"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "맨 위로 이동"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover para o início"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переместить в начало"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En Üste Taşı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移到顶部"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移到頂部"
+          }
+        }
       }
     },
     "plugin.management.showInFeaturePanelFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إظهار %@ في لوحة الميزات" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%@ im Funktionsbereich anzeigen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Show %@ in Feature Panel" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Mostrar %@ en el panel de funciones" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Afficher %@ dans le panneau de fonctionnalités" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%@を機能パネルに表示" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%@을(를) 기능 패널에 표시" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Mostrar %@ no painel de recursos" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Показать %@ на панели функций" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "在功能面板显示%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "在功能面板顯示%@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار %@ في لوحة الميزات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ im Funktionsbereich anzeigen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show %@ in Feature Panel"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar %@ en el panel de funciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher %@ dans le panneau de fonctionnalités"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@を機能パネルに表示"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@을(를) 기능 패널에 표시"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar %@ no painel de recursos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать %@ на панели функций"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Öğesini Özellik Panelinde Göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在功能面板显示%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在功能面板顯示%@"
+          }
+        }
       }
     },
     "plugin.management.showOnDashboardFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إظهار %@ في لوحة المعلومات" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%@ im Dashboard anzeigen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Show %@ on Dashboard" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Mostrar %@ en el panel" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Afficher %@ sur le tableau de bord" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%@をダッシュボードに表示" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%@을(를) 대시보드에 표시" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Mostrar %@ no painel" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Показать %@ на панели управления" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "在仪表盘显示%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "在儀表板顯示%@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار %@ في لوحة المعلومات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ im Dashboard anzeigen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show %@ on Dashboard"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar %@ en el panel"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher %@ sur le tableau de bord"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@をダッシュボードに表示"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@을(를) 대시보드에 표시"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar %@ no painel"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать %@ на панели управления"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Öğesini Gösterge Panelinde Göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在仪表盘显示%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在儀表板顯示%@"
+          }
+        }
       }
     },
     "plugin.management.uninstall.confirmationMessage": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "ستتم إزالته من %@. ستُزال اختصاراته وإدخاله في الإعدادات، وسيتوقف عمله في الخلفية. ستُحتفَظ ببيانات الإضافة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Es wird aus %@ entfernt. Seine Kurzbefehle und sein Eintrag in den Einstellungen werden entfernt, und die Hintergrundarbeit wird beendet. Plug-in-Daten bleiben erhalten." } },
-        "en": { "stringUnit": { "state": "translated", "value": "It will be removed from %@. Its shortcuts and settings entry will be removed, and its background work will stop. Plugin data will be kept." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Se eliminará de %@. Se eliminarán sus atajos y su entrada en Ajustes, y se detendrá su actividad en segundo plano. Se conservarán los datos del complemento." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Il sera supprimé de %@. Ses raccourcis et son entrée dans les réglages seront supprimés, et son activité en arrière-plan s’arrêtera. Les données du module seront conservées." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%@ から削除されます。ショートカットと設定項目が削除され、バックグラウンドでの処理も停止します。プラグインのデータは保持されます。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%@에서 제거됩니다. 단축키와 설정 항목이 제거되고 백그라운드 작업도 중단됩니다. 플러그인 데이터는 유지됩니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Ele será removido de %@. Seus atalhos e a entrada nos Ajustes serão removidos, e a atividade em segundo plano será interrompida. Os dados do plug-in serão mantidos." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Плагин будет удалён из %@. Его сочетания клавиш и пункт настроек будут удалены, а фоновая работа остановится. Данные плагина будут сохранены." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "它将从%@移除，快捷键和设置入口也会移除，后台工作将停止。插件数据会保留。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "它將從%@移除，快捷鍵和設定入口也會移除，背景工作將停止。外掛資料會保留。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ستتم إزالته من %@. ستُزال اختصاراته وإدخاله في الإعدادات، وسيتوقف عمله في الخلفية. ستُحتفَظ ببيانات الإضافة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Es wird aus %@ entfernt. Seine Kurzbefehle und sein Eintrag in den Einstellungen werden entfernt, und die Hintergrundarbeit wird beendet. Plug-in-Daten bleiben erhalten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "It will be removed from %@. Its shortcuts and settings entry will be removed, and its background work will stop. Plugin data will be kept."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se eliminará de %@. Se eliminarán sus atajos y su entrada en Ajustes, y se detendrá su actividad en segundo plano. Se conservarán los datos del complemento."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il sera supprimé de %@. Ses raccourcis et son entrée dans les réglages seront supprimés, et son activité en arrière-plan s’arrêtera. Les données du module seront conservées."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ から削除されます。ショートカットと設定項目が削除され、バックグラウンドでの処理も停止します。プラグインのデータは保持されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@에서 제거됩니다. 단축키와 설정 항목이 제거되고 백그라운드 작업도 중단됩니다. 플러그인 데이터는 유지됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ele será removido de %@. Seus atalhos e a entrada nos Ajustes serão removidos, e a atividade em segundo plano será interrompida. Os dados do plug-in serão mantidos."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Плагин будет удалён из %@. Его сочетания клавиш и пункт настроек будут удалены, а фоновая работа остановится. Данные плагина будут сохранены."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu eklenti %@ üzerinden kaldırılacak. Kısayolları ve ayarlar girişi kaldırılacak, arka plan çalışması duracak. Eklenti verileri saklanacak."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "它将从%@移除，快捷键和设置入口也会移除，后台工作将停止。插件数据会保留。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "它將從%@移除，快捷鍵和設定入口也會移除，背景工作將停止。外掛資料會保留。"
+          }
+        }
       }
     },
     "plugin.management.uninstall.confirmationMessageRemovesData": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "ستتم إزالته من %@. ستُحذف اختصاراته وإدخاله في الإعدادات وبيانات الإضافة الخاصة نهائيًا، وسيتوقف عمله في الخلفية. لا يمكن التراجع عن هذا الإجراء." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Es wird aus %@ entfernt. Seine Kurzbefehle, sein Eintrag in den Einstellungen und seine privaten Plug-in-Daten werden dauerhaft gelöscht, und die Hintergrundarbeit wird beendet. Dies kann nicht widerrufen werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "It will be removed from %@. Its shortcuts, settings entry, and private plugin data will be permanently deleted, and its background work will stop. This can’t be undone." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Se eliminará de %@. Sus atajos, su entrada en Ajustes y los datos privados del complemento se eliminarán permanentemente, y se detendrá su actividad en segundo plano. Esta acción no se puede deshacer." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Il sera supprimé de %@. Ses raccourcis, son entrée dans les réglages et les données privées du module seront définitivement supprimés, et son activité en arrière-plan s’arrêtera. Cette action est irréversible." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%@ から削除されます。ショートカット、設定項目、プラグインの非公開データが完全に削除され、バックグラウンド処理も停止します。この操作は取り消せません。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%@에서 제거됩니다. 단축키, 설정 항목 및 플러그인의 비공개 데이터가 영구적으로 삭제되고 백그라운드 작업도 중단됩니다. 이 작업은 취소할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Ele será removido de %@. Seus atalhos, a entrada nos Ajustes e os dados privados do plug-in serão excluídos permanentemente, e a atividade em segundo plano será interrompida. Esta ação não pode ser desfeita." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Плагин будет удалён из %@. Его сочетания клавиш, пункт настроек и конфиденциальные данные будут удалены безвозвратно, а фоновая работа остановится. Это действие нельзя отменить." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "它将从%@移除，快捷键、设置入口和插件私密数据也会永久删除，后台工作将停止。此操作无法撤销。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "它將從%@移除，快捷鍵、設定入口和外掛私密資料也會永久刪除，背景工作將停止。此操作無法還原。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ستتم إزالته من %@. ستُحذف اختصاراته وإدخاله في الإعدادات وبيانات الإضافة الخاصة نهائيًا، وسيتوقف عمله في الخلفية. لا يمكن التراجع عن هذا الإجراء."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Es wird aus %@ entfernt. Seine Kurzbefehle, sein Eintrag in den Einstellungen und seine privaten Plug-in-Daten werden dauerhaft gelöscht, und die Hintergrundarbeit wird beendet. Dies kann nicht widerrufen werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "It will be removed from %@. Its shortcuts, settings entry, and private plugin data will be permanently deleted, and its background work will stop. This can’t be undone."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se eliminará de %@. Sus atajos, su entrada en Ajustes y los datos privados del complemento se eliminarán permanentemente, y se detendrá su actividad en segundo plano. Esta acción no se puede deshacer."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il sera supprimé de %@. Ses raccourcis, son entrée dans les réglages et les données privées du module seront définitivement supprimés, et son activité en arrière-plan s’arrêtera. Cette action est irréversible."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ から削除されます。ショートカット、設定項目、プラグインの非公開データが完全に削除され、バックグラウンド処理も停止します。この操作は取り消せません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@에서 제거됩니다. 단축키, 설정 항목 및 플러그인의 비공개 데이터가 영구적으로 삭제되고 백그라운드 작업도 중단됩니다. 이 작업은 취소할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ele será removido de %@. Seus atalhos, a entrada nos Ajustes e os dados privados do plug-in serão excluídos permanentemente, e a atividade em segundo plano será interrompida. Esta ação não pode ser desfeita."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Плагин будет удалён из %@. Его сочетания клавиш, пункт настроек и конфиденциальные данные будут удалены безвозвратно, а фоновая работа остановится. Это действие нельзя отменить."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu eklenti %@ üzerinden kaldırılacak. Kısayolları, ayarlar girişi ve özel eklenti verileri kalıcı olarak silinecek, arka plan çalışması duracak. Bu işlem geri alınamaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "它将从%@移除，快捷键、设置入口和插件私密数据也会永久删除，后台工作将停止。此操作无法撤销。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "它將從%@移除，快捷鍵、設定入口和外掛私密資料也會永久刪除，背景工作將停止。此操作無法還原。"
+          }
+        }
       }
     },
     "plugin.management.uninstall.confirmationTitle": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "هل تريد إلغاء تثبيت «%@»؟" } },
-        "de": { "stringUnit": { "state": "translated", "value": "„%@“ deinstallieren?" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Uninstall “%@”?" } },
-        "es": { "stringUnit": { "state": "translated", "value": "¿Desinstalar “%@”?" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Désinstaller « %@ » ?" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "「%@」をアンインストールしますか？" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "“%@”을(를) 제거할까요?" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Desinstalar “%@”?" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Удалить «%@»?" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "卸载“%@”？" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "解除安裝「%@」？" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هل تريد إلغاء تثبيت «%@»؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„%@“ deinstallieren?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uninstall “%@”?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Desinstalar “%@”?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Désinstaller « %@ » ?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「%@」をアンインストールしますか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@”을(를) 제거할까요?"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desinstalar “%@”?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить «%@»?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” kaldırılsın mı?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "卸载“%@”？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "解除安裝「%@」？"
+          }
+        }
       }
     },
     "plugin.management.uninstall.confirmationPausedNotice": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تم إيقاف تأكيدات إلغاء التثبيت مؤقتًا لجلسة الإعدادات هذه." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Deinstallationsbestätigungen sind für diese Einstellungen-Sitzung pausiert." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Uninstall confirmations are paused for this Settings session." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Las confirmaciones de desinstalación están pausadas durante esta sesión de Ajustes." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Les confirmations de désinstallation sont suspendues pour cette session de réglages." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "この設定セッションではアンインストールの確認が一時停止されています。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이 설정 세션에서는 제거 확인이 일시 중지됩니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "As confirmações de desinstalação estão pausadas nesta sessão de Ajustes." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Подтверждения удаления приостановлены для этого сеанса настроек." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "本次设置会话已暂停卸载确认。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "本次設定工作階段已暫停解除安裝確認。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم إيقاف تأكيدات إلغاء التثبيت مؤقتًا لجلسة الإعدادات هذه."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deinstallationsbestätigungen sind für diese Einstellungen-Sitzung pausiert."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uninstall confirmations are paused for this Settings session."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las confirmaciones de desinstalación están pausadas durante esta sesión de Ajustes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les confirmations de désinstallation sont suspendues pour cette session de réglages."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この設定セッションではアンインストールの確認が一時停止されています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 설정 세션에서는 제거 확인이 일시 중지됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As confirmações de desinstalação estão pausadas nesta sessão de Ajustes."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтверждения удаления приостановлены для этого сеанса настроек."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Ayarlar oturumunda kaldırma onayları duraklatıldı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本次设置会话已暂停卸载确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本次設定工作階段已暫停解除安裝確認。"
+          }
+        }
       }
     },
     "plugin.management.uninstall.pauseConfirmation": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "عدم السؤال مرة أخرى خلال جلسة الإعدادات هذه" } },
-        "de": { "stringUnit": { "state": "translated", "value": "In dieser Einstellungen-Sitzung nicht erneut fragen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Don’t ask again for this Settings session" } },
-        "es": { "stringUnit": { "state": "translated", "value": "No volver a preguntar en esta sesión de Ajustes" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ne plus demander pendant cette session de réglages" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "この設定セッションでは今後確認しない" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이 설정 세션에서는 다시 묻지 않기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não perguntar novamente nesta sessão de Ajustes" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Больше не спрашивать в этом сеансе настроек" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "在本次设置会话中不再询问" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "在本次設定工作階段中不再詢問" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عدم السؤال مرة أخرى خلال جلسة الإعدادات هذه"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In dieser Einstellungen-Sitzung nicht erneut fragen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Don’t ask again for this Settings session"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No volver a preguntar en esta sesión de Ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne plus demander pendant cette session de réglages"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この設定セッションでは今後確認しない"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 설정 세션에서는 다시 묻지 않기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não perguntar novamente nesta sessão de Ajustes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Больше не спрашивать в этом сеансе настроек"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Ayarlar oturumunda yeniden sorma"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在本次设置会话中不再询问"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在本次設定工作階段中不再詢問"
+          }
+        }
       }
     },
     "plugin.management.uninstall.resumeConfirmation": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إعادة تشغيل التأكيدات" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Bestätigungen wieder einschalten" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Turn Confirmations Back On" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Volver a activar las confirmaciones" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Réactiver les confirmations" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "確認を再びオンにする" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "확인 다시 켜기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Reativar confirmações" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Снова включить подтверждения" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "重新开启确认" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "重新開啟確認" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تشغيل التأكيدات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestätigungen wieder einschalten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn Confirmations Back On"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver a activar las confirmaciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réactiver les confirmations"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確認を再びオンにする"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "확인 다시 켜기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reativar confirmações"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Снова включить подтверждения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onayları Yeniden Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新开启确认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新開啟確認"
+          }
+        }
       }
     },
     "plugin.capability.both": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "البطاقات وصفوف الإجراءات" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Karten und Aktionszeilen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Cards and Action Rows" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Tarjetas y filas de acciones" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Cartes et lignes d’actions" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "カードとアクション行" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "카드 및 동작 행" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Cartões e linhas de ações" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Карточки и строки действий" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "卡片与功能行" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "卡片與功能列" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البطاقات وصفوف الإجراءات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karten und Aktionszeilen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cards and Action Rows"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarjetas y filas de acciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartes et lignes d’actions"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "カードとアクション行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "카드 및 동작 행"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartões e linhas de ações"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Карточки и строки действий"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kartlar ve Eylem Satırları"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "卡片与功能行"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "卡片與功能列"
+          }
+        }
       }
     },
     "plugin.capability.widget": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "البطاقات" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Karten" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Cards" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Tarjetas" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Cartes" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "カード" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "카드" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Cartões" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Карточки" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "卡片" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "卡片" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البطاقات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cards"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarjetas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "カード"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "카드"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartões"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Карточки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kartlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "卡片"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "卡片"
+          }
+        }
       }
     },
     "plugin.capability.row": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "صفوف الإجراءات" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Aktionszeilen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Action Rows" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Filas de acciones" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Lignes d’actions" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アクション行" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "동작 행" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Linhas de ações" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Строки действий" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "功能行" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "功能列" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صفوف الإجراءات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktionszeilen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Action Rows"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filas de acciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lignes d’actions"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクション行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동작 행"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linhas de ações"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Строки действий"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Satırları"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "功能行"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "功能列"
+          }
+        }
       }
     },
     "plugin.capability.settingsOnly": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "الإعدادات فقط" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Nur Einstellungen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Settings Only" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Solo ajustes" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Réglages uniquement" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "設定のみ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "설정만" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Somente ajustes" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Только настройки" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "仅设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "僅設定" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات فقط"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur Einstellungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings Only"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solo ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages uniquement"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定のみ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정만"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Somente ajustes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Только настройки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca Ayarlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "僅設定"
+          }
+        }
       }
     },
     "plugin.capability.unknown": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "ميزات الإضافة" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Plug-in-Funktionen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Plugin Features" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Funciones del complemento" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Fonctionnalités du module" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "プラグインの機能" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "플러그인 기능" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Recursos do plug-in" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Возможности плагина" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "插件功能" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "外掛功能" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ميزات الإضافة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plug-in-Funktionen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plugin Features"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funciones del complemento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fonctionnalités du module"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プラグインの機能"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플러그인 기능"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recursos do plug-in"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возможности плагина"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti Özellikleri"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "插件功能"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外掛功能"
+          }
+        }
       }
     },
     "plugin.management.openSettingsForPlugin": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "فتح إعدادات %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%@-Einstellungen öffnen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Open %@ Settings" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Abrir ajustes de %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ouvrir les réglages de %@" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%@の設定を開く" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%@ 설정 열기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Abrir ajustes de %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Открыть настройки %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "打开%@设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "打開%@設定" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح إعدادات %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@-Einstellungen öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open %@ Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir ajustes de %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir les réglages de %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@の設定を開く"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 설정 열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir ajustes de %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть настройки %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Ayarlarını Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开%@设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打開%@設定"
+          }
+        }
       }
     },
     "plugin.autoUpdate.detail.checking": {
@@ -395,6 +1511,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Установленные плагины проверяются в первую очередь при первом запуске этой версии."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu sürüm ilk kez başlatıldığında önce yüklü eklentiler denetlenir."
           }
         },
         "zh-Hans": {
@@ -468,6 +1590,12 @@
             "value": "Обновлены плагины %d."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d eklenti güncellendi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -537,6 +1665,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Вы можете повторить попытку на этой странице позже."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu sayfada daha sonra yeniden deneyebilirsiniz."
           }
         },
         "zh-Hans": {
@@ -610,6 +1744,12 @@
             "value": "Уже обновлено."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zaten güncel."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -679,6 +1819,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обновление %d установленных плагинов. Загрузка продолжится после обновления."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d yüklü eklenti güncelleniyor. Güncelleme sonrasında yüklemeye devam edilir."
           }
         },
         "zh-Hans": {
@@ -752,6 +1898,12 @@
             "value": "Установленные плагины уже обновлены."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklü eklentiler zaten güncel."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -821,6 +1973,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обновлены плагины %d."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d eklenti güncellendi."
           }
         },
         "zh-Hans": {
@@ -894,6 +2052,12 @@
             "value": "Обновление %d установленных плагинов."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d yüklü eklenti güncelleniyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -963,6 +2127,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка обновлений плагина"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti Güncellemeleri Denetleniyor"
           }
         },
         "zh-Hans": {
@@ -1036,6 +2206,12 @@
             "value": "Обновлены плагины"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklentiler Güncellendi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1105,6 +2281,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ошибка автоматического обновления плагина"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik Eklenti Güncellemesi Başarısız Oldu"
           }
         },
         "zh-Hans": {
@@ -1178,6 +2360,12 @@
             "value": "Обновление плагинов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklentiler Güncelleniyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1247,6 +2435,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обновление каталога плагинов…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti kataloğu yenileniyor…"
           }
         },
         "zh-Hans": {
@@ -1320,6 +2514,12 @@
             "value": "Установленными плагинами по-прежнему можно управлять."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklü eklentiler yine de yönetilebilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1389,6 +2589,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Каталог локальной разработки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel Geliştirme Kataloğu"
           }
         },
         "zh-Hans": {
@@ -1462,6 +2668,12 @@
             "value": "Каталог плагинов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti Kataloğu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1531,6 +2743,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Каталог плагинов не настроен"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti Kataloğu Yapılandırılmamış"
           }
         },
         "zh-Hans": {
@@ -1604,6 +2822,12 @@
             "value": "Все"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1673,6 +2897,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Аудио"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses"
           }
         },
         "zh-Hans": {
@@ -1746,6 +2976,12 @@
             "value": "Дисплей"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1815,6 +3051,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Мониторинг"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzleme"
           }
         },
         "zh-Hans": {
@@ -1888,6 +3130,12 @@
             "value": "Другое"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1957,6 +3205,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Производительность"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üretkenlik"
           }
         },
         "zh-Hans": {
@@ -2030,6 +3284,12 @@
             "value": "Очистка"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizleme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2099,6 +3359,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Система"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem"
           }
         },
         "zh-Hans": {
@@ -2172,6 +3438,12 @@
             "value": "Нет компонентов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bileşen Yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2241,6 +3513,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Этот плагин можно установить."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu eklenti yüklenebilir."
           }
         },
         "zh-Hans": {
@@ -2314,6 +3592,12 @@
             "value": "Из локального каталога плагинов разработки."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel geliştirme eklenti kataloğundan."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2383,6 +3667,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удален из интерфейса. Перезапустите, чтобы полностью освободить загруженный код."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arayüzden kaldırıldı. Yüklenen kodun tamamen boşaltılması için yeniden başlatın."
           }
         },
         "zh-Hans": {
@@ -2456,6 +3746,12 @@
             "value": "Новая версия будет активирована после перезапуска, а старый код будет полностью выпущен."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni sürüm, yeniden başlatma sonrasında etkinleşecek; eski kod tamamen boşaltılacak."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2525,6 +3821,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Эта версия была отозвана."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu sürüm geri çekildi."
           }
         },
         "zh-Hans": {
@@ -2598,6 +3900,12 @@
             "value": "Установлен %@, доступно обновление для %@."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklü: %@, güncelleme: %@."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2667,6 +3975,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştir"
           }
         },
         "zh-Hans": {
@@ -2740,6 +4054,12 @@
             "value": "Установить плагины"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti Yükle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2809,6 +4129,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть установленные плагины"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklü eklentileri aç"
           }
         },
         "zh-Hans": {
@@ -2882,6 +4208,12 @@
             "value": "Открытый магазин плагинов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti pazar yerini aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2951,6 +4283,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "или"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "veya"
           }
         },
         "zh-Hans": {
@@ -3024,6 +4362,12 @@
             "value": "плагины"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "eklenti"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3093,6 +4437,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось обновить некоторые плагины: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bazı eklenti güncellemeleri başarısız oldu: %@"
           }
         },
         "zh-Hans": {
@@ -3166,6 +4516,12 @@
             "value": "Список плагинов содержит дубликат плагина: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti listesi yinelenen bir eklenti içeriyor: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3235,6 +4591,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Плагин не найден в каталоге плагинов: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti, eklenti kataloğunda bulunamadı: %@"
           }
         },
         "zh-Hans": {
@@ -3308,6 +4670,12 @@
             "value": "Сбой миграции функции плагина %@: %@; откат также не выполнен: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti özellik geçişi %@ başarısız oldu: %@; geri alma da başarısız oldu: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3377,6 +4745,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Плагины обновлены, но не удалось сохранить состояние завершённой миграции. Восстановление продолжится при следующем запуске."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklentiler güncellendi, ancak tamamlanan geçiş durumu kaydedilemedi. Kurtarma işlemi bir sonraki açılışta devam edecek."
           }
         },
         "zh-Hans": {
@@ -3450,6 +4824,12 @@
             "value": "Состояние плагинов изменилось. Повторите обновление."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti durumu değişti. Güncellemeyi yeniden deneyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3519,6 +4899,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось сохранить состояние миграции плагина. Обновление остановлено."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti geçiş durumu kaydedilemedi. Güncelleme durduruldu."
           }
         },
         "zh-Hans": {
@@ -3592,6 +4978,12 @@
             "value": "Ошибка чтения списка плагинов: HTTP %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti listesi okunamadı: HTTP %d"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3661,6 +5053,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Для каталога плагинов требуется MacTools %@ или более поздняя версия. Текущая версия: %@."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti kataloğu MacTools %@ veya üzerini gerektiriyor. Geçerli sürüm: %@."
           }
         },
         "zh-Hans": {
@@ -3734,6 +5132,12 @@
             "value": "Неверная контрольная сумма пакета плагина: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz eklenti paketi sağlama toplamı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3803,6 +5207,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Идентификатор каталога плагинов недействителен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti kataloğu kimliği geçersiz."
           }
         },
         "zh-Hans": {
@@ -3876,6 +5286,12 @@
             "value": "Неверный размер пакета плагина: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz eklenti paketi boyutu: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3945,6 +5361,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неподдерживаемый пакет плагинов URL: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmeyen eklenti paketi URL'si: %@"
           }
         },
         "zh-Hans": {
@@ -4018,6 +5440,12 @@
             "value": "Подпись каталога плагинов не совпадает."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti kataloğu imzası eşleşmiyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4087,6 +5515,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Локальный каталог плагинов должен использовать файл URL: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel eklenti kataloğu bir dosya URL'si kullanmalı: %@"
           }
         },
         "zh-Hans": {
@@ -4160,6 +5594,12 @@
             "value": "В каталоге плагинов отсутствует связанный открытый ключ."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti kataloğunda paketle gelen genel anahtar eksik."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4229,6 +5669,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "В каталоге рабочих плагинов отсутствует подпись."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üretim eklenti kataloğunda imza eksik."
           }
         },
         "zh-Hans": {
@@ -4302,6 +5748,12 @@
             "value": "Плагин отозван: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti geri çekildi: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4371,6 +5823,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось проверить подпись каталога плагинов."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti kataloğu imzası doğrulanamadı."
           }
         },
         "zh-Hans": {
@@ -4444,6 +5902,12 @@
             "value": "Неподдерживаемая версия SDK каталога плагинов: %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmeyen eklenti kataloğu SDK sürümü: %d"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4513,6 +5977,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неподдерживаемая версия каталога плагинов: %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmeyen eklenti kataloğu sürümü: %d"
           }
         },
         "zh-Hans": {
@@ -4586,6 +6056,12 @@
             "value": "Неподдерживаемый алгоритм подписи каталога плагинов: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmeyen eklenti kataloğu imza algoritması: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4655,6 +6131,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Вызов плагина не вернул результат."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti çağrısı bir sonuç döndürmedi."
           }
         },
         "zh-Hans": {
@@ -4728,6 +6210,12 @@
             "value": "Несоответствие идентификатора плагина. Манифест: %@, код времени выполнения: %@."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti kimliği eşleşmiyor. Manifest: %@, çalışma zamanı kodu: %@."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4797,6 +6285,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пакет плагинов %@ должен возвращать ровно 1 плагин. Он вернул %d."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ eklenti paketi tam olarak 1 eklenti döndürmelidir; %d döndürdü."
           }
         },
         "zh-Hans": {
@@ -4870,6 +6364,12 @@
             "value": "Не удалось загрузить код плагина: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti kodu yüklenemedi: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4939,6 +6439,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "У плагина отсутствует фабрика ввода: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklentide giriş fabrikası eksik: %@"
           }
         },
         "zh-Hans": {
@@ -5012,6 +6518,12 @@
             "value": "Не удалось прочитать пакет плагина: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti paketi okunamadı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5081,6 +6593,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Изменение пакета плагина должен выполнить координатор миграции функций: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti paketi değişikliği, özellik geçişi koordinatörü tarafından yapılmalıdır: %@"
           }
         },
         "zh-Hans": {
@@ -5154,6 +6672,12 @@
             "value": "Версия целевого плагина для миграции функции устарела."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özellik geçişi için hedef eklenti sürümü çok eski."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5223,6 +6747,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Целевой плагин для миграции функции не готов."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özellik geçişi için hedef eklenti hazır değil."
           }
         },
         "zh-Hans": {
@@ -5296,6 +6826,12 @@
             "value": "Запись установленного плагина не найдена: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklü eklenti kaydı bulunamadı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5365,6 +6901,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нельзя откатить используемый пакет плагина: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanımda olan eklenti paketi geri alınamaz: %@"
           }
         },
         "zh-Hans": {
@@ -5438,6 +6980,12 @@
             "value": "Сбой проверки плагина %@ во время выполнения: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ eklentisi için çalışma zamanı doğrulaması başarısız oldu: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5507,6 +7055,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Загрузчик плагина не вернул пригодный для использования плагин."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti yükleyicisi kullanılabilir bir eklenti döndürmedi."
           }
         },
         "zh-Hans": {
@@ -5580,6 +7134,12 @@
             "value": "Загрузчик плагина не вернул результат проверки."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti yükleyicisi bir doğrulama sonucu döndürmedi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5649,6 +7209,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Плагин не поддерживает проверку готовности к миграции функций."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti, özellik geçişi hazırlık denetimlerini desteklemiyor."
           }
         },
         "zh-Hans": {
@@ -5722,6 +7288,12 @@
             "value": "Для плагина требуется MacTools %@ или более поздняя версия. Текущая версия: %@."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti, MacTools %@ veya üzerini gerektiriyor. Geçerli sürüm: %@."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5791,6 +7363,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неверный путь записи плагина: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz eklenti giriş yolu: %@"
           }
         },
         "zh-Hans": {
@@ -5864,6 +7442,12 @@
             "value": "Неверный идентификатор плагина: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz eklenti kimliği: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5933,6 +7517,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неверная версия плагина: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz eklenti sürümü: %@"
           }
         },
         "zh-Hans": {
@@ -6006,6 +7596,12 @@
             "value": "У плагина отсутствует манифест: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklentide manifest eksik: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6075,6 +7671,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось прочитать манифест плагина: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti manifesti okunamadı: %@"
           }
         },
         "zh-Hans": {
@@ -6148,6 +7750,12 @@
             "value": "Неподдерживаемая версия SDK плагина: %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmeyen eklenti SDK sürümü: %d"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6217,6 +7825,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Несоответствие контрольной суммы пакета плагина. Ожидалось %@, получено %@."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti paketi sağlama toplamı eşleşmiyor. Beklenen: %@, bulunan: %@."
           }
         },
         "zh-Hans": {
@@ -6290,6 +7904,12 @@
             "value": "Ошибка загрузки пакета плагина: HTTP %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti paketi indirilemedi: HTTP %d"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6359,6 +7979,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Извлеченный архив плагина недействителен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açılan eklenti arşivi geçersiz."
           }
         },
         "zh-Hans": {
@@ -6432,6 +8058,12 @@
             "value": "Манифест пакета плагина не соответствует каталогу плагинов: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti paketi manifesti, eklenti kataloğuyla eşleşmiyor: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6501,6 +8133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Локальный пакет плагина не существует: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel eklenti paketi mevcut değil: %@"
           }
         },
         "zh-Hans": {
@@ -6574,6 +8212,12 @@
             "value": "Несоответствие размера пакета плагина. Ожидалось %lld, получено %lld."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti paketi boyutu eşleşmiyor. Beklenen: %lld, bulunan: %lld."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6643,6 +8287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пакет плагина слишком велик: %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti paketi çok büyük: %lld"
           }
         },
         "zh-Hans": {
@@ -6716,6 +8366,12 @@
             "value": "Архив плагина содержит небезопасный путь."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti arşivi güvenli olmayan bir yol içeriyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6785,6 +8441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неподдерживаемый формат пакета плагина: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmeyen eklenti paketi biçimi: %@"
           }
         },
         "zh-Hans": {
@@ -6858,6 +8520,12 @@
             "value": "Неподдерживаемый пакет плагинов URL: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmeyen eklenti paketi URL'si: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6927,6 +8595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ошибка извлечения архива плагина: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti arşivi açılamadı: %@"
           }
         },
         "zh-Hans": {
@@ -7000,6 +8674,12 @@
             "value": "Плагин уже установлен: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti zaten yüklü: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7069,6 +8749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Запись о плагине не существует: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti girişi mevcut değil: %@"
           }
         },
         "zh-Hans": {
@@ -7142,6 +8828,12 @@
             "value": "Ошибка установки плагина: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti yüklemesi başarısız oldu: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7211,6 +8903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Для плагина требуется MacTools %@ или более поздняя версия. Текущая версия: %@."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti, MacTools %@ veya üzerini gerektiriyor. Geçerli sürüm: %@."
           }
         },
         "zh-Hans": {
@@ -7284,6 +8982,12 @@
             "value": "Версия Plugin SDK несовместима. Установленная версия: %d, поддерживаемая версия: %d. Обновите плагин."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti SDK sürümü uyumsuz. Yüklü sürüm: %d, desteklenen sürüm: %d. Eklentiyi güncelleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7353,6 +9057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неверный пакет плагина: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz eklenti paketi: %@"
           }
         },
         "zh-Hans": {
@@ -7426,6 +9136,12 @@
             "value": "Плагин не найден: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti bulunamadı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7495,6 +9211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось прочитать запись плагина после установки."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklemeden sonra eklenti kaydı okunamadı."
           }
         },
         "zh-Hans": {
@@ -7568,6 +9290,12 @@
             "value": "Не удалось сохранить состояние миграции плагина. Плагин не был удалён."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti geçiş durumu kaydedilemedi. Eklenti kaldırılmadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7585,33 +9313,155 @@
     "plugin.error.store.privateDataRemovalFailedFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذرت إزالة بيانات الإضافة الخاصة: %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Private Plug-in-Daten konnten nicht entfernt werden: %@" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Couldn’t remove private plugin data: %@" } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudieron eliminar los datos privados del complemento: %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible de supprimer les données privées du module : %@" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "プラグインの非公開データを削除できませんでした：%@" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "플러그인의 비공개 데이터를 제거할 수 없음: %@" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível remover os dados privados do plug-in: %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось удалить конфиденциальные данные плагина: %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法移除插件私密数据：%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法移除外掛私密資料：%@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذرت إزالة بيانات الإضافة الخاصة: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Private Plug-in-Daten konnten nicht entfernt werden: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t remove private plugin data: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron eliminar los datos privados del complemento: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de supprimer les données privées du module : %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プラグインの非公開データを削除できませんでした：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플러그인의 비공개 데이터를 제거할 수 없음: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível remover os dados privados do plug-in: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось удалить конфиденциальные данные плагина: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel eklenti verileri kaldırılamadı: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法移除插件私密数据：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法移除外掛私密資料：%@"
+          }
+        }
       }
     },
     "plugin.error.store.privateUninstallPending": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "لم يكتمل تنظيف البيانات الخاصة من إزالة التثبيت السابقة. حاول التثبيت مرة أخرى لاحقًا." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die privaten Daten der vorherigen Deinstallation wurden noch nicht vollständig entfernt. Versuche die Installation später erneut." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Private data cleanup from the previous uninstall is incomplete. Try installing again later." } },
-        "es": { "stringUnit": { "state": "translated", "value": "La limpieza de los datos privados de la desinstalación anterior no ha terminado. Intenta instalar de nuevo más tarde." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Le nettoyage des données privées de la désinstallation précédente n’est pas terminé. Réessayez l’installation plus tard." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "前回のアンインストールで非公開データの削除が完了していません。しばらくしてから再度インストールしてください。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이전 제거에서 비공개 데이터 정리가 완료되지 않았습니다. 나중에 다시 설치해 주세요." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "A limpeza dos dados privados da desinstalação anterior não foi concluída. Tente instalar novamente mais tarde." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Очистка конфиденциальных данных после предыдущего удаления не завершена. Попробуйте установить плагин позже." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "上次卸载的私密数据尚未清理完成，请稍后重试安装。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "上次解除安裝的私密資料尚未清理完成，請稍後重試安裝。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يكتمل تنظيف البيانات الخاصة من إزالة التثبيت السابقة. حاول التثبيت مرة أخرى لاحقًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die privaten Daten der vorherigen Deinstallation wurden noch nicht vollständig entfernt. Versuche die Installation später erneut."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Private data cleanup from the previous uninstall is incomplete. Try installing again later."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La limpieza de los datos privados de la desinstalación anterior no ha terminado. Intenta instalar de nuevo más tarde."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le nettoyage des données privées de la désinstallation précédente n’est pas terminé. Réessayez l’installation plus tard."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前回のアンインストールで非公開データの削除が完了していません。しばらくしてから再度インストールしてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이전 제거에서 비공개 데이터 정리가 완료되지 않았습니다. 나중에 다시 설치해 주세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A limpeza dos dados privados da desinstalação anterior não foi concluída. Tente instalar novamente mais tarde."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очистка конфиденциальных данных после предыдущего удаления не завершена. Попробуйте установить плагин позже."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki kaldırmadan kalan özel veri temizliği tamamlanmadı. Yüklemeyi daha sonra yeniden deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次卸载的私密数据尚未清理完成，请稍后重试安装。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次解除安裝的私密資料尚未清理完成，請稍後重試安裝。"
+          }
+        }
       }
     },
     "plugin.error.store.removeFailedFormat": {
@@ -7669,6 +9519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось удалить плагин: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti kaldırma işlemi başarısız oldu: %@"
           }
         },
         "zh-Hans": {
@@ -7742,6 +9598,12 @@
             "value": "Не удалось определить команду, подписавшую хост. Загрузка плагина отклонена."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana uygulamanın imza ekibi belirlenemedi. Eklenti yüklemesi reddedildi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7811,6 +9673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка подписи плагина не удалась: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti imza denetimi başarısız oldu: %@"
           }
         },
         "zh-Hans": {
@@ -7884,6 +9752,12 @@
             "value": "Несоответствие команды подписи плагинов. Ожидалось %@, получено %@."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti imza ekibi eşleşmiyor. Beklenen: %@, bulunan: %@."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7953,6 +9827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось прочитать команду подписи плагина: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti imza ekibi okunamadı: %@"
           }
         },
         "zh-Hans": {
@@ -8026,6 +9906,12 @@
             "value": "Очистить поиск"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aramayı Temizle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8095,6 +9981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Измените ключевое слово или переключите категории."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anahtar sözcüğü değiştirin ya da kategoriler arasında geçiş yapın."
           }
         },
         "zh-Hans": {
@@ -8168,6 +10060,12 @@
             "value": "Нет подходящих плагинов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleşen Eklenti Yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8237,6 +10135,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Поиск по названию или сводке плагина"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti adını veya özetini arayın"
           }
         },
         "zh-Hans": {
@@ -8310,6 +10214,12 @@
             "value": "Обновите каталог плагинов, чтобы устанавливать, обновлять и удалять плагины здесь."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buradan eklenti yüklemek, güncellemek ve kaldırmak için eklenti kataloğunu yenileyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8379,6 +10289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет плагинов"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti Yok"
           }
         },
         "zh-Hans": {
@@ -8452,6 +10368,12 @@
             "value": "Установить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8521,6 +10443,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Установка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleniyor"
           }
         },
         "zh-Hans": {
@@ -8594,6 +10522,12 @@
             "value": "Ошибка работы плагина"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti İşlemi Başarısız Oldu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8663,6 +10597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обновить список"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listeyi Yenile"
           }
         },
         "zh-Hans": {
@@ -8736,6 +10676,12 @@
             "value": "Перезагрузить сейчас"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şimdi Yeniden Başlat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8805,6 +10751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Устанавливайте, обновляйте плагины MacTools и управляйте ими."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools eklentilerini yükleyin, güncelleyin ve yönetin."
           }
         },
         "zh-Hans": {
@@ -8878,6 +10830,12 @@
             "value": "Каталог плагинов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pazar Yeri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8947,6 +10905,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaldır"
           }
         },
         "zh-Hans": {
@@ -9020,6 +10984,12 @@
             "value": "Обновить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncelle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9089,6 +11059,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обновить все"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümünü Güncelle"
           }
         },
         "zh-Hans": {
@@ -9162,6 +11138,12 @@
             "value": "Обновление"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncelleniyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9231,6 +11213,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Действие"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem"
           }
         },
         "zh-Hans": {
@@ -9304,6 +11292,12 @@
             "value": "Яркость дисплея"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Parlaklığı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9373,6 +11367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Загрузка плагинов"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklentiler Yükleniyor"
           }
         },
         "zh-Hans": {
@@ -9446,6 +11446,12 @@
             "value": "Нет плагинов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti Yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9515,6 +11521,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверить разрешение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzni Denetle"
           }
         },
         "zh-Hans": {
@@ -9588,6 +11600,12 @@
             "value": "Разрешено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verildi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9657,6 +11675,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не предоставлено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verilmedi"
           }
         },
         "zh-Hans": {
@@ -9730,6 +11754,12 @@
             "value": "Открыть настройки разрешений"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin Ayarlarını Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9799,6 +11829,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть настройки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarları Aç"
           }
         },
         "zh-Hans": {
@@ -9872,6 +11908,12 @@
             "value": "Запрос разрешения"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin İste"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9941,6 +11983,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Компонент"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bileşen"
           }
         },
         "zh-Hans": {
@@ -10014,6 +12062,12 @@
             "value": "Панель и компонент"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel ve Bileşen"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10083,6 +12137,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Панель"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel"
           }
         },
         "zh-Hans": {
@@ -10156,6 +12216,12 @@
             "value": "Ярлык недоступен."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol kullanılamıyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10225,6 +12291,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Доступно"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklenebilir"
           }
         },
         "zh-Hans": {
@@ -10298,6 +12370,12 @@
             "value": "Ошибка загрузки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklenemedi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10367,6 +12445,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Несовместимо"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uyumsuz"
           }
         },
         "zh-Hans": {
@@ -10440,6 +12524,12 @@
             "value": "Установлен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10509,6 +12599,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Местная разработка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel Geliştirme"
           }
         },
         "zh-Hans": {
@@ -10582,6 +12678,12 @@
             "value": "Требуется перезагрузка"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden Başlatma Gerekli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10651,6 +12753,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отменено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri Çekildi"
           }
         },
         "zh-Hans": {
@@ -10724,6 +12832,12 @@
             "value": "Доступно обновление"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncelleme Var"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10793,6 +12907,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Завершено %d/%d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d/%d tamamlandı"
           }
         },
         "zh-Hans": {
@@ -10866,6 +12986,12 @@
             "value": "Обновление завершено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncelleme Tamamlandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10935,6 +13061,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Завершено %d/%d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d/%d tamamlandı"
           }
         },
         "zh-Hans": {
@@ -11008,6 +13140,12 @@
             "value": "Панель компонентов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bileşen Paneli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -11077,6 +13215,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скопировано"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopyalandı"
           }
         },
         "zh-Hans": {
@@ -11150,6 +13294,12 @@
             "value": "Дважды нажмите, чтобы скопировать"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopyalamak için çift tıklayın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -11219,6 +13369,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Копировать IP"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IP'yi Kopyala"
           }
         },
         "zh-Hans": {
@@ -11292,6 +13448,12 @@
             "value": "Панель функций"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özellik Paneli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -11309,28 +13471,22 @@
     "plugin.marketplace.sort.label": {
       "extractionState": "manual",
       "localizations": {
-        "en": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sort"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "排序"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "排序"
+            "value": "فرز"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Sortieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sort"
           }
         },
         "es": {
@@ -11369,10 +13525,22 @@
             "value": "Сортировка"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "فرز"
+            "value": "Sırala"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "排序"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "排序"
           }
         }
       }
@@ -11380,28 +13548,22 @@
     "plugin.marketplace.sort.help": {
       "extractionState": "manual",
       "localizations": {
-        "en": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "Change marketplace list order. Does not affect menu bar feature order."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "调整市场列表排序，不影响菜单栏功能顺序。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "調整市場列表排序，不影響選單列功能順序。"
+            "value": "يغيّر ترتيب قائمة المتجر. لا يؤثر على ترتيب شريط القوائم."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Ändert die Reihenfolge der Marktliste. Beeinflusst nicht die Menüleisten-Reihenfolge."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change marketplace list order. Does not affect menu bar feature order."
           }
         },
         "es": {
@@ -11440,10 +13602,22 @@
             "value": "Изменяет порядок списка магазина. Не влияет на порядок функций в строке меню."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "يغيّر ترتيب قائمة المتجر. لا يؤثر على ترتيب شريط القوائم."
+            "value": "Pazar yeri liste sırasını değiştirir; menü çubuğundaki özellik sırasını etkilemez."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "调整市场列表排序，不影响菜单栏功能顺序。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "調整市場列表排序，不影響選單列功能順序。"
           }
         }
       }
@@ -11451,25 +13625,19 @@
     "plugin.marketplace.sort.nameAscending": {
       "extractionState": "manual",
       "localizations": {
-        "en": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاسم (تصاعدي)"
+          }
+        },
+        "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Name A → Z"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "名称（升序）"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "名稱（遞增）"
-          }
-        },
-        "de": {
+        "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Name A → Z"
@@ -11511,10 +13679,22 @@
             "value": "Имя (по возрастанию)"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الاسم (تصاعدي)"
+            "value": "Ad (A → Z)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名称（升序）"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名稱（遞增）"
           }
         }
       }
@@ -11522,25 +13702,19 @@
     "plugin.marketplace.sort.nameDescending": {
       "extractionState": "manual",
       "localizations": {
-        "en": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاسم (تنازلي)"
+          }
+        },
+        "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Name Z → A"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "名称（降序）"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "名稱（遞減）"
-          }
-        },
-        "de": {
+        "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Name Z → A"
@@ -11582,10 +13756,22 @@
             "value": "Имя (по убыванию)"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الاسم (تنازلي)"
+            "value": "Ad (Z → A)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名称（降序）"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名稱（遞減）"
           }
         }
       }
@@ -11593,28 +13779,22 @@
     "plugin.marketplace.sort.notInstalledFirst": {
       "extractionState": "manual",
       "localizations": {
-        "en": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "Not Installed First"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未安装优先"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未安裝優先"
+            "value": "غير المثبتة أولاً"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Nicht installierte zuerst"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not Installed First"
           }
         },
         "es": {
@@ -11653,10 +13833,22 @@
             "value": "Сначала не установленные"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "غير المثبتة أولاً"
+            "value": "Önce Yüklü Olmayanlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未安装优先"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未安裝優先"
           }
         }
       }
@@ -11664,28 +13856,22 @@
     "plugin.marketplace.sort.installedFirst": {
       "extractionState": "manual",
       "localizations": {
-        "en": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "Installed First"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已安装优先"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已安裝優先"
+            "value": "المثبتة أولاً"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Installierte zuerst"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installed First"
           }
         },
         "es": {
@@ -11724,10 +13910,22 @@
             "value": "Сначала установленные"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "المثبتة أولاً"
+            "value": "Önce Yüklü Olanlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安装优先"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安裝優先"
           }
         }
       }

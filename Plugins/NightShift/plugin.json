@@ -39,6 +39,10 @@
       "displayName": "Night Shift",
       "summary": "Уменьшите синий свет с помощью более теплых цветов экрана."
     },
+    "tr": {
+      "displayName": "Night Shift",
+      "summary": "Daha sıcak ekran renkleriyle mavi ışığı azaltın."
+    },
     "zh-Hans": {
       "displayName": "夜览",
       "summary": "降低蓝光，使屏幕颜色更暖"
@@ -121,6 +125,9 @@
         "Night Shift"
       ],
       "ru": [
+        "Night Shift"
+      ],
+      "tr": [
         "Night Shift"
       ],
       "zh-Hans": [

@@ -58,6 +58,12 @@
             "value": "Приложение недоступно: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama kullanılamıyor: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось создать папку: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasör oluşturulamadı: %@"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Не удалось создать файл: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya oluşturulamadı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Папка недоступна: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasör kullanılamıyor: %@"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Нет действительных файлов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli dosya yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неподдерживаемый тип файла: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmeyen dosya türü: %@"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Копировать абсолютный путь"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mutlak Yolu Kopyala"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Копировать имя файла"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Adını Kopyala"
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Копировать ссылку file://"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "file:// Bağlantısını Kopyala"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Копировать относительный путь"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Göreceli Yolu Kopyala"
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Копировать экранированный путь"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaçışlı Yolu Kopyala"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Новый файл"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni Dosya"
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "Текстовый файл (.txt)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metin Dosyası (.txt)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -979,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Новая папка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni Klasör"
           }
         },
         "zh-Hans": {
@@ -1052,6 +1136,12 @@
             "value": "Открыть в терминале"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminal'de Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1121,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть с помощью"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Birlikte Aç"
           }
         },
         "zh-Hans": {
@@ -1194,6 +1290,12 @@
             "value": "MacTools Щелкните правой кнопкой мыши"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools Sağ Tıklama"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1265,6 +1367,12 @@
             "value": "Новая папка"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni Klasör"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1334,6 +1442,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Без названия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adsız"
           }
         },
         "zh-Hans": {

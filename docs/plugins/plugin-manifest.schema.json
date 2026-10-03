@@ -248,7 +248,7 @@
     },
     "completeLocalizedText": {
       "type": "object",
-      "required": ["ar", "de", "en", "es", "fr", "ja", "ko", "pt", "ru", "zh-Hans", "zh-Hant"],
+      "required": ["ar", "de", "en", "es", "fr", "ja", "ko", "pt", "ru", "tr", "zh-Hans", "zh-Hant"],
       "properties": {
         "ar": {"type": "string", "minLength": 1}, "de": {"type": "string", "minLength": 1},
         "en": {"type": "string", "minLength": 1}, "es": {"type": "string", "minLength": 1},
@@ -261,7 +261,7 @@
     },
     "completeLocalizedStringArrays": {
       "type": "object",
-      "required": ["ar", "de", "en", "es", "fr", "ja", "ko", "pt", "ru", "zh-Hans", "zh-Hant"],
+      "required": ["ar", "de", "en", "es", "fr", "ja", "ko", "pt", "ru", "tr", "zh-Hans", "zh-Hant"],
       "properties": {
         "ar": {"$ref": "#/$defs/uniqueStrings"}, "de": {"$ref": "#/$defs/uniqueStrings"},
         "en": {"$ref": "#/$defs/uniqueStrings"}, "es": {"$ref": "#/$defs/uniqueStrings"},

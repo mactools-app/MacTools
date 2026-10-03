@@ -14,6 +14,7 @@ enum AppLanguagePreference: String, CaseIterable, Identifiable {
     case ja
     case ko
     case ar
+    case tr
 
     static let userDefaultsKey = "app.languagePreference"
 
@@ -48,6 +49,8 @@ enum AppLanguagePreference: String, CaseIterable, Identifiable {
             return AppL10n.settings("language.ko", defaultValue: "한국어")
         case .ar:
             return AppL10n.settings("language.ar", defaultValue: "العربية")
+        case .tr:
+            return AppL10n.settings("language.tr", defaultValue: "Türkçe")
         }
     }
 
@@ -104,6 +107,8 @@ enum AppLanguagePreference: String, CaseIterable, Identifiable {
             return ["ko"]
         case .ar:
             return ["ar"]
+        case .tr:
+            return ["tr"]
         }
     }
 
@@ -133,6 +138,8 @@ enum AppLanguagePreference: String, CaseIterable, Identifiable {
             "ko"
         case .ar:
             "ar"
+        case .tr:
+            "tr"
         }
     }
 
@@ -162,6 +169,8 @@ enum AppLanguagePreference: String, CaseIterable, Identifiable {
             "한국어"
         case .ar:
             "العربية"
+        case .tr:
+            "Türkçe"
         }
     }
 

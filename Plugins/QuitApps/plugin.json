@@ -39,6 +39,10 @@
       "displayName": "Закрыть приложения",
       "summary": "Выберите запущенные приложения, которые хотите закрыть, или закройте их все сразу."
     },
+    "tr": {
+      "displayName": "Uygulamalardan Çıkma",
+      "summary": "Çıkmak istediğiniz açık uygulamaları seçin ya da hepsinden birden çıkın."
+    },
     "zh-Hans": {
       "displayName": "退出应用",
       "summary": "选择并退出正在运行的应用，或一键退出全部"
@@ -117,6 +121,9 @@
       ],
       "ru": [
         "Закрыть приложения"
+      ],
+      "tr": [
+        "Uygulamalardan Çıkma"
       ],
       "zh-Hans": [
         "退出应用"

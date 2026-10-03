@@ -39,6 +39,10 @@
       "displayName": "Горячие клавиши приложений",
       "summary": "Привяжите глобальные ярлыки к общим приложениям для быстрого запуска или переключения."
     },
+    "tr": {
+      "displayName": "Uygulama Kısayolları",
+      "summary": "Sık kullandığınız uygulamalara hızlı başlatma veya geçiş için genel kısayollar atayın."
+    },
     "zh-Hans": {
       "displayName": "应用快捷键",
       "summary": "为常用应用绑定全局快捷键，快速打开或切换到前台"
@@ -121,6 +125,9 @@
       ],
       "ru": [
         "Горячие клавиши приложений"
+      ],
+      "tr": [
+        "Uygulama Kısayolları"
       ],
       "zh-Hans": [
         "应用快捷键"

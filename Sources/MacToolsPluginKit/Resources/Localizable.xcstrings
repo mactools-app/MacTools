@@ -1,61 +1,926 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
-    "keyboardKey.side.left": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"يسار"}},"de":{"stringUnit":{"state":"translated","value":"Links"}},"en":{"stringUnit":{"state":"translated","value":"Left"}},"es":{"stringUnit":{"state":"translated","value":"Izquierda"}},"fr":{"stringUnit":{"state":"translated","value":"Gauche"}},"ja":{"stringUnit":{"state":"translated","value":"左"}},"ko":{"stringUnit":{"state":"translated","value":"왼쪽"}},"pt":{"stringUnit":{"state":"translated","value":"Esquerda"}},"ru":{"stringUnit":{"state":"translated","value":"Слева"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"左侧"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"左側"}}}},
-    "keyboardKey.side.right": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"يمين"}},"de":{"stringUnit":{"state":"translated","value":"Rechts"}},"en":{"stringUnit":{"state":"translated","value":"Right"}},"es":{"stringUnit":{"state":"translated","value":"Derecha"}},"fr":{"stringUnit":{"state":"translated","value":"Droite"}},"ja":{"stringUnit":{"state":"translated","value":"右"}},"ko":{"stringUnit":{"state":"translated","value":"오른쪽"}},"pt":{"stringUnit":{"state":"translated","value":"Direita"}},"ru":{"stringUnit":{"state":"translated","value":"Справа"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"右侧"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"右側"}}}},
-    "keyboardKeyTap.group.keypad": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"لوحة الأرقام"}},"de":{"stringUnit":{"state":"translated","value":"Ziffernblock"}},"en":{"stringUnit":{"state":"translated","value":"Keypad"}},"es":{"stringUnit":{"state":"translated","value":"Teclado numérico"}},"fr":{"stringUnit":{"state":"translated","value":"Pavé numérique"}},"ja":{"stringUnit":{"state":"translated","value":"テンキー"}},"ko":{"stringUnit":{"state":"translated","value":"숫자 키패드"}},"pt":{"stringUnit":{"state":"translated","value":"Teclado numérico"}},"ru":{"stringUnit":{"state":"translated","value":"Цифровая клавиатура"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"数字键盘"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"數字鍵盤"}}}},
-    "keyboardKeyTap.group.modifiers": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"مفاتيح التعديل"}},"de":{"stringUnit":{"state":"translated","value":"Sondertasten"}},"en":{"stringUnit":{"state":"translated","value":"Modifier Keys"}},"es":{"stringUnit":{"state":"translated","value":"Teclas modificadoras"}},"fr":{"stringUnit":{"state":"translated","value":"Touches de modification"}},"ja":{"stringUnit":{"state":"translated","value":"修飾キー"}},"ko":{"stringUnit":{"state":"translated","value":"보조 키"}},"pt":{"stringUnit":{"state":"translated","value":"Teclas modificadoras"}},"ru":{"stringUnit":{"state":"translated","value":"Клавиши-модификаторы"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"修饰键"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"修飾鍵"}}}},
-    "keyboardKeyTap.group.navigation": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"التنقل والتحرير"}},"de":{"stringUnit":{"state":"translated","value":"Navigation und Bearbeitung"}},"en":{"stringUnit":{"state":"translated","value":"Navigation & Editing"}},"es":{"stringUnit":{"state":"translated","value":"Navegación y edición"}},"fr":{"stringUnit":{"state":"translated","value":"Navigation et édition"}},"ja":{"stringUnit":{"state":"translated","value":"ナビゲーションと編集"}},"ko":{"stringUnit":{"state":"translated","value":"탐색 및 편집"}},"pt":{"stringUnit":{"state":"translated","value":"Navegação e edição"}},"ru":{"stringUnit":{"state":"translated","value":"Навигация и редактирование"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"导航与编辑"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"導覽與編輯"}}}},
-    "keyboardKeyTap.group.other": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"مفاتيح أخرى"}},"de":{"stringUnit":{"state":"translated","value":"Weitere Tasten"}},"en":{"stringUnit":{"state":"translated","value":"Other Keys"}},"es":{"stringUnit":{"state":"translated","value":"Otras teclas"}},"fr":{"stringUnit":{"state":"translated","value":"Autres touches"}},"ja":{"stringUnit":{"state":"translated","value":"その他のキー"}},"ko":{"stringUnit":{"state":"translated","value":"기타 키"}},"pt":{"stringUnit":{"state":"translated","value":"Outras teclas"}},"ru":{"stringUnit":{"state":"translated","value":"Другие клавиши"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"其他按键"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"其他按鍵"}}}},
-    "keyboardKeyTap.pickerHelp": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"اختر المفتاح المراد إرساله من القائمة."}},"de":{"stringUnit":{"state":"translated","value":"Wähle die zu sendende Taste aus der Liste."}},"en":{"stringUnit":{"state":"translated","value":"Choose the key to send from the list."}},"es":{"stringUnit":{"state":"translated","value":"Elige en la lista la tecla que se enviará."}},"fr":{"stringUnit":{"state":"translated","value":"Choisissez dans la liste la touche à envoyer."}},"ja":{"stringUnit":{"state":"translated","value":"送信するキーをリストから選択します。"}},"ko":{"stringUnit":{"state":"translated","value":"목록에서 보낼 키를 선택하십시오."}},"pt":{"stringUnit":{"state":"translated","value":"Escolha na lista a tecla a enviar."}},"ru":{"stringUnit":{"state":"translated","value":"Выберите в списке клавишу для отправки."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"从列表中选择要发送的按键。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"從列表中選擇要傳送的按鍵。"}}}},
-    "keyboardKeyTap.unsupportedHelp": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"مفتاح Caps Lock ومفاتيح الوسائط غير مدعومة."}},"de":{"stringUnit":{"state":"translated","value":"Feststelltaste und Medientasten werden nicht unterstützt."}},"en":{"stringUnit":{"state":"translated","value":"Caps Lock and media keys are not supported."}},"es":{"stringUnit":{"state":"translated","value":"Bloq Mayús y las teclas multimedia no son compatibles."}},"fr":{"stringUnit":{"state":"translated","value":"Verr. Maj. et les touches multimédias ne sont pas prises en charge."}},"ja":{"stringUnit":{"state":"translated","value":"Caps Lockとメディアキーには対応していません。"}},"ko":{"stringUnit":{"state":"translated","value":"Caps Lock 및 미디어 키는 지원되지 않습니다."}},"pt":{"stringUnit":{"state":"translated","value":"Caps Lock e teclas multimédia não são suportadas."}},"ru":{"stringUnit":{"state":"translated","value":"Caps Lock и мультимедийные клавиши не поддерживаются."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"不支持大写锁定和媒体键。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"不支援大寫鎖定和媒體鍵。"}}}},
-    "keyboardKeyTap.unset": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"غير محدد"}},"de":{"stringUnit":{"state":"translated","value":"Nicht festgelegt"}},"en":{"stringUnit":{"state":"translated","value":"Not set"}},"es":{"stringUnit":{"state":"translated","value":"No establecido"}},"fr":{"stringUnit":{"state":"translated","value":"Non défini"}},"ja":{"stringUnit":{"state":"translated","value":"未設定"}},"ko":{"stringUnit":{"state":"translated","value":"설정되지 않음"}},"pt":{"stringUnit":{"state":"translated","value":"Não definido"}},"ru":{"stringUnit":{"state":"translated","value":"Не установлено"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"未设置"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"未設定"}}}},
+    "keyboardKey.side.left": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يسار"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Links"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Left"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Izquierda"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gauche"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "왼쪽"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esquerda"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Слева"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sol"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左侧"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左側"
+          }
+        }
+      }
+    },
+    "keyboardKey.side.right": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يمين"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechts"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Right"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Derecha"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Droite"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "오른쪽"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direita"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Справа"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右侧"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右側"
+          }
+        }
+      }
+    },
+    "keyboardKeyTap.group.keypad": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لوحة الأرقام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ziffernblock"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keypad"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teclado numérico"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pavé numérique"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テンキー"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "숫자 키패드"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teclado numérico"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цифровая клавиатура"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sayı Tuş Takımı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "数字键盘"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "數字鍵盤"
+          }
+        }
+      }
+    },
+    "keyboardKeyTap.group.modifiers": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفاتيح التعديل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sondertasten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifier Keys"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teclas modificadoras"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Touches de modification"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修飾キー"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "보조 키"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teclas modificadoras"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Клавиши-модификаторы"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değiştirici Tuşlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修饰键"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修飾鍵"
+          }
+        }
+      }
+    },
+    "keyboardKeyTap.group.navigation": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التنقل والتحرير"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Navigation und Bearbeitung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Navigation & Editing"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Navegación y edición"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Navigation et édition"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ナビゲーションと編集"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "탐색 및 편집"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Navegação e edição"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навигация и редактирование"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gezinme ve Düzenleme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导航与编辑"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "導覽與編輯"
+          }
+        }
+      }
+    },
+    "keyboardKeyTap.group.other": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفاتيح أخرى"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weitere Tasten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other Keys"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otras teclas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autres touches"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "その他のキー"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기타 키"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outras teclas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Другие клавиши"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer Tuşlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他按键"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他按鍵"
+          }
+        }
+      }
+    },
+    "keyboardKeyTap.pickerHelp": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر المفتاح المراد إرساله من القائمة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wähle die zu sendende Taste aus der Liste."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose the key to send from the list."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige en la lista la tecla que se enviará."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez dans la liste la touche à envoyer."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "送信するキーをリストから選択します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "목록에서 보낼 키를 선택하십시오."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha na lista a tecla a enviar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите в списке клавишу для отправки."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gönderilecek tuşu listeden seçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从列表中选择要发送的按键。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "從列表中選擇要傳送的按鍵。"
+          }
+        }
+      }
+    },
+    "keyboardKeyTap.unsupportedHelp": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفتاح Caps Lock ومفاتيح الوسائط غير مدعومة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feststelltaste und Medientasten werden nicht unterstützt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caps Lock and media keys are not supported."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bloq Mayús y las teclas multimedia no son compatibles."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verr. Maj. et les touches multimédias ne sont pas prises en charge."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caps Lockとメディアキーには対応していません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caps Lock 및 미디어 키는 지원되지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caps Lock e teclas multimédia não são suportadas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caps Lock и мультимедийные клавиши не поддерживаются."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caps Lock ve medya tuşları desteklenmez."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不支持大写锁定和媒体键。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不支援大寫鎖定和媒體鍵。"
+          }
+        }
+      }
+    },
+    "keyboardKeyTap.unset": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير محدد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht festgelegt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not set"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No establecido"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non défini"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정되지 않음"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não definido"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не установлено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlanmadı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未設定"
+          }
+        }
+      }
+    },
     "action.error.failed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر إكمال الإجراء." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Aktion konnte nicht abgeschlossen werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The action could not be completed." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudo completar la acción." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "L’action n’a pas pu être effectuée." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アクションを完了できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "동작을 완료할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível concluir a ação." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось выполнить действие." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "操作未能完成。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "操作未能完成。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر إكمال الإجراء."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Aktion konnte nicht abgeschlossen werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The action could not be completed."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo completar la acción."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’action n’a pas pu être effectuée."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクションを完了できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동작을 완료할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível concluir a ação."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось выполнить действие."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem tamamlanamadı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作未能完成。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作未能完成。"
+          }
+        }
       }
     },
     "action.error.invalidParameters": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "معلمات الإجراء غير صالحة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Aktionsparameter sind ungültig." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The action parameters are invalid." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Los parámetros de la acción no son válidos." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Les paramètres de l’action ne sont pas valides." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アクションのパラメータが無効です。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "동작 매개변수가 올바르지 않습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Os parâmetros da ação são inválidos." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Недопустимые параметры действия." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "操作参数无效。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "操作參數無效。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معلمات الإجراء غير صالحة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Aktionsparameter sind ungültig."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The action parameters are invalid."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los parámetros de la acción no son válidos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les paramètres de l’action ne sont pas valides."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクションのパラメータが無効です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동작 매개변수가 올바르지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os parâmetros da ação são inválidos."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Недопустимые параметры действия."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem parametreleri geçersiz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作参数无效。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作參數無效。"
+          }
+        }
       }
     },
     "action.error.unavailable": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "الإجراء غير متاح." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Aktion ist nicht verfügbar." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The action is unavailable." } },
-        "es": { "stringUnit": { "state": "translated", "value": "La acción no está disponible." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "L’action n’est pas disponible." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アクションを利用できません。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "동작을 사용할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "A ação não está disponível." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Действие недоступно." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "操作不可用。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "操作無法使用。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإجراء غير متاح."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Aktion ist nicht verfügbar."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The action is unavailable."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La acción no está disponible."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’action n’est pas disponible."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクションを利用できません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동작을 사용할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A ação não está disponível."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Действие недоступно."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem kullanılamıyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作不可用。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作無法使用。"
+          }
+        }
       }
     },
     "shortcutRecorder.defaultPlaceholder": {
@@ -113,6 +978,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не установлено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlanmadı"
           }
         },
         "zh-Hans": {
@@ -186,6 +1057,12 @@
             "value": "Нажмите Esc, чтобы остановить запись"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydı durdurmak için Esc tuşuna basın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -255,6 +1132,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нажмите, чтобы записать %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydetmek için tıklayın: %@"
           }
         },
         "zh-Hans": {
@@ -328,6 +1211,12 @@
             "value": "Нажмите ярлык"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir kısayola basın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -397,6 +1286,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Этот ярлык уже используется «%@»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kısayol zaten \"%@\" tarafından kullanılıyor."
           }
         },
         "zh-Hans": {
@@ -470,6 +1365,12 @@
             "value": "Ярлык должен включать хотя бы одну клавишу-модификатор."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol en az bir değiştirici tuş içermelidir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -541,6 +1442,12 @@
             "value": "Ярлык должен включать в себя не модифицирующую клавишу."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol, değiştirici olmayan en az bir tuş içermelidir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -610,6 +1517,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ярлык не может быть пустым."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol boş olamaz."
           }
         },
         "zh-Hans": {

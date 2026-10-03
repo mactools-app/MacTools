@@ -4,97 +4,463 @@
     "action.launch.app": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "التطبيق" } },
-        "de": { "stringUnit": { "state": "translated", "value": "App" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Application" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Aplicación" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Application" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Aplicativo" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Приложение" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "应用" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "App" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التطبيق"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Application"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplicación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Application"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplicativo"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приложение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App"
+          }
+        }
       }
     },
     "action.launch.description": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "افتح التطبيق، أو أخفه إذا كان في المقدمة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Öffnet die App oder blendet sie aus, wenn sie im Vordergrund ist." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Open the application, or hide it when it is frontmost." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Abre la aplicación o la oculta si está en primer plano." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ouvrez l’application ou masquez-la si elle est au premier plan." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリを開き、最前面にある場合は非表示にします。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱을 열거나 맨 앞에 있으면 가립니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Abra o aplicativo ou oculte-o se estiver em primeiro plano." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Открывает приложение или скрывает его, если оно на переднем плане." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "打开应用；若应用位于最前方则隐藏。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "開啟 App；若 App 位於最前方則隱藏。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح التطبيق، أو أخفه إذا كان في المقدمة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnet die App oder blendet sie aus, wenn sie im Vordergrund ist."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the application, or hide it when it is frontmost."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abre la aplicación o la oculta si está en primer plano."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrez l’application ou masquez-la si elle est au premier plan."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリを開き、最前面にある場合は非表示にします。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱을 열거나 맨 앞에 있으면 가립니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abra o aplicativo ou oculte-o se estiver em primeiro plano."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открывает приложение или скрывает его, если оно на переднем плане."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulamayı açar ya da öndeyken gizler."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开应用；若应用位于最前方则隐藏。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟 App；若 App 位於最前方則隱藏。"
+          }
+        }
       }
     },
     "action.launch.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "فتح التطبيق" } },
-        "de": { "stringUnit": { "state": "translated", "value": "App öffnen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Open Application" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Abrir aplicación" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ouvrir l’application" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリを開く" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱 열기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Abrir aplicativo" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Открыть приложение" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "打开应用" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "開啟 App" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح التطبيق"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Application"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir aplicación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir l’application"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリを開く"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir aplicativo"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть приложение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulamayı Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开应用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟 App"
+          }
+        }
       }
     },
     "action.unavailable.missing": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "التطبيق غير متاح." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die App ist nicht verfügbar." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The application is unavailable." } },
-        "es": { "stringUnit": { "state": "translated", "value": "La aplicación no está disponible." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "L’application n’est pas disponible." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリを利用できません。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱을 사용할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "O aplicativo não está disponível." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Приложение недоступно." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "应用不可用。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "App 無法使用。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التطبيق غير متاح."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die App ist nicht verfügbar."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The application is unavailable."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La aplicación no está disponible."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’application n’est pas disponible."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリを利用できません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱을 사용할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O aplicativo não está disponível."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приложение недоступно."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama kullanılamıyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用不可用。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App 無法使用。"
+          }
+        }
       }
     },
     "action.unavailable.paused": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "اختصارات التطبيقات متوقفة مؤقتًا." } },
-        "de": { "stringUnit": { "state": "translated", "value": "App-Kurzbefehle sind pausiert." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Application shortcuts are paused." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Los atajos de aplicaciones están en pausa." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Les raccourcis d’applications sont en pause." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリのショートカットは一時停止中です。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱 단축키가 일시 중지되었습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Os atalhos de aplicativos estão pausados." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Сочетания клавиш приложений приостановлены." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "应用快捷键已暂停。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "App 快速鍵已暫停。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختصارات التطبيقات متوقفة مؤقتًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Kurzbefehle sind pausiert."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Application shortcuts are paused."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los atajos de aplicaciones están en pausa."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les raccourcis d’applications sont en pause."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリのショートカットは一時停止中です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 단축키가 일시 중지되었습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os atalhos de aplicativos estão pausados."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сочетания клавиш приложений приостановлены."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama kısayolları duraklatıldı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用快捷键已暂停。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App 快速鍵已暫停。"
+          }
+        }
       }
     },
     "settings.configureInActions": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "قم بالإعداد في «الإجراءات والاختصارات»" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Unter „Aktionen & Kurzbefehle“ konfigurieren" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Configure in Actions & Shortcuts" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Configurar en Acciones y atajos" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Configurer dans Actions et raccourcis" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "「アクションとショートカット」で設定" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "‘동작 및 단축키’에서 구성" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Configure em Ações e Atalhos" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Настроить в разделе «Действия и сочетания клавиш»" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "前往“操作与快捷键”设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "前往「操作與快速鍵」設定" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قم بالإعداد في «الإجراءات والاختصارات»"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unter „Aktionen & Kurzbefehle“ konfigurieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure in Actions & Shortcuts"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configurar en Acciones y atajos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configurer dans Actions et raccourcis"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「アクションとショートカット」で設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "‘동작 및 단축키’에서 구성"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure em Ações e Atalhos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настроить в разделе «Действия и сочетания клавиш»"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylemler ve Kısayollar'da Yapılandır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往“操作与快捷键”设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往「操作與快速鍵」設定"
+          }
+        }
       }
     },
     "metadata.title": {
@@ -152,6 +518,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Горячие клавиши приложения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Kısayol Tuşları"
           }
         },
         "zh-Hans": {
@@ -225,6 +597,12 @@
             "value": "Привяжите глобальные горячие клавиши к часто используемым приложениям."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sık kullanılan uygulamalara genel kısayol tuşları atayın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -294,6 +672,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Привязок пока нет. Настройте их в настройках."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz atama yok. Ayarlar'dan yapılandırın."
           }
         },
         "zh-Hans": {
@@ -367,6 +751,12 @@
             "value": "Настроено приложений: %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d uygulama yapılandırıldı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -436,6 +826,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Горячие клавиши приостановлены"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol tuşları duraklatıldı"
           }
         },
         "zh-Hans": {
@@ -509,6 +905,12 @@
             "value": "Привязки приложения"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Atamaları"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -578,6 +980,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добавить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekle"
           }
         },
         "zh-Hans": {
@@ -651,6 +1059,12 @@
             "value": "Нажмите «Добавить», чтобы выбрать приложение и назначить горячую клавишу."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir uygulama seçip kısayol tuşu atamak için Ekle'ye tıklayın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -722,6 +1136,12 @@
             "value": "Конфликты с «%@»"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\"%@\" ile çakışıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -739,65 +1159,309 @@
     "settings.shortcut.commonConflictWarning.cancel": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إلغاء" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Abbrechen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Cancel" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Cancelar" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Annuler" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "キャンセル" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "취소" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Cancelar" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Отмена" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "取消" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "取消" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلغاء"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbrechen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キャンセル"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "취소"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отмена"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
+        }
       }
     },
     "settings.shortcut.commonConflictWarning.confirm": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "استخدام على أي حال" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Trotzdem verwenden" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Use Anyway" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Usar de todos modos" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Utiliser quand même" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "このまま使用" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "그래도 사용" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Usar mesmo assim" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Всё равно использовать" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "仍要使用" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "仍要使用" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدام على أي حال"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trotzdem verwenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use Anyway"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar de todos modos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser quand même"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このまま使用"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "그래도 사용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar mesmo assim"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Всё равно использовать"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yine De Kullan"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仍要使用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仍要使用"
+          }
+        }
       }
     },
     "settings.shortcut.commonConflictWarning.message": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "هذا اختصار عام وقد يتجاوز العمليات الشائعة في التطبيقات الأخرى." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Dies ist ein globaler Kurzbefehl und kann häufige Aktionen in anderen Apps überschreiben." } },
-        "en": { "stringUnit": { "state": "translated", "value": "This is a global shortcut and may override common actions in other apps." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Este es un atajo global y puede anular acciones habituales en otras apps." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ce raccourci global peut remplacer des actions courantes dans d’autres apps." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "これはグローバルショートカットで、ほかのアプリのよく使う操作を上書きする場合があります。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이 전역 단축키는 다른 앱의 일반적인 동작을 덮어쓸 수 있습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Este é um atalho global e pode substituir ações comuns em outros apps." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Это глобальное сочетание клавиш может переопределять обычные действия в других приложениях." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "这是全局快捷键，可能覆盖其他应用的常用操作。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "這是全域快速鍵，可能覆蓋其他 App 的常用操作。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا اختصار عام وقد يتجاوز العمليات الشائعة في التطبيقات الأخرى."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dies ist ein globaler Kurzbefehl und kann häufige Aktionen in anderen Apps überschreiben."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This is a global shortcut and may override common actions in other apps."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este es un atajo global y puede anular acciones habituales en otras apps."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce raccourci global peut remplacer des actions courantes dans d’autres apps."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "これはグローバルショートカットで、ほかのアプリのよく使う操作を上書きする場合があります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 전역 단축키는 다른 앱의 일반적인 동작을 덮어쓸 수 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este é um atalho global e pode substituir ações comuns em outros apps."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Это глобальное сочетание клавиш может переопределять обычные действия в других приложениях."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu genel bir kısayoldur ve diğer uygulamalardaki yaygın eylemleri geçersiz kılabilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这是全局快捷键，可能覆盖其他应用的常用操作。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這是全域快速鍵，可能覆蓋其他 App 的常用操作。"
+          }
+        }
       }
     },
     "settings.shortcut.commonConflictWarning.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "هل تريد استخدام «%@» على أي حال؟" } },
-        "de": { "stringUnit": { "state": "translated", "value": "„%@“ trotzdem verwenden?" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Use “%@” Anyway?" } },
-        "es": { "stringUnit": { "state": "translated", "value": "¿Usar «%@» de todos modos?" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Utiliser « %@ » quand même ?" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "「%@」をこのまま使用しますか？" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "“%@”을(를) 그래도 사용하시겠습니까?" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Usar “%@” mesmo assim?" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Всё равно использовать «%@»?" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "仍要使用“%@”？" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "仍要使用「%@」？" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هل تريد استخدام «%@» على أي حال؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„%@“ trotzdem verwenden?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use “%@” Anyway?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Usar «%@» de todos modos?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser « %@ » quand même ?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「%@」をこのまま使用しますか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@”을(를) 그래도 사용하시겠습니까?"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar “%@” mesmo assim?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Всё равно использовать «%@»?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” Yine De Kullanılsın Mı?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仍要使用“%@”？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仍要使用「%@」？"
+          }
+        }
       }
     },
     "openPanel.title": {
@@ -855,6 +1519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выбрать приложение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Seç"
           }
         },
         "zh-Hans": {
@@ -928,6 +1598,12 @@
             "value": "Выберите приложение, которое нужно привязать к горячей клавише."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol tuşuna atanacak uygulamayı seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -997,6 +1673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не установлено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlanmadı"
           }
         },
         "zh-Hans": {
@@ -1070,6 +1752,12 @@
             "value": "Путь к приложению недоступен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama yolu kullanılamıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1139,6 +1827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ Горячая клавиша"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Kısayol Tuşu"
           }
         },
         "zh-Hans": {
@@ -1212,6 +1906,12 @@
             "value": "Очистить горячую клавишу"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayolu Temizle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1281,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалить эту привязку"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Atamayı Sil"
           }
         },
         "zh-Hans": {

@@ -39,6 +39,10 @@
       "displayName": "Заблокировать экран",
       "summary": "Немедленно заблокируйте экран и запросите разблокировку пароля."
     },
+    "tr": {
+      "displayName": "Ekran Kilidi",
+      "summary": "Ekranı anında kilitler ve açılması için parola gerektirir."
+    },
     "zh-Hans": {
       "displayName": "锁定屏幕",
       "summary": "一键立即锁定屏幕，进入密码解锁界面"
@@ -117,6 +121,9 @@
       ],
       "ru": [
         "Заблокировать экран"
+      ],
+      "tr": [
+        "Ekran Kilidi"
       ],
       "zh-Hans": [
         "锁定屏幕"

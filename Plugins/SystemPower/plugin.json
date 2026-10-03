@@ -39,6 +39,10 @@
       "displayName": "Действия питания",
       "summary": "Переведите Mac в режим сна, выйдите из системы, перезагрузите или выключите его."
     },
+    "tr": {
+      "displayName": "Güç Eylemleri",
+      "summary": "Mac'inizi uyutun, oturumu kapatın, yeniden başlatın veya kapatın."
+    },
     "zh-Hans": {
       "displayName": "电源操作",
       "summary": "让 Mac 睡眠、退出登录、重新启动或关机"
@@ -129,6 +133,9 @@
       ],
       "ru": [
         "Действия питания"
+      ],
+      "tr": [
+        "Güç Eylemleri"
       ],
       "zh-Hans": [
         "电源操作"

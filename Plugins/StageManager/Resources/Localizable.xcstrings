@@ -4,33 +4,155 @@
     "action.disable.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إيقاف Stage Manager" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Stage Manager deaktivieren" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Turn Off Stage Manager" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Desactivar Stage Manager" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Désactiver Stage Manager" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "Stage Managerをオフ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "Stage Manager 끄기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Desativar Stage Manager" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Выключить Stage Manager" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "关闭台前调度" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "關閉幕前調度" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف Stage Manager"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Manager deaktivieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn Off Stage Manager"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desactivar Stage Manager"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Désactiver Stage Manager"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Managerをオフ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Manager 끄기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desativar Stage Manager"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выключить Stage Manager"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Manager'ı Kapat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭台前调度"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關閉幕前調度"
+          }
+        }
       }
     },
     "action.enable.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تشغيل Stage Manager" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Stage Manager aktivieren" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Turn On Stage Manager" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Activar Stage Manager" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Activer Stage Manager" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "Stage Managerをオン" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "Stage Manager 켜기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Ativar Stage Manager" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Включить Stage Manager" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "开启台前调度" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "開啟幕前調度" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل Stage Manager"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Manager aktivieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn On Stage Manager"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activar Stage Manager"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activer Stage Manager"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Managerをオン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Manager 켜기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativar Stage Manager"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включить Stage Manager"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Manager'ı Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启台前调度"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟幕前調度"
+          }
+        }
       }
     },
     "metadata.title": {
@@ -85,6 +207,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Manager"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Stage Manager"
@@ -161,6 +289,12 @@
             "value": "Включите Stage Manager, чтобы сфокусировать текущее окно и оставить другие в стороне."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli pencereye odaklanmak ve diğerlerini yanda tutmak için Stage Manager'ı etkinleştirir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -230,6 +364,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
           }
         },
         "zh-Hans": {
@@ -303,6 +443,12 @@
             "value": "Выкл."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -372,6 +518,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно получить доступ к настройкам Stage Manager."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Manager tercihlerine erişilemedi."
           }
         },
         "zh-Hans": {

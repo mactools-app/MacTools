@@ -12,7 +12,7 @@ SCRIPT = REPO_ROOT / "scripts/plugins/copy-plugin-manifest.py"
 SYNC_SCRIPT = REPO_ROOT / "scripts/plugins/sync-debug-plugins.sh"
 APP_VERSION_CONFIG = REPO_ROOT / "Configs/AppVersion.xcconfig"
 SUPPORTED_LOCALES = (
-    "ar", "de", "en", "es", "fr", "ja", "ko", "pt", "ru", "zh-Hans", "zh-Hant"
+    "ar", "de", "en", "es", "fr", "ja", "ko", "pt", "ru", "tr", "zh-Hans", "zh-Hant"
 )
 
 

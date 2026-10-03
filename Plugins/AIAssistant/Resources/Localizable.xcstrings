@@ -4,1185 +4,4293 @@
     "settings.prompt.shortcutImmediateDescription": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Shortcut changes take effect immediately." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "快捷键更改立即生效。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "快速鍵更改立即生效。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut changes take effect immediately."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol değişiklikleri anında etkili olur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷键更改立即生效。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速鍵更改立即生效。"
+          }
+        }
       }
     },
     "settings.capture.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Selection Capture" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "划词捕获" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "選取文字擷取" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selection Capture"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçim Yakalama"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "划词捕获"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選取文字擷取"
+          }
+        }
       }
     },
     "settings.capture.simulatedCopy.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Allow Simulated Copy" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "允许模拟复制" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "允許模擬拷貝" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Simulated Copy"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simüle Edilen Kopyalamaya İzin Ver"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许模拟复制"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許模擬拷貝"
+          }
+        }
       }
     },
     "settings.capture.simulatedCopy.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Simulate ⌘C when direct capture fails. Copied content may enter Clipboard History." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "直接读取失败时模拟 ⌘C；复制内容可能进入剪贴板历史。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "直接讀取失敗時模擬 ⌘C；拷貝內容可能進入剪貼簿歷史。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simulate ⌘C when direct capture fails. Copied content may enter Clipboard History."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrudan yakalama başarısız olduğunda ⌘C simüle edilir. Kopyalanan içerik pano geçmişine girebilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接读取失败时模拟 ⌘C；复制内容可能进入剪贴板历史。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接讀取失敗時模擬 ⌘C；拷貝內容可能進入剪貼簿歷史。"
+          }
+        }
       }
     },
     "action.unavailable.paused": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "AI Assistant shortcuts are paused." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "AI 助手快捷键已暂停。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "AI 助手快速鍵已暫停。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Assistant shortcuts are paused."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Asistanı kısayolları duraklatıldı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 助手快捷键已暂停。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 助手快速鍵已暫停。"
+          }
+        }
       }
     },
     "action.unavailable.accessibility": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Accessibility permission is required." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "需要辅助功能授权。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "需要輔助使用權限。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility permission is required."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni gerekli."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要辅助功能授权。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要輔助使用權限。"
+          }
+        }
       }
     },
     "action.unavailable.provider": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Configure an AI service first." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请先配置 AI 服务。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請先設定 AI 服務。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure an AI service first."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce bir yapay zekâ servisi yapılandırın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请先配置 AI 服务。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請先設定 AI 服務。"
+          }
+        }
       }
     },
     "common.cancel": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Cancel" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "取消" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "取消" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
+        }
       }
     },
     "common.delete": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Delete" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "删除" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "刪除" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sil"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除"
+          }
+        }
       }
     },
     "metadata.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "AI Assistant" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "AI 助手" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "AI 助手" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Assistant"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Asistanı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 助手"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 助手"
+          }
+        }
       }
     },
     "metadata.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Process selected text with AI: translate, summarize, polish, and more." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "划词调用 AI 翻译、总结、润色等" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "透過快速鍵呼叫 AI 翻譯、摘要、潤飾等" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Process selected text with AI: translate, summarize, polish, and more."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metni yapay zekâ ile işleyin: çevirin, özetleyin, iyileştirin ve daha fazlası."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "划词调用 AI 翻译、总结、润色等"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "透過快速鍵呼叫 AI 翻譯、摘要、潤飾等"
+          }
+        }
       }
     },
     "permission.accessibility.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Accessibility" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "辅助功能授权" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "輔助使用權限" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "辅助功能授权"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輔助使用權限"
+          }
+        }
       }
     },
     "permission.accessibility.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Processing selected text requires reading the current selection." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "划词处理需要读取当前选中文本。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "劃詞處理需要讀取目前選取的文字。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processing selected text requires reading the current selection."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metni işlemek, geçerli seçimin okunmasını gerektirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "划词处理需要读取当前选中文本。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "劃詞處理需要讀取目前選取的文字。"
+          }
+        }
       }
     },
     "permission.accessibility.footnote": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Open System Settings → Privacy & Security → Accessibility and allow MacTools." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "前往系统设置 → 隐私与安全性 → 辅助功能，授权 MacTools。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "前往系統設定 → 隱私與安全性 → 輔助使用，授權 MacTools。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open System Settings → Privacy & Security → Accessibility and allow MacTools."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Erişilebilirlik bölümünü açın ve MacTools'a izin verin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往系统设置 → 隐私与安全性 → 辅助功能，授权 MacTools。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往系統設定 → 隱私與安全性 → 輔助使用，授權 MacTools。"
+          }
+        }
       }
     },
     "permission.automation.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Automation" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "自动化授权" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "自動化權限" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automation"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动化授权"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動化權限"
+          }
+        }
       }
     },
     "permission.automation.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Browser selection may require allowing MacTools to control the current browser." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "浏览器划词可能需要允许 MacTools 控制当前浏览器。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "瀏覽器劃詞可能需要允許 MacTools 控制目前瀏覽器。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browser selection may require allowing MacTools to control the current browser."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarayıcıdaki seçimi okumak, MacTools'un geçerli tarayıcıyı denetlemesine izin verilmesini gerektirebilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浏览器划词可能需要允许 MacTools 控制当前浏览器。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "瀏覽器劃詞可能需要允許 MacTools 控制目前瀏覽器。"
+          }
+        }
       }
     },
     "permission.automation.footnote": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "macOS will ask for automation permission the first time it controls a browser." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "macOS 会在首次控制浏览器时请求自动化授权。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "macOS 會在首次控制瀏覽器時要求自動化權限。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS will ask for automation permission the first time it controls a browser."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS, bir tarayıcıyı ilk kez denetlediğinde otomasyon izni ister."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 会在首次控制浏览器时请求自动化授权。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 會在首次控制瀏覽器時要求自動化權限。"
+          }
+        }
       }
     },
     "permission.automation.status": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "On demand" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "按需确认" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "按需確認" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On demand"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerektiğinde"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需确认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需確認"
+          }
+        }
       }
     },
     "settings.service.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "AI Service" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "AI 服务" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "AI 服務" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Service"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Servisi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 服务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 服務"
+          }
+        }
       }
     },
     "settings.provider.name.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Name" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "名称" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "名稱" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ad"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名称"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名稱"
+          }
+        }
       }
     },
     "settings.provider.name.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Shown on the result card." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "显示在处理结果卡片上。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "顯示在處理結果卡片上。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shown on the result card."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonuç kartında gösterilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示在处理结果卡片上。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示在處理結果卡片上。"
+          }
+        }
       }
     },
     "settings.provider.baseURL.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Base URL" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "服务地址" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "服務地址" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Base URL"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temel URL"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务地址"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服務地址"
+          }
+        }
       }
     },
     "settings.provider.baseURL.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "OpenAI or compatible gateway address." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "OpenAI 或兼容网关地址。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "OpenAI 或相容閘道地址。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenAI or compatible gateway address."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenAI veya uyumlu ağ geçidi adresi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenAI 或兼容网关地址。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenAI 或相容閘道地址。"
+          }
+        }
       }
     },
     "settings.provider.apiKey.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "API Key" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "接口密钥" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "介面金鑰" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Anahtarı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "接口密钥"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "介面金鑰"
+          }
+        }
       }
     },
     "settings.provider.apiKey.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Leave blank to keep the current Keychain entry." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "留空则保留当前钥匙串内容。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "留空則保留目前鑰匙圈內容。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave blank to keep the current Keychain entry."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Keychain kaydını korumak için boş bırakın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "留空则保留当前钥匙串内容。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "留空則保留目前鑰匙圈內容。"
+          }
+        }
       }
     },
     "settings.provider.model.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Model" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "模型" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "模型" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型"
+          }
+        }
       }
     },
     "settings.provider.model.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "The model name used for processing." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "用于处理的模型名称。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "用於處理的模型名稱。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The model name used for processing."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşlem için kullanılan modelin adı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于处理的模型名称。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用於處理的模型名稱。"
+          }
+        }
       }
     },
     "settings.modelList.help": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Choose from available models" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "从可用模型中选择" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "從可用模型中選擇" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose from available models"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılabilir modellerden seçin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从可用模型中选择"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "從可用模型中選擇"
+          }
+        }
       }
     },
     "settings.modelList.fetchHelp": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Fetch available models" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "获取可用模型列表" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "取得可用模型清單" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fetch available models"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılabilir modelleri getir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "获取可用模型列表"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取得可用模型清單"
+          }
+        }
       }
     },
     "settings.modelList.empty": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No models yet, click refresh to fetch" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "暂无可用模型，点击刷新获取" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "暫無可用模型，點擊重新整理取得" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No models yet, click refresh to fetch"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz model yok; getirmek için yenile düğmesine tıklayın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无可用模型，点击刷新获取"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暫無可用模型，點擊重新整理取得"
+          }
+        }
       }
     },
     "settings.modelList.emptyResult": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No models returned." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未返回可用模型" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "未回傳可用模型" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No models returned."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model döndürülmedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未返回可用模型"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未回傳可用模型"
+          }
+        }
       }
     },
     "settings.modelList.unavailable": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Unable to fetch the model list right now." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "暂时无法获取模型列表" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "暫時無法取得模型清單" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to fetch the model list right now."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model listesi şu anda getirilemiyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂时无法获取模型列表"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暫時無法取得模型清單"
+          }
+        }
       }
     },
     "settings.test.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Test" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "测试验证" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "測試驗證" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "测试验证"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "測試驗證"
+          }
+        }
       }
     },
     "settings.test.prompt": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Please reply: connection successful" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请回复：连接成功" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請回覆：連線成功" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Please reply: connection successful"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lütfen yanıtlayın: bağlantı başarılı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请回复：连接成功"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請回覆：連線成功"
+          }
+        }
       }
     },
     "settings.test.success": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Connection successful" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "连接成功" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "連線成功" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connection successful"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlantı başarılı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接成功"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "連線成功"
+          }
+        }
       }
     },
     "settings.test.unavailable": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Unable to test the connection right now." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "暂时无法测试连接" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "暫時無法測試連線" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to test the connection right now."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlantı şu anda test edilemiyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂时无法测试连接"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暫時無法測試連線"
+          }
+        }
       }
     },
     "settings.prompt.temperature.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Temperature" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "温度" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "溫度" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temperature"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıcaklık"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "温度"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "溫度"
+          }
+        }
       }
     },
     "settings.prompt.temperature.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "0-2. Controls output creativity and stability; 0.7 by default." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "0-2，控制输出创造力与稳定性，默认 0.7。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "0-2，控制輸出創造力與穩定性，預設 0.7。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0-2. Controls output creativity and stability; 0.7 by default."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0-2. Çıktının yaratıcılığını ve dengesini denetler; varsayılan değer 0.7."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0-2，控制输出创造力与稳定性，默认 0.7。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0-2，控制輸出創造力與穩定性，預設 0.7。"
+          }
+        }
       }
     },
     "settings.prompt.temperature.resetHelp": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Reset temperature to 0.7" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "重置温度为 0.7" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "重設溫度為 0.7" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset temperature to 0.7"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıcaklığı 0.7'ye sıfırla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置温度为 0.7"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重設溫度為 0.7"
+          }
+        }
       }
     },
     "settings.provider.name.placeholder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "AI Service" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "AI 服务" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "AI 服務" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Service"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Servisi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 服务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 服務"
+          }
+        }
       }
     },
     "settings.provider.baseURL.placeholder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "https://api.deepseek.com/v1" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "https://api.deepseek.com/v1" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "https://api.deepseek.com/v1" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://api.deepseek.com/v1"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://api.deepseek.com/v1"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://api.deepseek.com/v1"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://api.deepseek.com/v1"
+          }
+        }
       }
     },
     "settings.provider.apiKey.placeholder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "sk-..." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "sk-..." } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "sk-..." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sk-..."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sk-..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sk-..."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sk-..."
+          }
+        }
       }
     },
     "settings.provider.model.placeholder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "deepseek-flash" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "deepseek-flash" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "deepseek-flash" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "deepseek-flash"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "deepseek-flash"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "deepseek-flash"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "deepseek-flash"
+          }
+        }
       }
     },
     "settings.provider.reasoning.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Request Reasoning" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请求思考过程" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請求思考過程" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Request Reasoning"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Akıl Yürütme İsteği"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请求思考过程"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請求思考過程"
+          }
+        }
       }
     },
     "settings.provider.reasoning.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Include the reasoning request field for DeepSeek / Qwen style thinking models." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "为 DeepSeek / Qwen 等推理模型在请求中启用思考字段。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "為 DeepSeek / Qwen 等推理模型在請求中啟用思考欄位。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Include the reasoning request field for DeepSeek / Qwen style thinking models."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DeepSeek / Qwen tarzı düşünür modeller için akıl yürütme isteği alanını içerir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "为 DeepSeek / Qwen 等推理模型在请求中启用思考字段。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "為 DeepSeek / Qwen 等推理模型在請求中啟用思考欄位。"
+          }
+        }
       }
     },
     "settings.prompts.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Prompts" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "处理模块" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "處理模組" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prompts"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstemler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "处理模块"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "處理模組"
+          }
+        }
       }
     },
     "settings.promptList.add": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Add" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "添加" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "新增" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增"
+          }
+        }
       }
     },
     "settings.prompt.namePlaceholder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Prompt name" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "模板名称" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "模板名稱" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prompt name"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstem adı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模板名称"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模板名稱"
+          }
+        }
       }
     },
     "settings.prompt.template.placeholder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Translate the following into English:\n\n{{text}}" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请将以下内容翻译为英文：\n\n{{text}}" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請將以下內容翻譯為英文：\n\n{{text}}" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate the following into English:\n\n{{text}}"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aşağıdakini İngilizceye çevir:\n\n{{text}}"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请将以下内容翻译为英文：\n\n{{text}}"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請將以下內容翻譯為英文：\n\n{{text}}"
+          }
+        }
       }
     },
     "settings.prompt.systemPrompt.placeholder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Set the AI persona, tone, or formatting rules (optional)..." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "设定 AI 角色的背景人设、语气或格式规则（可选）..." } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "設定 AI 角色的背景人設、語氣或格式規則（可選）..." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set the AI persona, tone, or formatting rules (optional)..."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay zekânın kişiliğini, üslubunu veya biçim kurallarını ayarlayın (isteğe bağlı)..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设定 AI 角色的背景人设、语气或格式规则（可选）..."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定 AI 角色的背景人設、語氣或格式規則（可選）..."
+          }
+        }
       }
     },
     "settings.promptRow.edit": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Edit" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "编辑" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "編輯" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzenle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編輯"
+          }
+        }
       }
     },
     "settings.prompt.save": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Save" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "保存" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "儲存" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydet"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "儲存"
+          }
+        }
       }
     },
     "settings.prompt.cancel": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Cancel" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "取消" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "取消" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
+        }
       }
     },
     "settings.prompt.error.emptyName": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Prompt name cannot be empty." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "模板名称不能为空" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "模板名稱不能為空" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prompt name cannot be empty."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstem adı boş olamaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模板名称不能为空"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模板名稱不能為空"
+          }
+        }
       }
     },
     "settings.prompt.error.duplicateName": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Prompt name already exists." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "模板名称与现有模板重复" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "模板名稱與現有模板重複" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prompt name already exists."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu istem adı zaten kullanılıyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模板名称与现有模板重复"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模板名稱與現有模板重複"
+          }
+        }
       }
     },
     "settings.prompt.deleteConfirm.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Delete this prompt?" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "确认删除处理模块？" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "確認刪除處理模組？" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete this prompt?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu istem silinsin mi?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确认删除处理模块？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確認刪除處理模組？"
+          }
+        }
       }
     },
     "settings.prompt.deleteConfirm.message": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Delete “%@”? Its shortcut and related settings stop working and cannot be restored." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "确定要删除「%@」吗？删除后快捷键与相关配置将一并失效，且无法恢复。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "確定要刪除「%@」嗎？刪除後快速鍵與相關設定將一併失效，且無法恢復。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete “%@”? Its shortcut and related settings stop working and cannot be restored."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” silinsin mi? Kısayolu ve ilgili ayarları çalışmayı durur ve geri getirilemez."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确定要删除「%@」吗？删除后快捷键与相关配置将一并失效，且无法恢复。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確定要刪除「%@」嗎？刪除後快速鍵與相關設定將一併失效，且無法恢復。"
+          }
+        }
       }
     },
     "settings.prompt.shortcutLabel": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Global shortcut" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "全局快捷键" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "全域快捷鍵" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Global shortcut"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel kısayol"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全局快捷键"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全域快捷鍵"
+          }
+        }
       }
     },
     "settings.prompt.shortcutClear": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Clear Shortcut" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "清除快捷键" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "清除快速鍵" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear Shortcut"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayolu Temizle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除快捷键"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除快速鍵"
+          }
+        }
       }
     },
     "settings.prompt.shortcutDescription": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Press the shortcut to process selected text with this prompt." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "按下快捷键直接使用此模板处理划词。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "按下快速鍵直接使用此模板處理選取的文字。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press the shortcut to process selected text with this prompt."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metni bu istemle işlemek için kısayola basın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按下快捷键直接使用此模板处理划词。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按下快速鍵直接使用此模板處理選取的文字。"
+          }
+        }
       }
     },
     "settings.prompt.template.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Prompt Template" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "提示词模板 (Prompt Template)" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "提示詞模板 (Prompt Template)" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prompt Template"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstem Şablonu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示词模板 (Prompt Template)"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示詞模板 (Prompt Template)"
+          }
+        }
       }
     },
     "settings.prompt.systemPrompt.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "System Prompt" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "系统提示词 (System Prompt)" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "系統提示詞 (System Prompt)" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Prompt"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem İstemi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统提示词 (System Prompt)"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系統提示詞 (System Prompt)"
+          }
+        }
       }
     },
     "settings.shortcuts.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Shortcuts" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "快捷键" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "快速鍵" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayollar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷键"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速鍵"
+          }
+        }
       }
     },
     "settings.shortcutInput.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Shortcut Input" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "快捷键输入" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "快速鍵輸入" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut Input"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol Girdisi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷键输入"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速鍵輸入"
+          }
+        }
       }
     },
     "settings.shortcutInput.clipboard.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Use Clipboard" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "使用剪贴板" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "使用剪貼簿" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use Clipboard"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panoyu Kullan"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用剪贴板"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用剪貼簿"
+          }
+        }
       }
     },
     "settings.shortcutInput.clipboard.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Prefer selected text. If no selection is found and the clipboard stays unchanged, use the text you copied earlier." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "优先处理选中文本；未选中且剪贴板未变化时，使用已复制的文本。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "優先處理選取的文字；未選取且剪貼簿未變動時，使用已複製的文字。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prefer selected text. If no selection is found and the clipboard stays unchanged, use the text you copied earlier."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metin önceliklidir. Bir seçim bulunamazsa ve pano değişmemişse, daha önce kopyaladığınız metin kullanılır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "优先处理选中文本；未选中且剪贴板未变化时，使用已复制的文本。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "優先處理選取的文字；未選取且剪貼簿未變動時，使用已複製的文字。"
+          }
+        }
       }
     },
     "settings.shortcut.conflict.system": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "This shortcut conflicts with a common system action. Use a combination that includes ⌥ (Option) or ⌃ (Control)." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "该快捷键与常用系统操作冲突，请使用包含 ⌥(Option) 或 ⌃(Control) 的组合键。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "此快速鍵與常用系統操作衝突，請使用包含 ⌥(Option) 或 ⌃(Control) 的組合鍵。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This shortcut conflicts with a common system action. Use a combination that includes ⌥ (Option) or ⌃ (Control)."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kısayol, yaygın bir sistem eylemiyle çakışıyor. ⌥ (Option) veya ⌃ (Control) içeren bir tuş birleşimi kullanın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "该快捷键与常用系统操作冲突，请使用包含 ⌥(Option) 或 ⌃(Control) 的组合键。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此快速鍵與常用系統操作衝突，請使用包含 ⌥(Option) 或 ⌃(Control) 的組合鍵。"
+          }
+        }
       }
     },
     "settings.shortcut.conflict.duplicatePrompt": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "This shortcut is already used by the prompt “%@”. Choose a different combination." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "该快捷键已被模板「%@」占用，请更换其他按键组合。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "此快速鍵已被模板「%@」佔用，請更換其他按鍵組合。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This shortcut is already used by the prompt “%@”. Choose a different combination."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kısayol zaten “%@” istemi tarafından kullanılıyor. Farklı bir tuş birleşimi seçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "该快捷键已被模板「%@」占用，请更换其他按键组合。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此快速鍵已被模板「%@」佔用，請更換其他按鍵組合。"
+          }
+        }
       }
     },
     "settings.promptRow.moveUpHelp": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Move up" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "上移" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "上移" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move up"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yukarı taşı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上移"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上移"
+          }
+        }
       }
     },
     "settings.promptRow.moveDownHelp": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Move down" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "下移" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "下移" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move down"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aşağı taşı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下移"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下移"
+          }
+        }
       }
     },
     "settings.promptRow.deleteHelp": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Delete" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "删除" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "刪除" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sil"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除"
+          }
+        }
       }
     },
     "settings.action.restoreDefaults": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Restore Defaults" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "恢复默认" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "恢復預設" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Defaults"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varsayılanları Geri Yükle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复默认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢復預設"
+          }
+        }
       }
     },
     "settings.action.saveService": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Save Service Settings" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "保存服务设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "儲存服務設定" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save Service Settings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Servis Ayarlarını Kaydet"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存服务设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "儲存服務設定"
+          }
+        }
       }
     },
     "settings.message.serviceSaved": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "AI service saved" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "AI 服务已保存" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "AI 服務已儲存" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI service saved"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay zekâ servisi kaydedildi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 服务已保存"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 服務已儲存"
+          }
+        }
       }
     },
     "settings.error.noEnabledProvider": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Enable at least one AI service." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "至少启用一个 AI 服务。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "至少啟用一個 AI 服務。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable at least one AI service."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En az bir yapay zekâ servisini etkinleştirin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "至少启用一个 AI 服务。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "至少啟用一個 AI 服務。"
+          }
+        }
       }
     },
     "settings.error.providerValidationFormat": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "%@: %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "%@：%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "%@：%@" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@：%@"
+          }
+        }
       }
     },
     "settings.error.promptValidationFormat": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "%@: prompt must contain {{text}}." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "%@：提示词必须包含 {{text}}。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "%@：提示詞必須包含 {{text}}。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: prompt must contain {{text}}."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: İstem, {{text}} içermelidir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@：提示词必须包含 {{text}}。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@：提示詞必須包含 {{text}}。"
+          }
+        }
       }
     },
     "settings.provider.fallbackName": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "AI Service" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "AI 服务" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "AI 服務" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Service"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Servisi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 服务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 服務"
+          }
+        }
       }
     },
     "settings.prompt.fallbackName": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Prompt" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "处理模板" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "處理模板" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prompt"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstem"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "处理模板"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "處理模板"
+          }
+        }
       }
     },
     "provider.defaultName": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "AI Service" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "AI 服务" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "AI 服務" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Service"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Servisi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 服务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 服務"
+          }
+        }
       }
     },
     "providerProfile.error.blankName": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Service name cannot be empty." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "服务名称不能为空。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "服務名稱不能為空。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Service name cannot be empty."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Servis adı boş olamaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务名称不能为空。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服務名稱不能為空。"
+          }
+        }
       }
     },
     "openAIConfiguration.error.blankBaseURL": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Base URL cannot be empty." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "Base URL 不能为空。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "Base URL 不能為空。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Base URL cannot be empty."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temel URL boş olamaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Base URL 不能为空。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Base URL 不能為空。"
+          }
+        }
       }
     },
     "openAIConfiguration.error.invalidBaseURL": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Base URL is invalid." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "Base URL 无效。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "Base URL 無效。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Base URL is invalid."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temel URL geçersiz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Base URL 无效。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Base URL 無效。"
+          }
+        }
       }
     },
     "openAIConfiguration.error.blankModel": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Model cannot be empty." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "模型不能为空。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "模型不能為空。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model cannot be empty."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model boş olamaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型不能为空。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型不能為空。"
+          }
+        }
       }
     },
     "openAIClient.providerTitle": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "AI Assistant" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "AI 助手" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "AI 助手" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Assistant"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Asistanı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 助手"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 助手"
+          }
+        }
       }
     },
     "openAIClient.error.requestFailed": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Request failed, please try again later." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请求失败，请稍后重试" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請求失敗，請稍後重試" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Request failed, please try again later."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstek başarısız oldu; lütfen daha sonra yeniden deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请求失败，请稍后重试"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請求失敗，請稍後重試"
+          }
+        }
       }
     },
     "openAIClient.error.unauthorized": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "API key is invalid or unauthorized." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "API Key 无效或无权限" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "API Key 無效或無權限" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API key is invalid or unauthorized."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API anahtarı geçersiz veya yetkisiz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key 无效或无权限"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key 無效或無權限"
+          }
+        }
       }
     },
     "openAIClient.error.emptyResponse": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Response is empty." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "响应为空" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "回應為空" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Response is empty."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yanıt boş."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "响应为空"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回應為空"
+          }
+        }
       }
     },
     "openAIClient.error.parseFailed": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Failed to parse the result." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法解析处理结果" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法解析處理結果" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to parse the result."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonuç ayrıştırılamadı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法解析处理结果"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法解析處理結果"
+          }
+        }
       }
     },
     "prompt.error.missingTextPlaceholder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Prompt must contain {{text}}." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "提示词必须包含 {{text}}。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "提示詞必須包含 {{text}}。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prompt must contain {{text}}."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstem, {{text}} içermelidir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示词必须包含 {{text}}。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示詞必須包含 {{text}}。"
+          }
+        }
       }
     },
     "prompt.default.translate.name": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Translate" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "翻译" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "翻譯" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çevir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻譯"
+          }
+        }
       }
     },
     "prompt.default.translate.template": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Translate the following text into the other language: if the source is Chinese, translate it into English; otherwise translate it into Simplified Chinese. Return only the translation.\n\n{{text}}" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请将下面的文本翻译为另一种语言：若原文是中文则译为英文，否则译为简体中文，只返回译文。\n\n{{text}}" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請將下面的文字翻譯為另一種語言：若原文是中文則譯為英文，否則譯為簡體中文，只回傳譯文。\n\n{{text}}" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate the following text into the other language: if the source is Chinese, translate it into English; otherwise translate it into Simplified Chinese. Return only the translation.\n\n{{text}}"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aşağıdaki metni diğer dile çevir: Metin Türkçeyse İngilizceye, değilse Türkçeye çevir. Yalnızca çeviriyi döndür.\n\n{{text}}"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请将下面的文本翻译为另一种语言：若原文是中文则译为英文，否则译为简体中文，只返回译文。\n\n{{text}}"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請將下面的文字翻譯為另一種語言：若原文是中文則譯為英文，否則譯為簡體中文，只回傳譯文。\n\n{{text}}"
+          }
+        }
       }
     },
     "prompt.default.translate.systemPrompt": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "You are a professional translation assistant." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "你是一名专业的翻译助手。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "你是一名專業的翻譯助手。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You are a professional translation assistant."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sen profesyonel bir çeviri asistanısın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你是一名专业的翻译助手。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你是一名專業的翻譯助手。"
+          }
+        }
       }
     },
     "prompt.default.summarize.name": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Summarize" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "总结" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "摘要" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Summarize"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özetle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "总结"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "摘要"
+          }
+        }
       }
     },
     "prompt.default.summarize.template": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Summarize the key points of the following text concisely.\n\n{{text}}" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请用简洁的语言总结下面的文本要点。\n\n{{text}}" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請用簡潔的語言總結下面的文字要點。\n\n{{text}}" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Summarize the key points of the following text concisely.\n\n{{text}}"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aşağıdaki metnin ana noktalarını kısa ve öz şekilde özetle.\n\n{{text}}"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请用简洁的语言总结下面的文本要点。\n\n{{text}}"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請用簡潔的語言總結下面的文字要點。\n\n{{text}}"
+          }
+        }
       }
     },
     "prompt.default.summarize.systemPrompt": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "You are an assistant skilled at distilling key points." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "你是一名擅长提炼要点的助手。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "你是一名擅長提煉重點的助手。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You are an assistant skilled at distilling key points."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sen ana noktaları çıkarmada uzman bir asistansın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你是一名擅长提炼要点的助手。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你是一名擅長提煉重點的助手。"
+          }
+        }
       }
     },
     "prompt.default.polish.name": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Polish" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "润色" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "潤飾" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polish"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İyileştir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "润色"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "潤飾"
+          }
+        }
       }
     },
     "prompt.default.polish.template": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Polish the following text to make it clearer and more natural while preserving the original meaning.\n\n{{text}}" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请润色下面的文本，使其表达更清晰、更自然，保持原意不变。\n\n{{text}}" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請潤飾下面的文字，使其表達更清晰、更自然，保持原意不變。\n\n{{text}}" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polish the following text to make it clearer and more natural while preserving the original meaning.\n\n{{text}}"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aşağıdaki metni, özgün anlamını koruyarak daha açık ve daha doğal hale getir.\n\n{{text}}"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请润色下面的文本，使其表达更清晰、更自然，保持原意不变。\n\n{{text}}"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請潤飾下面的文字，使其表達更清晰、更自然，保持原意不變。\n\n{{text}}"
+          }
+        }
       }
     },
     "prompt.default.polish.systemPrompt": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "You are a professional copy editor." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "你是一名专业的文字编辑。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "你是一名專業的文字編輯。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You are a professional copy editor."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sen profesyonel bir metin editörüsün."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你是一名专业的文字编辑。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你是一名專業的文字編輯。"
+          }
+        }
       }
     },
     "prompt.newDefaultName": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "New Prompt %d" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "新模板 %d" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "新模板 %d" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Prompt %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni İstem %d"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新模板 %d"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新模板 %d"
+          }
+        }
       }
     },
     "shortcut.prompt.descriptionFormat": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Process the current selection with \"%@\"." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "用「%@」处理当前选中文本。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "用「%@」處理目前選取的文字。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Process the current selection with \"%@\"."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli seçimi “%@” ile işle."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用「%@」处理当前选中文本。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用「%@」處理目前選取的文字。"
+          }
+        }
       }
     },
     "shortcut.prompt.clipboardDescriptionFormat": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Process selected text with \"%@\", or use the clipboard when no selection is found." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "用「%@」处理选中文本，未选中时使用剪贴板。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "用「%@」處理選取的文字，未選取時使用剪貼簿。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Process selected text with \"%@\", or use the clipboard when no selection is found."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metni “%@” ile işle; seçim bulunamazsa panoyu kullan."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用「%@」处理选中文本，未选中时使用剪贴板。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用「%@」處理選取的文字，未選取時使用剪貼簿。"
+          }
+        }
       }
     },
     "panel.header.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "AI Assistant" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "AI 助手" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "AI 助手" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Assistant"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Asistanı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 助手"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 助手"
+          }
+        }
       }
     },
     "panel.subtitle.shortcutPaused": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Shortcuts are paused" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "快捷键已暂停" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "快速鍵已暫停" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts are paused"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayollar duraklatıldı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷键已暂停"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速鍵已暫停"
+          }
+        }
       }
     },
     "panel.subtitle.permissionRequired": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Accessibility permission is required" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "启用前需要辅助功能授权" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "啟用前需要輔助使用權限" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility permission is required"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni gerekli"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用前需要辅助功能授权"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "啟用前需要輔助使用權限"
+          }
+        }
       }
     },
     "panel.subtitle.needsProvider": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Configure an AI service first" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "需要配置 AI 服务" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "需要設定 AI 服務" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure an AI service first"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce bir yapay zekâ servisi yapılandırın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要配置 AI 服务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要設定 AI 服務"
+          }
+        }
       }
     },
     "panel.subtitle.ready": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Press a prompt shortcut to process selected text" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "按下模板快捷键处理选中文本" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "按下模板快速鍵處理選取的文字" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press a prompt shortcut to process selected text"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metni işlemek için bir istem kısayoluna basın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按下模板快捷键处理选中文本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按下模板快速鍵處理選取的文字"
+          }
+        }
       }
     },
     "panel.subtitle.clipboardReady": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Press a prompt shortcut to process clipboard text" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "按下模板快捷键处理剪贴板文本" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "按下模板快速鍵處理剪貼簿文字" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press a prompt shortcut to process clipboard text"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pano metnini işlemek için bir istem kısayoluna basın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按下模板快捷键处理剪贴板文本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按下模板快速鍵處理剪貼簿文字"
+          }
+        }
       }
     },
     "panel.status.capturing": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Reading selected text..." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在读取选中文本..." } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "正在讀取選取的文字..." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading selected text..."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metin okunuyor..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在读取选中文本..."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在讀取選取的文字..."
+          }
+        }
       }
     },
     "panel.status.processing": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Processing..." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在处理..." } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "正在處理..." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processing..."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşleniyor..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在处理..."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在處理..."
+          }
+        }
       }
     },
     "panel.status.reprocessing": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Rerunning; the previous result is kept for now..." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在重新处理，先前的结果暂时保留..." } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "正在重新處理，先前的結果暫時保留..." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rerunning; the previous result is kept for now..."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden çalıştırılıyor; önceki sonuç şimdilik korunuyor..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在重新处理，先前的结果暂时保留..."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在重新處理，先前的結果暫時保留..."
+          }
+        }
       }
     },
     "panel.action.stop": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Stop Current Run" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "停止当前处理" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "停止目前處理" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop Current Run"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Çalışmayı Durdur"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止当前处理"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止目前處理"
+          }
+        }
       }
     },
     "panel.action.discard": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Discard and Close" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "丢弃会话并关闭" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "丟棄對話並關閉" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discard and Close"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At ve Kapat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "丢弃会话并关闭"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "丟棄對話並關閉"
+          }
+        }
       }
     },
     "panel.action.hide": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Hide" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "隐藏 (Esc)" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "隱藏 (Esc)" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隐藏 (Esc)"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隱藏 (Esc)"
+          }
+        }
       }
     },
     "panel.confirm.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Possible Clipboard Content" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "疑似剪贴板内容" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "疑似剪貼簿內容" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Possible Clipboard Content"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olası Pano İçeriği"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "疑似剪贴板内容"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "疑似剪貼簿內容"
+          }
+        }
       }
     },
     "panel.confirm.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "The selected text could not be read directly; the content above comes from the clipboard. Confirm before sending it to AI." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未能直接读取选中文本，以上内容来自剪贴板。请确认是否将其发送给 AI 处理。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法直接讀取選取的文字，以上內容來自剪貼簿。請確認是否將其傳送給 AI 處理。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The selected text could not be read directly; the content above comes from the clipboard. Confirm before sending it to AI."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metin doğrudan okunamadı; yukarıdaki içerik panodan geliyor. Yapay zekâya göndermeden önce onaylayın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未能直接读取选中文本，以上内容来自剪贴板。请确认是否将其发送给 AI 处理。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法直接讀取選取的文字，以上內容來自剪貼簿。請確認是否將其傳送給 AI 處理。"
+          }
+        }
       }
     },
     "panel.confirm.useText": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Use This Text" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "使用此文本" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "使用此文字" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use This Text"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Metni Kullan"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用此文本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用此文字"
+          }
+        }
       }
     },
     "panel.confirm.discard": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Discard" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "放弃" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "放棄" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discard"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放弃"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放棄"
+          }
+        }
       }
     },
     "panel.source.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Source Text" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "原始文本" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "原始文字" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source Text"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaynak Metin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "原始文本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "原始文字"
+          }
+        }
       }
     },
     "panel.source.empty": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No selected text detected" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未检测到选中文本" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "未偵測到選取的文字" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No selected text detected"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metin algılanmadı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未检测到选中文本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未偵測到選取的文字"
+          }
+        }
       }
     },
     "panel.source.editing": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "(Editing)" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "（正在编辑）" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "（正在編輯）" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(Editing)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(Düzenleniyor)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "（正在编辑）"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "（正在編輯）"
+          }
+        }
       }
     },
     "panel.source.hint": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "(Double-click or click to edit)" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "（双击或点击编辑）" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "（按兩下或點擊編輯）" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(Double-click or click to edit)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(Düzenlemek için çift tıklayın veya tıklayın)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "（双击或点击编辑）"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "（按兩下或點擊編輯）"
+          }
+        }
       }
     },
     "panel.source.editButton": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Edit" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "编辑" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "編輯" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzenle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編輯"
+          }
+        }
       }
     },
     "panel.source.applyAndRerun": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Apply and Rerun" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "应用并重跑" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "套用並重跑" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply and Rerun"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygula ve Yeniden Çalıştır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用并重跑"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "套用並重跑"
+          }
+        }
       }
     },
     "panel.result.copy": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Copy" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "复制" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "複製" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopyala"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "複製"
+          }
+        }
       }
     },
     "panel.result.copied": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Copied" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "已复制" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "已複製" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopyalandı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已复制"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已複製"
+          }
+        }
       }
     },
     "panel.reasoning.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Reasoning" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "思考过程" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "思考過程" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reasoning"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Akıl Yürütme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考过程"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考過程"
+          }
+        }
       }
     },
     "panel.tip.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Tip" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "提示" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "提示" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tip"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İpucu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示"
+          }
+        }
       }
     },
     "panel.tip.actionTitle": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "How to fix" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "如何解决" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "如何解決" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How to fix"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nasıl düzeltilir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "如何解决"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "如何解決"
+          }
+        }
       }
     },
     "panel.tip.enterTextManually": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Type Text Instead" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "手动输入文本" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "手動輸入文字" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type Text Instead"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metni Elle Girin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手动输入文本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手動輸入文字"
+          }
+        }
       }
     },
     "panel.retryHelp": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Retry" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "重试" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "重試" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden dene"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重试"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重試"
+          }
+        }
       }
     },
     "panelError.missingSelection": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No selected text found." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未找到选中文本" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "未找到選取的文字" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No selected text found."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metin bulunamadı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到选中文本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到選取的文字"
+          }
+        }
       }
     },
     "panelError.missingClipboardText": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "The clipboard has no text." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "剪贴板没有文本" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "剪貼簿沒有文字" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The clipboard has no text."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pano metin içermiyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "剪贴板没有文本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "剪貼簿沒有文字"
+          }
+        }
       }
     },
     "panelError.missingConfiguration": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Configure the AI service first." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请先配置 AI 服务" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請先設定 AI 服務" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure the AI service first."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce yapay zekâ servisini yapılandırın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请先配置 AI 服务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請先設定 AI 服務"
+          }
+        }
       }
     },
     "panelError.missingPrompt": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "The matching prompt was not found." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未找到对应处理模板" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "未找到對應的處理模板" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The matching prompt was not found."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleşen istem bulunamadı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到对应处理模板"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到對應的處理模板"
+          }
+        }
       }
     },
     "panelError.permissionRequired": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Accessibility permission is required." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "需要辅助功能授权" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "需要輔助使用權限" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility permission is required."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni gerekli."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要辅助功能授权"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要輔助使用權限"
+          }
+        }
       }
     },
     "panelError.missingProvider": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Configure the AI service first." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请先配置 AI 服务" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請先設定 AI 服務" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure the AI service first."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce yapay zekâ servisini yapılandırın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请先配置 AI 服务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請先設定 AI 服務"
+          }
+        }
       }
     },
     "panelError.missingAPIKey": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Configure the API key first." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请配置 API Key" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請設定 API Key" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure the API key first."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce API anahtarını yapılandırın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请配置 API Key"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請設定 API Key"
+          }
+        }
       }
     },
     "capture.error.missingSelection": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No selected text found." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未找到选中文本" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "未找到選取的文字" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No selected text found."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metin bulunamadı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到选中文本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到選取的文字"
+          }
+        }
       }
     },
     "capture.error.permissionRequired": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Accessibility permission is required." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "需要辅助功能授权" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "需要輔助使用權限" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility permission is required."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni gerekli."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要辅助功能授权"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要輔助使用權限"
+          }
+        }
       }
     },
     "capture.error.missingApplication": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Current app not found." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未找到当前应用" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "未找到目前應用程式" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current app not found."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli uygulama bulunamadı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到当前应用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到目前應用程式"
+          }
+        }
       }
     },
     "capture.error.unsupportedBrowserAutomation": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "The current browser does not support automated selection." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "当前浏览器不支持自动化取词" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "目前瀏覽器不支援自動化取詞" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The current browser does not support automated selection."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli tarayıcı, seçimin otomatik okunmasını desteklemiyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前浏览器不支持自动化取词"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目前瀏覽器不支援自動化取詞"
+          }
+        }
       }
     },
     "capture.error.invalidAutomationScript": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Automation script is invalid." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "自动化脚本无效" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "自動化腳本無效" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automation script is invalid."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon betiği geçersiz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动化脚本无效"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動化腳本無效"
+          }
+        }
       }
     },
     "capture.error.automationTimeout": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Automation selection timed out." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "自动化取词超时" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "自動化取詞逾時" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automation selection timed out."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon seçimi zaman aşımına uğradı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动化取词超时"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動化取詞逾時"
+          }
+        }
       }
     },
     "capture.error.automationFailed": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Automation selection failed." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "自动化取词失败" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "自動化取詞失敗" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automation selection failed."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon seçimi başarısız oldu."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动化取词失败"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動化取詞失敗"
+          }
+        }
       }
     },
     "capture.error.axTimeout": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Accessibility capture timed out" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "辅助功能取词超时" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "輔助功能取詞逾時" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility capture timed out"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik yakalaması zaman aşımına uğradı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "辅助功能取词超时"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輔助功能取詞逾時"
+          }
+        }
       }
     },
     "secretStore.error.unexpectedItemData": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "API key data is invalid." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "API Key 数据无效。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "API Key 資料無效。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API key data is invalid."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API anahtarı verileri geçersiz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key 数据无效。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key 資料無效。"
+          }
+        }
       }
     },
     "secretStore.error.security": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Unable to access the keychain." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法访问钥匙串。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法存取鑰匙圈。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to access the keychain."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keychain'e erişilemiyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法访问钥匙串。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法存取鑰匙圈。"
+          }
+        }
       }
     }
   },

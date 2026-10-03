@@ -39,6 +39,10 @@
       "displayName": "Батарея устройств",
       "summary": "Просматривайте заряд Mac, мобильных устройств Apple, Bluetooth-аксессуаров и мышей Rapoo и MCHOSE."
     },
+    "tr": {
+      "displayName": "Aygıt Pili",
+      "summary": "Mac'inizin, Apple mobil aygıtlarınızın, Bluetooth aksesuarlarınızın ve Rapoo ya da MCHOSE farelerin pil düzeylerini görüntüleyin."
+    },
     "zh-Hans": {
       "displayName": "设备电量",
       "summary": "查看 Mac、Apple 移动设备、蓝牙外设和雷柏/迈从鼠标电量"
@@ -120,6 +124,9 @@
       ],
       "ru": [
         "Батарея устройств"
+      ],
+      "tr": [
+        "Aygıt Pili"
       ],
       "zh-Hans": [
         "设备电量"

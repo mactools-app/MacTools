@@ -15,6 +15,12 @@
             "value": "Mouse Enhancer benötigt eine Barrierefreiheitsberechtigung. Gewähren Sie zunächst den Zugriff in den Systemeinstellungen."
           }
         },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mouse Enhancer needs Accessibility permission. Grant access in System Settings first."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
@@ -51,9 +57,24 @@
             "value": "Mouse Enhancer требует разрешения на специальные возможности. Сначала предоставьте доступ в настройках системы."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Mouse Enhancer needs Accessibility permission. Grant access in System Settings first." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "鼠标增强需要辅助功能权限，请先前往设置完成授权。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滑鼠增強需要輔助使用權限，請先前往設定完成授權。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare Geliştirme, Erişilebilirlik izni gerektiriyor. Önce Sistem Ayarları'ndan erişim verin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标增强需要辅助功能权限，请先前往设置完成授权。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滑鼠增強需要輔助使用權限，請先前往設定完成授權。"
+          }
+        }
       }
     },
     "error.accessibilityRevoked": {
@@ -68,6 +89,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Die Barrierefreiheitsberechtigung ist deaktiviert. Mouse Enhancer wurde angehalten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility permission is off. Mouse Enhancer has paused."
           }
         },
         "es": {
@@ -106,9 +133,24 @@
             "value": "Разрешение на доступ отключено. Работа Mouse Enhancer приостановлена."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Accessibility permission is off. Mouse Enhancer has paused." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "辅助功能权限已关闭，鼠标增强已暂停。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "輔助使用權限已關閉，滑鼠增強已暫停。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni kapalı. Fare Geliştirme duraklatıldı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "辅助功能权限已关闭，鼠标增强已暂停。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輔助使用權限已關閉，滑鼠增強已暫停。"
+          }
+        }
       }
     },
     "error.tapUnavailable": {
@@ -123,6 +165,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Die Scroll-Ereignisüberwachung konnte nicht gestartet werden. Bestätigen Sie die Barrierefreiheitsberechtigung und versuchen Sie es erneut."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not start scroll event monitoring. Confirm Accessibility permission and try again."
           }
         },
         "es": {
@@ -161,9 +209,24 @@
             "value": "Не удалось запустить мониторинг событий прокрутки. Подтвердите разрешение на доступность и повторите попытку."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Could not start scroll event monitoring. Confirm Accessibility permission and try again." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法启动滚动事件监听，请确认辅助功能授权后重试。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法啟動滾動事件監聽，請確認輔助使用授權後重試。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma etkinlikleri izlenemeye başlanamadı. Erişilebilirlik iznini doğrulayıp yeniden deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法启动滚动事件监听，请确认辅助功能授权后重试。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法啟動滾動事件監聽，請確認輔助使用授權後重試。"
+          }
+        }
       }
     },
     "metadata.description": {
@@ -178,6 +241,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Scrollrichtung für Maus und Trackpad getrennt anpassen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjust mouse and trackpad scroll directions separately."
           }
         },
         "es": {
@@ -216,9 +285,24 @@
             "value": "Настраивайте прокрутку мыши и трекпада отдельно."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Adjust mouse and trackpad scroll directions separately." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "分别调整鼠标与触控板的滚动方向" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "分別調整滑鼠與觸控板的捲動方向" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare ve Trackpad kaydırma yönlerini ayrı ayrı ayarlayın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分别调整鼠标与触控板的滚动方向"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分別調整滑鼠與觸控板的捲動方向"
+          }
+        }
       }
     },
     "metadata.title": {
@@ -233,6 +317,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mausverstärker"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mouse Enhancer"
           }
         },
         "es": {
@@ -271,9 +361,24 @@
             "value": "Усилитель мыши"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Mouse Enhancer" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "鼠标增强" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滑鼠增強" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare Geliştirme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标增强"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滑鼠增強"
+          }
+        }
       }
     },
     "panel.button.settings": {
@@ -288,6 +393,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Einstellungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
           }
         },
         "es": {
@@ -326,24 +437,100 @@
             "value": "Настройки"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Settings" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "設定" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
+        }
       }
     },
     "panel.subtitle.enabledFormat": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "مفعّل · %@ · %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Ein · %@ · %@" } },
-        "en": { "stringUnit": { "state": "translated", "value": "On · %@ · %@" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Activado · %@ · %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Activé · %@ · %@" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "オン · %@ · %@" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "켜짐 · %@ · %@" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Ativado · %@ · %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Включено · %@ · %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "已开启 · %@ · %@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "已開啟 · %@ · %@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفعّل · %@ · %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein · %@ · %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On · %@ · %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activado · %@ · %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activé · %@ · %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オン · %@ · %@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "켜짐 · %@ · %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativado · %@ · %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включено · %@ · %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık · %@ · %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已开启 · %@ · %@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已開啟 · %@ · %@"
+          }
+        }
       }
     },
     "panel.subtitle.needsAccessibility": {
@@ -358,6 +545,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vor der Aktivierung ist eine Zugriffsberechtigung erforderlich"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility permission required before enabling"
           }
         },
         "es": {
@@ -396,9 +589,24 @@
             "value": "Перед включением требуется разрешение на доступность"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Accessibility permission required before enabling" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "启用前需要辅助功能授权" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "啟用前需要輔助使用授權" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştirmeden önce Erişilebilirlik izni gerekli"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用前需要辅助功能授权"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "啟用前需要輔助使用授權"
+          }
+        }
       }
     },
     "panel.subtitle.off": {
@@ -413,6 +621,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Keine Erweiterung aktiviert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No enhancement enabled"
           }
         },
         "es": {
@@ -451,24 +665,100 @@
             "value": "Улучшения не включены"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "No enhancement enabled" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未启用增强功能" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "未啟用增強功能" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştirilmiş geliştirme yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未启用增强功能"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未啟用增強功能"
+          }
+        }
       }
     },
     "panel.subtitle.middleClickEnabledFormat": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "النقر الأوسط · %d أصابع" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Mittelklick · %d Finger" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Middle click · %d fingers" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Clic central · %d dedos" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Clic central · %d doigts" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "中央クリック · %d 本指" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "가운데 클릭 · %d손가락" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Clique do meio · %d dedos" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Средний щелчок · %d пальцев" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "模拟中键 · %d指" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "模擬中鍵 · %d指" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النقر الأوسط · %d أصابع"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mittelklick · %d Finger"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Middle click · %d fingers"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clic central · %d dedos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clic central · %d doigts"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中央クリック · %d 本指"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "가운데 클릭 · %d손가락"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clique do meio · %d dedos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Средний щелчок · %d пальцев"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta tıklama · %d parmak"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模拟中键 · %d指"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模擬中鍵 · %d指"
+          }
+        }
       }
     },
     "permission.accessibility.description": {
@@ -483,6 +773,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Überwacht und ändert Scroll-Ereignisse."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listens for and adjusts scroll events."
           }
         },
         "es": {
@@ -521,9 +817,24 @@
             "value": "Отслеживает и корректирует события прокрутки."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Listens for and adjusts scroll events." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "用于监听和调整滚动事件。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "用於監聽和調整捲動事件。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma etkinliklerini dinler ve düzenler."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于监听和调整滚动事件。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用於監聽和調整捲動事件。"
+          }
+        }
       }
     },
     "permission.accessibility.footnote": {
@@ -538,6 +849,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Systemeinstellungen → Datenschutz und Sicherheit → Barrierefreiheit."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Settings → Privacy & Security → Accessibility."
           }
         },
         "es": {
@@ -576,9 +893,24 @@
             "value": "Системные настройки → Конфиденциальность и безопасность → Доступность."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "System Settings → Privacy & Security → Accessibility." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "系统设置 → 隐私与安全性 → 辅助功能，允许 MacTools。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "系統設定 → 隱私權與安全性 → 輔助使用，允許 MacTools。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Erişilebilirlik."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统设置 → 隐私与安全性 → 辅助功能，允许 MacTools。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系統設定 → 隱私權與安全性 → 輔助使用，允許 MacTools。"
+          }
+        }
       }
     },
     "permission.accessibility.title": {
@@ -593,6 +925,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Barrierefreiheit"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility"
           }
         },
         "es": {
@@ -631,9 +969,24 @@
             "value": "Доступность"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Accessibility" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "辅助功能" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "輔助使用" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "辅助功能"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輔助使用"
+          }
+        }
       }
     },
     "permission.inputMonitoring.description": {
@@ -648,6 +1001,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Unterscheidet das Scrollen mit dem Mausrad von Trackpad-Gesten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distinguishes mouse wheel scrolling from trackpad gestures."
           }
         },
         "es": {
@@ -686,9 +1045,24 @@
             "value": "Отличает прокрутку колесика мыши от жестов трекпада."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Distinguishes mouse wheel scrolling from trackpad gestures." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "用于区分鼠标滚轮和触控板手势。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "用於區分滑鼠滾輪和觸控板手勢。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare tekerleği kaydırmaları ile Trackpad hareketlerini ayırt eder."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于区分鼠标滚轮和触控板手势。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用於區分滑鼠滾輪和觸控板手勢。"
+          }
+        }
       }
     },
     "permission.inputMonitoring.footnote": {
@@ -703,6 +1077,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Systemeinstellungen → Datenschutz und Sicherheit → Eingabeüberwachung."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Settings → Privacy & Security → Input Monitoring."
           }
         },
         "es": {
@@ -741,9 +1121,24 @@
             "value": "Системные настройки → Конфиденциальность и безопасность → Мониторинг входа."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "System Settings → Privacy & Security → Input Monitoring." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "系统设置 → 隐私与安全性 → 输入监控，允许 MacTools。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "系統設定 → 隱私權與安全性 → 輸入監控，允許 MacTools。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Girdi İzleme."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统设置 → 隐私与安全性 → 输入监控，允许 MacTools。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系統設定 → 隱私權與安全性 → 輸入監控，允許 MacTools。"
+          }
+        }
       }
     },
     "permission.inputMonitoring.granted": {
@@ -758,6 +1153,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Erlaubt. Verbessert die Genauigkeit der Geräteerkennung."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allowed. Improves device detection accuracy."
           }
         },
         "es": {
@@ -796,9 +1197,24 @@
             "value": "Разрешено. Повышает точность обнаружения устройства."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Allowed. Improves device detection accuracy." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "已允许，可提升设备识别准确性。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "已允許，可提升裝置識別準確性。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin verildi. Aygıt algılama doğruluğunu artırır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已允许，可提升设备识别准确性。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已允許，可提升裝置識別準確性。"
+          }
+        }
       }
     },
     "permission.inputMonitoring.title": {
@@ -813,6 +1229,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Eingabeüberwachung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input Monitoring"
           }
         },
         "es": {
@@ -851,9 +1273,24 @@
             "value": "Входной мониторинг"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Input Monitoring" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "输入监控" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "輸入監控" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi İzleme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入监控"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入監控"
+          }
+        }
       }
     },
     "settings.mouse.horizontal.description": {
@@ -868,6 +1305,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Umkehren des Scrollens mit der linken und rechten Maus."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reverse left and right mouse scrolling."
           }
         },
         "es": {
@@ -906,9 +1349,24 @@
             "value": "Поменяйте местами прокрутку левой и правой мыши."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Reverse left and right mouse scrolling." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "反转鼠标左右滚动方向。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "反轉滑鼠左右滾動方向。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farenin sola ve sağa kaydırma yönünü tersine çevirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "反转鼠标左右滚动方向。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "反轉滑鼠左右滾動方向。"
+          }
+        }
       }
     },
     "settings.mouse.horizontal.title": {
@@ -923,6 +1381,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Horizontale Umkehrung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horizontal Reversing"
           }
         },
         "es": {
@@ -961,9 +1425,24 @@
             "value": "Горизонтальный реверс"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Horizontal Reversing" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "水平反转" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "水平反轉" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yatay Ters Çevirme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "水平反转"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "水平反轉"
+          }
+        }
       }
     },
     "settings.mouse.sectionTitle": {
@@ -978,6 +1457,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Maus"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mouse"
           }
         },
         "es": {
@@ -1016,9 +1501,24 @@
             "value": "Мышь"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Mouse" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "鼠标" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滑鼠" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滑鼠"
+          }
+        }
       }
     },
     "settings.mouse.vertical.description": {
@@ -1033,6 +1533,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Umgekehrtes Auf- und Abwärtsscrollen mit der Maus."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reverse up and down mouse scrolling."
           }
         },
         "es": {
@@ -1071,9 +1577,24 @@
             "value": "Обратная прокрутка мыши вверх и вниз."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Reverse up and down mouse scrolling." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "反转鼠标上下滚动方向。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "反轉滑鼠上下滾動方向。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farenin yukarı ve aşağı kaydırma yönünü tersine çevirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "反转鼠标上下滚动方向。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "反轉滑鼠上下滾動方向。"
+          }
+        }
       }
     },
     "settings.mouse.vertical.title": {
@@ -1088,6 +1609,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vertikale Umkehrung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertical Reversing"
           }
         },
         "es": {
@@ -1126,9 +1653,24 @@
             "value": "Вертикальный реверс"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Vertical Reversing" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "垂直反转" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "垂直反轉" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikey Ters Çevirme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "垂直反转"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "垂直反轉"
+          }
+        }
       }
     },
     "settings.middleClick.description": {
@@ -1143,6 +1685,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verwandeln Sie das Tippen auf dem Trackpad in mittlere Klicks."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn trackpad taps into middle-clicks."
           }
         },
         "es": {
@@ -1181,9 +1729,24 @@
             "value": "Превратите касания трекпада в щелчки средней кнопкой мыши."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Turn trackpad taps into middle-clicks." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "触控板轻点模拟鼠标中键点击。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "觸控板輕點模擬滑鼠中鍵點按。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad dokunuşlarını orta tıklamaya dönüştürür."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触控板轻点模拟鼠标中键点击。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "觸控板輕點模擬滑鼠中鍵點按。"
+          }
+        }
       }
     },
     "settings.middleClick.fingerCount.description": {
@@ -1198,6 +1761,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tippen Sie mit der ausgewählten Anzahl von Fingern auf das Trackpad, um einen Mittelklick zu senden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap the trackpad with the selected number of fingers to send a middle-click."
           }
         },
         "es": {
@@ -1236,24 +1805,100 @@
             "value": "Коснитесь трекпада выбранным количеством пальцев, чтобы отправить средний щелчок."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Tap the trackpad with the selected number of fingers to send a middle-click." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "用指定数量的手指在触控板上轻点，将模拟鼠标中键点击。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "用指定數量的手指在觸控板上輕點，將模擬滑鼠中鍵點按。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta tıklama göndermek için Trackpad'e seçili sayıda parmakla dokunun."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用指定数量的手指在触控板上轻点，将模拟鼠标中键点击。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用指定數量的手指在觸控板上輕點，將模擬滑鼠中鍵點按。"
+          }
+        }
       }
     },
     "settings.middleClick.fingerCount.optionFormat": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "%d أصابع" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%d Finger" } },
-        "en": { "stringUnit": { "state": "translated", "value": "%d fingers" } },
-        "es": { "stringUnit": { "state": "translated", "value": "%d dedos" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "%d doigts" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%d 本指" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%d손가락" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "%d dedos" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "%d пальцев" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "%d指" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "%d指" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d أصابع"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d Finger"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d fingers"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d dedos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d doigts"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 本指"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d손가락"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d dedos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d пальцев"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d parmak"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d指"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d指"
+          }
+        }
       }
     },
     "settings.middleClick.fingerCount.title": {
@@ -1268,6 +1913,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Finger zählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finger Count"
           }
         },
         "es": {
@@ -1306,9 +1957,24 @@
             "value": "Счет на пальцах"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Finger Count" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "手指数量" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "手指數量" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parmak Sayısı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手指数量"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手指數量"
+          }
+        }
       }
     },
     "settings.middleClick.title": {
@@ -1323,6 +1989,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mittlerer Klick"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Middle Click"
           }
         },
         "es": {
@@ -1361,9 +2033,24 @@
             "value": "Средний щелчок"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Middle Click" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "模拟鼠标中键" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "模擬滑鼠中鍵" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta Tıklama"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模拟鼠标中键"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模擬滑鼠中鍵"
+          }
+        }
       }
     },
     "settings.trackpad.horizontal.description": {
@@ -1378,6 +2065,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vertauschen Sie das Scrollen mit dem linken und rechten Trackpad und der Magic Mouse."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reverse left and right trackpad and Magic Mouse scrolling."
           }
         },
         "es": {
@@ -1416,9 +2109,24 @@
             "value": "Поменяйте местами прокрутку левого и правого трекпада и прокрутку Magic Mouse."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Reverse left and right trackpad and Magic Mouse scrolling." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "反转触控板和 Magic Mouse 左右滚动方向。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "反轉觸控板和 Magic Mouse 左右滾動方向。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad ve Magic Mouse'un sola ve sağa kaydırma yönünü tersine çevirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "反转触控板和 Magic Mouse 左右滚动方向。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "反轉觸控板和 Magic Mouse 左右滾動方向。"
+          }
+        }
       }
     },
     "settings.trackpad.horizontal.title": {
@@ -1433,6 +2141,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Horizontale Umkehrung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horizontal Reversing"
           }
         },
         "es": {
@@ -1471,9 +2185,24 @@
             "value": "Горизонтальный реверс"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Horizontal Reversing" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "水平反转" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "水平反轉" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yatay Ters Çevirme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "水平反转"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "水平反轉"
+          }
+        }
       }
     },
     "settings.trackpad.sectionTitle": {
@@ -1485,6 +2214,12 @@
           }
         },
         "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad"
+          }
+        },
+        "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Trackpad"
@@ -1526,9 +2261,24 @@
             "value": "Трекпад"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Trackpad" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "触控板" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "觸控板" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触控板"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "觸控板"
+          }
+        }
       }
     },
     "settings.trackpad.vertical.description": {
@@ -1543,6 +2293,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Scrollen Sie mit dem Trackpad und der Magic Mouse rückwärts nach oben und unten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reverse up and down trackpad and Magic Mouse scrolling."
           }
         },
         "es": {
@@ -1581,9 +2337,24 @@
             "value": "Обратная прокрутка трекпада вверх и вниз и Magic Mouse."
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Reverse up and down trackpad and Magic Mouse scrolling." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "反转触控板和 Magic Mouse 上下滚动方向。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "反轉觸控板和 Magic Mouse 上下滾動方向。" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad ve Magic Mouse'un yukarı ve aşağı kaydırma yönünü tersine çevirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "反转触控板和 Magic Mouse 上下滚动方向。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "反轉觸控板和 Magic Mouse 上下滾動方向。"
+          }
+        }
       }
     },
     "settings.trackpad.vertical.title": {
@@ -1598,6 +2369,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vertikale Umkehrung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertical Reversing"
           }
         },
         "es": {
@@ -1636,9 +2413,24 @@
             "value": "Вертикальный реверс"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "Vertical Reversing" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "垂直反转" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "垂直反轉" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikey Ters Çevirme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "垂直反转"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "垂直反轉"
+          }
+        }
       }
     },
     "summary.axis.all": {
@@ -1653,6 +2445,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "horizontal und vertikal"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "horizontal and vertical"
           }
         },
         "es": {
@@ -1691,9 +2489,24 @@
             "value": "горизонтальный и вертикальный"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "horizontal and vertical" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "水平和垂直" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "水平和垂直" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yatay ve dikey"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "水平和垂直"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "水平和垂直"
+          }
+        }
       }
     },
     "summary.axis.horizontal": {
@@ -1705,6 +2518,12 @@
           }
         },
         "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "horizontal"
+          }
+        },
+        "en": {
           "stringUnit": {
             "state": "translated",
             "value": "horizontal"
@@ -1746,9 +2565,24 @@
             "value": "горизонтальный"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "horizontal" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "水平" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "水平" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yatay"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "水平"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "水平"
+          }
+        }
       }
     },
     "summary.axis.none": {
@@ -1763,6 +2597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "keine achse"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "no axis"
           }
         },
         "es": {
@@ -1801,9 +2641,24 @@
             "value": "нет оси"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "no axis" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未选方向" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "未選方向" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eksen yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未选方向"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未選方向"
+          }
+        }
       }
     },
     "summary.axis.vertical": {
@@ -1818,6 +2673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "vertikal"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "vertical"
           }
         },
         "es": {
@@ -1856,9 +2717,24 @@
             "value": "вертикальный"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "vertical" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "垂直" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "垂直" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikey"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "垂直"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "垂直"
+          }
+        }
       }
     },
     "summary.device.all": {
@@ -1873,6 +2749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Maus und Trackpad"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "mouse and trackpad"
           }
         },
         "es": {
@@ -1911,9 +2793,24 @@
             "value": "мышь и трекпад"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "mouse and trackpad" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "鼠标和触控板" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滑鼠和觸控板" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare ve Trackpad"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标和触控板"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滑鼠和觸控板"
+          }
+        }
       }
     },
     "summary.device.mouse": {
@@ -1928,6 +2825,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Maus"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "mouse"
           }
         },
         "es": {
@@ -1966,9 +2869,24 @@
             "value": "мышь"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "mouse" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "鼠标" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滑鼠" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滑鼠"
+          }
+        }
       }
     },
     "summary.device.none": {
@@ -1983,6 +2901,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "kein Gerät"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "no device"
           }
         },
         "es": {
@@ -2021,9 +2945,24 @@
             "value": "нет устройства"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "no device" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未选设备" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "未選裝置" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aygıt yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未选设备"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未選裝置"
+          }
+        }
       }
     },
     "summary.device.trackpad": {
@@ -2038,6 +2977,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Trackpad"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "trackpad"
           }
         },
         "es": {
@@ -2076,145 +3021,708 @@
             "value": "трекпад"
           }
         },
-        "en": { "stringUnit": { "state": "translated", "value": "trackpad" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "触控板" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "觸控板" } }
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触控板"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "觸控板"
+          }
+        }
       }
-    }
-,
+    },
     "settings.mouse.scrollStep.title": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "خطوة التمرير" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Scrollschrittweite" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Paso de desplazamiento" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Pas de défilement" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "スクロールステップ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "스크롤 단계" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Passo de rolagem" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Шаг прокрутки" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Scroll Step" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "滚动步长" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滾動步長" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خطوة التمرير"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scrollschrittweite"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scroll Step"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paso de desplazamiento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas de défilement"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクロールステップ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스크롤 단계"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passo de rolagem"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Шаг прокрутки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma Adımı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滚动步长"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滾動步長"
+          }
+        }
       }
     },
     "settings.mouse.scrollStep.description": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "أقصر مسافة لكل نقرة عجلة الفأرة؛ يتم رفع التمريرات الصغيرة جداً إلى هذه الخطوة. 0 يعني عدم التعديل." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Kürzester Abstand pro Mausrad-Rasterung; kleinere Schritte werden auf diesen Wert angehoben. 0 belässt das Standardverhalten." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Distancia mínima por pulsación de la rueda del ratón; los desplazamientos demasiado pequeños se aumentan a este paso. 0 mantiene el comportamiento predeterminado." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Distance minimale par crément de molette ; les créments trop petits sont ramenés à ce pas. 0 conserve le comportement par défaut." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "マウスの1目盛りの最小スクロール距離。小さすぎるスクロールはこのステップまで引き上げられます。0で調整しません。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "마우스 휠 한 칸의 최소 스크롤 거리입니다. 너무 작은 스크롤은 이 단계까지 올려집니다. 0이면 조정하지 않습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Distância mínima por clique da roda do mouse; rolagens muito pequenas são elevadas a este passo. 0 mantém o comportamento padrão." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Минимальное расстояние за один шаг колеса мыши; слишком малые прокрутки увеличиваются до этого шага. 0 — не изменять." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Shortest distance per mouse wheel tick; smaller ticks are raised to this step. 0 keeps the default behavior." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "鼠标每格滚动的最短距离，过小的滚动会被补足到该步长，0 为不调整。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滑鼠每格滾動的最短距離，過小的滾動會被補足到該步長，0 為不調整。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أقصر مسافة لكل نقرة عجلة الفأرة؛ يتم رفع التمريرات الصغيرة جداً إلى هذه الخطوة. 0 يعني عدم التعديل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kürzester Abstand pro Mausrad-Rasterung; kleinere Schritte werden auf diesen Wert angehoben. 0 belässt das Standardverhalten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortest distance per mouse wheel tick; smaller ticks are raised to this step. 0 keeps the default behavior."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distancia mínima por pulsación de la rueda del ratón; los desplazamientos demasiado pequeños se aumentan a este paso. 0 mantiene el comportamiento predeterminado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distance minimale par crément de molette ; les créments trop petits sont ramenés à ce pas. 0 conserve le comportement par défaut."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マウスの1目盛りの最小スクロール距離。小さすぎるスクロールはこのステップまで引き上げられます。0で調整しません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "마우스 휠 한 칸의 최소 스크롤 거리입니다. 너무 작은 스크롤은 이 단계까지 올려집니다. 0이면 조정하지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distância mínima por clique da roda do mouse; rolagens muito pequenas são elevadas a este passo. 0 mantém o comportamento padrão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Минимальное расстояние за один шаг колеса мыши; слишком малые прокрутки увеличиваются до этого шага. 0 — не изменять."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare tekerleğinin her kademesi için en kısa kaydırma mesafesi; daha küçük kaydırmalar bu adıma tamamlanır. 0 değeri varsayılan davranışı korur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标每格滚动的最短距离，过小的滚动会被补足到该步长，0 为不调整。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滑鼠每格滾動的最短距離，過小的滾動會被補足到該步長，0 為不調整。"
+          }
+        }
       }
     },
     "settings.mouse.scrollGain.title": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "سرعة التمرير" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Scrollgeschwindigkeit" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Velocidad de desplazamiento" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Vitesse de défilement" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "スクロール速度" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "스크롤 속도" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Velocidade de rolagem" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Скорость прокрутки" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Scroll Speed" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "滚动速度" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滾動速度" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سرعة التمرير"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scrollgeschwindigkeit"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scroll Speed"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Velocidad de desplazamiento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vitesse de défilement"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクロール速度"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스크롤 속도"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Velocidade de rolagem"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скорость прокрутки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma Hızı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滚动速度"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滾動速度"
+          }
+        }
       }
     },
     "settings.mouse.scrollGain.description": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "مُعامل يُطبَّق على مسافة تمرير الفأرة. 1.0× يعني عدم التعديل." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Multiplikator für die Maus-Scrollstrecke. 1.0× belässt das Standardverhalten." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Multiplicador aplicado a la distancia de desplazamiento del ratón. 1.0× mantiene el comportamiento predeterminado." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Multiplicateur appliqué à la distance de défilement de la souris. 1.0× conserve le comportement par défaut." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "マウスのスクロール距離に掛かる倍率です。1.0×で調整しません。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "마우스 스크롤 거리에 적용되는 배율입니다. 1.0×이면 조정하지 않습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Multiplicador aplicado à distância de rolagem do mouse. 1.0× mantém o comportamento padrão." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Множитель расстояния прокрутки мыши. 1.0× — не изменять." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Multiplier applied to mouse scroll distance. 1.0× keeps the default behavior." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "鼠标滚动距离的增益倍数，1.0× 为不调整。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滑鼠滾動距離的增益倍數，1.0× 為不調整。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مُعامل يُطبَّق على مسافة تمرير الفأرة. 1.0× يعني عدم التعديل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplikator für die Maus-Scrollstrecke. 1.0× belässt das Standardverhalten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplier applied to mouse scroll distance. 1.0× keeps the default behavior."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplicador aplicado a la distancia de desplazamiento del ratón. 1.0× mantiene el comportamiento predeterminado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplicateur appliqué à la distance de défilement de la souris. 1.0× conserve le comportement par défaut."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マウスのスクロール距離に掛かる倍率です。1.0×で調整しません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "마우스 스크롤 거리에 적용되는 배율입니다. 1.0×이면 조정하지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplicador aplicado à distância de rolagem do mouse. 1.0× mantém o comportamento padrão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Множитель расстояния прокрутки мыши. 1.0× — не изменять."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare kaydırma mesafesine uygulanan çarpan. 1.0× değeri varsayılan davranışı korur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标滚动距离的增益倍数，1.0× 为不调整。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滑鼠滾動距離的增益倍數，1.0× 為不調整。"
+          }
+        }
       }
     },
     "settings.trackpad.scrollStep.title": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "خطوة التمرير" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Scrollschrittweite" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Paso de desplazamiento" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Pas de défilement" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "スクロールステップ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "스크롤 단계" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Passo de rolagem" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Шаг прокрутки" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Scroll Step" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "滚动步长" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滾動步長" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خطوة التمرير"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scrollschrittweite"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scroll Step"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paso de desplazamiento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas de défilement"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクロールステップ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스크롤 단계"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passo de rolagem"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Шаг прокрутки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma Adımı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滚动步长"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滾動步長"
+          }
+        }
       }
     },
     "settings.trackpad.scrollStep.description": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "أقصر مسافة لكل تمريرة على لوحة اللمس؛ يتم رفع التمريرات الصغيرة جداً إلى هذه الخطوة. 0 يعني عدم التعديل." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Kürzester Abstand pro Trackpad-Bildlauf; kleinere Schritte werden auf diesen Wert angehoben. 0 belässt das Standardverhalten." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Distancia mínima por pulsación de desplazamiento del trackpad; los desplazamientos demasiado pequeños se aumentan a este paso. 0 mantiene el comportamiento predeterminado." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Distance minimale par crément de défilement du trackpad ; les créments trop petits sont ramenés à ce pas. 0 conserve le comportement par défaut." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "トラックパッドの1回の最小スクロール距離。小さすぎるスクロールはこのステップまで引き上げられます。0で調整しません。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "트랙패드 스크롤 한 번의 최소 거리입니다. 너무 작은 스크롤은 이 단계까지 올려집니다. 0이면 조정하지 않습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Distância mínima por toque de rolagem do trackpad; rolagens muito pequenas são elevadas a este passo. 0 mantém o comportamento padrão." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Минимальное расстояние за один шаг прокрутки на трекпаде; слишком малые прокрутки увеличиваются до этого шага. 0 — не изменять." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Shortest distance per trackpad scroll tick; smaller ticks are raised to this step. 0 keeps the default behavior." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "触控板每次滚动的最短距离，过小的滚动会被补足到该步长，0 为不调整。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "觸控板每次滾動的最短距離，過小的滾動會被補足到該步長，0 為不調整。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أقصر مسافة لكل تمريرة على لوحة اللمس؛ يتم رفع التمريرات الصغيرة جداً إلى هذه الخطوة. 0 يعني عدم التعديل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kürzester Abstand pro Trackpad-Bildlauf; kleinere Schritte werden auf diesen Wert angehoben. 0 belässt das Standardverhalten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortest distance per trackpad scroll tick; smaller ticks are raised to this step. 0 keeps the default behavior."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distancia mínima por pulsación de desplazamiento del trackpad; los desplazamientos demasiado pequeños se aumentan a este paso. 0 mantiene el comportamiento predeterminado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distance minimale par crément de défilement du trackpad ; les créments trop petits sont ramenés à ce pas. 0 conserve le comportement par défaut."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "トラックパッドの1回の最小スクロール距離。小さすぎるスクロールはこのステップまで引き上げられます。0で調整しません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "트랙패드 스크롤 한 번의 최소 거리입니다. 너무 작은 스크롤은 이 단계까지 올려집니다. 0이면 조정하지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distância mínima por toque de rolagem do trackpad; rolagens muito pequenas são elevadas a este passo. 0 mantém o comportamento padrão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Минимальное расстояние за один шаг прокрутки на трекпаде; слишком малые прокрутки увеличиваются до этого шага. 0 — не изменять."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad kaydırmasında her adım için en kısa mesafe; daha küçük kaydırmalar bu adıma tamamlanır. 0 değeri varsayılan davranışı korur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触控板每次滚动的最短距离，过小的滚动会被补足到该步长，0 为不调整。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "觸控板每次滾動的最短距離，過小的滾動會被補足到該步長，0 為不調整。"
+          }
+        }
       }
     },
     "settings.trackpad.scrollGain.title": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "سرعة التمرير" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Scrollgeschwindigkeit" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Velocidad de desplazamiento" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Vitesse de défilement" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "スクロール速度" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "스크롤 속도" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Velocidade de rolagem" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Скорость прокрутки" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Scroll Speed" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "滚动速度" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滾動速度" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سرعة التمرير"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scrollgeschwindigkeit"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scroll Speed"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Velocidad de desplazamiento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vitesse de défilement"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクロール速度"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스크롤 속도"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Velocidade de rolagem"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скорость прокрутки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma Hızı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滚动速度"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滾動速度"
+          }
+        }
       }
     },
     "settings.trackpad.scrollGain.description": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "مُعامل يُطبَّق على مسافة التمرير على لوحة اللمس. 1.0× يعني عدم التعديل." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Multiplikator für die Trackpad-Scrollstrecke. 1.0× belässt das Standardverhalten." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Multiplicador aplicado a la distancia de desplazamiento del trackpad. 1.0× mantiene el comportamiento predeterminado." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Multiplicateur appliqué à la distance de défilement du trackpad. 1.0× conserve le comportement par défaut." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "トラックパッドのスクロール距離に掛かる倍率です。1.0×で調整しません。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "트랙패드 스크롤 거리에 적용되는 배율입니다. 1.0×이면 조정하지 않습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Multiplicador aplicado à distância de rolagem do trackpad. 1.0× mantém o comportamento padrão." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Множитель расстояния прокрутки на трекпаде. 1.0× — не изменять." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Multiplier applied to trackpad scroll distance. 1.0× keeps the default behavior." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "触控板滚动距离的增益倍数，1.0× 为不调整。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "觸控板滾動距離的增益倍數，1.0× 為不調整。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مُعامل يُطبَّق على مسافة التمرير على لوحة اللمس. 1.0× يعني عدم التعديل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplikator für die Trackpad-Scrollstrecke. 1.0× belässt das Standardverhalten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplier applied to trackpad scroll distance. 1.0× keeps the default behavior."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplicador aplicado a la distancia de desplazamiento del trackpad. 1.0× mantiene el comportamiento predeterminado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplicateur appliqué à la distance de défilement du trackpad. 1.0× conserve le comportement par défaut."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "トラックパッドのスクロール距離に掛かる倍率です。1.0×で調整しません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "트랙패드 스크롤 거리에 적용되는 배율입니다. 1.0×이면 조정하지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplicador aplicado à distância de rolagem do trackpad. 1.0× mantém o comportamento padrão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Множитель расстояния прокрутки на трекпаде. 1.0× — не изменять."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad kaydırma mesafesine uygulanan çarpan. 1.0× değeri varsayılan davranışı korur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触控板滚动距离的增益倍数，1.0× 为不调整。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "觸控板滾動距離的增益倍數，1.0× 為不調整。"
+          }
+        }
       }
     },
     "summary.axis.tuning": {
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "ضبط التمرير" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Scrollanpassung" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Ajuste de desplazamiento" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Réglage du défilement" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "スクロール調整" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "스크롤 조절" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Ajuste de rolagem" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Настройка прокрутки" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Scroll tuning" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "滚动调节" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "滾動調節" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضبط التمرير"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scrollanpassung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scroll tuning"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajuste de desplazamiento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglage du défilement"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクロール調整"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스크롤 조절"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajuste de rolagem"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройка прокрутки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma ayarı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滚动调节"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滾動調節"
+          }
+        }
       }
     },
     "settings.mouse.smooth.description": {
@@ -2271,6 +3779,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Прокрутка колёсиком мыши идёт плавно, а не рывками."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare tekerleği kaydırması kademeden kademeye atlamak yerine yumuşak bir şekilde süzülür."
           }
         },
         "zh-Hans": {
@@ -2343,6 +3857,12 @@
             "value": "Плавная прокрутка"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Akıcı kaydırma"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2413,6 +3933,12 @@
             "value": "Время, за которое каждая плавная прокрутка завершается."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her akıcı kaydırmanın süzülmesi tamamlanana kadar geçen süre."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2481,6 +4007,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Длительность прокрутки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma süresi"
           }
         },
         "zh-Hans": {

@@ -1,7 +1,82 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
-    "widget.title": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"رفع R2"}},"de":{"stringUnit":{"state":"translated","value":"R2-Upload"}},"en":{"stringUnit":{"state":"translated","value":"R2 Upload"}},"es":{"stringUnit":{"state":"translated","value":"Subir a R2"}},"fr":{"stringUnit":{"state":"translated","value":"Envoi R2"}},"ja":{"stringUnit":{"state":"translated","value":"R2アップロード"}},"ko":{"stringUnit":{"state":"translated","value":"R2 업로드"}},"pt":{"stringUnit":{"state":"translated","value":"Enviar ao R2"}},"ru":{"stringUnit":{"state":"translated","value":"Загрузка в R2"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"R2 上传"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"R2 上傳"}}}},
+    "widget.title": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رفع R2"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2-Upload"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 Upload"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subir a R2"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoi R2"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2アップロード"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 업로드"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enviar ao R2"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загрузка в R2"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 Karşıya Yükleme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 上传"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 上傳"
+          }
+        }
+      }
+    },
     "action.upload.keyword": {
       "extractionState": "manual",
       "localizations": {
@@ -57,6 +132,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Загрузить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşıya Yükle"
           }
         },
         "zh-Hans": {
@@ -130,6 +211,12 @@
             "value": "Выбрать файл и загрузить в R2"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Seç ve R2'ye Karşıya Yükle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -199,6 +286,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отмена"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
           }
         },
         "zh-Hans": {
@@ -272,6 +365,12 @@
             "value": "Отменить загрузку"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşıya Yüklemeyi İptal Et"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -341,6 +440,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "ОК"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamam"
           }
         },
         "zh-Hans": {
@@ -414,6 +519,12 @@
             "value": "Скопировать ссылку"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlantıyı Kopyala"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -483,6 +594,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ загружен в R2."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, R2'ye karşıya yüklendi."
           }
         },
         "zh-Hans": {
@@ -556,6 +673,12 @@
             "value": "Загрузка в R2 завершена"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 Karşıya Yükleme Tamamlandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -625,6 +748,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сначала завершите настройку R2."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce R2 yapılandırmasını tamamlayın."
           }
         },
         "zh-Hans": {
@@ -698,6 +827,12 @@
             "value": "Недопустимая конфигурация R2."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 yapılandırması geçersiz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -767,6 +902,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сначала завершите настройку R2 в параметрах."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce Ayarlar'da R2 yapılandırmasını tamamlayın."
           }
         },
         "zh-Hans": {
@@ -840,6 +981,12 @@
             "value": "Выберите допустимый файл."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli bir dosya seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -909,6 +1056,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось получить доступ к Связке ключей: %@ (%d)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keychain'e erişilemedi: %@ (%d)"
           }
         },
         "zh-Hans": {
@@ -982,6 +1135,12 @@
             "value": "Недопустимое имя файла."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya adı geçersiz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1051,6 +1210,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Префикс пути объекта не может содержать «.» или «..»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nesne yolu öneki \".\" veya \"..\" içeremez."
           }
         },
         "zh-Hans": {
@@ -1124,6 +1289,12 @@
             "value": "R2 вернул недопустимый ответ."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 geçersiz bir yanıt döndürdü."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1193,6 +1364,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сначала сохраните Secret Access Key."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce Secret Access Key'i kaydedin."
           }
         },
         "zh-Hans": {
@@ -1266,6 +1443,12 @@
             "value": "Сбой загрузки (HTTP %d)."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşıya yükleme başarısız (HTTP %d)."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1335,6 +1518,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите файл для загрузки в R2"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2'ye Karşıya Yüklenecek Dosyayı Seçin"
           }
         },
         "zh-Hans": {
@@ -1408,6 +1597,12 @@
             "value": "Загружайте файлы в Cloudflare R2"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosyaları Cloudflare R2'ye karşıya yükleyin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1477,6 +1672,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Загрузка в Cloudflare R2"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloudflare R2 Karşıya Yükleme"
           }
         },
         "zh-Hans": {
@@ -1550,6 +1751,12 @@
             "value": "Выбрать"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1619,6 +1826,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сохранить конфигурацию"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapılandırmayı Kaydet"
           }
         },
         "zh-Hans": {
@@ -1692,6 +1905,12 @@
             "value": "Имя Bucket"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bucket adı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1761,6 +1980,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Учетные данные R2"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 Kimlik Bilgileri"
           }
         },
         "zh-Hans": {
@@ -1834,6 +2059,12 @@
             "value": "Панель Cloudflare → Хранилище объектов R2. Имя Bucket указано в списке бакетов, а Account ID — в сведениях об учетной записи на странице обзора R2."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloudflare Dashboard → R2 Object Storage. Bucket adını bucket listesinde, Account ID'yi R2 Overview sayfasındaki hesap bilgilerinde bulabilirsiniz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1903,6 +2134,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Создать или выбрать Bucket"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bucket Oluşturun veya Seçin"
           }
         },
         "zh-Hans": {
@@ -1976,6 +2213,12 @@
             "value": "Обзор R2 → Account Details. Нажмите Manage рядом с API Tokens. Создайте Account API token или User API token и выберите разрешение Object Read & Write. После создания токена скопируйте Access Key ID и Secret Access Key; секретный ключ отображается только один раз."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 Overview → Account Details. API Tokens'un yanındaki Manage'yi seçin. Account API token veya User API token oluşturup Object Read & Write iznini seçin. Token'ı oluşturduktan sonra Access Key ID ve Secret Access Key'i kopyalayın; secret yalnızca bir kez gösterilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2045,6 +2288,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Создать учетные данные S3 API"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S3 API Kimlik Bilgileri Oluşturun"
           }
         },
         "zh-Hans": {
@@ -2118,6 +2367,12 @@
             "value": "Документация по учетным данным"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kimlik Bilgisi Belgelerini Görüntüle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2187,6 +2442,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть панель R2"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 Dashboard'u Aç"
           }
         },
         "zh-Hans": {
@@ -2260,6 +2521,12 @@
             "value": "Документация по публичному доступу"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel Erişim Belgelerini Görüntüle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2329,6 +2596,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bucket → Settings → Custom Domains либо включите адрес для разработки r2.dev. Укажите корневой URL, включая https://."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bucket → Settings → Custom Domains veya r2.dev geliştirme adresini etkinleştirin. https:// dahil kök adresi girin."
           }
         },
         "zh-Hans": {
@@ -2402,6 +2675,12 @@
             "value": "Настроить URL публичного доступа (необязательно)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel Erişim Adresi Yapılandır (İsteğe Bağlı)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2471,6 +2750,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Руководство по настройке"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurulum Kılavuzu"
           }
         },
         "zh-Hans": {
@@ -2544,6 +2829,12 @@
             "value": "Префикс объекта"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nesne Öneki"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2613,6 +2904,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Например, uploads/2026 (необязательно)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Örneğin uploads/2026 (isteğe bağlı)"
           }
         },
         "zh-Hans": {
@@ -2686,6 +2983,12 @@
             "value": "URL публичного доступа"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel Erişim Adresi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2755,6 +3058,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "https://cdn.example.com (необязательно)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://cdn.example.com (isteğe bağlı)"
           }
         },
         "zh-Hans": {
@@ -2828,6 +3137,12 @@
             "value": "Параметры загрузки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşıya Yükleme Seçenekleri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2897,6 +3212,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Secret Access Key хранится только в Связке ключей macOS."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secret Access Key yalnızca macOS Keychain'de saklanır."
           }
         },
         "zh-Hans": {
@@ -2970,6 +3291,12 @@
             "value": "Не сохранен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedilmedi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3039,6 +3366,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Введите Secret Access Key"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secret Access Key'yi girin"
           }
         },
         "zh-Hans": {
@@ -3112,6 +3445,12 @@
             "value": "Сохранен; оставьте поле пустым, чтобы не изменять"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedildi; değiştirmemek için boş bırakın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3181,6 +3520,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Назначьте глобальное сочетание клавиш для открытия загрузчика файлов R2."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R2 dosya yükleyicisini açmak için genel bir klavye kısayolu ayarlayın."
           }
         },
         "zh-Hans": {
@@ -3254,6 +3599,12 @@
             "value": "Загрузка"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşıya Yükleme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3323,6 +3674,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Откройте окно выбора и загрузите файл в Cloudflare R2."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya seçiciyi açın ve bir dosyayı Cloudflare R2'ye karşıya yükleyin."
           }
         },
         "zh-Hans": {
@@ -3396,6 +3753,12 @@
             "value": "Выбрать и загрузить файл"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Seç ve Karşıya Yükle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3465,6 +3828,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сбой загрузки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşıya Yükleme Başarısız"
           }
         },
         "zh-Hans": {
@@ -3538,6 +3907,12 @@
             "value": "Загружайте файлы в Cloudflare R2"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosyaları Cloudflare R2'ye karşıya yükleyin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3607,6 +3982,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Подготовка к загрузке %@…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ karşıya yüklenmeye hazırlanıyor…"
           }
         },
         "zh-Hans": {
@@ -3680,6 +4061,12 @@
             "value": "Загрузка завершена: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşıya yükleme tamamlandı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3749,6 +4136,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Загрузка %@… %d%%"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ karşıya yükleniyor… %d%%"
           }
         },
         "zh-Hans": {
@@ -3822,6 +4215,12 @@
             "value": "При перезаписи существующий объект в R2 будет заменен."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üzerine yazma, R2'deki mevcut nesneyi değiştirir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3891,6 +4290,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перезаписать"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üzerine Yaz"
           }
         },
         "zh-Hans": {
@@ -3964,6 +4369,12 @@
             "value": "Переименовать"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden Adlandır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4033,6 +4444,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "«%@» уже существует"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” Zaten Var"
           }
         },
         "zh-Hans": {
@@ -4106,6 +4523,12 @@
             "value": "Имя файла"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Adı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4175,6 +4598,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Введите имя файла после загрузки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşıya yüklenecek dosya adını girin"
           }
         },
         "zh-Hans": {
@@ -4248,6 +4677,12 @@
             "value": "Создать случайное имя файла"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rastgele dosya adı oluştur"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4317,6 +4752,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Создать случайное имя UUID, сохранив расширение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uzantıyı koruyarak rastgele bir UUID dosya adı oluşturur"
           }
         },
         "zh-Hans": {
@@ -4390,6 +4831,12 @@
             "value": "Начать загрузку"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşıya Yüklemeyi Başlat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4459,6 +4906,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Введите допустимое имя файла без /."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "/ içermeyen geçerli bir dosya adı girin."
           }
         },
         "zh-Hans": {
@@ -4532,6 +4985,12 @@
             "value": "Префикс объекта не может содержать сегменты пути «.» или «..»."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nesne öneki \".\" veya \"..\" adlı yol bölümleri içeremez."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4601,6 +5060,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Введите допустимый адрес, начинающийся с http:// или https://."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "http:// veya https:// ile başlayan geçerli bir adres girin."
           }
         },
         "zh-Hans": {

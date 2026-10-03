@@ -39,6 +39,10 @@
       "displayName": "Очистить буфер обмена",
       "summary": "Очистите текущее содержимое буфера обмена одним щелчком мыши."
     },
+    "tr": {
+      "displayName": "Panoyu Temizle",
+      "summary": "Geçerli pano içeriğini tek tıkla temizleyin."
+    },
     "zh-Hans": {
       "displayName": "清空剪贴板",
       "summary": "一键清空当前剪贴板内容"
@@ -117,6 +121,9 @@
       ],
       "ru": [
         "Очистить буфер обмена"
+      ],
+      "tr": [
+        "Panoyu Temizle"
       ],
       "zh-Hans": [
         "清空剪贴板"

@@ -58,6 +58,12 @@
             "value": "Добавлено в избранное: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ favorilere eklendi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалено из избранного: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ favorilerden çıkarıldı"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Удалена заметка: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not silindi: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Заметка сохранена: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not kaydedildi: %@"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "%@ завершено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ tamamlandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "launchctl вернул код выхода %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "launchctl %d çıkış kodu döndürdü"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "%@ не удалось"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ başarısız oldu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -555,6 +597,12 @@
             "value": "Системные и глобальные элементы запуска по умолчанию доступны только для чтения, чтобы предотвратить случайные изменения."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yanlışlıkla değiştirilmeyi önlemek için sistem ve genel başlatma öğeleri varsayılan olarak salt okunurdur."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -621,6 +669,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ %@…"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ %@…"
@@ -697,6 +751,12 @@
             "value": "Сканирование завершено: %d элементов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama tamamlandı: %d öğe"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -766,6 +826,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Каталог: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dizin: %@"
           }
         },
         "zh-Hans": {
@@ -839,6 +905,12 @@
             "value": "Чтение: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okunuyor: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -908,6 +980,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Начато сканирование LaunchAgents / LaunchDaemons"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LaunchAgents / LaunchDaemons taraması başladı"
           }
         },
         "zh-Hans": {
@@ -981,6 +1059,12 @@
             "value": "Сканирование остановлено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama durduruldu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1050,6 +1134,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "ProgramArguments не объявлены"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ProgramArguments bildirilmemiş"
           }
         },
         "zh-Hans": {
@@ -1123,6 +1213,12 @@
             "value": "%@ · код выхода %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · çıkış kodu %d"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1189,6 +1285,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · PID %d"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ · PID %d"
@@ -1265,6 +1367,12 @@
             "value": "Автоматический триггер не объявлен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik tetikleyici bildirilmemiş"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1331,6 +1439,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "KeepAlive: %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "KeepAlive: %@"
@@ -1407,6 +1521,12 @@
             "value": "Запускать при входе/загрузке"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum açılışında/yüklemede çalışır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1476,6 +1596,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Запланировано: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zamanlanmış: %@"
           }
         },
         "zh-Hans": {
@@ -1549,6 +1675,12 @@
             "value": "Каждые %d секунд"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her %d saniyede bir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1618,6 +1750,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выгрузить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaldır"
           }
         },
         "zh-Hans": {
@@ -1691,6 +1829,12 @@
             "value": "Загрузить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1760,6 +1904,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отключить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devre Dışı Bırak"
           }
         },
         "zh-Hans": {
@@ -1833,6 +1983,12 @@
             "value": "Включить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1902,6 +2058,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перезапустить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden Başlat"
           }
         },
         "zh-Hans": {
@@ -1975,6 +2137,12 @@
             "value": "Запустить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2044,6 +2212,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Остановить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durdur"
           }
         },
         "zh-Hans": {
@@ -2117,6 +2291,12 @@
             "value": "В избранное"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favorilere Ekle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2186,6 +2366,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Избранное"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoriler"
           }
         },
         "zh-Hans": {
@@ -2259,6 +2445,12 @@
             "value": "Обновить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yenile"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2328,6 +2520,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обновление"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yenileniyor"
           }
         },
         "zh-Hans": {
@@ -2401,6 +2599,12 @@
             "value": "Показать в Finder"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder'da Göster"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2470,6 +2674,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалить из избранного"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favorilerden Çıkar"
           }
         },
         "zh-Hans": {
@@ -2543,6 +2753,12 @@
             "value": "Только чтение"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salt Okunur"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2614,6 +2830,12 @@
             "value": "Сведения"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayrıntılar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2680,6 +2902,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ %@"
@@ -2756,6 +2984,12 @@
             "value": "Отменить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2825,6 +3059,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Подтвердить действие"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylemi Onayla"
           }
         },
         "zh-Hans": {
@@ -2898,6 +3138,12 @@
             "value": "%@\n%@\n\nБудет вызван launchctl %@. Пользовательские LaunchAgents обычно можно восстановить, но отключение, выгрузка или остановка могут повлиять на фоновые задачи."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@\n%@\n\nBu işlem launchctl %@ komutunu çağıracak. Kullanıcı LaunchAgent'ları genellikle geri getirilebilir; ancak devre dışı bırakmak, kaldırmak veya durdurmak arka plan görevlerini etkileyebilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2967,6 +3213,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Подтвердить действие «%@» для элемента запуска?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlatma öğesi için %@ eylemi onaylansın mı?"
           }
         },
         "zh-Hans": {
@@ -3040,6 +3292,12 @@
             "value": "Добавить элемент запуска в избранное"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlatma öğesini favorilere ekle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3109,6 +3367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалить избранное"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favorilerden çıkar"
           }
         },
         "zh-Hans": {
@@ -3182,6 +3446,12 @@
             "value": "Запускается ли процесс автоматически после завершения."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşlem çıktıktan sonra otomatik olarak yeniden başlatılıp başlatılmayacağı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3251,6 +3521,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не установлено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlanmadı"
           }
         },
         "zh-Hans": {
@@ -3324,6 +3600,12 @@
             "value": "Команда и аргументы выполняются при запуске."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlatıldığında yürütülen komut ve argümanlar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3393,6 +3675,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Запускать ли один раз сразу после загрузки LaunchAgent."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LaunchAgent yüklendikten hemen sonra bir kez çalıştırılıp çalıştırılmayacağı."
           }
         },
         "zh-Hans": {
@@ -3466,6 +3754,12 @@
             "value": "Срабатывает в определенное календарное время."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belirli takvim zamanlarında tetiklenir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3535,6 +3829,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Срабатывает через фиксированный интервал в секундах."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saniye cinsinden sabit aralıklarla tetiklenir."
           }
         },
         "zh-Hans": {
@@ -3608,6 +3908,12 @@
             "value": "Читабельная сводка, созданная на основе общих полей."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sık kullanılan alanlardan oluşturulan okunabilir özet."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3677,6 +3983,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сводка по триггеру"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tetikleyici Özeti"
           }
         },
         "zh-Hans": {
@@ -3750,6 +4062,12 @@
             "value": "Происхождение"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaynak"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3819,6 +4137,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Область применения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapsam"
           }
         },
         "zh-Hans": {
@@ -3892,6 +4216,12 @@
             "value": "Состояние"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durum"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3958,6 +4288,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ · %@"
@@ -4034,6 +4370,12 @@
             "value": "Пользователь"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanıcı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4103,6 +4445,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ключевые поля"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temel Alanlar"
           }
         },
         "zh-Hans": {
@@ -4176,6 +4524,12 @@
             "value": "Нет подходящих элементов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleşen Öğe Yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4245,6 +4599,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сканирование"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taranıyor"
           }
         },
         "zh-Hans": {
@@ -4318,6 +4678,12 @@
             "value": "Элементы запуска"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlatma Öğeleri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4387,6 +4753,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Созданы приложением"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Tarafından Oluşturulan"
           }
         },
         "zh-Hans": {
@@ -4460,6 +4832,12 @@
             "value": "Проблемы"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sorunlu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4529,6 +4907,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Избранное"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoriler"
           }
         },
         "zh-Hans": {
@@ -4602,6 +4986,12 @@
             "value": "Работают"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalışıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4671,6 +5061,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Итого"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toplam"
           }
         },
         "zh-Hans": {
@@ -4744,6 +5140,12 @@
             "value": "Созданы пользователем"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanıcı Tarafından Oluşturulan"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4813,6 +5215,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добавьте локальную заметку для этого элемента запуска. Она останется на этом Mac и не будет записана в plist."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu başlatma öğesi için yerel bir not ekleyin. Not bu Mac'te kalır ve plist dosyasına yazılmaz."
           }
         },
         "zh-Hans": {
@@ -4886,6 +5294,12 @@
             "value": "Сохранить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydet"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4955,6 +5369,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Примечание"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not"
           }
         },
         "zh-Hans": {
@@ -5028,6 +5448,12 @@
             "value": "Просмотр полей plist, состояния выполнения и доступных действий"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "plist alanlarını, çalışma zamanı durumunu ve kullanılabilir eylemleri görüntüleyin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5097,6 +5523,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Список обновляется по мере сканирования"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liste, tarama ilerledikçe güncellenir"
           }
         },
         "zh-Hans": {
@@ -5170,6 +5602,12 @@
             "value": "Чтение элементов запуска"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlatma öğeleri okunuyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5239,6 +5677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите элемент запуска"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir Başlatma Öğesi Seçin"
           }
         },
         "zh-Hans": {
@@ -5312,6 +5756,12 @@
             "value": "Исходный plist"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ham plist"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5381,6 +5831,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно отобразить необработанный контент в формате UTF-8"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ham içerik UTF-8 olarak görüntülenemiyor"
           }
         },
         "zh-Hans": {
@@ -5454,6 +5910,12 @@
             "value": "Ход сканирования"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama İlerlemesi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5523,6 +5985,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Найти метку, команду или путь"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etiket, komut veya yol arayın"
           }
         },
         "zh-Hans": {
@@ -5596,6 +6064,12 @@
             "value": "%d секунд"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d saniye"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5665,6 +6139,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Просмотр элементов запуска launchctl и управление ими"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "launchctl başlatma öğelerini görüntüleyin ve yönetin"
           }
         },
         "zh-Hans": {
@@ -5738,6 +6218,12 @@
             "value": "Элементы запуска"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlatma Öğeleri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5807,6 +6293,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Встроенные системные"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sisteme Ait"
           }
         },
         "zh-Hans": {
@@ -5880,6 +6372,12 @@
             "value": "Созданы приложением"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Tarafından Oluşturulan"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5949,6 +6447,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Созданы пользователем"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanıcı Tarafından Oluşturulan"
           }
         },
         "zh-Hans": {
@@ -6022,6 +6526,12 @@
             "value": "Все источники"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Kaynaklar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6091,6 +6601,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Избранное"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoriler"
           }
         },
         "zh-Hans": {
@@ -6164,6 +6680,12 @@
             "value": "Управляемый"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yönetilebilir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6233,6 +6755,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Только чтение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salt Okunur"
           }
         },
         "zh-Hans": {
@@ -6306,6 +6834,12 @@
             "value": "Открыть менеджер"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yöneticiyi Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6375,6 +6909,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обновить список"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listeyi Yenile"
           }
         },
         "zh-Hans": {
@@ -6448,6 +6988,12 @@
             "value": "Обновление"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yenileniyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6517,6 +7063,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Откройте менеджер или обновите список, чтобы просмотреть элементы запуска"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlatma öğelerini görüntülemek için Yöneticiyi açın veya listeyi yenileyin"
           }
         },
         "zh-Hans": {
@@ -6590,6 +7142,12 @@
             "value": "Сканирование LaunchAgents и LaunchDaemons"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LaunchAgents ve LaunchDaemons taranıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6659,6 +7217,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d элементов · %d работают · %d созданы пользователем"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d öğe · %d çalışıyor · %d kullanıcı tarafından oluşturuldu"
           }
         },
         "zh-Hans": {
@@ -6732,6 +7296,12 @@
             "value": "Всегда поддерживать активным"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her zaman canlı tutulur"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6801,6 +7371,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пользовательское условие"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel koşul"
           }
         },
         "zh-Hans": {
@@ -6874,6 +7450,12 @@
             "value": "Чтение состояния отключения launchctl"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "launchctl devre dışı durumu okunuyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6943,6 +7525,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ошибка анализа: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayrıştırma başarısız oldu: %@"
           }
         },
         "zh-Hans": {
@@ -7016,6 +7604,12 @@
             "value": "Чтение состояния работы launchctl"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "launchctl çalışma durumu okunuyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7085,6 +7679,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пропуск нечитаемого каталога: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okunamayan dizin atlanıyor: %@"
           }
         },
         "zh-Hans": {
@@ -7158,6 +7758,12 @@
             "value": "Глобальный"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7227,6 +7833,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Система"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem"
           }
         },
         "zh-Hans": {
@@ -7300,6 +7912,12 @@
             "value": "Текущий пользователь"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Kullanıcı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7369,6 +7987,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Все области"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Kapsamlar"
           }
         },
         "zh-Hans": {
@@ -7442,6 +8066,12 @@
             "value": "Отключено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devre Dışı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7511,6 +8141,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başarısız"
           }
         },
         "zh-Hans": {
@@ -7584,6 +8220,12 @@
             "value": "Загружен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7653,6 +8295,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Работает"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalışıyor"
           }
         },
         "zh-Hans": {
@@ -7726,6 +8374,12 @@
             "value": "Неизвестно"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilinmiyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7797,6 +8451,12 @@
             "value": "Выгружен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklenmemiş"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7866,6 +8526,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Все состояния"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Durumlar"
           }
         },
         "zh-Hans": {

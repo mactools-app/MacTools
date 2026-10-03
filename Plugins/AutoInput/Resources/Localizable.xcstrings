@@ -1,934 +1,4472 @@
 {
-  "sourceLanguage" : "zh-Hans",
-  "strings" : {
-    "error.persistenceFailed" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذر حفظ إعدادات التبديل التلقائي لمصدر الإدخال." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Einstellungen für den automatischen Eingabequellenwechsel konnten nicht gesichert werden." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unable to save automatic input source settings." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "No se han podido guardar los ajustes de cambio automático de fuente de entrada." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Impossible d’enregistrer les réglages de changement automatique de source de saisie." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソースの自動切り替え設定を保存できませんでした。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "자동 입력 소스 전환 설정을 저장할 수 없습니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível salvar os ajustes de troca automática da fonte de entrada." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Не удалось сохранить настройки автоматического переключения источника ввода." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法保存自动切换输入法设置。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法儲存自動切換輸入法設定。" } }
+  "sourceLanguage": "zh-Hans",
+  "strings": {
+    "error.persistenceFailed": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر حفظ إعدادات التبديل التلقائي لمصدر الإدخال."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Einstellungen für den automatischen Eingabequellenwechsel konnten nicht gesichert werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to save automatic input source settings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se han podido guardar los ajustes de cambio automático de fuente de entrada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’enregistrer les réglages de changement automatique de source de saisie."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソースの自動切り替え設定を保存できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자동 입력 소스 전환 설정을 저장할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível salvar os ajustes de troca automática da fonte de entrada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить настройки автоматического переключения источника ввода."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik giriş kaynağı ayarları kaydedilemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法保存自动切换输入法设置。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法儲存自動切換輸入法設定。"
+          }
+        }
       }
     },
-    "error.persistenceRollbackFailed" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذر حفظ إعدادات التبديل التلقائي لمصدر الإدخال، كما تعذرت استعادة الإعدادات السابقة." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Einstellungen konnten nicht gesichert und die vorherigen Einstellungen nicht wiederhergestellt werden." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unable to save automatic input source settings or restore the previous settings." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "No se han podido guardar los ajustes ni restaurar los anteriores." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Impossible d’enregistrer les réglages et de restaurer les précédents." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソース設定を保存できず、以前の設定も復元できませんでした。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 소스 설정을 저장하거나 이전 설정을 복원할 수 없습니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível salvar os ajustes nem restaurar os anteriores." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Не удалось сохранить настройки и восстановить предыдущие." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法保存自动切换输入法设置，且恢复先前设置失败。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法儲存自動切換輸入法設定，且無法還原先前設定。" } }
+    "error.persistenceRollbackFailed": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر حفظ إعدادات التبديل التلقائي لمصدر الإدخال، كما تعذرت استعادة الإعدادات السابقة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Einstellungen konnten nicht gesichert und die vorherigen Einstellungen nicht wiederhergestellt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to save automatic input source settings or restore the previous settings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se han podido guardar los ajustes ni restaurar los anteriores."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’enregistrer les réglages et de restaurer les précédents."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソース設定を保存できず、以前の設定も復元できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 소스 설정을 저장하거나 이전 설정을 복원할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível salvar os ajustes nem restaurar os anteriores."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить настройки и восстановить предыдущие."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik giriş kaynağı ayarları kaydedilemedi ve önceki ayarlar geri yüklenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法保存自动切换输入法设置，且恢复先前设置失败。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法儲存自動切換輸入法設定，且無法還原先前設定。"
+          }
+        }
       }
     },
-    "action.disable.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إيقاف تبديل الإدخال التلقائي مؤقتًا" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Automatischen Eingabewechsel pausieren" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pause Auto Input" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Pausar cambio automático de entrada" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Suspendre le changement automatique" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力の自動切り替えを一時停止" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 자동 전환 일시 정지" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Pausar troca automática de entrada" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Приостановить автопереключение ввода" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "暂停自动切换输入法" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "暫停自動切換輸入法" } }
+    "action.disable.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف تبديل الإدخال التلقائي مؤقتًا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatischen Eingabewechsel pausieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause Auto Input"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausar cambio automático de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suspendre le changement automatique"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力の自動切り替えを一時停止"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 자동 전환 일시 정지"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausar troca automática de entrada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приостановить автопереключение ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik Girişi Duraklat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂停自动切换输入法"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暫停自動切換輸入法"
+          }
+        }
       }
     },
-    "action.enable.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تشغيل تبديل الإدخال التلقائي" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Automatischen Eingabewechsel aktivieren" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Turn On Auto Input" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Activar cambio automático de entrada" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Activer le changement automatique" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力の自動切り替えをオン" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 자동 전환 켜기" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Ativar troca automática de entrada" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Включить автопереключение ввода" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "开启自动切换输入法" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "開啟自動切換輸入法" } }
+    "action.enable.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل تبديل الإدخال التلقائي"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatischen Eingabewechsel aktivieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn On Auto Input"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activar cambio automático de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activer le changement automatique"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力の自動切り替えをオン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 자동 전환 켜기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativar troca automática de entrada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включить автопереключение ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik Girişi Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启自动切换输入法"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟自動切換輸入法"
+          }
+        }
       }
     },
-    "action.selectSource.definitionTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "اختيار مصدر إدخال" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Eingabequelle auswählen" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select Input Source" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Seleccionar fuente de entrada" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Sélectionner la source de saisie" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソースを選択" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 소스 선택" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Selecionar fonte de entrada" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выбрать источник ввода" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择输入法" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "選擇輸入法" } }
+    "action.selectSource.definitionTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار مصدر إدخال"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingabequelle auswählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select Input Source"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccionar fuente de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionner la source de saisie"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソースを選択"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 소스 선택"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecionar fonte de entrada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать источник ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giriş Kaynağı Seç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择输入法"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇輸入法"
+          }
+        }
       }
     },
-    "action.selectSource.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التبديل مباشرةً إلى مصدر إدخال محدد." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Direkt zu einer bestimmten Eingabequelle wechseln." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Switch directly to a specific input source." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Cambiar directamente a una fuente de entrada específica." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Passer directement à une source de saisie précise." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "指定した入力ソースに直接切り替えます。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "지정한 입력 소스로 바로 전환합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Alterne diretamente para uma fonte de entrada específica." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Переключиться непосредственно на выбранный источник ввода." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "直接切换到指定输入法。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "直接切換到指定輸入法。" } }
+    "action.selectSource.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التبديل مباشرةً إلى مصدر إدخال محدد."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direkt zu einer bestimmten Eingabequelle wechseln."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switch directly to a specific input source."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambiar directamente a una fuente de entrada específica."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passer directement à une source de saisie précise."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指定した入力ソースに直接切り替えます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지정한 입력 소스로 바로 전환합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alterne diretamente para uma fonte de entrada específica."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переключиться непосредственно на выбранный источник ввода."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrudan belirli bir giriş kaynağına geçer."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接切换到指定输入法。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接切換到指定輸入法。"
+          }
+        }
       }
     },
-    "action.selectSource.parameterTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "مصدر الإدخال" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Eingabequelle" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Input Source" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Fuente de entrada" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Source de saisie" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソース" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 소스" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Fonte de entrada" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Источник ввода" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "输入法" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輸入法" } }
+    "action.selectSource.parameterTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مصدر الإدخال"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingabequelle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input Source"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fuente de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source de saisie"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソース"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 소스"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fonte de entrada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Источник ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giriş Kaynağı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入法"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入法"
+          }
+        }
       }
     },
-    "action.selectSource.titleFormat" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التبديل إلى %@" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Zu %@ wechseln" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Switch to %@" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Cambiar a %@" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Passer à %@" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "%@に切り替える" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "%@(으)로 전환" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Alternar para %@" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Переключиться на %@" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "切换到 %@" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "切換到 %@" } }
+    "action.selectSource.titleFormat": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التبديل إلى %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu %@ wechseln"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switch to %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambiar a %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passer à %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@に切り替える"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@(으)로 전환"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alternar para %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переключиться на %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ giriş kaynağına geç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换到 %@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切換到 %@"
+          }
+        }
       }
     },
-    "action.selectSource.unavailable" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "مصدر الإدخال معطّل أو غير متاح." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Eingabequelle ist deaktiviert oder nicht verfügbar." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "The input source is disabled or unavailable." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "La fuente de entrada está desactivada o no está disponible." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "La source de saisie est désactivée ou indisponible." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソースが無効になっているか、利用できません。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 소스가 비활성화되었거나 사용할 수 없습니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "A fonte de entrada está desativada ou indisponível." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Источник ввода отключен или недоступен." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "输入法已停用或不可用。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輸入法已停用或無法使用。" } }
+    "action.selectSource.unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مصدر الإدخال معطّل أو غير متاح."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Eingabequelle ist deaktiviert oder nicht verfügbar."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The input source is disabled or unavailable."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La fuente de entrada está desactivada o no está disponible."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La source de saisie est désactivée ou indisponible."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソースが無効になっているか、利用できません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 소스가 비활성화되었거나 사용할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A fonte de entrada está desativada ou indisponível."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Источник ввода отключен или недоступен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giriş kaynağı devre dışı veya kullanılamıyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入法已停用或不可用。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入法已停用或無法使用。"
+          }
+        }
       }
     },
-    "error.switchFailed" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذّر تبديل مصدر الإدخال" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Eingabequelle konnte nicht gewechselt werden" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unable to switch input source" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "No se pudo cambiar la fuente de entrada" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Impossible de changer la source de saisie" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソースを切り替えられません" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 소스를 전환할 수 없습니다" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível alternar a fonte de entrada" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Не удалось переключить источник ввода" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法切换输入法" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法切換輸入法" } }
+    "error.switchFailed": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر تبديل مصدر الإدخال"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingabequelle konnte nicht gewechselt werden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to switch input source"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo cambiar la fuente de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de changer la source de saisie"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソースを切り替えられません"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 소스를 전환할 수 없습니다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível alternar a fonte de entrada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось переключить источник ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giriş kaynağı değiştirilemedi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法切换输入法"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法切換輸入法"
+          }
+        }
       }
     },
-    "metadata.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تبديل مصادر الإدخال تلقائيًا" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Eingabequelle automatisch wechseln" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Auto Input" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Cambio automático de entrada" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Changement automatique de saisie" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソースの自動切り替え" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 소스 자동 전환" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Troca automática de entrada" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Автопереключение источника ввода" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "自动切换输入法" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "自動切換輸入法" } }
+    "metadata.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبديل مصادر الإدخال تلقائيًا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingabequelle automatisch wechseln"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto Input"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambio automático de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changement automatique de saisie"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソースの自動切り替え"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 소스 자동 전환"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Troca automática de entrada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автопереключение источника ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik Giriş"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动切换输入法"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動切換輸入法"
+          }
+        }
       }
     },
-    "metadata.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تذكّر مصادر الإدخال وبدّلها تلقائيًا لكل تطبيق." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Eingabequellen pro App merken und automatisch wechseln." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remember and automatically switch input sources for each app" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Recuerde y cambie automáticamente las fuentes de entrada de cada app." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Mémorisez et changez automatiquement la source de saisie pour chaque app." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "アプリごとに入力ソースを記憶して自動的に切り替えます。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "앱별 입력 소스를 기억하고 자동으로 전환합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Lembre e alterne automaticamente as fontes de entrada de cada app." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Запоминайте и автоматически переключайте источники ввода для приложений." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "按应用记住并自动切换输入法" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "按應用程式記住並自動切換輸入法" } }
+    "metadata.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تذكّر مصادر الإدخال وبدّلها تلقائيًا لكل تطبيق."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingabequellen pro App merken und automatisch wechseln."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remember and automatically switch input sources for each app"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recuerde y cambie automáticamente las fuentes de entrada de cada app."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mémorisez et changez automatiquement la source de saisie pour chaque app."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリごとに入力ソースを記憶して自動的に切り替えます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱별 입력 소스를 기억하고 자동으로 전환합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lembre e alterne automaticamente as fontes de entrada de cada app."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запоминайте и автоматически переключайте источники ввода для приложений."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her uygulama için giriş kaynağını hatırlar ve otomatik olarak değiştirir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按应用记住并自动切换输入法"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按應用程式記住並自動切換輸入法"
+          }
+        }
       }
     },
-    "panel.subtitle.paused" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "متوقف مؤقتًا" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Pausiert" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Paused" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "En pausa" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "En pause" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "一時停止中" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "일시 정지됨" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Em pausa" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Приостановлено" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已暂停" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已暫停" } }
+    "panel.subtitle.paused": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوقف مؤقتًا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausiert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En pausa"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En pause"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一時停止中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "일시 정지됨"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Em pausa"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приостановлено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duraklatıldı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已暂停"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已暫停"
+          }
+        }
       }
     },
-    "panel.subtitle.rulesFormat" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "%d من القواعد الثابتة" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "%d feste Regeln" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "%d fixed rules" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "%d reglas fijas" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "%d règles fixes" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "固定ルール %d 件" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "고정 규칙 %d개" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "%d regras fixas" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Фиксированных правил: %d" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "%d 条固定规则" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "%d 條固定規則" } }
+    "panel.subtitle.rulesFormat": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d من القواعد الثابتة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d feste Regeln"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d fixed rules"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d reglas fijas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d règles fixes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "固定ルール %d 件"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "고정 규칙 %d개"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d regras fixas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фиксированных правил: %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d sabit kural"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 条固定规则"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 條固定規則"
+          }
+        }
       }
     },
-    "panel.subtitle.remembering" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تذكّر التطبيقات مفعّل" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "App-Erinnerung ist aktiviert" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "App memory is on" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Memoria por app activada" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Mémorisation par app activée" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "アプリごとの記憶はオンです" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "앱별 기억이 켜져 있음" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Memória por app ativada" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Запоминание для приложений включено" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "自动记忆已开启" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "自動記憶已開啟" } }
+    "panel.subtitle.remembering": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تذكّر التطبيقات مفعّل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Erinnerung ist aktiviert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App memory is on"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memoria por app activada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mémorisation par app activée"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリごとの記憶はオンです"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱별 기억이 켜져 있음"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memória por app ativada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запоминание для приложений включено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama belleği açık"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动记忆已开启"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動記憶已開啟"
+          }
+        }
       }
     },
-    "panel.subtitle.noRules" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "لا توجد قواعد تبديل" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine Wechselregeln" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No switching rules" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "No hay reglas de cambio" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucune règle de changement" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "切り替えルールなし" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "전환 규칙 없음" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Nenhuma regra de alternância" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нет правил переключения" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "暂无切换规则" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "暫無切換規則" } }
+    "panel.subtitle.noRules": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد قواعد تبديل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Wechselregeln"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No switching rules"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hay reglas de cambio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune règle de changement"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切り替えルールなし"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전환 규칙 없음"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nenhuma regra de alternância"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет правил переключения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçiş kuralı yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无切换规则"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暫無切換規則"
+          }
+        }
       }
     },
-    "settings.behavior.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "سلوك التبديل" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wechselverhalten" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Switching Behavior" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Comportamiento de cambio" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Comportement de changement" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "切り替え動作" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "전환 동작" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Comportamento de alternância" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Поведение переключения" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "切换行为" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "切換行為" } }
+    "settings.behavior.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سلوك التبديل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wechselverhalten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switching Behavior"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comportamiento de cambio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comportement de changement"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切り替え動作"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전환 동작"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comportamento de alternância"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поведение переключения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçiş Davranışı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换行为"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切換行為"
+          }
+        }
       }
     },
-    "settings.shortcuts.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "اختصارات مصادر الإدخال" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Eingabequellen-Kurzbefehle" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Input Source Shortcuts" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Atajos de fuente de entrada" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Raccourcis de source de saisie" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソースのショートカット" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 소스 단축키" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Atalhos de fonte de entrada" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Сочетания клавиш источников ввода" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "输入法快捷键" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輸入法快速鍵" } }
+    "settings.shortcuts.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختصارات مصادر الإدخال"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingabequellen-Kurzbefehle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input Source Shortcuts"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atajos de fuente de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raccourcis de source de saisie"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソースのショートカット"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 소스 단축키"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atalhos de fonte de entrada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сочетания клавиш источников ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giriş Kaynağı Kısayolları"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入法快捷键"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入法快速鍵"
+          }
+        }
       }
     },
-    "settings.shortcuts.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "عيّن اختصارات عامة لمصادر الإدخال المستخدمة كثيرًا وانتقل إليها مباشرة بضغطة مفتاح." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Globale Kurzbefehle für häufig verwendete Eingabequellen festlegen und per Tastendruck direkt wechseln." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Assign global shortcuts to frequently used input sources and switch directly with a key press." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Asigna atajos globales a las fuentes de entrada que más usas y cambia directamente con una tecla." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Attribuez des raccourcis globaux aux sources de saisie fréquentes et changez directement d’une touche." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "よく使う入力ソースにグローバルショートカットを割り当て、キー操作ですぐに切り替えます。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "자주 사용하는 입력 소스에 전역 단축키를 지정하고 키 한 번으로 바로 전환합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Atribua atalhos globais às fontes de entrada mais usadas e alterne diretamente com uma tecla." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Назначьте глобальные сочетания клавиш часто используемым источникам ввода и переключайтесь одним нажатием." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "为常用输入法分配全局快捷键，按下即可直接切换。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "為常用輸入法指派全域快速鍵，按下即可直接切換。" } }
+    "settings.shortcuts.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عيّن اختصارات عامة لمصادر الإدخال المستخدمة كثيرًا وانتقل إليها مباشرة بضغطة مفتاح."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Globale Kurzbefehle für häufig verwendete Eingabequellen festlegen und per Tastendruck direkt wechseln."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Assign global shortcuts to frequently used input sources and switch directly with a key press."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asigna atajos globales a las fuentes de entrada que más usas y cambia directamente con una tecla."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attribuez des raccourcis globaux aux sources de saisie fréquentes et changez directement d’une touche."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "よく使う入力ソースにグローバルショートカットを割り当て、キー操作ですぐに切り替えます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자주 사용하는 입력 소스에 전역 단축키를 지정하고 키 한 번으로 바로 전환합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atribua atalhos globais às fontes de entrada mais usadas e alterne diretamente com uma tecla."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Назначьте глобальные сочетания клавиш часто используемым источникам ввода и переключайтесь одним нажатием."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sık kullandığınız giriş kaynaklarına global kısayollar atayın ve tek tuşla doğrudan geçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "为常用输入法分配全局快捷键，按下即可直接切换。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "為常用輸入法指派全域快速鍵，按下即可直接切換。"
+          }
+        }
       }
     },
-    "settings.hud.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "مؤشر مصدر الإدخال" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Eingabequellenanzeige" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Input Source HUD" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Indicador de fuente de entrada" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Indicateur de source de saisie" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソース表示" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 소스 표시" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Indicador de fonte de entrada" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Индикатор источника ввода" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "输入法提示" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輸入法提示" } }
+    "settings.hud.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مؤشر مصدر الإدخال"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingabequellenanzeige"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input Source HUD"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indicador de fuente de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indicateur de source de saisie"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソース表示"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 소스 표시"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indicador de fonte de entrada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Индикатор источника ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giriş Kaynağı Göstergesi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入法提示"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入法提示"
+          }
+        }
       }
     },
-    "settings.hud.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "اعرض مصدر الإدخال الحالي مؤقتًا قرب منطقة إدخال النص أو الطرفية النشطة. يتطلب إذن تسهيلات الاستخدام." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Aktuelle Eingabequelle kurz neben dem aktiven Textbereich oder Terminal anzeigen. Benötigt Bedienungshilfen." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Briefly show the current input source near the focused text area or terminal. Requires Accessibility." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Muestra brevemente la fuente de entrada actual junto al área de texto o terminal activo. Requiere Accesibilidad." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Affiche brièvement la source de saisie près de la zone de texte ou du terminal actif. Nécessite Accessibilité." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フォーカス中のテキスト入力領域またはターミナル付近に現在の入力ソースを一時表示します。アクセシビリティが必要です。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "포커스된 텍스트 입력 영역 또는 터미널 근처에 현재 입력 소스를 잠시 표시합니다. 손쉬운 사용 권한이 필요합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Mostre brevemente a fonte de entrada atual perto da área de texto ou terminal em foco. Requer Acessibilidade." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Кратко показывать текущий источник ввода рядом с активной областью текста или терминалом. Требуется Универсальный доступ." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "聚焦文本输入区域或终端时，在附近短暂显示当前输入法。需要辅助功能权限。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "聚焦文字輸入區域或終端機時，在附近短暫顯示目前輸入法。需要輔助使用權限。" } }
+    "settings.hud.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اعرض مصدر الإدخال الحالي مؤقتًا قرب منطقة إدخال النص أو الطرفية النشطة. يتطلب إذن تسهيلات الاستخدام."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktuelle Eingabequelle kurz neben dem aktiven Textbereich oder Terminal anzeigen. Benötigt Bedienungshilfen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Briefly show the current input source near the focused text area or terminal. Requires Accessibility."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra brevemente la fuente de entrada actual junto al área de texto o terminal activo. Requiere Accesibilidad."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Affiche brièvement la source de saisie près de la zone de texte ou du terminal actif. Nécessite Accessibilité."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォーカス中のテキスト入力領域またはターミナル付近に現在の入力ソースを一時表示します。アクセシビリティが必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "포커스된 텍스트 입력 영역 또는 터미널 근처에 현재 입력 소스를 잠시 표시합니다. 손쉬운 사용 권한이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostre brevemente a fonte de entrada atual perto da área de texto ou terminal em foco. Requer Acessibilidade."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кратко показывать текущий источник ввода рядом с активной областью текста или терминалом. Требуется Универсальный доступ."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli giriş kaynağını, odaklanılan metin alanının veya terminalin yakınında kısa süreliğine gösterir. Erişilebilirlik izni gerektirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "聚焦文本输入区域或终端时，在附近短暂显示当前输入法。需要辅助功能权限。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "聚焦文字輸入區域或終端機時，在附近短暫顯示目前輸入法。需要輔助使用權限。"
+          }
+        }
       }
     },
-    "settings.hud.size.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "حجم المؤشر" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "HUD-Größe" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "HUD Size" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Tamaño del indicador" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Taille de l’indicateur" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "表示サイズ" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "표시 크기" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Tamanho do indicador" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Размер индикатора" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提示大小" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提示大小" } }
+    "settings.hud.size.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حجم المؤشر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD-Größe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD Size"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamaño del indicador"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taille de l’indicateur"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "表示サイズ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "표시 크기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamanho do indicador"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Размер индикатора"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gösterge Boyutu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示大小"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示大小"
+          }
+        }
       }
     },
-    "settings.hud.size.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "اضبط حجم النص ولوحة المؤشر." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Text- und Panelgröße des HUD anpassen." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Adjust the HUD’s text and panel size." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Ajusta el tamaño del texto y del panel." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Ajustez la taille du texte et du panneau." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "表示のテキストとパネルのサイズを調整します。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "표시의 텍스트와 패널 크기를 조절합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Ajuste o tamanho do texto e do painel." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Настройте размер текста и панели." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "调整提示的文字和面板大小。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "調整提示的文字與面板大小。" } }
+    "settings.hud.size.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضبط حجم النص ولوحة المؤشر."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text- und Panelgröße des HUD anpassen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjust the HUD’s text and panel size."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajusta el tamaño del texto y del panel."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustez la taille du texte et du panneau."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "表示のテキストとパネルのサイズを調整します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "표시의 텍스트와 패널 크기를 조절합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajuste o tamanho do texto e do painel."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройте размер текста и панели."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Göstergenin metin ve panel boyutunu ayarlayın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "调整提示的文字和面板大小。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "調整提示的文字與面板大小。"
+          }
+        }
       }
     },
-    "settings.hud.size.compact" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "مضغوط" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Kompakt" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Compact" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Compacto" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Compact" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コンパクト" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "컴팩트" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Compacto" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Компактный" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "紧凑" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "緊湊" } }
+    "settings.hud.size.compact": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مضغوط"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kompakt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compact"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compacto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compact"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コンパクト"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컴팩트"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compacto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Компактный"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kompakt"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "紧凑"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "緊湊"
+          }
+        }
       }
     },
-    "settings.hud.size.standard" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "قياسي" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Standard" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Standard" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Estándar" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Standard" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "標準" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "표준" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Padrão" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Стандартный" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "标准" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "標準" } }
+    "settings.hud.size.standard": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قياسي"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estándar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "標準"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "표준"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Padrão"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Стандартный"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standart"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标准"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "標準"
+          }
+        }
       }
     },
-    "settings.hud.size.large" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "كبير" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Groß" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Large" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Grande" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Grand" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "大" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "크게" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Grande" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Большой" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "大" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "大" } }
+    "settings.hud.size.large": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كبير"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groß"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Large"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grande"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grand"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "크게"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grande"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Большой"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Büyük"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大"
+          }
+        }
       }
     },
-    "settings.hud.reducedFrequency.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تقليل تكرار عرض المؤشر" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Häufige HUD-Anzeigen reduzieren" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reduce Frequent HUDs" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Reducir avisos frecuentes" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réduire les affichages fréquents" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "頻繁な表示を減らす" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "잦은 표시 줄이기" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Reduzir avisos frequentes" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Реже показывать индикатор" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "减少频繁提示" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "減少頻繁提示" } }
+    "settings.hud.reducedFrequency.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقليل تكرار عرض المؤشر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Häufige HUD-Anzeigen reduzieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reduce Frequent HUDs"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reducir avisos frecuentes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réduire les affichages fréquents"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "頻繁な表示を減らす"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "잦은 표시 줄이기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reduzir avisos frequentes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Реже показывать индикатор"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gösterge Sıklığını Azalt"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "减少频繁提示"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "減少頻繁提示"
+          }
+        }
       }
     },
-    "settings.hud.reducedFrequency.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "يظهر فورًا عند أول تركيز وعند تغيير مصدر الإدخال. مع بقاء المصدر نفسه، يعاد التذكير عند بلوغ أحد الحدين أدناه." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim ersten Fokus und bei Eingabequellenwechseln sofort anzeigen. Bei gleicher Quelle erneut erinnern, sobald einer der Grenzwerte erreicht ist." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Show immediately on first focus and source changes. With the same source, remind again when either limit below is reached." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Mostrar de inmediato al enfocar por primera vez y al cambiar de fuente. Con la misma fuente, volver a avisar al alcanzar cualquiera de los límites." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Afficher immédiatement au premier focus et lors d’un changement de source. Avec la même source, rappeler dès que l’une des limites est atteinte." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "最初のフォーカス時と入力ソースの変更時はすぐに表示します。同じ入力ソースでは、下のいずれかの条件に達したときに再度表示します。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "처음 초점을 맞출 때와 입력 소스 변경 시 즉시 표시합니다. 입력 소스가 같으면 아래 조건 중 하나에 도달할 때 다시 알립니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Mostrar imediatamente no primeiro foco e ao mudar a fonte. Com a mesma fonte, lembrar novamente quando qualquer limite abaixo for atingido." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Сразу показывать при первом фокусе и смене источника. При том же источнике напоминать снова, когда достигнут любой из лимитов ниже." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "首次聚焦和输入法变化时立即提示。输入法不变时，达到下方任一条件后再次提示。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "首次聚焦和輸入法變化時立即提示。輸入法不變時，達到下方任一條件後再次提示。" } }
+    "settings.hud.reducedFrequency.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يظهر فورًا عند أول تركيز وعند تغيير مصدر الإدخال. مع بقاء المصدر نفسه، يعاد التذكير عند بلوغ أحد الحدين أدناه."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beim ersten Fokus und bei Eingabequellenwechseln sofort anzeigen. Bei gleicher Quelle erneut erinnern, sobald einer der Grenzwerte erreicht ist."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show immediately on first focus and source changes. With the same source, remind again when either limit below is reached."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar de inmediato al enfocar por primera vez y al cambiar de fuente. Con la misma fuente, volver a avisar al alcanzar cualquiera de los límites."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher immédiatement au premier focus et lors d’un changement de source. Avec la même source, rappeler dès que l’une des limites est atteinte."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最初のフォーカス時と入力ソースの変更時はすぐに表示します。同じ入力ソースでは、下のいずれかの条件に達したときに再度表示します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "처음 초점을 맞출 때와 입력 소스 변경 시 즉시 표시합니다. 입력 소스가 같으면 아래 조건 중 하나에 도달할 때 다시 알립니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar imediatamente no primeiro foco e ao mudar a fonte. Com a mesma fonte, lembrar novamente quando qualquer limite abaixo for atingido."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сразу показывать при первом фокусе и смене источника. При том же источнике напоминать снова, когда достигнут любой из лимитов ниже."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İlk odaklanmada ve kaynak değişiminde hemen gösterilir. Kaynak aynı kaldığında, aşağıdaki sınırlardan birine ulaşılınca yeniden hatırlatılır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次聚焦和输入法变化时立即提示。输入法不变时，达到下方任一条件后再次提示。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次聚焦和輸入法變化時立即提示。輸入法不變時，達到下方任一條件後再次提示。"
+          }
+        }
       }
     },
-    "settings.hud.reminderInterval.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "الفاصل الزمني للتذكير" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Erinnerungsintervall" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reminder Interval" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Intervalo de recordatorio" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Intervalle de rappel" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "再通知の間隔" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "알림 간격" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Intervalo de lembrete" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Интервал напоминания" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提示间隔" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提示間隔" } }
+    "settings.hud.reminderInterval.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفاصل الزمني للتذكير"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erinnerungsintervall"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminder Interval"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intervalo de recordatorio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intervalle de rappel"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再通知の間隔"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "알림 간격"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intervalo de lembrete"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Интервал напоминания"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hatırlatma Aralığı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示间隔"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示間隔"
+          }
+        }
       }
     },
-    "settings.hud.reminderInterval.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "أظهر التذكير مجددًا عند التركيز المؤهل التالي بعد انقضاء هذه المدة." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Nach Ablauf dieser Zeit beim nächsten geeigneten Fokus erneut anzeigen." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Show again on the next eligible focus after this much time passes." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Volver a mostrar en el siguiente foco válido una vez transcurrido este tiempo." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réafficher au prochain focus admissible après ce délai." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "この時間が経過した後、次に対象の入力領域へフォーカスしたときに再表示します。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 시간이 지나면 다음 유효한 초점에서 다시 표시합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Mostrar novamente no próximo foco válido após este tempo." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Снова показать при следующем подходящем фокусе после этого времени." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "经过这段时间后，在下一次有效聚焦时再次提示。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "經過這段時間後，在下一次有效聚焦時再次提示。" } }
+    "settings.hud.reminderInterval.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أظهر التذكير مجددًا عند التركيز المؤهل التالي بعد انقضاء هذه المدة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach Ablauf dieser Zeit beim nächsten geeigneten Fokus erneut anzeigen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show again on the next eligible focus after this much time passes."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver a mostrar en el siguiente foco válido una vez transcurrido este tiempo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réafficher au prochain focus admissible après ce délai."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この時間が経過した後、次に対象の入力領域へフォーカスしたときに再表示します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 시간이 지나면 다음 유효한 초점에서 다시 표시합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar novamente no próximo foco válido após este tempo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Снова показать при следующем подходящем фокусе после этого времени."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu süre geçtikten sonra ilk uygun odaklanmada yeniden gösterilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "经过这段时间后，在下一次有效聚焦时再次提示。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "經過這段時間後，在下一次有效聚焦時再次提示。"
+          }
+        }
       }
     },
-    "settings.hud.reminderInterval.unit" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "ث" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sek." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "sec" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "s" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "s" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "秒" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "초" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "s" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "с" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "秒" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "秒" } }
+    "settings.hud.reminderInterval.unit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ث"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sek."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sec"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "s"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "s"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "秒"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "초"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "s"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "с"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sn"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "秒"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "秒"
+          }
+        }
       }
     },
-    "settings.hud.appSwitchReminder.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التذكير عند تبديل التطبيقات" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Erinnerung bei App-Wechsel" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "App-Switch Reminder" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Recordatorio al cambiar de app" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Rappel après changement d’app" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "アプリ切り替え通知" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "앱 전환 알림" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Lembrete ao trocar de app" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Напоминание при смене приложений" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "应用切换提示" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "應用程式切換提示" } }
+    "settings.hud.appSwitchReminder.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التذكير عند تبديل التطبيقات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erinnerung bei App-Wechsel"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Switch Reminder"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recordatorio al cambiar de app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rappel après changement d’app"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリ切り替え通知"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 전환 알림"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lembrete ao trocar de app"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Напоминание при смене приложений"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Değiştirme Hatırlatması"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用切换提示"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "應用程式切換提示"
+          }
+        }
       }
     },
-    "settings.hud.appSwitchReminder.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "أظهر التذكير مجددًا بعد هذا العدد من تبديلات التطبيقات، حتى قبل انتهاء المدة." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Nach dieser Anzahl von App-Wechseln erneut anzeigen, auch vor Ablauf des Zeitlimits." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Show again after this many app switches, even before the time limit." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Volver a mostrar tras este número de cambios de app, incluso antes del límite de tiempo." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réafficher après ce nombre de changements d’app, même avant la limite de temps." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "時間の条件に達する前でも、この回数だけアプリを切り替えると再表示します。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "시간 제한 전이라도 이 횟수만큼 앱을 전환하면 다시 표시합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Mostrar novamente após este número de trocas de app, mesmo antes do limite de tempo." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Снова показать после этого числа переключений приложений, даже до истечения времени." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "达到此切换次数后，即使尚未到提示间隔，也会在输入区域聚焦时提示。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "達到此切換次數後，即使尚未到提示間隔，也會在輸入區域聚焦時提示。" } }
+    "settings.hud.appSwitchReminder.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أظهر التذكير مجددًا بعد هذا العدد من تبديلات التطبيقات، حتى قبل انتهاء المدة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach dieser Anzahl von App-Wechseln erneut anzeigen, auch vor Ablauf des Zeitlimits."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show again after this many app switches, even before the time limit."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver a mostrar tras este número de cambios de app, incluso antes del límite de tiempo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réafficher après ce nombre de changements d’app, même avant la limite de temps."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時間の条件に達する前でも、この回数だけアプリを切り替えると再表示します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시간 제한 전이라도 이 횟수만큼 앱을 전환하면 다시 표시합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar novamente após este número de trocas de app, mesmo antes do limite de tempo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Снова показать после этого числа переключений приложений, даже до истечения времени."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Süre sınırı dolmamış olsa bile bu sayıda uygulama değişikliğinden sonra yeniden gösterilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "达到此切换次数后，即使尚未到提示间隔，也会在输入区域聚焦时提示。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "達到此切換次數後，即使尚未到提示間隔，也會在輸入區域聚焦時提示。"
+          }
+        }
       }
     },
-    "settings.hud.appSwitchReminder.unit" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تبديلات" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wechsel" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "switches" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "cambios" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "changements" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "回" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "회" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "trocas" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "переключения" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "次" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "次" } }
+    "settings.hud.appSwitchReminder.unit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبديلات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wechsel"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "switches"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "cambios"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "changements"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "회"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "trocas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "переключения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "değişiklik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "次"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "次"
+          }
+        }
       }
     },
-    "settings.hud.interactive.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "مؤشر تفاعلي" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Interaktives HUD" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Interactive HUD" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Indicador interactivo" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Indicateur interactif" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "操作可能な表示" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "대화형 표시" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Indicador interativo" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Интерактивный индикатор" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "交互式提示" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "互動式提示" } }
+    "settings.hud.interactive.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مؤشر تفاعلي"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interaktives HUD"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interactive HUD"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indicador interactivo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indicateur interactif"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作可能な表示"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대화형 표시"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indicador interativo"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Интерактивный индикатор"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkileşimli Gösterge"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "交互式提示"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "互動式提示"
+          }
+        }
       }
     },
-    "settings.hud.interactive.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "يبقى ظاهرًا عند تمرير المؤشر؛ انقر عدة مرات للتنقل بين مصادر الإدخال." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Bleibt beim Darüberfahren sichtbar; wiederholt klicken, um durch die Eingabequellen zu wechseln." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stays visible while hovered; click repeatedly to cycle through input sources." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Permanece visible al pasar el puntero; haz clic varias veces para recorrer las fuentes de entrada." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Reste visible au survol ; cliquez plusieurs fois pour parcourir les sources de saisie." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ポインタを重ねると表示を維持し、繰り返しクリックして入力ソースを切り替えます。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "포인터를 올려 두면 계속 표시되며, 반복해서 클릭해 입력 소스를 순환합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Permanece visível ao passar o cursor; clique repetidamente para alternar entre as fontes de entrada." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Остаётся видимым при наведении; нажимайте, чтобы переключаться между источниками ввода." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "悬停时保持显示；可连续点击循环切换输入法。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "停留時保持顯示；可連續按一下循環切換輸入法。" } }
+    "settings.hud.interactive.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يبقى ظاهرًا عند تمرير المؤشر؛ انقر عدة مرات للتنقل بين مصادر الإدخال."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bleibt beim Darüberfahren sichtbar; wiederholt klicken, um durch die Eingabequellen zu wechseln."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stays visible while hovered; click repeatedly to cycle through input sources."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permanece visible al pasar el puntero; haz clic varias veces para recorrer las fuentes de entrada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reste visible au survol ; cliquez plusieurs fois pour parcourir les sources de saisie."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ポインタを重ねると表示を維持し、繰り返しクリックして入力ソースを切り替えます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "포인터를 올려 두면 계속 표시되며, 반복해서 클릭해 입력 소스를 순환합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permanece visível ao passar o cursor; clique repetidamente para alternar entre as fontes de entrada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остаётся видимым при наведении; нажимайте, чтобы переключаться между источниками ввода."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üzerine gelindiğinde görünür kalır; giriş kaynakları arasında geçiş yapmak için art arda tıklayın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "悬停时保持显示；可连续点击循环切换输入法。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停留時保持顯示；可連續按一下循環切換輸入法。"
+          }
+        }
       }
     },
-    "settings.hud.position.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "موضع المؤشر" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "HUD-Position" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "HUD Position" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Posición del indicador" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Position de l’indicateur" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "表示位置" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "표시 위치" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Posição do indicador" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Положение индикатора" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提示位置" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提示位置" } }
+    "settings.hud.position.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موضع المؤشر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD-Position"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD Position"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posición del indicador"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Position de l’indicateur"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "表示位置"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "표시 위치"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posição do indicador"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Положение индикатора"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gösterge Konumu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示位置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示位置"
+          }
+        }
       }
     },
-    "settings.hud.position.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "اختر ظهور المؤشر قرب منطقة الإدخال أو عند مؤشر الماوس أو في وسط الشاشة." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wählen, ob das HUD nahe am Eingabebereich, am Zeiger oder in der Mitte des Bildschirms erscheint." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose whether the HUD appears near the input area, at the pointer, or in the center of the display." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Elige si el indicador aparece cerca del área de entrada, en el puntero o en el centro de la pantalla." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Choisissez si l’indicateur apparaît près de la zone de saisie, au pointeur ou au centre de l’écran." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力領域の近く、ポインタの位置、または画面中央のどこに表示するかを選択します。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 영역 근처, 포인터 위치 또는 화면 중앙에 표시할지 선택합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Escolha se o indicador aparece perto da área de entrada, no cursor ou no centro da tela." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выберите, показывать индикатор рядом с областью ввода, у указателя или по центру экрана." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择提示显示在当前输入区域、指针附近或所在显示器中央。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "選擇提示顯示在目前輸入區域、指標附近或所在顯示器中央。" } }
+    "settings.hud.position.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ظهور المؤشر قرب منطقة الإدخال أو عند مؤشر الماوس أو في وسط الشاشة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen, ob das HUD nahe am Eingabebereich, am Zeiger oder in der Mitte des Bildschirms erscheint."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose whether the HUD appears near the input area, at the pointer, or in the center of the display."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige si el indicador aparece cerca del área de entrada, en el puntero o en el centro de la pantalla."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez si l’indicateur apparaît près de la zone de saisie, au pointeur ou au centre de l’écran."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力領域の近く、ポインタの位置、または画面中央のどこに表示するかを選択します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 영역 근처, 포인터 위치 또는 화면 중앙에 표시할지 선택합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha se o indicador aparece perto da área de entrada, no cursor ou no centro da tela."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите, показывать индикатор рядом с областью ввода, у указателя или по центру экрана."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Göstergenin metin giriş alanının yakınında mı, işaretçide mi yoksa ekranın ortasında mı görüneceğini seçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择提示显示在当前输入区域、指针附近或所在显示器中央。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇提示顯示在目前輸入區域、指標附近或所在顯示器中央。"
+          }
+        }
       }
     },
-    "settings.hud.position.automatic" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تلقائي" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Automatisch" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Automatic" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Automático" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Automatique" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "自動" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "자동" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Automático" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Автоматически" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "自动" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "自動" } }
+    "settings.hud.position.automatic": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تلقائي"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatisch"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatic"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automático"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatique"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자동"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automático"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматически"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動"
+          }
+        }
       }
     },
-    "settings.hud.position.above" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "يفضّل الأعلى" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Oben bevorzugen" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Prefer Above" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Preferir arriba" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Préférer au-dessus" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "上を優先" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "위쪽 우선" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Preferir acima" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Предпочитать сверху" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "优先显示在上方" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "優先顯示在上方" } }
+    "settings.hud.position.above": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يفضّل الأعلى"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oben bevorzugen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prefer Above"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferir arriba"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Préférer au-dessus"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上を優先"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "위쪽 우선"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferir acima"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предпочитать сверху"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yukarıyı Tercih Et"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "优先显示在上方"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "優先顯示在上方"
+          }
+        }
       }
     },
-    "settings.hud.position.below" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "يفضّل الأسفل" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Unten bevorzugen" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Prefer Below" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Preferir abajo" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Préférer au-dessous" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "下を優先" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "아래쪽 우선" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Preferir abaixo" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Предпочитать снизу" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "优先显示在下方" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "優先顯示在下方" } }
+    "settings.hud.position.below": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يفضّل الأسفل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unten bevorzugen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prefer Below"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferir abajo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Préférer au-dessous"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下を優先"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "아래쪽 우선"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferir abaixo"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предпочитать снизу"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aşağıyı Tercih Et"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "优先显示在下方"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "優先顯示在下方"
+          }
+        }
       }
     },
-    "settings.hud.position.screen-center" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "وسط الشاشة" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Bildschirmmitte" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Center of Screen" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Centro de la pantalla" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Centre de l’écran" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "画面中央" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "화면 중앙" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Centro da tela" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "По центру экрана" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "屏幕中央" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "螢幕中央" } }
+    "settings.hud.position.screen-center": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وسط الشاشة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bildschirmmitte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Center of Screen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Centro de la pantalla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Centre de l’écran"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "画面中央"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "화면 중앙"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Centro da tela"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "По центру экрана"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranın Ortası"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "屏幕中央"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "螢幕中央"
+          }
+        }
       }
     },
-    "settings.hud.position.at-pointer" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "عند مؤشر الماوس" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Am Zeiger" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "At Pointer" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "En el puntero" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Au pointeur" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ポインタの位置" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "포인터 위치" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "No cursor" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "У указателя" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "指针处" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "指標處" } }
+    "settings.hud.position.at-pointer": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عند مؤشر الماوس"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Am Zeiger"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At Pointer"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En el puntero"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Au pointeur"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ポインタの位置"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "포인터 위치"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No cursor"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "У указателя"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşaretçide"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指针处"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指標處"
+          }
+        }
       }
     },
-    "settings.hud.position.at-pointer.help" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "يضع شاشة العرض أعلى المؤشر وإلى يساره، بحيث يبقى المؤشر عند الزاوية السفلية اليمنى ويظل النص ظاهرًا." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Platziert das HUD oberhalb und links vom Zeiger, sodass der Zeiger an der unteren rechten Ecke liegt und der Text sichtbar bleibt." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Places the HUD above and to the left of the pointer, with the pointer at its bottom-right corner so the text remains visible." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Coloca el indicador arriba y a la izquierda del puntero, con el puntero en la esquina inferior derecha para que el texto siga visible." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Place l’indicateur au-dessus et à gauche du pointeur, avec le pointeur dans son coin inférieur droit pour que le texte reste visible." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ポインタの左上に表示し、ポインタが右下隅に来るようにしてテキストを見やすくします。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "포인터의 왼쪽 위에 표시하고 포인터가 오른쪽 아래 모서리에 오도록 하여 텍스트가 잘 보이게 합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Posiciona o indicador acima e à esquerda do cursor, com o cursor no canto inferior direito para manter o texto visível." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Размещает индикатор выше и левее указателя, оставляя указатель в правом нижнем углу, чтобы текст был виден." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "将提示放在指针左上方，指针停在右下角，避免遮挡文字。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "將提示放在指標左上方，指標停在右下角，避免遮擋文字。" } }
+    "settings.hud.position.at-pointer.help": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يضع شاشة العرض أعلى المؤشر وإلى يساره، بحيث يبقى المؤشر عند الزاوية السفلية اليمنى ويظل النص ظاهرًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Platziert das HUD oberhalb und links vom Zeiger, sodass der Zeiger an der unteren rechten Ecke liegt und der Text sichtbar bleibt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Places the HUD above and to the left of the pointer, with the pointer at its bottom-right corner so the text remains visible."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloca el indicador arriba y a la izquierda del puntero, con el puntero en la esquina inferior derecha para que el texto siga visible."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place l’indicateur au-dessus et à gauche du pointeur, avec le pointeur dans son coin inférieur droit pour que le texte reste visible."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ポインタの左上に表示し、ポインタが右下隅に来るようにしてテキストを見やすくします。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "포인터의 왼쪽 위에 표시하고 포인터가 오른쪽 아래 모서리에 오도록 하여 텍스트가 잘 보이게 합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posiciona o indicador acima e à esquerda do cursor, com o cursor no canto inferior direito para manter o texto visível."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Размещает индикатор выше и левее указателя, оставляя указатель в правом нижнем углу, чтобы текст был виден."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Göstergeyi işaretçinin sol üstüne yerleştirir; işaretçi sağ alt köşede kalır, böylece metin görünür olmaya devam eder."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将提示放在指针左上方，指针停在右下角，避免遮挡文字。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "將提示放在指標左上方，指標停在右下角，避免遮擋文字。"
+          }
+        }
       }
     },
-    "settings.hud.position.at-pointer.selected-help" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "أثناء ظهور شاشة العرض، تؤدي نقرتك التالية إلى تبديل مصدر الإدخال بدلاً من النقر على المحتوى تحته." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Solange das HUD sichtbar ist, wechselt der nächste Klick die Eingabequelle, statt den darunterliegenden Inhalt anzuklicken." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "While the HUD is visible, your next click switches the input source instead of clicking the content underneath." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Mientras el indicador esté visible, el siguiente clic cambiará la fuente de entrada en lugar de pulsar el contenido que hay debajo." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Tant que l’indicateur est visible, votre prochain clic change la source de saisie au lieu de cliquer sur le contenu dessous." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "表示中は、次のクリックで下のコンテンツを操作せずに入力ソースを切り替えます。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "표시가 보이는 동안 다음 클릭은 아래 콘텐츠를 클릭하는 대신 입력 소스를 전환합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Enquanto o indicador estiver visível, o próximo clique alternará a fonte de entrada em vez de clicar no conteúdo abaixo." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Пока индикатор виден, следующее нажатие переключит источник ввода вместо нажатия на содержимое под ним." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提示显示时，下次点击会切换输入法，而不会点击下方内容。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提示顯示時，下次按一下會切換輸入法，而不會按一下下方內容。" } }
+    "settings.hud.position.at-pointer.selected-help": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أثناء ظهور شاشة العرض، تؤدي نقرتك التالية إلى تبديل مصدر الإدخال بدلاً من النقر على المحتوى تحته."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solange das HUD sichtbar ist, wechselt der nächste Klick die Eingabequelle, statt den darunterliegenden Inhalt anzuklicken."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "While the HUD is visible, your next click switches the input source instead of clicking the content underneath."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mientras el indicador esté visible, el siguiente clic cambiará la fuente de entrada en lugar de pulsar el contenido que hay debajo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tant que l’indicateur est visible, votre prochain clic change la source de saisie au lieu de cliquer sur le contenu dessous."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "表示中は、次のクリックで下のコンテンツを操作せずに入力ソースを切り替えます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "표시가 보이는 동안 다음 클릭은 아래 콘텐츠를 클릭하는 대신 입력 소스를 전환합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enquanto o indicador estiver visível, o próximo clique alternará a fonte de entrada em vez de clicar no conteúdo abaixo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пока индикатор виден, следующее нажатие переключит источник ввода вместо нажатия на содержимое под ним."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gösterge görünürken bir sonraki tıklamanız, alttaki içeriği tıklamak yerine giriş kaynağını değiştirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示显示时，下次点击会切换输入法，而不会点击下方内容。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示顯示時，下次按一下會切換輸入法，而不會按一下下方內容。"
+          }
+        }
       }
     },
-    "settings.hud.position.at-pointer.requires-interactive" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "شغّل شاشة العرض التفاعلية لاستخدام «عند مؤشر الماوس»." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Aktiviere das interaktive HUD, um „Am Zeiger“ zu verwenden." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Turn on Interactive HUD to use At Pointer." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Activa el indicador interactivo para usar «En el puntero»." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Activez l’indicateur interactif pour utiliser « Au pointeur »." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「ポインタの位置」を使用するには、操作可能な表示をオンにします。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "‘포인터 위치’를 사용하려면 대화형 표시를 켜십시오." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Ative o indicador interativo para usar “No cursor”." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Включите интерактивный индикатор, чтобы использовать вариант «У указателя»." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "开启“交互式提示”后才能使用“指针处”。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "開啟「互動式提示」後才能使用「指標處」。" } }
+    "settings.hud.position.at-pointer.requires-interactive": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شغّل شاشة العرض التفاعلية لاستخدام «عند مؤشر الماوس»."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiviere das interaktive HUD, um „Am Zeiger“ zu verwenden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on Interactive HUD to use At Pointer."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activa el indicador interactivo para usar «En el puntero»."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activez l’indicateur interactif pour utiliser « Au pointeur »."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「ポインタの位置」を使用するには、操作可能な表示をオンにします。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "‘포인터 위치’를 사용하려면 대화형 표시를 켜십시오."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ative o indicador interativo para usar “No cursor”."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включите интерактивный индикатор, чтобы использовать вариант «У указателя»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşaretçide seçeneğini kullanmak için Etkileşimli Gösterge'yi açın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启“交互式提示”后才能使用“指针处”。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟「互動式提示」後才能使用「指標處」。"
+          }
+        }
       }
     },
-    "permission.accessibility.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تسهيلات الاستخدام" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Bedienungshilfen" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Accessibility" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Accesibilidad" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Accessibilité" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "アクセシビリティ" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "손쉬운 사용" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Acessibilidade" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Универсальный доступ" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "辅助功能" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輔助使用" } }
+    "permission.accessibility.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسهيلات الاستخدام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bedienungshilfen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accesibilidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibilité"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクセシビリティ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "손쉬운 사용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acessibilidade"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Универсальный доступ"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "辅助功能"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輔助使用"
+          }
+        }
       }
     },
-    "permission.accessibility.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "يُستخدم فقط لعرض مصدر الإدخال الحالي قرب مناطق إدخال النص والطرفيات النشطة." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wird nur verwendet, um die aktuelle Eingabequelle neben aktiven Texteingabebereichen und Terminals anzuzeigen." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Used only to show the current input source near focused text input areas and terminals." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Solo se usa para mostrar la fuente de entrada actual junto a áreas de texto y terminales activos." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Utilisé uniquement pour afficher la source de saisie actuelle près des zones de texte et terminaux actifs." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フォーカス中のテキスト入力領域やターミナル付近に現在の入力ソースを表示するためにのみ使用します。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "포커스된 텍스트 입력 영역과 터미널 근처에 현재 입력 소스를 표시하는 데만 사용됩니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Usado apenas para mostrar a fonte de entrada atual perto de áreas de texto e terminais em foco." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Используется только для показа текущего источника ввода рядом с активными областями ввода текста и терминалами." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仅用于在当前文本输入区域和终端附近显示输入法。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "僅用於在目前文字輸入區域和終端機附近顯示輸入法。" } }
+    "permission.accessibility.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُستخدم فقط لعرض مصدر الإدخال الحالي قرب مناطق إدخال النص والطرفيات النشطة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird nur verwendet, um die aktuelle Eingabequelle neben aktiven Texteingabebereichen und Terminals anzuzeigen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Used only to show the current input source near focused text input areas and terminals."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solo se usa para mostrar la fuente de entrada actual junto a áreas de texto y terminales activos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisé uniquement pour afficher la source de saisie actuelle près des zones de texte et terminaux actifs."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォーカス中のテキスト入力領域やターミナル付近に現在の入力ソースを表示するためにのみ使用します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "포커스된 텍스트 입력 영역과 터미널 근처에 현재 입력 소스를 표시하는 데만 사용됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usado apenas para mostrar a fonte de entrada atual perto de áreas de texto e terminais em foco."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Используется только для показа текущего источника ввода рядом с активными областями ввода текста и терминалами."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca odaklanılan metin giriş alanlarının ve terminallerin yakınında geçerli giriş kaynağını göstermek için kullanılır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅用于在当前文本输入区域和终端附近显示输入法。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "僅用於在目前文字輸入區域和終端機附近顯示輸入法。"
+          }
+        }
       }
     },
-    "permission.accessibility.footnote" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "اسمح لـ MacTools من إعدادات النظام ← الخصوصية والأمان ← تسهيلات الاستخدام. لا يتأثر التبديل التلقائي." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "MacTools unter Systemeinstellungen → Datenschutz & Sicherheit → Bedienungshilfen erlauben. Der automatische Wechsel bleibt verfügbar." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Allow MacTools in System Settings → Privacy & Security → Accessibility. Automatic switching remains available." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Permite MacTools en Ajustes del Sistema → Privacidad y seguridad → Accesibilidad. El cambio automático sigue disponible." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Autorisez MacTools dans Réglages Système → Confidentialité et sécurité → Accessibilité. Le changement automatique reste disponible." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "システム設定 → プライバシーとセキュリティ → アクセシビリティでMacToolsを許可してください。自動切り替えは引き続き利用できます。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "시스템 설정 → 개인정보 보호 및 보안 → 손쉬운 사용에서 MacTools를 허용하세요. 자동 전환은 계속 사용할 수 있습니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Permita o MacTools em Ajustes do Sistema → Privacidade e Segurança → Acessibilidade. A troca automática continua disponível." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Разрешите MacTools в Системных настройках → Конфиденциальность и безопасность → Универсальный доступ. Автопереключение останется доступным." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在系统设置 → 隐私与安全性 → 辅助功能中允许 MacTools。自动切换输入法不受影响。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "在系統設定 → 隱私權與安全性 → 輔助使用中允許 MacTools。自動切換輸入法不受影響。" } }
+    "permission.accessibility.footnote": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسمح لـ MacTools من إعدادات النظام ← الخصوصية والأمان ← تسهيلات الاستخدام. لا يتأثر التبديل التلقائي."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools unter Systemeinstellungen → Datenschutz & Sicherheit → Bedienungshilfen erlauben. Der automatische Wechsel bleibt verfügbar."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow MacTools in System Settings → Privacy & Security → Accessibility. Automatic switching remains available."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permite MacTools en Ajustes del Sistema → Privacidad y seguridad → Accesibilidad. El cambio automático sigue disponible."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorisez MacTools dans Réglages Système → Confidentialité et sécurité → Accessibilité. Le changement automatique reste disponible."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム設定 → プライバシーとセキュリティ → アクセシビリティでMacToolsを許可してください。自動切り替えは引き続き利用できます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 설정 → 개인정보 보호 및 보안 → 손쉬운 사용에서 MacTools를 허용하세요. 자동 전환은 계속 사용할 수 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permita o MacTools em Ajustes do Sistema → Privacidade e Segurança → Acessibilidade. A troca automática continua disponível."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешите MacTools в Системных настройках → Конфиденциальность и безопасность → Универсальный доступ. Автопереключение останется доступным."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Erişilebilirlik bölümünde MacTools'a izin verin. Otomatik geçiş kullanılabilir olmaya devam eder."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在系统设置 → 隐私与安全性 → 辅助功能中允许 MacTools。自动切换输入法不受影响。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在系統設定 → 隱私權與安全性 → 輔助使用中允許 MacTools。自動切換輸入法不受影響。"
+          }
+        }
       }
     },
-    "settings.memory.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تذكّر مصدر الإدخال" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Eingabequelle merken" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remember Input Source" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Recordar fuente de entrada" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Mémoriser la source de saisie" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソースを記憶" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 소스 기억" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Lembrar fonte de entrada" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Запоминать источник ввода" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "自动记忆" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "自動記憶" } }
+    "settings.memory.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تذكّر مصدر الإدخال"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingabequelle merken"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remember Input Source"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recordar fuente de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mémoriser la source de saisie"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソースを記憶"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 소스 기억"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lembrar fonte de entrada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запоминать источник ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giriş Kaynağını Hatırla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动记忆"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動記憶"
+          }
+        }
       }
     },
-    "settings.memory.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "استعد آخر مصدر إدخال عند الرجوع إلى تطبيق." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Zurückkehren zu einer App die zuletzt verwendete Eingabequelle wiederherstellen." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Restore the last input source when returning to an app." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Restaura la última fuente de entrada al volver a una app." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Restaurez la dernière source de saisie lorsque vous revenez à une app." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "アプリに戻ったとき、最後に使用した入力ソースを復元します。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "앱으로 돌아갈 때 마지막으로 사용한 입력 소스를 복원합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Restaure a última fonte de entrada ao voltar para um app." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Восстанавливать последний источник ввода при возврате в приложение." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "切回应用时恢复上次使用的输入法。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "切回應用程式時恢復上次使用的輸入法。" } }
+    "settings.memory.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استعد آخر مصدر إدخال عند الرجوع إلى تطبيق."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beim Zurückkehren zu einer App die zuletzt verwendete Eingabequelle wiederherstellen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore the last input source when returning to an app."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaura la última fuente de entrada al volver a una app."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurez la dernière source de saisie lorsque vous revenez à une app."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリに戻ったとき、最後に使用した入力ソースを復元します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱으로 돌아갈 때 마지막으로 사용한 입력 소스를 복원합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaure a última fonte de entrada ao voltar para um app."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Восстанавливать последний источник ввода при возврате в приложение."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir uygulamaya geri döndüğünüzde son kullanılan giriş kaynağını geri yükler."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切回应用时恢复上次使用的输入法。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切回應用程式時恢復上次使用的輸入法。"
+          }
+        }
       }
     },
-    "settings.rules.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "القواعد الثابتة" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Feste Regeln" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fixed Rules" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Reglas fijas" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Règles fixes" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "固定ルール" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "고정 규칙" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Regras fixas" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Фиксированные правила" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "固定规则" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "固定規則" } }
+    "settings.rules.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القواعد الثابتة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feste Regeln"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixed Rules"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reglas fijas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Règles fixes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "固定ルール"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "고정 규칙"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Regras fixas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фиксированные правила"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabit Kurallar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "固定规则"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "固定規則"
+          }
+        }
       }
     },
-    "settings.rules.add" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إضافة" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Hinzufügen" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Añadir" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Ajouter" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "追加" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "추가" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добавить" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "添加" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "加入" } }
+    "settings.rules.add": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hinzufügen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "追加"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "추가"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入"
+          }
+        }
       }
     },
-    "settings.rules.empty" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "أضف تطبيقًا وعيّن مصدر الإدخال الخاص به" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "App hinzufügen und eine Eingabequelle zuweisen" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add an app and assign its input source" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Añade una app y asígnale una fuente de entrada" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Ajoutez une app et attribuez-lui une source de saisie" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "アプリを追加して入力ソースを指定" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "앱을 추가하고 입력 소스 지정" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Adicione um app e atribua uma fonte de entrada" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добавьте приложение и назначьте ему источник ввода" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "添加应用，为它指定固定输入法" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "加入應用程式，為它指定固定輸入法" } }
+    "settings.rules.empty": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف تطبيقًا وعيّن مصدر الإدخال الخاص به"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App hinzufügen und eine Eingabequelle zuweisen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add an app and assign its input source"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añade una app y asígnale una fuente de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajoutez une app et attribuez-lui une source de saisie"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリを追加して入力ソースを指定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱을 추가하고 입력 소스 지정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicione um app e atribua uma fonte de entrada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавьте приложение и назначьте ему источник ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir uygulama ekleyin ve giriş kaynağını atayın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加应用，为它指定固定输入法"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入應用程式，為它指定固定輸入法"
+          }
+        }
       }
     },
-    "settings.rules.delete" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "حذف هذه القاعدة" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Diese Regel löschen" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete this rule" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Eliminar esta regla" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Supprimer cette règle" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このルールを削除" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 규칙 삭제" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Excluir esta regra" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Удалить это правило" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "删除此规则" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "刪除此規則" } }
+    "settings.rules.delete": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف هذه القاعدة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Regel löschen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete this rule"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar esta regla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer cette règle"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このルールを削除"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 규칙 삭제"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Excluir esta regra"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить это правило"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kuralı sil"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除此规则"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除此規則"
+          }
+        }
       }
     },
-    "settings.source.unavailable" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "مصدر الإدخال غير متاح" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Eingabequelle nicht verfügbar" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Input source unavailable" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Fuente de entrada no disponible" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Source de saisie indisponible" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソースを利用できません" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 소스를 사용할 수 없음" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Fonte de entrada indisponível" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Источник ввода недоступен" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "输入法不可用" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輸入法不可用" } }
+    "settings.source.unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مصدر الإدخال غير متاح"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingabequelle nicht verfügbar"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input source unavailable"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fuente de entrada no disponible"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source de saisie indisponible"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソースを利用できません"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 소스를 사용할 수 없음"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fonte de entrada indisponível"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Источник ввода недоступен"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giriş kaynağı kullanılamıyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入法不可用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入法不可用"
+          }
+        }
       }
     },
-    "openPanel.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "اختيار تطبيق" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "App auswählen" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose App" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Elegir app" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Choisir une app" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "アプリを選択" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "앱 선택" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Escolher app" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выбрать приложение" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择应用" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "選擇應用程式" } }
+    "openPanel.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار تطبيق"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App auswählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose App"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elegir app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir une app"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリを選択"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 선택"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolher app"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать приложение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Seç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择应用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇應用程式"
+          }
+        }
       }
     },
-    "openPanel.message" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "اختر تطبيقًا تريد تبديل مصدر الإدخال فيه تلقائيًا" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "App auswählen, deren Eingabequelle automatisch gewechselt werden soll" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose an app whose input source should switch automatically" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Elige una app cuya fuente de entrada deba cambiar automáticamente" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Choisissez une app dont la source de saisie doit changer automatiquement" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力ソースを自動的に切り替えるアプリを選択" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 소스를 자동으로 전환할 앱을 선택하세요" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Escolha um app cuja fonte de entrada deve ser alternada automaticamente" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выберите приложение, для которого нужно автоматически переключать источник ввода" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择要自动切换输入法的应用" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "選擇要自動切換輸入法的應用程式" } }
+    "openPanel.message": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر تطبيقًا تريد تبديل مصدر الإدخال فيه تلقائيًا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App auswählen, deren Eingabequelle automatisch gewechselt werden soll"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose an app whose input source should switch automatically"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige una app cuya fuente de entrada deba cambiar automáticamente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez une app dont la source de saisie doit changer automatiquement"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力ソースを自動的に切り替えるアプリを選択"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 소스를 자동으로 전환할 앱을 선택하세요"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha um app cuja fonte de entrada deve ser alternada automaticamente"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите приложение, для которого нужно автоматически переключать источник ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giriş kaynağı otomatik değiştirilecek uygulamayı seçin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择要自动切换输入法的应用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇要自動切換輸入法的應用程式"
+          }
+        }
       }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

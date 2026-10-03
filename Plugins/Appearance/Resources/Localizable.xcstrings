@@ -4,80 +4,285 @@
     "error.modeUnavailable": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "This macOS version cannot set automatic appearance directly." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "当前 macOS 无法直接设置自动外观。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This macOS version cannot set automatic appearance directly."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu macOS sürümünde otomatik görünüm doğrudan ayarlanamıyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前 macOS 无法直接设置自动外观。"
+          }
+        }
       }
     },
     "error.modeVerificationRestored": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Appearance verification failed. The original mode was restored." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "外观验证失败，已恢复原模式。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance verification failed. The original mode was restored."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm doğrulaması başarısız oldu. Özgün mod geri yüklendi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外观验证失败，已恢复原模式。"
+          }
+        }
       }
     },
     "error.modeVerificationUnrestored": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Appearance verification failed. The original mode could not be fully restored." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "外观验证失败，恢复原模式未完成。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance verification failed. The original mode could not be fully restored."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm doğrulaması başarısız oldu. Özgün mod tam olarak geri yüklenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外观验证失败，恢复原模式未完成。"
+          }
+        }
       }
     },
     "parameter.mode.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Appearance" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "外观" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外观"
+          }
+        }
       }
     },
     "action.setMode.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Set System Appearance" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "设置系统外观" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set System Appearance"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Görünümünü Ayarla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置系统外观"
+          }
+        }
       }
     },
     "action.setMode.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Choose automatic, light, or dark system appearance." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "选择自动、浅色或深色系统外观。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose automatic, light, or dark system appearance."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik, aydınlık veya karanlık sistem görünümünü seçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择自动、浅色或深色系统外观。"
+          }
+        }
       }
     },
     "action.mode.auto": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "System Appearance: Auto" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "系统外观：自动" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Appearance: Auto"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Görünümü: Otomatik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统外观：自动"
+          }
+        }
       }
     },
     "action.mode.light": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "System Appearance: Light" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "系统外观：浅色" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Appearance: Light"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Görünümü: Aydınlık"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统外观：浅色"
+          }
+        }
       }
     },
     "action.mode.dark": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "System Appearance: Dark" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "系统外观：深色" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Appearance: Dark"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Görünümü: Karanlık"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统外观：深色"
+          }
+        }
       }
     },
     "error.toggleFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر تبديل مظهر النظام." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Das Systemerscheinungsbild konnte nicht gewechselt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Failed to switch the system appearance." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudo cambiar la apariencia del sistema." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible de changer l’apparence du système." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "システムの外観を切り替えられませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "시스템 모양을 전환할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível alternar a aparência do sistema." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось изменить оформление системы." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "切换系统外观失败。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "切換系統外觀失敗。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر تبديل مظهر النظام."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Systemerscheinungsbild konnte nicht gewechselt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to switch the system appearance."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo cambiar la apariencia del sistema."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de changer l’apparence du système."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムの外観を切り替えられませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 모양을 전환할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível alternar a aparência do sistema."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось изменить оформление системы."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem görünümü değiştirilemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换系统外观失败。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切換系統外觀失敗。"
+          }
+        }
       }
     },
     "action.enableDark.title": {
@@ -135,6 +340,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включить темный режим"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karanlık Modu Aç"
           }
         },
         "zh-Hans": {
@@ -208,6 +419,12 @@
             "value": "Включить светлый режим"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aydınlık Modu Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -277,6 +494,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Темный режим"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karanlık Mod"
           }
         },
         "zh-Hans": {
@@ -350,6 +573,12 @@
             "value": "Переключение между светлым и темным внешним видом системы."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aydınlık ve karanlık sistem görünümü arasında geçiş yapın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -419,6 +648,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
           }
         },
         "zh-Hans": {
@@ -492,6 +727,12 @@
             "value": "Выкл."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -561,6 +802,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Для переключения оформления системы требуется управление приложением «Системные события»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem görünümünü değiştirmek System Events'i denetlemeyi gerektirir."
           }
         },
         "zh-Hans": {
@@ -634,6 +881,12 @@
             "value": "При первом использовании macOS запросит доступ к автоматизации."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS, bu özellik ilk kez kullanıldığında Otomasyon erişimi isteyecek."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -705,6 +958,12 @@
             "value": "Автоматизация"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -720,74 +979,80 @@
       }
     },
     "permission.automation.status": {
-        "localizations": {
-            "ar": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "تأكيد عند الاستخدام"
-                }
-            },
-            "de": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Bestätigung bei Verwendung"
-                }
-            },
-            "en": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirm on Use"
-                }
-            },
-            "es": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmar al usar"
-                }
-            },
-            "fr": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmation à l’utilisation"
-                }
-            },
-            "ja": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "使用時に確認"
-                }
-            },
-            "ko": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "사용 시 확인"
-                }
-            },
-            "pt": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmar ao usar"
-                }
-            },
-            "ru": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Подтверждение при использовании"
-                }
-            },
-            "zh-Hans": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "按需确认"
-                }
-            },
-            "zh-Hant": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "按需確認"
-                }
-            }
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأكيد عند الاستخدام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestätigung bei Verwendung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm on Use"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar al usar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmation à l’utilisation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用時に確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사용 시 확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar ao usar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтверждение при использовании"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanırken Onayla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需确认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需確認"
+          }
         }
+      }
     }
   },
   "version": "1.0"

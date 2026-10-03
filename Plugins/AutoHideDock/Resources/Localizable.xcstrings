@@ -58,6 +58,12 @@
             "value": "Скрыть Dock"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'ı Gizle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Показать Dock"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'ı Göster"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Автоматическое скрытие Dock"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'ı Otomatik Gizle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Автоматическое скрытие Dock для более чистого рабочего стола."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daha temiz bir masaüstü için Dock'ı otomatik gizler."
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Включено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выкл."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Не удалось включить автоматическое скрытие Dock."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'un otomatik gizlenmesi değiştirilemedi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Для изменения автоскрытия Dock требуется управление приложением «Системные события»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'un otomatik gizlenmesini değiştirmek, System Events'ın denetlenmesini gerektirir."
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "При первом использовании macOS запросит доступ к автоматизации."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS, bu özellik ilk kez kullanıldığında Otomasyon erişimi isteyecek."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -697,6 +751,12 @@
             "value": "Автоматизация"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -712,74 +772,80 @@
       }
     },
     "permission.automation.status": {
-        "localizations": {
-            "ar": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "تأكيد عند الاستخدام"
-                }
-            },
-            "de": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Bestätigung bei Verwendung"
-                }
-            },
-            "en": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirm on Use"
-                }
-            },
-            "es": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmar al usar"
-                }
-            },
-            "fr": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmation à l’utilisation"
-                }
-            },
-            "ja": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "使用時に確認"
-                }
-            },
-            "ko": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "사용 시 확인"
-                }
-            },
-            "pt": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmar ao usar"
-                }
-            },
-            "ru": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Подтверждение при использовании"
-                }
-            },
-            "zh-Hans": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "按需确认"
-                }
-            },
-            "zh-Hant": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "按需確認"
-                }
-            }
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأكيد عند الاستخدام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestätigung bei Verwendung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm on Use"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar al usar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmation à l’utilisation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用時に確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사용 시 확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar ao usar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтверждение при использовании"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanırken Onayla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需确认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需確認"
+          }
         }
+      }
     }
   },
   "version": "1.0"

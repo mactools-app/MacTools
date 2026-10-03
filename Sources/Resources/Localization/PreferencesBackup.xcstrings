@@ -4,24 +4,51 @@
     "preferencesBackup.cloudSync.error.sharedFileChanged": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Shared settings are still changing. Retry shortly; local settings are preserved." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "共享设置仍在更改。请稍后重试；本机设置已保留。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "共享設定仍在變更。請稍後重試；本機設定已保留。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shared settings are still changing. Retry shortly; local settings are preserved."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paylaşılan ayarlar hâlâ değişiyor. Kısa süre sonra yeniden deneyin; yerel ayarlar korunur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共享设置仍在更改。请稍后重试；本机设置已保留。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共享設定仍在變更。請稍後重試；本機設定已保留。"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.conflict.detail": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本机和共享设置均已更改。两个版本已保留，请选择要同步的版本。此 Mac 的专属设置会保留。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Local and shared settings have both changed. Both versions are saved. Choose which version to sync; settings specific to this Mac will be preserved."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hem yerel hem de paylaşılan ayarlar değişti. Her iki sürüm de kaydedildi. Eşitlemek istediğiniz sürümü seçin; bu Mac'e özel ayarlar korunur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本机和共享设置均已更改。两个版本已保留，请选择要同步的版本。此 Mac 的专属设置会保留。"
           }
         },
         "zh-Hant": {
@@ -35,16 +62,22 @@
     "preferencesBackup.cloudSync.conflict.local": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用本机设置"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Use Local Settings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel Ayarları Kullan"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用本机设置"
           }
         },
         "zh-Hant": {
@@ -58,16 +91,22 @@
     "preferencesBackup.cloudSync.conflict.shared": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用共享设置"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Use Shared Settings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paylaşılan Ayarları Kullan"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用共享设置"
           }
         },
         "zh-Hant": {
@@ -81,16 +120,22 @@
     "preferencesBackup.cloudSync.status.pending": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "等待同步"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Waiting to Sync"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşitleme Bekleniyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待同步"
           }
         },
         "zh-Hant": {
@@ -104,16 +149,22 @@
     "preferencesBackup.cloudSync.status.conflict": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "需要选择设置版本"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Choose Settings Version"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar Sürümü Seçin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要选择设置版本"
           }
         },
         "zh-Hant": {
@@ -127,16 +178,22 @@
     "preferencesBackup.cloudSync.status.snapshotMissing": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "共享文件暂不可用。请检查云盘后重试；本机设置已保留。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The shared file is unavailable. Check your cloud drive and retry; local settings are preserved."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paylaşılan dosya kullanılamıyor. Bulut diskinizi kontrol edip yeniden deneyin; yerel ayarlar korunur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共享文件暂不可用。请检查云盘后重试；本机设置已保留。"
           }
         },
         "zh-Hant": {
@@ -204,6 +261,12 @@
             "value": "Резервная копия настроек"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihler Yedeği"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -221,252 +284,1181 @@
     "general.section.cloudPreferencesSync": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Cloud Sync" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "云同步" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "雲端同步" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud Sync"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bulut Eşitleme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "云同步"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "雲端同步"
+          }
+        }
       }
     },
     "preferencesBackup.automatic.noBackups": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "لا توجد نسخ احتياطية بعد" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Noch keine Backups" } },
-        "en": { "stringUnit": { "state": "translated", "value": "No backups yet" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Aún no hay copias" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Aucune sauvegarde" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "バックアップはまだありません" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "아직 백업 없음" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Nenhum backup ainda" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Резервных копий пока нет" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "还没有备份" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "尚無備份" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد نسخ احتياطية بعد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Backups"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No backups yet"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no hay copias"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune sauvegarde"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バックアップはまだありません"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "아직 백업 없음"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nenhum backup ainda"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Резервных копий пока нет"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz yedek yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有备份"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚無備份"
+          }
+        }
       }
     },
     "preferencesBackup.automatic.lastBackup": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "آخر نسخة احتياطية: %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Letztes Backup: %@" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Last backup: %@" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Última copia: %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Dernière sauvegarde : %@" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "前回のバックアップ：%@" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "최근 백업: %@" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Último backup: %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Последняя копия: %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "上次备份：%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "上次備份：%@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر نسخة احتياطية: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letztes Backup: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last backup: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Última copia: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dernière sauvegarde : %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前回のバックアップ：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최근 백업: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Último backup: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Последняя копия: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son yedekleme: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次备份：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次備份：%@"
+          }
+        }
       }
     },
     "preferencesBackup.automatic.history": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "variations": { "plural": {
-          "zero": { "stringUnit": { "state": "translated", "value": "%d نسخ احتياطية · %@" } },
-          "one": { "stringUnit": { "state": "translated", "value": "%d نسخة احتياطية · %@" } },
-          "two": { "stringUnit": { "state": "translated", "value": "%d نسختان احتياطيتان · %@" } },
-          "few": { "stringUnit": { "state": "translated", "value": "%d نسخ احتياطية · %@" } },
-          "many": { "stringUnit": { "state": "translated", "value": "%d نسخة احتياطية · %@" } },
-          "other": { "stringUnit": { "state": "translated", "value": "%d نسخة احتياطية · %@" } }
-        } } },
-        "de": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "%d Backup · %@" } },
-          "other": { "stringUnit": { "state": "translated", "value": "%d Backups · %@" } }
-        } } },
-        "en": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "%d snapshot · %@" } },
-          "other": { "stringUnit": { "state": "translated", "value": "%d snapshots · %@" } }
-        } } },
-        "es": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "%d copia · %@" } },
-          "other": { "stringUnit": { "state": "translated", "value": "%d copias · %@" } }
-        } } },
-        "fr": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "%d sauvegarde · %@" } },
-          "other": { "stringUnit": { "state": "translated", "value": "%d sauvegardes · %@" } }
-        } } },
-        "ja": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "%d件 · %@" } }
-        } } },
-        "ko": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "백업 %d개 · %@" } }
-        } } },
-        "pt": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "%d backup · %@" } },
-          "other": { "stringUnit": { "state": "translated", "value": "%d backups · %@" } }
-        } } },
-        "ru": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "%d копия · %@" } },
-          "few": { "stringUnit": { "state": "translated", "value": "%d копии · %@" } },
-          "many": { "stringUnit": { "state": "translated", "value": "%d копий · %@" } },
-          "other": { "stringUnit": { "state": "translated", "value": "%d копии · %@" } }
-        } } },
-        "zh-Hans": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "%d 个备份 · %@" } }
-        } } },
-        "zh-Hant": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "%d 個備份 · %@" } }
-        } } }
+        "ar": {
+          "variations": {
+            "plural": {
+              "zero": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d نسخ احتياطية · %@"
+                }
+              },
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d نسخة احتياطية · %@"
+                }
+              },
+              "two": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d نسختان احتياطيتان · %@"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d نسخ احتياطية · %@"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d نسخة احتياطية · %@"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d نسخة احتياطية · %@"
+                }
+              }
+            }
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d Backup · %@"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d Backups · %@"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d snapshot · %@"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d snapshots · %@"
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d copia · %@"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d copias · %@"
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d sauvegarde · %@"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d sauvegardes · %@"
+                }
+              }
+            }
+          }
+        },
+        "ja": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d件 · %@"
+                }
+              }
+            }
+          }
+        },
+        "ko": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "백업 %d개 · %@"
+                }
+              }
+            }
+          }
+        },
+        "pt": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d backup · %@"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d backups · %@"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d копия · %@"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d копии · %@"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d копий · %@"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d копии · %@"
+                }
+              }
+            }
+          }
+        },
+        "tr": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d anlık görüntü · %@"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d 个备份 · %@"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hant": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d 個備份 · %@"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "preferencesBackup.automatic.justNow": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "الآن" } },
-        "de": { "stringUnit": { "state": "translated", "value": "gerade eben" } },
-        "en": { "stringUnit": { "state": "translated", "value": "just now" } },
-        "es": { "stringUnit": { "state": "translated", "value": "ahora mismo" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "à l’instant" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "たった今" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "방금" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "agora mesmo" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "только что" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "刚刚" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "剛剛" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الآن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "gerade eben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "just now"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ahora mismo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "à l’instant"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "たった今"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "방금"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "agora mesmo"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "только что"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "az önce"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刚刚"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "剛剛"
+          }
+        }
       }
     },
     "preferencesBackup.automatic.enabled": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "نسخ الإعدادات احتياطيًا تلقائيًا" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Einstellungen automatisch sichern" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Automatically back up settings" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Crear copias de los ajustes automáticamente" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Sauvegarder automatiquement les réglages" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "設定を自動的にバックアップ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "설정 자동 백업" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Fazer backup automático dos ajustes" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Автоматически создавать резервные копии настроек" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "自动备份设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "自動備份設定" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ الإعدادات احتياطيًا تلقائيًا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen automatisch sichern"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatically back up settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crear copias de los ajustes automáticamente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegarder automatiquement les réglages"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定を自動的にバックアップ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정 자동 백업"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fazer backup automático dos ajustes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматически создавать резервные копии настроек"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarları otomatik olarak yedekle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动备份设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動備份設定"
+          }
+        }
       }
     },
     "preferencesBackup.automatic.backUpNow": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "نسخ احتياطي الآن" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Jetzt sichern" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Back Up Now" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Crear copia ahora" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Sauvegarder maintenant" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "今すぐバックアップ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "지금 백업" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Fazer backup agora" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Создать копию" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "立即备份" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "立即備份" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ احتياطي الآن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jetzt sichern"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back Up Now"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crear copia ahora"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegarder maintenant"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今すぐバックアップ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지금 백업"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fazer backup agora"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Создать копию"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şimdi Yedekle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即备份"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即備份"
+          }
+        }
       }
     },
     "preferencesBackup.automatic.openFolder": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "فتح مجلد النسخ الاحتياطية" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Backup-Ordner öffnen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Open Backup Folder" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Abrir carpeta de copias" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ouvrir le dossier de sauvegarde" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "バックアップフォルダを開く" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "백업 폴더 열기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Abrir pasta de backup" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Открыть папку резервных копий" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "打开备份文件夹" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "打開備份檔案夾" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح مجلد النسخ الاحتياطية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backup-Ordner öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Backup Folder"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir carpeta de copias"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir le dossier de sauvegarde"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バックアップフォルダを開く"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "백업 폴더 열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir pasta de backup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть папку резервных копий"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yedek Klasörünü Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开备份文件夹"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打開備份檔案夾"
+          }
+        }
       }
     },
     "preferencesBackup.manual.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "نسخ احتياطي يدوي" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Manuelles Backup" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Manual Backup" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Copia manual" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Sauvegarde manuelle" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "手動バックアップ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "수동 백업" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Backup manual" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Резервное копирование вручную" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "手动备份" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "手動備份" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ احتياطي يدوي"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manuelles Backup"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual Backup"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copia manual"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegarde manuelle"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手動バックアップ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "수동 백업"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backup manual"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Резервное копирование вручную"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El ile Yedekleme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手动备份"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手動備份"
+          }
+        }
       }
     },
     "preferencesBackup.manual.created": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تم النسخ الاحتياطي للتو" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Gerade gesichert" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Backed up just now" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Copia creada ahora" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Sauvegarde effectuée à l’instant" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "たった今バックアップしました" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "방금 백업함" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Backup criado agora" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Копия только что создана" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "刚刚已备份" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "剛剛已備份" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم النسخ الاحتياطي للتو"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerade gesichert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backed up just now"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copia creada ahora"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegarde effectuée à l’instant"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "たった今バックアップしました"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "방금 백업함"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backup criado agora"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Копия только что создана"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Az önce yedeklendi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刚刚已备份"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "剛剛已備份"
+          }
+        }
       }
     },
     "preferencesBackup.manual.unchanged": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "لا تغييرات منذ آخر نسخة احتياطية" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Keine Änderungen seit dem letzten Backup" } },
-        "en": { "stringUnit": { "state": "translated", "value": "No changes since the last backup" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Sin cambios desde la última copia" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Aucun changement depuis la dernière sauvegarde" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "前回のバックアップから変更はありません" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "최근 백업 이후 변경 사항 없음" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Sem alterações desde o último backup" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Изменений с последней копии нет" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "与上次备份相比没有变化" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "與上次備份相比沒有變更" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا تغييرات منذ آخر نسخة احتياطية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Änderungen seit dem letzten Backup"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No changes since the last backup"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin cambios desde la última copia"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun changement depuis la dernière sauvegarde"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前回のバックアップから変更はありません"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최근 백업 이후 변경 사항 없음"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem alterações desde o último backup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменений с последней копии нет"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son yedekten bu yana değişiklik yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "与上次备份相比没有变化"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "與上次備份相比沒有變更"
+          }
+        }
       }
     },
     "preferencesBackup.transfer.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "نقل التفضيلات" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Einstellungen übertragen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Transfer Preferences" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Transferir preferencias" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Transférer les préférences" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "環境設定を転送" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "환경설정 전송" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Transferir preferências" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Перенос настроек" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "迁移偏好设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "移轉偏好設定" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل التفضيلات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen übertragen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transfer Preferences"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transferir preferencias"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transférer les préférences"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "環境設定を転送"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "환경설정 전송"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transferir preferências"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перенос настроек"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihleri Aktar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "迁移偏好设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移轉偏好設定"
+          }
+        }
       }
     },
     "preferencesBackup.automatic.created": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تم نسخ التفضيلات احتياطيًا." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Einstellungen wurden gesichert." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Preferences were backed up." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Se ha creado la copia de preferencias." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Les préférences ont été sauvegardées." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "環境設定をバックアップしました。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "환경설정을 백업했습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "O backup das preferências foi criado." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Резервная копия настроек создана." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "偏好设置已备份。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "偏好設定已備份。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم نسخ التفضيلات احتياطيًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Einstellungen wurden gesichert."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences were backed up."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se ha creado la copia de preferencias."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les préférences ont été sauvegardées."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "環境設定をバックアップしました。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "환경설정을 백업했습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O backup das preferências foi criado."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Резервная копия настроек создана."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihler yedeklendi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "偏好设置已备份。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "偏好設定已備份。"
+          }
+        }
       }
     },
     "preferencesBackup.automatic.unchanged": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "لم تتغير التفضيلات؛ لم يتم إنشاء نسخة احتياطية جديدة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Einstellungen sind unverändert; es wurde kein neues Backup erstellt." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Preferences have not changed, so no new backup was created." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Las preferencias no han cambiado; no se creó otra copia." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Les préférences sont inchangées ; aucune sauvegarde n’a été créée." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "環境設定に変更がないため、新しいバックアップは作成されませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "환경설정이 변경되지 않아 새 백업을 만들지 않았습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "As preferências não mudaram; nenhum novo backup foi criado." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Настройки не изменились, новая копия не создана." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "偏好设置没有变化，无需创建新备份。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "偏好設定沒有變更，無需建立新備份。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم تتغير التفضيلات؛ لم يتم إنشاء نسخة احتياطية جديدة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Einstellungen sind unverändert; es wurde kein neues Backup erstellt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences have not changed, so no new backup was created."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las preferencias no han cambiado; no se creó otra copia."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les préférences sont inchangées ; aucune sauvegarde n’a été créée."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "環境設定に変更がないため、新しいバックアップは作成されませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "환경설정이 변경되지 않아 새 백업을 만들지 않았습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As preferências não mudaram; nenhum novo backup foi criado."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки не изменились, новая копия не создана."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihler değişmediği için yeni yedek oluşturulmadı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "偏好设置没有变化，无需创建新备份。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "偏好設定沒有變更，無需建立新備份。"
+          }
+        }
       }
     },
     "preferencesBackup.title": {
@@ -524,6 +1516,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Резервное копирование настроек"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihler Yedeği"
           }
         },
         "zh-Hans": {
@@ -597,6 +1595,12 @@
             "value": "Автоматические резервные копии хранятся локально и включают переносимые настройки приложения и плагинов; разрешения, кэш, учётные данные и другие личные данные исключены."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik yedekler yerel olarak saklanır ve taşınabilir uygulama ile eklenti ayarlarını içerir; izinler, önbellekler, kimlik bilgileri ve diğer özel veriler hariç tutulur."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -666,6 +1670,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Экспортировать настройки…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihleri Dışa Aktar…"
           }
         },
         "zh-Hans": {
@@ -739,6 +1749,12 @@
             "value": "Импортировать настройки…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihleri İçe Aktar…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -808,6 +1824,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройки импортированы."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihler içe aktarıldı."
           }
         },
         "zh-Hans": {
@@ -881,6 +1903,12 @@
             "value": "Резервная копия настроек"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihler Yedeği"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -950,6 +1978,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сохраните переносимые настройки MacTools в файл JSON."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taşınabilir MacTools tercihlerini bir JSON dosyası olarak kaydedin."
           }
         },
         "zh-Hans": {
@@ -1023,6 +2057,12 @@
             "value": "Настройки экспортированы."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihler dışa aktarıldı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1092,6 +2132,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите файл JSON с настройками, экспортированный MacTools."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools'un dışa aktardığı bir tercihler JSON dosyasını seçin."
           }
         },
         "zh-Hans": {
@@ -1165,6 +2211,12 @@
             "value": "Импорт настроек"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihleri İçe Aktar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1236,6 +2288,12 @@
             "value": "Проверьте эти изменения. Импорт не устанавливает плагины и не изменяет разрешения, кэш, секреты Keychain или приватные данные плагинов."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu değişiklikleri gözden geçirin. İçe aktarma, eklenti yüklemez; izinleri, önbellekleri, Keychain'deki gizli bilgileri veya eklentilere özel verileri değiştirmez."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1253,68 +2311,305 @@
     "preferencesBackup.preview.descriptionWithInstall": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "variations": { "plural": {
-          "zero": { "stringUnit": { "state": "translated", "value": "يرجى تأكيد التغييرات التالية. لن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات." } },
-          "one": { "stringUnit": { "state": "translated", "value": "يرجى تأكيد التغييرات أدناه. سيقوم الاستيراد بتثبيت إضافة مفقودة محددة (%d)؛ ولن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات." } },
-          "two": { "stringUnit": { "state": "translated", "value": "يرجى تأكيد التغييرات أدناه. سيقوم الاستيراد بتثبيت إضافتين مفقودتين محددتين (%d)؛ ولن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات." } },
-          "few": { "stringUnit": { "state": "translated", "value": "يرجى تأكيد التغييرات أدناه. سيقوم الاستيراد بتثبيت %d إضافات مفقودة محددة؛ ولن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات." } },
-          "many": { "stringUnit": { "state": "translated", "value": "يرجى تأكيد التغييرات أدناه. سيقوم الاستيراد بتثبيت %d إضافة مفقودة محددة؛ ولن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات." } },
-          "other": { "stringUnit": { "state": "translated", "value": "يرجى تأكيد التغييرات أدناه. سيقوم الاستيراد بتثبيت %d إضافة مفقودة محددة؛ ولن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات." } }
-        } } },
-        "de": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "Bitte bestätige die folgenden Änderungen. Beim Import wird %d ausgewähltes fehlendes Plugin installiert; Berechtigungen, Caches, Schlüsselbund-Einträge oder private Plugin-Daten werden nicht geändert." } },
-          "other": { "stringUnit": { "state": "translated", "value": "Bitte bestätige die folgenden Änderungen. Beim Import werden %d ausgewählte fehlende Plugins installiert; Berechtigungen, Caches, Schlüsselbund-Einträge oder private Plugin-Daten werden nicht geändert." } }
-        } } },
-        "en": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "Please review the changes below. Importing will install %d selected missing plugin; permissions, caches, Keychain items, or plugin private data will not be modified." } },
-          "other": { "stringUnit": { "state": "translated", "value": "Please review the changes below. Importing will install %d selected missing plugins; permissions, caches, Keychain items, or plugin private data will not be modified." } }
-        } } },
-        "es": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "Confirma los siguientes cambios. La importación instalará %d plugin faltante seleccionado; no se modificarán permisos, cachés, elementos del Llavero ni datos privados de plugins." } },
-          "other": { "stringUnit": { "state": "translated", "value": "Confirma los siguientes cambios. La importación instalará %d plugins faltantes seleccionados; no se modificarán permisos, cachés, elementos del Llavero ni datos privados de plugins." } }
-        } } },
-        "fr": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "Veuillez vérifier les modifications ci-dessous. L’importation installera %d extension manquante sélectionnée ; les autorisations, caches, éléments du trousseau d’accès et données privées d’extensions ne seront pas modifiés." } },
-          "other": { "stringUnit": { "state": "translated", "value": "Veuillez vérifier les modifications ci-dessous. L’importation installera %d extensions manquantes sélectionnées ; les autorisations, caches, éléments du trousseau d’accès et données privées d’extensions ne seront pas modifiés." } }
-        } } },
-        "ja": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "以下の変更を確認してください。読み込み時に選択した%d個の不足プラグインをインストールします。権限、キャッシュ、キーチェーン項目、プラグイン非公開データは変更されません。" } }
-        } } },
-        "ko": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "아래 변경 사항을 확인하십시오. 가져올 때 선택한 누락 플러그인 %d개를 설치합니다. 권한, 캐시, 키체인 항목 또는 플러그인 개인 데이터는 수정되지 않습니다." } }
-        } } },
-        "pt": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "Confirme as alterações abaixo. A importação instalará %d plugin ausente selecionado; permissões, caches, itens das Chaves e dados privados de plugins não serão modificados." } },
-          "other": { "stringUnit": { "state": "translated", "value": "Confirme as alterações abaixo. A importação instalará %d plugins ausentes selecionados; permissões, caches, itens das Chaves e dados privados de plugins não serão modificados." } }
-        } } },
-        "ru": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "Подтвердите следующие изменения. При импорте будет установлен %d выбранный отсутствующий плагин; разрешения, кэши, объекты Связки ключей и личные данные плагинов не изменятся." } },
-          "few": { "stringUnit": { "state": "translated", "value": "Подтвердите следующие изменения. При импорте будут установлены %d выбранных отсутствующих плагина; разрешения, кэши, объекты Связки ключей и личные данные плагинов не изменятся." } },
-          "many": { "stringUnit": { "state": "translated", "value": "Подтвердите следующие изменения. При импорте будут установлены %d выбранных отсутствующих плагинов; разрешения, кэши, объекты Связки ключей и личные данные плагинов не изменятся." } },
-          "other": { "stringUnit": { "state": "translated", "value": "Подтвердите следующие изменения. При импорте будут установлены %d выбранных отсутствующих плагинов; разрешения, кэши, объекты Связки ключей и личные данные плагинов не изменятся." } }
-        } } },
-        "zh-Hans": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "请确认以下更改。导入将自动安装 %d 个选中的缺失插件；不会修改权限、缓存、Keychain 密钥或插件私有数据。" } }
-        } } },
-        "zh-Hant": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "請確認以下變更。匯入將自動安裝 %d 個選取缺少的外掛；不會修改權限、快取、Keychain 密鑰或外掛私有資料。" } }
-        } } }
+        "ar": {
+          "variations": {
+            "plural": {
+              "zero": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "يرجى تأكيد التغييرات التالية. لن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات."
+                }
+              },
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "يرجى تأكيد التغييرات أدناه. سيقوم الاستيراد بتثبيت إضافة مفقودة محددة (%d)؛ ولن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات."
+                }
+              },
+              "two": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "يرجى تأكيد التغييرات أدناه. سيقوم الاستيراد بتثبيت إضافتين مفقودتين محددتين (%d)؛ ولن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات."
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "يرجى تأكيد التغييرات أدناه. سيقوم الاستيراد بتثبيت %d إضافات مفقودة محددة؛ ولن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات."
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "يرجى تأكيد التغييرات أدناه. سيقوم الاستيراد بتثبيت %d إضافة مفقودة محددة؛ ولن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "يرجى تأكيد التغييرات أدناه. سيقوم الاستيراد بتثبيت %d إضافة مفقودة محددة؛ ولن يتم تعديل الأذونات أو ذاكرة التخزين المؤقت أو عناصر Keychain أو البيانات الخاصة بالإضافات."
+                }
+              }
+            }
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Bitte bestätige die folgenden Änderungen. Beim Import wird %d ausgewähltes fehlendes Plugin installiert; Berechtigungen, Caches, Schlüsselbund-Einträge oder private Plugin-Daten werden nicht geändert."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Bitte bestätige die folgenden Änderungen. Beim Import werden %d ausgewählte fehlende Plugins installiert; Berechtigungen, Caches, Schlüsselbund-Einträge oder private Plugin-Daten werden nicht geändert."
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Please review the changes below. Importing will install %d selected missing plugin; permissions, caches, Keychain items, or plugin private data will not be modified."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Please review the changes below. Importing will install %d selected missing plugins; permissions, caches, Keychain items, or plugin private data will not be modified."
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Confirma los siguientes cambios. La importación instalará %d plugin faltante seleccionado; no se modificarán permisos, cachés, elementos del Llavero ni datos privados de plugins."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Confirma los siguientes cambios. La importación instalará %d plugins faltantes seleccionados; no se modificarán permisos, cachés, elementos del Llavero ni datos privados de plugins."
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Veuillez vérifier les modifications ci-dessous. L’importation installera %d extension manquante sélectionnée ; les autorisations, caches, éléments du trousseau d’accès et données privées d’extensions ne seront pas modifiés."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Veuillez vérifier les modifications ci-dessous. L’importation installera %d extensions manquantes sélectionnées ; les autorisations, caches, éléments du trousseau d’accès et données privées d’extensions ne seront pas modifiés."
+                }
+              }
+            }
+          }
+        },
+        "ja": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "以下の変更を確認してください。読み込み時に選択した%d個の不足プラグインをインストールします。権限、キャッシュ、キーチェーン項目、プラグイン非公開データは変更されません。"
+                }
+              }
+            }
+          }
+        },
+        "ko": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "아래 변경 사항을 확인하십시오. 가져올 때 선택한 누락 플러그인 %d개를 설치합니다. 권한, 캐시, 키체인 항목 또는 플러그인 개인 데이터는 수정되지 않습니다."
+                }
+              }
+            }
+          }
+        },
+        "pt": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Confirme as alterações abaixo. A importação instalará %d plugin ausente selecionado; permissões, caches, itens das Chaves e dados privados de plugins não serão modificados."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Confirme as alterações abaixo. A importação instalará %d plugins ausentes selecionados; permissões, caches, itens das Chaves e dados privados de plugins não serão modificados."
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Подтвердите следующие изменения. При импорте будет установлен %d выбранный отсутствующий плагин; разрешения, кэши, объекты Связки ключей и личные данные плагинов не изменятся."
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Подтвердите следующие изменения. При импорте будут установлены %d выбранных отсутствующих плагина; разрешения, кэши, объекты Связки ключей и личные данные плагинов не изменятся."
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Подтвердите следующие изменения. При импорте будут установлены %d выбранных отсутствующих плагинов; разрешения, кэши, объекты Связки ключей и личные данные плагинов не изменятся."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Подтвердите следующие изменения. При импорте будут установлены %d выбранных отсутствующих плагинов; разрешения, кэши, объекты Связки ключей и личные данные плагинов не изменятся."
+                }
+              }
+            }
+          }
+        },
+        "tr": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Lütfen aşağıdaki değişiklikleri gözden geçirin. İçe aktarma, seçilen %d eksik eklentiyi yükleyecek; izinler, önbellekler, Keychain öğeleri veya eklentiye özel veriler değiştirilmeyecek."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "请确认以下更改。导入将自动安装 %d 个选中的缺失插件；不会修改权限、缓存、Keychain 密钥或插件私有数据。"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hant": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "請確認以下變更。匯入將自動安裝 %d 個選取缺少的外掛；不會修改權限、快取、Keychain 密鑰或外掛私有資料。"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "preferencesBackup.preview.deselectAll": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إلغاء تحديد الكل" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Alle abwählen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Deselect All" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Deseleccionar todo" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Tout désélectionner" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "すべて選択解除" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "모두 선택 해제" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Desmarcar tudo" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Снять выделение" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "全不选" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "全部取消選取" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلغاء تحديد الكل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle abwählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deselect All"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deseleccionar todo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout désélectionner"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "すべて選択解除"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "모두 선택 해제"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desmarcar tudo"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Снять выделение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümünün Seçimini Kaldır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全不选"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部取消選取"
+          }
+        }
       }
     },
     "preferencesBackup.preview.application": {
@@ -1372,6 +2667,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройки приложения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Tercihleri"
           }
         },
         "zh-Hans": {
@@ -1445,6 +2746,12 @@
             "value": "Внешний вид приложения, язык и поведение клика по строке меню"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulamanın görünümü, dili ve menü çubuğu tıklama davranışı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1514,6 +2821,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройки плагинов"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti Ayarları"
           }
         },
         "zh-Hans": {
@@ -1587,6 +2900,12 @@
             "value": "%d доступных плагинов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d kullanılabilir eklenti"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1656,6 +2975,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сочетания клавиш"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klavye Kısayolları"
           }
         },
         "zh-Hans": {
@@ -1729,6 +3054,12 @@
             "value": "%d настроек"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d özelleştirme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1746,49 +3077,232 @@
     "preferencesBackup.preview.retainedUnavailableActions": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "سيتم الاحتفاظ بـ %d من الإجراءات غير المتاحة حاليًا؛ ويمكن استخدامها بعد استعادة الإضافات المقابلة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "%d derzeit nicht verfügbare Aktionen werden beibehalten und können nach Wiederherstellung der zugehörigen Plugins verwendet werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "%d currently unavailable actions will be retained and can be used after their plugins are restored." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Se conservarán %d acciones no disponibles actualmente y podrán usarse cuando se restauren sus plugins." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "%d actions actuellement indisponibles seront conservées et pourront être utilisées après la restauration de leurs extensions." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "現在利用できないアクション %d 件は保持され、対応するプラグインの復元後に使用できます。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "현재 사용할 수 없는 동작 %d개를 유지하며 해당 플러그인을 복원한 후 사용할 수 있습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Serão mantidas %d ações atualmente indisponíveis, que poderão ser usadas depois de restaurar os respetivos plugins." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "%d временно недоступных действий будут сохранены и станут доступны после восстановления соответствующих плагинов." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "将保留 %d 个当前不可用的操作；对应插件恢复后可继续使用。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "將保留 %d 個目前無法使用的操作；還原對應插件後即可繼續使用。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيتم الاحتفاظ بـ %d من الإجراءات غير المتاحة حاليًا؛ ويمكن استخدامها بعد استعادة الإضافات المقابلة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d derzeit nicht verfügbare Aktionen werden beibehalten und können nach Wiederherstellung der zugehörigen Plugins verwendet werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d currently unavailable actions will be retained and can be used after their plugins are restored."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se conservarán %d acciones no disponibles actualmente y podrán usarse cuando se restauren sus plugins."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d actions actuellement indisponibles seront conservées et pourront être utilisées après la restauration de leurs extensions."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在利用できないアクション %d 件は保持され、対応するプラグインの復元後に使用できます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "현재 사용할 수 없는 동작 %d개를 유지하며 해당 플러그인을 복원한 후 사용할 수 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Serão mantidas %d ações atualmente indisponíveis, que poderão ser usadas depois de restaurar os respetivos plugins."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d временно недоступных действий будут сохранены и станут доступны после восстановления соответствующих плагинов."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şu anda kullanılamayan %d eylem saklanır ve ilgili eklentiler geri yüklendikten sonra kullanılabilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将保留 %d 个当前不可用的操作；对应插件恢复后可继续使用。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "將保留 %d 個目前無法使用的操作；還原對應插件後即可繼續使用。"
+          }
+        }
       }
     },
     "preferencesBackup.preview.selectAllMissingPlugins": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تحديد جميع الإضافات المفقودة" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Alle fehlenden Plugins auswählen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Select All Missing Plugins" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Seleccionar todos los plugins faltantes" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Tout sélectionner les extensions manquantes" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "不足しているプラグインをすべて選択" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "누락된 플러그인 모두 선택" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Selecionar todos os plugins ausentes" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Выбрать все отсутствующие плагины" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "全选缺失插件" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "全選缺少的外掛" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحديد جميع الإضافات المفقودة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle fehlenden Plugins auswählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select All Missing Plugins"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccionar todos los plugins faltantes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout sélectionner les extensions manquantes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不足しているプラグインをすべて選択"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "누락된 플러그인 모두 선택"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecionar todos os plugins ausentes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать все отсутствующие плагины"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Eksik Eklentileri Seç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全选缺失插件"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全選缺少的外掛"
+          }
+        }
       }
     },
     "preferencesBackup.preview.selectedPluginsSummary": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تم تحديد %d من %d" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%d von %d ausgewählt" } },
-        "en": { "stringUnit": { "state": "translated", "value": "%d of %d selected" } },
-        "es": { "stringUnit": { "state": "translated", "value": "%d de %d seleccionados" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "%d sur %d sélectionnés" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%d / %d 件選択中" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%d개 / %d개 선택됨" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "%d de %d seleccionados" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Выбрано: %d из %d" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "已选 %d / %d 个插件" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "已選 %d / %d 個外掛" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تحديد %d من %d"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d von %d ausgewählt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d of %d selected"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d de %d seleccionados"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d sur %d sélectionnés"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d / %d 件選択中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d개 / %d개 선택됨"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d de %d seleccionados"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрано: %d из %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d / %d seçildi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已选 %d / %d 个插件"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已選 %d / %d 個外掛"
+          }
+        }
       }
     },
     "preferencesBackup.preview.skipped": {
@@ -1846,6 +3360,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройки для %d недоступных плагинов, %d недоступных сочетаний клавиш и %d недоступных или непереносимых действий будут пропущены."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılamayan %d eklentinin ayarları, kullanılamayan %d kısayol ve kullanılamayan ya da taşınabilir olmayan %d eylem atlanacak."
           }
         },
         "zh-Hans": {
@@ -1919,6 +3439,12 @@
             "value": "Импортировать"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İçe Aktar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1988,6 +3514,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неподдерживаемая версия резервной копии настроек (%d)."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmeyen tercihler yedeği sürümü (%d)."
           }
         },
         "zh-Hans": {
@@ -2061,6 +3593,12 @@
             "value": "Размер резервной копии настроек не должен превышать %d МБ."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihler yedeği %d MB'yi aşmamalıdır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2130,6 +3668,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройки приложения в этой резервной копии недействительны."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu yedekteki uygulama tercihleri geçersiz."
           }
         },
         "zh-Hans": {
@@ -2203,6 +3747,12 @@
             "value": "Доступные для установки отсутствующие плагины"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklenebilecek Eksik Eklentiler"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2272,6 +3822,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Только выбранные вами плагины будут загружены из проверенного каталога плагинов."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca seçtiğiniz eklentiler doğrulanmış eklenti kataloğundan indirilir."
           }
         },
         "zh-Hans": {
@@ -2345,6 +3901,12 @@
             "value": "Установить выбранные плагины и импортировать"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili Eklentileri Yükle ve İçe Aktar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2362,93 +3924,1231 @@
     "preferencesBackup.preview.installAndImportCount": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "variations": { "plural": {
-          "zero": { "stringUnit": { "state": "translated", "value": "استيراد (%d)" } },
-          "one": { "stringUnit": { "state": "translated", "value": "تثبيت إضافة واحدة (%d) واستيرادها" } },
-          "two": { "stringUnit": { "state": "translated", "value": "تثبيت إضافتين (%d) واستيرادهما" } },
-          "few": { "stringUnit": { "state": "translated", "value": "تثبيت %d إضافات واستيرادها" } },
-          "many": { "stringUnit": { "state": "translated", "value": "تثبيت %d إضافة واستيرادها" } },
-          "other": { "stringUnit": { "state": "translated", "value": "تثبيت %d إضافة واستيرادها" } }
-        } } },
-        "de": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "%d Plugin installieren und importieren" } },
-          "other": { "stringUnit": { "state": "translated", "value": "%d Plugins installieren und importieren" } }
-        } } },
-        "en": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "Install %d Plugin and Import" } },
-          "other": { "stringUnit": { "state": "translated", "value": "Install %d Plugins and Import" } }
-        } } },
-        "es": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "Instalar %d plugin e importar" } },
-          "other": { "stringUnit": { "state": "translated", "value": "Instalar %d plugins e importar" } }
-        } } },
-        "fr": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "Installer %d extension et importer" } },
-          "other": { "stringUnit": { "state": "translated", "value": "Installer %d extensions et importer" } }
-        } } },
-        "ja": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "%d個のプラグインをインストールして読み込む" } }
-        } } },
-        "ko": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "플러그인 %d개 설치 및 가져오기" } }
-        } } },
-        "pt": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "Instalar %d plugin e importar" } },
-          "other": { "stringUnit": { "state": "translated", "value": "Instalar %d plugins e importar" } }
-        } } },
-        "ru": { "variations": { "plural": {
-          "one": { "stringUnit": { "state": "translated", "value": "Установить %d плагин и импортировать" } },
-          "few": { "stringUnit": { "state": "translated", "value": "Установить %d плагина и импортировать" } },
-          "many": { "stringUnit": { "state": "translated", "value": "Установить %d плагинов и импортировать" } },
-          "other": { "stringUnit": { "state": "translated", "value": "Установить %d плагинов и импортировать" } }
-        } } },
-        "zh-Hans": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "安装 %d 个插件并导入" } }
-        } } },
-        "zh-Hant": { "variations": { "plural": {
-          "other": { "stringUnit": { "state": "translated", "value": "安裝 %d 個外掛並匯入" } }
-        } } }
+        "ar": {
+          "variations": {
+            "plural": {
+              "zero": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "استيراد (%d)"
+                }
+              },
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "تثبيت إضافة واحدة (%d) واستيرادها"
+                }
+              },
+              "two": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "تثبيت إضافتين (%d) واستيرادهما"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "تثبيت %d إضافات واستيرادها"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "تثبيت %d إضافة واستيرادها"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "تثبيت %d إضافة واستيرادها"
+                }
+              }
+            }
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d Plugin installieren und importieren"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d Plugins installieren und importieren"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Install %d Plugin and Import"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Install %d Plugins and Import"
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Instalar %d plugin e importar"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Instalar %d plugins e importar"
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Installer %d extension et importer"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Installer %d extensions et importer"
+                }
+              }
+            }
+          }
+        },
+        "ja": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d個のプラグインをインストールして読み込む"
+                }
+              }
+            }
+          }
+        },
+        "ko": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "플러그인 %d개 설치 및 가져오기"
+                }
+              }
+            }
+          }
+        },
+        "pt": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Instalar %d plugin e importar"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Instalar %d plugins e importar"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Установить %d плагин и импортировать"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Установить %d плагина и импортировать"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Установить %d плагинов и импортировать"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Установить %d плагинов и импортировать"
+                }
+              }
+            }
+          }
+        },
+        "tr": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%d Eklentiyi Yükle ve İçe Aktar"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "安装 %d 个插件并导入"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hant": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "安裝 %d 個外掛並匯入"
+                }
+              }
+            }
+          }
+        }
       }
     },
-    "preferencesBackup.exportSelection.confirm": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "متابعة التصدير…" } }, "de": { "stringUnit": { "state": "translated", "value": "Export fortsetzen …" } }, "en": { "stringUnit": { "state": "translated", "value": "Continue Export…" } }, "es": { "stringUnit": { "state": "translated", "value": "Continuar exportación…" } }, "fr": { "stringUnit": { "state": "translated", "value": "Continuer l’exportation…" } }, "ja": { "stringUnit": { "state": "translated", "value": "書き出しを続ける…" } }, "ko": { "stringUnit": { "state": "translated", "value": "내보내기 계속…" } }, "pt": { "stringUnit": { "state": "translated", "value": "Continuar exportação…" } }, "ru": { "stringUnit": { "state": "translated", "value": "Продолжить экспорт…" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "继续导出…" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "繼續輸出…" } }
-    } },
-    "preferencesBackup.exportSelection.deviceLocalRulesOmitted": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "لن يتم تصدير %d من قواعد الأتمتة المرتبطة بشاشة على هذا الـ Mac." } }, "de": { "stringUnit": { "state": "translated", "value": "%d Automationsregeln, die an ein Display dieses Macs gebunden sind, werden nicht exportiert." } }, "en": { "stringUnit": { "state": "translated", "value": "%d automation rules tied to a display on this Mac will not be exported." } }, "es": { "stringUnit": { "state": "translated", "value": "No se exportarán %d reglas de automatización vinculadas a una pantalla de este Mac." } }, "fr": { "stringUnit": { "state": "translated", "value": "%d règles d’automatisation liées à un écran de ce Mac ne seront pas exportées." } }, "ja": { "stringUnit": { "state": "translated", "value": "このMacのディスプレイに関連付けられた%d件の自動化ルールは書き出されません。" } }, "ko": { "stringUnit": { "state": "translated", "value": "이 Mac의 디스플레이에 연결된 자동화 규칙 %d개는 내보내지 않습니다." } }, "pt": { "stringUnit": { "state": "translated", "value": "%d regras de automação vinculadas a uma tela deste Mac não serão exportadas." } }, "ru": { "stringUnit": { "state": "translated", "value": "%d правил автоматизации, привязанных к дисплею этого Mac, не будут экспортированы." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "%d 条绑定到此 Mac 显示器的自动化规则不会导出。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "%d 條綁定到此 Mac 顯示器的自動化規則不會輸出。" } }
-    } },
-    "preferencesBackup.exportSelection.title": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "اختيار التفضيلات المراد تصديرها" } }, "de": { "stringUnit": { "state": "translated", "value": "Zu exportierende Einstellungen auswählen" } }, "en": { "stringUnit": { "state": "translated", "value": "Choose Preferences to Export" } }, "es": { "stringUnit": { "state": "translated", "value": "Elegir preferencias para exportar" } }, "fr": { "stringUnit": { "state": "translated", "value": "Choisir les préférences à exporter" } }, "ja": { "stringUnit": { "state": "translated", "value": "書き出す設定を選択" } }, "ko": { "stringUnit": { "state": "translated", "value": "내보낼 환경설정 선택" } }, "pt": { "stringUnit": { "state": "translated", "value": "Escolher preferências para exportar" } }, "ru": { "stringUnit": { "state": "translated", "value": "Выбор настроек для экспорта" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "选择要导出的偏好设置" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "選擇要輸出的偏好設定" } }
-    } },
-    "preferencesBackup.selection.automation": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "سير العمل وقواعد الأتمتة" } }, "de": { "stringUnit": { "state": "translated", "value": "Workflows und Automationsregeln" } }, "en": { "stringUnit": { "state": "translated", "value": "Workflows and Automation Rules" } }, "es": { "stringUnit": { "state": "translated", "value": "Flujos de trabajo y reglas de automatización" } }, "fr": { "stringUnit": { "state": "translated", "value": "Processus et règles d’automatisation" } }, "ja": { "stringUnit": { "state": "translated", "value": "ワークフローと自動化ルール" } }, "ko": { "stringUnit": { "state": "translated", "value": "워크플로 및 자동화 규칙" } }, "pt": { "stringUnit": { "state": "translated", "value": "Fluxos de trabalho e regras de automação" } }, "ru": { "stringUnit": { "state": "translated", "value": "Процессы и правила автоматизации" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "工作流与自动化规则" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "工作流程與自動化規則" } }
-    } },
-    "preferencesBackup.selection.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "يتم تصدير الفئات المحددة فقط. يمكنك اختيار ما تريد استعادته مرة أخرى عند الاستيراد." } }, "de": { "stringUnit": { "state": "translated", "value": "Nur ausgewählte Kategorien werden exportiert. Beim Import kannst du erneut auswählen, was wiederhergestellt wird." } }, "en": { "stringUnit": { "state": "translated", "value": "Only selected categories are exported. You can choose what to restore again when importing." } }, "es": { "stringUnit": { "state": "translated", "value": "Solo se exportan las categorías seleccionadas. Al importar podrás volver a elegir qué restaurar." } }, "fr": { "stringUnit": { "state": "translated", "value": "Seules les catégories sélectionnées sont exportées. Vous pourrez à nouveau choisir quoi restaurer lors de l’importation." } }, "ja": { "stringUnit": { "state": "translated", "value": "選択したカテゴリのみを書き出します。読み込み時に復元する内容を再度選べます。" } }, "ko": { "stringUnit": { "state": "translated", "value": "선택한 범주만 내보냅니다. 가져올 때 복원할 항목을 다시 선택할 수 있습니다." } }, "pt": { "stringUnit": { "state": "translated", "value": "Somente as categorias selecionadas são exportadas. Ao importar, você poderá escolher novamente o que restaurar." } }, "ru": { "stringUnit": { "state": "translated", "value": "Экспортируются только выбранные категории. При импорте можно снова выбрать, что восстановить." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "仅导出所选类别。导入时还可以再次选择要恢复的内容。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "只會輸出所選類別。輸入時還可以再次選擇要回復的內容。" } }
-    } },
-    "preferencesBackup.selection.pluginLayout": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تخطيط الإضافات وإمكانية ظهورها" } }, "de": { "stringUnit": { "state": "translated", "value": "Plugin-Anordnung und Sichtbarkeit" } }, "en": { "stringUnit": { "state": "translated", "value": "Plugin Layout and Visibility" } }, "es": { "stringUnit": { "state": "translated", "value": "Disposición y visibilidad de plugins" } }, "fr": { "stringUnit": { "state": "translated", "value": "Disposition et visibilité des modules" } }, "ja": { "stringUnit": { "state": "translated", "value": "プラグインの配置と表示" } }, "ko": { "stringUnit": { "state": "translated", "value": "플러그인 배치 및 표시 여부" } }, "pt": { "stringUnit": { "state": "translated", "value": "Layout e visibilidade dos plugins" } }, "ru": { "stringUnit": { "state": "translated", "value": "Расположение и видимость плагинов" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "插件布局与可见性" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "外掛佈局與可見性" } }
-    } },
-    "preferencesBackup.selection.runLinks": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "روابط التشغيل المحفوظة" } }, "de": { "stringUnit": { "state": "translated", "value": "Gespeicherte Run Links" } }, "en": { "stringUnit": { "state": "translated", "value": "Saved Run Links" } }, "es": { "stringUnit": { "state": "translated", "value": "Run Links guardados" } }, "fr": { "stringUnit": { "state": "translated", "value": "Run Links enregistrés" } }, "ja": { "stringUnit": { "state": "translated", "value": "保存済み Run Link" } }, "ko": { "stringUnit": { "state": "translated", "value": "저장된 Run Link" } }, "pt": { "stringUnit": { "state": "translated", "value": "Run Links salvos" } }, "ru": { "stringUnit": { "state": "translated", "value": "Сохранённые Run Link" } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "已保存的 Run Link" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "已儲存的 Run Link" } }
-    } },
-    "preferencesBackup.selection.application.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "المظهر واللغة وسلوك النقر على شريط القوائم؛ لا يشمل الأذونات أو عناصر تسجيل الدخول أو بيانات الاعتماد." } }, "de": { "stringUnit": { "state": "translated", "value": "Erscheinungsbild, Sprache und Klickverhalten der Menüleiste; ohne Berechtigungen, Anmeldeobjekte oder Zugangsdaten." } }, "en": { "stringUnit": { "state": "translated", "value": "Appearance, language, and menu bar click behavior; excludes permissions, login items, and credentials." } }, "es": { "stringUnit": { "state": "translated", "value": "Apariencia, idioma y comportamiento de clic de la barra de menús; no incluye permisos, ítems de inicio ni credenciales." } }, "fr": { "stringUnit": { "state": "translated", "value": "Apparence, langue et comportement de clic de la barre des menus ; sans autorisations, éléments d’ouverture ni identifiants." } }, "ja": { "stringUnit": { "state": "translated", "value": "外観、言語、メニューバーのクリック動作。権限、ログイン項目、認証情報は含みません。" } }, "ko": { "stringUnit": { "state": "translated", "value": "모양, 언어 및 메뉴 막대 클릭 동작입니다. 권한, 로그인 항목 및 자격 증명은 제외됩니다." } }, "pt": { "stringUnit": { "state": "translated", "value": "Aparência, idioma e comportamento de clique da barra de menus; não inclui permissões, itens de início ou credenciais." } }, "ru": { "stringUnit": { "state": "translated", "value": "Оформление, язык и поведение щелчка по строке меню; без разрешений, объектов входа и учётных данных." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "外观、语言和菜单栏点击方式；不包含权限、登录项或凭证。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "外觀、語言和選單列點按方式；不包含權限、登入項目或憑證。" } }
-    } },
-    "preferencesBackup.selection.pluginLayout.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "يستعيد ترتيب الإضافات وظهورها في لوحة المعلومات ولوحة الميزات؛ يجب تثبيت الإضافات المفقودة بشكل منفصل." } }, "de": { "stringUnit": { "state": "translated", "value": "Stellt Reihenfolge und Sichtbarkeit in Dashboard und Funktionsbereich wieder her; fehlende Plugins müssen separat installiert werden." } }, "en": { "stringUnit": { "state": "translated", "value": "Restores plugin order and visibility in Dashboard and Feature Panel; missing plugins must be installed separately." } }, "es": { "stringUnit": { "state": "translated", "value": "Restaura el orden y la visibilidad en el Dashboard y el Panel de funciones; los plugins ausentes deben instalarse aparte." } }, "fr": { "stringUnit": { "state": "translated", "value": "Restaure l’ordre et la visibilité dans le tableau de bord et le panneau de fonctions ; les modules absents doivent être installés séparément." } }, "ja": { "stringUnit": { "state": "translated", "value": "ダッシュボードと機能パネルのプラグインの順序と表示を復元します。不足するプラグインは別途インストールが必要です。" } }, "ko": { "stringUnit": { "state": "translated", "value": "대시보드와 기능 패널의 플러그인 순서 및 표시 여부를 복원합니다. 누락된 플러그인은 별도로 설치해야 합니다." } }, "pt": { "stringUnit": { "state": "translated", "value": "Restaura a ordem e a visibilidade no Painel e no Painel de recursos; plugins ausentes precisam ser instalados separadamente." } }, "ru": { "stringUnit": { "state": "translated", "value": "Восстанавливает порядок и видимость в панели и панели функций; отсутствующие плагины устанавливаются отдельно." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "恢复仪表盘和功能面板中的插件顺序与可见性；缺失插件需要另外安装。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "回復儀表板和功能面板中的外掛順序與可見性；缺少的外掛需要另外安裝。" } }
-    } },
-    "preferencesBackup.selection.shortcuts.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "يستعيد اختصارات التطبيق والإجراءات؛ تتطلب إجراءات الإضافات الإضافة وإعداداتها المقابلة." } }, "de": { "stringUnit": { "state": "translated", "value": "Stellt App- und Aktionskurzbefehle wieder her; Plugin-Aktionen benötigen das jeweilige Plugin und seine Einstellungen." } }, "en": { "stringUnit": { "state": "translated", "value": "Restores app and action shortcuts; plugin actions also require their plugin and corresponding settings." } }, "es": { "stringUnit": { "state": "translated", "value": "Restaura atajos de la app y de acciones; las acciones de plugins también requieren su plugin y ajustes." } }, "fr": { "stringUnit": { "state": "translated", "value": "Restaure les raccourcis de l’app et des actions ; les actions de modules exigent aussi leur module et ses réglages." } }, "ja": { "stringUnit": { "state": "translated", "value": "アプリとアクションのショートカットを復元します。プラグインのアクションには対応するプラグインと設定も必要です。" } }, "ko": { "stringUnit": { "state": "translated", "value": "앱 및 동작 단축키를 복원합니다. 플러그인 동작에는 해당 플러그인과 설정도 필요합니다." } }, "pt": { "stringUnit": { "state": "translated", "value": "Restaura atalhos do app e de ações; ações de plugins também exigem o plugin e as configurações correspondentes." } }, "ru": { "stringUnit": { "state": "translated", "value": "Восстанавливает сочетания клавиш приложения и действий; действиям плагинов также нужны соответствующие плагины и настройки." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "恢复应用和操作快捷键；插件操作还需要对应插件及其设置。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "回復應用程式和動作快速鍵；外掛動作還需要對應外掛及其設定。" } }
-    } },
-    "preferencesBackup.selection.automation.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "يحافظ على معرّفات سير العمل وروابط التشغيل المباشرة؛ ما زالت الخطوات تتطلب الإضافات وإعداداتها." } }, "de": { "stringUnit": { "state": "translated", "value": "Behält Workflow-IDs und direkte Run Links bei; Schritte benötigen weiterhin ihre Plugins und Einstellungen." } }, "en": { "stringUnit": { "state": "translated", "value": "Preserves workflow IDs and direct Run Links; workflow steps still require their plugins and settings." } }, "es": { "stringUnit": { "state": "translated", "value": "Conserva los ID de flujo y sus Run Links directos; los pasos siguen necesitando sus plugins y ajustes." } }, "fr": { "stringUnit": { "state": "translated", "value": "Conserve les identifiants de workflow et les Run Links directs ; les étapes nécessitent toujours leurs modules et réglages." } }, "ja": { "stringUnit": { "state": "translated", "value": "ワークフローIDと直接のRun Linkを保持します。各ステップには対応するプラグインと設定が必要です。" } }, "ko": { "stringUnit": { "state": "translated", "value": "워크플로 ID와 직접 Run Link를 유지합니다. 단계에는 해당 플러그인과 설정이 계속 필요합니다." } }, "pt": { "stringUnit": { "state": "translated", "value": "Preserva IDs de fluxos e Run Links diretos; as etapas ainda exigem seus plugins e configurações." } }, "ru": { "stringUnit": { "state": "translated", "value": "Сохраняет идентификаторы процессов и прямые Run Link; шагам по-прежнему нужны плагины и их настройки." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "保留工作流标识和直接 Run Link；工作流步骤仍需要对应插件及其设置。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "保留工作流程識別碼和直接 Run Link；工作流程步驟仍需要對應外掛及其設定。" } }
-    } },
-    "preferencesBackup.selection.runLinks.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "روابط محفوظة للإجراءات ذات المعلمات؛ تُستعاد روابط سير العمل مع «مهام سير العمل وقواعد الأتمتة»." } }, "de": { "stringUnit": { "state": "translated", "value": "Gespeicherte Links für parametrisierte Aktionen; Workflow-Links werden mit „Workflows und Automationsregeln“ wiederhergestellt." } }, "en": { "stringUnit": { "state": "translated", "value": "Saved links for parameterized actions; workflow links are restored with Workflows and Automation Rules." } }, "es": { "stringUnit": { "state": "translated", "value": "Enlaces guardados para acciones con parámetros; los enlaces de flujos se restauran con Flujos y reglas de automatización." } }, "fr": { "stringUnit": { "state": "translated", "value": "Liens enregistrés pour les actions paramétrées ; les liens de workflow sont restaurés avec les workflows et règles d’automatisation." } }, "ja": { "stringUnit": { "state": "translated", "value": "パラメータ付きアクションの保存済みリンクです。ワークフローのリンクは「ワークフローと自動化ルール」で復元されます。" } }, "ko": { "stringUnit": { "state": "translated", "value": "매개변수가 있는 동작의 저장된 링크입니다. 워크플로 링크는 워크플로 및 자동화 규칙과 함께 복원됩니다." } }, "pt": { "stringUnit": { "state": "translated", "value": "Links salvos para ações parametrizadas; links de fluxos são restaurados com Fluxos e regras de automação." } }, "ru": { "stringUnit": { "state": "translated", "value": "Сохранённые ссылки параметризованных действий; ссылки процессов восстанавливаются вместе с процессами и правилами автоматизации." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "参数化操作的已保存链接；工作流链接随“工作流与自动化规则”一起恢复。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "參數化動作的已儲存連結；工作流程連結會隨「工作流程與自動化規則」一起回復。" } }
-    } },
-    "preferencesBackup.selection.plugins.description": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "يتضمن فقط الإعدادات التي تعلن الإضافة أنها قابلة للنقل. تتطلب المحتويات الحساسة مثل نصوص البرامج النصية إذنًا منفصلًا داخل الإضافة." } }, "de": { "stringUnit": { "state": "translated", "value": "Enthält nur vom Plugin als portabel deklarierte Einstellungen. Sensible Inhalte wie Skripttext müssen im Plugin separat freigegeben werden." } }, "en": { "stringUnit": { "state": "translated", "value": "Includes only settings the plugin declares portable. Sensitive content such as script source still requires separate opt-in inside that plugin." } }, "es": { "stringUnit": { "state": "translated", "value": "Solo incluye ajustes que el plugin declara portátiles. El contenido sensible, como el código de scripts, requiere permiso aparte en el plugin." } }, "fr": { "stringUnit": { "state": "translated", "value": "Inclut seulement les réglages déclarés portables par le module. Le contenu sensible, comme le texte des scripts, exige une autorisation dans le module." } }, "ja": { "stringUnit": { "state": "translated", "value": "プラグインが移行可能とする設定のみを含みます。スクリプト本文などの機密内容はプラグイン内で個別に許可する必要があります。" } }, "ko": { "stringUnit": { "state": "translated", "value": "플러그인이 이동 가능하다고 선언한 설정만 포함합니다. 스크립트 원문 같은 민감한 내용은 플러그인에서 별도로 허용해야 합니다." } }, "pt": { "stringUnit": { "state": "translated", "value": "Inclui apenas configurações declaradas portáteis pelo plugin. Conteúdo sensível, como o código de scripts, exige permissão separada no plugin." } }, "ru": { "stringUnit": { "state": "translated", "value": "Включает только настройки, объявленные плагином переносимыми. Для чувствительных данных, например текста скриптов, нужно отдельное разрешение в плагине." } }, "zh-Hans": { "stringUnit": { "state": "translated", "value": "仅包含插件声明为可移植的设置。脚本文本等敏感内容仍需在对应插件中单独允许备份。" } }, "zh-Hant": { "stringUnit": { "state": "translated", "value": "僅包含外掛宣告為可攜式的設定。指令碼文字等敏感內容仍需在對應外掛中另外允許備份。" } }
-    } },
+    "preferencesBackup.exportSelection.confirm": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متابعة التصدير…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export fortsetzen …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue Export…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar exportación…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuer l’exportation…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "書き出しを続ける…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "내보내기 계속…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar exportação…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продолжить экспорт…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dışa Aktarmaya Devam Et…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "继续导出…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續輸出…"
+          }
+        }
+      }
+    },
+    "preferencesBackup.exportSelection.deviceLocalRulesOmitted": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لن يتم تصدير %d من قواعد الأتمتة المرتبطة بشاشة على هذا الـ Mac."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d Automationsregeln, die an ein Display dieses Macs gebunden sind, werden nicht exportiert."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d automation rules tied to a display on this Mac will not be exported."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se exportarán %d reglas de automatización vinculadas a una pantalla de este Mac."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d règles d’automatisation liées à un écran de ce Mac ne seront pas exportées."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このMacのディスプレイに関連付けられた%d件の自動化ルールは書き出されません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 Mac의 디스플레이에 연결된 자동화 규칙 %d개는 내보내지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d regras de automação vinculadas a uma tela deste Mac não serão exportadas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d правил автоматизации, привязанных к дисплею этого Mac, не будут экспортированы."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac'teki bir ekrana bağlı %d otomasyon kuralı dışa aktarılmayacak."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 条绑定到此 Mac 显示器的自动化规则不会导出。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 條綁定到此 Mac 顯示器的自動化規則不會輸出。"
+          }
+        }
+      }
+    },
+    "preferencesBackup.exportSelection.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار التفضيلات المراد تصديرها"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu exportierende Einstellungen auswählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Preferences to Export"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elegir preferencias para exportar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir les préférences à exporter"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "書き出す設定を選択"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "내보낼 환경설정 선택"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolher preferências para exportar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбор настроек для экспорта"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dışa Aktarılacak Tercihleri Seçin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择要导出的偏好设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇要輸出的偏好設定"
+          }
+        }
+      }
+    },
+    "preferencesBackup.selection.automation": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سير العمل وقواعد الأتمتة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Workflows und Automationsregeln"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Workflows and Automation Rules"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flujos de trabajo y reglas de automatización"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processus et règles d’automatisation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ワークフローと自動化ルール"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "워크플로 및 자동화 규칙"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fluxos de trabalho e regras de automação"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Процессы и правила автоматизации"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İş Akışları ve Otomasyon Kuralları"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作流与自动化规则"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作流程與自動化規則"
+          }
+        }
+      }
+    },
+    "preferencesBackup.selection.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتم تصدير الفئات المحددة فقط. يمكنك اختيار ما تريد استعادته مرة أخرى عند الاستيراد."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur ausgewählte Kategorien werden exportiert. Beim Import kannst du erneut auswählen, was wiederhergestellt wird."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only selected categories are exported. You can choose what to restore again when importing."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solo se exportan las categorías seleccionadas. Al importar podrás volver a elegir qué restaurar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seules les catégories sélectionnées sont exportées. Vous pourrez à nouveau choisir quoi restaurer lors de l’importation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択したカテゴリのみを書き出します。読み込み時に復元する内容を再度選べます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선택한 범주만 내보냅니다. 가져올 때 복원할 항목을 다시 선택할 수 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Somente as categorias selecionadas são exportadas. Ao importar, você poderá escolher novamente o que restaurar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экспортируются только выбранные категории. При импорте можно снова выбрать, что восстановить."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca seçili kategoriler dışa aktarılır. İçe aktarırken geri yükleyeceklerinizi yeniden seçebilirsiniz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅导出所选类别。导入时还可以再次选择要恢复的内容。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只會輸出所選類別。輸入時還可以再次選擇要回復的內容。"
+          }
+        }
+      }
+    },
+    "preferencesBackup.selection.pluginLayout": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تخطيط الإضافات وإمكانية ظهورها"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plugin-Anordnung und Sichtbarkeit"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plugin Layout and Visibility"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disposición y visibilidad de plugins"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disposition et visibilité des modules"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プラグインの配置と表示"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플러그인 배치 및 표시 여부"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Layout e visibilidade dos plugins"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расположение и видимость плагинов"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti Düzeni ve Görünürlüğü"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "插件布局与可见性"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外掛佈局與可見性"
+          }
+        }
+      }
+    },
+    "preferencesBackup.selection.runLinks": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "روابط التشغيل المحفوظة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gespeicherte Run Links"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved Run Links"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run Links guardados"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run Links enregistrés"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存済み Run Link"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "저장된 Run Link"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run Links salvos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранённые Run Link"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıtlı Run Link'ler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已保存的 Run Link"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已儲存的 Run Link"
+          }
+        }
+      }
+    },
+    "preferencesBackup.selection.application.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المظهر واللغة وسلوك النقر على شريط القوائم؛ لا يشمل الأذونات أو عناصر تسجيل الدخول أو بيانات الاعتماد."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erscheinungsbild, Sprache und Klickverhalten der Menüleiste; ohne Berechtigungen, Anmeldeobjekte oder Zugangsdaten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance, language, and menu bar click behavior; excludes permissions, login items, and credentials."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apariencia, idioma y comportamiento de clic de la barra de menús; no incluye permisos, ítems de inicio ni credenciales."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apparence, langue et comportement de clic de la barre des menus ; sans autorisations, éléments d’ouverture ni identifiants."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外観、言語、メニューバーのクリック動作。権限、ログイン項目、認証情報は含みません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "모양, 언어 및 메뉴 막대 클릭 동작입니다. 권한, 로그인 항목 및 자격 증명은 제외됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aparência, idioma e comportamento de clique da barra de menus; não inclui permissões, itens de início ou credenciais."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оформление, язык и поведение щелчка по строке меню; без разрешений, объектов входа и учётных данных."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm, dil ve menü çubuğu tıklama davranışı; izinleri, oturum öğelerini ve kimlik bilgilerini içermez."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外观、语言和菜单栏点击方式；不包含权限、登录项或凭证。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外觀、語言和選單列點按方式；不包含權限、登入項目或憑證。"
+          }
+        }
+      }
+    },
+    "preferencesBackup.selection.pluginLayout.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يستعيد ترتيب الإضافات وظهورها في لوحة المعلومات ولوحة الميزات؛ يجب تثبيت الإضافات المفقودة بشكل منفصل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stellt Reihenfolge und Sichtbarkeit in Dashboard und Funktionsbereich wieder her; fehlende Plugins müssen separat installiert werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restores plugin order and visibility in Dashboard and Feature Panel; missing plugins must be installed separately."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaura el orden y la visibilidad en el Dashboard y el Panel de funciones; los plugins ausentes deben instalarse aparte."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaure l’ordre et la visibilité dans le tableau de bord et le panneau de fonctions ; les modules absents doivent être installés séparément."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダッシュボードと機能パネルのプラグインの順序と表示を復元します。不足するプラグインは別途インストールが必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대시보드와 기능 패널의 플러그인 순서 및 표시 여부를 복원합니다. 누락된 플러그인은 별도로 설치해야 합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaura a ordem e a visibilidade no Painel e no Painel de recursos; plugins ausentes precisam ser instalados separadamente."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Восстанавливает порядок и видимость в панели и панели функций; отсутствующие плагины устанавливаются отдельно."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dashboard ve Özellik Paneli'ndeki eklenti sırasını ve görünürlüğünü geri yükler; eksik eklentilerin ayrıca yüklenmesi gerekir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复仪表盘和功能面板中的插件顺序与可见性；缺失插件需要另外安装。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回復儀表板和功能面板中的外掛順序與可見性；缺少的外掛需要另外安裝。"
+          }
+        }
+      }
+    },
+    "preferencesBackup.selection.shortcuts.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يستعيد اختصارات التطبيق والإجراءات؛ تتطلب إجراءات الإضافات الإضافة وإعداداتها المقابلة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stellt App- und Aktionskurzbefehle wieder her; Plugin-Aktionen benötigen das jeweilige Plugin und seine Einstellungen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restores app and action shortcuts; plugin actions also require their plugin and corresponding settings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaura atajos de la app y de acciones; las acciones de plugins también requieren su plugin y ajustes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaure les raccourcis de l’app et des actions ; les actions de modules exigent aussi leur module et ses réglages."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリとアクションのショートカットを復元します。プラグインのアクションには対応するプラグインと設定も必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 및 동작 단축키를 복원합니다. 플러그인 동작에는 해당 플러그인과 설정도 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaura atalhos do app e de ações; ações de plugins também exigem o plugin e as configurações correspondentes."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Восстанавливает сочетания клавиш приложения и действий; действиям плагинов также нужны соответствующие плагины и настройки."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama ve eylem kısayollarını geri yükler; eklenti eylemleri ayrıca ilgili eklentiyi ve bunun ayarlarını gerektirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复应用和操作快捷键；插件操作还需要对应插件及其设置。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回復應用程式和動作快速鍵；外掛動作還需要對應外掛及其設定。"
+          }
+        }
+      }
+    },
+    "preferencesBackup.selection.automation.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحافظ على معرّفات سير العمل وروابط التشغيل المباشرة؛ ما زالت الخطوات تتطلب الإضافات وإعداداتها."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Behält Workflow-IDs und direkte Run Links bei; Schritte benötigen weiterhin ihre Plugins und Einstellungen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preserves workflow IDs and direct Run Links; workflow steps still require their plugins and settings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conserva los ID de flujo y sus Run Links directos; los pasos siguen necesitando sus plugins y ajustes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conserve les identifiants de workflow et les Run Links directs ; les étapes nécessitent toujours leurs modules et réglages."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ワークフローIDと直接のRun Linkを保持します。各ステップには対応するプラグインと設定が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "워크플로 ID와 직접 Run Link를 유지합니다. 단계에는 해당 플러그인과 설정이 계속 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preserva IDs de fluxos e Run Links diretos; as etapas ainda exigem seus plugins e configurações."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохраняет идентификаторы процессов и прямые Run Link; шагам по-прежнему нужны плагины и их настройки."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İş akışı kimliklerini ve doğrudan Run Link'leri korur; iş akışı adımları yine ilgili eklentileri ve ayarları gerektirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保留工作流标识和直接 Run Link；工作流步骤仍需要对应插件及其设置。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保留工作流程識別碼和直接 Run Link；工作流程步驟仍需要對應外掛及其設定。"
+          }
+        }
+      }
+    },
+    "preferencesBackup.selection.runLinks.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "روابط محفوظة للإجراءات ذات المعلمات؛ تُستعاد روابط سير العمل مع «مهام سير العمل وقواعد الأتمتة»."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gespeicherte Links für parametrisierte Aktionen; Workflow-Links werden mit „Workflows und Automationsregeln“ wiederhergestellt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved links for parameterized actions; workflow links are restored with Workflows and Automation Rules."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enlaces guardados para acciones con parámetros; los enlaces de flujos se restauran con Flujos y reglas de automatización."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liens enregistrés pour les actions paramétrées ; les liens de workflow sont restaurés avec les workflows et règles d’automatisation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パラメータ付きアクションの保存済みリンクです。ワークフローのリンクは「ワークフローと自動化ルール」で復元されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "매개변수가 있는 동작의 저장된 링크입니다. 워크플로 링크는 워크플로 및 자동화 규칙과 함께 복원됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Links salvos para ações parametrizadas; links de fluxos são restaurados com Fluxos e regras de automação."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранённые ссылки параметризованных действий; ссылки процессов восстанавливаются вместе с процессами и правилами автоматизации."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parametreli eylemler için kaydedilmiş bağlantılar; iş akışı bağlantıları İş Akışları ve Otomasyon Kuralları ile birlikte geri yüklenir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "参数化操作的已保存链接；工作流链接随“工作流与自动化规则”一起恢复。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "參數化動作的已儲存連結；工作流程連結會隨「工作流程與自動化規則」一起回復。"
+          }
+        }
+      }
+    },
+    "preferencesBackup.selection.plugins.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتضمن فقط الإعدادات التي تعلن الإضافة أنها قابلة للنقل. تتطلب المحتويات الحساسة مثل نصوص البرامج النصية إذنًا منفصلًا داخل الإضافة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enthält nur vom Plugin als portabel deklarierte Einstellungen. Sensible Inhalte wie Skripttext müssen im Plugin separat freigegeben werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Includes only settings the plugin declares portable. Sensitive content such as script source still requires separate opt-in inside that plugin."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solo incluye ajustes que el plugin declara portátiles. El contenido sensible, como el código de scripts, requiere permiso aparte en el plugin."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inclut seulement les réglages déclarés portables par le module. Le contenu sensible, comme le texte des scripts, exige une autorisation dans le module."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プラグインが移行可能とする設定のみを含みます。スクリプト本文などの機密内容はプラグイン内で個別に許可する必要があります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플러그인이 이동 가능하다고 선언한 설정만 포함합니다. 스크립트 원문 같은 민감한 내용은 플러그인에서 별도로 허용해야 합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inclui apenas configurações declaradas portáteis pelo plugin. Conteúdo sensível, como o código de scripts, exige permissão separada no plugin."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включает только настройки, объявленные плагином переносимыми. Для чувствительных данных, например текста скриптов, нужно отдельное разрешение в плагине."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca eklentinin taşınabilir olarak bildirdiği ayarları içerir. Betik kaynağı gibi hassas içerikler için ilgili eklenti içinde ayrıca izin vermeniz gerekir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅包含插件声明为可移植的设置。脚本文本等敏感内容仍需在对应插件中单独允许备份。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "僅包含外掛宣告為可攜式的設定。指令碼文字等敏感內容仍需在對應外掛中另外允許備份。"
+          }
+        }
+      }
+    },
     "preferencesBackup.preview.replaceNotice": {
       "extractionState": "manual",
       "localizations": {
@@ -2506,6 +5206,12 @@
             "value": "Перечисленные категории настроек заменяются; параметры, отсутствующие в резервной копии, возвращаются к значениям по умолчанию."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listelenen tercih kategorileri değiştirilir; yedekte bulunmayan ayarlar varsayılan değerlerine döner."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2520,206 +5226,882 @@
         }
       }
     },
-    "preferencesBackup.import.pluginRestoreFailed": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تعذر استعادة إعدادات \"%@\"." } },
-      "de": { "stringUnit": { "state": "translated", "value": "Die Einstellungen für „%@“ konnten nicht wiederhergestellt werden." } },
-      "en": { "stringUnit": { "state": "translated", "value": "Couldn’t restore settings for “%@”." } },
-      "es": { "stringUnit": { "state": "translated", "value": "No se pudieron restaurar los ajustes de «%@»." } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Impossible de restaurer les réglages de « %@ »." } },
-      "ja": { "stringUnit": { "state": "translated", "value": "「%@」の設定を復元できませんでした。" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "‘%@’ 설정을 복원할 수 없습니다." } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível restaurar os ajustes de “%@”." } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Не удалось восстановить настройки «%@»." } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法恢复“%@”的插件设置。" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法回復「%@」的外掛設定。" } }
-    } },
-    "preferencesBackup.import.pluginRestoreDeferred": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تم تثبيت \"%@\". أعد تشغيل MacTools، ثم استورد هذه النسخة الاحتياطية مرة أخرى لاستعادة إعداداته." } },
-      "de": { "stringUnit": { "state": "translated", "value": "„%@“ wurde installiert. Starte MacTools neu und importiere dieses Backup erneut, um die Einstellungen wiederherzustellen." } },
-      "en": { "stringUnit": { "state": "translated", "value": "“%@” was installed. Restart MacTools, then import this backup again to restore its settings." } },
-      "es": { "stringUnit": { "state": "translated", "value": "Se instaló «%@». Reinicia MacTools y vuelve a importar esta copia de seguridad para restaurar sus ajustes." } },
-      "fr": { "stringUnit": { "state": "translated", "value": "« %@ » a été installé. Redémarrez MacTools, puis importez à nouveau cette sauvegarde pour restaurer ses réglages." } },
-      "ja": { "stringUnit": { "state": "translated", "value": "「%@」をインストールしました。MacTools を再起動してから、このバックアップをもう一度読み込んで設定を復元してください。" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "‘%@’이(가) 설치되었습니다. MacTools를 다시 시작한 다음 이 백업을 다시 가져와 설정을 복원하십시오." } },
-      "pt": { "stringUnit": { "state": "translated", "value": "“%@” foi instalado. Reinicie o MacTools e importe este backup novamente para restaurar os ajustes." } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Плагин «%@» установлен. Перезапустите MacTools, затем снова импортируйте эту резервную копию, чтобы восстановить его настройки." } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "已安装“%@”。请重新启动 MacTools，然后再次导入此备份以恢复其设置。" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "已安裝「%@」。請重新啟動 MacTools，然後再次匯入此備份以回復其設定。" } }
-    } },
-    "preferencesBackup.importProgress.preparing": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "جارٍ تحضير الاستيراد…" } },
-      "de": { "stringUnit": { "state": "translated", "value": "Import wird vorbereitet…" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Preparing import…" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Preparando la importación…" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Préparation de l’importation…" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "読み込みを準備中…" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "가져오기를 준비 중…" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "A preparar a importação…" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Подготовка импорта…" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在准备导入…" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "正在準備輸入…" } }
-    } },
-    "preferencesBackup.importProgress.installing": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "جارٍ تثبيت %@ (%d/%d)…" } },
-      "de": { "stringUnit": { "state": "translated", "value": "%@ wird installiert (%d/%d)…" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Installing %@ (%d/%d)…" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Instalando %@ (%d/%d)…" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Installation de %@ (%d/%d)…" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "%@ をインストール中（%d/%d）…" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "%@ 설치 중(%d/%d)…" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "A instalar %@ (%d/%d)…" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Установка %@ (%d/%d)…" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在安装 %@（%d/%d）…" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "正在安裝 %@（%d/%d）…" } }
-    } },
-    "preferencesBackup.importProgress.restoring": { "extractionState": "manual", "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "جارٍ تطبيق التفضيلات…" } },
-      "de": { "stringUnit": { "state": "translated", "value": "Einstellungen werden angewendet…" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Applying preferences…" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Aplicando las preferencias…" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Application des préférences…" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "環境設定を適用中…" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "환경설정을 적용 중…" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "A aplicar as preferências…" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Применение настроек…" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在应用偏好设置…" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "正在套用偏好設定…" } }
-    } }
-,
+    "preferencesBackup.import.pluginRestoreFailed": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر استعادة إعدادات \"%@\"."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Einstellungen für „%@“ konnten nicht wiederhergestellt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t restore settings for “%@”."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron restaurar los ajustes de «%@»."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de restaurer les réglages de « %@ »."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「%@」の設定を復元できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "‘%@’ 설정을 복원할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível restaurar os ajustes de “%@”."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось восстановить настройки «%@»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” için ayarlar geri yüklenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法恢复“%@”的插件设置。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法回復「%@」的外掛設定。"
+          }
+        }
+      }
+    },
+    "preferencesBackup.import.pluginRestoreDeferred": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تثبيت \"%@\". أعد تشغيل MacTools، ثم استورد هذه النسخة الاحتياطية مرة أخرى لاستعادة إعداداته."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„%@“ wurde installiert. Starte MacTools neu und importiere dieses Backup erneut, um die Einstellungen wiederherzustellen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” was installed. Restart MacTools, then import this backup again to restore its settings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se instaló «%@». Reinicia MacTools y vuelve a importar esta copia de seguridad para restaurar sus ajustes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "« %@ » a été installé. Redémarrez MacTools, puis importez à nouveau cette sauvegarde pour restaurer ses réglages."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「%@」をインストールしました。MacTools を再起動してから、このバックアップをもう一度読み込んで設定を復元してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "‘%@’이(가) 설치되었습니다. MacTools를 다시 시작한 다음 이 백업을 다시 가져와 설정을 복원하십시오."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” foi instalado. Reinicie o MacTools e importe este backup novamente para restaurar os ajustes."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Плагин «%@» установлен. Перезапустите MacTools, затем снова импортируйте эту резервную копию, чтобы восстановить его настройки."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” yüklendi. Ayarlarını geri yüklemek için MacTools'u yeniden başlatıp bu yedeği yeniden içe aktarın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安装“%@”。请重新启动 MacTools，然后再次导入此备份以恢复其设置。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安裝「%@」。請重新啟動 MacTools，然後再次匯入此備份以回復其設定。"
+          }
+        }
+      }
+    },
+    "preferencesBackup.importProgress.preparing": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ تحضير الاستيراد…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import wird vorbereitet…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing import…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparando la importación…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Préparation de l’importation…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "読み込みを準備中…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "가져오기를 준비 중…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A preparar a importação…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подготовка импорта…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İçe aktarma hazırlanıyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在准备导入…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在準備輸入…"
+          }
+        }
+      }
+    },
+    "preferencesBackup.importProgress.installing": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ تثبيت %@ (%d/%d)…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ wird installiert (%d/%d)…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installing %@ (%d/%d)…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instalando %@ (%d/%d)…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installation de %@ (%d/%d)…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ をインストール中（%d/%d）…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 설치 중(%d/%d)…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A instalar %@ (%d/%d)…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установка %@ (%d/%d)…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ yükleniyor (%d/%d)…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在安装 %@（%d/%d）…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在安裝 %@（%d/%d）…"
+          }
+        }
+      }
+    },
+    "preferencesBackup.importProgress.restoring": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ تطبيق التفضيلات…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen werden angewendet…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applying preferences…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplicando las preferencias…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Application des préférences…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "環境設定を適用中…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "환경설정을 적용 중…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A aplicar as preferências…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Применение настроек…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercihler uygulanıyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在应用偏好设置…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在套用偏好設定…"
+          }
+        }
+      }
+    },
     "preferencesBackup.cloudSync.changeFolder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Change…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "更改…" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "更改…" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değiştir…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更改…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更改…"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.chooseFolder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Choose Folder…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "选择文件夹…" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "選擇資料夾…" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Folder…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasör Seç…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择文件夹…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇資料夾…"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.description": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Sync portable app and plugin settings through the selected cloud or shared folder. Permissions, caches, credentials, and other private data are excluded." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "通过所选的云盘或共享文件夹同步可移植的应用与插件设置；不会同步权限、缓存、凭证或其他私密数据。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "透過所選的雲端硬碟或共享資料夾同步可攜式 App 與外掛設定；不會同步權限、快取、憑證或其他私密資料。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync portable app and plugin settings through the selected cloud or shared folder. Permissions, caches, credentials, and other private data are excluded."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taşınabilir uygulama ve eklenti ayarlarını seçilen bulut ya da paylaşılan klasör aracılığıyla eşitleyin. İzinler, önbellekler, kimlik bilgileri ve diğer özel veriler hariç tutulur."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过所选的云盘或共享文件夹同步可移植的应用与插件设置；不会同步权限、缓存、凭证或其他私密数据。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "透過所選的雲端硬碟或共享資料夾同步可攜式 App 與外掛設定；不會同步權限、快取、憑證或其他私密資料。"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.enabled": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Enable Cloud Preferences Sync" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "启用云同步偏好设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "啟用雲端偏好設定同步" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable Cloud Preferences Sync"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bulut Tercih Eşitlemesini Etkinleştir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用云同步偏好设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "啟用雲端偏好設定同步"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.folder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Sync Folder" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "同步文件夹" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "同步資料夾" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync Folder"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşitleme Klasörü"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步文件夹"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步資料夾"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.folderPrompt": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Choose a folder to sync MacTools preferences (e.g. iCloud Drive or Dropbox)." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "选择用于同步 MacTools 偏好设置的文件夹（如 iCloud 云盘或 Dropbox）。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "選擇用於同步 MacTools 偏好設定的資料夾（如 iCloud 雲端硬碟或 Dropbox）。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a folder to sync MacTools preferences (e.g. iCloud Drive or Dropbox)."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools tercihlerini eşitlemek için bir klasör seçin (ör. iCloud Drive veya Dropbox)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择用于同步 MacTools 偏好设置的文件夹（如 iCloud 云盘或 Dropbox）。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇用於同步 MacTools 偏好設定的資料夾（如 iCloud 雲端硬碟或 Dropbox）。"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.notConfigured": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Folder Not Configured" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未配置文件夹" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "未配置資料夾" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder Not Configured"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasör Yapılandırılmamış"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未配置文件夹"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未配置資料夾"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.openFolder": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Open Folder" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "打开文件夹" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "打開資料夾" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Folder"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasörü Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开文件夹"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打開資料夾"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.status.disabled": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Cloud sync is disabled" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "云同步未启用" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "雲端同步未啟用" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud sync is disabled"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bulut eşitleme devre dışı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "云同步未启用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "雲端同步未啟用"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.status.error": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Error" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "错误" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "錯誤" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hata"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "错误"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "錯誤"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.status.folderMissing": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Configured sync folder does not exist" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "配置的同步文件夹不存在" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "配置的同步資料夾不存在" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configured sync folder does not exist"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapılandırılan eşitleme klasörü yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "配置的同步文件夹不存在"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "配置的同步資料夾不存在"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.status.lastSynced": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Last synced: %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "上次同步：%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "上次同步：%@" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last synced: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son eşitleme: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次同步：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次同步：%@"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.status.offline": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Offline" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "离线" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "離線" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çevrimdışı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "离线"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "離線"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.status.synced": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Synced" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "已同步" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "已同步" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synced"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşitlendi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已同步"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已同步"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.status.syncing": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Syncing…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "同步中…" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "同步中…" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Syncing…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşitleniyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步中…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步中…"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.syncNow": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Sync Now" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "立即同步" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "立即同步" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync Now"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şimdi Eşitle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即同步"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即同步"
+          }
+        }
       }
     },
     "preferencesBackup.cloudSync.title": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Cloud Preferences Sync" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "云同步偏好设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "雲端同步偏好設定" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud Preferences Sync"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bulut Tercih Eşitleme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "云同步偏好设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "雲端同步偏好設定"
+          }
+        }
       }
     }
   },

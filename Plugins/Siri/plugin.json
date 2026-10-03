@@ -39,6 +39,10 @@
       "displayName": "Siri",
       "summary": "Отправляйте сообщения Siri из палитры команд."
     },
+    "tr": {
+      "displayName": "Siri",
+      "summary": "Komut paletinden Siri'ye mesaj gönderin."
+    },
     "zh-Hans": {
       "displayName": "Siri",
       "summary": "从命令面板向 Siri 发送消息"
@@ -61,6 +65,7 @@
       "ko": "Siri에게 질문 — 새 대화",
       "pt": "Perguntar à Siri — Nova conversa",
       "ru": "Спросить Siri — Новый разговор",
+      "tr": "Siri'ye Sor — Yeni Konuşma",
       "zh-Hans": "询问 Siri — 新对话",
       "zh-Hant": "詢問 Siri — 新對話"
     }
@@ -75,7 +80,9 @@
     "scheme": "SiriPlugin"
   },
   "capabilities": {
-    "panelItems": ["row"],
+    "panelItems": [
+      "row"
+    ],
     "settings": "form"
   },
   "permissions": [
@@ -128,6 +135,9 @@
         "Siri"
       ],
       "ru": [
+        "Siri"
+      ],
+      "tr": [
         "Siri"
       ],
       "zh-Hans": [

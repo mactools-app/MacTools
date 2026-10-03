@@ -39,6 +39,10 @@
       "displayName": "Автоскрытие строки меню",
       "summary": "Автоматически скрывайте строку меню, чтобы освободить больше места на экране."
     },
+    "tr": {
+      "displayName": "Menü Çubuğunu Otomatik Gizleme",
+      "summary": "Daha fazla ekran alanı için menü çubuğunu otomatik olarak gizleyin."
+    },
     "zh-Hans": {
       "displayName": "自动隐藏菜单栏",
       "summary": "自动隐藏菜单栏，提供更完整的屏幕显示空间"
@@ -129,6 +133,9 @@
       ],
       "ru": [
         "Автоскрытие строки меню"
+      ],
+      "tr": [
+        "Menü Çubuğunu Otomatik Gizleme"
       ],
       "zh-Hans": [
         "自动隐藏菜单栏"

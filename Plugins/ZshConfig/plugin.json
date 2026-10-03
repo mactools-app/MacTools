@@ -3,13 +3,13 @@
   "displayName": "zsh 配置",
   "summary": "快速编辑 ~/.zshrc 等 zsh 配置文件，支持内联编辑和常用片段快速插入",
   "localizedMetadata": {
-    "zh-Hans": {
-      "displayName": "zsh 配置",
-      "summary": "快速编辑 ~/.zshrc 等 zsh 配置文件，支持内联编辑和常用片段快速插入"
+    "ar": {
+      "displayName": "إعدادات zsh",
+      "summary": "حرّر ~/.zshrc وملفات إعداد zsh الأخرى بسرعة، مع تحرير مدمج ومقتطفات شائعة."
     },
-    "zh-Hant": {
-      "displayName": "zsh 設定",
-      "summary": "快速編輯 ~/.zshrc 等 zsh 設定檔，支援內嵌編輯與常用片段快速插入"
+    "de": {
+      "displayName": "zsh-Konfig.",
+      "summary": "~/.zshrc und andere zsh-Konfigurationsdateien mit integriertem Editor und häufigen Snippets bearbeiten."
     },
     "en": {
       "displayName": "zsh Config",
@@ -23,18 +23,6 @@
       "displayName": "Config. zsh",
       "summary": "Modifiez ~/.zshrc et d’autres fichiers de config. zsh avec édition intégrée et extraits courants."
     },
-    "ru": {
-      "displayName": "Настройки zsh",
-      "summary": "Быстро редактируйте ~/.zshrc и другие файлы zsh со встроенным редактором и типовыми фрагментами."
-    },
-    "pt": {
-      "displayName": "Config. zsh",
-      "summary": "Edite ~/.zshrc e outros arquivos de config. zsh com edição integrada e trechos comuns."
-    },
-    "de": {
-      "displayName": "zsh-Konfig.",
-      "summary": "~/.zshrc und andere zsh-Konfigurationsdateien mit integriertem Editor und häufigen Snippets bearbeiten."
-    },
     "ja": {
       "displayName": "zsh 設定",
       "summary": "~/.zshrc などの zsh 設定ファイルを、内蔵エディタとよく使うスニペットですばやく編集します。"
@@ -43,9 +31,25 @@
       "displayName": "zsh 설정",
       "summary": "내장 편집기와 자주 쓰는 스니펫으로 ~/.zshrc 등 zsh 설정 파일을 빠르게 편집합니다."
     },
-    "ar": {
-      "displayName": "إعدادات zsh",
-      "summary": "حرّر ~/.zshrc وملفات إعداد zsh الأخرى بسرعة، مع تحرير مدمج ومقتطفات شائعة."
+    "pt": {
+      "displayName": "Config. zsh",
+      "summary": "Edite ~/.zshrc e outros arquivos de config. zsh com edição integrada e trechos comuns."
+    },
+    "ru": {
+      "displayName": "Настройки zsh",
+      "summary": "Быстро редактируйте ~/.zshrc и другие файлы zsh со встроенным редактором и типовыми фрагментами."
+    },
+    "tr": {
+      "displayName": "zsh Yapılandırması",
+      "summary": "~/.zshrc ve diğer zsh yapılandırma dosyalarını satır içi düzenleme ve hazır kod parçalarıyla hızlıca düzenleyin."
+    },
+    "zh-Hans": {
+      "displayName": "zsh 配置",
+      "summary": "快速编辑 ~/.zshrc 等 zsh 配置文件，支持内联编辑和常用片段快速插入"
+    },
+    "zh-Hant": {
+      "displayName": "zsh 設定",
+      "summary": "快速編輯 ~/.zshrc 等 zsh 設定檔，支援內嵌編輯與常用片段快速插入"
     }
   },
   "productStrings": {
@@ -61,6 +65,7 @@
       "ko": "셸 파일 내용과 편집한 셸 파일마다 하나의 .bak 백업을 저장합니다. 해당 파일을 다음에 저장하면 그 백업을 교체하며, 직접 삭제할 때까지 유지됩니다.",
       "pt": "O conteúdo dos arquivos de shell e um backup .bak por arquivo de shell editado são armazenados. O próximo salvamento desse arquivo substitui seu backup; os backups permanecem até serem removidos.",
       "ru": "Содержимое файлов оболочки и одна резервная копия .bak для каждого изменённого файла сохраняются. При следующем сохранении этого файла его копия заменяется; резервные копии хранятся до удаления пользователем.",
+      "tr": "Shell dosya içerikleri ve düzenlenen her shell dosyası için bir .bak yedeği saklanır. Bu dosyanın bir sonraki kaydı yedeğini değiştirir; bunun dışında yedekler siz kaldırana kadar kalır.",
       "zh-Hans": "会保存 Shell 文件内容，并为每个编辑过的 Shell 文件保留一个 .bak 备份。再次保存该文件时会替换它的备份；这些备份会保留到你手动删除为止。",
       "zh-Hant": "會儲存 Shell 檔案內容，並為每個編輯過的 Shell 檔案保留一個 .bak 備份。再次儲存該檔案時會取代它的備份；這些備份會保留到你手動刪除為止。"
     }
@@ -132,6 +137,9 @@
       ],
       "ru": [
         "Настройки zsh"
+      ],
+      "tr": [
+        "zsh Yapılandırması"
       ],
       "zh-Hans": [
         "zsh 配置"

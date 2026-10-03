@@ -39,6 +39,10 @@
       "displayName": "Sidecar",
       "summary": "Подключите ближайший совместимый с Sidecar дисплей как дополнительный экран."
     },
+    "tr": {
+      "displayName": "Sidecar",
+      "summary": "Yakındaki Sidecar uyumlu bir ekranı genişletilmiş ekran olarak bağlayın."
+    },
     "zh-Hans": {
       "displayName": "Sidecar",
       "summary": "连接附近可用的 Sidecar 显示器作为扩展显示器"
@@ -69,6 +73,7 @@
       "ko": "이 Mac에 저장된 주변 Sidecar 디스플레이를 선택하세요.",
       "pt": "Selecione o monitor Sidecar próximo salvo neste Mac.",
       "ru": "Выберите ближайший дисплей Sidecar, сохранённый на этом Mac.",
+      "tr": "Bu Mac'te depolanan yakın Sidecar ekranını seçin.",
       "zh-Hans": "选择存储在此 Mac 上的附近 Sidecar 显示器。",
       "zh-Hant": "選擇儲存在此 Mac 上的附近 Sidecar 顯示器。"
     }
@@ -135,6 +140,9 @@
         "Sidecar"
       ],
       "ru": [
+        "Sidecar"
+      ],
+      "tr": [
         "Sidecar"
       ],
       "zh-Hans": [

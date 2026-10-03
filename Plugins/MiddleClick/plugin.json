@@ -39,6 +39,10 @@
       "displayName": "Средний щелчок",
       "summary": "Преобразуйте касания трекпада в средние щелчки."
     },
+    "tr": {
+      "displayName": "Orta Tıklama",
+      "summary": "Trackpad dokunuşlarını orta tıklamaya dönüştürün."
+    },
     "zh-Hans": {
       "displayName": "模拟鼠标中键",
       "summary": "触控板轻点 → 模拟鼠标中键"
@@ -118,6 +122,9 @@
       ],
       "ru": [
         "Средний щелчок"
+      ],
+      "tr": [
+        "Orta Tıklama"
       ],
       "zh-Hans": [
         "模拟鼠标中键"
