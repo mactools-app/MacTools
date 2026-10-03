@@ -39,6 +39,10 @@
       "displayName": "Расположение окон",
       "summary": "Перемещайте активное окно и изменяйте его размер."
     },
+    "tr": {
+      "displayName": "Pencere Düzenleri",
+      "summary": "Odaktaki pencereyi taşıyın ve yeniden boyutlandırın."
+    },
     "zh-Hans": {
       "displayName": "窗口布局",
       "summary": "移动聚焦窗口并调整其大小"
@@ -201,6 +205,9 @@
       ],
       "ru": [
         "Расположение окон"
+      ],
+      "tr": [
+        "Pencere Düzenleri"
       ],
       "zh-Hans": [
         "窗口布局"

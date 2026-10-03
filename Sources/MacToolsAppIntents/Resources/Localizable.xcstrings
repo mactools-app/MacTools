@@ -1,110 +1,614 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
-    "MacTools 操作": { "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "إجراء MacTools" } },
-      "de": { "stringUnit": { "state": "translated", "value": "MacTools-Aktion" } },
-      "en": { "stringUnit": { "state": "translated", "value": "MacTools Action" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Acción de MacTools" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Action MacTools" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "MacTools操作" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "MacTools 동작" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Ação do MacTools" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Действие MacTools" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "MacTools 操作" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "MacTools 操作" } }
-    } },
-    "运行 MacTools 操作": { "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تشغيل إجراء MacTools" } },
-      "de": { "stringUnit": { "state": "translated", "value": "MacTools-Aktion ausführen" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Run MacTools Action" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Ejecutar acción de MacTools" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Exécuter une action MacTools" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "MacTools操作を実行" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "MacTools 동작 실행" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Executar ação do MacTools" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Выполнить действие MacTools" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "运行 MacTools 操作" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "執行 MacTools 操作" } }
-    } },
-    "运行当前可用且适合自动化的 MacTools 或插件操作。": { "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تشغيل إجراء متاح من MacTools أو مكون إضافي ومناسب للأتمتة." } },
-      "de": { "stringUnit": { "state": "translated", "value": "Führt eine verfügbare, für Automationen geeignete MacTools- oder Plugin-Aktion aus." } },
-      "en": { "stringUnit": { "state": "translated", "value": "Run an available MacTools or plugin action that is suitable for automation." } },
-      "es": { "stringUnit": { "state": "translated", "value": "Ejecuta una acción disponible de MacTools o de un plugin apta para la automatización." } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Exécute une action MacTools ou de module disponible et adaptée à l’automatisation." } },
-      "ja": { "stringUnit": { "state": "translated", "value": "現在利用可能でオートメーションに適したMacToolsまたはプラグインの操作を実行します。" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "현재 사용할 수 있고 자동화에 적합한 MacTools 또는 플러그인 동작을 실행합니다." } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Executa uma ação disponível do MacTools ou de um plugin adequada para automatização." } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Выполняет доступное действие MacTools или плагина, подходящее для автоматизации." } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "运行当前可用且适合自动化的 MacTools 或插件操作。" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "執行目前可用且適合自動化的 MacTools 或外掛程式操作。" } }
-    } },
-    "操作": { "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "الإجراء" } },
-      "de": { "stringUnit": { "state": "translated", "value": "Aktion" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Action" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Acción" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Action" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "操作" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "동작" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Ação" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Действие" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "操作" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "操作" } }
-    } },
-    "运行操作": { "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تشغيل إجراء" } },
-      "de": { "stringUnit": { "state": "translated", "value": "Aktion ausführen" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Run Action" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Ejecutar acción" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Exécuter l’action" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "操作を実行" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "동작 실행" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Executar ação" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Выполнить действие" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "运行操作" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "執行操作" } }
-    } },
-    "运行 ${action}": { "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تشغيل ${action}" } },
-      "de": { "stringUnit": { "state": "translated", "value": "${action} ausführen" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Run ${action}" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Ejecutar ${action}" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Exécuter ${action}" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "${action}を実行" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "${action} 실행" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Executar ${action}" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Выполнить ${action}" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "运行 ${action}" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "執行 ${action}" } }
-    } },
-    "app-intents.error.runtime-unavailable": { "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "MacTools غير جاهز لتشغيل هذا الإجراء." } },
-      "de": { "stringUnit": { "state": "translated", "value": "MacTools ist noch nicht bereit, diese Aktion auszuführen." } },
-      "en": { "stringUnit": { "state": "translated", "value": "MacTools is not ready to run this action." } },
-      "es": { "stringUnit": { "state": "translated", "value": "MacTools aún no está listo para ejecutar esta acción." } },
-      "fr": { "stringUnit": { "state": "translated", "value": "MacTools n’est pas prêt à exécuter cette action." } },
-      "ja": { "stringUnit": { "state": "translated", "value": "MacToolsはまだこの操作を実行する準備ができていません。" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "MacTools가 아직 이 동작을 실행할 준비가 되지 않았습니다." } },
-      "pt": { "stringUnit": { "state": "translated", "value": "O MacTools ainda não está pronto para executar esta ação." } },
-      "ru": { "stringUnit": { "state": "translated", "value": "MacTools ещё не готов выполнить это действие." } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "MacTools 尚未准备好运行此操作。" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "MacTools 尚未準備好執行此操作。" } }
-    } },
-    "app-intents.error.cancelled": { "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تم إلغاء الإجراء." } },
-      "de": { "stringUnit": { "state": "translated", "value": "Die Aktion wurde abgebrochen." } },
-      "en": { "stringUnit": { "state": "translated", "value": "The action was cancelled." } },
-      "es": { "stringUnit": { "state": "translated", "value": "La acción se ha cancelado." } },
-      "fr": { "stringUnit": { "state": "translated", "value": "L’action a été annulée." } },
-      "ja": { "stringUnit": { "state": "translated", "value": "操作はキャンセルされました。" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "동작이 취소되었습니다." } },
-      "pt": { "stringUnit": { "state": "translated", "value": "A ação foi cancelada." } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Действие отменено." } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "操作已取消。" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "操作已取消。" } }
-    } }
+    "MacTools 操作": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إجراء MacTools"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools-Aktion"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools Action"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acción de MacTools"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Action MacTools"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools操作"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 동작"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ação do MacTools"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Действие MacTools"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools Eylemi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 操作"
+          }
+        }
+      }
+    },
+    "运行 MacTools 操作": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل إجراء MacTools"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools-Aktion ausführen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run MacTools Action"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecutar acción de MacTools"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécuter une action MacTools"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools操作を実行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 동작 실행"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executar ação do MacTools"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполнить действие MacTools"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools Eylemini Çalıştır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行 MacTools 操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行 MacTools 操作"
+          }
+        }
+      }
+    },
+    "运行当前可用且适合自动化的 MacTools 或插件操作。": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل إجراء متاح من MacTools أو مكون إضافي ومناسب للأتمتة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Führt eine verfügbare, für Automationen geeignete MacTools- oder Plugin-Aktion aus."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run an available MacTools or plugin action that is suitable for automation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecuta una acción disponible de MacTools o de un plugin apta para la automatización."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécute une action MacTools ou de module disponible et adaptée à l’automatisation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在利用可能でオートメーションに適したMacToolsまたはプラグインの操作を実行します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "현재 사용할 수 있고 자동화에 적합한 MacTools 또는 플러그인 동작을 실행합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executa uma ação disponível do MacTools ou de um plugin adequada para automatização."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполняет доступное действие MacTools или плагина, подходящее для автоматизации."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon için uygun, kullanılabilir bir MacTools veya eklenti eylemi çalıştırır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行当前可用且适合自动化的 MacTools 或插件操作。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行目前可用且適合自動化的 MacTools 或外掛程式操作。"
+          }
+        }
+      }
+    },
+    "操作": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإجراء"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktion"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Action"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acción"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Action"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동작"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ação"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Действие"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作"
+          }
+        }
+      }
+    },
+    "运行操作": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل إجراء"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktion ausführen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run Action"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecutar acción"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécuter l’action"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作を実行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동작 실행"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executar ação"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполнить действие"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylemi Çalıştır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行操作"
+          }
+        }
+      }
+    },
+    "运行 ${action}": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل ${action}"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${action} ausführen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run ${action}"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecutar ${action}"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécuter ${action}"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${action}を実行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${action} 실행"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executar ${action}"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполнить ${action}"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${action} Eylemini Çalıştır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行 ${action}"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行 ${action}"
+          }
+        }
+      }
+    },
+    "app-intents.error.runtime-unavailable": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools غير جاهز لتشغيل هذا الإجراء."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools ist noch nicht bereit, diese Aktion auszuführen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools is not ready to run this action."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools aún no está listo para ejecutar esta acción."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools n’est pas prêt à exécuter cette action."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacToolsはまだこの操作を実行する準備ができていません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools가 아직 이 동작을 실행할 준비가 되지 않았습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O MacTools ainda não está pronto para executar esta ação."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools ещё не готов выполнить это действие."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools bu eylemi çalıştırmaya hazır değil."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 尚未准备好运行此操作。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 尚未準備好執行此操作。"
+          }
+        }
+      }
+    },
+    "app-intents.error.cancelled": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم إلغاء الإجراء."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Aktion wurde abgebrochen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The action was cancelled."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La acción se ha cancelado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’action a été annulée."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作はキャンセルされました。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동작이 취소되었습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A ação foi cancelada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Действие отменено."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem iptal edildi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作已取消。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作已取消。"
+          }
+        }
+      }
+    }
   },
   "version": "1.0"
 }

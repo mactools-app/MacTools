@@ -39,6 +39,10 @@
       "displayName": "Состояние системы",
       "summary": "Просмотр текущего состояния системы."
     },
+    "tr": {
+      "displayName": "Sistem Durumu",
+      "summary": "Sistem durumunu canlı olarak görüntüleyin."
+    },
     "zh-Hans": {
       "displayName": "系统状态",
       "summary": "实时查看系统状态"
@@ -61,6 +65,7 @@
       "ko": "시스템 상태 보기",
       "pt": "Mostrar status do sistema",
       "ru": "Показать состояние системы",
+      "tr": "Sistem Durumunu Göster",
       "zh-Hans": "显示系统状态",
       "zh-Hant": "顯示系統狀態"
     },
@@ -74,6 +79,7 @@
       "ko": "메뉴 막대 개요를 표시하거나 가립니다. 메뉴 막대 측정항목이 가려져 있으면 대시보드를 엽니다.",
       "pt": "Mostra ou oculta a visão geral da barra de menus. Se as métricas estiverem ocultas, abre o painel.",
       "ru": "Показывает или скрывает обзор в строке меню. Если показатели скрыты, открывает панель.",
+      "tr": "Menü çubuğu genel görünümünü gösterir veya gizler. Menü çubuğu ölçümleri gizliyse panoyu açar.",
       "zh-Hans": "显示或隐藏菜单栏概览。如果菜单栏指标已隐藏，则改为打开仪表盘。",
       "zh-Hant": "顯示或隱藏選單列概覽。如果選單列指標已隱藏，則改為打開儀表板。"
     },
@@ -87,6 +93,7 @@
       "ko": "설정은 플러그인 데이터를 제거할 때까지 유지됩니다. 성능 기록은 24시간 및 8,640개 샘플로 제한됩니다.",
       "pt": "As definições permanecem até os dados do plugin serem removidos. O histórico de desempenho está limitado a 24 horas e 8640 amostras.",
       "ru": "Настройки хранятся до удаления данных плагина. История производительности ограничена 24 часами и 8640 образцами.",
+      "tr": "Ayarlar, eklenti verileri kaldırılana kadar saklanır. Performans geçmişi 24 saat ve 8.640 örnekle sınırlıdır.",
       "zh-Hans": "设置会保留到插件数据被移除。性能历史仅保留 24 小时，最多 8,640 个样本。",
       "zh-Hant": "設定會保留到外掛資料被移除。效能歷史僅保留 24 小時，最多 8,640 個樣本。"
     }
@@ -155,6 +162,9 @@
       ],
       "ru": [
         "Состояние системы"
+      ],
+      "tr": [
+        "Sistem Durumu"
       ],
       "zh-Hans": [
         "系统状态"

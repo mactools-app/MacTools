@@ -3,17 +3,25 @@
   "displayName": "Duo 状态",
   "summary": "通过独立图标或应用主图标查看电量、网络与输出音量状态",
   "localizedMetadata": {
+    "ar": {
+      "displayName": "حالة Duo",
+      "summary": "حالة البطارية والشبكة ومستوى الصوت في أيقونة مستقلة أو رئيسية في شريط القوائم."
+    },
+    "de": {
+      "displayName": "Duo-Status",
+      "summary": "Batterie, Netzwerk und Ausgabelautstärke als separates oder primäres Menüleistensymbol."
+    },
     "en": {
       "displayName": "Duo Status",
       "summary": "Battery, network, and output volume status in a standalone or primary menu bar icon."
     },
-    "zh-Hans": {
-      "displayName": "Duo 状态",
-      "summary": "通过独立图标或应用主图标查看电量、网络与输出音量状态"
+    "es": {
+      "displayName": "Estado Duo",
+      "summary": "Batería, red y volumen de salida en un icono independiente o principal de la barra de menús."
     },
-    "zh-Hant": {
-      "displayName": "Duo 狀態",
-      "summary": "透過獨立圖示或應用程式主圖示查看電量、網路與輸出音量狀態"
+    "fr": {
+      "displayName": "État Duo",
+      "summary": "Batterie, réseau et volume de sortie dans une icône distincte ou principale de la barre des menus."
     },
     "ja": {
       "displayName": "Duo ステータス",
@@ -23,18 +31,6 @@
       "displayName": "Duo 상태",
       "summary": "별도 아이콘 또는 앱 메뉴 막대 아이콘으로 배터리, 네트워크, 출력 음량 상태 확인"
     },
-    "de": {
-      "displayName": "Duo-Status",
-      "summary": "Batterie, Netzwerk und Ausgabelautstärke als separates oder primäres Menüleistensymbol."
-    },
-    "fr": {
-      "displayName": "État Duo",
-      "summary": "Batterie, réseau et volume de sortie dans une icône distincte ou principale de la barre des menus."
-    },
-    "es": {
-      "displayName": "Estado Duo",
-      "summary": "Batería, red y volumen de salida en un icono independiente o principal de la barra de menús."
-    },
     "pt": {
       "displayName": "Estado Duo",
       "summary": "Bateria, rede e volume de saída num ícone separado ou principal da barra de menus."
@@ -43,9 +39,17 @@
       "displayName": "Статус Duo",
       "summary": "Батарея, сеть и выходная громкость в отдельном или основном значке строки меню."
     },
-    "ar": {
-      "displayName": "حالة Duo",
-      "summary": "حالة البطارية والشبكة ومستوى الصوت في أيقونة مستقلة أو رئيسية في شريط القوائم."
+    "tr": {
+      "displayName": "Duo Durumu",
+      "summary": "Pil, ağ ve ses çıkışı durumunu bağımsız veya birincil bir menü çubuğu simgesinde görüntüleyin."
+    },
+    "zh-Hans": {
+      "displayName": "Duo 状态",
+      "summary": "通过独立图标或应用主图标查看电量、网络与输出音量状态"
+    },
+    "zh-Hant": {
+      "displayName": "Duo 狀態",
+      "summary": "透過獨立圖示或應用程式主圖示查看電量、網路與輸出音量狀態"
     }
   },
   "productStrings": {
@@ -92,14 +96,20 @@
       "status"
     ],
     "localizedSynonyms": {
+      "ar": [
+        "حالة Duo"
+      ],
+      "de": [
+        "Duo-Status"
+      ],
       "en": [
         "Duo Status"
       ],
-      "zh-Hans": [
-        "Duo 状态"
+      "es": [
+        "Estado Duo"
       ],
-      "zh-Hant": [
-        "Duo 狀態"
+      "fr": [
+        "État Duo"
       ],
       "ja": [
         "Duo ステータス"
@@ -107,23 +117,20 @@
       "ko": [
         "Duo 상태"
       ],
-      "de": [
-        "Duo-Status"
-      ],
-      "fr": [
-        "État Duo"
-      ],
-      "es": [
-        "Estado Duo"
-      ],
       "pt": [
         "Estado Duo"
       ],
       "ru": [
         "Статус Duo"
       ],
-      "ar": [
-        "حالة Duo"
+      "tr": [
+        "Duo Durumu"
+      ],
+      "zh-Hans": [
+        "Duo 状态"
+      ],
+      "zh-Hant": [
+        "Duo 狀態"
       ]
     },
     "useCases": [

@@ -39,6 +39,10 @@
       "displayName": "Буфер обмена",
       "summary": "Ищите в истории и управляйте повторно используемыми фрагментами и сохранёнными элементами."
     },
+    "tr": {
+      "displayName": "Pano",
+      "summary": "Pano geçmişinde arama yapın, yeniden kullanılabilir parçacıkları ve kayıtlı öğeleri yönetin."
+    },
     "zh-Hans": {
       "displayName": "剪贴板",
       "summary": "搜索历史记录并管理可重复使用的片段和已存项目。"
@@ -149,6 +153,9 @@
       ],
       "ru": [
         "История буфера обмена"
+      ],
+      "tr": [
+        "Pano"
       ],
       "zh-Hans": [
         "剪贴板历史"

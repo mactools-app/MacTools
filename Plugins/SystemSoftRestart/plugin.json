@@ -39,6 +39,10 @@
       "displayName": "Мягкий перезапуск системы",
       "summary": "Перезапускает пользовательские службы macOS для устранения типичных сбоев."
     },
+    "tr": {
+      "displayName": "Sistem Yumuşak Yeniden Başlatma",
+      "summary": "Yaygın çalışma zamanı sorunlarından kurtulmak için macOS kullanıcı hizmetlerini yeniden başlatın."
+    },
     "zh-Hans": {
       "displayName": "系统软重启",
       "summary": "重启 macOS 用户服务，尝试恢复常见运行时异常"
@@ -122,6 +126,9 @@
       ],
       "ru": [
         "Мягкий перезапуск системы"
+      ],
+      "tr": [
+        "Sistem Yumuşak Yeniden Başlatma"
       ],
       "zh-Hans": [
         "系统软重启"

@@ -58,6 +58,12 @@
             "value": "Громкость дисплея"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Sesi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Быстро отрегулируйте громкость каждого дисплея"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her ekranın sesini hızla ayarlayın"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Дисплеи с регулируемой громкостью не обнаружены"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesi ayarlanabilir ekran algılanmadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "дисплеев: %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d ekran"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Дисплеи с регулируемой громкостью не обнаружены."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesi ayarlanabilir ekran algılanmadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Уменьшить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Azalt"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Увеличить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ громкость"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Sesi"
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Отрегулировать громкость дисплея: %@."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran sesini ayarlayın: %@."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Горячие клавиши громкости"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses Kısayolları"
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Отрегулировать громкость дисплея в соответствии с выбранным областью."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili kapsama göre ekran sesini ayarlayın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ошибка настройки: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar başarısız: %@"
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "Истекло время ожидания изменения громкости."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses ayarı zaman aşımına uğradı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -979,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Дисплей отключен"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranın bağlantısı kesildi"
           }
         },
         "zh-Hans": {
@@ -1052,6 +1136,12 @@
             "value": "%@ не поддерживает DDC/CI"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, DDC/CI desteklemiyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1121,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ошибка записи DDC на %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ DDC yazma işlemi başarısız oldu"
           }
         },
         "zh-Hans": {
@@ -1194,6 +1290,12 @@
             "value": "%@ вернул недействительные данные громкости"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ geçersiz ses verisi döndürdü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1263,6 +1365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось прочитать громкость %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ için ses seviyesi okunamıyor"
           }
         },
         "zh-Hans": {
@@ -1336,6 +1444,12 @@
             "value": "Область"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapsam"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1405,6 +1519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Цель горячих клавиш"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol Hedefi"
           }
         },
         "zh-Hans": {
@@ -1478,6 +1598,12 @@
             "value": "Следовать за курсором"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İmleci İzle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1547,6 +1673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Все дисплеи"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Ekranlar"
           }
         },
         "zh-Hans": {
@@ -1620,6 +1752,12 @@
             "value": "Отрегулировать только дисплей с курсором."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca imlecin bulunduğu ekranı ayarlar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1689,6 +1827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отрегулировать все управляемые дисплеи синхронно."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Denetlenebilir tüm ekranları eşzamanlı ayarlar."
           }
         },
         "zh-Hans": {
@@ -1762,6 +1906,12 @@
             "value": "Выберите область дисплея для горячих клавиш громкости."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses kısayolları için ekran kapsamını seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1831,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Экран"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran"
           }
         },
         "zh-Hans": {

@@ -15,6 +15,12 @@
             "value": "Verrouillage du Dock"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock Kilidi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -35,6 +41,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Empêche le Dock de passer accidentellement d’un écran à l’autre."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'un ekranlar arasında yanlışlıkla taşınmasını önleyin."
           }
         },
         "zh-Hans": {
@@ -59,6 +71,12 @@
             "value": "Activé"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -79,6 +97,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Désactivé"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
           }
         },
         "zh-Hans": {
@@ -103,6 +127,12 @@
             "value": "Autorisation Accessibilité requise"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni gerekiyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -123,6 +153,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Accessibilité"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
           }
         },
         "zh-Hans": {
@@ -147,6 +183,12 @@
             "value": "Intercepte les bords inférieurs exposés des autres écrans afin d’empêcher le Dock de changer d’écran."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'un ekranlar arasında atlamasını önlemek için diğer ekranlardaki açıkta kalan alt kenarları yakalar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -169,6 +211,12 @@
             "value": "Autorisez MacTools dans Réglages Système > Confidentialité et sécurité > Accessibilité."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları > Gizlilik ve Güvenlik > Erişilebilirlik bölümünde MacTools'a izin verin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -179,23 +227,86 @@
     },
     "settings.section.title": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Settings" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Réglages" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "设置" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        }
       }
     },
     "settings.enable.title": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Enable" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Activer" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "启用" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activer"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用"
+          }
+        }
       }
     },
     "settings.enable.description": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "When enabled, prevent the Dock from moving between displays accidentally." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Une fois activé, empêche le Dock de passer accidentellement d’un écran à l’autre." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "开启后防止程序坞在多显示器之间意外移动。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When enabled, prevent the Dock from moving between displays accidentally."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une fois activé, empêche le Dock de passer accidentellement d’un écran à l’autre."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştirildiğinde Dock'un ekranlar arasında yanlışlıkla taşınması önlenir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启后防止程序坞在多显示器之间意外移动。"
+          }
+        }
       }
     },
     "error.accessibilityRequired": {
@@ -210,6 +321,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Le verrouillage du Dock nécessite l’autorisation Accessibilité."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock Kilidi, Erişilebilirlik izni gerektiriyor."
           }
         },
         "zh-Hans": {
@@ -234,6 +351,12 @@
             "value": "L’autorisation Accessibilité a été révoquée ; le verrouillage du Dock est en pause."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni kaldırıldı; Dock Kilidi duraklatıldı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -254,6 +377,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Impossible de démarrer le verrouillage du Dock. Vérifiez l’autorisation Accessibilité."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock Kilidi başlatılamadı. Erişilebilirlik iznini denetleyin."
           }
         },
         "zh-Hans": {
@@ -319,6 +448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Переключить блокировку Dock"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock Kilidini Aç/Kapat"
           }
         },
         "zh-Hans": {
@@ -392,6 +527,12 @@
             "value": "Включить блокировку Dock"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock Kilidini Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -461,6 +602,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выключить блокировку Dock"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock Kilidini Kapat"
           }
         },
         "zh-Hans": {

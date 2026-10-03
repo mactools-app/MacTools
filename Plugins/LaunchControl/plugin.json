@@ -39,6 +39,10 @@
       "displayName": "Элементы запуска",
       "summary": "Просмотр элементов запуска launchctl и управление ими."
     },
+    "tr": {
+      "displayName": "Başlangıç Öğeleri",
+      "summary": "launchctl başlangıç öğelerini görüntüleyin ve yönetin."
+    },
     "zh-Hans": {
       "displayName": "启动项",
       "summary": "查看和管理 launchctl 启动项"
@@ -62,6 +66,7 @@
       "ko": "선택한 즐겨찾기 시작 항목을 시작합니다.",
       "pt": "Inicia o item de inicialização favorito selecionado.",
       "ru": "Запускает выбранный избранный элемент запуска.",
+      "tr": "Seçilen favori başlatma öğesini başlatın.",
       "zh-Hans": "启动所选的收藏启动项。",
       "zh-Hant": "啟動所選的收藏啟動項目。"
     },
@@ -75,6 +80,7 @@
       "ko": "이 Mac에 저장된 즐겨찾기 시작 항목 중 시작할 항목을 선택하세요.",
       "pt": "Selecione o item de inicialização favorito salvo neste Mac para iniciar.",
       "ru": "Выберите сохранённый на этом Mac избранный элемент запуска, который нужно запустить.",
+      "tr": "Bu Mac'te depolanan, başlatılacak favori başlatma öğesini seçin.",
       "zh-Hans": "选择存储在此 Mac 上、要启动的收藏启动项。",
       "zh-Hant": "選擇儲存在此 Mac 上、要啟動的收藏啟動項目。"
     },
@@ -89,6 +95,7 @@
       "ko": "선택한 즐겨찾기 시작 항목을 중지합니다.",
       "pt": "Interrompe o item de inicialização favorito selecionado.",
       "ru": "Останавливает выбранный избранный элемент запуска.",
+      "tr": "Seçilen favori başlatma öğesini durdurun.",
       "zh-Hans": "停止所选的收藏启动项。",
       "zh-Hant": "停止所選的收藏啟動項目。"
     },
@@ -102,6 +109,7 @@
       "ko": "이 Mac에 저장된 즐겨찾기 시작 항목 중 중지할 항목을 선택하세요.",
       "pt": "Selecione o item de inicialização favorito salvo neste Mac para interromper.",
       "ru": "Выберите сохранённый на этом Mac избранный элемент запуска, который нужно остановить.",
+      "tr": "Bu Mac'te depolanan, durdurulacak favori başlatma öğesini seçin.",
       "zh-Hans": "选择存储在此 Mac 上、要停止的收藏启动项。",
       "zh-Hant": "選擇儲存在此 Mac 上、要停止的收藏啟動項目。"
     },
@@ -116,6 +124,7 @@
       "ko": "선택한 즐겨찾기 시작 항목을 다시 시작합니다.",
       "pt": "Reinicia o item de inicialização favorito selecionado.",
       "ru": "Перезапускает выбранный избранный элемент запуска.",
+      "tr": "Seçilen favori başlatma öğesini yeniden başlatın.",
       "zh-Hans": "重新启动所选的收藏启动项。",
       "zh-Hant": "重新啟動所選的收藏啟動項目。"
     },
@@ -129,6 +138,7 @@
       "ko": "이 Mac에 저장된 즐겨찾기 시작 항목 중 다시 시작할 항목을 선택하세요.",
       "pt": "Selecione o item de inicialização favorito salvo neste Mac para reiniciar.",
       "ru": "Выберите сохранённый на этом Mac избранный элемент запуска, который нужно перезапустить.",
+      "tr": "Bu Mac'te depolanan, yeniden başlatılacak favori başlatma öğesini seçin.",
       "zh-Hans": "选择存储在此 Mac 上、要重新启动的收藏启动项。",
       "zh-Hant": "選擇儲存在此 Mac 上、要重新啟動的收藏啟動項目。"
     }
@@ -198,6 +208,9 @@
       ],
       "ru": [
         "Элементы запуска"
+      ],
+      "tr": [
+        "Başlangıç Öğeleri"
       ],
       "zh-Hans": [
         "启动项"

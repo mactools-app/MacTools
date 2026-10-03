@@ -4,253 +4,829 @@
     "Zen": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Zen" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "禅意模式" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zen"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zen"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "禅意模式"
+          }
+        }
       }
     },
     "Hide the Dock and menu bar, remove recent Dock apps, and hide desktop items and widgets.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Hide the Dock and menu bar, remove recent Dock apps, and hide desktop items and widgets." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "隐藏程序坞和菜单栏，移除程序坞中的最近使用 App，并隐藏桌面项目和小组件。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide the Dock and menu bar, remove recent Dock apps, and hide desktop items and widgets."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'ı ve menü çubuğunu gizler, Dock'taki son kullanılan uygulamaları kaldırır, masaüstü öğelerini ve widget'ları gizler."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隐藏程序坞和菜单栏，移除程序坞中的最近使用 App，并隐藏桌面项目和小组件。"
+          }
+        }
       }
     },
     "Automatically Hide and Show the Menu Bar": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Automatically Hide and Show the Menu Bar" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "自动隐藏和显示菜单栏" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatically Hide and Show the Menu Bar"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğunu Otomatik Gizle ve Göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动隐藏和显示菜单栏"
+          }
+        }
       }
     },
     "Choose when macOS automatically hides the menu bar.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Choose when macOS automatically hides the menu bar." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "选择 macOS 何时自动隐藏菜单栏。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose when macOS automatically hides the menu bar."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS'un menü çubuğunu ne zaman otomatik gizleyeceğini seçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择 macOS 何时自动隐藏菜单栏。"
+          }
+        }
       }
     },
     "On Desktop Only": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "On Desktop Only" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "仅在桌面上" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On Desktop Only"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca Masaüstünde"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅在桌面上"
+          }
+        }
       }
     },
     "In Full Screen Only": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "In Full Screen Only" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "仅在全屏幕显示时" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Full Screen Only"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca Tam Ekranda"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅在全屏幕显示时"
+          }
+        }
       }
     },
     "Never": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Never" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "永不" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Never"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永不"
+          }
+        }
       }
     },
     "Show Items on Desktop": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Show Items on Desktop" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "在桌面上显示项目" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Items on Desktop"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öğeleri Masaüstünde Göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在桌面上显示项目"
+          }
+        }
       }
     },
     "Show files, folders, and other items on the desktop.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Show files, folders, and other items on the desktop." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "在桌面上显示文件、文件夹和其他项目。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show files, folders, and other items on the desktop."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosyaları, klasörleri ve diğer öğeleri masaüstünde gösterir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在桌面上显示文件、文件夹和其他项目。"
+          }
+        }
       }
     },
     "Show Items in Stage Manager": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Show Items in Stage Manager" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "在台前调度中显示项目" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Items in Stage Manager"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öğeleri Stage Manager'da Göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在台前调度中显示项目"
+          }
+        }
       }
     },
     "Show desktop items while Stage Manager is active.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Show desktop items while Stage Manager is active." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "使用台前调度时显示桌面项目。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show desktop items while Stage Manager is active."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Manager etkinken masaüstü öğelerini gösterir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用台前调度时显示桌面项目。"
+          }
+        }
       }
     },
     "Show Widgets on Desktop": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Show Widgets on Desktop" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "在桌面上显示小组件" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Widgets on Desktop"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget'ları Masaüstünde Göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在桌面上显示小组件"
+          }
+        }
       }
     },
     "Show widgets directly on the desktop.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Show widgets directly on the desktop." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "直接在桌面上显示小组件。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show widgets directly on the desktop."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget'ları doğrudan masaüstünde gösterir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接在桌面上显示小组件。"
+          }
+        }
       }
     },
     "Show Widgets in Stage Manager": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Show Widgets in Stage Manager" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "在台前调度中显示小组件" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Widgets in Stage Manager"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget'ları Stage Manager'da Göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在台前调度中显示小组件"
+          }
+        }
       }
     },
     "Show desktop widgets while Stage Manager is active.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Show desktop widgets while Stage Manager is active." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "使用台前调度时显示桌面小组件。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show desktop widgets while Stage Manager is active."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Manager etkinken masaüstü widget'larını gösterir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用台前调度时显示桌面小组件。"
+          }
+        }
       }
     },
     "Could not read the menu bar visibility mode. Enable or update the Auto-hide Menu Bar plugin.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Could not read the menu bar visibility mode. Enable or update the Auto-hide Menu Bar plugin." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法读取菜单栏显示模式。请启用或更新“自动隐藏菜单栏”插件。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not read the menu bar visibility mode. Enable or update the Auto-hide Menu Bar plugin."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü çubuğu görünürlük modu okunamadı. Otomatik Gizlenen Menü Çubuğu eklentisini etkinleştirin veya güncelleyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法读取菜单栏显示模式。请启用或更新“自动隐藏菜单栏”插件。"
+          }
+        }
       }
     },
     "%@ selected": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "%@ selected" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "已选择 %@ 项" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ selected"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ seçildi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已选择 %@ 项"
+          }
+        }
       }
     },
     "OK": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "OK" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "好" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamam"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好"
+          }
+        }
       }
     },
     "Preparing Profile…": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Preparing Profile…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在准备配置…" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing Profile…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil Hazırlanıyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在准备配置…"
+          }
+        }
       }
     },
     "Profile Transfer Failed": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Profile Transfer Failed" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "配置传输失败" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profile Transfer Failed"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil Aktarımı Başarısız"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "配置传输失败"
+          }
+        }
       }
     },
     "Ready to save %@ settings.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Ready to save %@ settings." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "已可保存 %@ 项设置。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready to save %@ settings."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ayar kaydedilmeye hazır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已可保存 %@ 项设置。"
+          }
+        }
       }
     },
     "Back to Profiles": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Back to Profiles" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "返回配置" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back to Profiles"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profillere Dön"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "返回配置"
+          }
+        }
       }
     },
     "Clear Change History?": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Clear Change History?" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "清除更改历史记录？" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear Change History?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değişiklik Geçmişi Temizlensin mi?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除更改历史记录？"
+          }
+        }
       }
     },
     "Current": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Current" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "当前值" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前值"
+          }
+        }
       }
     },
     "Delete Profile": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Delete Profile" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "删除配置" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Profile"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profili Sil"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除配置"
+          }
+        }
       }
     },
     "Delete Profile?": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Delete Profile?" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "删除配置？" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Profile?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil Silinsin mi?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除配置？"
+          }
+        }
       }
     },
     "Delete “%@”? This cannot be undone.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Delete “%@”? This cannot be undone." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "删除“%@”？此操作无法撤销。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete “%@”? This cannot be undone."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” silinsin mi? Bu işlem geri alınamaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除“%@”？此操作无法撤销。"
+          }
+        }
       }
     },
     "Desired": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Desired" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "目标值" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desired"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstenen"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目标值"
+          }
+        }
       }
     },
     "No Profile Settings Found": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No Profile Settings Found" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未找到配置设置" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Profile Settings Found"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil Ayarı Bulunamadı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到配置设置"
+          }
+        }
       }
     },
     "Restore Previous Value": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Restore Previous Value" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "恢复先前值" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Previous Value"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki Değeri Geri Yükle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复先前值"
+          }
+        }
       }
     },
     "Review current and desired values before applying changes.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Review current and desired values before applying changes." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "应用更改前，请检查当前值和目标值。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review current and desired values before applying changes."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değişiklikleri uygulamadan önce geçerli ve istenen değerleri gözden geçirin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用更改前，请检查当前值和目标值。"
+          }
+        }
       }
     },
     "Search Profile Settings": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Search Profile Settings" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "搜索配置设置" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search Profile Settings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil Ayarlarında Ara"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索配置设置"
+          }
+        }
       }
     },
     "Setting": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Setting" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "设置" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setting"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        }
       }
     },
     "Status": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Status" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "状态" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durum"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "状态"
+          }
+        }
       }
     },
     "This removes %@ recorded changes. This cannot be undone.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "This removes %@ recorded changes. This cannot be undone." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "这将移除 %@ 条更改记录。此操作无法撤销。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This removes %@ recorded changes. This cannot be undone."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu işlem %@ kayıtlı değişikliği kaldırır ve geri alınamaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这将移除 %@ 条更改记录。此操作无法撤销。"
+          }
+        }
       }
     },
     "Try another setting name or keyword.": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Try another setting name or keyword." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请尝试其他设置名称或关键词。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try another setting name or keyword."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başka bir ayar adı veya anahtar sözcük deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请尝试其他设置名称或关键词。"
+          }
+        }
       }
     },
     "%@ Automatic restoration failed.": {
@@ -260,6 +836,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ Automatic restoration failed."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Otomatik geri yükleme başarısız oldu."
           }
         },
         "zh-Hans": {
@@ -279,6 +861,12 @@
             "value": "%@ Rollback failed: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Geri alma başarısız oldu: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -294,6 +882,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ Rollback verification failed."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Geri alma doğrulaması başarısız oldu."
           }
         },
         "zh-Hans": {
@@ -313,6 +907,12 @@
             "value": "%@ The original value was restored."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Özgün değer geri yüklendi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -328,6 +928,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@: %@ (original: %@)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %@ (özgün: %@)"
           }
         },
         "zh-Hans": {
@@ -347,6 +953,12 @@
             "value": ", pinned"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", sabitlendi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -362,6 +974,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "A profile must include at least one valid setting."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir profilde en az bir geçerli ayar bulunmalıdır."
           }
         },
         "zh-Hans": {
@@ -381,6 +999,12 @@
             "value": "Accessibility"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -396,6 +1020,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Adjust display colors automatically to match ambient light."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran renklerini ortam ışığına uyacak şekilde otomatik olarak ayarlar."
           }
         },
         "zh-Hans": {
@@ -415,6 +1045,12 @@
             "value": "Adjust how long a key must be held before it is accepted."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir tuşun kabul edilmesi için ne kadar basılı tutulacağını ayarlar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -430,6 +1066,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Adjust how quickly characters repeat when you hold a key."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir tuşu basılı tuttuğunuzda karakterlerin hangi hızla yineleneceğini ayarlar."
           }
         },
         "zh-Hans": {
@@ -449,6 +1091,12 @@
             "value": "Adjust how quickly content scrolls with the mouse wheel."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İçeriğin fare tekerleğiyle hangi hızda kaydırılacağını ayarlar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -464,6 +1112,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Adjust how quickly content scrolls with the trackpad."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İçeriğin Trackpad'le hangi hızda kaydırılacağını ayarlar."
           }
         },
         "zh-Hans": {
@@ -483,6 +1137,12 @@
             "value": "Adjust how quickly the mouse pointer moves."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare işaretçisinin hareket hızını ayarlar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -498,6 +1158,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Adjust how quickly the pointer moves with the trackpad."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşaretçinin Trackpad'le hareket hızını ayarlar."
           }
         },
         "zh-Hans": {
@@ -517,6 +1183,12 @@
             "value": "Adjust the base size of Dock icons."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock simgelerinin temel boyutunu ayarlar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -532,6 +1204,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Adjust the delay before a held key starts repeating."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basılı tutulan bir tuşun yinelemeye başlamasından önceki gecikmeyi ayarlar."
           }
         },
         "zh-Hans": {
@@ -551,6 +1229,12 @@
             "value": "Adjust the size of magnified Dock icons."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Büyütülen Dock simgelerinin boyutunu ayarlar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -566,6 +1250,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "After granting access in System Settings, quit and reopen MacTools."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları'nda erişim verdikten sonra MacTools'tan çıkın ve yeniden açın."
           }
         },
         "zh-Hans": {
@@ -585,6 +1275,12 @@
             "value": "Already Matches"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zaten Eşleşiyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -600,6 +1296,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Always"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her Zaman"
           }
         },
         "zh-Hans": {
@@ -619,6 +1321,12 @@
             "value": "Animate Opening Applications"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulamalar Açılırken Animasyon Göster"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -634,6 +1342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Appearance"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm"
           }
         },
         "zh-Hans": {
@@ -653,6 +1367,12 @@
             "value": "Applied and Verified"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulandı ve Doğrulandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -668,6 +1388,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Applied and verified by an existing MacTools plugin"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Var olan bir MacTools eklentisi tarafından uygulandı ve doğrulandı"
           }
         },
         "zh-Hans": {
@@ -687,6 +1413,12 @@
             "value": "Applied but Could Not Verify"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulandı ama Doğrulanamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -702,6 +1434,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Applied; Log Out and Back In"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulandı; Oturumu Kapatıp Yeniden Açın"
           }
         },
         "zh-Hans": {
@@ -721,6 +1459,12 @@
             "value": "Applied; Reopen Related App"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulandı; İlgili Uygulamayı Yeniden Açın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -736,6 +1480,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apply %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Uygula"
           }
         },
         "zh-Hans": {
@@ -755,6 +1505,12 @@
             "value": "Apply Mac Settings Profile"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Ayarları Profilini Uygula"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -770,6 +1526,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apply Mac Settings profile?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Ayarları profili uygulansın mı?"
           }
         },
         "zh-Hans": {
@@ -789,6 +1551,12 @@
             "value": "Apply Profile · %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil Uygula · %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -804,6 +1572,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apply Selected Changes"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili Değişiklikleri Uygula"
           }
         },
         "zh-Hans": {
@@ -823,6 +1597,12 @@
             "value": "Applying"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulanıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -838,6 +1618,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ask for confirmation before changing a filename extension."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir dosya adı uzantısı değiştirilmeden önce onay istenir."
           }
         },
         "zh-Hans": {
@@ -857,6 +1643,12 @@
             "value": "Ask for confirmation before permanently removing items from the Trash."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öğelerin Çöpten kalıcı olarak kaldırılmasından önce onay istenir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -872,6 +1664,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Auto"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik"
           }
         },
         "zh-Hans": {
@@ -891,6 +1689,12 @@
             "value": "Automatically Based on Mouse or Trackpad"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fareye veya Trackpad'e Göre Otomatik Olarak"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -906,6 +1710,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Automatically Hide the Dock"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'ı Otomatik Olarak Gizle"
           }
         },
         "zh-Hans": {
@@ -925,6 +1735,12 @@
             "value": "Automatically Hide the Menu Bar"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğunu Otomatik Olarak Gizle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -940,6 +1756,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Available"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılabilir"
           }
         },
         "zh-Hans": {
@@ -959,6 +1781,12 @@
             "value": "Back to Settings Search"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar Aramasına Dön"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -971,6 +1799,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth Trackpad"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Bluetooth Trackpad"
@@ -993,6 +1827,12 @@
             "value": "Bottom"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alt"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1008,6 +1848,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bounce Dock icons when apps launch."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulamalar başlatıldığında Dock simgelerini zıplatır."
           }
         },
         "zh-Hans": {
@@ -1027,6 +1873,12 @@
             "value": "Briefly show a preview in the corner after taking a screenshot."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü alındıktan sonra köşede kısa süreliğine önizleme gösterilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1042,6 +1894,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Built-in Templates"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerleşik Şablonlar"
           }
         },
         "zh-Hans": {
@@ -1061,6 +1919,12 @@
             "value": "Built-in Trackpad"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerleşik Trackpad"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1076,6 +1940,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Can be changed and verified directly"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrudan değiştirilebilir ve doğrulanabilir"
           }
         },
         "zh-Hans": {
@@ -1095,6 +1965,12 @@
             "value": "Can be changed directly; takes full effect after logging out and back in"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrudan değiştirilebilir; oturum kapatılıp yeniden açıldığında tamamen etkili olur"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1110,6 +1986,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Can be changed directly; takes full effect after reopening the related app"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrudan değiştirilebilir; ilgili uygulama yeniden açıldığında tamamen etkili olur"
           }
         },
         "zh-Hans": {
@@ -1129,6 +2011,12 @@
             "value": "Can only be managed by your organization"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca kurumunuz tarafından yönetilebilir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1144,6 +2032,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cancel"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
           }
         },
         "zh-Hans": {
@@ -1163,6 +2057,12 @@
             "value": "Cancelled"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal Edildi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1178,6 +2078,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cannot Verify"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrulanamıyor"
           }
         },
         "zh-Hans": {
@@ -1197,6 +2103,12 @@
             "value": "Category"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kategori"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1212,6 +2124,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Change History"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değişiklik Geçmişi"
           }
         },
         "zh-Hans": {
@@ -1231,6 +2149,12 @@
             "value": "Changing pointer size requires Full Disk Access. Grant access, then quit and reopen MacTools."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşaretçi boyutunu değiştirmek Tam Disk Erişimi gerektirir. Erişim verdikten sonra MacTools'tan çıkıp yeniden açın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1246,6 +2170,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose Auto, Light, or Dark. macOS manages Auto; the selected mode stays Auto as the appearance changes."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik, Aydınlık veya Karanlık seçin. Otomatik'i macOS yönetir; görünüm değiştikçe seçili mod Otomatik olarak kalır."
           }
         },
         "zh-Hans": {
@@ -1265,6 +2195,12 @@
             "value": "Choose an existing, readable folder."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Var olan ve okunabilir bir klasör seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1280,6 +2216,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose the animation used when minimizing windows to the Dock."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencerelerin Dock'a küçültülürken kullanılacak animasyonu seçin."
           }
         },
         "zh-Hans": {
@@ -1299,6 +2241,12 @@
             "value": "Choose the default location for new Finder windows."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni Finder pencereleri için varsayılan konumu seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1314,6 +2262,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose the default scope for Finder searches."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder aramaları için varsayılan kapsamı seçin."
           }
         },
         "zh-Hans": {
@@ -1333,6 +2287,12 @@
             "value": "Choose the folder for new screenshots."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni ekran görüntüleri için klasör seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1348,6 +2308,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose the image format for screenshots."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüleri için görüntü biçimini seçin."
           }
         },
         "zh-Hans": {
@@ -1367,6 +2333,12 @@
             "value": "Choose the modifier key to use with the scroll gesture."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma hareketiyle birlikte kullanılacak değiştirici tuşu seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1382,6 +2354,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose the trackpad gesture for a secondary click."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İkincil tıklama için Trackpad hareketini seçin."
           }
         },
         "zh-Hans": {
@@ -1401,6 +2379,12 @@
             "value": "Choose when scroll bars are visible in windows."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma çubuklarının pencerelerde ne zaman görüneceğini seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1416,6 +2400,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose which edge of the screen shows the Dock."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'un ekranın hangi kenarında görüneceğini seçin."
           }
         },
         "zh-Hans": {
@@ -1435,6 +2425,12 @@
             "value": "Choose…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seç…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1450,6 +2446,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Clear History"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçmişi Temizle"
           }
         },
         "zh-Hans": {
@@ -1469,6 +2471,12 @@
             "value": "Clear Search"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aramayı Temizle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1484,6 +2492,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Click a scroll bar to jump to that position instead of the next page."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma çubuğuna tıkladığınızda sonraki sayfaya geçmek yerine doğrudan o konuma gidilir."
           }
         },
         "zh-Hans": {
@@ -1503,6 +2517,12 @@
             "value": "Click in Bottom-Left Corner"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sol Alt Köşeye Tıklama"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1518,6 +2538,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Click in Bottom-Right Corner"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağ Alt Köşeye Tıklama"
           }
         },
         "zh-Hans": {
@@ -1537,6 +2563,12 @@
             "value": "Click with Two Fingers"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İki Parmakla Tıklama"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1552,6 +2584,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Color"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renk"
           }
         },
         "zh-Hans": {
@@ -1571,6 +2609,12 @@
             "value": "Compare & Apply"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşılaştır ve Uygula"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1586,6 +2630,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Compare & Apply · %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşılaştır ve Uygula · %@"
           }
         },
         "zh-Hans": {
@@ -1605,6 +2655,12 @@
             "value": "Compare Current and Original Values"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli ve Özgün Değerleri Karşılaştır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1620,6 +2676,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Complete this step manually in System Settings."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu adımı Sistem Ayarları'nda el ile tamamlayın."
           }
         },
         "zh-Hans": {
@@ -1639,6 +2701,12 @@
             "value": "Completed"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamamlandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1654,6 +2722,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Computer"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilgisayar"
           }
         },
         "zh-Hans": {
@@ -1673,6 +2747,12 @@
             "value": "Could not apply the Dock setting immediately."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock ayarı hemen uygulanamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1688,6 +2768,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not apply the setting."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar uygulanamadı."
           }
         },
         "zh-Hans": {
@@ -1707,6 +2793,12 @@
             "value": "Could not create the system settings command."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem ayarları komutu oluşturulamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1722,6 +2814,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not import the profile: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil içe aktarılamadı: %@"
           }
         },
         "zh-Hans": {
@@ -1741,6 +2839,12 @@
             "value": "Could not read the appearance mode. Enable or update the Dark Mode plugin."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm modu okunamadı. Karanlık Mod eklentisini etkinleştirin veya güncelleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1756,6 +2860,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not read the current value."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli değer okunamadı."
           }
         },
         "zh-Hans": {
@@ -1775,6 +2885,12 @@
             "value": "Could not read the status."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durum okunamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1790,6 +2906,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not run the system settings tool."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem ayarları aracı çalıştırılamadı."
           }
         },
         "zh-Hans": {
@@ -1809,6 +2931,12 @@
             "value": "Could not save system preferences."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem tercihleri kaydedilemedi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1824,6 +2952,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not save system settings."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem ayarları kaydedilemedi."
           }
         },
         "zh-Hans": {
@@ -1843,6 +2977,12 @@
             "value": "Could not save the pointer size."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşaretçi boyutu kaydedilemedi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1858,6 +2998,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not save the profile. Check the profile count and available storage, then try again."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil kaydedilemedi. Profil sayısını ve kullanılabilir depolama alanını kontrol edip yeniden deneyin."
           }
         },
         "zh-Hans": {
@@ -1877,6 +3023,12 @@
             "value": "Could not save the setting."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar kaydedilemedi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1892,6 +3044,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not save trackpad settings."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad ayarları kaydedilemedi."
           }
         },
         "zh-Hans": {
@@ -1911,6 +3069,12 @@
             "value": "Could not verify the setting."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar doğrulanamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1926,6 +3090,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Create Profile"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil Oluştur"
           }
         },
         "zh-Hans": {
@@ -1945,6 +3115,12 @@
             "value": "Current Location (%@)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Konum (%@)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1960,6 +3136,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Current Value Changed; Preview Again"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Değer Değişti; Yeniden Önizleyin"
           }
         },
         "zh-Hans": {
@@ -1979,6 +3161,12 @@
             "value": "Current value %@%@, %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli değer %@%@, %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1994,6 +3182,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Current values were kept."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli değerler korundu."
           }
         },
         "zh-Hans": {
@@ -2013,6 +3207,12 @@
             "value": "Current: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2028,6 +3228,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dark"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karanlık"
           }
         },
         "zh-Hans": {
@@ -2047,6 +3253,12 @@
             "value": "Delay Until Repeat"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yinelemeden Önceki Gecikme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2062,6 +3274,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Delete"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sil"
           }
         },
         "zh-Hans": {
@@ -2081,6 +3299,12 @@
             "value": "Description (Optional)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açıklama (İsteğe Bağlı)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2096,6 +3320,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Deselect All"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümünün Seçimini Kaldır"
           }
         },
         "zh-Hans": {
@@ -2115,6 +3345,12 @@
             "value": "Desired value for %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ için istenen değer"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2130,6 +3366,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Desktop"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masaüstü"
           }
         },
         "zh-Hans": {
@@ -2149,6 +3391,12 @@
             "value": "Desktop & Dock"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masaüstü ve Dock"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2164,6 +3412,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Device Preferences"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aygıt Tercihleri"
           }
         },
         "zh-Hans": {
@@ -2183,6 +3437,12 @@
             "value": "Direct changes are not currently supported"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şu anda doğrudan değişiklik desteklenmiyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2198,6 +3458,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Displays"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranlar"
           }
         },
         "zh-Hans": {
@@ -2217,6 +3483,12 @@
             "value": "Dock Magnification"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock Büyütme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2232,6 +3504,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dock Magnification Size"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock Büyütme Boyutu"
           }
         },
         "zh-Hans": {
@@ -2251,6 +3529,12 @@
             "value": "Dock Position"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock Konumu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2266,6 +3550,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dock Size"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock Boyutu"
           }
         },
         "zh-Hans": {
@@ -2285,6 +3575,12 @@
             "value": "Documents"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belgeler"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2300,6 +3596,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Drag windows and items with three fingers."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencereleri ve öğeleri üç parmakla sürükleyin."
           }
         },
         "zh-Hans": {
@@ -2319,6 +3621,12 @@
             "value": "Edit"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzenle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2334,6 +3642,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Edit Profile"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profili Düzenle"
           }
         },
         "zh-Hans": {
@@ -2353,6 +3667,12 @@
             "value": "Enlarge Dock icons when the pointer moves over them."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşaretçi simgelerin üzerine geldiğinde Dock simgelerini büyütür."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2368,6 +3688,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enter a name or keyword to view and change settings directly."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarları doğrudan görüntülemek ve değiştirmek için bir ad veya anahtar sözcük girin."
           }
         },
         "zh-Hans": {
@@ -2387,6 +3713,12 @@
             "value": "Enter a profile name."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil adı girin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2402,6 +3734,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Expand a setting's details and choose Pin to Top. The first four also appear in the Feature Panel."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir ayarın ayrıntılarını genişletin ve Başa Sabitle'yi seçin. İlk dört ayar ayrıca Özellik Paneli'nde görünür."
           }
         },
         "zh-Hans": {
@@ -2421,6 +3759,12 @@
             "value": "Explicitly turn a supported Mac setting on or off."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenen bir Mac ayarını açıkça açar veya kapatır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2436,6 +3780,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Export My Profiles"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profillerimi Dışa Aktar"
           }
         },
         "zh-Hans": {
@@ -2455,6 +3805,12 @@
             "value": "Export…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dışa Aktar…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2470,6 +3826,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Failed and Rolled Back"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başarısız Oldu ve Geri Alındı"
           }
         },
         "zh-Hans": {
@@ -2489,6 +3851,12 @@
             "value": "Failed; Rollback Unsuccessful"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başarısız; Geri Alma Başarısız"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2501,6 +3869,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Finder"
@@ -2523,6 +3897,12 @@
             "value": "Finder Productivity"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder Verimliliği"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2538,6 +3918,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Focused Desktop"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odaklanmış Masaüstü"
           }
         },
         "zh-Hans": {
@@ -2557,6 +3943,12 @@
             "value": "Full Disk Access"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam Disk Erişimi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2572,6 +3964,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Full Keyboard Access"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam Klavye Erişimi"
           }
         },
         "zh-Hans": {
@@ -2591,6 +3989,12 @@
             "value": "Genie Effect"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sihirli Efekt"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2606,6 +4010,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Grant Permission"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin Ver"
           }
         },
         "zh-Hans": {
@@ -2625,6 +4035,12 @@
             "value": "Hardware Unavailable"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Donanım Kullanılamıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2640,6 +4056,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hide details for %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ için ayrıntıları gizle"
           }
         },
         "zh-Hans": {
@@ -2659,6 +4081,12 @@
             "value": "Hide the Dock and disable recent apps in the Dock."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'ı gizler ve Dock'taki son kullanılan uygulamaları devre dışı bırakır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2674,6 +4102,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hide the Dock when it is not in use."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock kullanılmadığında gizlenir."
           }
         },
         "zh-Hans": {
@@ -2693,6 +4127,12 @@
             "value": "Hide the menu bar when it is not in use."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü çubuğu kullanılmadığında gizlenir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2708,6 +4148,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hold a modifier key and scroll to zoom the screen."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranı yakınlaştırmak için bir değiştirici tuşu basılı tutarak kaydırın."
           }
         },
         "zh-Hans": {
@@ -2727,6 +4173,12 @@
             "value": "Home"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlangıç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2742,6 +4194,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Import & Export"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İçe ve Dışa Aktarma"
           }
         },
         "zh-Hans": {
@@ -2761,6 +4219,12 @@
             "value": "Import Preview"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İçe Aktarma Önizlemesi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2776,6 +4240,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Import Profile…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil İçe Aktar…"
           }
         },
         "zh-Hans": {
@@ -2795,6 +4265,12 @@
             "value": "Imported files are always previewed first. No settings change automatically."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İçe aktarılan dosyalar her zaman önce önizlenir. Hiçbir ayar otomatik olarak değişmez."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2810,6 +4286,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Include %@ in this profile"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ öğesini bu profile dahil et"
           }
         },
         "zh-Hans": {
@@ -2829,6 +4311,12 @@
             "value": "Include Window Shadow"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencere Gölgesini İçer"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2844,6 +4332,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Include the surrounding shadow in window screenshots."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencere ekran görüntülerinde çevredeki gölgeyi de içerir."
           }
         },
         "zh-Hans": {
@@ -2863,6 +4357,12 @@
             "value": "Invalid Value"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz Değer"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2878,6 +4378,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Items: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öğe: %@"
           }
         },
         "zh-Hans": {
@@ -2897,6 +4403,12 @@
             "value": "Jump to the Clicked Position in Scroll Bars"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma Çubuğunda Tıklanan Konuma Atla"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2912,6 +4424,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Keep Current Values"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Değerleri Koru"
           }
         },
         "zh-Hans": {
@@ -2931,6 +4449,12 @@
             "value": "Keep Current Values…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Değerleri Koru…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2946,6 +4470,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Keep Folders on Top When Sorting by Name"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ada Göre Sıralarken Klasörleri En Üstte Tut"
           }
         },
         "zh-Hans": {
@@ -2965,6 +4495,12 @@
             "value": "Keep current values and abandon this restoration?"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli değerler korunsun ve bu geri yüklemeden vazgeçilsin mi?"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2980,6 +4516,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Keep minimized windows inside their app's Dock icon."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Küçültülmüş pencereleri ait oldukları uygulamanın Dock simgesinde tutar."
           }
         },
         "zh-Hans": {
@@ -2999,6 +4541,12 @@
             "value": "Key Repeat Rate"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuş Yineleme Hızı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3014,6 +4562,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Keyboard"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klavye"
           }
         },
         "zh-Hans": {
@@ -3033,6 +4587,12 @@
             "value": "Left"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sol"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3048,6 +4608,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Light"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aydınlık"
           }
         },
         "zh-Hans": {
@@ -3067,6 +4633,12 @@
             "value": "Live State"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Canlı Durum"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3082,6 +4654,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Log Out and Back In"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturumu Kapatıp Yeniden Açın"
           }
         },
         "zh-Hans": {
@@ -3101,6 +4679,12 @@
             "value": "Log Out and Back In Required"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturumu Kapatıp Yeniden Açmanız Gerekiyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3116,6 +4700,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mac Settings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Ayarları"
           }
         },
         "zh-Hans": {
@@ -3135,6 +4725,12 @@
             "value": "MacTools will open a profile preview. Settings change only after you confirm your selection."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools bir profil önizlemesi açar. Ayarlar yalnızca seçiminizi onayladıktan sonra değişir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3150,6 +4746,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Make the onscreen pointer easier to see."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekrandaki işaretçinin daha kolay görülmesini sağlar."
           }
         },
         "zh-Hans": {
@@ -3169,6 +4771,12 @@
             "value": "Managed"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yönetiliyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3184,6 +4792,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Managed by Your Organization"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurumunuz Tarafından Yönetiliyor"
           }
         },
         "zh-Hans": {
@@ -3203,6 +4817,12 @@
             "value": "Manual"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El ile"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3218,6 +4838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Manual Setup"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El ile Kurulum"
           }
         },
         "zh-Hans": {
@@ -3237,6 +4863,12 @@
             "value": "Manual Setup Required"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El ile Kurulum Gerekli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3252,6 +4884,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Manual Step"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El ile Yapılacak Adım"
           }
         },
         "zh-Hans": {
@@ -3271,6 +4909,12 @@
             "value": "Minimize Windows Using"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencereleri Küçültme Efekti"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3286,6 +4930,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Minimize Windows into Application Icon"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencereleri Uygulama Simgesine Küçült"
           }
         },
         "zh-Hans": {
@@ -3305,6 +4955,12 @@
             "value": "Missing hardware: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eksik donanım: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3320,6 +4976,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Missing permission: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eksik izin: %@"
           }
         },
         "zh-Hans": {
@@ -3339,6 +5001,12 @@
             "value": "Missing plugin: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eksik eklenti: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3354,6 +5022,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Modifier Key for Scroll Gesture"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma Hareketi için Değiştirici Tuş"
           }
         },
         "zh-Hans": {
@@ -3373,6 +5047,12 @@
             "value": "More Mac Settings Actions"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer Mac Ayarları Eylemleri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3388,6 +5068,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mouse Scroll Speed"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare Kaydırma Hızı"
           }
         },
         "zh-Hans": {
@@ -3407,6 +5093,12 @@
             "value": "Mouse Tracking Speed"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare İzleme Hızı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3422,6 +5114,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Move Down"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aşağı Taşı"
           }
         },
         "zh-Hans": {
@@ -3441,6 +5139,12 @@
             "value": "Move Up"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yukarı Taşı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3456,6 +5160,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Move content in the direction your fingers move."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İçeriği parmaklarınızın hareket ettiği yönde kaydırır."
           }
         },
         "zh-Hans": {
@@ -3475,6 +5185,12 @@
             "value": "Must be completed manually in System Settings"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları'nda el ile tamamlanmalıdır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3490,6 +5206,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "My Profiles"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profillerim"
           }
         },
         "zh-Hans": {
@@ -3509,6 +5231,12 @@
             "value": "Natural Scrolling"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğal Kaydırma"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3524,6 +5252,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Needs Attention"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikkat Gerektiriyor"
           }
         },
         "zh-Hans": {
@@ -3543,6 +5277,12 @@
             "value": "Needs Attention (%@)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikkat Gerektiriyor (%@)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3558,6 +5298,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Network"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağ"
           }
         },
         "zh-Hans": {
@@ -3577,6 +5323,12 @@
             "value": "New Finder Windows Show"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni Finder Pencereleri Şunu Gösterir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3594,6 +5346,12 @@
             "value": "New Profile"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni Profil"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3606,6 +5364,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Night Shift"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Night Shift"
@@ -3628,6 +5392,12 @@
             "value": "No Changes Yet"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz Değişiklik Yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3643,6 +5413,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "No Pinned Settings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabitlenmiş Ayar Yok"
           }
         },
         "zh-Hans": {
@@ -3662,6 +5438,12 @@
             "value": "No Profiles Yet"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz Profil Yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3677,6 +5459,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "No Recent Changes"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son Değişiklik Yok"
           }
         },
         "zh-Hans": {
@@ -3696,6 +5484,12 @@
             "value": "No Settings Found"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar Bulunamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3711,6 +5505,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "No settings have errors, missing requirements, or pending steps."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiçbir ayarda hata, eksik gereksinim veya bekleyen adım yok."
           }
         },
         "zh-Hans": {
@@ -3730,6 +5530,12 @@
             "value": "Not Completed"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamamlanmadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3745,6 +5551,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Not Selected"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçilmedi"
           }
         },
         "zh-Hans": {
@@ -3764,6 +5576,12 @@
             "value": "Not Set"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlanmadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3779,6 +5597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nothing Needs Attention"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikkat Gerektiren Bir Şey Yok"
           }
         },
         "zh-Hans": {
@@ -3798,6 +5622,12 @@
             "value": "Off"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3813,6 +5643,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "On"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
           }
         },
         "zh-Hans": {
@@ -3832,6 +5668,12 @@
             "value": "Only local changes made through MacTools are recorded."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca MacTools üzerinden yapılan yerel değişiklikler kaydedilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3847,6 +5689,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open All Settings…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Ayarları Aç…"
           }
         },
         "zh-Hans": {
@@ -3866,6 +5714,12 @@
             "value": "Open Category · %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kategoriyi Aç · %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3881,6 +5735,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open Mac Setting"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Ayarını Aç"
           }
         },
         "zh-Hans": {
@@ -3900,6 +5760,12 @@
             "value": "Open Mac Settings"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Ayarlarını Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3915,6 +5781,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open Mac Settings Category"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Ayarları Kategorisini Aç"
           }
         },
         "zh-Hans": {
@@ -3934,6 +5806,12 @@
             "value": "Open Mac Settings and search titles, descriptions, and aliases."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Ayarlarını açar; başlıklarda, açıklamalarda ve diğer adlarda arama yapmanızı sağlar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3949,6 +5827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open Pinned Mac Settings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabitlenmiş Mac Ayarlarını Aç"
           }
         },
         "zh-Hans": {
@@ -3968,6 +5852,12 @@
             "value": "Open Preview"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önizlemeyi Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3983,6 +5873,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open Setting · %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarı Aç · %@"
           }
         },
         "zh-Hans": {
@@ -4002,6 +5898,12 @@
             "value": "Open System Settings"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları'nı Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4017,6 +5919,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open a specific Mac Settings category."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belirli bir Mac Ayarları kategorisini açar."
           }
         },
         "zh-Hans": {
@@ -4036,6 +5944,12 @@
             "value": "Open a specific Mac setting with its direct controls."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belirli bir Mac ayarını kendi doğrudan denetimleriyle açar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4051,6 +5965,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open frequently used settings with direct controls."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sık kullanılan ayarları doğrudan denetimleriyle açar."
           }
         },
         "zh-Hans": {
@@ -4070,6 +5990,12 @@
             "value": "Open in System Settings"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları'nda Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4085,6 +6011,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Organize windows and keep recent apps at the side of the screen."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencereleri düzenler ve son kullanılan uygulamaları ekranın kenarında tutar."
           }
         },
         "zh-Hans": {
@@ -4104,6 +6036,12 @@
             "value": "Original snapshots have been retained. Resolve these items before applying other changes."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özgün anlık görüntüler korundu. Diğer değişiklikleri uygulamadan önce bu öğeleri giderin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4119,6 +6057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Other Folder…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer Klasör…"
           }
         },
         "zh-Hans": {
@@ -4138,6 +6082,12 @@
             "value": "Partially Completed"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısmen Tamamlandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4153,6 +6103,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Permission Required"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin Gerekli"
           }
         },
         "zh-Hans": {
@@ -4172,6 +6128,12 @@
             "value": "Pin to Top"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başa Sabitle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4187,6 +6149,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pin to the top and the Pinned list. The first four also appear in the Feature Panel."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En üste ve Sabitlenenler listesine sabitler. İlk dört ayar ayrıca Özellik Paneli'nde görünür."
           }
         },
         "zh-Hans": {
@@ -4206,6 +6174,12 @@
             "value": "Pinned"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabitlendi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4221,6 +6195,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pinned to the top. The first four also appear in the Feature Panel."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En üste sabitlendi. İlk dört ayar ayrıca Özellik Paneli'nde görünür."
           }
         },
         "zh-Hans": {
@@ -4240,6 +6220,12 @@
             "value": "Pinned: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabitlenen: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4255,6 +6241,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pinned: %@ · Needs attention: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabitlenen: %@ · Dikkat Gerektiren: %@"
           }
         },
         "zh-Hans": {
@@ -4274,6 +6266,12 @@
             "value": "Pointer Size"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşaretçi Boyutu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4289,6 +6287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Power"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güç"
           }
         },
         "zh-Hans": {
@@ -4308,6 +6312,12 @@
             "value": "Preference values match, but restoration has not been confirmed."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercih değerleri eşleşiyor ama geri yükleme onaylanmadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4323,6 +6333,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Preparing results…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonuçlar hazırlanıyor…"
           }
         },
         "zh-Hans": {
@@ -4342,6 +6358,12 @@
             "value": "Press modifier keys one at a time to enter key combinations."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuş birleşimlerini girmek için değiştirici tuşları sırayla basın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4357,6 +6379,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Preview & Apply"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önizle ve Uygula"
           }
         },
         "zh-Hans": {
@@ -4376,6 +6404,12 @@
             "value": "Preview and apply a saved settings profile."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedilmiş bir ayar profilini önizleyin ve uygulayın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4391,6 +6425,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Preview and select the changes to apply."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulanacak değişiklikleri önizleyip seçin."
           }
         },
         "zh-Hans": {
@@ -4410,6 +6450,12 @@
             "value": "Processed %@ of %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ / %@ işlendi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4425,6 +6471,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Processing"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşleniyor"
           }
         },
         "zh-Hans": {
@@ -4444,6 +6496,12 @@
             "value": "Profile ID"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil Kimliği"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4459,6 +6517,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Profile Name"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil Adı"
           }
         },
         "zh-Hans": {
@@ -4478,6 +6542,12 @@
             "value": "Profile names cannot exceed 120 characters."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil adları 120 karakterden uzun olamaz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4493,6 +6563,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Profiles"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profiller"
           }
         },
         "zh-Hans": {
@@ -4512,6 +6588,12 @@
             "value": "Provider Unavailable"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağlayıcı Kullanılamıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4527,6 +6609,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reading"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okunuyor"
           }
         },
         "zh-Hans": {
@@ -4546,6 +6634,12 @@
             "value": "Reading current values…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli değerler okunuyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4561,6 +6655,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ready to Apply"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulanmaya Hazır"
           }
         },
         "zh-Hans": {
@@ -4580,6 +6680,12 @@
             "value": "Recently Changed"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son Değiştirilenler"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4595,6 +6701,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recents"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son Kullanılanlar"
           }
         },
         "zh-Hans": {
@@ -4614,6 +6726,12 @@
             "value": "Recovery Records Not Saved"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurtarma Kayıtları Kaydedilmedi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4629,6 +6747,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recovery Resolved"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurtarma Giderildi"
           }
         },
         "zh-Hans": {
@@ -4648,6 +6772,12 @@
             "value": "Recovery records have not been saved. Do not quit the app."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurtarma kayıtları kaydedilmedi. Uygulamadan çıkmayın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4663,6 +6793,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recovery records have not been saved. Do not quit the app. Resolve recovery, then retry saving."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurtarma kayıtları kaydedilmedi. Uygulamadan çıkmayın. Kurtarma sorununu giderin, ardından kaydetmeyi yeniden deneyin."
           }
         },
         "zh-Hans": {
@@ -4682,6 +6818,12 @@
             "value": "Refresh Current Values"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Değerleri Yenile"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4697,6 +6839,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reopen Related App"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İlgili Uygulamayı Yeniden Açın"
           }
         },
         "zh-Hans": {
@@ -4716,6 +6864,12 @@
             "value": "Requires supported hardware"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenen donanım gerektirir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4731,6 +6885,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Restoration Incomplete"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri Yükleme Tamamlanmadı"
           }
         },
         "zh-Hans": {
@@ -4750,6 +6910,12 @@
             "value": "Restoration is incomplete."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri yükleme tamamlanmadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4765,6 +6931,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Restoration is incomplete. Remaining settings were not applied."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri yükleme tamamlanmadı. Kalan ayarlar uygulanmadı."
           }
         },
         "zh-Hans": {
@@ -4784,6 +6956,12 @@
             "value": "Restoration is incomplete. Retry Restoration or Keep Current Values to continue."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri yükleme tamamlanmadı. Devam etmek için geri yüklemeyi yeniden deneyin veya geçerli değerleri koruyun."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4799,6 +6977,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Restoration is incomplete: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri yükleme tamamlanmadı: %@"
           }
         },
         "zh-Hans": {
@@ -4818,6 +7002,12 @@
             "value": "Restore"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri Yükle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4833,6 +7023,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Restore the most recent setting that supports rollback."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri almayı destekleyen en son ayarı geri yükler."
           }
         },
         "zh-Hans": {
@@ -4852,6 +7048,12 @@
             "value": "Restored and Verified"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri Yüklendi ve Doğrulandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4867,6 +7069,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Restoring"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri Yükleniyor"
           }
         },
         "zh-Hans": {
@@ -4886,6 +7094,12 @@
             "value": "Retry"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden Dene"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4901,6 +7115,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Retry Restoration"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri Yüklemeyi Yeniden Dene"
           }
         },
         "zh-Hans": {
@@ -4920,6 +7140,12 @@
             "value": "Retry Saving Recovery Records"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurtarma Kayıtlarını Kaydetmeyi Yeniden Dene"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4935,6 +7161,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Retry Unfinished Items…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamamlanmayan Öğeleri Yeniden Dene…"
           }
         },
         "zh-Hans": {
@@ -4954,6 +7186,12 @@
             "value": "Right"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağ"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4969,6 +7207,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rollback Incomplete"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri Alma Tamamlanmadı"
           }
         },
         "zh-Hans": {
@@ -4988,6 +7232,12 @@
             "value": "Rollback is incomplete. Try again."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri alma tamamlanmadı. Yeniden deneyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5003,6 +7253,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rollback verification failed."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri alma doğrulaması başarısız oldu."
           }
         },
         "zh-Hans": {
@@ -5022,6 +7278,12 @@
             "value": "Rollback was cancelled."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri alma iptal edildi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5037,6 +7299,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rolled Back"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri Alındı"
           }
         },
         "zh-Hans": {
@@ -5056,6 +7324,12 @@
             "value": "Save"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydet"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5071,6 +7345,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Save a Copy"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopya Kaydet"
           }
         },
         "zh-Hans": {
@@ -5090,6 +7370,12 @@
             "value": "Save a group of desired settings and choose which ones to apply."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstenen ayarlardan oluşan bir grup kaydedin ve hangilerinin uygulanacağını seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5105,6 +7391,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Save to My Profiles"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profillerime Kaydet"
           }
         },
         "zh-Hans": {
@@ -5124,6 +7416,12 @@
             "value": "Saved"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedildi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5139,6 +7437,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Saved %@ to My Profiles"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, Profillerime kaydedildi"
           }
         },
         "zh-Hans": {
@@ -5158,6 +7462,12 @@
             "value": "Saved and verified; takes effect on next use"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedildi ve doğrulandı; bir sonraki kullanımda etkili olur"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5173,6 +7483,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Scale Effect"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ölçekleme Efekti"
           }
         },
         "zh-Hans": {
@@ -5192,6 +7508,12 @@
             "value": "Screenshot Format"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Görüntüsü Biçimi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5207,6 +7529,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Screenshot Save Location"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Görüntüsü Kayıt Konumu"
           }
         },
         "zh-Hans": {
@@ -5226,6 +7554,12 @@
             "value": "Screenshots"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Görüntüleri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5241,6 +7575,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Search All Mac Settings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Mac Ayarlarında Ara"
           }
         },
         "zh-Hans": {
@@ -5260,6 +7600,12 @@
             "value": "Search Mac Settings"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Ayarlarında Ara"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5275,6 +7621,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Search Query"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arama Sorgusu"
           }
         },
         "zh-Hans": {
@@ -5294,6 +7646,12 @@
             "value": "Search Results"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arama Sonuçları"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5309,6 +7667,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Search This Mac"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac'i Ara"
           }
         },
         "zh-Hans": {
@@ -5328,6 +7692,12 @@
             "value": "Search and adjust common settings for this Mac in one place."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac'in sık kullanılan ayarlarını tek bir yerden arayın ve düzenleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5343,6 +7713,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Search the Current Folder"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Klasörü Ara"
           }
         },
         "zh-Hans": {
@@ -5362,6 +7738,12 @@
             "value": "Secondary Click"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İkincil Tıklama"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5377,6 +7759,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Select All"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümünü Seç"
           }
         },
         "zh-Hans": {
@@ -5396,6 +7784,12 @@
             "value": "Select a setting to include it in this profile. Off is still an explicit desired value."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir ayarı bu profile dahil etmek için seçin. Kapalı konumu da açık bir istenen değerdir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5411,6 +7805,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Selected"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçildi"
           }
         },
         "zh-Hans": {
@@ -5430,6 +7830,12 @@
             "value": "Set Mac Setting On or Off"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Ayarını Aç veya Kapat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5445,6 +7851,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Setting ID"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar Kimliği"
           }
         },
         "zh-Hans": {
@@ -5464,6 +7876,12 @@
             "value": "Settings changed through MacTools appear here."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools üzerinden değiştirilen ayarlar burada görünür."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5479,6 +7897,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Settings: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar: %@"
           }
         },
         "zh-Hans": {
@@ -5498,6 +7922,12 @@
             "value": "Settings: %@ · Source: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar: %@ · Kaynak: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5513,6 +7943,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show All Filename Extensions"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Dosya Adı Uzantılarını Göster"
           }
         },
         "zh-Hans": {
@@ -5532,6 +7968,12 @@
             "value": "Show All Settings"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Ayarları Göster"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5547,6 +7989,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show Floating Thumbnail"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüzen Küçük Resmi Göster"
           }
         },
         "zh-Hans": {
@@ -5566,6 +8014,12 @@
             "value": "Show Indicators for Open Applications"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık Uygulamaların Göstergelerini Göster"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5581,6 +8035,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show Path Bar"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yol Çubuğunu Göster"
           }
         },
         "zh-Hans": {
@@ -5600,6 +8060,12 @@
             "value": "Show Recent Apps in the Dock"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'ta Son Kullanılan Uygulamaları Göster"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5615,6 +8081,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show Scroll Bars"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma Çubuklarını Göster"
           }
         },
         "zh-Hans": {
@@ -5634,6 +8106,12 @@
             "value": "Show Status Bar"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durum Çubuğunu Göster"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5649,6 +8127,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show a dot below the Dock icons of running apps."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalışan uygulamaların Dock simgelerinin altında nokta gösterir."
           }
         },
         "zh-Hans": {
@@ -5668,6 +8152,12 @@
             "value": "Show all filename extensions in Finder."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder'da tüm dosya adı uzantılarını gösterir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5683,6 +8173,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show details for %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ için ayrıntıları göster"
           }
         },
         "zh-Hans": {
@@ -5702,6 +8198,12 @@
             "value": "Show filename extensions, the path bar, and the status bar, and search the current folder by default."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya adı uzantılarını, yol çubuğunu ve durum çubuğunu gösterir; aramayı varsayılan olarak geçerli klasörde yapar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5717,6 +8219,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show folders before files in Finder windows."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder pencerelerinde klasörleri dosyalardan önce gösterir."
           }
         },
         "zh-Hans": {
@@ -5736,6 +8244,12 @@
             "value": "Show item counts and available space at the bottom of Finder windows."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder penceresinin altında öğe sayısını ve kullanılabilir alanı gösterir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5751,6 +8265,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show recently used apps beside pinned apps."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabitlenen uygulamaların yanında son kullanılan uygulamaları gösterir."
           }
         },
         "zh-Hans": {
@@ -5770,6 +8290,12 @@
             "value": "Show the current location at the bottom of Finder windows."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder penceresinin altında geçerli konumu gösterir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5785,6 +8311,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skipped"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atlandı"
           }
         },
         "zh-Hans": {
@@ -5804,6 +8336,12 @@
             "value": "Slow Keys"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yavaş Tuşlar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5816,6 +8354,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stage Manager"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Stage Manager"
@@ -5838,6 +8382,12 @@
             "value": "Sticky Keys"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapışkan Tuşlar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5853,6 +8403,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stop"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durdur"
           }
         },
         "zh-Hans": {
@@ -5872,6 +8428,12 @@
             "value": "Stop after the current setting finishes verification or restoration. No further changes will start."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli ayarın doğrulaması veya geri yüklemesi tamamlandıktan sonra durdurur. Yeni değişiklikler başlatılmaz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5887,6 +8449,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "System Appearance"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Görünümü"
           }
         },
         "zh-Hans": {
@@ -5906,6 +8474,12 @@
             "value": "Tap the trackpad to click."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tıklamak için Trackpad'e dokunun."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5921,6 +8495,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tap to Click"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokunarak Tıklama"
           }
         },
         "zh-Hans": {
@@ -5940,6 +8520,12 @@
             "value": "The current state could not be read. The original snapshot has been retained."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli durum okunamadı. Özgün anlık görüntü korundu."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5955,6 +8541,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The current value has changed. Preview again."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli değer değişti. Yeniden önizleyin."
           }
         },
         "zh-Hans": {
@@ -5974,6 +8566,12 @@
             "value": "The operation was cancelled."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşlem iptal edildi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5989,6 +8587,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The plugin is currently unavailable."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti şu anda kullanılamıyor."
           }
         },
         "zh-Hans": {
@@ -6008,6 +8612,12 @@
             "value": "The profile contains invalid settings. Check the selected items."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil geçersiz ayarlar içeriyor. Seçili öğeleri kontrol edin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6023,6 +8633,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The profile contains unsupported or invalid settings."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil desteklenmeyen veya geçersiz ayarlar içeriyor."
           }
         },
         "zh-Hans": {
@@ -6042,6 +8658,12 @@
             "value": "The profile description is too long. Shorten it and try again."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil açıklaması çok uzun. Kısaltıp yeniden deneyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6057,6 +8679,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The profile exceeds the 1 MiB limit."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil 1 MiB sınırını aşıyor."
           }
         },
         "zh-Hans": {
@@ -6076,6 +8704,12 @@
             "value": "The profile format is invalid."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil biçimi geçersiz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6091,6 +8725,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The profile is unavailable."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil kullanılamıyor."
           }
         },
         "zh-Hans": {
@@ -6110,6 +8750,12 @@
             "value": "The profile's value is not valid for this setting."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profildeki değer bu ayar için geçerli değil."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6125,6 +8771,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The required MacTools plugin is currently unavailable."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerekli MacTools eklentisi şu anda kullanılamıyor."
           }
         },
         "zh-Hans": {
@@ -6144,6 +8796,12 @@
             "value": "The required MacTools plugin is not installed or enabled."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerekli MacTools eklentisi yüklü değil veya etkinleştirilmemiş."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6159,6 +8817,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The required MacTools plugin is unavailable."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerekli MacTools eklentisi kullanılamıyor."
           }
         },
         "zh-Hans": {
@@ -6178,6 +8842,12 @@
             "value": "The setting is unavailable."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar kullanılamıyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6193,6 +8863,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The setting was written, but verification did not match."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar yazıldı ama doğrulama eşleşmedi."
           }
         },
         "zh-Hans": {
@@ -6212,6 +8888,12 @@
             "value": "The value was written, but its current state could not be verified."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değer yazıldı ama geçerli durumu doğrulanamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6227,6 +8909,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "There are no changes to undo."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri alınacak değişiklik yok."
           }
         },
         "zh-Hans": {
@@ -6246,6 +8934,12 @@
             "value": "This does not change macOS settings, but discards the retained recovery snapshot for this item."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu işlem macOS ayarlarını değiştirmez; yalnızca bu öğe için tutulan kurtarma anlık görüntüsünü atar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6261,6 +8955,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This history entry lacks a complete snapshot and cannot be safely restored."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu geçmiş kaydının eksiksiz bir anlık görüntüsü yoktur ve güvenle geri yüklenemez."
           }
         },
         "zh-Hans": {
@@ -6280,6 +8980,12 @@
             "value": "This history entry lacks complete device snapshots and cannot be safely restored."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu geçmiş kaydında aygıtların eksiksiz anlık görüntüleri yoktur ve güvenle geri yüklenemez."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6295,6 +9001,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This history entry lacks device and live-state snapshots and cannot be safely restored."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu geçmiş kaydında aygıt ve canlı durum anlık görüntüleri yoktur ve güvenle geri yüklenemez."
           }
         },
         "zh-Hans": {
@@ -6314,6 +9026,12 @@
             "value": "This macOS version cannot update mouse settings immediately."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu macOS sürümünde fare ayarları hemen güncellenemiyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6329,6 +9047,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This macOS version cannot update this accessibility setting immediately."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu macOS sürümünde bu erişilebilirlik ayarı hemen güncellenemiyor."
           }
         },
         "zh-Hans": {
@@ -6348,6 +9072,12 @@
             "value": "This macOS version cannot update trackpad settings immediately."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu macOS sürümünde Trackpad ayarları hemen güncellenemiyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6363,6 +9093,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This macOS version is not supported."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu macOS sürümü desteklenmiyor."
           }
         },
         "zh-Hans": {
@@ -6382,6 +9118,12 @@
             "value": "This setting can only be managed by your organization."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu ayar yalnızca kurumunuz tarafından yönetilebilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6397,6 +9139,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This setting cannot be applied through a profile."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu ayar bir profil aracılığıyla uygulanamaz."
           }
         },
         "zh-Hans": {
@@ -6416,6 +9164,12 @@
             "value": "This setting is currently unavailable."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu ayar şu anda kullanılamıyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6431,6 +9185,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This setting is managed by your organization and cannot be changed."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu ayar kurumunuz tarafından yönetiliyor ve değiştirilemez."
           }
         },
         "zh-Hans": {
@@ -6450,6 +9210,12 @@
             "value": "This value is not valid for this setting."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu değer bu ayar için geçerli değil."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6465,6 +9231,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Three-Finger Drag"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üç Parmakla Sürükleme"
           }
         },
         "zh-Hans": {
@@ -6484,6 +9256,12 @@
             "value": "Trackpad & Mouse"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad ve Fare"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6499,6 +9277,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Trackpad Scroll Speed"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad Kaydırma Hızı"
           }
         },
         "zh-Hans": {
@@ -6518,6 +9302,12 @@
             "value": "Trackpad Tracking Speed"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad İzleme Hızı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6530,6 +9320,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Tone"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "True Tone"
@@ -6552,6 +9348,12 @@
             "value": "Try another name, category, or keyword."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başka bir ad, kategori veya anahtar sözcük deneyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6567,6 +9369,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Unavailable"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılamıyor"
           }
         },
         "zh-Hans": {
@@ -6586,6 +9394,12 @@
             "value": "Undo Applied Items"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulanan Öğeleri Geri Al"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6601,6 +9415,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Undo Last Mac Settings Change"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son Mac Ayarları Değişikliğini Geri Al"
           }
         },
         "zh-Hans": {
@@ -6620,6 +9440,12 @@
             "value": "Unknown"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilinmiyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6635,6 +9461,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Unknown Setting"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilinmeyen Ayar"
           }
         },
         "zh-Hans": {
@@ -6654,6 +9486,12 @@
             "value": "Unknown settings will not be applied."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilinmeyen ayarlar uygulanmayacak."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6669,6 +9507,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Unknown settings: %@. They will be preserved but never applied."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilinmeyen ayarlar: %@. Bunlar korunur ancak hiçbir zaman uygulanmaz."
           }
         },
         "zh-Hans": {
@@ -6688,6 +9532,12 @@
             "value": "Unpin"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabitlemeyi Kaldır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6703,6 +9553,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Unsupported"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmiyor"
           }
         },
         "zh-Hans": {
@@ -6722,6 +9578,12 @@
             "value": "Unsupported macOS Version"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmeyen macOS Sürümü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6737,6 +9599,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Unverified"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrulanmadı"
           }
         },
         "zh-Hans": {
@@ -6756,6 +9624,12 @@
             "value": "Use F1, F2, etc. as Standard Function Keys"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "F1, F2 vb. Tuşları Standart İşlev Tuşları Olarak Kullan"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6771,6 +9645,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Use Keyboard Shortcuts to Zoom"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakınlaştırmak için Klavye Kısayollarını Kullan"
           }
         },
         "zh-Hans": {
@@ -6790,6 +9670,12 @@
             "value": "Use Scroll Gesture to Zoom"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakınlaştırmak için Kaydırma Hareketini Kullan"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6805,6 +9691,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Use Tab and other keys to move between onscreen controls."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekrandaki denetimler arasında gezinmek için Tab ve diğer tuşları kullanın."
           }
         },
         "zh-Hans": {
@@ -6824,6 +9716,12 @@
             "value": "Use function keys directly; hold Fn to use their special features."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşlev tuşlarını doğrudan kullanın; özel özellikleri için Fn tuşunu basılı tutun."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6839,6 +9737,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Use the Previous Search Scope"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki Arama Kapsamını Kullan"
           }
         },
         "zh-Hans": {
@@ -6858,6 +9762,12 @@
             "value": "Use warmer display colors in darker surroundings."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daha karanlık ortamlarda daha sıcak ekran renkleri kullanır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6873,6 +9783,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Used to change settings protected by macOS. Currently required for: %@."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS tarafından korunan ayarları değiştirmek için kullanılır. Şu anda şunun için gerekli: %@."
           }
         },
         "zh-Hans": {
@@ -6892,6 +9808,12 @@
             "value": "Value"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değer"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6907,6 +9829,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verification failed. The original value was restored."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrulama başarısız oldu. Özgün değer geri yüklendi."
           }
         },
         "zh-Hans": {
@@ -6926,6 +9854,12 @@
             "value": "Verification failed: the current value is %@, and automatic restoration failed."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrulama başarısız oldu: Geçerli değer %@ ve otomatik geri yükleme başarısız oldu."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6941,6 +9875,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verification returned %@."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrulama sonucu %@."
           }
         },
         "zh-Hans": {
@@ -6960,6 +9900,12 @@
             "value": "Verified"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrulandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6975,6 +9921,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verifying"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrulanıyor"
           }
         },
         "zh-Hans": {
@@ -6994,6 +9946,12 @@
             "value": "View Plugin"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklentiyi Görüntüle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7009,6 +9967,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Waiting"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bekliyor"
           }
         },
         "zh-Hans": {
@@ -7028,6 +9992,12 @@
             "value": "Warn Before Changing an Extension"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uzantı Değiştirilmeden Önce Uyar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7043,6 +10013,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Warn Before Emptying the Trash"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çöpü Boşaltmadan Önce Uyar"
           }
         },
         "zh-Hans": {
@@ -7062,6 +10038,12 @@
             "value": "When Performing a Search"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arama Yaparken"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7077,6 +10059,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "When Scrolling"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırırken"
           }
         },
         "zh-Hans": {
@@ -7096,6 +10084,12 @@
             "value": "Zoom the screen using Option–Command shortcuts."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranı Option–Command kısayollarıyla yakınlaştırın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7111,6 +10105,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ saved"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ kaydedildi"
           }
         },
         "zh-Hans": {
@@ -7130,6 +10130,12 @@
             "value": "All"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7145,6 +10151,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose Profile…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil Seç…"
           }
         },
         "zh-Hans": {
@@ -7164,6 +10176,12 @@
             "value": "Choose a .mactoolsprofile or JSON file. MacTools checks it and shows every proposed setting before you can save or apply it."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir .mactoolsprofile veya JSON dosyası seçin. MacTools dosyayı denetler ve kaydedip uygulamadan önce önerilen her ayarı gösterir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7179,6 +10197,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not export the profile: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil dışa aktarılamadı: %@"
           }
         },
         "zh-Hans": {
@@ -7198,6 +10222,12 @@
             "value": "Create a profile first, then return here to export it."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce bir profil oluşturun, sonra dışa aktarmak için buraya dönün."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7213,6 +10243,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Export a saved profile as a portable file. The file contains desired settings only; it never changes this Mac when opened."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedilmiş bir profili taşınabilir dosya olarak dışa aktarın. Dosya yalnızca istenen ayarları içerir; açıldığında bu Mac'te hiçbir değişiklik yapmaz."
           }
         },
         "zh-Hans": {
@@ -7232,6 +10268,12 @@
             "value": "Exported %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ dışa aktarıldı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7247,6 +10289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "History"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçmiş"
           }
         },
         "zh-Hans": {
@@ -7266,6 +10314,12 @@
             "value": "Import a Profile"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil İçe Aktar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7281,6 +10335,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mac Settings Workspace"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Ayarları Çalışma Alanı"
           }
         },
         "zh-Hans": {
@@ -7300,6 +10360,12 @@
             "value": "Move portable Mac Settings profiles between Macs. Imports are always previewed before anything changes."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taşınabilir Mac Ayarları profillerini Mac'ler arasında taşıyın. İçe aktarma işlemleri, herhangi bir değişiklikten önce her zaman önizlenir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7315,6 +10381,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "No Saved Profiles"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedilmiş Profil Yok"
           }
         },
         "zh-Hans": {
@@ -7334,6 +10406,12 @@
             "value": "Open Profiles"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profilleri Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7349,6 +10427,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pinned %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ sabitlendi"
           }
         },
         "zh-Hans": {
@@ -7368,6 +10452,12 @@
             "value": "Settings"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7383,6 +10473,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Settings Filter"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar Filtresi"
           }
         },
         "zh-Hans": {
@@ -7402,6 +10498,12 @@
             "value": "Unpin from Top"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başa Sabitlemeyi Kaldır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7419,6 +10521,12 @@
             "value": "Use the pin button on any setting. The first four pinned settings also appear in the Feature Panel."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Herhangi bir ayardaki sabitleme düğmesini kullanın. İlk dört sabitlenmiş ayar ayrıca Özellik Paneli'nde görünür."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7431,6 +10539,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud Drive"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "iCloud Drive"

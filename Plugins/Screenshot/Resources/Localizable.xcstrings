@@ -4,85 +4,277 @@
     "capture.invalidRegion": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "The capture region is invalid. Select it again." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "截图区域无效，请重新选择" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The capture region is invalid. Select it again."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakalama alanı geçersiz. Yeniden seçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "截图区域无效，请重新选择"
+          }
+        }
       }
     },
     "capture.preparing": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Preparing…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在准备…" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hazırlanıyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在准备…"
+          }
+        }
       }
     },
     "capture.stopping": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Stopping…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在停止…" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stopping…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durduruluyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在停止…"
+          }
+        }
       }
     },
     "capture.stoppingSlowly": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Waiting for capture to stop…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在等待系统停止…" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for capture to stop…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakalamanın durması bekleniyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在等待系统停止…"
+          }
+        }
       }
     },
     "record.saving": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saving…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在保存…" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saving…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydediliyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在保存…"
+          }
+        }
       }
     },
     "record.savingSlowly": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Still saving. Please wait…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在保存，请稍候…" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Still saving. Please wait…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hâlâ kaydediliyor. Lütfen bekleyin…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在保存，请稍候…"
+          }
+        }
       }
     },
     "record.unsupportedResolution": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "This region exceeds hardware encoding limits. Select a smaller region." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "当前区域超出硬件编码能力，请缩小录制范围" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This region exceeds hardware encoding limits. Select a smaller region."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu alan donanım kodlama sınırlarını aşıyor. Daha küçük bir alan seçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前区域超出硬件编码能力，请缩小录制范围"
+          }
+        }
       }
     },
     "scroll.unmatched": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No matching content. Scroll more slowly or go back slightly." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "未找到连续内容，请放慢滚动或回滚少许" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matching content. Scroll more slowly or go back slightly."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleşen içerik yok. Daha yavaş kaydırın veya biraz geri gidin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到连续内容，请放慢滚动或回滚少许"
+          }
+        }
       }
     },
     "scroll.finishing": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Finishing scrolling screenshot…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在完成长截图…" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finishing scrolling screenshot…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırmalı ekran görüntüsü tamamlanıyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在完成长截图…"
+          }
+        }
       }
     },
     "capture.unavailable": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Unable to capture the screen. Check Screen Recording permission and try again." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法获取屏幕图像，请检查录屏权限后重试" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to capture the screen. Check Screen Recording permission and try again."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran yakalanamadı. Ekran Kaydı iznini denetleyip yeniden deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法获取屏幕图像，请检查录屏权限后重试"
+          }
+        }
       }
     },
     "capture.timedOut": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Screen capture timed out. Please try again." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "获取屏幕图像超时，请重试" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen capture timed out. Please try again."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran yakalama zaman aşımına uğradı. Lütfen yeniden deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "获取屏幕图像超时，请重试"
+          }
+        }
       }
     },
     "capture.displayChanged": {
       "extractionState": "manual",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "The display configuration changed. Start a new capture." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "显示器配置已变化，请重新截图" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The display configuration changed. Start a new capture."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran yapılandırması değişti. Yeni bir yakalama başlatın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示器配置已变化，请重新截图"
+          }
+        }
       }
     },
     "scroll.outputTooLarge": {
@@ -92,6 +284,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Scrolling screenshot size limit reached. Capture a smaller area or split it into sections."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırmalı ekran görüntüsünde boyut sınırına ulaşıldı. Daha küçük bir alan yakalayın veya bölümlere ayırın."
           }
         },
         "zh-Hans": {
@@ -106,10 +304,22 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": { "state": "translated", "value": "Capture controls are not ready. Please try again." }
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture controls are not ready. Please try again."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakalama denetimleri hazır değil. Lütfen yeniden deneyin."
+          }
         },
         "zh-Hans": {
-          "stringUnit": { "state": "translated", "value": "截图控制窗口尚未就绪，请重试" }
+          "stringUnit": {
+            "state": "translated",
+            "value": "截图控制窗口尚未就绪，请重试"
+          }
         }
       }
     },
@@ -117,10 +327,22 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": { "state": "translated", "value": "Move mode bar horizontally" }
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move mode bar horizontally"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mod çubuğunu yatay taşı"
+          }
         },
         "zh-Hans": {
-          "stringUnit": { "state": "translated", "value": "左右移动模式栏" }
+          "stringUnit": {
+            "state": "translated",
+            "value": "左右移动模式栏"
+          }
         }
       }
     },
@@ -128,10 +350,22 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": { "state": "translated", "value": "Move toolbar" }
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move toolbar"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Araç çubuğunu taşı"
+          }
         },
         "zh-Hans": {
-          "stringUnit": { "state": "translated", "value": "移动工具栏" }
+          "stringUnit": {
+            "state": "translated",
+            "value": "移动工具栏"
+          }
         }
       }
     },
@@ -139,10 +373,22 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": { "state": "translated", "value": "Recognition result" }
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recognition result"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tanıma sonucu"
+          }
         },
         "zh-Hans": {
-          "stringUnit": { "state": "translated", "value": "识别结果" }
+          "stringUnit": {
+            "state": "translated",
+            "value": "识别结果"
+          }
         }
       }
     },
@@ -153,6 +399,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cancel"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
           }
         },
         "zh-Hans": {
@@ -172,6 +424,12 @@
             "value": "Finish"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bitir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -187,6 +445,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Scroll down inside the frame · %.1f screens captured"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çerçeve içinde aşağı kaydırın · %.1f ekran yakalandı"
           }
         },
         "zh-Hans": {
@@ -206,6 +470,12 @@
             "value": "Screenshot failed: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü alınamadı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -221,6 +491,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Copied to clipboard"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panoya kopyalandı"
           }
         },
         "zh-Hans": {
@@ -240,6 +516,12 @@
             "value": "Copied to clipboard and pinned · ⌘S to save"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panoya kopyalandı ve ekrana sabitlendi · Kaydetmek için ⌘S"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -255,6 +537,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Scrolling screenshot export failed"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırmalı ekran görüntüsü dışa aktarılamadı"
           }
         },
         "zh-Hans": {
@@ -274,6 +562,12 @@
             "value": "Scrolling Screenshot"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırmalı Ekran Görüntüsü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -289,6 +583,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Save failed: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedilemedi: %@"
           }
         },
         "zh-Hans": {
@@ -308,6 +608,12 @@
             "value": "Saved to “%@”"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” konumuna kaydedildi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -323,6 +629,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Saved to “%@” and copied to clipboard"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” konumuna kaydedildi ve panoya kopyalandı"
           }
         },
         "zh-Hans": {
@@ -342,6 +654,12 @@
             "value": "Screenshot"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Görüntüsü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -357,6 +675,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cancel"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
           }
         },
         "zh-Hans": {
@@ -376,6 +700,12 @@
             "value": "Cancel (Esc)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal (Esc)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -391,6 +721,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Close"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapat"
           }
         },
         "zh-Hans": {
@@ -410,6 +746,12 @@
             "value": "Copied to clipboard"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panoya kopyalandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -425,6 +767,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Done"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamamlandı"
           }
         },
         "zh-Hans": {
@@ -444,6 +792,12 @@
             "value": "Copy and finish (↩ / ⌘C)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopyala ve bitir (↩ / ⌘C)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -459,6 +813,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pin image on screen"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görseli ekrana sabitle"
           }
         },
         "zh-Hans": {
@@ -478,6 +838,12 @@
             "value": "Save to “%@” (⌘S) · ⌥-click to Save As (⇧⌘S)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” konumuna kaydet (⌘S) · Farklı kaydetmek için ⌥-tıklayın (⇧⌘S)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -493,6 +859,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Undo (⌘Z)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri Al (⌘Z)"
           }
         },
         "zh-Hans": {
@@ -512,6 +884,12 @@
             "value": "Black"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siyah"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -527,6 +905,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Blue"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mavi"
           }
         },
         "zh-Hans": {
@@ -546,6 +930,12 @@
             "value": "Green"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeşil"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -561,6 +951,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Orange"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turuncu"
           }
         },
         "zh-Hans": {
@@ -580,6 +976,12 @@
             "value": "Purple"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -595,6 +997,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Red"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kırmızı"
           }
         },
         "zh-Hans": {
@@ -614,6 +1022,12 @@
             "value": "White"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beyaz"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -629,6 +1043,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Yellow"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sarı"
           }
         },
         "zh-Hans": {
@@ -648,6 +1068,12 @@
             "value": "Screenshot export failed"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü dışa aktarılamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -665,6 +1091,12 @@
             "value": "Position: %d, %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konum: %d, %d"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -677,6 +1109,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RGB: %d, %d, %d"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "RGB: %d, %d, %d"
@@ -699,6 +1137,12 @@
             "value": "HEX: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HEX: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -714,6 +1158,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Command + C  Copy color"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Command + C  Rengi kopyala"
           }
         },
         "zh-Hans": {
@@ -733,6 +1183,12 @@
             "value": "Tab  Switch RGB / HEX"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab  RGB / HEX geçişi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -748,6 +1204,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Record"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt"
           }
         },
         "zh-Hans": {
@@ -767,6 +1229,12 @@
             "value": "Screenshot"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Görüntüsü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -782,6 +1250,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Scrolling Screenshot"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırmalı Ekran Görüntüsü"
           }
         },
         "zh-Hans": {
@@ -801,6 +1275,12 @@
             "value": "Recognize QR Code"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "QR Kodu Tanı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -816,6 +1296,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recognizing…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tanınıyor…"
           }
         },
         "zh-Hans": {
@@ -835,6 +1321,12 @@
             "value": "%d %@ · Copied to clipboard"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d %@ · Panoya kopyalandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -850,6 +1342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Edit directly · Select text and press ⌘C to copy the selection · Esc to close"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrudan düzenleyin · Seçimi kopyalamak için metni seçip ⌘C tuşuna basın · Kapatmak için Esc"
           }
         },
         "zh-Hans": {
@@ -869,6 +1367,12 @@
             "value": "No content recognized"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İçerik tanınamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -884,6 +1388,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recognition failed: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tanıma başarısız oldu: %@"
           }
         },
         "zh-Hans": {
@@ -903,6 +1413,12 @@
             "value": "codes"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "kod"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -918,6 +1434,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "lines"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "satır"
           }
         },
         "zh-Hans": {
@@ -937,6 +1459,12 @@
             "value": "Mask Codes"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kodları Gizle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -952,6 +1480,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open Link"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlantıyı Aç"
           }
         },
         "zh-Hans": {
@@ -971,6 +1505,12 @@
             "value": "Extract Text"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metni Çıkar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -986,6 +1526,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Start Recording"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydı Başlat"
           }
         },
         "zh-Hans": {
@@ -1005,6 +1551,12 @@
             "value": "Recording requires macOS 15 or later"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt, macOS 15 veya sonrasını gerektirir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1020,6 +1572,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Select the content to capture, then scroll down manually"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakalanacak içeriği seçin, ardından elle aşağı kaydırın"
           }
         },
         "zh-Hans": {
@@ -1039,6 +1597,12 @@
             "value": "Start Scrolling Capture"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırmalı Ekran Görüntüsünü Başlat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1051,6 +1615,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "  R%d"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "  R%d"
@@ -1073,6 +1643,12 @@
             "value": "  S%d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "  S%d"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1085,6 +1661,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d × %d%@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%d × %d%@"
@@ -1107,6 +1689,12 @@
             "value": "Medium"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1122,6 +1710,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Thick"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalın"
           }
         },
         "zh-Hans": {
@@ -1141,6 +1735,12 @@
             "value": "Thin"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İnce"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1156,6 +1756,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Corners"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Köşeler"
           }
         },
         "zh-Hans": {
@@ -1175,6 +1781,12 @@
             "value": "Shadow"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gölge"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1190,6 +1802,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Shadow color: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gölge rengi: %@"
           }
         },
         "zh-Hans": {
@@ -1209,6 +1827,12 @@
             "value": "Arrow (A)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ok (A)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1224,6 +1848,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Blur (B)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bulanıklaştır (B)"
           }
         },
         "zh-Hans": {
@@ -1243,6 +1873,12 @@
             "value": "Corners and shadow ([ ] corners, { } shadow)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Köşeler ve gölge ([ ] köşeler, { } gölge)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1258,6 +1894,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ellipse (O)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elips (O)"
           }
         },
         "zh-Hans": {
@@ -1277,6 +1919,12 @@
             "value": "Line (L)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çizgi (L)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1292,6 +1940,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mosaic (M)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mozaik (M)"
           }
         },
         "zh-Hans": {
@@ -1311,6 +1965,12 @@
             "value": "Number (N)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Numara (N)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1326,6 +1986,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pen (P)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalem (P)"
           }
         },
         "zh-Hans": {
@@ -1345,6 +2011,12 @@
             "value": "Rectangle (R)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikdörtgen (R)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1360,6 +2032,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Text (T)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metin (T)"
           }
         },
         "zh-Hans": {
@@ -1379,6 +2057,12 @@
             "value": "Capturing…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakalanıyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1394,6 +2078,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Finish"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bitir"
           }
         },
         "zh-Hans": {
@@ -1413,6 +2103,12 @@
             "value": "Recording; click again or use the screenshot shortcut to stop"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt sürüyor; durdurmak için yeniden tıklayın veya ekran görüntüsü kısayolunu kullanın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1428,6 +2124,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Scroll the page, then click Finish or use the screenshot shortcut"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sayfayı kaydırın, ardından Bitir düğmesine tıklayın veya ekran görüntüsü kısayolunu kullanın"
           }
         },
         "zh-Hans": {
@@ -1447,6 +2149,12 @@
             "value": "Stop Recording"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydı Durdur"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1462,6 +2170,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Required for screenshots and screen recordings. Images and recognized content are processed on this Mac."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüleri ve ekran kayıtları için gereklidir. Görseller ve tanınan içerik bu Mac'te işlenir."
           }
         },
         "zh-Hans": {
@@ -1481,6 +2195,12 @@
             "value": "Allow MacTools in System Settings → Privacy & Security → Screen Recording."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Ekran Kaydı bölümünde MacTools'a izin verin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1496,6 +2216,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Screen Recording Permission"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Kaydı İzni"
           }
         },
         "zh-Hans": {
@@ -1515,6 +2241,12 @@
             "value": "Pinned on screen; double-click or press Esc to close"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekrana sabitlendi; kapatmak için çift tıklayın veya Esc tuşuna basın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1530,6 +2262,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Drag to move · Scroll to zoom · Double-click/Esc to close · ⌘C to copy · ⌘S to save"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taşımak için sürükleyin · Yakınlaştırmak için kaydırın · Kapatmak için çift tıklayın/Esc · Kopyalamak için ⌘C · Kaydetmek için ⌘S"
           }
         },
         "zh-Hans": {
@@ -1549,6 +2287,12 @@
             "value": "Recording failed: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt başarısız oldu: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1564,6 +2308,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recording"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Kaydı"
           }
         },
         "zh-Hans": {
@@ -1583,6 +2333,12 @@
             "value": "Recording requires macOS 15 or later"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt, macOS 15 veya sonrasını gerektirir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1598,6 +2354,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recording saved to “%@”"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt “%@” konumuna kaydedildi"
           }
         },
         "zh-Hans": {
@@ -1617,6 +2379,12 @@
             "value": "Stop"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durdur"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1632,6 +2400,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not assemble the scrolling screenshot; try a smaller capture area"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırmalı ekran görüntüsü birleştirilemedi; daha küçük bir yakalama alanı deneyin"
           }
         },
         "zh-Hans": {
@@ -1651,6 +2425,12 @@
             "value": "Scrolling screenshot failed: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırmalı ekran görüntüsü alınamadı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1666,6 +2446,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "No image captured yet; please try again"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz görsel yakalanmadı; lütfen yeniden deneyin"
           }
         },
         "zh-Hans": {
@@ -1685,6 +2471,12 @@
             "value": "Choose Folder…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasör Seç…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1700,6 +2492,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Save Location"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt Konumu"
           }
         },
         "zh-Hans": {
@@ -1719,6 +2517,12 @@
             "value": "Screenshots are copied by default; use Save to export a PNG. Recordings are saved as MOV files and require macOS 15 or later."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüleri varsayılan olarak kopyalanır; PNG olarak dışa aktarmak için Kaydet'i kullanın. Kayıtlar MOV dosyası olarak saklanır ve macOS 15 veya sonrasını gerektirir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1734,6 +2538,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Saving"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydetme"
           }
         },
         "zh-Hans": {
@@ -1753,6 +2563,12 @@
             "value": "Set global shortcuts for Screenshot and Quick Capture."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Görüntüsü ve Hızlı Yakalama için genel kısayolları ayarlayın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1768,6 +2584,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Shortcuts"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayollar"
           }
         },
         "zh-Hans": {
@@ -1833,6 +2655,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Снимок экрана"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Görüntüsü"
           }
         },
         "zh-Hans": {
@@ -1906,6 +2734,12 @@
             "value": "Снимайте области и окна, добавляйте пометки, распознавайте текст и коды, делайте снимки с прокруткой и записывайте экран."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alan veya pencere yakalayın, açıklama ekleyin, metin ve kodları tanıyın, kaydırmalı ekran görüntüsü alın ve ekranı kaydedin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1975,6 +2809,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сделать снимок экрана"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Görüntüsü Yakala"
           }
         },
         "zh-Hans": {
@@ -2048,6 +2888,12 @@
             "value": "Выберите область или окно для пометок, распознавания текста и кодов, снимка с прокруткой или записи."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açıklama eklemek, metin veya kod tanımak, kaydırmalı içerik yakalamak veya kaydetmek için bir alan veya pencere seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2119,6 +2965,12 @@
             "value": "Быстрый снимок"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hızlı Yakalama"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2188,6 +3040,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите область, чтобы сразу скопировать её в буфер обмена."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir alan seçin ve anında panoya kopyalayın."
           }
         },
         "zh-Hans": {

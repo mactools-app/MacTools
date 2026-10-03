@@ -1,23 +1,1298 @@
 {
-  "sourceLanguage" : "zh-Hans",
-  "strings" : {
-    "widget.title": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"إخفاء بالنقر"}},"de":{"stringUnit":{"state":"translated","value":"Klick ausblenden"}},"en":{"stringUnit":{"state":"translated","value":"Click to Hide"}},"es":{"stringUnit":{"state":"translated","value":"Clic para ocultar"}},"fr":{"stringUnit":{"state":"translated","value":"Clic pour masquer"}},"ja":{"stringUnit":{"state":"translated","value":"クリックで隠す"}},"ko":{"stringUnit":{"state":"translated","value":"클릭으로 가리기"}},"pt":{"stringUnit":{"state":"translated","value":"Clique para ocultar"}},"ru":{"stringUnit":{"state":"translated","value":"Скрыть по клику"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"点击隐藏"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"點按隱藏"}}}},
-    "metadata.title" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "إخفاء التطبيق النشط بالنقر على Dock" } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Aktive App per Dock-Klick ausblenden" } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Hide Active App on Dock Click" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar la app activa al hacer clic en el Dock" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Masquer l’app active par clic dans le Dock" } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "DockクリックでアクティブなAppを隠す" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "Dock 클릭으로 활성 앱 가리기" } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar app ativa com clique no Dock" } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Скрыть активное приложение щелчком по Dock" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "点击程序坞隐藏活跃 App" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "點擊 Dock 隱藏使用中 App" } } } },
-    "metadata.description" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "أخفِ التطبيق النشط بالنقر على أيقونته في Dock (كما في Windows)." } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Blendet die aktive App durch Klick auf ihr Dock-Symbol aus (wie unter Windows)." } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Hide the active app by clicking its Dock icon (like on Windows)." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Oculta la app activa al hacer clic en su icono del Dock (como en Windows)." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Masque l’app active en cliquant sur son icône dans le Dock (comme sous Windows)." } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "DockのアイコンをクリックしてアクティブなAppを隠します（Windowsと同様）。" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "Dock 아이콘을 클릭해 활성 앱을 가립니다(Windows처럼)." } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Oculta o app ativo ao clicar no ícone dele no Dock (como no Windows)." } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Скрывает активное приложение щелчком по его значку в Dock (как в Windows)." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "点击活跃 App 的程序坞图标即可将其隐藏（如 Windows）。" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "點擊使用中 App 的 Dock 圖示即可將其隱藏（如 Windows）。" } } } },
-    "panel.subtitle.enabled" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "مفعّل" } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein" } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "On" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Activado" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Activé" } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "オン" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "켜짐" } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Ativado" } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Вкл." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已开启" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已開啟" } } } },
-    "panel.subtitle.disabled" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "معطّل" } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Aus" } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Off" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Desactivado" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Désactivé" } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "オフ" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "꺼짐" } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Desativado" } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выкл." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已关闭" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已關閉" } } } },
-    "panel.subtitle.needsAccessibility" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "يتطلب إذن تسهيلات الاستخدام" } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Bedienungshilfe-Berechtigung erforderlich" } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Accessibility permission required" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Se requiere permiso de accesibilidad" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Autorisation Accessibilité requise" } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "アクセシビリティの許可が必要です" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "손쉬운 사용 권한이 필요함" } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Permissão de Acessibilidade necessária" } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Требуется разрешение «Универсальный доступ»" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "需要辅助功能授权" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "需要輔助使用權限" } } } },
-    "panel.subtitle.needsInputMonitoring" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "يتطلب إذن مراقبة الإدخال" } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Berechtigung zur Eingabeüberwachung erforderlich" } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Input Monitoring permission required" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Se requiere permiso de supervisión de entrada" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Autorisation Surveillance des entrées requise" } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力監視の許可が必要です" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 모니터링 권한이 필요함" } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Permissão de Monitoramento de Entrada necessária" } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Требуется разрешение на мониторинг ввода" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "需要输入监控授权" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "需要輸入監控權限" } } } },
-    "permission.accessibility.title" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تسهيلات الاستخدام" } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Bedienungshilfe" } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Accessibility" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Accesibilidad" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Accessibilité" } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "アクセシビリティ" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "손쉬운 사용" } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Acessibilidade" } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Универсальный доступ" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "辅助功能" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輔助使用" } } } },
-    "permission.accessibility.description" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "يحدد تطبيقات Dock ويخفي التطبيق النشط." } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Ermittelt Dock-Apps und blendet die aktive App aus." } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Identifies Dock applications and hides the active application." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Identifica las apps del Dock y oculta la app activa." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Identifie les apps du Dock et masque l’app actuellement active." } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "Dockのアプリを識別し、アクティブなアプリを非表示にします。" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "Dock 앱을 식별하고 활성 앱을 가립니다." } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Identifica apps do Dock e oculta o app ativo." } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Определяет приложения в Dock и скрывает активное приложение." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "用于识别程序坞中的应用，并隐藏当前活跃的应用。" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "用於辨識 Dock 中的 App，並隱藏目前使用中的 App。" } } } },
-    "permission.accessibility.footnote" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "اسمح لـ MacTools في إعدادات النظام > الخصوصية والأمن > تسهيلات الاستخدام." } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Erlaube MacTools in Systemeinstellungen > Datenschutz & Sicherheit > Bedienungshilfe." } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Allow MacTools in System Settings > Privacy & Security > Accessibility." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Permite MacTools en Ajustes del Sistema > Privacidad y seguridad > Accesibilidad." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Autorisez MacTools dans Réglages Système > Confidentialité et sécurité > Accessibilité." } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "システム設定 > プライバシーとセキュリティ > アクセシビリティでMacToolsを許可してください。" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "시스템 설정 > 개인정보 보호 및 보안 > 손쉬운 사용에서 MacTools를 허용하세요." } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Permita o MacTools em Ajustes do Sistema > Privacidade e Segurança > Acessibilidade." } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Разрешите MacTools в Системных настройках > Конфиденциальность и безопасность > Универсальный доступ." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在系统设置的“隐私与安全性 > 辅助功能”中允许 MacTools。" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "在「系統設定」>「隱私權與安全性」>「輔助使用」中允許 MacTools。" } } } },
-    "permission.inputMonitoring.title" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "مراقبة الإدخال" } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Eingabeüberwachung" } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Input Monitoring" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Supervisión de entrada" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Surveillance des entrées" } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力監視" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력 모니터링" } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Monitoramento de Entrada" } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Мониторинг ввода" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "输入监控" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輸入監控" } } } },
-    "permission.inputMonitoring.description" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "يراقب النقرات اليسرى دون حجب سلوك Dock الأصلي." } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Beobachtet Linksklicks, ohne das native Dock-Verhalten zu blockieren." } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Observes left clicks without blocking native Dock behavior." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Observa clics izquierdos sin bloquear el comportamiento nativo del Dock." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Observe les clics gauches sans bloquer le comportement natif du Dock." } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "Dock本来の動作を妨げずに左クリックを監視します。" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "Dock의 기본 동작을 막지 않고 왼쪽 클릭을 감지합니다." } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Observa cliques com o botão esquerdo sem bloquear o comportamento nativo do Dock." } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Отслеживает щелчки левой кнопкой, не блокируя стандартное поведение Dock." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "用于在不阻止原生程序坞点击的情况下监听鼠标左键。" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "在不阻擋 Dock 原生行為的情況下監聽滑鼠左鍵點擊。" } } } },
-    "permission.inputMonitoring.footnote" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "اسمح لـ MacTools في إعدادات النظام > الخصوصية والأمن > مراقبة الإدخال." } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Erlaube MacTools in Systemeinstellungen > Datenschutz & Sicherheit > Eingabeüberwachung." } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Allow MacTools in System Settings > Privacy & Security > Input Monitoring." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Permite MacTools en Ajustes del Sistema > Privacidad y seguridad > Supervisión de entrada." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Autorisez MacTools dans Réglages Système > Confidentialité et sécurité > Surveillance des entrées." } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "システム設定 > プライバシーとセキュリティ > 入力監視でMacToolsを許可してください。" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "시스템 설정 > 개인정보 보호 및 보안 > 입력 모니터링에서 MacTools를 허용하세요." } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Permita o MacTools em Ajustes do Sistema > Privacidade e Segurança > Monitoramento de Entrada." } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Разрешите MacTools в Системных настройках > Конфиденциальность и безопасность > Мониторинг ввода." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在系统设置的“隐私与安全性 > 输入监控”中允许 MacTools。" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "在「系統設定」>「隱私權與安全性」>「輸入監控」中允許 MacTools。" } } } },
-    "settings.section.title" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الإعدادات" } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Einstellungen" } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Settings" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Ajustes" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réglages" } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "設定" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "설정" } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Ajustes" } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Настройки" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "设置" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "設定" } } } },
-    "error.accessibilityRequired" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "يتطلب إخفاء التطبيق النشط بالنقر على Dock إذن تسهيلات الاستخدام." } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Aktive App per Dock-Klick ausblenden benötigt die Berechtigung für Bedienungshilfe." } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Hide Active App on Dock Click needs Accessibility permission." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar la app activa al hacer clic en el Dock necesita permiso de accesibilidad." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Masquer l’app active par clic dans le Dock nécessite l’autorisation Accessibilité." } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "DockクリックでアクティブなAppを隠すにはアクセシビリティの許可が必要です。" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "Dock 클릭으로 활성 앱 가리기에는 손쉬운 사용 권한이 필요합니다." } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar app ativa com clique no Dock requer permissão de Acessibilidade." } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Для скрытия активного приложения щелчком по Dock требуется разрешение «Универсальный доступ»." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "点击程序坞隐藏活跃 App 需要辅助功能权限。" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "點擊 Dock 隱藏使用中 App 需要輔助使用權限。" } } } },
-    "error.inputMonitoringRequired" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "يتطلب إخفاء التطبيق النشط بالنقر على Dock إذن مراقبة الإدخال." } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Aktive App per Dock-Klick ausblenden benötigt die Berechtigung zur Eingabeüberwachung." } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Hide Active App on Dock Click needs Input Monitoring permission." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar la app activa al hacer clic en el Dock necesita permiso de supervisión de entrada." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Masquer l’app active par clic dans le Dock nécessite l’autorisation Surveillance des entrées." } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "DockクリックでアクティブなAppを隠すには入力監視の許可が必要です。" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "Dock 클릭으로 활성 앱 가리기에는 입력 모니터링 권한이 필요합니다." } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar app ativa com clique no Dock requer permissão de Monitoramento de Entrada." } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Для скрытия активного приложения щелчком по Dock требуется разрешение на мониторинг ввода." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "点击程序坞隐藏活跃 App 需要输入监控权限。" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "點擊 Dock 隱藏使用中 App 需要輸入監控權限。" } } } },
-    "error.startFailed" : { "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذر بدء إخفاء التطبيق النشط بالنقر على Dock. تحقق من الأذونات." } }, "de" : { "stringUnit" : { "state" : "translated", "value" : "Aktive App per Dock-Klick ausblenden konnte nicht gestartet werden. Prüfe die Berechtigungen." } }, "en" : { "stringUnit" : { "state" : "translated", "value" : "Hide Active App on Dock Click could not start. Check its permissions." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "No se pudo iniciar Ocultar la app activa al hacer clic en el Dock. Comprueba sus permisos." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Impossible de démarrer Masquer l’app active par clic dans le Dock. Vérifiez ses autorisations." } }, "ja" : { "stringUnit" : { "state" : "translated", "value" : "DockクリックでアクティブなAppを隠すを開始できませんでした。許可を確認してください。" } }, "ko" : { "stringUnit" : { "state" : "translated", "value" : "Dock 클릭으로 활성 앱 가리기를 시작할 수 없습니다. 권한을 확인하세요." } }, "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível iniciar Ocultar app ativa com clique no Dock. Verifique as permissões." } }, "ru" : { "stringUnit" : { "state" : "translated", "value" : "Не удалось запустить скрытие активного приложения щелчком по Dock. Проверьте разрешения." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法启动点击程序坞隐藏活跃 App，请检查权限。" } }, "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法啟動點擊 Dock 隱藏使用中 App，請檢查權限。" } } } }
+  "sourceLanguage": "zh-Hans",
+  "strings": {
+    "widget.title": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء بالنقر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klick ausblenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Click to Hide"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clic para ocultar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clic pour masquer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クリックで隠す"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클릭으로 가리기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clique para ocultar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скрыть по клику"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizlemek için tıklayın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击隐藏"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點按隱藏"
+          }
+        }
+      }
+    },
+    "metadata.title": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء التطبيق النشط بالنقر على Dock"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktive App per Dock-Klick ausblenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide Active App on Dock Click"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar la app activa al hacer clic en el Dock"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer l’app active par clic dans le Dock"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DockクリックでアクティブなAppを隠す"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock 클릭으로 활성 앱 가리기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar app ativa com clique no Dock"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скрыть активное приложение щелчком по Dock"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'a Tıklayınca Etkin Uygulamayı Gizle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击程序坞隐藏活跃 App"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點擊 Dock 隱藏使用中 App"
+          }
+        }
+      }
+    },
+    "metadata.description": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أخفِ التطبيق النشط بالنقر على أيقونته في Dock (كما في Windows)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blendet die aktive App durch Klick auf ihr Dock-Symbol aus (wie unter Windows)."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide the active app by clicking its Dock icon (like on Windows)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oculta la app activa al hacer clic en su icono del Dock (como en Windows)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masque l’app active en cliquant sur son icône dans le Dock (comme sous Windows)."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DockのアイコンをクリックしてアクティブなAppを隠します（Windowsと同様）。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock 아이콘을 클릭해 활성 앱을 가립니다(Windows처럼)."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oculta o app ativo ao clicar no ícone dele no Dock (como no Windows)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скрывает активное приложение щелчком по его значку в Dock (как в Windows)."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock simgesine tıklayarak etkin uygulamayı gizleyin (Windows'taki gibi)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击活跃 App 的程序坞图标即可将其隐藏（如 Windows）。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點擊使用中 App 的 Dock 圖示即可將其隱藏（如 Windows）。"
+          }
+        }
+      }
+    },
+    "panel.subtitle.enabled": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفعّل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activé"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "켜짐"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вкл."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已开启"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已開啟"
+          }
+        }
+      }
+    },
+    "panel.subtitle.disabled": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معطّل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aus"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desactivado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Désactivé"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オフ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "꺼짐"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desativado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выкл."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已关闭"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已關閉"
+          }
+        }
+      }
+    },
+    "panel.subtitle.needsAccessibility": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتطلب إذن تسهيلات الاستخدام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bedienungshilfe-Berechtigung erforderlich"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility permission required"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se requiere permiso de accesibilidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorisation Accessibilité requise"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクセシビリティの許可が必要です"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "손쉬운 사용 권한이 필요함"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permissão de Acessibilidade necessária"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требуется разрешение «Универсальный доступ»"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni gerekiyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要辅助功能授权"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要輔助使用權限"
+          }
+        }
+      }
+    },
+    "panel.subtitle.needsInputMonitoring": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتطلب إذن مراقبة الإدخال"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berechtigung zur Eingabeüberwachung erforderlich"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input Monitoring permission required"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se requiere permiso de supervisión de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorisation Surveillance des entrées requise"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力監視の許可が必要です"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 모니터링 권한이 필요함"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permissão de Monitoramento de Entrada necessária"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требуется разрешение на мониторинг ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi İzleme izni gerekiyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要输入监控授权"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要輸入監控權限"
+          }
+        }
+      }
+    },
+    "permission.accessibility.title": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسهيلات الاستخدام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bedienungshilfe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accesibilidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibilité"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクセシビリティ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "손쉬운 사용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acessibilidade"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Универсальный доступ"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "辅助功能"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輔助使用"
+          }
+        }
+      }
+    },
+    "permission.accessibility.description": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحدد تطبيقات Dock ويخفي التطبيق النشط."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ermittelt Dock-Apps und blendet die aktive App aus."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Identifies Dock applications and hides the active application."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Identifica las apps del Dock y oculta la app activa."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Identifie les apps du Dock et masque l’app actuellement active."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dockのアプリを識別し、アクティブなアプリを非表示にします。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock 앱을 식별하고 활성 앱을 가립니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Identifica apps do Dock e oculta o app ativo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Определяет приложения в Dock и скрывает активное приложение."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock uygulamalarını tanır ve etkin uygulamayı gizler."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于识别程序坞中的应用，并隐藏当前活跃的应用。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用於辨識 Dock 中的 App，並隱藏目前使用中的 App。"
+          }
+        }
+      }
+    },
+    "permission.accessibility.footnote": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسمح لـ MacTools في إعدادات النظام > الخصوصية والأمن > تسهيلات الاستخدام."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erlaube MacTools in Systemeinstellungen > Datenschutz & Sicherheit > Bedienungshilfe."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow MacTools in System Settings > Privacy & Security > Accessibility."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permite MacTools en Ajustes del Sistema > Privacidad y seguridad > Accesibilidad."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorisez MacTools dans Réglages Système > Confidentialité et sécurité > Accessibilité."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム設定 > プライバシーとセキュリティ > アクセシビリティでMacToolsを許可してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 설정 > 개인정보 보호 및 보안 > 손쉬운 사용에서 MacTools를 허용하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permita o MacTools em Ajustes do Sistema > Privacidade e Segurança > Acessibilidade."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешите MacTools в Системных настройках > Конфиденциальность и безопасность > Универсальный доступ."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları > Gizlilik ve Güvenlik > Erişilebilirlik bölümünde MacTools'a izin verin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在系统设置的“隐私与安全性 > 辅助功能”中允许 MacTools。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在「系統設定」>「隱私權與安全性」>「輔助使用」中允許 MacTools。"
+          }
+        }
+      }
+    },
+    "permission.inputMonitoring.title": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مراقبة الإدخال"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingabeüberwachung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input Monitoring"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supervisión de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Surveillance des entrées"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力監視"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 모니터링"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monitoramento de Entrada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мониторинг ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi İzleme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入监控"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入監控"
+          }
+        }
+      }
+    },
+    "permission.inputMonitoring.description": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يراقب النقرات اليسرى دون حجب سلوك Dock الأصلي."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beobachtet Linksklicks, ohne das native Dock-Verhalten zu blockieren."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observes left clicks without blocking native Dock behavior."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observa clics izquierdos sin bloquear el comportamiento nativo del Dock."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observe les clics gauches sans bloquer le comportement natif du Dock."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock本来の動作を妨げずに左クリックを監視します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock의 기본 동작을 막지 않고 왼쪽 클릭을 감지합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observa cliques com o botão esquerdo sem bloquear o comportamento nativo do Dock."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отслеживает щелчки левой кнопкой, не блокируя стандартное поведение Dock."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel Dock davranışını engellemeden sol tıklamaları gözlemler."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于在不阻止原生程序坞点击的情况下监听鼠标左键。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在不阻擋 Dock 原生行為的情況下監聽滑鼠左鍵點擊。"
+          }
+        }
+      }
+    },
+    "permission.inputMonitoring.footnote": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسمح لـ MacTools في إعدادات النظام > الخصوصية والأمن > مراقبة الإدخال."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erlaube MacTools in Systemeinstellungen > Datenschutz & Sicherheit > Eingabeüberwachung."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow MacTools in System Settings > Privacy & Security > Input Monitoring."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permite MacTools en Ajustes del Sistema > Privacidad y seguridad > Supervisión de entrada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorisez MacTools dans Réglages Système > Confidentialité et sécurité > Surveillance des entrées."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム設定 > プライバシーとセキュリティ > 入力監視でMacToolsを許可してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 설정 > 개인정보 보호 및 보안 > 입력 모니터링에서 MacTools를 허용하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permita o MacTools em Ajustes do Sistema > Privacidade e Segurança > Monitoramento de Entrada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешите MacTools в Системных настройках > Конфиденциальность и безопасность > Мониторинг ввода."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları > Gizlilik ve Güvenlik > Girdi İzleme bölümünde MacTools'a izin verin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在系统设置的“隐私与安全性 > 输入监控”中允许 MacTools。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在「系統設定」>「隱私權與安全性」>「輸入監控」中允許 MacTools。"
+          }
+        }
+      }
+    },
+    "settings.section.title": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
+        }
+      }
+    },
+    "error.accessibilityRequired": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتطلب إخفاء التطبيق النشط بالنقر على Dock إذن تسهيلات الاستخدام."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktive App per Dock-Klick ausblenden benötigt die Berechtigung für Bedienungshilfe."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide Active App on Dock Click needs Accessibility permission."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar la app activa al hacer clic en el Dock necesita permiso de accesibilidad."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer l’app active par clic dans le Dock nécessite l’autorisation Accessibilité."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DockクリックでアクティブなAppを隠すにはアクセシビリティの許可が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock 클릭으로 활성 앱 가리기에는 손쉬운 사용 권한이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar app ativa com clique no Dock requer permissão de Acessibilidade."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для скрытия активного приложения щелчком по Dock требуется разрешение «Универсальный доступ»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'a Tıklayınca Etkin Uygulamayı Gizle özelliği Erişilebilirlik izni gerektiriyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击程序坞隐藏活跃 App 需要辅助功能权限。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點擊 Dock 隱藏使用中 App 需要輔助使用權限。"
+          }
+        }
+      }
+    },
+    "error.inputMonitoringRequired": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتطلب إخفاء التطبيق النشط بالنقر على Dock إذن مراقبة الإدخال."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktive App per Dock-Klick ausblenden benötigt die Berechtigung zur Eingabeüberwachung."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide Active App on Dock Click needs Input Monitoring permission."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar la app activa al hacer clic en el Dock necesita permiso de supervisión de entrada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer l’app active par clic dans le Dock nécessite l’autorisation Surveillance des entrées."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DockクリックでアクティブなAppを隠すには入力監視の許可が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock 클릭으로 활성 앱 가리기에는 입력 모니터링 권한이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar app ativa com clique no Dock requer permissão de Monitoramento de Entrada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для скрытия активного приложения щелчком по Dock требуется разрешение на мониторинг ввода."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'a Tıklayınca Etkin Uygulamayı Gizle özelliği Girdi İzleme izni gerektiriyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击程序坞隐藏活跃 App 需要输入监控权限。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點擊 Dock 隱藏使用中 App 需要輸入監控權限。"
+          }
+        }
+      }
+    },
+    "error.startFailed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر بدء إخفاء التطبيق النشط بالنقر على Dock. تحقق من الأذونات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktive App per Dock-Klick ausblenden konnte nicht gestartet werden. Prüfe die Berechtigungen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide Active App on Dock Click could not start. Check its permissions."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo iniciar Ocultar la app activa al hacer clic en el Dock. Comprueba sus permisos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de démarrer Masquer l’app active par clic dans le Dock. Vérifiez ses autorisations."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DockクリックでアクティブなAppを隠すを開始できませんでした。許可を確認してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock 클릭으로 활성 앱 가리기를 시작할 수 없습니다. 권한을 확인하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível iniciar Ocultar app ativa com clique no Dock. Verifique as permissões."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось запустить скрытие активного приложения щелчком по Dock. Проверьте разрешения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock'a Tıklayınca Etkin Uygulamayı Gizle başlatılamadı. İzinleri denetleyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法启动点击程序坞隐藏活跃 App，请检查权限。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法啟動點擊 Dock 隱藏使用中 App，請檢查權限。"
+          }
+        }
+      }
+    }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

@@ -39,6 +39,10 @@
       "displayName": "Скрыть значки строки меню",
       "summary": "Скрыть значки строки меню, упорядочить их путем перетаскивания и открыть скрытые значки на панели."
     },
+    "tr": {
+      "displayName": "Menü Çubuğu Simgelerini Gizleme",
+      "summary": "Menü çubuğu simgelerini gizleyin, sürükleyerek düzenleyin ve gizli simgeleri bir panelden açın."
+    },
     "zh-Hans": {
       "displayName": "隐藏菜单栏图标",
       "summary": "菜单栏图标隐藏功能的设置与弹窗界面"
@@ -123,6 +127,9 @@
       ],
       "ru": [
         "Скрыть значки строки меню"
+      ],
+      "tr": [
+        "Menü Çubuğu Simgelerini Gizleme"
       ],
       "zh-Hans": [
         "隐藏菜单栏图标"

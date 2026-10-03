@@ -39,6 +39,10 @@
       "displayName": "Очистка Xcode",
       "summary": "Очищает DerivedData, файлы поддержки устройств, архивы и кэши Xcode по категориям."
     },
+    "tr": {
+      "displayName": "Xcode Temizliği",
+      "summary": "Xcode'un DerivedData klasörünü, aygıt destek dosyalarını, arşivlerini ve önbelleklerini kategoriye göre temizleyin."
+    },
     "zh-Hans": {
       "displayName": "Xcode 清理",
       "summary": "分类清理 Xcode DerivedData、设备支持、归档与缓存"
@@ -117,6 +121,9 @@
       ],
       "ru": [
         "Очистка Xcode"
+      ],
+      "tr": [
+        "Xcode Temizliği"
       ],
       "zh-Hans": [
         "Xcode 清理"

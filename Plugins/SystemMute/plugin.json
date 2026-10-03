@@ -39,6 +39,10 @@
       "displayName": "Отключить звук системы",
       "summary": "Быстро отключить или восстановить звук системы."
     },
+    "tr": {
+      "displayName": "Sistem Sessize Alma",
+      "summary": "Sistem ses çıkışını hızla sessize alın veya geri açın."
+    },
     "zh-Hans": {
       "displayName": "系统静音",
       "summary": "快速静音或恢复系统音频输出"
@@ -122,6 +126,9 @@
       ],
       "ru": [
         "Отключить звук системы"
+      ],
+      "tr": [
+        "Sistem Sessize Alma"
       ],
       "zh-Hans": [
         "系统静音"

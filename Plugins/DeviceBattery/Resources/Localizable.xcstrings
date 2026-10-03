@@ -58,6 +58,12 @@
             "value": "%@, %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ %dч %dм"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ %d sa %d dk"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Полный"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dolu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Зарядка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj Oluyor"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Неверный уровень заряда батареи"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz pil düzeyi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нормальный"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Normal"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Подключено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güç Adaptörüne Bağlı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неизвестно"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilinmiyor"
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Дело"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kutu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Слева"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sol"
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Верно"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağ"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите макет компонента и видимые источники."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bileşen düzenini ve görünür kaynakları seçin."
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "Подключено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -981,6 +1059,12 @@
             "value": "Наушники"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kulak İçi Kulaklık"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1047,6 +1131,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Bluetooth"
@@ -1123,6 +1213,12 @@
             "value": "Аксессуар Apple"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple aksesuarı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1192,6 +1288,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Устройство"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aygıt"
           }
         },
         "zh-Hans": {
@@ -1265,6 +1367,12 @@
             "value": "Мышь производителя (HID)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üretici HID faresi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1334,6 +1442,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Устройство Bluetooth"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth aygıtı"
           }
         },
         "zh-Hans": {
@@ -1407,6 +1521,12 @@
             "value": "Аккумулятор Mac"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac pili"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1473,6 +1593,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ %@"
@@ -1549,6 +1675,12 @@
             "value": "Открыть настройки системы"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarlarını Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1618,6 +1750,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Подключите устройство Bluetooth или поддерживаемую мышь"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir Bluetooth aygıtı veya desteklenen bir fare bağlayın"
           }
         },
         "zh-Hans": {
@@ -1691,6 +1829,12 @@
             "value": "Разрешить доступ к чтению поддерживаемых мышей"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenen fareleri okumak için erişim izni verin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1760,6 +1904,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка питания системы и устройств Bluetooth"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem gücü ve Bluetooth aygıtları denetleniyor"
           }
         },
         "zh-Hans": {
@@ -1833,6 +1983,12 @@
             "value": "Не удалось определить уровень заряда батареи"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil Düzeyleri Okunamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1902,6 +2058,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет уровня заряда батареи"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil Düzeyi Yok"
           }
         },
         "zh-Hans": {
@@ -1975,6 +2137,12 @@
             "value": "Требуется мониторинг ввода"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi İzleme Gerekli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2046,6 +2214,12 @@
             "value": "Чтение уровня заряда батареи"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil düzeyleri okunuyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2112,6 +2286,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ · %@"
@@ -2188,6 +2368,12 @@
             "value": "Связано: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İlişkili: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2257,6 +2443,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Источник: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaynak: %@"
           }
         },
         "zh-Hans": {
@@ -2330,6 +2522,12 @@
             "value": "Обновлено: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncellendi: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2399,6 +2597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Показывать по одному устройству в строке"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her satırda bir aygıt göster"
           }
         },
         "zh-Hans": {
@@ -2472,6 +2676,12 @@
             "value": "Список"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liste"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2541,6 +2751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Звонки для нескольких устройств"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çoklu aygıt halkaları"
           }
         },
         "zh-Hans": {
@@ -2614,6 +2830,12 @@
             "value": "Кольца"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halkalar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2683,6 +2905,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Просматривайте заряд Mac, мобильных устройств Apple, Bluetooth-аксессуаров и мышей Rapoo."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'inizin, Apple mobil aygıtlarınızın, Bluetooth aksesuarlarınızın ve Rapoo farelerinin pil düzeylerini görüntüleyin."
           }
         },
         "zh-Hans": {
@@ -2756,6 +2984,12 @@
             "value": "Аккумулятор устройства"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aygıt Pili"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2822,6 +3056,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ %@"
@@ -2898,6 +3138,12 @@
             "value": "Устройства %d низкий"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d aygıtın pili az"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2967,6 +3213,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ находится на %@, ниже %d%%."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ şu anda %@; %d%% eşiğinin altında."
           }
         },
         "zh-Hans": {
@@ -3040,6 +3292,12 @@
             "value": "Разряд батареи устройства"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aygıt pili az"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3109,6 +3367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d больше устройств"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d aygıt daha"
           }
         },
         "zh-Hans": {
@@ -3182,6 +3446,12 @@
             "value": "Считывает уровень заряда батареи, состояние зарядки, модель и название поддерживаемых мышей."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenen farelerin pil düzeyini, şarj durumunu, modelini ve adını okur."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3251,6 +3521,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "MacTools может использовать мониторинг ввода и прочитал поддерживаемую информацию о мыши."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools Girdi İzleme'yi kullanabiliyor ve desteklenen fare bilgilerini okudu."
           }
         },
         "zh-Hans": {
@@ -3324,6 +3600,12 @@
             "value": "MacTools может использовать мониторинг ввода для чтения поддерживаемых мышей."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools, desteklenen fareleri okumak için Girdi İzleme'yi kullanabilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3393,6 +3675,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "MacTools может использовать мониторинг ввода. Не удалось выполнить последнее поддерживаемое чтение с помощью мыши: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools Girdi İzleme'yi kullanabiliyor. Desteklenen farenin son okuma girişimi başarısız oldu: %@"
           }
         },
         "zh-Hans": {
@@ -3466,6 +3754,12 @@
             "value": "Перейдите в «Настройки системы» > «Конфиденциальность и безопасность» > «Мониторинг ввода» и разрешите MacTools."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları > Gizlilik ve Güvenlik > Girdi İzleme bölümüne gidin ve MacTools'a izin verin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3535,6 +3829,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Мониторинг ввода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi İzleme"
           }
         },
         "zh-Hans": {
@@ -3608,6 +3908,12 @@
             "value": "Предоставьте это разрешение для чтения поддерживаемых уровней заряда батареи мыши. Встроенный аккумулятор Mac, системные устройства Bluetooth и аксессуары Apple по-прежнему работают без него."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenen farelerin pil düzeylerini okumak için bu izni verin. Yerleşik Mac pili, sistem Bluetooth aygıtları ve Apple aksesuarları bu izin olmadan da çalışır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3677,6 +3983,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Предоставьте это разрешение для чтения поддерживаемых уровней заряда батареи мыши. Последнее чтение не удалось: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenen farelerin pil düzeylerini okumak için bu izni verin. Son okuma başarısız oldu: %@"
           }
         },
         "zh-Hans": {
@@ -3750,6 +4062,12 @@
             "value": "Ожидание"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bekliyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3819,6 +4137,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не обнаружено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Algılanmadı"
           }
         },
         "zh-Hans": {
@@ -3892,6 +4216,12 @@
             "value": "Требуется мониторинг ввода"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi İzleme gerekli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3961,6 +4291,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обнаружение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Algılanıyor"
           }
         },
         "zh-Hans": {
@@ -4034,6 +4370,12 @@
             "value": "Ожидание отчета о заряде батареи"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil raporu bekleniyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4103,6 +4445,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rapoo мышь"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rapoo faresi"
           }
         },
         "zh-Hans": {
@@ -4176,6 +4524,12 @@
             "value": "Мышь MCHOSE"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MCHOSE faresi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4245,6 +4599,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось открыть HID: 0x%@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HID açılamadı: 0x%@"
           }
         },
         "zh-Hans": {
@@ -4318,6 +4678,12 @@
             "value": "Схема компонентов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bileşen Düzeni"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4387,6 +4753,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отправлять системное уведомление, когда значение устройства падает ниже порогового значения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir aygıtın pil düzeyi eşiğin altına düştüğünde sistem bildirimi gönderir."
           }
         },
         "zh-Hans": {
@@ -4460,6 +4832,12 @@
             "value": "Отправлять уведомления о низком заряде батареи"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düşük pil bildirimleri gönder"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4529,6 +4907,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Оповещать, когда уровень заряда батареи опускается ниже этого процента."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil düzeyi bu yüzdenin altına indiğinde uyarır."
           }
         },
         "zh-Hans": {
@@ -4602,6 +4986,12 @@
             "value": "Порог уведомления"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bildirim eşiği"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4671,6 +5061,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Уведомления о низком заряде батареи"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düşük Pil Bildirimleri"
           }
         },
         "zh-Hans": {
@@ -4744,6 +5140,12 @@
             "value": "Читает доверенные мобильные устройства Apple через USB или Wi-Fi."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USB veya Wi-Fi ile bağlanmış, güvenilir Apple mobil aygıtları okur."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4813,6 +5215,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "iPhone, iPad и Apple Watch"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iPhone, iPad ve Apple Watch"
           }
         },
         "zh-Hans": {
@@ -4886,6 +5294,12 @@
             "value": "Считывает видимые устройства Bluetooth, аккумуляторы компонентов AirPods и аксессуары Magic."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünür Bluetooth aygıtlarını, AirPods bileşen pillerini ve Magic aksesuarlarını okur."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4955,6 +5369,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bluetooth и аксессуары Apple"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth ve Apple aksesuarları"
           }
         },
         "zh-Hans": {
@@ -5028,6 +5448,12 @@
             "value": "Показывает уровень заряда аккумулятора Mac, состояние зарядки и оставшееся время."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac'in pilini, şarj durumunu ve kalan süreyi gösterir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5097,6 +5523,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Встроенный аккумулятор Mac"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerleşik Mac pili"
           }
         },
         "zh-Hans": {
@@ -5170,6 +5602,12 @@
             "value": "Считывает уровень заряда батареи, состояние зарядки, модель и название поддерживаемых мышей."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenen farelerin pil düzeyini, şarj durumunu, modelini ve adını okur."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5239,6 +5677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Поддерживаемые мыши"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenen fareler"
           }
         },
         "zh-Hans": {
@@ -5312,6 +5756,12 @@
             "value": "Видимые источники"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünür Kaynaklar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5381,6 +5831,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удаётся получить доступ к HID-интерфейсу мыши производителя. Разрешите MacTools использовать мониторинг ввода в настройках системы."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üretici HID fare arayüzüne erişilemiyor. Sistem Ayarları'nda MacTools'un Girdi İzleme'yi kullanmasına izin verin."
           }
         },
         "zh-Hans": {
@@ -5454,6 +5910,12 @@
             "value": "Ожидание сканирования"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama bekleniyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5523,6 +5985,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отображаемые уровни заряда батареи не обнаружены"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görüntülenebilir pil düzeyi bulunamadı"
           }
         },
         "zh-Hans": {
@@ -5596,6 +6064,12 @@
             "value": "Требуется мониторинг ввода"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi İzleme gerekli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5665,6 +6139,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "устройства %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d aygıt"
           }
         },
         "zh-Hans": {
@@ -5738,6 +6218,12 @@
             "value": "Устройства %d, %d низкий"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d aygıt (düşük pil: %d)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5809,6 +6295,12 @@
             "value": "Чтение уровня заряда батареи устройства"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aygıt pil düzeyleri okunuyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5878,6 +6370,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не обновляется"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncellenmedi"
           }
         },
         "zh-Hans": {

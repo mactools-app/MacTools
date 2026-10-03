@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 
 
 SUPPORTED_LOCALE_ORDER = (
-    "ar", "de", "en", "es", "fr", "ja", "ko", "pt", "ru", "zh-Hans", "zh-Hant"
+    "ar", "de", "en", "es", "fr", "ja", "ko", "pt", "ru", "tr", "zh-Hans", "zh-Hant"
 )
 SUPPORTED_LOCALES = frozenset(SUPPORTED_LOCALE_ORDER)
 SUPPORTED_LOCALE_SET = SUPPORTED_LOCALES
@@ -29,7 +29,8 @@ STANDARD_ACTION_TEMPLATES = {
         "en": "Toggle {displayName}", "es": "Alternar {displayName}",
         "fr": "Activer ou désactiver {displayName}", "ja": "{displayName}を切り替える",
         "ko": "{displayName} 전환", "pt": "Alternar {displayName}",
-        "ru": "Переключить «{displayName}»", "zh-Hans": "切换{displayName}",
+        "ru": "Переключить «{displayName}»", "tr": "{displayName} anahtarını değiştir",
+        "zh-Hans": "切换{displayName}",
         "zh-Hant": "切換{displayName}",
     },
     "toggle.description": {
@@ -42,6 +43,7 @@ STANDARD_ACTION_TEMPLATES = {
         "ko": "{displayName}을(를) 켜거나 끕니다.",
         "pt": "Ativa ou desativa {displayName}.",
         "ru": "Включает или выключает функцию «{displayName}».",
+        "tr": "{displayName} özelliğini açar veya kapatır.",
         "zh-Hans": "在开启和关闭之间切换{displayName}。",
         "zh-Hant": "在開啟和關閉之間切換{displayName}。",
     },
@@ -50,7 +52,8 @@ STANDARD_ACTION_TEMPLATES = {
         "en": "Set {displayName} State", "es": "Definir estado de {displayName}",
         "fr": "Définir l’état de {displayName}", "ja": "{displayName}の状態を設定",
         "ko": "{displayName} 상태 설정", "pt": "Definir estado de {displayName}",
-        "ru": "Задать состояние «{displayName}»", "zh-Hans": "设置{displayName}状态",
+        "ru": "Задать состояние «{displayName}»", "tr": "{displayName} Durumunu Ayarla",
+        "zh-Hans": "设置{displayName}状态",
         "zh-Hant": "設定{displayName}狀態",
     },
     "set-enabled.description": {
@@ -63,6 +66,7 @@ STANDARD_ACTION_TEMPLATES = {
         "ko": "{displayName}의 활성화 여부를 설정합니다.",
         "pt": "Define se {displayName} está ativado.",
         "ru": "Определяет, включена ли функция «{displayName}».",
+        "tr": "{displayName} özelliğinin etkin olup olmadığını ayarlar.",
         "zh-Hans": "设置是否启用{displayName}。",
         "zh-Hant": "設定是否啟用{displayName}。",
     },
@@ -73,7 +77,8 @@ STANDARD_SETUP_TEMPLATES = {
         "en": "Set Up {displayName}", "es": "Configurar {displayName}",
         "fr": "Configurer {displayName}", "ja": "{displayName}を設定",
         "ko": "{displayName} 설정", "pt": "Configurar {displayName}",
-        "ru": "Настройка «{displayName}»", "zh-Hans": "设置{displayName}",
+        "ru": "Настройка «{displayName}»", "tr": "{displayName} Kurulumu",
+        "zh-Hans": "设置{displayName}",
         "zh-Hant": "設定{displayName}",
     },
     "requirements.description": {
@@ -86,6 +91,7 @@ STANDARD_SETUP_TEMPLATES = {
         "ko": "이 플러그인을 사용하기 전에 다음 요구 사항을 확인하고 충족하세요: {requirements}.",
         "pt": "Antes de usar este plugin, revise e cumpra estes requisitos: {requirements}.",
         "ru": "Перед использованием плагина проверьте и выполните следующие требования: {requirements}.",
+        "tr": "Bu eklentiyi kullanmadan önce şu gereksinimleri gözden geçirin ve karşılayın: {requirements}.",
         "zh-Hans": "使用此插件前，请检查并满足以下要求：{requirements}。",
         "zh-Hant": "使用此外掛程式前，請檢查並滿足以下要求：{requirements}。",
     },
@@ -103,12 +109,13 @@ def _localized_requirement(
     ko: str,
     pt: str,
     ru: str,
+    tr: str,
     zh_hans: str,
     zh_hant: str,
 ) -> dict[str, str]:
     return {
         "ar": ar, "de": de, "en": en, "es": es, "fr": fr, "ja": ja,
-        "ko": ko, "pt": pt, "ru": ru, "zh-Hans": zh_hans, "zh-Hant": zh_hant,
+        "ko": ko, "pt": pt, "ru": ru, "tr": tr, "zh-Hans": zh_hans, "zh-Hant": zh_hant,
     }
 
 
@@ -117,67 +124,74 @@ LOCALIZED_REQUIREMENT_NAMES = {
         "Accessibility permission", ar="إذن تسهيلات الاستخدام", de="Bedienungshilfen-Berechtigung",
         es="permiso de Accesibilidad", fr="autorisation Accessibilité", ja="アクセシビリティ権限",
         ko="손쉬운 사용 권한", pt="permissão de Acessibilidade", ru="доступ к Универсальному доступу",
-        zh_hans="辅助功能权限", zh_hant="輔助使用權限",
+        tr="Erişilebilirlik izni", zh_hans="辅助功能权限", zh_hant="輔助使用權限",
     ),
     "automation": _localized_requirement(
         "Automation permission", ar="إذن الأتمتة", de="Automation-Berechtigung",
         es="permiso de Automatización", fr="autorisation Automatisation", ja="オートメーション権限",
         ko="자동화 권한", pt="permissão de Automação", ru="доступ к Автоматизации",
-        zh_hans="自动化权限", zh_hant="自動化權限",
+        tr="Otomasyon izni", zh_hans="自动化权限", zh_hant="自動化權限",
     ),
     "calendarFullAccess": _localized_requirement(
         "Full Calendar Access", ar="وصول كامل إلى التقويم", de="Vollzugriff auf Kalender",
         es="acceso total al Calendario", fr="accès complet au calendrier", ja="カレンダーへのフルアクセス",
         ko="캘린더 전체 접근", pt="acesso total ao Calendário", ru="полный доступ к Календарю",
-        zh_hans="日历完全访问权限", zh_hant="行事曆完整取用權限",
+        tr="Tam Takvim Erişimi", zh_hans="日历完全访问权限", zh_hant="行事曆完整取用權限",
     ),
     "inputMonitoring": _localized_requirement(
         "Input Monitoring permission", ar="إذن مراقبة الإدخال", de="Eingabeüberwachung-Berechtigung",
         es="permiso de Monitorización de entrada", fr="autorisation Surveillance de l’entrée",
         ja="入力監視権限", ko="입력 모니터링 권한", pt="permissão de Monitoramento de Entrada",
-        ru="доступ к Мониторингу ввода", zh_hans="输入监控权限", zh_hant="輸入監控權限",
+        ru="доступ к Мониторингу ввода", tr="Girdi İzleme izni",
+        zh_hans="输入监控权限", zh_hant="輸入監控權限",
     ),
     "screen-recording": _localized_requirement(
         "Screen Recording permission", ar="إذن تسجيل الشاشة", de="Bildschirmaufnahme-Berechtigung",
         es="permiso de Grabación de pantalla", fr="autorisation Enregistrement de l’écran",
         ja="画面収録権限", ko="화면 기록 권한", pt="permissão de Gravação de Tela",
-        ru="доступ к Записи экрана", zh_hans="屏幕录制权限", zh_hant="螢幕錄製權限",
+        ru="доступ к Записи экрана", tr="Ekran Kaydı izni",
+        zh_hans="屏幕录制权限", zh_hant="螢幕錄製權限",
     ),
     "system-audio-recording": _localized_requirement(
         "System Audio Recording permission", ar="إذن تسجيل صوت النظام",
         de="Systemaudioaufnahme-Berechtigung", es="permiso de grabación de audio del sistema",
         fr="autorisation d’enregistrement audio du système", ja="システムオーディオ録音権限",
         ko="시스템 오디오 녹음 권한", pt="permissão de gravação de áudio do sistema",
-        ru="доступ к записи системного аудио", zh_hans="系统音频录制权限", zh_hant="系統音訊錄製權限",
+        ru="доступ к записи системного аудио", tr="Sistem Sesi Kaydı izni",
+        zh_hans="系统音频录制权限", zh_hant="系統音訊錄製權限",
     ),
     "full-disk-access": _localized_requirement(
         "Full Disk Access", ar="الوصول الكامل إلى القرص", de="Festplattenvollzugriff",
         es="acceso total al disco", fr="accès complet au disque", ja="フルディスクアクセス",
         ko="전체 디스크 접근", pt="acesso total ao disco", ru="полный доступ к диску",
-        zh_hans="完全磁盘访问", zh_hant="完整磁碟存取",
+        tr="Tam Disk Erişimi", zh_hans="完全磁盘访问", zh_hant="完整磁碟存取",
     ),
     "built-in battery": _localized_requirement(
         "built-in battery", ar="بطارية مدمجة", de="integrierter Akku", es="batería integrada",
         fr="batterie intégrée", ja="内蔵バッテリー", ko="내장 배터리", pt="bateria integrada",
-        ru="встроенный аккумулятор", zh_hans="内置电池", zh_hant="內建電池",
+        ru="встроенный аккумулятор", tr="yerleşik pil",
+        zh_hans="内置电池", zh_hant="內建電池",
     ),
     "connected display": _localized_requirement(
         "connected display", ar="شاشة متصلة", de="angeschlossenes Display", es="pantalla conectada",
         fr="écran connecté", ja="接続済みディスプレイ", ko="연결된 디스플레이",
-        pt="monitor conectado", ru="подключённый дисплей", zh_hans="已连接的显示器", zh_hant="已連接的顯示器",
+        pt="monitor conectado", ru="подключённый дисплей", tr="bağlı ekran",
+        zh_hans="已连接的显示器", zh_hant="已連接的顯示器",
     ),
     "controllable system fans": _localized_requirement(
         "controllable system fans", ar="مراوح نظام قابلة للتحكم", de="steuerbare Systemlüfter",
         es="ventiladores del sistema controlables", fr="ventilateurs système contrôlables",
         ja="制御可能なシステムファン", ko="제어 가능한 시스템 팬", pt="ventoinhas do sistema controláveis",
-        ru="управляемые системные вентиляторы", zh_hans="可控制的系统风扇", zh_hant="可控制的系統風扇",
+        ru="управляемые системные вентиляторы", tr="denetlenebilir sistem fanları",
+        zh_hans="可控制的系统风扇", zh_hant="可控制的系統風扇",
     ),
     "Sidecar-compatible Mac and display": _localized_requirement(
         "Sidecar-compatible Mac and display", ar="جهاز Mac وشاشة متوافقان مع Sidecar",
         de="Sidecar-kompatibler Mac und Bildschirm", es="Mac y pantalla compatibles con Sidecar",
         fr="Mac et écran compatibles avec Sidecar", ja="Sidecar 対応の Mac とディスプレイ",
         ko="Sidecar 호환 Mac 및 디스플레이", pt="Mac e monitor compatíveis com Sidecar",
-        ru="Mac и дисплей с поддержкой Sidecar", zh_hans="支持 Sidecar 的 Mac 和显示器",
+        ru="Mac и дисплей с поддержкой Sidecar", tr="Sidecar uyumlu Mac ve ekran",
+        zh_hans="支持 Sidecar 的 Mac 和显示器",
         zh_hant="支援 Sidecar 的 Mac 和顯示器",
     ),
 }

@@ -39,6 +39,10 @@
       "displayName": "Сон дисплеев",
       "summary": "Немедленно переведите все дисплеи в спящий режим."
     },
+    "tr": {
+      "displayName": "Ekran Uykusu",
+      "summary": "Tüm ekranları anında uyku moduna geçirin."
+    },
     "zh-Hans": {
       "displayName": "显示器休眠",
       "summary": "一键让所有显示器立即进入休眠"
@@ -116,6 +120,9 @@
       ],
       "ru": [
         "Сон дисплеев"
+      ],
+      "tr": [
+        "Ekran Uykusu"
       ],
       "zh-Hans": [
         "显示器休眠"

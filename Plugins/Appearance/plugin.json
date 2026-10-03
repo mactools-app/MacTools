@@ -39,6 +39,10 @@
       "displayName": "Тёмный режим",
       "summary": "Переключение системы между светлым и темным внешним видом."
     },
+    "tr": {
+      "displayName": "Karanlık Mod",
+      "summary": "Sistemi aydınlık ve karanlık görünüm arasında değiştirin."
+    },
     "zh-Hans": {
       "displayName": "深色模式",
       "summary": "切换系统亮色与深色外观"
@@ -59,6 +63,7 @@
       "ko": "시스템 화면 모드 설정",
       "pt": "Definir aparência do sistema",
       "ru": "Настроить оформление системы",
+      "tr": "Sistem Görünümünü Ayarla",
       "zh-Hans": "设置系统外观",
       "zh-Hant": "設定系統外觀"
     },
@@ -72,6 +77,7 @@
       "ko": "시스템 화면 모드를 자동, 라이트 또는 다크로 선택합니다.",
       "pt": "Escolha a aparência automática, clara ou escura do sistema.",
       "ru": "Выберите автоматическое, светлое или тёмное оформление системы.",
+      "tr": "Otomatik, aydınlık veya karanlık sistem görünümünü seçin.",
       "zh-Hans": "选择自动、浅色或深色系统外观。",
       "zh-Hant": "選擇自動、淺色或深色系統外觀。"
     },
@@ -85,6 +91,7 @@
       "ko": "MacTools의 모든 동작 화면에서 macOS의 라이트 및 다크 모드를 전환합니다.",
       "pt": "Alterne o macOS entre os modos claro e escuro em qualquer superfície de ações do MacTools.",
       "ru": "Переключайте светлое и тёмное оформление macOS с любой поверхности действий MacTools.",
+      "tr": "macOS'u herhangi bir MacTools eylem yüzeyinden aydınlık ve karanlık görünüm arasında değiştirin.",
       "zh-Hans": "从 MacTools 的任意操作界面切换 macOS 的浅色与深色外观。",
       "zh-Hant": "從 MacTools 的任意操作介面切換 macOS 的淺色與深色外觀。"
     },
@@ -98,6 +105,7 @@
       "ko": "저녁 루틴이 시작되면 다크 모드를 자동으로 켭니다.",
       "pt": "Ative o modo escuro automaticamente quando começar a rotina noturna.",
       "ru": "Автоматически включайте тёмный режим в начале вечернего сценария.",
+      "tr": "Akşam rutininiz başladığında Karanlık Mod'u otomatik olarak açın.",
       "zh-Hans": "在晚间流程开始时自动开启深色模式。",
       "zh-Hant": "在晚間流程開始時自動開啟深色模式。"
     },
@@ -111,6 +119,7 @@
       "ko": "시스템 화면 모드 전환",
       "pt": "Alternar a aparência do sistema",
       "ru": "Переключить оформление системы",
+      "tr": "Sistem görünümünü değiştirme",
       "zh-Hans": "切换系统外观",
       "zh-Hant": "切換系統外觀"
     },
@@ -124,6 +133,7 @@
       "ko": "화면 모드 전환",
       "pt": "Alternar aparência",
       "ru": "Переключить оформление",
+      "tr": "Görünümü Değiştir",
       "zh-Hans": "切换外观",
       "zh-Hant": "切換外觀"
     },
@@ -137,6 +147,7 @@
       "ko": "라이트 및 다크 모드를 전환합니다.",
       "pt": "Alterne entre os modos claro e escuro.",
       "ru": "Переключает светлое и тёмное оформление.",
+      "tr": "Aydınlık ve karanlık görünüm arasında geçiş yapın.",
       "zh-Hans": "在浅色与深色外观之间切换。",
       "zh-Hant": "在淺色與深色外觀之間切換。"
     },
@@ -150,6 +161,7 @@
       "ko": "다크 모드 설정",
       "pt": "Definir modo escuro",
       "ru": "Установить тёмный режим",
+      "tr": "Karanlık Modu Ayarla",
       "zh-Hans": "设置深色模式",
       "zh-Hant": "設定深色模式"
     },
@@ -163,6 +175,7 @@
       "ko": "다크 모드를 명시적으로 켜거나 끕니다.",
       "pt": "Ative ou desative explicitamente o modo escuro.",
       "ru": "Явно включает или выключает тёмный режим.",
+      "tr": "Karanlık Mod'u doğrudan açın veya kapatın.",
       "zh-Hans": "明确开启或关闭深色模式。",
       "zh-Hant": "明確開啟或關閉深色模式。"
     },
@@ -176,6 +189,7 @@
       "ko": "다크 모드 활성화 여부",
       "pt": "Se o modo escuro está ativo",
       "ru": "Включён ли тёмный режим",
+      "tr": "Karanlık Mod'un etkin olup olmadığı",
       "zh-Hans": "是否开启深色模式",
       "zh-Hant": "是否開啟深色模式"
     }
@@ -257,6 +271,9 @@
       "ru": [
         "оформление",
         "тёмный режим"
+      ],
+      "tr": [
+        "Karanlık Mod"
       ],
       "zh-Hans": [
         "外观",

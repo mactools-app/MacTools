@@ -39,6 +39,10 @@
       "displayName": "Пользовательские сочетания: Клавиатура, Трекпад, Мышь",
       "summary": "Сопоставляйте ввод с действиями."
     },
+    "tr": {
+      "displayName": "Özel Kısayollar: Klavye, Trackpad, Fare",
+      "summary": "Girdileri eylemlere eşleyin."
+    },
     "zh-Hans": {
       "displayName": "自定义快捷操作：键盘、触控板、鼠标",
       "summary": "将输入映射为操作"
@@ -127,6 +131,9 @@
       ],
       "ru": [
         "Пользовательские сочетания: Клавиатура, Трекпад, Мышь"
+      ],
+      "tr": [
+        "Özel Kısayollar: Klavye, Trackpad, Fare"
       ],
       "zh-Hans": [
         "自定义快捷操作：键盘、触控板、鼠标"

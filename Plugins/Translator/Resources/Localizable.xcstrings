@@ -4,49 +4,232 @@
     "action.unavailable.accessibility": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "يلزم منح إذن تسهيلات الاستخدام." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Bedienungshilfen-Berechtigung erforderlich." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Accessibility permission is required." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Se requiere permiso de accesibilidad." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "L’autorisation d’accessibilité est requise." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アクセシビリティの許可が必要です。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "손쉬운 사용 권한이 필요합니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "A permissão de acessibilidade é necessária." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Требуется разрешение на универсальный доступ." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "需要辅助功能授权。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "需要輔助使用權限。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يلزم منح إذن تسهيلات الاستخدام."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bedienungshilfen-Berechtigung erforderlich."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility permission is required."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se requiere permiso de accesibilidad."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’autorisation d’accessibilité est requise."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクセシビリティの許可が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "손쉬운 사용 권한이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A permissão de acessibilidade é necessária."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требуется разрешение на универсальный доступ."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni gerekli."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要辅助功能授权。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要輔助使用權限。"
+          }
+        }
       }
     },
     "action.unavailable.paused": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "اختصارات الترجمة متوقفة مؤقتًا." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Übersetzungs-Kurzbefehle sind pausiert." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Translation shortcuts are paused." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Los atajos de traducción están en pausa." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Les raccourcis de traduction sont en pause." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "翻訳ショートカットは一時停止中です。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "번역 단축키가 일시 정지되었습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Os atalhos de tradução estão pausados." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Сочетания клавиш перевода приостановлены." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "翻译快捷键已暂停。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "翻譯快速鍵已暫停。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختصارات الترجمة متوقفة مؤقتًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Übersetzungs-Kurzbefehle sind pausiert."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation shortcuts are paused."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los atajos de traducción están en pausa."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les raccourcis de traduction sont en pause."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻訳ショートカットは一時停止中です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "번역 단축키가 일시 정지되었습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os atalhos de tradução estão pausados."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сочетания клавиш перевода приостановлены."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çeviri kısayolları duraklatıldı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译快捷键已暂停。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻譯快速鍵已暫停。"
+          }
+        }
       }
     },
     "action.unavailable.screenRecording": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "يلزم منح إذن تسجيل الشاشة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Bildschirmaufnahme-Berechtigung erforderlich." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Screen Recording permission is required." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Se requiere permiso de grabación de pantalla." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "L’autorisation d’enregistrement de l’écran est requise." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "画面収録の許可が必要です。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "화면 기록 권한이 필요합니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "A permissão de gravação de tela é necessária." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Требуется разрешение на запись экрана." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "需要屏幕录制授权。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "需要螢幕錄製權限。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يلزم منح إذن تسجيل الشاشة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bildschirmaufnahme-Berechtigung erforderlich."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen Recording permission is required."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se requiere permiso de grabación de pantalla."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’autorisation d’enregistrement de l’écran est requise."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "画面収録の許可が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "화면 기록 권한이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A permissão de gravação de tela é necessária."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требуется разрешение на запись экрана."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Kaydı izni gerekli."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要屏幕录制授权。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要螢幕錄製權限。"
+          }
+        }
       }
     },
     "capture.error.automationFailed": {
@@ -104,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ошибка автоматизации браузера"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarayıcı otomasyonu başarısız oldu"
           }
         },
         "zh-Hans": {
@@ -177,6 +366,12 @@
             "value": "Время ожидания автоматизации браузера истекло"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarayıcı otomasyonu zaman aşımına uğradı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -246,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скрипт автоматизации недействителен"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon betiği geçersiz"
           }
         },
         "zh-Hans": {
@@ -319,6 +520,12 @@
             "value": "Текущее приложение не найдено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli uygulama bulunamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -388,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выделенный текст не найден"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metin bulunamadı"
           }
         },
         "zh-Hans": {
@@ -461,6 +674,12 @@
             "value": "Требуется разрешение на доступ"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni gerekli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -530,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось восстановить монтажный стол"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pano geri yüklenemedi"
           }
         },
         "zh-Hans": {
@@ -603,6 +828,12 @@
             "value": "Не удалось смоделировать копирование"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simüle edilen kopyalama başarısız oldu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -672,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Текущий браузер не поддерживает автоматический захват"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli tarayıcı otomasyonla yakalamayı desteklemiyor"
           }
         },
         "zh-Hans": {
@@ -745,6 +982,12 @@
             "value": "Автоопределение"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik Algıla"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -814,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Автоматический выбор"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik Seç"
           }
         },
         "zh-Hans": {
@@ -887,6 +1136,12 @@
             "value": "Английский"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İngilizce"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -956,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Французский"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fransızca"
           }
         },
         "zh-Hans": {
@@ -1029,6 +1290,12 @@
             "value": "Немецкий"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Almanca"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1098,6 +1365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Итальянский"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İtalyanca"
           }
         },
         "zh-Hans": {
@@ -1171,6 +1444,12 @@
             "value": "Японский"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Japonca"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1240,6 +1519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Корейский"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Korece"
           }
         },
         "zh-Hans": {
@@ -1313,6 +1598,12 @@
             "value": "Португальский"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portekizce"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1382,6 +1673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Русский"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rusça"
           }
         },
         "zh-Hans": {
@@ -1455,6 +1752,12 @@
             "value": "Упрощенный китайский"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basitleştirilmiş Çince"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1524,6 +1827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Испанский"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İspanyolca"
           }
         },
         "zh-Hans": {
@@ -1597,6 +1906,12 @@
             "value": "Традиционный китайский"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geleneksel Çince"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1666,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перевод выбранного текста или области снимка экрана по горячим клавишам"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayollarla seçili metni veya ekran görüntüsü alanlarını çevirin"
           }
         },
         "zh-Hans": {
@@ -1739,6 +2060,12 @@
             "value": "Переводчик"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çevirmen"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1808,6 +2135,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пустой ответ"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boş yanıt"
           }
         },
         "zh-Hans": {
@@ -1881,6 +2214,12 @@
             "value": "Не удалось проанализировать результат перевода"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çeviri sonucu ayrıştırılamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1950,6 +2289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Запрос не выполнен. Повторите попытку позже."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstek başarısız oldu. Daha sonra yeniden deneyin."
           }
         },
         "zh-Hans": {
@@ -2023,6 +2368,12 @@
             "value": "API Key недействителен или неавторизован"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key geçersiz veya yetkisiz"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2092,6 +2443,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перевод OpenAI"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenAI Çevirisi"
           }
         },
         "zh-Hans": {
@@ -2165,6 +2522,12 @@
             "value": "Base URL не может быть пустым."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Base URL boş olamaz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2234,6 +2597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Модель не может быть пустой."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model boş olamaz."
           }
         },
         "zh-Hans": {
@@ -2307,6 +2676,12 @@
             "value": "Base URL недействителен."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Base URL geçersiz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2376,6 +2751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Промпт должен содержать {{text}}."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstem {{text}} içermelidir."
           }
         },
         "zh-Hans": {
@@ -2449,6 +2830,12 @@
             "value": "Закрыть"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2518,6 +2905,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Копировать перевод"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çeviriyi kopyala"
           }
         },
         "zh-Hans": {
@@ -2591,6 +2984,12 @@
             "value": "Копировать %@ перевод"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ çevirisini kopyala"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2660,6 +3059,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Произнесите перевод"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çeviriyi seslendir"
           }
         },
         "zh-Hans": {
@@ -2733,6 +3138,12 @@
             "value": "OpenAI Перевод"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenAI Çevirisi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2802,6 +3213,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пустой ответ"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boş yanıt"
           }
         },
         "zh-Hans": {
@@ -2875,6 +3292,12 @@
             "value": "Ожидание перевода"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çeviri bekleniyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2944,6 +3367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перевод…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çevriliyor…"
           }
         },
         "zh-Hans": {
@@ -3017,6 +3446,12 @@
             "value": "Повторить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden Dene"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3086,6 +3521,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
           }
         },
         "zh-Hans": {
@@ -3159,6 +3600,12 @@
             "value": "Как исправить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nasıl Düzeltilir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3228,6 +3675,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перевод выделенного фрагмента не содержит текста"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçim çevirisi herhangi bir metin alamadı"
           }
         },
         "zh-Hans": {
@@ -3301,6 +3754,12 @@
             "value": "Совет"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İpucu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3370,6 +3829,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Копировать исходный текст"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaynak metni kopyala"
           }
         },
         "zh-Hans": {
@@ -3443,6 +3908,12 @@
             "value": "Произнесите исходный текст"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaynak metni seslendir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3512,6 +3983,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Источник"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaynak"
           }
         },
         "zh-Hans": {
@@ -3585,6 +4062,12 @@
             "value": "Чтение выделенного текста…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metin okunuyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3654,6 +4137,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Распознавание текста на скриншоте…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü metni tanınıyor…"
           }
         },
         "zh-Hans": {
@@ -3727,6 +4216,12 @@
             "value": "Выбор области скриншота…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü alanı seçiliyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3796,6 +4291,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ожидание выделенного текста"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metin bekleniyor"
           }
         },
         "zh-Hans": {
@@ -3869,6 +4370,12 @@
             "value": "Требуется настройка OpenAI"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenAI kurulumu gerekli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3938,6 +4445,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настроить службу перевода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir çeviri hizmeti ayarlayın"
           }
         },
         "zh-Hans": {
@@ -4011,6 +4524,12 @@
             "value": "Перед включением требуется разрешение на доступ"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştirmeden önce Erişilebilirlik izni gerekli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4080,6 +4599,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нажмите ⌥D для выбора, ⌥S для скриншота"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçim için ⌥D, ekran görüntüsü için ⌥S tuşlarına basın"
           }
         },
         "zh-Hans": {
@@ -4153,6 +4678,12 @@
             "value": "Ярлык приостановлен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol duraklatıldı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4222,6 +4753,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройте API Key"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir API Key ayarlayın"
           }
         },
         "zh-Hans": {
@@ -4295,6 +4832,12 @@
             "value": "Сначала настройте OpenAI."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce OpenAI hizmetini yapılandırın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4364,6 +4907,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сначала включите службу перевода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce bir çeviri hizmetini etkinleştirin"
           }
         },
         "zh-Hans": {
@@ -4437,6 +4986,12 @@
             "value": "Выделенный текст не найден"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili metin bulunamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4506,6 +5061,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Текст на скриншоте не распознан"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsünde metin tanımlanamadı"
           }
         },
         "zh-Hans": {
@@ -4579,6 +5140,12 @@
             "value": "Требуется разрешение на доступ"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni gerekli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4648,6 +5215,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Требуется разрешение на запись экрана"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Kaydı izni gerekli"
           }
         },
         "zh-Hans": {
@@ -4721,6 +5294,12 @@
             "value": "Скриншот отменен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü iptal edildi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4790,6 +5369,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось сделать снимок экрана"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü alınamadı"
           }
         },
         "zh-Hans": {
@@ -4863,6 +5448,12 @@
             "value": "Область снимка экрана слишком мала"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü alanı çok küçük"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4932,6 +5523,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Для перевода выделенного текста нужно прочитать текущий выбор."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçim çevirisi, geçerli seçimi okumak için gereklidir."
           }
         },
         "zh-Hans": {
@@ -5005,6 +5602,12 @@
             "value": "Откройте Системные настройки > Конфиденциальность и безопасность > Универсальный доступ и разрешите MacTools."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları > Gizlilik ve Güvenlik > Erişilebilirlik bölümünü açıp MacTools'a izin verin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5074,6 +5677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Универсальный доступ"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
           }
         },
         "zh-Hans": {
@@ -5147,6 +5756,12 @@
             "value": "Для перевода выделенного текста в браузере MacTools может понадобиться разрешение на управление текущим браузером."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarayıcı seçim çevirisi, MacTools'un geçerli tarayıcıyı denetlemesi için izin gerektirebilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5216,6 +5831,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "macOS запрашивает разрешение на автоматизацию при первом управлении браузером."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS, bir tarayıcı ilk kez denetlendiğinde otomasyon izni ister."
           }
         },
         "zh-Hans": {
@@ -5289,6 +5910,12 @@
             "value": "По запросу"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerektiğinde"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5358,6 +5985,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Автоматизация"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon"
           }
         },
         "zh-Hans": {
@@ -5431,6 +6064,12 @@
             "value": "Для перевода скриншота нужно прочитать выбранную область экрана."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü çevirisi, seçili ekran alanını okumak için gereklidir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5500,6 +6139,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Откройте Системные настройки > Конфиденциальность и безопасность > Запись экрана и разрешите MacTools."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları > Gizlilik ve Güvenlik > Ekran Kaydı bölümünü açıp MacTools'a izin verin."
           }
         },
         "zh-Hans": {
@@ -5573,6 +6218,12 @@
             "value": "Запись экрана"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Kaydı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5642,6 +6293,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Имя службы не может быть пустым."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hizmet adı boş olamaz."
           }
         },
         "zh-Hans": {
@@ -5715,6 +6372,12 @@
             "value": "Не удалось получить доступ к связке ключей."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keychain'e erişilemedi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5784,6 +6447,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Данные API Key недействительны."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key verileri geçersiz."
           }
         },
         "zh-Hans": {
@@ -5857,6 +6526,12 @@
             "value": "Восстановить настройки по умолчанию"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varsayılanları Geri Yükle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5926,6 +6601,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сохранить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydet"
           }
         },
         "zh-Hans": {
@@ -5999,6 +6680,12 @@
             "value": "Переведите следующий текст с {{source_language}} на {{target_language}}. Верните только перевод.\n\n{{text}}"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aşağıdaki metni {{source_language}} dilinden {{target_language}} diline çevir. Yalnızca çeviriyi döndür.\n\n{{text}}"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6068,6 +6755,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "API Key не может быть пустым."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key boş olamaz."
           }
         },
         "zh-Hans": {
@@ -6141,6 +6834,12 @@
             "value": "Включите хотя бы одну службу перевода."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En az bir çeviri hizmetini etkinleştirin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6212,6 +6911,12 @@
             "value": "%@: API Key не может быть пустым."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: API Key boş olamaz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6278,6 +6983,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%@: %@"
@@ -6354,6 +7065,12 @@
             "value": "Два предпочтительных языка должны быть разными."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İki tercih edilen dil farklı olmalıdır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6423,6 +7140,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Переведите сюда, если обнаружен другой язык."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Algılanan dil farklıysa bu dile çevrilir."
           }
         },
         "zh-Hans": {
@@ -6496,6 +7219,12 @@
             "value": "Первый язык"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Birinci Dil"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6565,6 +7294,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перевести сюда, когда будет определен первый язык."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Birinci dil algılandığında bu dile çevrilir."
           }
         },
         "zh-Hans": {
@@ -6638,6 +7373,12 @@
             "value": "Второй язык"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İkinci Dil"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6707,6 +7448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Предпочитаемые языки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercih Edilen Diller"
           }
         },
         "zh-Hans": {
@@ -6780,6 +7527,12 @@
             "value": "Сохранено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedildi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6849,6 +7602,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Должен содержать {{text}}. Также можно использовать {{source_language}} и {{target_language}}."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{{text}} içermelidir. İsteğe bağlı: {{source_language}} ve {{target_language}}."
           }
         },
         "zh-Hans": {
@@ -6922,6 +7681,12 @@
             "value": "Шаблон"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şablon"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6991,6 +7756,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Промпт"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstem"
           }
         },
         "zh-Hans": {
@@ -7064,6 +7835,12 @@
             "value": "Оставьте пустым, чтобы сохранить текущее значение в связке ключей."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Keychain değerini korumak için boş bırakın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7130,6 +7907,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "API Key"
@@ -7206,6 +7989,12 @@
             "value": "Адрес OpenAI или совместимого шлюза."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenAI veya uyumlu ağ geçidi adresi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7272,6 +8061,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Base URL"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Base URL"
@@ -7348,6 +8143,12 @@
             "value": "Служба перевода"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çeviri hizmeti"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7417,6 +8218,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Имя модели для перевода."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çeviri için kullanılan model adı."
           }
         },
         "zh-Hans": {
@@ -7490,6 +8297,12 @@
             "value": "Модель"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7559,6 +8372,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отображается на карточках с результатом перевода."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çeviri sonucu kartlarında gösterilir."
           }
         },
         "zh-Hans": {
@@ -7632,6 +8451,12 @@
             "value": "Название"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ad"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7701,6 +8526,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "OpenAI-совместимый провайдер"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenAI Uyumlu Sağlayıcı"
           }
         },
         "zh-Hans": {
@@ -7774,6 +8605,12 @@
             "value": "Выберите службу перевода."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir çeviri hizmeti seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7843,6 +8680,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сведения о службе"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hizmet Ayrıntıları"
           }
         },
         "zh-Hans": {
@@ -7916,6 +8759,12 @@
             "value": "Добавить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7985,6 +8834,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Службы перевода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çeviri Hizmetleri"
           }
         },
         "zh-Hans": {
@@ -8058,6 +8913,12 @@
             "value": "Удалить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sil"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8127,6 +8988,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Модель не установлена"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model ayarlanmamış"
           }
         },
         "zh-Hans": {
@@ -8200,6 +9067,12 @@
             "value": "Переместить вниз"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aşağı taşı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8269,6 +9142,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Переместить вверх"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yukarı taşı"
           }
         },
         "zh-Hans": {
@@ -8342,6 +9221,12 @@
             "value": "Безымянный сервис"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adsız Hizmet"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8411,6 +9296,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройки перевода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çeviri Ayarları"
           }
         },
         "zh-Hans": {
@@ -8484,6 +9375,12 @@
             "value": "Перевести выделенный в данный момент текст."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şu anda seçili olan metni çevirir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8553,6 +9450,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перевести выделенное"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçimi Çevir"
           }
         },
         "zh-Hans": {
@@ -8626,6 +9529,12 @@
             "value": "Выберите область скриншота и переведите распознанный текст."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir ekran görüntüsü alanı seçer ve tanınan metni çevirir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8695,6 +9604,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перевести скриншот"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Görüntüsünü Çevir"
           }
         },
         "zh-Hans": {
@@ -8768,6 +9683,12 @@
             "value": "Промпт должен содержать {{text}}."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstem {{text}} içermelidir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8839,6 +9760,12 @@
             "value": "На снимке экрана не распознан текст."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsünde metin tanınamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8908,6 +9835,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось прочитать скриншот."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü okunamadı."
           }
         },
         "zh-Hans": {

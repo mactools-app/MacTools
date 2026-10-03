@@ -4,16 +4,22 @@
     "access.allow": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "读取本机登录文件"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Read local login files"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel oturum açma dosyalarını oku"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读取本机登录文件"
           }
         }
       }
@@ -21,16 +27,22 @@
     "access.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "允许读取 Codex 和 Claude Code 的本机登录文件。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Allow access to local Codex and Claude Code login files."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Codex ve Claude Code'un yerel oturum açma dosyalarına erişime izin verir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许读取 Codex 和 Claude Code 的本机登录文件。"
           }
         }
       }
@@ -38,16 +50,22 @@
     "access.footer": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "仅读取登录凭据并向对应服务查询额度，不读取对话、不保存令牌。授权与服务展示独立，无需辅助功能或完全磁盘访问权限。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Only reads credentials to query the corresponding service. Conversations are never accessed and tokens are not stored. Access permissions are independent of service visibility. No Accessibility or Full Disk Access is needed."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca ilgili hizmeti sorgulamak amacıyla kimlik bilgileri okunur. Konuşmalara asla erişilmez ve belirteçler depolanmaz. Erişim izinleri, hizmet görünürlüğünden bağımsızdır. Erişilebilirlik veya Tam Disk Erişimi gerekmez."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅读取登录凭据并向对应服务查询额度，不读取对话、不保存令牌。授权与服务展示独立，无需辅助功能或完全磁盘访问权限。"
           }
         }
       }
@@ -55,16 +73,22 @@
     "keychain.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开启时可能请求 macOS 授权，后台读取不会弹窗。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Enabling may request macOS authorization. Background reads never show prompts."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştirildiğinde macOS yetkilendirmesi istenebilir. Arka planda yapılan okumalarda hiçbir zaman istem gösterilmez."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启时可能请求 macOS 授权，后台读取不会弹窗。"
           }
         }
       }
@@ -72,16 +96,22 @@
     "keychain.title": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "读取 Claude Code 钥匙串"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Read Claude Code Keychain"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude Code Keychain'ini Oku"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读取 Claude Code 钥匙串"
           }
         }
       }
@@ -89,16 +119,22 @@
     "menuBar.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "显示所有已启用服务的剩余额度。点击打开仪表盘，右键打开设置。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Show remaining quota for every enabled service. Click for the dashboard; right-click for settings."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştirilen her hizmetin kalan kotasını gösterir. Paneli açmak için tıklayın, ayarlar için sağ tıklayın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示所有已启用服务的剩余额度。点击打开仪表盘，右键打开设置。"
           }
         }
       }
@@ -106,16 +142,22 @@
     "menuBar.show": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在菜单栏显示用量"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Show usage in menu bar"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanımı menü çubuğunda göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在菜单栏显示用量"
           }
         }
       }
@@ -123,16 +165,22 @@
     "metadata.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "查看 Codex 与 Claude Code 订阅额度和重置时间"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "View Codex and Claude Code subscription quotas and reset times"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Codex ve Claude Code abonelik kotalarını ve sıfırlanma zamanlarını görüntüleyin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看 Codex 与 Claude Code 订阅额度和重置时间"
           }
         }
       }
@@ -140,16 +188,22 @@
     "metadata.title": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI 用量"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "AI Usage"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Kullanımı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 用量"
           }
         }
       }
@@ -157,16 +211,22 @@
     "open.settings": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "打开设置"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Open Settings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarları Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开设置"
           }
         }
       }
@@ -174,16 +234,22 @@
     "provider.open": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "打开网页"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Open Website"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Web Sitesini Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开网页"
           }
         }
       }
@@ -191,16 +257,22 @@
     "providers.empty": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "尚未启用服务"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "No services enabled"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştirilmiş hizmet yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚未启用服务"
           }
         }
       }
@@ -208,16 +280,22 @@
     "refresh.footer": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "锁屏和睡眠时暂停刷新。请求失败后自动延迟重试，手动刷新至少间隔 1 分钟。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Pauses while locked or asleep. Failed requests back off automatically. Manual refreshes are at least one minute apart."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran kilitliyken veya sistem uyku modundayken duraklatılır. Başarısız istekler otomatik olarak daha sonra yeniden denenir. El ile yenilemeler arasında en az bir dakika olmalıdır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "锁屏和睡眠时暂停刷新。请求失败后自动延迟重试，手动刷新至少间隔 1 分钟。"
           }
         }
       }
@@ -225,16 +303,22 @@
     "refresh.interval": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "自动刷新间隔"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Automatic refresh interval"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik yenileme aralığı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动刷新间隔"
           }
         }
       }
@@ -242,16 +326,22 @@
     "refresh.minutes": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d 分钟"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "%d minutes"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d dakika"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 分钟"
           }
         }
       }
@@ -259,16 +349,22 @@
     "refresh.now": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "立即刷新"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Refresh Now"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şimdi Yenile"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即刷新"
           }
         }
       }
@@ -276,16 +372,22 @@
     "refresh.running": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在刷新…"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Refreshing…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yenileniyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在刷新…"
           }
         }
       }
@@ -293,16 +395,22 @@
     "reset.countdown": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ 后重置"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Resets in %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ içinde sıfırlanır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 后重置"
           }
         }
       }
@@ -310,16 +418,22 @@
     "reset.pending": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "等待额度更新"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Waiting for quota update"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kota güncellemesi bekleniyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待额度更新"
           }
         }
       }
@@ -327,16 +441,22 @@
     "reset.unknown": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "重置时间未知"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Reset time unavailable"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıfırlanma zamanı bilinmiyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置时间未知"
           }
         }
       }
@@ -344,16 +464,22 @@
     "settings.access": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "数据访问"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Data Access"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veri Erişimi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "数据访问"
           }
         }
       }
@@ -361,16 +487,22 @@
     "settings.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "集中查看订阅额度，及时了解可用空间。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Keep subscription quotas and reset times in view."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abonelik kotalarını ve sıfırlanma zamanlarını görünür tutun."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "集中查看订阅额度，及时了解可用空间。"
           }
         }
       }
@@ -378,16 +510,22 @@
     "settings.menuBar": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "菜单栏"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Menu Bar"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "菜单栏"
           }
         }
       }
@@ -395,16 +533,22 @@
     "settings.providers": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI 服务"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "AI Services"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapay Zekâ Hizmetleri"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 服务"
           }
         }
       }
@@ -412,16 +556,22 @@
     "settings.refresh": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "刷新"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Refresh"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yenile"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刷新"
           }
         }
       }
@@ -429,16 +579,22 @@
     "status.accessOff": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请在设置中开启登录文件或钥匙串访问"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Enable login file or Keychain access in settings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar'da oturum açma dosyası veya Keychain erişimini etkinleştirin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在设置中开启登录文件或钥匙串访问"
           }
         }
       }
@@ -446,16 +602,22 @@
     "status.expired": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "登录已过期或无访问权限，请在客户端重新登录"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Login expired or access denied. Sign in again in the client"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturumun süresi doldu veya erişim reddedildi. İstemcide yeniden oturum açın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登录已过期或无访问权限，请在客户端重新登录"
           }
         }
       }
@@ -463,16 +625,22 @@
     "status.invalid": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "服务未返回可用额度"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The service returned no usable quota"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hizmet kullanılabilir bir kota döndürmedi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务未返回可用额度"
           }
         }
       }
@@ -480,16 +648,22 @@
     "status.keychain": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请在设置中授权读取 Claude 钥匙串"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Allow Claude Keychain access in settings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar'da Claude Keychain erişimine izin verin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在设置中授权读取 Claude 钥匙串"
           }
         }
       }
@@ -497,16 +671,22 @@
     "status.network": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "连接失败，稍后自动重试"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Connection failed. Retrying automatically"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlantı kurulamadı. Otomatik olarak yeniden deneniyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接失败，稍后自动重试"
           }
         }
       }
@@ -514,16 +694,22 @@
     "status.rateLimited": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请求受限，已暂停并等待重试"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Rate limited. Waiting before retrying"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstek sınırına ulaşıldı. Yeniden denemeden önce bekleniyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请求受限，已暂停并等待重试"
           }
         }
       }
@@ -531,16 +717,22 @@
     "status.server": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "服务暂不可用，稍后自动重试"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Service unavailable. Retrying automatically"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hizmet kullanılamıyor. Otomatik olarak yeniden deneniyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务暂不可用，稍后自动重试"
           }
         }
       }
@@ -548,16 +740,22 @@
     "status.signIn": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请先在客户端登录，再刷新"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Sign in to the client, then refresh"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce istemcide oturum açın, sonra yenileyin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请先在客户端登录，再刷新"
           }
         }
       }
@@ -565,16 +763,22 @@
     "status.stale": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "上次数据"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Previous data"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki veriler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次数据"
           }
         }
       }
@@ -582,16 +786,22 @@
     "status.unreadable": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无法读取登录文件，请检查客户端配置"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Cannot read the login file. Check your client configuration"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum açma dosyası okunamıyor. İstemci yapılandırmanızı denetleyin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法读取登录文件，请检查客户端配置"
           }
         }
       }
@@ -599,16 +809,22 @@
     "status.unsupported": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "需要订阅账号登录，API Key 不支持额度查询"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "A subscription login is required; API keys do not provide quotas"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abonelik oturumu gereklidir; API anahtarları kota sağlamaz"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要订阅账号登录，API Key 不支持额度查询"
           }
         }
       }
@@ -616,16 +832,22 @@
     "status.waiting": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在等待额度数据…"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Waiting for quota data…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kota verileri bekleniyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在等待额度数据…"
           }
         }
       }
@@ -633,16 +855,22 @@
     "updated.relative": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "更新于 %@"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Updated %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ güncellendi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更新于 %@"
           }
         }
       }
@@ -650,16 +878,22 @@
     "window.hours": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ 小时剩余"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "%@h remaining"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ sa kaldı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 小时剩余"
           }
         }
       }
@@ -667,16 +901,22 @@
     "window.primary": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "剩余额度"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Remaining quota"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalan kota"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "剩余额度"
           }
         }
       }
@@ -684,16 +924,22 @@
     "window.weekly": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每周剩余"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Weekly remaining"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftalık kalan"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每周剩余"
           }
         }
       }
@@ -707,6 +953,12 @@
             "value": "Updated just now"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Az önce güncellendi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -718,16 +970,22 @@
     "keychain.authorizing": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在请求钥匙串访问…"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Requesting Keychain access…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keychain erişimi isteniyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在请求钥匙串访问…"
           }
         }
       }
@@ -735,16 +993,22 @@
     "provider.show": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在仪表盘和菜单栏显示"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Show in dashboard and menu bar"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panelde ve menü çubuğunda göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在仪表盘和菜单栏显示"
           }
         }
       }
@@ -752,16 +1016,22 @@
     "usage.remaining": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "剩余额度"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Remaining quota"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalan kota"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "剩余额度"
           }
         }
       }
@@ -769,16 +1039,22 @@
     "status.dataStale": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "当前显示上次额度数据"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Showing the previous quota reading"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki kota okuması gösteriliyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前显示上次额度数据"
           }
         }
       }
@@ -786,16 +1062,22 @@
     "pace.steady": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "周用量平稳"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Weekly on pace"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftalık tempo normal"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周用量平稳"
           }
         }
       }
@@ -803,16 +1085,22 @@
     "pace.ahead": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "周用量偏快"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Weekly pace high"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftalık tempo yüksek"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周用量偏快"
           }
         }
       }
@@ -820,16 +1108,22 @@
     "pace.exhausted": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "周额度用尽"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Weekly exhausted"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftalık kota tükendi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周额度用尽"
           }
         }
       }
@@ -837,16 +1131,22 @@
     "pace.exhausted.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本周额度已用完，请等待重置。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "This week’s quota has been used up. Wait for the reset."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu haftanın kotası tükendi. Sıfırlanmayı bekleyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本周额度已用完，请等待重置。"
           }
         }
       }
@@ -854,16 +1154,22 @@
     "pace.fiveHour.steady": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 小时平稳"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "5h on pace"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 saatlik tempo normal"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 小时平稳"
           }
         }
       }
@@ -871,16 +1177,22 @@
     "pace.fiveHour.ahead": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 小时偏快"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "5h pace high"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 saatlik tempo yüksek"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 小时偏快"
           }
         }
       }
@@ -888,16 +1200,22 @@
     "pace.fiveHour.exhausted": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 小时用尽"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "5h exhausted"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 saatlik kota tükendi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 小时用尽"
           }
         }
       }
@@ -905,16 +1223,22 @@
     "pace.steady.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本周额度消耗处于正常节奏。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "This week’s quota is being used at a normal pace."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu haftanın kotası normal bir tempoda kullanılıyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本周额度消耗处于正常节奏。"
           }
         }
       }
@@ -922,16 +1246,22 @@
     "pace.ahead.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本周额度消耗偏快，照此节奏可能在重置前用完。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "This week’s quota is being used quickly and may run out before the reset at this pace."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu haftanın kotası hızlı kullanılıyor; bu tempoyla sıfırlanmadan önce tükenebilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本周额度消耗偏快，照此节奏可能在重置前用完。"
           }
         }
       }
@@ -939,16 +1269,22 @@
     "pace.fiveHour.steady.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "当前 5 小时周期内，额度消耗处于正常节奏。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Quota usage is on pace for the current 5-hour cycle."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli 5 saatlik dönemde kota kullanımı normal tempoda."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前 5 小时周期内，额度消耗处于正常节奏。"
           }
         }
       }
@@ -956,16 +1292,22 @@
     "pace.fiveHour.ahead.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "当前 5 小时周期内，额度消耗偏快，照此节奏可能在重置前用完。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Quota is being used quickly in the current 5-hour cycle and may run out before the reset at this pace."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli 5 saatlik dönemde kota hızlı kullanılıyor; bu tempoyla sıfırlanmadan önce tükenebilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前 5 小时周期内，额度消耗偏快，照此节奏可能在重置前用完。"
           }
         }
       }
@@ -973,16 +1315,22 @@
     "pace.fiveHour.exhausted.description": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "当前 5 小时周期的额度已用完，请等待重置。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Quota for the current 5-hour cycle has been used up. Wait for the reset."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli 5 saatlik dönemin kotası tükendi. Sıfırlanmayı bekleyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前 5 小时周期的额度已用完，请等待重置。"
           }
         }
       }

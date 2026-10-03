@@ -39,6 +39,10 @@
       "displayName": "Очистить корзину",
       "summary": "Очистить все элементы в корзине."
     },
+    "tr": {
+      "displayName": "Çöpü Boşalt",
+      "summary": "Çöpteki tüm öğeleri silin."
+    },
     "zh-Hans": {
       "displayName": "清空废纸篓",
       "summary": "清空废纸篓中的所有项目"
@@ -119,6 +123,9 @@
       ],
       "ru": [
         "Очистить корзину"
+      ],
+      "tr": [
+        "Çöpü Boşalt"
       ],
       "zh-Hans": [
         "清空废纸篓"

@@ -4,337 +4,1618 @@
     "action.persistenceFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر حفظ إعدادات مستوى صوت التطبيق." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die App-Lautstärkeeinstellungen konnten nicht gesichert werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Unable to save app volume settings." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se han podido guardar los ajustes de volumen de la app." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible d’enregistrer les réglages de volume de l’app." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリの音量設定を保存できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱 음량 설정을 저장할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível salvar os ajustes de volume do app." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось сохранить настройки громкости приложения." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法保存应用音量设置。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法儲存應用程式音量設定。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر حفظ إعدادات مستوى صوت التطبيق."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die App-Lautstärkeeinstellungen konnten nicht gesichert werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to save app volume settings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se han podido guardar los ajustes de volumen de la app."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’enregistrer les réglages de volume de l’app."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリの音量設定を保存できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 음량 설정을 저장할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível salvar os ajustes de volume do app."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить настройки громкости приложения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama ses ayarları kaydedilemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法保存应用音量设置。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法儲存應用程式音量設定。"
+          }
+        }
       }
     },
     "action.persistenceRouteRollbackFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر حفظ إعدادات مستوى صوت التطبيق، كما تعذرت استعادة التوجيه السابق." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die App-Lautstärkeeinstellungen konnten nicht gesichert und das vorherige Routing nicht wiederhergestellt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Unable to save app volume settings or restore the previous routing." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se han podido guardar los ajustes de volumen ni restaurar el enrutamiento anterior." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible d’enregistrer le volume de l’app et de restaurer le routage précédent." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリの音量設定を保存できず、以前のルーティングも復元できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱 음량 설정을 저장하거나 이전 라우팅을 복원할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível salvar o volume do app nem restaurar o roteamento anterior." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось сохранить громкость приложения и восстановить предыдущую маршрутизацию." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法保存应用音量设置，且恢复先前路由失败。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法儲存應用程式音量設定，且無法還原先前路由。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر حفظ إعدادات مستوى صوت التطبيق، كما تعذرت استعادة التوجيه السابق."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die App-Lautstärkeeinstellungen konnten nicht gesichert und das vorherige Routing nicht wiederhergestellt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to save app volume settings or restore the previous routing."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se han podido guardar los ajustes de volumen ni restaurar el enrutamiento anterior."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’enregistrer le volume de l’app et de restaurer le routage précédent."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリの音量設定を保存できず、以前のルーティングも復元できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 음량 설정을 저장하거나 이전 라우팅을 복원할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível salvar o volume do app nem restaurar o roteamento anterior."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить громкость приложения и восстановить предыдущую маршрутизацию."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama ses ayarları kaydedilemedi veya önceki yönlendirme geri yüklenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法保存应用音量设置，且恢复先前路由失败。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法儲存應用程式音量設定，且無法還原先前路由。"
+          }
+        }
       }
     },
     "action.persistenceStorageRollbackFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر حفظ إعدادات مستوى صوت التطبيق، كما تعذرت استعادة القيمة المخزنة السابقة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die App-Lautstärkeeinstellungen konnten nicht gesichert und der vorherige Speicherwert nicht wiederhergestellt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Unable to save app volume settings or restore the previous stored value." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se han podido guardar los ajustes de volumen ni restaurar el valor almacenado anterior." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible d’enregistrer le volume de l’app et de restaurer la valeur précédente." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリの音量設定を保存できず、以前の保存値も復元できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱 음량 설정을 저장하거나 이전 저장 값을 복원할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível salvar o volume do app nem restaurar o valor anterior." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось сохранить громкость приложения и восстановить предыдущее значение." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法保存应用音量设置，且恢复先前存储值失败。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法儲存應用程式音量設定，且無法還原先前儲存值。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر حفظ إعدادات مستوى صوت التطبيق، كما تعذرت استعادة القيمة المخزنة السابقة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die App-Lautstärkeeinstellungen konnten nicht gesichert und der vorherige Speicherwert nicht wiederhergestellt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to save app volume settings or restore the previous stored value."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se han podido guardar los ajustes de volumen ni restaurar el valor almacenado anterior."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’enregistrer le volume de l’app et de restaurer la valeur précédente."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリの音量設定を保存できず、以前の保存値も復元できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 음량 설정을 저장하거나 이전 저장 값을 복원할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível salvar o volume do app nem restaurar o valor anterior."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить громкость приложения и восстановить предыдущее значение."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama ses ayarları kaydedilemedi veya önceki kayıtlı değer geri yüklenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法保存应用音量设置，且恢复先前存储值失败。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法儲存應用程式音量設定，且無法還原先前儲存值。"
+          }
+        }
       }
     },
     "action.routeFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر تطبيق إعدادات مستوى صوت التطبيق." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die App-Lautstärkeeinstellungen konnten nicht angewendet werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The app volume settings could not be applied." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudieron aplicar los ajustes de volumen de la app." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible d’appliquer les réglages de volume de l’app." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリの音量設定を適用できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱 음량 설정을 적용하지 못했습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível aplicar as definições de volume da app." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось применить настройки громкости приложения." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法应用应用音量设置。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法套用應用程式音量設定。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر تطبيق إعدادات مستوى صوت التطبيق."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die App-Lautstärkeeinstellungen konnten nicht angewendet werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The app volume settings could not be applied."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron aplicar los ajustes de volumen de la app."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’appliquer les réglages de volume de l’app."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリの音量設定を適用できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 음량 설정을 적용하지 못했습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível aplicar as definições de volume da app."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось применить настройки громкости приложения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama ses ayarları uygulanamadı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法应用应用音量设置。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法套用應用程式音量設定。"
+          }
+        }
       }
     },
     "action.routeRollbackFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر تطبيق إعدادات مستوى صوت التطبيق، كما تعذرت استعادة التوجيه السابق." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die App-Lautstärkeeinstellungen konnten nicht angewendet und das vorherige Routing nicht wiederhergestellt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The app volume settings could not be applied, and the previous routing could not be restored." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudieron aplicar los ajustes de volumen ni restaurar el enrutamiento anterior." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible d’appliquer les réglages de volume et de restaurer le routage précédent." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリの音量設定を適用できず、以前のルーティングも復元できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱 음량 설정을 적용하지 못했고 이전 라우팅도 복원하지 못했습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível aplicar as definições de volume nem restaurar o encaminhamento anterior." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось применить настройки громкости приложения и восстановить прежнюю маршрутизацию." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法应用应用音量设置，且恢复先前路由失败。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法套用應用程式音量設定，且無法還原先前的路由。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر تطبيق إعدادات مستوى صوت التطبيق، كما تعذرت استعادة التوجيه السابق."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die App-Lautstärkeeinstellungen konnten nicht angewendet und das vorherige Routing nicht wiederhergestellt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The app volume settings could not be applied, and the previous routing could not be restored."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron aplicar los ajustes de volumen ni restaurar el enrutamiento anterior."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’appliquer les réglages de volume et de restaurer le routage précédent."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリの音量設定を適用できず、以前のルーティングも復元できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 음량 설정을 적용하지 못했고 이전 라우팅도 복원하지 못했습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível aplicar as definições de volume nem restaurar o encaminhamento anterior."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось применить настройки громкости приложения и восстановить прежнюю маршрутизацию."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama ses ayarları uygulanamadı ve önceki yönlendirme geri yüklenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法应用应用音量设置，且恢复先前路由失败。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法套用應用程式音量設定，且無法還原先前的路由。"
+          }
+        }
       }
     },
     "error.permissionDenied": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "مطلوب إذن تسجيل صوت النظام" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Berechtigung für Systemaudioaufnahmen ist erforderlich" } },
-        "en": { "stringUnit": { "state": "translated", "value": "System Audio Recording permission is required" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Se requiere permiso para grabar el audio del sistema" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "L’autorisation d’enregistrement de l’audio du système est requise" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "システムオーディオ録音の許可が必要です" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "시스템 오디오 녹음 권한이 필요합니다" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "É necessária permissão para gravar o áudio do sistema" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Требуется разрешение на запись системного аудио" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "需要系统音频录制权限" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "需要系統音訊錄製權限" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مطلوب إذن تسجيل صوت النظام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Berechtigung für Systemaudioaufnahmen ist erforderlich"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Audio Recording permission is required"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se requiere permiso para grabar el audio del sistema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’autorisation d’enregistrement de l’audio du système est requise"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムオーディオ録音の許可が必要です"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 오디오 녹음 권한이 필요합니다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "É necessária permissão para gravar o áudio do sistema"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требуется разрешение на запись системного аудио"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Sesi Kaydı izni gerekiyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要系统音频录制权限"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要系統音訊錄製權限"
+          }
+        }
       }
     },
     "error.unsupported": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "يتطلب التحكم المستقل في صوت التطبيقات macOS 15 أو أحدث" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Lautstärkeregelung pro App erfordert macOS 15 oder neuer" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Per-app volume requires macOS 15 or later" } },
-        "es": { "stringUnit": { "state": "translated", "value": "El volumen por aplicación requiere macOS 15 o posterior" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Le volume par app nécessite macOS 15 ou version ultérieure" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリごとの音量調整には macOS 15 以降が必要です" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱별 음량은 macOS 15 이상이 필요합니다" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "O volume por app requer o macOS 15 ou posterior" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Для регулировки громкости приложений требуется macOS 15 или новее" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "应用独立音量需要 macOS 15 或更高版本" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "應用程式獨立音量需要 macOS 15 或以上版本" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتطلب التحكم المستقل في صوت التطبيقات macOS 15 أو أحدث"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Lautstärkeregelung pro App erfordert macOS 15 oder neuer"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per-app volume requires macOS 15 or later"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El volumen por aplicación requiere macOS 15 o posterior"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le volume par app nécessite macOS 15 ou version ultérieure"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリごとの音量調整には macOS 15 以降が必要です"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱별 음량은 macOS 15 이상이 필요합니다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O volume por app requer o macOS 15 ou posterior"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для регулировки громкости приложений требуется macOS 15 или новее"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama bazlı ses, macOS 15 veya sonrasını gerektirir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用独立音量需要 macOS 15 或更高版本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "應用程式獨立音量需要 macOS 15 或以上版本"
+          }
+        }
       }
     },
     "metadata.description": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "اضبط مستوى صوت كل تطبيق يشغّل الصوت على حدة" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Lautstärke aktiver Audio-Apps einzeln anpassen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Adjust the volume of each app currently playing audio" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Ajusta por separado el volumen de cada aplicación con audio" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Réglez séparément le volume de chaque app qui diffuse du son" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "再生中のアプリごとに音量を調整します" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "오디오를 재생 중인 앱별로 음량을 조절합니다" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Ajuste separadamente o volume de cada app que reproduz áudio" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Настраивайте громкость каждого приложения с активным звуком" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "分别调节正在播放音频的应用音量" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "分別調整正在播放音訊的應用程式音量" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضبط مستوى صوت كل تطبيق يشغّل الصوت على حدة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lautstärke aktiver Audio-Apps einzeln anpassen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjust the volume of each app currently playing audio"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajusta por separado el volumen de cada aplicación con audio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglez séparément le volume de chaque app qui diffuse du son"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再生中のアプリごとに音量を調整します"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "오디오를 재생 중인 앱별로 음량을 조절합니다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajuste separadamente o volume de cada app que reproduz áudio"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настраивайте громкость каждого приложения с активным звуком"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şu anda ses çalan her uygulamanın ses seviyesini ayarlayın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分别调节正在播放音频的应用音量"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分別調整正在播放音訊的應用程式音量"
+          }
+        }
       }
     },
     "metadata.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "مستوى صوت التطبيقات" } },
-        "de": { "stringUnit": { "state": "translated", "value": "App-Lautstärke" } },
-        "en": { "stringUnit": { "state": "translated", "value": "App Volume" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Volumen por aplicación" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Volume des apps" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリ音量" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱 음량" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Volume por app" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Громкость приложений" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "应用音量" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "應用程式音量" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستوى صوت التطبيقات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Lautstärke"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App Volume"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volumen por aplicación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volume des apps"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリ音量"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 음량"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volume por app"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Громкость приложений"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Sesi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用音量"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "應用程式音量"
+          }
+        }
       }
     },
     "panel.permission.description": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "اسمح بمعالجة صوت التطبيقات الأخرى في الوقت الفعلي." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Erlauben Sie die Echtzeitverarbeitung von Audio anderer Apps." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Allow access to process audio from other apps in real time." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Permite procesar en tiempo real el audio de otras aplicaciones." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Autorisez le traitement en temps réel de l’audio des autres apps." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ほかのアプリの音声をリアルタイムで処理することを許可します。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "다른 앱의 오디오를 실시간으로 처리하도록 허용합니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Permita processar em tempo real o áudio de outros apps." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Разрешите обработку звука других приложений в реальном времени." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "允许后才能实时处理其他应用的音频。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "允許後才能即時處理其他應用程式的音訊。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسمح بمعالجة صوت التطبيقات الأخرى في الوقت الفعلي."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erlauben Sie die Echtzeitverarbeitung von Audio anderer Apps."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow access to process audio from other apps in real time."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permite procesar en tiempo real el audio de otras aplicaciones."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorisez le traitement en temps réel de l’audio des autres apps."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ほかのアプリの音声をリアルタイムで処理することを許可します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다른 앱의 오디오를 실시간으로 처리하도록 허용합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permita processar em tempo real o áudio de outros apps."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешите обработку звука других приложений в реальном времени."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer uygulamaların sesini gerçek zamanlı işlemek için erişime izin verin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许后才能实时处理其他应用的音频。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許後才能即時處理其他應用程式的音訊。"
+          }
+        }
       }
     },
     "panel.permission.openSettings": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "فتح إعدادات الخصوصية" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Datenschutzeinstellungen öffnen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Open Privacy Settings" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Abrir ajustes de privacidad" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ouvrir les réglages de confidentialité" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "プライバシー設定を開く" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "개인정보 보호 설정 열기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Abrir ajustes de privacidade" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Открыть настройки конфиденциальности" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "打开隐私设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "開啟私隱設定" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح إعدادات الخصوصية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datenschutzeinstellungen öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Privacy Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir ajustes de privacidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir les réglages de confidentialité"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プライバシー設定を開く"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "개인정보 보호 설정 열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir ajustes de privacidade"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть настройки конфиденциальности"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizlilik Ayarlarını Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开隐私设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟私隱設定"
+          }
+        }
       }
     },
     "panel.subtitle.countFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "%d تطبيقات تشغّل الصوت" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%d Apps geben Audio wieder" } },
-        "en": { "stringUnit": { "state": "translated", "value": "%d apps playing audio" } },
-        "es": { "stringUnit": { "state": "translated", "value": "%d aplicaciones reproduciendo audio" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "%d apps diffusent du son" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%d 個のアプリが再生中" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%d개 앱에서 오디오 재생 중" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "%d apps reproduzindo áudio" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "%d приложений воспроизводят звук" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "%d 个应用正在播放" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "%d 個應用程式正在播放" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d تطبيقات تشغّل الصوت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d Apps geben Audio wieder"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d apps playing audio"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d aplicaciones reproduciendo audio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d apps diffusent du son"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 個のアプリが再生中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d개 앱에서 오디오 재생 중"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d apps reproduzindo áudio"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d приложений воспроизводят звук"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d uygulama ses çalıyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 个应用正在播放"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 個應用程式正在播放"
+          }
+        }
       }
     },
     "panel.subtitle.empty": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "لا توجد تطبيقات تشغّل الصوت حاليًا" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Derzeit gibt keine App Audio wieder" } },
-        "en": { "stringUnit": { "state": "translated", "value": "No apps are currently playing audio" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Ninguna aplicación está reproduciendo audio" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Aucune app ne diffuse actuellement du son" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "再生中のアプリはありません" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "현재 오디오를 재생 중인 앱이 없습니다" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Nenhum app está reproduzindo áudio no momento" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Нет приложений, воспроизводящих звук" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "暂无正在播放音频的应用" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "暫無正在播放音訊的應用程式" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد تطبيقات تشغّل الصوت حاليًا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Derzeit gibt keine App Audio wieder"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No apps are currently playing audio"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ninguna aplicación está reproduciendo audio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune app ne diffuse actuellement du son"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再生中のアプリはありません"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "현재 오디오를 재생 중인 앱이 없습니다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nenhum app está reproduzindo áudio no momento"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет приложений, воспроизводящих звук"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şu anda ses çalan uygulama yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无正在播放音频的应用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暫無正在播放音訊的應用程式"
+          }
+        }
       }
     },
     "panel.subtitle.unsupported": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "يتطلب macOS 15 أو أحدث" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Erfordert macOS 15 oder neuer" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Requires macOS 15 or later" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Requiere macOS 15 o posterior" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Nécessite macOS 15 ou version ultérieure" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "macOS 15 以降が必要です" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "macOS 15 이상이 필요합니다" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Requer o macOS 15 ou posterior" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Требуется macOS 15 или новее" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "需要 macOS 15 或更高版本" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "需要 macOS 15 或以上版本" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتطلب macOS 15 أو أحدث"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erfordert macOS 15 oder neuer"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requires macOS 15 or later"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requiere macOS 15 o posterior"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nécessite macOS 15 ou version ultérieure"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 15 以降が必要です"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 15 이상이 필요합니다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requer o macOS 15 ou posterior"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требуется macOS 15 или новее"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 15 veya sonrasını gerektirir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要 macOS 15 或更高版本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要 macOS 15 或以上版本"
+          }
+        }
       }
     },
     "permission.status.onDemand": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "عند الحاجة" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Bei Bedarf" } },
-        "en": { "stringUnit": { "state": "translated", "value": "On demand" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Cuando sea necesario" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "À la demande" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "必要時" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "필요할 때" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Sob demanda" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "По запросу" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "按需授权" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "按需授權" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عند الحاجة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bei Bedarf"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On demand"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando sea necesario"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À la demande"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "必要時"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "필요할 때"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sob demanda"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "По запросу"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerektiğinde"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需授权"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需授權"
+          }
+        }
       }
     },
     "permission.status.requesting": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "جارٍ الطلب" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Wird angefordert" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Requesting" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Solicitando" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Demande en cours" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "要求中" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "요청 중" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Solicitando" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Запрашивается" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在请求" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "正在請求" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ الطلب"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird angefordert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requesting"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solicitando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demande en cours"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要求中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "요청 중"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solicitando"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запрашивается"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İsteniyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在请求"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在請求"
+          }
+        }
       }
     },
     "permission.systemAudio.description": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "يعالج صوت التطبيقات محليًا وفي الوقت الفعلي ولا يسجله أو يحفظه أو يرفعه." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Verarbeitet App-Audio lokal in Echtzeit und zeichnet es nicht auf, speichert oder lädt es nicht hoch." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Processes app audio locally in real time and never records, saves, or uploads it." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Procesa localmente y en tiempo real el audio de las aplicaciones; nunca lo graba, guarda ni sube." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Traite l’audio des apps localement et en temps réel, sans jamais l’enregistrer, le sauvegarder ni le téléverser." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "アプリの音声をローカルでリアルタイム処理し、録音、保存、アップロードは行いません。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱 오디오를 기기에서 실시간으로 처리하며 녹음, 저장 또는 업로드하지 않습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Processa o áudio dos apps localmente e em tempo real, sem gravar, salvar ou enviar." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Обрабатывает звук приложений локально в реальном времени и не записывает, не сохраняет и не загружает его." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "仅在本机实时处理应用音频，不会录制、保存或上传声音。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "僅在本機即時處理應用程式音訊，不會錄製、儲存或上傳聲音。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعالج صوت التطبيقات محليًا وفي الوقت الفعلي ولا يسجله أو يحفظه أو يرفعه."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verarbeitet App-Audio lokal in Echtzeit und zeichnet es nicht auf, speichert oder lädt es nicht hoch."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processes app audio locally in real time and never records, saves, or uploads it."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Procesa localmente y en tiempo real el audio de las aplicaciones; nunca lo graba, guarda ni sube."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Traite l’audio des apps localement et en temps réel, sans jamais l’enregistrer, le sauvegarder ni le téléverser."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリの音声をローカルでリアルタイム処理し、録音、保存、アップロードは行いません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 오디오를 기기에서 실시간으로 처리하며 녹음, 저장 또는 업로드하지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processa o áudio dos apps localmente e em tempo real, sem gravar, salvar ou enviar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обрабатывает звук приложений локально в реальном времени и не записывает, не сохраняет и не загружает его."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama sesini yerel olarak gerçek zamanlı işler; asla kaydetmez, saklamaz veya karşıya yüklemez."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅在本机实时处理应用音频，不会录制、保存或上传声音。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "僅在本機即時處理應用程式音訊，不會錄製、儲存或上傳聲音。"
+          }
+        }
       }
     },
     "permission.systemAudio.footnote.denied": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "افتح إعدادات النظام ← الخصوصية والأمان ← تسجيل الشاشة وصوت النظام، ثم اسمح لـ MacTools." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Öffnen Sie Systemeinstellungen → Datenschutz & Sicherheit → Bildschirm- und Systemaudioaufnahme und erlauben Sie MacTools." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Open System Settings → Privacy & Security → Screen & System Audio Recording and allow MacTools." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Abre Ajustes del Sistema → Privacidad y seguridad → Grabación de pantalla y audio del sistema, y permite MacTools." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ouvrez Réglages Système → Confidentialité et sécurité → Enregistrement de l’écran et de l’audio système, puis autorisez MacTools." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "システム設定 → プライバシーとセキュリティ → 画面とシステムオーディオの録音で、MacTools を許可してください。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "시스템 설정 → 개인정보 보호 및 보안 → 화면 및 시스템 오디오 녹음에서 MacTools를 허용하세요." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Abra Ajustes do Sistema → Privacidade e Segurança → Gravação de Tela e Áudio do Sistema e permita o MacTools." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Откройте «Системные настройки» → «Конфиденциальность и безопасность» → «Запись экрана и системного аудио» и разрешите MacTools." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "前往系统设置 → 隐私与安全性 → 屏幕与系统音频录制，授权 MacTools。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "前往系統設定 → 私隱與保安 → 螢幕與系統音訊錄製，授權 MacTools。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح إعدادات النظام ← الخصوصية والأمان ← تسجيل الشاشة وصوت النظام، ثم اسمح لـ MacTools."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnen Sie Systemeinstellungen → Datenschutz & Sicherheit → Bildschirm- und Systemaudioaufnahme und erlauben Sie MacTools."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open System Settings → Privacy & Security → Screen & System Audio Recording and allow MacTools."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abre Ajustes del Sistema → Privacidad y seguridad → Grabación de pantalla y audio del sistema, y permite MacTools."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrez Réglages Système → Confidentialité et sécurité → Enregistrement de l’écran et de l’audio système, puis autorisez MacTools."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム設定 → プライバシーとセキュリティ → 画面とシステムオーディオの録音で、MacTools を許可してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 설정 → 개인정보 보호 및 보안 → 화면 및 시스템 오디오 녹음에서 MacTools를 허용하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abra Ajustes do Sistema → Privacidade e Segurança → Gravação de Tela e Áudio do Sistema e permita o MacTools."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откройте «Системные настройки» → «Конфиденциальность и безопасность» → «Запись экрана и системного аудио» и разрешите MacTools."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Ekran ve Sistem Sesi Kaydı'nı açın ve MacTools'a izin verin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往系统设置 → 隐私与安全性 → 屏幕与系统音频录制，授权 MacTools。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往系統設定 → 私隱與保安 → 螢幕與系統音訊錄製，授權 MacTools。"
+          }
+        }
       }
     },
     "permission.systemAudio.footnote.requesting": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "اسمح لـ MacTools في مطالبة أذونات macOS." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Erlauben Sie MacTools in der macOS-Berechtigungsabfrage." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Allow MacTools in the macOS permission prompt." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Permite MacTools en el aviso de permisos de macOS." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Autorisez MacTools dans la demande d’autorisation macOS." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "macOS のアクセス許可ダイアログで MacTools を許可してください。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "macOS 권한 요청에서 MacTools를 허용하세요." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Permita o MacTools no aviso de permissão do macOS." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Разрешите MacTools в запросе разрешений macOS." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "请在 macOS 权限提示中允许 MacTools。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請在 macOS 權限提示中允許 MacTools。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسمح لـ MacTools في مطالبة أذونات macOS."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erlauben Sie MacTools in der macOS-Berechtigungsabfrage."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow MacTools in the macOS permission prompt."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permite MacTools en el aviso de permisos de macOS."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorisez MacTools dans la demande d’autorisation macOS."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS のアクセス許可ダイアログで MacTools を許可してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 권한 요청에서 MacTools를 허용하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permita o MacTools no aviso de permissão do macOS."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешите MacTools в запросе разрешений macOS."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS izin isteminde MacTools'a izin verin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在 macOS 权限提示中允许 MacTools。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請在 macOS 權限提示中允許 MacTools。"
+          }
+        }
       }
     },
     "permission.systemAudio.footnote.unknown": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "سيطلب macOS إذن تسجيل صوت النظام عند تعديل مستوى صوت تطبيق لأول مرة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "macOS fordert die Berechtigung für Systemaudioaufnahmen an, wenn Sie erstmals die Lautstärke einer App ändern." } },
-        "en": { "stringUnit": { "state": "translated", "value": "macOS requests System Audio Recording permission the first time you adjust an app's volume." } },
-        "es": { "stringUnit": { "state": "translated", "value": "macOS solicitará permiso para grabar el audio del sistema la primera vez que ajustes el volumen de una aplicación." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "macOS demande l’autorisation d’enregistrement de l’audio système lors du premier réglage du volume d’une app." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "初めてアプリの音量を調整するときに、macOS がシステムオーディオ録音の許可を求めます。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "앱 음량을 처음 조절할 때 macOS에서 시스템 오디오 녹음 권한을 요청합니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "O macOS solicitará permissão para gravar o áudio do sistema na primeira vez que você ajustar o volume de um app." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "macOS запросит разрешение на запись системного аудио при первой настройке громкости приложения." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "首次调节应用音量时，macOS 会请求系统音频录制权限。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "首次調整應用程式音量時，macOS 會請求系統音訊錄製權限。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيطلب macOS إذن تسجيل صوت النظام عند تعديل مستوى صوت تطبيق لأول مرة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS fordert die Berechtigung für Systemaudioaufnahmen an, wenn Sie erstmals die Lautstärke einer App ändern."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS requests System Audio Recording permission the first time you adjust an app's volume."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS solicitará permiso para grabar el audio del sistema la primera vez que ajustes el volumen de una aplicación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS demande l’autorisation d’enregistrement de l’audio système lors du premier réglage du volume d’une app."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "初めてアプリの音量を調整するときに、macOS がシステムオーディオ録音の許可を求めます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 음량을 처음 조절할 때 macOS에서 시스템 오디오 녹음 권한을 요청합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O macOS solicitará permissão para gravar o áudio do sistema na primeira vez que você ajustar o volume de um app."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS запросит разрешение на запись системного аудио при первой настройке громкости приложения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir uygulamanın ses seviyesini ilk kez ayarladığınızda macOS, Sistem Sesi Kaydı izni ister."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次调节应用音量时，macOS 会请求系统音频录制权限。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次調整應用程式音量時，macOS 會請求系統音訊錄製權限。"
+          }
+        }
       }
     },
     "permission.systemAudio.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تسجيل صوت النظام" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Systemaudioaufnahme" } },
-        "en": { "stringUnit": { "state": "translated", "value": "System Audio Recording" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Grabación de audio del sistema" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Enregistrement de l’audio système" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "システムオーディオ録音" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "시스템 오디오 녹음" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Gravação de Áudio do Sistema" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Запись системного аудио" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "系统音频录制" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "系統音訊錄製" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل صوت النظام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Systemaudioaufnahme"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Audio Recording"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabación de audio del sistema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement de l’audio système"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムオーディオ録音"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 오디오 녹음"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gravação de Áudio do Sistema"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запись системного аудио"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Sesi Kaydı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统音频录制"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系統音訊錄製"
+          }
+        }
       }
     }
   },

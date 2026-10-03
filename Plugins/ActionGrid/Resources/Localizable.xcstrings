@@ -1,32 +1,1982 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
-    "执行前需要确认。": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"يلزم التأكيد قبل التشغيل."}},"de":{"stringUnit":{"state":"translated","value":"Vor der Ausführung ist eine Bestätigung erforderlich."}},"en":{"stringUnit":{"state":"translated","value":"Confirmation is required before running."}},"es":{"stringUnit":{"state":"translated","value":"Se requiere confirmación antes de ejecutar."}},"fr":{"stringUnit":{"state":"translated","value":"Une confirmation est requise avant l’exécution."}},"ja":{"stringUnit":{"state":"translated","value":"実行前に確認が必要です。"}},"ko":{"stringUnit":{"state":"translated","value":"실행 전에 확인이 필요합니다."}},"pt":{"stringUnit":{"state":"translated","value":"É necessária confirmação antes de executar."}},"ru":{"stringUnit":{"state":"translated","value":"Перед запуском требуется подтверждение."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"执行前需要确认。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"執行前需要確認。"}}}},
-    "上移": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"تحريك لأعلى"}},"de":{"stringUnit":{"state":"translated","value":"Nach oben"}},"en":{"stringUnit":{"state":"translated","value":"Move Up"}},"es":{"stringUnit":{"state":"translated","value":"Subir"}},"fr":{"stringUnit":{"state":"translated","value":"Monter"}},"ja":{"stringUnit":{"state":"translated","value":"上に移動"}},"ko":{"stringUnit":{"state":"translated","value":"위로 이동"}},"pt":{"stringUnit":{"state":"translated","value":"Mover para cima"}},"ru":{"stringUnit":{"state":"translated","value":"Переместить вверх"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"上移"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"上移"}}}},
-    "下移": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"تحريك لأسفل"}},"de":{"stringUnit":{"state":"translated","value":"Nach unten"}},"en":{"stringUnit":{"state":"translated","value":"Move Down"}},"es":{"stringUnit":{"state":"translated","value":"Bajar"}},"fr":{"stringUnit":{"state":"translated","value":"Descendre"}},"ja":{"stringUnit":{"state":"translated","value":"下に移動"}},"ko":{"stringUnit":{"state":"translated","value":"아래로 이동"}},"pt":{"stringUnit":{"state":"translated","value":"Mover para baixo"}},"ru":{"stringUnit":{"state":"translated","value":"Переместить вниз"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"下移"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"下移"}}}},
-    "保存": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"حفظ"}},"de":{"stringUnit":{"state":"translated","value":"Sichern"}},"en":{"stringUnit":{"state":"translated","value":"Save"}},"es":{"stringUnit":{"state":"translated","value":"Guardar"}},"fr":{"stringUnit":{"state":"translated","value":"Enregistrer"}},"ja":{"stringUnit":{"state":"translated","value":"保存"}},"ko":{"stringUnit":{"state":"translated","value":"저장"}},"pt":{"stringUnit":{"state":"translated","value":"Salvar"}},"ru":{"stringUnit":{"state":"translated","value":"Сохранить"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"保存"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"儲存"}}}},
-    "删除": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"حذف"}},"de":{"stringUnit":{"state":"translated","value":"Löschen"}},"en":{"stringUnit":{"state":"translated","value":"Delete"}},"es":{"stringUnit":{"state":"translated","value":"Eliminar"}},"fr":{"stringUnit":{"state":"translated","value":"Supprimer"}},"ja":{"stringUnit":{"state":"translated","value":"削除"}},"ko":{"stringUnit":{"state":"translated","value":"삭제"}},"pt":{"stringUnit":{"state":"translated","value":"Apagar"}},"ru":{"stringUnit":{"state":"translated","value":"Удалить"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"删除"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"刪除"}}}},
-    "打开文件夹": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"فتح المجلد"}},"de":{"stringUnit":{"state":"translated","value":"Ordner öffnen"}},"en":{"stringUnit":{"state":"translated","value":"Open Folder"}},"es":{"stringUnit":{"state":"translated","value":"Abrir carpeta"}},"fr":{"stringUnit":{"state":"translated","value":"Ouvrir le dossier"}},"ja":{"stringUnit":{"state":"translated","value":"フォルダを開く"}},"ko":{"stringUnit":{"state":"translated","value":"폴더 열기"}},"pt":{"stringUnit":{"state":"translated","value":"Abrir pasta"}},"ru":{"stringUnit":{"state":"translated","value":"Открыть папку"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"打开文件夹"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"打開資料夾"}}}},
-    "拖动单元格可重新排序。选择操作可原位编辑；选择文件夹可打开下一级网格。": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"اسحب الخلايا لإعادة ترتيبها. اختر إجراءً لتحريره في مكانه، أو اختر مجلدًا لفتح الشبكة التالية."}},"de":{"stringUnit":{"state":"translated","value":"Zellen zum Sortieren ziehen. Eine Aktion zum direkten Bearbeiten oder einen Ordner für das nächste Raster auswählen."}},"en":{"stringUnit":{"state":"translated","value":"Drag cells to reorder. Select an action to edit it in place, or select a folder to open the next grid."}},"es":{"stringUnit":{"state":"translated","value":"Arrastra las celdas para reordenarlas. Selecciona una acción para editarla o una carpeta para abrir la siguiente cuadrícula."}},"fr":{"stringUnit":{"state":"translated","value":"Faites glisser les cellules pour les réorganiser. Sélectionnez une action pour la modifier ou un dossier pour ouvrir la grille suivante."}},"ja":{"stringUnit":{"state":"translated","value":"セルをドラッグして並べ替えます。アクションを選択してその場で編集するか、フォルダを選択して次のグリッドを開きます。"}},"ko":{"stringUnit":{"state":"translated","value":"셀을 드래그하여 순서를 변경합니다. 동작을 선택해 바로 편집하거나 폴더를 선택해 다음 그리드를 여십시오."}},"pt":{"stringUnit":{"state":"translated","value":"Arraste as células para reordenar. Selecione uma ação para editar no local ou uma pasta para abrir a próxima grade."}},"ru":{"stringUnit":{"state":"translated","value":"Перетаскивайте ячейки для изменения порядка. Выберите действие для редактирования или папку для открытия следующей сетки."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"拖动单元格可重新排序。选择操作可原位编辑；选择文件夹可打开下一级网格。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"拖移單元格可重新排序。選擇操作可原位編輯；選擇資料夾可打開下一級網格。"}}}},
-    "操作": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"إجراء"}},"de":{"stringUnit":{"state":"translated","value":"Aktion"}},"en":{"stringUnit":{"state":"translated","value":"Action"}},"es":{"stringUnit":{"state":"translated","value":"Acción"}},"fr":{"stringUnit":{"state":"translated","value":"Action"}},"ja":{"stringUnit":{"state":"translated","value":"アクション"}},"ko":{"stringUnit":{"state":"translated","value":"동작"}},"pt":{"stringUnit":{"state":"translated","value":"Ação"}},"ru":{"stringUnit":{"state":"translated","value":"Действие"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"操作"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"操作"}}}},
-    "切换": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"تبديل"}},"de":{"stringUnit":{"state":"translated","value":"Umschalten"}},"en":{"stringUnit":{"state":"translated","value":"Toggle"}},"es":{"stringUnit":{"state":"translated","value":"Alternar"}},"fr":{"stringUnit":{"state":"translated","value":"Basculer"}},"ja":{"stringUnit":{"state":"translated","value":"切り替え"}},"ko":{"stringUnit":{"state":"translated","value":"전환"}},"pt":{"stringUnit":{"state":"translated","value":"Alternar"}},"ru":{"stringUnit":{"state":"translated","value":"Переключатель"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"切换"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"切換"}}}},
-    "下次执行：%@": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"الإجراء التالي: %@"}},"de":{"stringUnit":{"state":"translated","value":"Nächste Aktion: %@"}},"en":{"stringUnit":{"state":"translated","value":"Next action: %@"}},"es":{"stringUnit":{"state":"translated","value":"Siguiente acción: %@"}},"fr":{"stringUnit":{"state":"translated","value":"Action suivante : %@"}},"ja":{"stringUnit":{"state":"translated","value":"次のアクション：%@"}},"ko":{"stringUnit":{"state":"translated","value":"다음 동작: %@"}},"pt":{"stringUnit":{"state":"translated","value":"Próxima ação: %@"}},"ru":{"stringUnit":{"state":"translated","value":"Следующее действие: %@"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"下次执行：%@"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"下次執行：%@"}}}},
-    "移动到这里": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"نقل إلى هنا"}},"de":{"stringUnit":{"state":"translated","value":"Hierher bewegen"}},"en":{"stringUnit":{"state":"translated","value":"Move Here"}},"es":{"stringUnit":{"state":"translated","value":"Mover aquí"}},"fr":{"stringUnit":{"state":"translated","value":"Déplacer ici"}},"ja":{"stringUnit":{"state":"translated","value":"ここに移動"}},"ko":{"stringUnit":{"state":"translated","value":"여기로 이동"}},"pt":{"stringUnit":{"state":"translated","value":"Mover para cá"}},"ru":{"stringUnit":{"state":"translated","value":"Переместить сюда"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"移动到这里"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"移到這裡"}}}},
-    "交换位置": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"تبديل الموضعين"}},"de":{"stringUnit":{"state":"translated","value":"Positionen tauschen"}},"en":{"stringUnit":{"state":"translated","value":"Swap Positions"}},"es":{"stringUnit":{"state":"translated","value":"Intercambiar posiciones"}},"fr":{"stringUnit":{"state":"translated","value":"Permuter les positions"}},"ja":{"stringUnit":{"state":"translated","value":"位置を入れ替え"}},"ko":{"stringUnit":{"state":"translated","value":"위치 바꾸기"}},"pt":{"stringUnit":{"state":"translated","value":"Trocar posições"}},"ru":{"stringUnit":{"state":"translated","value":"Поменять местами"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"交换位置"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"交換位置"}}}},
-    "松开以与“%@”交换位置": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"أفلت للتبديل مع «%@»"}},"de":{"stringUnit":{"state":"translated","value":"Loslassen, um mit „%@“ zu tauschen"}},"en":{"stringUnit":{"state":"translated","value":"Release to swap with “%@”"}},"es":{"stringUnit":{"state":"translated","value":"Suelta para intercambiar con “%@”"}},"fr":{"stringUnit":{"state":"translated","value":"Relâchez pour permuter avec « %@ »"}},"ja":{"stringUnit":{"state":"translated","value":"放して「%@」と入れ替え"}},"ko":{"stringUnit":{"state":"translated","value":"놓아서 ‘%@’과(와) 위치 바꾸기"}},"pt":{"stringUnit":{"state":"translated","value":"Solte para trocar com “%@”"}},"ru":{"stringUnit":{"state":"translated","value":"Отпустите, чтобы поменять местами с «%@»"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"松开以与“%@”交换位置"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"放開以與「%@」交換位置"}}}},
-    "松开以移动到第 %d 个单元格": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"أفلت للنقل إلى الخلية %d"}},"de":{"stringUnit":{"state":"translated","value":"Loslassen, um in Zelle %d zu bewegen"}},"en":{"stringUnit":{"state":"translated","value":"Release to move to Cell %d"}},"es":{"stringUnit":{"state":"translated","value":"Suelta para mover a la celda %d"}},"fr":{"stringUnit":{"state":"translated","value":"Relâchez pour déplacer vers la cellule %d"}},"ja":{"stringUnit":{"state":"translated","value":"放してセル%dに移動"}},"ko":{"stringUnit":{"state":"translated","value":"놓아서 %d번 셀로 이동"}},"pt":{"stringUnit":{"state":"translated","value":"Solte para mover para a célula %d"}},"ru":{"stringUnit":{"state":"translated","value":"Отпустите, чтобы переместить в ячейку %d"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"松开以移动到第 %d 个单元格"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"放開以移到第 %d 個單元格"}}}},
-    "操作网格": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"شبكة الإجراءات"}},"de":{"stringUnit":{"state":"translated","value":"Aktionsraster"}},"en":{"stringUnit":{"state":"translated","value":"Action Grid"}},"es":{"stringUnit":{"state":"translated","value":"Cuadrícula de acciones"}},"fr":{"stringUnit":{"state":"translated","value":"Grille d’actions"}},"ja":{"stringUnit":{"state":"translated","value":"アクショングリッド"}},"ko":{"stringUnit":{"state":"translated","value":"동작 그리드"}},"pt":{"stringUnit":{"state":"translated","value":"Grade de ações"}},"ru":{"stringUnit":{"state":"translated","value":"Сетка действий"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"操作网格"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"操作網格"}}}},
-    "搜索操作": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"البحث عن إجراءات"}},"de":{"stringUnit":{"state":"translated","value":"Aktionen suchen"}},"en":{"stringUnit":{"state":"translated","value":"Search Actions"}},"es":{"stringUnit":{"state":"translated","value":"Buscar acciones"}},"fr":{"stringUnit":{"state":"translated","value":"Rechercher des actions"}},"ja":{"stringUnit":{"state":"translated","value":"アクションを検索"}},"ko":{"stringUnit":{"state":"translated","value":"동작 검색"}},"pt":{"stringUnit":{"state":"translated","value":"Buscar ações"}},"ru":{"stringUnit":{"state":"translated","value":"Поиск действий"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"搜索操作"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"搜尋操作"}}}},
-    "文件夹": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"مجلد"}},"de":{"stringUnit":{"state":"translated","value":"Ordner"}},"en":{"stringUnit":{"state":"translated","value":"Folder"}},"es":{"stringUnit":{"state":"translated","value":"Carpeta"}},"fr":{"stringUnit":{"state":"translated","value":"Dossier"}},"ja":{"stringUnit":{"state":"translated","value":"フォルダ"}},"ko":{"stringUnit":{"state":"translated","value":"폴더"}},"pt":{"stringUnit":{"state":"translated","value":"Pasta"}},"ru":{"stringUnit":{"state":"translated","value":"Папка"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"文件夹"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"資料夾"}}}},
-    "文件夹名称": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"اسم المجلد"}},"de":{"stringUnit":{"state":"translated","value":"Ordnername"}},"en":{"stringUnit":{"state":"translated","value":"Folder Name"}},"es":{"stringUnit":{"state":"translated","value":"Nombre de la carpeta"}},"fr":{"stringUnit":{"state":"translated","value":"Nom du dossier"}},"ja":{"stringUnit":{"state":"translated","value":"フォルダ名"}},"ko":{"stringUnit":{"state":"translated","value":"폴더 이름"}},"pt":{"stringUnit":{"state":"translated","value":"Nome da pasta"}},"ru":{"stringUnit":{"state":"translated","value":"Имя папки"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"文件夹名称"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"資料夾名稱"}}}},
-    "新建文件夹": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"مجلد جديد"}},"de":{"stringUnit":{"state":"translated","value":"Neuer Ordner"}},"en":{"stringUnit":{"state":"translated","value":"New Folder"}},"es":{"stringUnit":{"state":"translated","value":"Nueva carpeta"}},"fr":{"stringUnit":{"state":"translated","value":"Nouveau dossier"}},"ja":{"stringUnit":{"state":"translated","value":"新規フォルダ"}},"ko":{"stringUnit":{"state":"translated","value":"새 폴더"}},"pt":{"stringUnit":{"state":"translated","value":"Nova pasta"}},"ru":{"stringUnit":{"state":"translated","value":"Новая папка"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"新建文件夹"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"新增資料夾"}}}},
-    "添加": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"إضافة"}},"de":{"stringUnit":{"state":"translated","value":"Hinzufügen"}},"en":{"stringUnit":{"state":"translated","value":"Add"}},"es":{"stringUnit":{"state":"translated","value":"Añadir"}},"fr":{"stringUnit":{"state":"translated","value":"Ajouter"}},"ja":{"stringUnit":{"state":"translated","value":"追加"}},"ko":{"stringUnit":{"state":"translated","value":"추가"}},"pt":{"stringUnit":{"state":"translated","value":"Adicionar"}},"ru":{"stringUnit":{"state":"translated","value":"Добавить"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"添加"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"加入"}}}},
-    "添加第 %d 个单元格": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"إضافة الخلية %d"}},"de":{"stringUnit":{"state":"translated","value":"Zelle %d hinzufügen"}},"en":{"stringUnit":{"state":"translated","value":"Add Cell %d"}},"es":{"stringUnit":{"state":"translated","value":"Añadir celda %d"}},"fr":{"stringUnit":{"state":"translated","value":"Ajouter la cellule %d"}},"ja":{"stringUnit":{"state":"translated","value":"セル%dを追加"}},"ko":{"stringUnit":{"state":"translated","value":"%d번 셀 추가"}},"pt":{"stringUnit":{"state":"translated","value":"Adicionar célula %d"}},"ru":{"stringUnit":{"state":"translated","value":"Добавить ячейку %d"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"添加第 %d 个单元格"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"加入第 %d 個單元格"}}}},
-    "编辑操作": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"تحرير الإجراء"}},"de":{"stringUnit":{"state":"translated","value":"Aktion bearbeiten"}},"en":{"stringUnit":{"state":"translated","value":"Edit Action"}},"es":{"stringUnit":{"state":"translated","value":"Editar acción"}},"fr":{"stringUnit":{"state":"translated","value":"Modifier l’action"}},"ja":{"stringUnit":{"state":"translated","value":"アクションを編集"}},"ko":{"stringUnit":{"state":"translated","value":"동작 편집"}},"pt":{"stringUnit":{"state":"translated","value":"Editar ação"}},"ru":{"stringUnit":{"state":"translated","value":"Изменить действие"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"编辑操作"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"編輯操作"}}}},
-    "自定义名称（可选）": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"اسم مخصص (اختياري)"}},"de":{"stringUnit":{"state":"translated","value":"Eigener Name (optional)"}},"en":{"stringUnit":{"state":"translated","value":"Custom Name (Optional)"}},"es":{"stringUnit":{"state":"translated","value":"Nombre personalizado (opcional)"}},"fr":{"stringUnit":{"state":"translated","value":"Nom personnalisé (facultatif)"}},"ja":{"stringUnit":{"state":"translated","value":"カスタム名（オプション）"}},"ko":{"stringUnit":{"state":"translated","value":"사용자 설정 이름(선택 사항)"}},"pt":{"stringUnit":{"state":"translated","value":"Nome personalizado (opcional)"}},"ru":{"stringUnit":{"state":"translated","value":"Пользовательское имя (необязательно)"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"自定义名称（可选）"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"自訂名稱（可選）"}}}},
-    "重命名": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"إعادة تسمية"}},"de":{"stringUnit":{"state":"translated","value":"Umbenennen"}},"en":{"stringUnit":{"state":"translated","value":"Rename"}},"es":{"stringUnit":{"state":"translated","value":"Renombrar"}},"fr":{"stringUnit":{"state":"translated","value":"Renommer"}},"ja":{"stringUnit":{"state":"translated","value":"名前を変更"}},"ko":{"stringUnit":{"state":"translated","value":"이름 변경"}},"pt":{"stringUnit":{"state":"translated","value":"Renomear"}},"ru":{"stringUnit":{"state":"translated","value":"Переименовать"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"重命名"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"重新命名"}}}},
-    "重命名文件夹": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"إعادة تسمية المجلد"}},"de":{"stringUnit":{"state":"translated","value":"Ordner umbenennen"}},"en":{"stringUnit":{"state":"translated","value":"Rename Folder"}},"es":{"stringUnit":{"state":"translated","value":"Renombrar carpeta"}},"fr":{"stringUnit":{"state":"translated","value":"Renommer le dossier"}},"ja":{"stringUnit":{"state":"translated","value":"フォルダ名を変更"}},"ko":{"stringUnit":{"state":"translated","value":"폴더 이름 변경"}},"pt":{"stringUnit":{"state":"translated","value":"Renomear pasta"}},"ru":{"stringUnit":{"state":"translated","value":"Переименовать папку"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"重命名文件夹"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"重新命名資料夾"}}}},
-    "返回": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"رجوع"}},"de":{"stringUnit":{"state":"translated","value":"Zurück"}},"en":{"stringUnit":{"state":"translated","value":"Back"}},"es":{"stringUnit":{"state":"translated","value":"Volver"}},"fr":{"stringUnit":{"state":"translated","value":"Retour"}},"ja":{"stringUnit":{"state":"translated","value":"戻る"}},"ko":{"stringUnit":{"state":"translated","value":"뒤로"}},"pt":{"stringUnit":{"state":"translated","value":"Voltar"}},"ru":{"stringUnit":{"state":"translated","value":"Назад"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"返回"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"返回"}}}},
+    "执行前需要确认。": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يلزم التأكيد قبل التشغيل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vor der Ausführung ist eine Bestätigung erforderlich."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmation is required before running."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se requiere confirmación antes de ejecutar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une confirmation est requise avant l’exécution."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "実行前に確認が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "실행 전에 확인이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "É necessária confirmação antes de executar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перед запуском требуется подтверждение."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalıştırmadan önce onay gerekir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "执行前需要确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行前需要確認。"
+          }
+        }
+      }
+    },
+    "上移": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحريك لأعلى"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach oben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move Up"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monter"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上に移動"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "위로 이동"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover para cima"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переместить вверх"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yukarı Taşı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上移"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上移"
+          }
+        }
+      }
+    },
+    "下移": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحريك لأسفل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach unten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move Down"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bajar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descendre"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下に移動"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "아래로 이동"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover para baixo"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переместить вниз"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aşağı Taşı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下移"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下移"
+          }
+        }
+      }
+    },
+    "保存": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حفظ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sichern"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "저장"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydet"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "儲存"
+          }
+        }
+      }
+    },
+    "删除": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Löschen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "削除"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "삭제"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apagar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sil"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除"
+          }
+        }
+      }
+    },
+    "打开文件夹": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح المجلد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordner öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Folder"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir carpeta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir le dossier"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォルダを開く"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "폴더 열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir pasta"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть папку"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasörü Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开文件夹"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打開資料夾"
+          }
+        }
+      }
+    },
+    "拖动单元格可重新排序。选择操作可原位编辑；选择文件夹可打开下一级网格。": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسحب الخلايا لإعادة ترتيبها. اختر إجراءً لتحريره في مكانه، أو اختر مجلدًا لفتح الشبكة التالية."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zellen zum Sortieren ziehen. Eine Aktion zum direkten Bearbeiten oder einen Ordner für das nächste Raster auswählen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag cells to reorder. Select an action to edit it in place, or select a folder to open the next grid."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrastra las celdas para reordenarlas. Selecciona una acción para editarla o una carpeta para abrir la siguiente cuadrícula."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faites glisser les cellules pour les réorganiser. Sélectionnez une action pour la modifier ou un dossier pour ouvrir la grille suivante."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "セルをドラッグして並べ替えます。アクションを選択してその場で編集するか、フォルダを選択して次のグリッドを開きます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "셀을 드래그하여 순서를 변경합니다. 동작을 선택해 바로 편집하거나 폴더를 선택해 다음 그리드를 여십시오."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arraste as células para reordenar. Selecione uma ação para editar no local ou uma pasta para abrir a próxima grade."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перетаскивайте ячейки для изменения порядка. Выберите действие для редактирования или папку для открытия следующей сетки."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hücreleri sürükleyerek yeniden sıralayın. Bir eylem seçip yerinde düzenleyin veya klasör seçerek bir sonraki ızgarayı açın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖动单元格可重新排序。选择操作可原位编辑；选择文件夹可打开下一级网格。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖移單元格可重新排序。選擇操作可原位編輯；選擇資料夾可打開下一級網格。"
+          }
+        }
+      }
+    },
+    "操作": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إجراء"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktion"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Action"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acción"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Action"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクション"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동작"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ação"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Действие"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作"
+          }
+        }
+      }
+    },
+    "切换": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبديل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Umschalten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toggle"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alternar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basculer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切り替え"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전환"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alternar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переключатель"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aç/Kapat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切換"
+          }
+        }
+      }
+    },
+    "下次执行：%@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإجراء التالي: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nächste Aktion: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next action: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siguiente acción: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Action suivante : %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "次のアクション：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다음 동작: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Próxima ação: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Следующее действие: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıradaki eylem: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下次执行：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下次執行：%@"
+          }
+        }
+      }
+    },
+    "移动到这里": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل إلى هنا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hierher bewegen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move Here"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover aquí"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacer ici"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ここに移動"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "여기로 이동"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover para cá"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переместить сюда"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buraya Taşı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移动到这里"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移到這裡"
+          }
+        }
+      }
+    },
+    "交换位置": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبديل الموضعين"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Positionen tauschen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swap Positions"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intercambiar posiciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permuter les positions"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "位置を入れ替え"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "위치 바꾸기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trocar posições"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поменять местами"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konumları Değiştir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "交换位置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "交換位置"
+          }
+        }
+      }
+    },
+    "松开以与“%@”交换位置": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أفلت للتبديل مع «%@»"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loslassen, um mit „%@“ zu tauschen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Release to swap with “%@”"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suelta para intercambiar con “%@”"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Relâchez pour permuter avec « %@ »"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放して「%@」と入れ替え"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "놓아서 ‘%@’과(와) 위치 바꾸기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solte para trocar com “%@”"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отпустите, чтобы поменять местами с «%@»"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” ile yer değiştirmek için bırakın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "松开以与“%@”交换位置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放開以與「%@」交換位置"
+          }
+        }
+      }
+    },
+    "松开以移动到第 %d 个单元格": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أفلت للنقل إلى الخلية %d"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loslassen, um in Zelle %d zu bewegen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Release to move to Cell %d"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suelta para mover a la celda %d"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Relâchez pour déplacer vers la cellule %d"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放してセル%dに移動"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "놓아서 %d번 셀로 이동"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solte para mover para a célula %d"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отпустите, чтобы переместить в ячейку %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d. hücreye taşımak için bırakın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "松开以移动到第 %d 个单元格"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放開以移到第 %d 個單元格"
+          }
+        }
+      }
+    },
+    "操作网格": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شبكة الإجراءات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktionsraster"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Action Grid"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuadrícula de acciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grille d’actions"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクショングリッド"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동작 그리드"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grade de ações"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сетка действий"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Izgarası"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作网格"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作網格"
+          }
+        }
+      }
+    },
+    "搜索操作": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البحث عن إجراءات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktionen suchen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search Actions"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar acciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher des actions"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクションを検索"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동작 검색"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar ações"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск действий"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Ara"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜尋操作"
+          }
+        }
+      }
+    },
+    "文件夹": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordner"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carpeta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dossier"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォルダ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "폴더"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pasta"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Папка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasör"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文件夹"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "資料夾"
+          }
+        }
+      }
+    },
+    "文件夹名称": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسم المجلد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordnername"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder Name"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre de la carpeta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom du dossier"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォルダ名"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "폴더 이름"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nome da pasta"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Имя папки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasör Adı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文件夹名称"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "資料夾名稱"
+          }
+        }
+      }
+    },
+    "新建文件夹": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد جديد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neuer Ordner"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Folder"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nueva carpeta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nouveau dossier"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新規フォルダ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "새 폴더"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nova pasta"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Новая папка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni Klasör"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新建文件夹"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增資料夾"
+          }
+        }
+      }
+    },
+    "添加": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hinzufügen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "追加"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "추가"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入"
+          }
+        }
+      }
+    },
+    "添加第 %d 个单元格": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة الخلية %d"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zelle %d hinzufügen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Cell %d"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir celda %d"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter la cellule %d"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "セル%dを追加"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d번 셀 추가"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar célula %d"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавить ячейку %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d. Hücreyi Ekle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加第 %d 个单元格"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入第 %d 個單元格"
+          }
+        }
+      }
+    },
+    "编辑操作": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحرير الإجراء"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktion bearbeiten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit Action"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar acción"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifier l’action"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクションを編集"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동작 편집"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar ação"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменить действие"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylemi Düzenle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編輯操作"
+          }
+        }
+      }
+    },
+    "自定义名称（可选）": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسم مخصص (اختياري)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eigener Name (optional)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom Name (Optional)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre personalizado (opcional)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom personnalisé (facultatif)"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "カスタム名（オプション）"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사용자 설정 이름(선택 사항)"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nome personalizado (opcional)"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пользовательское имя (необязательно)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel Ad (İsteğe Bağlı)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义名称（可选）"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自訂名稱（可選）"
+          }
+        }
+      }
+    },
+    "重命名": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تسمية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Umbenennen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renombrar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renommer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名前を変更"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이름 변경"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renomear"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переименовать"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden Adlandır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重命名"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新命名"
+          }
+        }
+      }
+    },
+    "重命名文件夹": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تسمية المجلد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordner umbenennen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename Folder"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renombrar carpeta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renommer le dossier"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォルダ名を変更"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "폴더 이름 변경"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renomear pasta"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переименовать папку"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasörü Yeniden Adlandır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重命名文件夹"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新命名資料夾"
+          }
+        }
+      }
+    },
+    "返回": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رجوع"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurück"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retour"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "戻る"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "뒤로"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voltar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Назад"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "返回"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "返回"
+          }
+        }
+      }
+    },
     "%@，%@，%@": {
       "extractionState": "manual",
       "localizations": {
@@ -79,6 +2029,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, %@, %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%@, %@, %@"
@@ -155,6 +2111,12 @@
             "value": "Открывает сетку действий рядом с указателем."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Izgarasını işaretçinin yakınında açar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -224,6 +2186,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Показать сетку действий"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Izgarasını Göster"
           }
         },
         "zh-Hans": {
@@ -297,6 +2265,12 @@
             "value": "Открывайте избранные действия рядом с указателем"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sık kullandığınız eylemleri işaretçinin yakınında açar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -366,6 +2340,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сетка действий"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Izgarası"
           }
         },
         "zh-Hans": {
@@ -439,6 +2419,12 @@
             "value": "Недоступно"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılamıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -508,6 +2494,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Недоступное действие"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılamayan Eylem"
           }
         },
         "zh-Hans": {
@@ -581,6 +2573,12 @@
             "value": "Удалить эту запись из таблицы операций"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu öğeyi Eylem Izgarasından kaldır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -650,6 +2648,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отмена"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
           }
         },
         "zh-Hans": {
@@ -723,6 +2727,12 @@
             "value": "Доступно"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılabilir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -792,6 +2802,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть настройки поставщика действий"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem sağlayıcı ayarlarını aç"
           }
         },
         "zh-Hans": {
@@ -865,6 +2881,12 @@
             "value": "Отсутствует поставщик"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağlayıcı eksik"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -934,6 +2956,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Операция недоступна."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem kullanılamıyor."
           }
         },
         "zh-Hans": {
@@ -1007,6 +3035,12 @@
             "value": "Невозможно временно отобразить операционную сетку."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Izgarası geçici olarak kullanılamıyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1076,6 +3110,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно отобразить операционную сетку."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Izgarası gösterilemiyor."
           }
         },
         "zh-Hans": {
@@ -1149,6 +3189,12 @@
             "value": "Невозможно прочитать сохраненную сетку: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedilen ızgara okunamadı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1218,6 +3264,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "заменяет"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değiştir"
           }
         },
         "zh-Hans": {
@@ -1291,6 +3343,12 @@
             "value": "заменяет «%@»"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” Öğesini Değiştir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1360,6 +3418,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ввод"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öğe"
           }
         },
         "zh-Hans": {
@@ -1433,6 +3497,12 @@
             "value": "Добавить действие"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Ekle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1502,6 +3572,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добавьте до девяти операций."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En fazla dokuz eylem ekleyin."
           }
         },
         "zh-Hans": {
@@ -1575,6 +3651,12 @@
             "value": "Удалите «%@»"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” Öğesini Kaldır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1644,6 +3726,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "-я запись %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d. Öğe"
           }
         },
         "zh-Hans": {
@@ -1717,6 +3805,12 @@
             "value": "Сетка действий пуста"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Izgara boş"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1786,6 +3880,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
           }
         },
         "zh-Hans": {
@@ -1859,6 +3959,12 @@
             "value": "Установите «%@»"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” Ayarları"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1928,6 +4034,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сначала настройте операционную сетку."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce Eylem Izgarasını yapılandırın."
           }
         },
         "zh-Hans": {
@@ -2001,6 +4113,12 @@
             "value": "Текущая запись заменяется безопасным набором рекомендуемых действий."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu işlem, geçerli öğeyi önerilen güvenli eylem kümesiyle değiştirir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2070,6 +4188,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите другое действие для замены этой записи"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu öğeyi değiştirmek için başka bir eylem seçin"
           }
         },
         "zh-Hans": {
@@ -2143,6 +4267,12 @@
             "value": "автоматически восстановится после переустановки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden yüklemeden sonra otomatik olarak geri yüklenir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2212,6 +4342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сброс"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıfırla"
           }
         },
         "zh-Hans": {
@@ -2285,6 +4421,12 @@
             "value": "Сбросить сетку действий?"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Izgarası sıfırlansın mı?"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2354,6 +4496,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Предварительный просмотр"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önizleme"
           }
         },
         "zh-Hans": {

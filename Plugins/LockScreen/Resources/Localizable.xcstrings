@@ -4,49 +4,232 @@
     "action.confirmation.confirm": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "قفل" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Sperren" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Lock" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Bloquear" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Verrouiller" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ロック" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "잠그기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Bloquear" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Заблокировать" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "锁定" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "鎖定" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قفل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sperren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bloquear"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verrouiller"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ロック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "잠그기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bloquear"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заблокировать"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilitle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "锁定"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鎖定"
+          }
+        }
       }
     },
     "action.confirmation.message": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "سيؤدي رابط التشغيل هذا إلى قفل الشاشة فورًا." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Dieser Ausführungslink sperrt den Bildschirm sofort." } },
-        "en": { "stringUnit": { "state": "translated", "value": "This Run Link will lock the screen immediately." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Este enlace de ejecución bloqueará la pantalla inmediatamente." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ce lien d’exécution verrouillera immédiatement l’écran." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "この実行リンクは画面をすぐにロックします。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이 실행 링크는 화면을 즉시 잠급니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Este link de execução bloqueará a tela imediatamente." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Эта ссылка запуска немедленно заблокирует экран." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "此运行链接将立即锁定屏幕。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "此執行連結會立即鎖定螢幕。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيؤدي رابط التشغيل هذا إلى قفل الشاشة فورًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Ausführungslink sperrt den Bildschirm sofort."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This Run Link will lock the screen immediately."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este enlace de ejecución bloqueará la pantalla inmediatamente."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce lien d’exécution verrouillera immédiatement l’écran."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この実行リンクは画面をすぐにロックします。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 실행 링크는 화면을 즉시 잠급니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este link de execução bloqueará a tela imediatamente."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эта ссылка запуска немедленно заблокирует экран."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Çalıştırma Bağlantısı ekranı hemen kilitleyecek."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此运行链接将立即锁定屏幕。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此執行連結會立即鎖定螢幕。"
+          }
+        }
       }
     },
     "action.confirmation.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "قفل الشاشة؟" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Bildschirm sperren?" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Lock the Screen?" } },
-        "es": { "stringUnit": { "state": "translated", "value": "¿Bloquear la pantalla?" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Verrouiller l’écran ?" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "画面をロックしますか？" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "화면을 잠글까요?" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Bloquear a tela?" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Заблокировать экран?" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "锁定屏幕？" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "鎖定螢幕？" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قفل الشاشة؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bildschirm sperren?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock the Screen?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Bloquear la pantalla?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verrouiller l’écran ?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "画面をロックしますか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "화면을 잠글까요?"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bloquear a tela?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заблокировать экран?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran kilitlensin mi?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "锁定屏幕？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鎖定螢幕？"
+          }
+        }
       }
     },
     "metadata.title": {
@@ -104,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Экран блокировки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranı Kilitle"
           }
         },
         "zh-Hans": {
@@ -177,6 +366,12 @@
             "value": "Немедленно заблокируйте экран."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranı hemen kilitler."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -248,6 +443,12 @@
             "value": "Заблокировать"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilitle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -265,17 +466,78 @@
     "error.lockFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر قفل الشاشة فورًا." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Der Bildschirm konnte nicht sofort gesperrt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The screen could not be locked immediately." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudo bloquear la pantalla inmediatamente." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible de verrouiller l’écran immédiatement." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "画面をすぐにロックできませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "화면을 즉시 잠글 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível bloquear o ecrã imediatamente." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось немедленно заблокировать экран." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法立即锁定屏幕。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法立即鎖定螢幕。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر قفل الشاشة فورًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Bildschirm konnte nicht sofort gesperrt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The screen could not be locked immediately."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo bloquear la pantalla inmediatamente."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de verrouiller l’écran immédiatement."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "画面をすぐにロックできませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "화면을 즉시 잠글 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível bloquear o ecrã imediatamente."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось немедленно заблокировать экран."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran hemen kilitlenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法立即锁定屏幕。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法立即鎖定螢幕。"
+          }
+        }
       }
     }
   },

@@ -39,6 +39,10 @@
       "displayName": "Проверка IP",
       "summary": "Просмотр исходящего IP, локального IP, местоположения и качества сети."
     },
+    "tr": {
+      "displayName": "IP Kontrolü",
+      "summary": "Dış IP'yi, yerel IP'yi, konumu ve ağ kalitesini görüntüleyin."
+    },
     "zh-Hans": {
       "displayName": "IP 检测",
       "summary": "查看出口 IP、本地 IP、归属地与网络测速摘要"
@@ -59,6 +63,7 @@
       "ko": "로컬 및 공인 IP 주소, 위치와 네트워크 품질을 확인하고 현재 주소를 빠르게 복사합니다.",
       "pt": "Consulte IPs locais e públicos, localização e qualidade da rede e copie rapidamente os endereços atuais.",
       "ru": "Просматривайте локальные и публичные IP-адреса, местоположение и качество сети и быстро копируйте текущие адреса.",
+      "tr": "Yerel ve genel IP adreslerini, konumu ve ağ kalitesini inceleyin; ardından geçerli adresleri hızla kopyalayın.",
       "zh-Hans": "查看本地与公网 IP、归属地和网络质量，并快速复制当前地址。",
       "zh-Hant": "查看本機與公網 IP、歸屬地和網路品質，並快速複製目前位址。"
     },
@@ -72,6 +77,7 @@
       "ko": "허용 목록을 설정하기 전에 공인 IP를 새로 고치고 복사합니다.",
       "pt": "Atualize e copie o IP público antes de configurar uma lista de permissões.",
       "ru": "Обновите и скопируйте публичный IP перед настройкой списка разрешений.",
+      "tr": "İzin listesi yapılandırmadan önce genel IP'nizi yenileyip kopyalayın.",
       "zh-Hans": "配置允许列表前刷新并复制公网 IP。",
       "zh-Hant": "設定允許清單前重新整理並複製公網 IP。"
     },
@@ -85,6 +91,7 @@
       "ko": "네트워크 연결 확인",
       "pt": "Verificar conectividade da rede",
       "ru": "Проверить сетевое подключение",
+      "tr": "Ağ bağlantısını inceleme",
       "zh-Hans": "检查网络连接",
       "zh-Hant": "檢查網路連線"
     },
@@ -98,6 +105,7 @@
       "ko": "로컬 IPv4 복사",
       "pt": "Copiar IPv4 local",
       "ru": "Скопировать локальный IPv4",
+      "tr": "Yerel IPv4 Adresini Kopyala",
       "zh-Hans": "复制本地 IPv4",
       "zh-Hant": "複製本機 IPv4"
     },
@@ -111,6 +119,7 @@
       "ko": "기본 로컬 IPv4 주소를 새로 고치고 복사합니다.",
       "pt": "Atualiza e copia o endereço IPv4 local preferido.",
       "ru": "Обновляет и копирует предпочтительный локальный IPv4-адрес.",
+      "tr": "Tercih edilen yerel IPv4 adresini yenileyip kopyalayın.",
       "zh-Hans": "刷新并复制首选本地 IPv4 地址。",
       "zh-Hant": "重新整理並複製偏好的本機 IPv4 位址。"
     },
@@ -124,6 +133,7 @@
       "ko": "공인 IPv4 복사",
       "pt": "Copiar IPv4 público",
       "ru": "Скопировать публичный IPv4",
+      "tr": "Genel IPv4 Adresini Kopyala",
       "zh-Hans": "复制公网 IPv4",
       "zh-Hant": "複製公網 IPv4"
     },
@@ -137,6 +147,7 @@
       "ko": "현재 공인 IPv4 주소를 새로 고치고 복사합니다.",
       "pt": "Atualiza e copia o endereço IPv4 público atual.",
       "ru": "Обновляет и копирует текущий публичный IPv4-адрес.",
+      "tr": "Geçerli genel IPv4 adresini yenileyip kopyalayın.",
       "zh-Hans": "刷新并复制当前公网 IPv4 地址。",
       "zh-Hant": "重新整理並複製目前公網 IPv4 位址。"
     },
@@ -150,6 +161,7 @@
       "ko": "공인 IP를 감지하려면 네트워크 연결이 필요합니다.",
       "pt": "A deteção do IP público requer uma ligação de rede.",
       "ru": "Для определения публичного IP требуется подключение к сети.",
+      "tr": "Genel IP algılaması ağ bağlantısı gerektirir.",
       "zh-Hans": "检测公网 IP 需要网络连接。",
       "zh-Hant": "偵測公網 IP 需要網路連線。"
     }
@@ -228,6 +240,9 @@
       "ru": [
         "IP-адрес",
         "диагностика сети"
+      ],
+      "tr": [
+        "IP Kontrolü"
       ],
       "zh-Hans": [
         "IP 地址",

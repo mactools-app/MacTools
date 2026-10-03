@@ -58,6 +58,12 @@
             "value": "Матовый"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buzlu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -124,6 +130,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "HUD"
@@ -200,6 +212,12 @@
             "value": "Launchpad"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launchpad"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ненавязчивый"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yumuşak"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Прозрачный"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berrak"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пользовательский"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Глубокий"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koyu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Стандарт"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standart"
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Без названия"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adsız"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Имя папки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasör adı"
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Приложения не найдены"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama bulunamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет подходящих приложений"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleşen uygulama yok"
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "Скопировать путь"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yolu Kopyala"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -979,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Расформировать папку"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasörü Dağıt"
           }
         },
         "zh-Hans": {
@@ -1052,6 +1136,12 @@
             "value": "Скрыть"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1121,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Переместить в конец"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sona Taşı"
           }
         },
         "zh-Hans": {
@@ -1194,6 +1290,12 @@
             "value": "Переместить в начало"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başa Taşı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1263,6 +1365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aç"
           }
         },
         "zh-Hans": {
@@ -1336,6 +1444,12 @@
             "value": "Переименовать"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden Adlandır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1405,6 +1519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Показать в Finder"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder'da Göster"
           }
         },
         "zh-Hans": {
@@ -1478,6 +1598,12 @@
             "value": "Страница %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sayfa %d"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1547,6 +1673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Новая страница"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni Sayfa"
           }
         },
         "zh-Hans": {
@@ -1620,6 +1752,12 @@
             "value": "Внизу слева"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sol Alt"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1689,6 +1827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Внизу справа"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağ Alt"
           }
         },
         "zh-Hans": {
@@ -1762,6 +1906,12 @@
             "value": "Выкл."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1831,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Вверху слева"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sol Üst"
           }
         },
         "zh-Hans": {
@@ -1904,6 +2060,12 @@
             "value": "Вверху справа"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağ Üst"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1973,6 +2135,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Акцентный"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vurgu"
           }
         },
         "zh-Hans": {
@@ -2046,6 +2214,12 @@
             "value": "Автоматически"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2115,6 +2289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Черный"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siyah"
           }
         },
         "zh-Hans": {
@@ -2188,6 +2368,12 @@
             "value": "Белый"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beyaz"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2257,6 +2443,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Большой"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Büyük"
           }
         },
         "zh-Hans": {
@@ -2330,6 +2522,12 @@
             "value": "Средний"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2399,6 +2597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Маленький"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Küçük"
           }
         },
         "zh-Hans": {
@@ -2472,6 +2676,12 @@
             "value": "Жирный"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2541,6 +2751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Средний"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta"
           }
         },
         "zh-Hans": {
@@ -2614,6 +2830,12 @@
             "value": "Обычный"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Normal"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2683,6 +2905,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Полужирный"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yarı Kalın"
           }
         },
         "zh-Hans": {
@@ -2756,6 +2984,12 @@
             "value": "Откройте сетку приложений, найдите и запустите приложения."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama ızgarasını açın, arama yapın ve uygulamaları başlatın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2822,6 +3056,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launchpad"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Launchpad"
@@ -2898,6 +3138,12 @@
             "value": "Открыть"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2967,6 +3213,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Поиск приложений"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Ara"
           }
         },
         "zh-Hans": {
@@ -3040,6 +3292,12 @@
             "value": "Меняет число строк и столбцов на странице"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Satır ve sütun sayısı sayfaya göre ayarlanır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3111,6 +3369,12 @@
             "value": "Размер значка"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simge Boyutu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3177,6 +3441,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d pt"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%d pt"
@@ -3253,6 +3523,12 @@
             "value": "На темном фоне лучше виден белый текст"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daha iyi karşıtlık için koyu arka planlarda beyazı kullanın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3322,6 +3598,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Цвет названия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ad Rengi"
           }
         },
         "zh-Hans": {
@@ -3395,6 +3677,12 @@
             "value": "Масштабируется вместе со значком"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simge boyutuyla birlikte ölçeklenir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3464,6 +3752,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Размер названия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ad Boyutu"
           }
         },
         "zh-Hans": {
@@ -3537,6 +3831,12 @@
             "value": "Для названий приложений и папок"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama adlarına ve klasör başlıklarına uygulanır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3606,6 +3906,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Толщина названия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ad Kalınlığı"
           }
         },
         "zh-Hans": {
@@ -3679,6 +3985,12 @@
             "value": "Предпросмотр раскладки: %1$d столбцов на %2$d строк, %3$d приложений на странице"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzen önizlemesi: %1$d sütun × %2$d satır, sayfa başına %3$d uygulama"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3748,6 +4060,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$d столбцов × %2$d строк · %3$d на странице"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$d sütun × %2$d satır · sayfa başına %3$d"
           }
         },
         "zh-Hans": {
@@ -3821,6 +4139,12 @@
             "value": "Отключите, чтобы показывать только значки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca simgeleri göstermek için kapatın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3890,6 +4214,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Показать названия приложений"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama Adlarını Göster"
           }
         },
         "zh-Hans": {
@@ -3963,6 +4293,12 @@
             "value": "Внешний вид"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4032,6 +4368,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Чем выше значение, тем темнее фон"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değer yükseldikçe arka plan koyulaşır"
           }
         },
         "zh-Hans": {
@@ -4105,6 +4447,12 @@
             "value": "Затемнение фона"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arka Plan Karartma"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4171,6 +4519,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d%%"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%d%%"
@@ -4247,6 +4601,12 @@
             "value": "Материал стеклянного фона"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cam zeminde kullanılan malzeme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4316,6 +4676,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Материал стекла"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cam Malzemesi"
           }
         },
         "zh-Hans": {
@@ -4389,6 +4755,12 @@
             "value": "Предпросмотр стеклянного фона"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arka plan camı önizlemesi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4458,6 +4830,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Больше прозрачности; рабочий стол виден"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daha şeffaf; masaüstü görünür kalır"
           }
         },
         "zh-Hans": {
@@ -4531,6 +4909,12 @@
             "value": "Выберите материал и уровень затемнения"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Malzeme ve karartma düzeyini seçin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4600,6 +4984,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Темнее, с акцентом на значки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daha koyu ve simgelere odaklı"
           }
         },
         "zh-Hans": {
@@ -4673,6 +5063,12 @@
             "value": "Стандартный сбалансированный вид стекла"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dengeli varsayılan cam görünümü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4742,6 +5138,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Стиль стекла"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cam Stili"
           }
         },
         "zh-Hans": {
@@ -4815,6 +5217,12 @@
             "value": "Фон"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arka Plan"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4884,6 +5292,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Автоматически по ширине окна"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencere genişliğine göre otomatik yerleştirir"
           }
         },
         "zh-Hans": {
@@ -4957,6 +5371,12 @@
             "value": "Автоматические столбцы"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik Sütunlar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5026,6 +5446,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Задает число приложений в строке"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her satırdaki uygulama sayısını sabitler"
           }
         },
         "zh-Hans": {
@@ -5099,6 +5525,12 @@
             "value": "Иконок в строке"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Satır Başına Simge"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5165,6 +5597,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%d"
@@ -5241,6 +5679,12 @@
             "value": "Сетка"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Izgara"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5310,6 +5754,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Восстановить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri Yükle"
           }
         },
         "zh-Hans": {
@@ -5383,6 +5833,12 @@
             "value": "Восстановить все"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümünü Geri Yükle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5452,6 +5908,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скрытые приложения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizli Uygulamalar"
           }
         },
         "zh-Hans": {
@@ -5525,6 +5987,12 @@
             "value": "Открывает Launchpad, когда указатель в углу экрана"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşaretçi ekranın bir köşesinde durduğunda Launchpad'i açar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5594,6 +6062,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Активный угол"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin Köşe"
           }
         },
         "zh-Hans": {
@@ -5667,6 +6141,12 @@
             "value": "Порядок приложений изменен вручную."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama sırası el ile ayarlandı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5736,6 +6216,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Свой порядок"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel Sıra"
           }
         },
         "zh-Hans": {
@@ -5809,6 +6295,12 @@
             "value": "Восстановить алфавитный порядок"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alfabetik Sırayı Geri Yükle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5878,6 +6370,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сортировка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıralama"
           }
         },
         "zh-Hans": {
@@ -5951,6 +6449,12 @@
             "value": "Плавающее окно по центру; закройте кликом снаружи"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranda ortada duran yüzen pencere; kapatmak için dışına tıklayın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6020,6 +6524,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Заполняет текущий экран; закройте кликом по пустому месту"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli ekranı kaplar; kapatmak için boş bir yere tıklayın"
           }
         },
         "zh-Hans": {
@@ -6093,6 +6603,12 @@
             "value": "Режим открытия"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açılış Modu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6162,6 +6678,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Доля экрана в компактном режиме"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kompakt modun ekranı kaplama oranı"
           }
         },
         "zh-Hans": {
@@ -6235,6 +6757,12 @@
             "value": "Размер окна"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencere Boyutu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6301,6 +6829,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d%%"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%d%%"
@@ -6377,6 +6911,12 @@
             "value": "Окно"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencere"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6446,6 +6986,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Используйте глобальное сочетание клавиш, чтобы открыть или закрыть сетку приложений. По умолчанию не задано; настройте здесь."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama ızgarasını açmak ya da kapatmak için genel bir kısayol kullanın. Varsayılan atanmadı; buradan özelleştirebilirsiniz."
           }
         },
         "zh-Hans": {
@@ -6519,6 +7065,12 @@
             "value": "Открыть Launchpad"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launchpad'i Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6590,6 +7142,12 @@
             "value": "Компактно"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kompakt"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6659,6 +7217,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Во весь экран"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam Ekran"
           }
         },
         "zh-Hans": {

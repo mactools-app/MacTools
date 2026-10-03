@@ -4,33 +4,155 @@
     "action.disable.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إظهار النتوء" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Aussparung anzeigen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Show Notch" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Mostrar muesca" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Afficher l’encoche" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ノッチを表示" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "노치 표시" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Mostrar recorte" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Показать вырез" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "显示刘海" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "顯示瀏海" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار النتوء"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aussparung anzeigen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Notch"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar muesca"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher l’encoche"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ノッチを表示"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "노치 표시"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar recorte"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать вырез"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentiği Göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示刘海"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示瀏海"
+          }
+        }
       }
     },
     "action.enable.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إخفاء النتوء" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Aussparung ausblenden" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Hide Notch" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Ocultar muesca" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Masquer l’encoche" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ノッチを隠す" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "노치 가리기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Ocultar recorte" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Скрыть вырез" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "隐藏刘海" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "隱藏瀏海" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء النتوء"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aussparung ausblenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide Notch"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar muesca"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer l’encoche"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ノッチを隠す"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "노치 가리기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar recorte"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скрыть вырез"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentiği Gizle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隐藏刘海"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隱藏瀏海"
+          }
+        }
       }
     },
     "metadata.title": {
@@ -88,6 +210,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скрыть вырез"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentiği Gizle"
           }
         },
         "zh-Hans": {
@@ -161,6 +289,12 @@
             "value": "Автоматически маскировать верхнюю область вокруг выреза дисплея."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran çentiğinin çevresindeki üst alanı otomatik olarak maskeler."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -230,6 +364,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
           }
         },
         "zh-Hans": {
@@ -303,6 +443,12 @@
             "value": "Дисплей с вырезом не обнаружен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentikli ekran algılanmadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -372,6 +518,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выключение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapatılıyor"
           }
         },
         "zh-Hans": {
@@ -445,6 +597,12 @@
             "value": "Невозможно создать слой маски выреза."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentik maske katmanı oluşturulamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -514,6 +672,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно создать слой маски выреза для %@: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ için çentik maske katmanı oluşturulamadı: %@"
           }
         },
         "zh-Hans": {

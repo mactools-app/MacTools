@@ -39,6 +39,10 @@
       "displayName": "Скрыть вырез",
       "summary": "Автоматически закрывать верхнюю область на дисплеях с вырезом."
     },
+    "tr": {
+      "displayName": "Çentiği Gizle",
+      "summary": "Çentikli ekranlarda üstteki çentik bölgesini otomatik olarak kapatın."
+    },
     "zh-Hans": {
       "displayName": "隐藏刘海",
       "summary": "自动遮挡刘海屏顶部区域"
@@ -122,6 +126,9 @@
       ],
       "ru": [
         "Скрыть вырез"
+      ],
+      "tr": [
+        "Çentiği Gizle"
       ],
       "zh-Hans": [
         "隐藏刘海"

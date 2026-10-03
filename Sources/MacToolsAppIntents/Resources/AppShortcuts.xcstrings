@@ -1,19 +1,82 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
-    "用 ${applicationName} 运行操作": { "localizations": {
-      "ar": { "stringUnit": { "state": "translated", "value": "تشغيل إجراء باستخدام ${applicationName}" } },
-      "de": { "stringUnit": { "state": "translated", "value": "Aktion mit ${applicationName} ausführen" } },
-      "en": { "stringUnit": { "state": "translated", "value": "Run an action with ${applicationName}" } },
-      "es": { "stringUnit": { "state": "translated", "value": "Ejecutar una acción con ${applicationName}" } },
-      "fr": { "stringUnit": { "state": "translated", "value": "Exécuter une action avec ${applicationName}" } },
-      "ja": { "stringUnit": { "state": "translated", "value": "${applicationName}で操作を実行" } },
-      "ko": { "stringUnit": { "state": "translated", "value": "${applicationName}(으)로 동작 실행" } },
-      "pt": { "stringUnit": { "state": "translated", "value": "Executar uma ação com ${applicationName}" } },
-      "ru": { "stringUnit": { "state": "translated", "value": "Выполнить действие с помощью ${applicationName}" } },
-      "zh-Hans": { "stringUnit": { "state": "translated", "value": "用 ${applicationName} 运行操作" } },
-      "zh-Hant": { "stringUnit": { "state": "translated", "value": "使用 ${applicationName} 執行操作" } }
-    } }
+    "用 ${applicationName} 运行操作": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل إجراء باستخدام ${applicationName}"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktion mit ${applicationName} ausführen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run an action with ${applicationName}"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecutar una acción con ${applicationName}"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécuter une action avec ${applicationName}"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName}で操作を実行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName}(으)로 동작 실행"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executar uma ação com ${applicationName}"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполнить действие с помощью ${applicationName}"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName} ile Eylem Çalıştır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用 ${applicationName} 运行操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 ${applicationName} 執行操作"
+          }
+        }
+      }
+    }
   },
   "version": "1.0"
 }

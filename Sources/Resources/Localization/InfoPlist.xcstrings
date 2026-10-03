@@ -58,6 +58,12 @@
             "value": "MacTools использует Apple Events, чтобы открывать даты в Календаре, читать значки, цвета и состояние выполнения Команд, а также показывать подтверждения macOS при выходе из системы, перезагрузке и выключении."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools, tarihleri Takvim'de açmak, Shortcuts simgelerini, renklerini ve çalışma durumunu okumak ve macOS oturumu kapatma, yeniden başlatma ve kapatma onaylarını göstermek için Apple Events kullanır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "MacTools обрабатывает звук приложений локально в реальном времени только при настройке их громкости и не записывает, не сохраняет и не загружает аудио."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools, uygulama sesini yalnızca uygulamaya özel ses düzeyini ayarlarken yerel olarak ve gerçek zamanlı olarak işler; sesi hiçbir zaman kaydetmez, saklamaz veya karşıya yüklemez."
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "MacTools считывает уровень заряда батареи аксессуара Bluetooth, чтобы показать состояние мыши, клавиатуры и гарнитуры в компоненте батареи устройства."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools, aygıt pili bileşeninde fare, klavye ve kulaklık durumunu göstermek için Bluetooth aksesuarlarının pil düzeylerini okur."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -271,6 +289,12 @@
             "value": "MacTools считывает события календаря, чтобы отобразить ваше расписание в компоненте календаря."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools, takvim bileşeninde programınızı göstermek için takvim etkinliklerini okur."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -340,6 +364,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "MacTools считывает события календаря, чтобы отобразить ваше расписание в компоненте календаря."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools, takvim bileşeninde programınızı göstermek için takvim etkinliklerini okur."
           }
         },
         "zh-Hans": {
