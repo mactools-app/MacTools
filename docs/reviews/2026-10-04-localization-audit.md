@@ -219,7 +219,7 @@ Representative screenshots from the milestone UI session are committed for PR re
 | Marketplace → AI Assistant | [Arabic details](assets/localization-2026-10-04/arabic-marketplace-detail.jpg) |
 | Window Layouts → Shortcut Presets | [Arabic sheet](assets/localization-2026-10-04/arabic-window-preset.jpg) |
 
-These images show the isolated review app and contain no permission settings or user documents. They precede the latest-main integration; no new Trash UI operation was performed. The subsequent guided session passed Arabic dark General settings, the dark theme picker, a custom themed panel, and switching to English with keyboard search. An interaction recording remains pending for the PR template’s full UI-evidence requirement, alongside the integration limits above.
+These images show the isolated review app and contain no permission settings or user documents. They precede the latest-main integration; no new Trash UI operation was performed. The subsequent guided session passed Arabic dark General settings, the dark theme picker, a custom themed panel, and switching to English with keyboard search. The automated evidence follow-up below supplies the additional theme screenshots and interaction recording.
 
 
 ## Guided checks and live metadata follow-up
@@ -243,3 +243,29 @@ The combined inventory exposed 232 Turkish gaps in copy added by this audit or i
 Earlier interactive screenshots, eleven-language linguistic approvals, and live-switching checks remain historical evidence for their recorded source snapshots. They do not establish Turkish runtime UI verification or a complete linguistic review of upstream Turkish copy. Source integration checks and independent review receipts are recorded under `build/LocalizationReview/07a89fe5/Manual/MainIntegration569d8690/`; outstanding device, account, speech, Finder activation, Siri/Shortcuts invocation, and additional UI-evidence checks remain as stated above.
 
 A separate read-only AI language review examined all 232 Turkish additions, six standard templates, and eleven requirement names. It corrected the on/off control label, toggle-state wording, and Apple Shortcuts terminology. Input Monitoring captions and guidance also use Apple’s [Giriş İzleme](https://support.apple.com/tr-tr/guide/mac-help/mchl211c911f/14.0/mac/14.0) terminology, including 26 inherited Turkish catalog entries; Apple’s Turkish app name is [Kestirmeler](https://support.apple.com/tr-tr/guide/shortcuts-mac/apdf22b0444c/mac). This targeted AI review is not human native-speaker certification.
+
+## Automated UI evidence follow-up
+
+On 2026-10-05, automated checks used the compiled `c6e077e1` Debug app on macOS 27.0.1, with a separate bundle identifier, preferences, support store, and locally built Appearance/System Status plugins. Only the fixture received local ad hoc signatures. The regular app was unchanged; the isolated app was returned to English and closed after checking.
+
+| Entry point and result | Evidence |
+| --- | --- |
+| General, Arabic dark appearance; right sidebar and readable controls | [Dark settings](assets/localization-2026-10-05/arabic-dark-general.jpg) |
+| General → Theme; Arabic sheet direction and One Dark selection | [Default theme](assets/localization-2026-10-05/arabic-dark-theme-picker.jpg), [One Dark selected](assets/localization-2026-10-05/arabic-dark-custom-theme-picker.jpg) |
+| Search → Panel 2; Arabic feature row with One Dark applied | [Custom themed panel](assets/localization-2026-10-05/arabic-custom-one-dark-panel.jpg) |
+| Arabic → English; Command-K, search, Down/Up selection, Return opens Permissions | [10-second interaction capture](assets/localization-2026-10-05/arabic-english-keyboard-navigation.mp4), [English light settings](assets/localization-2026-10-05/english-light-general.jpg) |
+| Turkish host and plugin settings; translated titles, controls, and wrapped descriptions | [General](assets/localization-2026-10-05/turkish-light-general.jpg), [System Status](assets/localization-2026-10-05/turkish-light-system-status-settings.jpg) |
+
+The recording encodes 78 sequential live CUA window snapshots with their original elapsed timing; it contains no audio. The original JPEG captures are preserved, and the video decoded without errors. [Evidence metadata](assets/localization-2026-10-05/evidence.json) binds these artifacts to the checked source snapshot. No app code or translation resources changed during this evidence session. Both GitHub checks passed at `c6e077e1`.
+
+The PR's representative light/dark/custom-theme and interaction evidence is complete. Turkish runtime rendering is now checked on these two representative pages; review of every upstream Turkish phrase and every plugin screen remains outside that result.
+
+| Remaining check | Importance and automation limit |
+| --- | --- |
+| Finder activation, native permission decisions, Siri/Shortcuts execution | Important for the affected integrations. Permission approval needs the user; subsequent UI checks can be automated. The existing Shortcuts communication failure still needs diagnosis and successful execution. |
+| VoiceOver speech | Important accessibility follow-up. Accessibility text and keyboard behavior are checked; spoken output needs human listening with the available tools. |
+| Device/account flows and other supported macOS versions | Useful integration coverage when the required environment is available. Most checks can be automated after the prerequisite is supplied. |
+| Broader Turkish proofreading and remaining windows/HUDs | Additional coverage can use AI review and accessible UI automation. It does not imply human native-speaker certification. |
+| Signed release package | Required before release, with explicit release intent and signing setup. This PR does not publish, notarize, or tag a release. |
+
+These remaining items do not prevent ordinary PR review. Cleanup and restart execution were not performed or counted as passing checks.
