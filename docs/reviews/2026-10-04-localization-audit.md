@@ -194,3 +194,24 @@ Focused native verification can be repeated with:
 ```sh
 make test TEST_FILTER='LocalizationResourceTests EmptyTrashPluginTests DeviceBatteryPluginTests StorageExplorerControllerTests StorageExplorerPresentationTests AIUsageViewModelTests AutomationRuntimeTests'
 ```
+
+## Draft PR integration
+
+The reviewed localization milestone was saved as `b322e1f0c5347b15e661fe1cca4fc9b717a6b4c3`. The PR branch then integrated `origin/main` at `28c3bd43`, including Storage Explorer's retained-snapshot Trash behavior from #459. The merge preserves its snapshot accounting, cache ordering, navigation, selection, and failed-item review. Typed Trash failures now refresh their displayed messages after a language change without rescanning. The earlier catalog/source fingerprints identify their historical localization snapshots; they do not identify this merged source inventory.
+
+Focused integration verification ran `make test TEST_FILTER='StorageExplorerControllerTests StorageExplorerSnapshotTests StorageExplorerProgressTests StorageExplorerPresentationTests'`: **42 tests passed, no failures or skips**. Failed and partial Trash tests also verify message refresh, retained review items, and an unchanged scan count. Test results and the separate integration review are retained under `build/LocalizationReview/07a89fe5/Remaining/`.
+
+Full CI exposed a Clipboard History action-symbol mismatch: the reviewed runtime uses semantic `chevron.backward`, while the source manifest still declared `chevron.left`. The manifest and its two generated website projections now agree with the runtime. The existing `PluginRuntimeActionSnapshotTests` contract check passed after this correction. Sol independently approved both the Storage Explorer integration and the three exact manifest/generated deltas, with no findings or uncertainties. Historical signed catalogs remain unchanged.
+
+Final `SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk make ci` passed against the integrated source and corrected metadata: **226 script checks, 2,657 native tests, no failures**, and the frozen PluginKit v7 binary client passed. Four Window Switcher desktop tests were skipped by their existing `MACTOOLS_RUN_DESKTOP_TESTS` opt-in gate. The earlier focused desktop session is recorded above; the full CI run did not opt into those checks. The exact summary and CI log are `Remaining/pr-ci-final-summary.json` and `Remaining/pr-ci-final.log`. All milestone translation catalogs remain unchanged after integration, and the separate review hashes match the merged controller/test and metadata/generated files.
+
+Representative screenshots from the milestone UI session are committed for PR review:
+
+| Entry point | Evidence |
+| --- | --- |
+| Settings → General, Arabic | [Before UI corrections](assets/localization-2026-10-04/arabic-general-before.jpg), [after UI corrections](assets/localization-2026-10-04/arabic-general-after.jpg) |
+| Settings → General, switch Arabic → English | [English presentation](assets/localization-2026-10-04/english-after-arabic-switch.jpg) |
+| Marketplace → AI Assistant | [Arabic details](assets/localization-2026-10-04/arabic-marketplace-detail.jpg) |
+| Window Layouts → Shortcut Presets | [Arabic sheet](assets/localization-2026-10-04/arabic-window-preset.jpg) |
+
+These images show the isolated review app and contain no permission settings or user documents. They precede the latest-main integration; no new Trash UI operation was performed. Dark appearance, custom-theme comparison, and an interaction recording remain pending for the PR template's full UI-evidence requirement, alongside the integration limits above.

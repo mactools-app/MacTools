@@ -1593,7 +1593,7 @@
           "trackpad-gesture",
           "manual"
         ],
-        "systemImage": "chevron.left",
+        "systemImage": "chevron.backward",
         "title": {
           "ar": "السابق",
           "de": "Zurück",
