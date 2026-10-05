@@ -42,7 +42,19 @@ final class MiddleClickPlugin: MacToolsPlugin, AccessibilityPermissionRefreshing
         static let fingerCount = "finger-count"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "middle-click",
+            title: localization.string("metadata.title", defaultValue: "模拟鼠标中键"),
+            iconName: "hand.tap",
+            iconTint: Color(nsColor: .systemIndigo),
+            order: 55,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "触控板轻点 → 模拟鼠标中键"
+            )
+        )
+    }
 
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
@@ -79,17 +91,6 @@ final class MiddleClickPlugin: MacToolsPlugin, AccessibilityPermissionRefreshing
         self.accessibilityTrusted = accessibilityTrusted
         self.requestAccessibilityTrust = requestAccessibilityTrust
         self.isAccessibilityGranted = accessibilityTrusted()
-        self.metadata = PluginMetadata(
-            id: "middle-click",
-            title: localization.string("metadata.title", defaultValue: "模拟鼠标中键"),
-            iconName: "hand.tap",
-            iconTint: Color(nsColor: .systemIndigo),
-            order: 55,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "触控板轻点 → 模拟鼠标中键"
-            )
-        )
     }
 
     func activate(context: PluginRuntimeContext) {

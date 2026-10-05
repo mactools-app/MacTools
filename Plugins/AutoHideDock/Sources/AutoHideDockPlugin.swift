@@ -90,7 +90,19 @@ final class AutoHideDockPlugin: MacToolsPlugin, PluginActionProviding, PluginAct
     private enum PermissionID {
         static let automation = "automation"
     }
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "auto-hide-dock",
+            title: localization.string("metadata.title", defaultValue: "自动隐藏程序坞"),
+            iconName: "rectangle.bottomthird.inset.filled",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 45,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "自动隐藏程序坞，提供更干净的桌面环境"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -117,17 +129,6 @@ final class AutoHideDockPlugin: MacToolsPlugin, PluginActionProviding, PluginAct
         self.localization = localization
         self.commandRunner = commandRunner ?? ProcessDockCommandRunner(localization: localization)
         self.stateReader = stateReader
-        self.metadata = PluginMetadata(
-            id: "auto-hide-dock",
-            title: localization.string("metadata.title", defaultValue: "自动隐藏程序坞"),
-            iconName: "rectangle.bottomthird.inset.filled",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 45,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "自动隐藏程序坞，提供更干净的桌面环境"
-            )
-        )
         self.isDockHidden = stateReader()
     }
 

@@ -104,7 +104,19 @@ final class ClipboardHistoryPlugin:
         static let data = "clipboard-data-settings"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: Self.pluginID,
+            title: localization.string("metadata.title", defaultValue: "剪贴板"),
+            iconName: "clipboard",
+            iconTint: .accentColor,
+            order: Self.pluginOrder,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "搜索历史记录并管理可重复使用的片段和已存项目"
+            )
+        )
+    }
     let rowDescriptor: PluginPanelRowDescriptor
     let controller: ClipboardHistoryController
     let savedLibraryController: ClipboardSavedLibraryController
@@ -547,17 +559,6 @@ final class ClipboardHistoryPlugin:
         self.savedLibraryController.maximumExpandedTextByteCount = { [weak settingsStore] in
             ClipboardHistorySettingsStore.validExpandedTextByteCount(settingsStore?.maximumExpandedTextByteCount ?? 0)
         }
-        self.metadata = PluginMetadata(
-            id: Self.pluginID,
-            title: localization.string("metadata.title", defaultValue: "剪贴板"),
-            iconName: "clipboard",
-            iconTint: .accentColor,
-            order: Self.pluginOrder,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "搜索历史记录并管理可重复使用的片段和已存项目"
-            )
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,

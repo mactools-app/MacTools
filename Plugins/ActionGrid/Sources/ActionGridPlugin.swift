@@ -36,7 +36,19 @@ final class ActionGridPlugin:
 {
     static let showActionKey = ActionKey(providerID: "action-grid", actionID: "show")
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "action-grid",
+            title: localization.string("metadata.title", defaultValue: "操作网格"),
+            iconName: "square.grid.3x3",
+            iconTint: Color(nsColor: .systemTeal),
+            order: 74,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "在指针附近打开常用操作网格"
+            )
+        )
+    }
 
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
@@ -67,17 +79,6 @@ final class ActionGridPlugin:
         let localization = localization ?? PluginLocalization(bundle: context.resourceBundle)
         self.localization = localization
         self.store = ActionGridStore(storage: context.storage)
-        self.metadata = PluginMetadata(
-            id: "action-grid",
-            title: localization.string("metadata.title", defaultValue: "操作网格"),
-            iconName: "square.grid.3x3",
-            iconTint: Color(nsColor: .systemTeal),
-            order: 74,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "在指针附近打开常用操作网格"
-            )
-        )
         if store.didPersistPortablePreferencesDuringInitialization {
             persistentPreferencesChanges.didPersist()
         }

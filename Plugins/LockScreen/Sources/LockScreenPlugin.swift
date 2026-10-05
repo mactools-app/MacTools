@@ -40,7 +40,16 @@ final class LockScreenPlugin:
         ]
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "lock-screen",
+            title: localization.string("metadata.title", defaultValue: "锁定屏幕"),
+            iconName: "lock",
+            iconTint: Color(nsColor: .systemGray),
+            order: 96,
+            defaultDescription: localization.string("metadata.description", defaultValue: "立即锁定屏幕")
+        )
+    }
 
     let rowDescriptor: PluginPanelRowDescriptor
 
@@ -63,14 +72,6 @@ final class LockScreenPlugin:
     ) {
         self.localization = localization
         self.lockRequest = lockRequest
-        self.metadata = PluginMetadata(
-            id: "lock-screen",
-            title: localization.string("metadata.title", defaultValue: "锁定屏幕"),
-            iconName: "lock",
-            iconTint: Color(nsColor: .systemGray),
-            order: 96,
-            defaultDescription: localization.string("metadata.description", defaultValue: "立即锁定屏幕")
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,

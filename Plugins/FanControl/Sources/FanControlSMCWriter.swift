@@ -73,10 +73,7 @@ final class FanControlSMCWriter: FanControlSMCWriting {
                 if !runHelper(path: resolvedPath, args: ["auto", "\(i)"]) { allOK = false }
             }
             if !allOK {
-                return .writeFailed(localization.string(
-                    "writer.error.restoreAutoPartial",
-                    defaultValue: "部分风扇恢复自动控制失败"
-                ))
+                return .writeFailed(.restoreAutoPartial)
             }
 
         case .fullSpeed:
@@ -89,10 +86,7 @@ final class FanControlSMCWriter: FanControlSMCWriting {
                 if !runHelper(path: resolvedPath, args: ["set", "\(i)", "\(safe)"]) { allOK = false }
             }
             if !allOK {
-                return .writeFailed(localization.string(
-                    "writer.error.fullSpeedPartial",
-                    defaultValue: "部分风扇设置全速失败"
-                ))
+                return .writeFailed(.fullSpeedPartial)
             }
 
         case .fixed(let rpm):
@@ -109,10 +103,7 @@ final class FanControlSMCWriter: FanControlSMCWriting {
                 if !runHelper(path: resolvedPath, args: ["set", "\(i)", "\(clamped)"]) { allOK = false }
             }
             if !allOK {
-                return .writeFailed(localization.string(
-                    "writer.error.fixedRPMPartial",
-                    defaultValue: "部分风扇设置目标转速失败"
-                ))
+                return .writeFailed(.fixedRPMPartial)
             }
         }
 
@@ -164,10 +155,7 @@ final class FanControlSMCWriter: FanControlSMCWriting {
         }
 
         guard let installedHelperPath = installedHelperPath(matching: bundledHelperURL) else {
-            return .failure(.helperInstallFailed(localization.string(
-                "writer.error.helperMissingAfterInstall",
-                defaultValue: "安装后仍无法找到组件"
-            )))
+            return .failure(.helperInstallFailed(.missingAfterInstall))
         }
 
         return .success(installedHelperPath)
@@ -257,10 +245,7 @@ final class FanControlSMCWriter: FanControlSMCWriting {
         let script = "do shell script \"\(appleScriptEscaped(command))\" with administrator privileges"
         var appleScriptError: NSDictionary?
         guard let scriptObject = NSAppleScript(source: script) else {
-            return .helperInstallFailed(localization.string(
-                "writer.error.authorizationScriptFailed",
-                defaultValue: "无法创建授权脚本"
-            ))
+            return .helperInstallFailed(.authorizationScriptUnavailable)
         }
 
         _ = scriptObject.executeAndReturnError(&appleScriptError)
@@ -268,7 +253,7 @@ final class FanControlSMCWriter: FanControlSMCWriting {
             let message = appleScriptError["NSAppleScriptErrorMessage"] as? String
                 ?? appleScriptError.description
             FanControlLog.writer.error("SMC helper install failed: \(message, privacy: .public)")
-            return .helperInstallFailed(message)
+            return .helperInstallFailed(.systemMessage(message))
         }
 
         resolvedHelperPath = nil

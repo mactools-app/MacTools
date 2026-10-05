@@ -55,7 +55,16 @@ public final class HomebrewPlugin: MacToolsPlugin, PluginSettingsPresenting, Plu
         static let manage = "execute"
     }
 
-    public let metadata: PluginMetadata
+    public var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "homebrew",
+            title: localization.string("metadata.title", defaultValue: "Homebrew"),
+            iconName: "shippingbox.fill",
+            iconTint: Color(nsColor: .systemOrange),
+            order: 92,
+            defaultDescription: localization.string("metadata.description", defaultValue: "Manage Homebrew packages, repositories, and perform diagnostics")
+        )
+    }
     public let rowDescriptor: PluginPanelRowDescriptor
 
     public var onStateChange: (() -> Void)?
@@ -79,14 +88,6 @@ public final class HomebrewPlugin: MacToolsPlugin, PluginSettingsPresenting, Plu
             buttonTitleProvider: { localization.string("panel.action.manage", defaultValue: "管理") }
         )
         
-        self.metadata = PluginMetadata(
-            id: "homebrew",
-            title: localization.string("metadata.title", defaultValue: "Homebrew"),
-            iconName: "shippingbox.fill",
-            iconTint: Color(nsColor: .systemOrange),
-            order: 92,
-            defaultDescription: localization.string("metadata.description", defaultValue: "Manage Homebrew packages, repositories, and perform diagnostics")
-        )
 
         self.controller.onStateChange = { [weak self] in
             self?.onStateChange?()

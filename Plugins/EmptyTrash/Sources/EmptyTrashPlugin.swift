@@ -59,7 +59,19 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
         case emptyFailed
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "empty-trash",
+            title: localization.string("metadata.title", defaultValue: "清空废纸篓"),
+            iconName: "trash",
+            iconTint: Color(nsColor: .systemGray),
+            order: 93,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "清空废纸篓中的所有项目"
+            )
+        )
+    }
 
     let rowDescriptor: PluginPanelRowDescriptor
 
@@ -101,17 +113,6 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
             try await EmptyTrashPlugin.emptyTrashViaAppleScript()
         }
         self.countRefreshDelay = countRefreshDelay
-        self.metadata = PluginMetadata(
-            id: "empty-trash",
-            title: localization.string("metadata.title", defaultValue: "清空废纸篓"),
-            iconName: "trash",
-            iconTint: Color(nsColor: .systemGray),
-            order: 93,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "清空废纸篓中的所有项目"
-            )
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .keepPresented,

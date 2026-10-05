@@ -79,7 +79,19 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
     }
 
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: WindowSwitcherConstants.pluginID,
+            title: localization.string("metadata.title", defaultValue: "窗口切换"),
+            iconName: "rectangle.2.swap",
+            iconTint: Color(nsColor: .systemIndigo),
+            order: 64,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "快速切换正在运行的窗口"
+            )
+        )
+    }
 
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
@@ -138,17 +150,6 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         self.accessibilityTrusted = accessibilityTrusted
         self.requestAccessibilityTrust = requestAccessibilityTrust
         self.isAccessibilityGranted = accessibilityTrusted()
-        self.metadata = PluginMetadata(
-            id: WindowSwitcherConstants.pluginID,
-            title: localization.string("metadata.title", defaultValue: "窗口切换"),
-            iconName: "rectangle.2.swap",
-            iconTint: Color(nsColor: .systemIndigo),
-            order: 64,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "快速切换正在运行的窗口"
-            )
-        )
 
         self.appCatalog.listingPolicy = store.configuration.listingPolicy
         self.appCatalog.onChange = { [weak self] in

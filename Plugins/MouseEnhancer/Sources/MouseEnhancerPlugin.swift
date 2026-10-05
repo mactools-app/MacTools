@@ -98,7 +98,19 @@ final class MouseEnhancerPlugin:
         static let trackpadScrollGain = "trackpad-scroll-gain"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "mouse-enhancer",
+            title: localization.string("metadata.title", defaultValue: "鼠标增强"),
+            iconName: "computermouse",
+            iconTint: Color(nsColor: .systemTeal),
+            order: 56,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "分别调整鼠标与触控板的滚动方向"
+            )
+        )
+    }
     let rowDescriptor: PluginPanelRowDescriptor
 
     var onStateChange: (() -> Void)?
@@ -123,7 +135,34 @@ final class MouseEnhancerPlugin:
     )
 
     private var isAccessibilityGranted: Bool
-    private var lastErrorMessage: String?
+    private enum RuntimeError {
+        case accessibilityRevoked
+        case accessibilityRequired
+        case tapUnavailable
+    }
+
+    private var runtimeError: RuntimeError?
+
+    private var lastErrorMessage: String? {
+        guard let runtimeError else { return nil }
+        switch runtimeError {
+        case .accessibilityRevoked:
+            return localization.string(
+                "error.accessibilityRevoked",
+                defaultValue: "辅助功能权限已关闭，鼠标增强已暂停。"
+            )
+        case .accessibilityRequired:
+            return localization.string(
+                "error.accessibilityRequired",
+                defaultValue: "鼠标增强需要辅助功能权限，请先前往设置完成授权。"
+            )
+        case .tapUnavailable:
+            return localization.string(
+                "error.tapUnavailable",
+                defaultValue: "无法启动滚动事件监听，请确认辅助功能授权后重试。"
+            )
+        }
+    }
     private var applicationActivityState: PluginApplicationActivityState = .interactive
 
     init(
@@ -157,17 +196,6 @@ final class MouseEnhancerPlugin:
             controlStyle: .button,
             menuActionBehavior: .keepPresented,
             buttonTitleProvider: { localization.string("panel.button.settings", defaultValue: "设置") }
-        )
-        self.metadata = PluginMetadata(
-            id: "mouse-enhancer",
-            title: localization.string("metadata.title", defaultValue: "鼠标增强"),
-            iconName: "computermouse",
-            iconTint: Color(nsColor: .systemTeal),
-            order: 56,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "分别调整鼠标与触控板的滚动方向"
-            )
         )
     }
 
@@ -559,12 +587,9 @@ final class MouseEnhancerPlugin:
         if previous && !isAccessibilityGranted {
             session.deactivate()
             stopMiddleClickSession()
-            lastErrorMessage = localization.string(
-                "error.accessibilityRevoked",
-                defaultValue: "辅助功能权限已关闭，鼠标增强已暂停。"
-            )
+            runtimeError = .accessibilityRevoked
         } else if !previous && isAccessibilityGranted {
-            lastErrorMessage = nil
+            runtimeError = nil
             applyCurrentConfiguration()
             applyMiddleClickConfiguration()
         }
@@ -575,7 +600,7 @@ final class MouseEnhancerPlugin:
     }
 
     private func ensureAccessibilityPermissionForActiveConfiguration() -> Bool {
-        lastErrorMessage = nil
+        runtimeError = nil
 
         let configuration = store.configuration
         guard configuration.shouldInstallEventTap
@@ -590,10 +615,7 @@ final class MouseEnhancerPlugin:
         }
 
         guard isAccessibilityGranted else {
-            lastErrorMessage = localization.string(
-                "error.accessibilityRequired",
-                defaultValue: "鼠标增强需要辅助功能权限，请先前往设置完成授权。"
-            )
+            runtimeError = .accessibilityRequired
             requestPermissionGuidance?(PermissionID.accessibility)
             return false
         }
@@ -602,7 +624,7 @@ final class MouseEnhancerPlugin:
     }
 
     func configurationDidChange() {
-        lastErrorMessage = nil
+        runtimeError = nil
         guard ensureAccessibilityPermissionForActiveConfiguration() else {
             session.deactivate()
             stopMiddleClickSession()
@@ -625,10 +647,7 @@ final class MouseEnhancerPlugin:
 
         guard isAccessibilityGranted else {
             session.deactivate()
-            lastErrorMessage = localization.string(
-                "error.accessibilityRequired",
-                defaultValue: "鼠标增强需要辅助功能权限，请先前往设置完成授权。"
-            )
+            runtimeError = .accessibilityRequired
             return
         }
 
@@ -638,10 +657,7 @@ final class MouseEnhancerPlugin:
         }
 
         guard session.activate(configuration: configuration) else {
-            lastErrorMessage = localization.string(
-                "error.tapUnavailable",
-                defaultValue: "无法启动滚动事件监听，请确认辅助功能授权后重试。"
-            )
+            runtimeError = .tapUnavailable
             logger.error("failed to install scroll event tap")
             return
         }
@@ -657,10 +673,7 @@ final class MouseEnhancerPlugin:
 
         guard isAccessibilityGranted else {
             stopMiddleClickSession()
-            lastErrorMessage = localization.string(
-                "error.accessibilityRequired",
-                defaultValue: "鼠标增强需要辅助功能权限，请先前往设置完成授权。"
-            )
+            runtimeError = .accessibilityRequired
             return
         }
 
@@ -691,14 +704,11 @@ final class MouseEnhancerPlugin:
 
         isAccessibilityGranted = requestAccessibilityTrust(true)
         if isAccessibilityGranted {
-            lastErrorMessage = nil
+            runtimeError = nil
             applyCurrentConfiguration()
             applyMiddleClickConfiguration()
         } else {
-            lastErrorMessage = localization.string(
-                "error.accessibilityRequired",
-                defaultValue: "鼠标增强需要辅助功能权限，请先前往设置完成授权。"
-            )
+            runtimeError = .accessibilityRequired
         }
         onStateChange?()
     }

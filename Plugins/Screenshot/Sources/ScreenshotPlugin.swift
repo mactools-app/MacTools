@@ -37,7 +37,16 @@ final class ScreenshotPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
         static let folder = "save-folder"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: ID.plugin,
+            title: environment.string("metadata.title", "截图"),
+            iconName: "camera.viewfinder",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 105,
+            defaultDescription: environment.string("metadata.summary", "截图、标注、提取文字与录屏")
+        )
+    }
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
     var shortcutBindingResolver: ((String) -> ShortcutBinding?)?
@@ -70,14 +79,6 @@ final class ScreenshotPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
             Self.chooseFolder(folder, environment: environment)
         }
         self.isGranted = screenAccess()
-        metadata = PluginMetadata(
-            id: ID.plugin,
-            title: environment.string("metadata.title", "截图"),
-            iconName: "camera.viewfinder",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 105,
-            defaultDescription: environment.string("metadata.summary", "截图、标注、提取文字与录屏")
-        )
         coordinator.onStateChange = { [weak self] in self?.onStateChange?() }
         coordinator.onError = { [weak self] message in
             self?.lastError = message

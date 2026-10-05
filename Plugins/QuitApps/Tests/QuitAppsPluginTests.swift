@@ -9,6 +9,44 @@ final class QuitAppsPluginTests: XCTestCase {
 
     // MARK: - Plugin Metadata
 
+    func testActionPresentationFollowsLiveLanguageChanges() throws {
+        let original = UserDefaults.standard.string(
+            forKey: PluginRuntimeLocalization.preferenceUserDefaultsKey
+        )
+        defer { PluginRuntimeLocalization.source.setPreference(original) }
+        let resource = try makeLocalizationBundle()
+        defer { try? FileManager.default.removeItem(at: resource.directory) }
+        PluginRuntimeLocalization.source.setPreference("en")
+        var presentationCount = 0
+        let plugin = QuitAppsPlugin(
+            localization: PluginLocalization(bundle: resource.bundle),
+            runningAppCountProvider: { 2 },
+            selectionPresenter: { presentationCount += 1 }
+        )
+        plugin.refresh()
+        let metadata = plugin.metadata
+        let reference = try XCTUnwrap(plugin.actionCatalogEntries.first?.reference)
+        let definition = try XCTUnwrap(plugin.actionDefinitions.first)
+        XCTAssertEqual(definition.title, "English title")
+
+        PluginRuntimeLocalization.source.setPreference("ar")
+        XCTAssertEqual(plugin.metadata.title, "عنوان عربي")
+        XCTAssertEqual(plugin.actionDefinitions.first?.title, "عنوان عربي")
+        XCTAssertEqual(plugin.actionDefinitions.first?.description, "وصف عربي")
+        XCTAssertEqual(plugin.actionCatalogEntries.first?.title, "عنوان عربي")
+        XCTAssertEqual(plugin.metadata.id, metadata.id)
+        XCTAssertEqual(plugin.metadata.order, metadata.order)
+        XCTAssertEqual(plugin.metadata.iconName, metadata.iconName)
+        XCTAssertEqual(plugin.actionDefinitions.first?.key, definition.key)
+        XCTAssertEqual(plugin.actionCatalogEntries.first?.reference, reference)
+        XCTAssertTrue(plugin.actionAvailability(for: reference).isAvailable)
+        XCTAssertEqual(presentationCount, 0)
+
+        PluginRuntimeLocalization.source.setPreference("en")
+        XCTAssertEqual(plugin.actionDefinitions.first?.title, "English title")
+        XCTAssertEqual(plugin.actionDefinitions.first?.description, "English description")
+    }
+
     // MARK: - QuitAppsViewModel – invertSelection
     func testInvertSelectionTogglesAllEntries() {
         let vm = QuitAppsViewModel()
@@ -169,6 +207,27 @@ final class QuitAppsPluginTests: XCTestCase {
         let reference = try XCTUnwrap(plugin.actionCatalogEntries.first?.reference)
 
         XCTAssertFalse(plugin.actionAvailability(for: reference).isAvailable)
+    }
+
+    private func makeLocalizationBundle() throws -> (bundle: Bundle, directory: URL) {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let bundleURL = directory.appendingPathComponent("LocalizationTests.bundle", isDirectory: true)
+        for (language, values) in [
+            "en": ["metadata.title": "English title", "metadata.description": "English description"],
+            "ar": ["metadata.title": "عنوان عربي", "metadata.description": "وصف عربي"],
+        ] {
+            let languageURL = bundleURL.appendingPathComponent("\(language).lproj", isDirectory: true)
+            try FileManager.default.createDirectory(at: languageURL, withIntermediateDirectories: true)
+            try values.map { "\"\($0.key)\" = \"\($0.value)\";" }
+                .joined(separator: "\n")
+                .write(
+                    to: languageURL.appendingPathComponent("Localizable.strings"),
+                    atomically: true,
+                    encoding: .utf8
+                )
+        }
+        return (try XCTUnwrap(Bundle(url: bundleURL)), directory)
     }
 
     private func makeEntry(id: String, isSelected: Bool) -> QuitAppEntry {

@@ -84,7 +84,19 @@ final class DockClickMinimizePlugin: MacToolsPlugin, AccessibilityPermissionRefr
 
     private static let postDockClickDelay: Duration = .milliseconds(120)
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "dock-click-minimize",
+            title: localization.string("metadata.title", defaultValue: "点击程序坞隐藏活跃 App"),
+            iconName: "dock.rectangle",
+            iconTint: Color(nsColor: .systemIndigo),
+            order: 47,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "点击活跃 App 的程序坞图标即可将其隐藏（如 Windows）。"
+            )
+        )
+    }
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
         menuActionBehavior: .keepPresented
@@ -110,7 +122,34 @@ final class DockClickMinimizePlugin: MacToolsPlugin, AccessibilityPermissionRefr
     private var isEnabled: Bool
     private var isAccessibilityGranted: Bool
     private var isInputMonitoringGranted: Bool
-    private var lastErrorMessage: String?
+    private enum RuntimeError {
+        case accessibilityRequired
+        case inputMonitoringRequired
+        case startFailed
+    }
+
+    private var runtimeError: RuntimeError?
+
+    private var lastErrorMessage: String? {
+        guard let runtimeError else { return nil }
+        switch runtimeError {
+        case .accessibilityRequired:
+            return localization.string(
+                "error.accessibilityRequired",
+                defaultValue: "Hide Active App on Dock Click needs Accessibility permission."
+            )
+        case .inputMonitoringRequired:
+            return localization.string(
+                "error.inputMonitoringRequired",
+                defaultValue: "Hide Active App on Dock Click needs Input Monitoring permission."
+            )
+        case .startFailed:
+            return localization.string(
+                "error.startFailed",
+                defaultValue: "Hide Active App on Dock Click could not start. Check its permissions."
+            )
+        }
+    }
     private var actionGeneration = 0
 
     init(
@@ -157,17 +196,6 @@ final class DockClickMinimizePlugin: MacToolsPlugin, AccessibilityPermissionRefr
             : context.storage.bool(forKey: StorageKey.isEnabled)
         self.isAccessibilityGranted = accessibilityTrusted()
         self.isInputMonitoringGranted = inputMonitoringStatus() == .granted
-        self.metadata = PluginMetadata(
-            id: "dock-click-minimize",
-            title: localization.string("metadata.title", defaultValue: "点击程序坞隐藏活跃 App"),
-            iconName: "dock.rectangle",
-            iconTint: Color(nsColor: .systemIndigo),
-            order: 47,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "点击活跃 App 的程序坞图标即可将其隐藏（如 Windows）。"
-            )
-        )
 
         self.monitor.onApplicationClick = { [weak self] target, frontmostApplication in
             MainActor.assumeIsolated {
@@ -408,7 +436,7 @@ final class DockClickMinimizePlugin: MacToolsPlugin, AccessibilityPermissionRefr
     private func applyMonitoringState(requestMissingPermissions: Bool) {
         guard isEnabled else {
             monitor.stop()
-            lastErrorMessage = nil
+            runtimeError = nil
             return
         }
 
@@ -419,10 +447,7 @@ final class DockClickMinimizePlugin: MacToolsPlugin, AccessibilityPermissionRefr
         }
         guard isAccessibilityGranted else {
             monitor.stop()
-            lastErrorMessage = localization.string(
-                "error.accessibilityRequired",
-                defaultValue: "Hide Active App on Dock Click needs Accessibility permission."
-            )
+            runtimeError = .accessibilityRequired
             if requestMissingPermissions {
                 requestPermissionGuidance?(PermissionID.accessibility)
             }
@@ -430,23 +455,17 @@ final class DockClickMinimizePlugin: MacToolsPlugin, AccessibilityPermissionRefr
         }
         guard isInputMonitoringGranted else {
             monitor.stop()
-            lastErrorMessage = localization.string(
-                "error.inputMonitoringRequired",
-                defaultValue: "Hide Active App on Dock Click needs Input Monitoring permission."
-            )
+            runtimeError = .inputMonitoringRequired
             if requestMissingPermissions {
                 requestPermissionGuidance?(PermissionID.inputMonitoring)
             }
             return
         }
         guard monitor.start() else {
-            lastErrorMessage = localization.string(
-                "error.startFailed",
-                defaultValue: "Hide Active App on Dock Click could not start. Check its permissions."
-            )
+            runtimeError = .startFailed
             return
         }
-        lastErrorMessage = nil
+        runtimeError = nil
     }
 
     private func invalidatePendingActions() {

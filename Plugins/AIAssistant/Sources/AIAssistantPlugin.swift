@@ -36,7 +36,19 @@ final class AIAssistantPlugin:
         case error(String)
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: AIAssistantConstants.pluginID,
+            title: localization.string("metadata.title", defaultValue: "AI 助手"),
+            iconName: "sparkles",
+            iconTint: Color(nsColor: .systemPurple),
+            order: 58,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "划词调用 AI 翻译、总结、润色等"
+            )
+        )
+    }
 
     private let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -80,17 +92,6 @@ final class AIAssistantPlugin:
     ) {
         let localization = localization ?? PluginLocalization(bundle: context.resourceBundle)
         self.localization = localization
-        self.metadata = PluginMetadata(
-            id: AIAssistantConstants.pluginID,
-            title: localization.string("metadata.title", defaultValue: "AI 助手"),
-            iconName: "sparkles",
-            iconTint: Color(nsColor: .systemPurple),
-            order: 58,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "划词调用 AI 翻译、总结、润色等"
-            )
-        )
         self.storage = context.storage
         self.accessibilityTrustProvider = accessibilityTrustProvider
         self.accessibilityTrustRequester = accessibilityTrustRequester

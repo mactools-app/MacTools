@@ -3,4 +3,4 @@ release: plugin
 type: fixed
 ---
 
-Complete plugin translations and improve live language switching, localized numbers, dates, and Arabic controls. Storage Explorer updates retained results when the language changes without rescanning.
+Complete plugin translations and improve Arabic controls, numbers, and dates. Plugin names, retained errors, upload windows, and screenshot tips now follow language changes without restarting operations.

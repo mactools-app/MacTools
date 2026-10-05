@@ -212,6 +212,7 @@ final class DynamicPluginManager: ObservableObject {
     private var loadedPluginIDs: Set<String> = []
     private var deferredPluginIDs: Set<String> = []
     private var catalogSnapshot: PluginCatalogSnapshot?
+    private var managementResults: [DynamicPluginLoadResult] = []
     private var latestLoadErrorsByID: [String: String] = [:]
     private var packageMutationGenerationsByPluginID: [String: UInt64] = [:]
 
@@ -884,6 +885,10 @@ final class DynamicPluginManager: ObservableObject {
         return InstalledPluginMetadata(records: records)
     }
 
+    func refreshLocalization() {
+        rebuildManagementItems(results: managementResults, catalogSnapshot: catalogSnapshot)
+    }
+
     private func deactivateMissingPlugins(records: [PluginPackageRecord]) {
         let recordsByID = Dictionary(uniqueKeysWithValues: records.map { ($0.id, $0) })
 
@@ -961,6 +966,7 @@ final class DynamicPluginManager: ObservableObject {
         results: [DynamicPluginLoadResult],
         catalogSnapshot: PluginCatalogSnapshot?
     ) {
+        managementResults = results
         let installedItems = Dictionary(uniqueKeysWithValues: results.map { ($0.record.id, $0) })
         let catalogEntries = catalogSnapshot?.catalog.plugins ?? []
         var itemIDs = Set<String>()

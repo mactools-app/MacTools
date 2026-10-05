@@ -43,7 +43,16 @@ final class SystemStatusPlugin:
         static let showSystemStatus = "show-system-status"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "system-status",
+            title: localization.string("metadata.title", defaultValue: "系统状态"),
+            iconName: "gauge.with.dots.needle.67percent",
+            iconTint: Color(nsColor: .systemTeal),
+            order: 10,
+            defaultDescription: localization.string("metadata.description", defaultValue: "实时查看系统状态")
+        )
+    }
 
     var descriptor: PluginPanelWidgetDescriptor {
         PluginPanelWidgetDescriptor(
@@ -89,14 +98,6 @@ final class SystemStatusPlugin:
         self.viewModel = resolvedViewModel
         self.settingsController = resolvedSettingsController
         self.localization = localization
-        self.metadata = PluginMetadata(
-            id: "system-status",
-            title: localization.string("metadata.title", defaultValue: "系统状态"),
-            iconName: "gauge.with.dots.needle.67percent",
-            iconTint: Color(nsColor: .systemTeal),
-            order: 10,
-            defaultDescription: localization.string("metadata.description", defaultValue: "实时查看系统状态")
-        )
         self.menuBarMetricsController = SystemStatusMenuBarMetricsController(
             viewModel: resolvedViewModel,
             settingsController: resolvedSettingsController,

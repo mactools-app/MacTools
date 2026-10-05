@@ -114,11 +114,63 @@ enum FanRPMLimits {
 
 // MARK: - Write Error
 
+enum FanHelperInstallFailure {
+    case missingAfterInstall
+    case authorizationScriptUnavailable
+    case systemMessage(String)
+
+    func localizedDescription(localization: PluginLocalization) -> String {
+        switch self {
+        case .missingAfterInstall:
+            return localization.string(
+                "writer.error.helperMissingAfterInstall",
+                defaultValue: "安装后仍无法找到组件"
+            )
+        case .authorizationScriptUnavailable:
+            return localization.string(
+                "writer.error.authorizationScriptFailed",
+                defaultValue: "无法创建授权脚本"
+            )
+        case .systemMessage(let message):
+            return message
+        }
+    }
+}
+
+enum FanWriteFailure {
+    case restoreAutoPartial
+    case fullSpeedPartial
+    case fixedRPMPartial
+    case systemMessage(String)
+
+    func localizedDescription(localization: PluginLocalization) -> String {
+        switch self {
+        case .restoreAutoPartial:
+            return localization.string(
+                "writer.error.restoreAutoPartial",
+                defaultValue: "部分风扇恢复自动控制失败"
+            )
+        case .fullSpeedPartial:
+            return localization.string(
+                "writer.error.fullSpeedPartial",
+                defaultValue: "部分风扇设置全速失败"
+            )
+        case .fixedRPMPartial:
+            return localization.string(
+                "writer.error.fixedRPMPartial",
+                defaultValue: "部分风扇设置目标转速失败"
+            )
+        case .systemMessage(let message):
+            return message
+        }
+    }
+}
+
 enum FanWriteError: Error, LocalizedError {
     case helperNotFound
-    case helperInstallFailed(String)
+    case helperInstallFailed(FanHelperInstallFailure)
     case helperVerificationFailed
-    case writeFailed(String)
+    case writeFailed(FanWriteFailure)
 
     var errorDescription: String? {
         localizedDescription()
@@ -135,7 +187,7 @@ enum FanWriteError: Error, LocalizedError {
             return localization.format(
                 "writeError.helperInstallFailed",
                 defaultValue: "安装风扇控制组件失败：%@",
-                msg
+                msg.localizedDescription(localization: localization)
             )
         case .helperVerificationFailed:
             return localization.string(
@@ -143,7 +195,11 @@ enum FanWriteError: Error, LocalizedError {
                 defaultValue: "风扇控制组件校验失败。请重新安装风扇控制插件。"
             )
         case .writeFailed(let msg):
-            return localization.format("writeError.writeFailed", defaultValue: "写入风扇速度失败：%@", msg)
+            return localization.format(
+                "writeError.writeFailed",
+                defaultValue: "写入风扇速度失败：%@",
+                msg.localizedDescription(localization: localization)
+            )
         }
     }
 }

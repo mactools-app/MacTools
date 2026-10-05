@@ -57,7 +57,19 @@ final class WindowLayoutsPlugin: MacToolsPlugin, AccessibilityPermissionRefreshi
         let systemImage: String
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "window-layouts",
+            title: localization.string("metadata.title", defaultValue: "窗口布局"),
+            iconName: "rectangle.3.group",
+            iconTint: Color(nsColor: .systemTeal),
+            order: 65,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "排列聚焦窗口并创建自定义布局"
+            )
+        )
+    }
     var onStateChange: (() -> Void)?
     var onActionSafetyStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
@@ -175,17 +187,6 @@ final class WindowLayoutsPlugin: MacToolsPlugin, AccessibilityPermissionRefreshi
                 fullScreenWriter: frameAdapter
             )
         }
-        self.metadata = PluginMetadata(
-            id: "window-layouts",
-            title: localization.string("metadata.title", defaultValue: "窗口布局"),
-            iconName: "rectangle.3.group",
-            iconTint: Color(nsColor: .systemTeal),
-            order: 65,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "排列聚焦窗口并创建自定义布局"
-            )
-        )
         self.store.onMutation = { [weak self] in
             self?.customCommandSettingsRevision &+= 1
             self?.onStateChange?()

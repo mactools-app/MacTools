@@ -35,7 +35,19 @@ final class AppleShortcutsPlugin:
         static let automation = "automation"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "apple-shortcuts",
+            title: localization.string("metadata.title", defaultValue: "Apple 快捷指令"),
+            iconName: "square.stack.3d.up.fill",
+            iconTint: Color(nsColor: .systemPurple),
+            order: 74,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "发现并运行现有的 Apple 快捷指令"
+            )
+        )
+    }
     let store: AppleShortcutsStore
     let controller: AppleShortcutsController
     let settingsSearchFocusController = AppleShortcutsSettingsSearchFocusController()
@@ -71,17 +83,6 @@ final class AppleShortcutsPlugin:
             visualMetadataLoader: visualMetadataLoader ?? AppleShortcutsVisualMetadataLoader(),
             localization: localization,
             now: now
-        )
-        self.metadata = PluginMetadata(
-            id: "apple-shortcuts",
-            title: localization.string("metadata.title", defaultValue: "Apple 快捷指令"),
-            iconName: "square.stack.3d.up.fill",
-            iconTint: Color(nsColor: .systemPurple),
-            order: 74,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "发现并运行现有的 Apple 快捷指令"
-            )
         )
         controller.onStateChange = { [weak self] in self?.onStateChange?() }
         store.onMutation = { [weak self] in

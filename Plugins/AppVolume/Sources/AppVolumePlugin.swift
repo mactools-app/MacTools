@@ -55,7 +55,19 @@ final class AppVolumePlugin: MacToolsPlugin, PluginActionProviding, PluginAction
         static let volumes = "applicationVolumes"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "app-volume",
+            title: localization.string("metadata.title", defaultValue: "应用音量"),
+            iconName: "speaker.wave.2.bubble",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 46,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "分别调节正在播放音频的应用音量"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .disclosure,
@@ -110,17 +122,6 @@ final class AppVolumePlugin: MacToolsPlugin, PluginActionProviding, PluginAction
         self.localization = localization
         self.openSystemAudioPrivacySettings = openSystemAudioPrivacySettings
         self.volumes = Self.loadVolumes(storage: storage)
-        self.metadata = PluginMetadata(
-            id: "app-volume",
-            title: localization.string("metadata.title", defaultValue: "应用音量"),
-            iconName: "speaker.wave.2.bubble",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 46,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "分别调节正在播放音频的应用音量"
-            )
-        )
 
         monitor.onUpdate = { [weak self] snapshot in
             self?.receive(snapshot)

@@ -1436,6 +1436,7 @@ final class PluginHost: ObservableObject {
         }
         panelCoordinator.clearWidgetViews()
         settingsViewCache.removeAll()
+        dynamicPluginManager?.refreshLocalization()
         syncPluginManagementState()
         menuBarIconCoordinator.refreshPrimaryIconOwner(
             pluginTitle: menuBarIconCoordinator.primaryIconOwner.flatMap {
