@@ -254,8 +254,8 @@
         "en": {"type": "string", "minLength": 1}, "es": {"type": "string", "minLength": 1},
         "fr": {"type": "string", "minLength": 1}, "ja": {"type": "string", "minLength": 1},
         "ko": {"type": "string", "minLength": 1}, "pt": {"type": "string", "minLength": 1},
-        "ru": {"type": "string", "minLength": 1}, "zh-Hans": {"type": "string", "minLength": 1},
-        "zh-Hant": {"type": "string", "minLength": 1}
+        "ru": {"type": "string", "minLength": 1}, "tr": {"type": "string", "minLength": 1},
+        "zh-Hans": {"type": "string", "minLength": 1}, "zh-Hant": {"type": "string", "minLength": 1}
       },
       "additionalProperties": false
     },
@@ -267,8 +267,8 @@
         "en": {"$ref": "#/$defs/uniqueStrings"}, "es": {"$ref": "#/$defs/uniqueStrings"},
         "fr": {"$ref": "#/$defs/uniqueStrings"}, "ja": {"$ref": "#/$defs/uniqueStrings"},
         "ko": {"$ref": "#/$defs/uniqueStrings"}, "pt": {"$ref": "#/$defs/uniqueStrings"},
-        "ru": {"$ref": "#/$defs/uniqueStrings"}, "zh-Hans": {"$ref": "#/$defs/uniqueStrings"},
-        "zh-Hant": {"$ref": "#/$defs/uniqueStrings"}
+        "ru": {"$ref": "#/$defs/uniqueStrings"}, "tr": {"$ref": "#/$defs/uniqueStrings"},
+        "zh-Hans": {"$ref": "#/$defs/uniqueStrings"}, "zh-Hant": {"$ref": "#/$defs/uniqueStrings"}
       },
       "additionalProperties": false
     },
