@@ -1,0 +1,149 @@
+{
+  "id": "system-data",
+  "displayName": "系统数据",
+  "summary": "分类汇总 macOS 系统数据的真实占用，在 Finder 中快速定位",
+  "localizedMetadata": {
+    "ar": {
+      "displayName": "بيانات النظام",
+      "summary": "يعرض استهلاك الفعلي لبيانات النظام في macOS ويحدد كل عنصر في Finder."
+    },
+    "de": {
+      "displayName": "Systemdaten",
+      "summary": "Zeigt die tatsächliche Belegung der macOS-Systemdaten in Kategorien und öffnet jeden Eintrag im Finder."
+    },
+    "en": {
+      "displayName": "System Data",
+      "summary": "Break down what macOS System Data really contains and reveal each item in Finder."
+    },
+    "es": {
+      "displayName": "Datos del sistema",
+      "summary": "Desglosa el uso real de los Datos del sistema de macOS y localiza cada elemento en el Finder."
+    },
+    "fr": {
+      "displayName": "Données système",
+      "summary": "Détaille l’occupation réelle des données système macOS et localise chaque élément dans le Finder."
+    },
+    "ja": {
+      "displayName": "システムデータ",
+      "summary": "macOS のシステムデータの実際の占用を分類して集計し、Finder で素早く表示します。"
+    },
+    "ko": {
+      "displayName": "시스템 데이터",
+      "summary": "macOS 시스템 데이터의 실제 사용량을 분류하여 보여주고 Finder에서 각 항목을 빠르게 찾습니다."
+    },
+    "pt": {
+      "displayName": "Dados do sistema",
+      "summary": "Detalha o uso real dos Dados do sistema do macOS e localiza cada item no Finder."
+    },
+    "ru": {
+      "displayName": "Системные данные",
+      "summary": "Показывает реальное занятие системных данных macOS и открывает каждый элемент в Finder."
+    },
+    "tr": {
+      "displayName": "Sistem Verileri",
+      "summary": "macOS Sistem Verilerinin gerçek kullanımını kategorilere ayırır ve her öğeyi Finder’da gösterir."
+    },
+    "zh-Hans": {
+      "displayName": "系统数据",
+      "summary": "分类汇总 macOS 系统数据的真实占用，在 Finder 中快速定位"
+    },
+    "zh-Hant": {
+      "displayName": "系統資料",
+      "summary": "分類彙整 macOS 系統資料的實際佔用，並在 Finder 中快速定位。"
+    }
+  },
+  "productStrings": {
+    "display-name": "@displayName",
+    "summary": "@summary"
+  },
+  "version": "1.0.0",
+  "minHostVersion": "2.0.0",
+  "pluginKitVersion": 7,
+  "bundleRelativePath": "SystemData.bundle",
+  "factoryClass": "SystemDataPlugin.SystemDataPluginFactory",
+  "build": {
+    "project": "../../MacTools.xcodeproj",
+    "scheme": "SystemDataPlugin"
+  },
+  "capabilities": {
+    "panelItems": ["row", "widget"],
+    "settings": "workspace"
+  },
+  "permissions": [
+    "full-disk-access"
+  ],
+  "category": "storage",
+  "presentation": {
+    "longDescription": "@productStrings.summary",
+    "examples": [
+      {
+        "id": "primary-use",
+        "text": "@productStrings.summary"
+      }
+    ],
+    "screenshots": [],
+    "documentationURL": "https://github.com/ggbond268/MacTools#plugins-and-settings",
+    "supportURL": "https://github.com/ggbond268/MacTools/issues",
+    "publisher": "MacTools",
+    "license": "GPL-3.0-only"
+  },
+  "discovery": {
+    "keywords": ["system data", "storage", "disk usage", "cache", "inventory"],
+    "localizedSynonyms": {
+      "ar": ["بيانات النظام"],
+      "de": ["Systemdaten", "Festplattenbelegung"],
+      "en": ["System Data", "Storage Breakdown"],
+      "es": ["Datos del sistema"],
+      "fr": ["Données système"],
+      "ja": ["システムデータ"],
+      "ko": ["시스템 데이터"],
+      "pt": ["Dados do sistema"],
+      "ru": ["Системные данные"],
+      "tr": ["Sistem Verileri"],
+      "zh-Hans": ["系统数据", "空间占用"],
+      "zh-Hant": ["系統資料", "空間佔用"]
+    },
+    "useCases": [
+      {
+        "id": "primary-use",
+        "title": "@productStrings.display-name"
+      }
+    ],
+    "goalCategories": ["storage"],
+    "relatedPluginIDs": ["disk-clean", "com.mactools.plugin.storage-explorer"],
+    "alternativePluginIDs": []
+  },
+  "requirements": {
+    "minimumMacOSVersion": "14.0",
+    "architectures": ["arm64", "x86_64"],
+    "hardware": [],
+    "applications": [],
+    "executables": [],
+    "permissionIDs": [],
+    "setupComplexity": "none",
+    "requiresRelaunch": false
+  },
+  "privacy": {
+    "dataObserved": ["filesystem-paths", "file-sizes"],
+    "dataPersisted": [],
+    "retention": {
+      "policy": "none"
+    },
+    "networkUse": "none",
+    "networkDomains": [],
+    "allowsUserConfiguredDomains": false,
+    "telemetry": "none",
+    "processesSensitiveUserContent": true,
+    "diagnosticExportsContainUserData": false
+  },
+  "setup": {
+    "steps": [],
+    "optionalSurfaces": []
+  },
+  "relationships": {
+    "relatedPluginIDs": ["disk-clean", "com.mactools.plugin.storage-explorer"],
+    "includedPackIDs": [],
+    "suggestedRecipeIDs": [],
+    "supersedesPluginIDs": []
+  }
+}

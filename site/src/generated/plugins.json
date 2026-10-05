@@ -19135,6 +19135,237 @@
           "row",
           "widget"
         ],
+        "settings": "workspace"
+      },
+      "category": "storage",
+      "displayName": "系统数据",
+      "id": "system-data",
+      "localizedMetadata": {
+        "ar": {
+          "displayName": "بيانات النظام",
+          "summary": "يعرض استهلاك الفعلي لبيانات النظام في macOS ويحدد كل عنصر في Finder."
+        },
+        "de": {
+          "displayName": "Systemdaten",
+          "summary": "Zeigt die tatsächliche Belegung der macOS-Systemdaten in Kategorien und öffnet jeden Eintrag im Finder."
+        },
+        "en": {
+          "displayName": "System Data",
+          "summary": "Break down what macOS System Data really contains and reveal each item in Finder."
+        },
+        "es": {
+          "displayName": "Datos del sistema",
+          "summary": "Desglosa el uso real de los Datos del sistema de macOS y localiza cada elemento en el Finder."
+        },
+        "fr": {
+          "displayName": "Données système",
+          "summary": "Détaille l’occupation réelle des données système macOS et localise chaque élément dans le Finder."
+        },
+        "ja": {
+          "displayName": "システムデータ",
+          "summary": "macOS のシステムデータの実際の占用を分類して集計し、Finder で素早く表示します。"
+        },
+        "ko": {
+          "displayName": "시스템 데이터",
+          "summary": "macOS 시스템 데이터의 실제 사용량을 분류하여 보여주고 Finder에서 각 항목을 빠르게 찾습니다."
+        },
+        "pt": {
+          "displayName": "Dados do sistema",
+          "summary": "Detalha o uso real dos Dados do sistema do macOS e localiza cada item no Finder."
+        },
+        "ru": {
+          "displayName": "Системные данные",
+          "summary": "Показывает реальное занятие системных данных macOS и открывает каждый элемент в Finder."
+        },
+        "tr": {
+          "displayName": "Sistem Verileri",
+          "summary": "macOS Sistem Verilerinin gerçek kullanımını kategorilere ayırır ve her öğeyi Finder’da gösterir."
+        },
+        "zh-Hans": {
+          "displayName": "系统数据",
+          "summary": "分类汇总 macOS 系统数据的真实占用，在 Finder 中快速定位"
+        },
+        "zh-Hant": {
+          "displayName": "系統資料",
+          "summary": "分類彙整 macOS 系統資料的實際佔用，並在 Finder 中快速定位。"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/system-data",
+      "product": {
+        "actions": null,
+        "discovery": {
+          "alternativePluginIDs": [],
+          "goalCategories": [
+            "storage"
+          ],
+          "keywords": [
+            "system data",
+            "storage",
+            "disk usage",
+            "cache",
+            "inventory"
+          ],
+          "localizedSynonyms": {
+            "ar": [
+              "بيانات النظام"
+            ],
+            "de": [
+              "Systemdaten",
+              "Festplattenbelegung"
+            ],
+            "en": [
+              "System Data",
+              "Storage Breakdown"
+            ],
+            "es": [
+              "Datos del sistema"
+            ],
+            "fr": [
+              "Données système"
+            ],
+            "ja": [
+              "システムデータ"
+            ],
+            "ko": [
+              "시스템 데이터"
+            ],
+            "pt": [
+              "Dados do sistema"
+            ],
+            "ru": [
+              "Системные данные"
+            ],
+            "tr": [
+              "Sistem Verileri"
+            ],
+            "zh-Hans": [
+              "系统数据",
+              "空间占用"
+            ],
+            "zh-Hant": [
+              "系統資料",
+              "空間佔用"
+            ]
+          },
+          "relatedPluginIDs": [
+            "disk-clean",
+            "com.mactools.plugin.storage-explorer"
+          ],
+          "useCases": [
+            {
+              "id": "primary-use",
+              "title": {
+                "ar": "بيانات النظام",
+                "de": "Systemdaten",
+                "en": "System Data",
+                "es": "Datos del sistema",
+                "fr": "Données système",
+                "ja": "システムデータ",
+                "ko": "시스템 데이터",
+                "pt": "Dados do sistema",
+                "ru": "Системные данные",
+                "tr": "Sistem Verileri",
+                "zh-Hans": "系统数据",
+                "zh-Hant": "系統資料"
+              }
+            }
+          ]
+        },
+        "presentation": {
+          "documentationURL": "https://github.com/ggbond268/MacTools#plugins-and-settings",
+          "examples": [
+            {
+              "id": "primary-use",
+              "text": {
+                "ar": "يعرض استهلاك الفعلي لبيانات النظام في macOS ويحدد كل عنصر في Finder.",
+                "de": "Zeigt die tatsächliche Belegung der macOS-Systemdaten in Kategorien und öffnet jeden Eintrag im Finder.",
+                "en": "Break down what macOS System Data really contains and reveal each item in Finder.",
+                "es": "Desglosa el uso real de los Datos del sistema de macOS y localiza cada elemento en el Finder.",
+                "fr": "Détaille l’occupation réelle des données système macOS et localise chaque élément dans le Finder.",
+                "ja": "macOS のシステムデータの実際の占用を分類して集計し、Finder で素早く表示します。",
+                "ko": "macOS 시스템 데이터의 실제 사용량을 분류하여 보여주고 Finder에서 각 항목을 빠르게 찾습니다.",
+                "pt": "Detalha o uso real dos Dados do sistema do macOS e localiza cada item no Finder.",
+                "ru": "Показывает реальное занятие системных данных macOS и открывает каждый элемент в Finder.",
+                "tr": "macOS Sistem Verilerinin gerçek kullanımını kategorilere ayırır ve her öğeyi Finder’da gösterir.",
+                "zh-Hans": "分类汇总 macOS 系统数据的真实占用，在 Finder 中快速定位",
+                "zh-Hant": "分類彙整 macOS 系統資料的實際佔用，並在 Finder 中快速定位。"
+              }
+            }
+          ],
+          "license": "GPL-3.0-only",
+          "longDescription": {
+            "ar": "يعرض استهلاك الفعلي لبيانات النظام في macOS ويحدد كل عنصر في Finder.",
+            "de": "Zeigt die tatsächliche Belegung der macOS-Systemdaten in Kategorien und öffnet jeden Eintrag im Finder.",
+            "en": "Break down what macOS System Data really contains and reveal each item in Finder.",
+            "es": "Desglosa el uso real de los Datos del sistema de macOS y localiza cada elemento en el Finder.",
+            "fr": "Détaille l’occupation réelle des données système macOS et localise chaque élément dans le Finder.",
+            "ja": "macOS のシステムデータの実際の占用を分類して集計し、Finder で素早く表示します。",
+            "ko": "macOS 시스템 데이터의 실제 사용량을 분류하여 보여주고 Finder에서 각 항목을 빠르게 찾습니다.",
+            "pt": "Detalha o uso real dos Dados do sistema do macOS e localiza cada item no Finder.",
+            "ru": "Показывает реальное занятие системных данных macOS и открывает каждый элемент в Finder.",
+            "tr": "macOS Sistem Verilerinin gerçek kullanımını kategorilere ayırır ve her öğeyi Finder’da gösterir.",
+            "zh-Hans": "分类汇总 macOS 系统数据的真实占用，在 Finder 中快速定位",
+            "zh-Hant": "分類彙整 macOS 系統資料的實際佔用，並在 Finder 中快速定位。"
+          },
+          "publisher": "MacTools",
+          "screenshots": [],
+          "supportURL": "https://github.com/ggbond268/MacTools/issues"
+        },
+        "privacy": {
+          "allowsUserConfiguredDomains": false,
+          "dataObserved": [
+            "filesystem-paths",
+            "file-sizes"
+          ],
+          "dataPersisted": [],
+          "diagnosticExportsContainUserData": false,
+          "networkDomains": [],
+          "networkUse": "none",
+          "processesSensitiveUserContent": true,
+          "retention": {
+            "policy": "none"
+          },
+          "telemetry": "none"
+        },
+        "relationships": {
+          "includedPackIDs": [],
+          "relatedPluginIDs": [
+            "disk-clean",
+            "com.mactools.plugin.storage-explorer"
+          ],
+          "suggestedRecipeIDs": [],
+          "supersedesPluginIDs": []
+        },
+        "requirements": {
+          "applications": [],
+          "architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "executables": [],
+          "hardware": [],
+          "minimumMacOSVersion": "14.0",
+          "permissionIDs": [],
+          "requiresRelaunch": false,
+          "setupComplexity": "none"
+        },
+        "setup": {
+          "optionalSurfaces": [],
+          "steps": []
+        }
+      },
+      "releaseChannel": null,
+      "releaseNotesURL": null,
+      "route": "/plugins/system-data/",
+      "summary": "分类汇总 macOS 系统数据的真实占用，在 Finder 中快速定位",
+      "version": "1.0.0"
+    },
+    {
+      "capabilities": {
+        "panelItems": [
+          "row",
+          "widget"
+        ],
         "settings": "none"
       },
       "category": "audio",
