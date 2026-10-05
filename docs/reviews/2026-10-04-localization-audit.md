@@ -2,6 +2,8 @@
 
 The 11-language approval and UI receipts below describe the original audit milestone. The latest-main integration at the end adds Turkish as the twelfth supported language; its translation additions are reviewed separately.
 
+The final code review follow-up corrects all 12 Marketplace action-risk labels to describe low risk without promising that confirmation is unnecessary. Plural format validation checks argument types and positions while allowing natural count-free forms such as Arabic “no results.” The auditor also discovers Finder Sync's literal wrapper lookups, and the pull-request build now runs strict localization validation.
+
 Scope: [issue #463](https://github.com/mactools-app/MacTools/issues/463), expanded to the host, all plugins, PluginKit, Finder Sync, App Intents, Marketplace metadata, and website language behavior. Baseline: `3442f9f8` on `origin/main`.
 
 ## Findings fixed

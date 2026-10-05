@@ -23954,73 +23954,73 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No confirmation required"
+            "value": "Low risk"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "无需确认"
+            "value": "低风险"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "無需確認"
+            "value": "低風險"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "No requiere confirmación"
+            "value": "Riesgo bajo"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sans confirmation"
+            "value": "Faible risque"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Подтверждение не требуется"
+            "value": "Низкий риск"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sem confirmação"
+            "value": "Baixo risco"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Keine Bestätigung erforderlich"
+            "value": "Geringes Risiko"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "確認不要"
+            "value": "低リスク"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "확인 필요 없음"
+            "value": "낮은 위험"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "لا يتطلب تأكيدًا"
+            "value": "مخاطر منخفضة"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Onay gerekmiyor"
+            "value": "Düşük risk"
           }
         }
       }

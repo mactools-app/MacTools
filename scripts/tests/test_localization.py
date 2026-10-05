@@ -86,6 +86,60 @@ class LocalizationAuditTests(unittest.TestCase):
             self.assertEqual(result["errors"], [])
             self.assertEqual(result["catalog_count"], 1)
 
+    def test_finder_wrapper_missing_resource_fails(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            sources = root / "Sources/Extensions/RightClickFinderSync"
+            sources.mkdir(parents=True)
+            source = '''
+                localized("finder.copyFileName", defaultValue: "Copy File Name", configuration: configuration)
+                localized("finder." + identifier, defaultValue: "Fallback", configuration: configuration)
+                // localized("finder.comment", defaultValue: "Comment", configuration: configuration)
+            '''
+            (sources / "RightClickFinderSync.swift").write_text(source)
+            result = audit_module.audit(root)
+            self.assertEqual(result["reference_count"], 1)
+            self.assertEqual([(error["kind"], error["key"], error["catalog"]) for error in result["errors"]], [
+                ("missing_english_resource", "finder.copyFileName", "Sources/Core/RightClick/RightClick.xcstrings")
+            ])
+            self.assertEqual(list(audit_module.references("Sources/App/Other.swift", source)), [])
+
+    def test_plural_formats_preserve_types_and_non_count_arguments(self):
+        def plural(**forms):
+            return {"variations": {"plural": {
+                name: {"stringUnit": {"state": "translated", "value": value}}
+                for name, value in forms.items()
+            }}}
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            resources = root / "Sources/Resources/Localization"
+            resources.mkdir(parents=True)
+            path = resources / "PreferencesBackup.xcstrings"
+            localizations = {
+                "en": plural(one="%d snapshot · %@", other="%d snapshots · %@"),
+                "ar": plural(zero="%2$@", one="%2$@ · %1$d", two="%d snapshots · %@", other="%d snapshots · %@"),
+            }
+
+            def errors():
+                path.write_text(json.dumps({"strings": {"history": {"localizations": localizations}}}))
+                return audit_module.audit(root)["errors"]
+
+            self.assertEqual(errors(), [])
+            for invalid in ("%@ snapshots · %@", "%lld snapshots · %@", "%d snapshots", "%@"):
+                with self.subTest(translation=invalid):
+                    localizations["ar"] = plural(other=invalid)
+                    result = errors()
+                    self.assertEqual([(error["kind"], error["language"]) for error in result], [
+                        ("format_mismatch", "ar")
+                    ])
+            # An invalid source branch must fail too, even if another branch is correct.
+            localizations["ar"] = plural(other="%d snapshots · %@")
+            localizations["en"] = plural(one="%@ snapshot · %@", other="%d snapshots · %@")
+            self.assertEqual([(error["kind"], error["language"]) for error in errors()], [
+                ("format_mismatch", "en")
+            ])
+
 
 if __name__ == "__main__":
     unittest.main()

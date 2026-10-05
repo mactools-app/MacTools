@@ -98,6 +98,9 @@ def references(path: str, source: str):
                        "Sources/Resources/Localization/FeatureUI.xcstrings")
     yield from matches(r'RightClickLocalization\.(?:string|format)\(\s*' + LITERAL,
                        "Sources/Core/RightClick/RightClick.xcstrings")
+    if path == "Sources/Extensions/RightClickFinderSync/RightClickFinderSync.swift":
+        yield from matches(r'\blocalized\(\s*' + LITERAL,
+                           "Sources/Core/RightClick/RightClick.xcstrings")
     if path == "Sources/App/MarketplacePluginDetailView.swift":
         yield from matches(r'detailSection\(\s*' + LITERAL, "Sources/Resources/Localization/Plugins.xcstrings")
     if path == "Sources/App/PanelLayoutEditingSession.swift":
@@ -187,12 +190,20 @@ def audit(root: Path) -> dict:
             # Only format resources are checked. Plain copy can contain literal
             # percentages such as "100% per core", which are not printf inputs.
             english = list(string_units(localizations.get("en", {})))
-            if len(english) == 1 and re.search(r'%(?:\d+\$)?(?:[-+#0 ]*\d*(?:\.\d+)?)(?:hh|ll|[hljztqL])?[@diuoxXfFeEgGcsS](?![a-zA-Z])', english[0]["value"]):
-                expected = format_signature(english[0]["value"])
+            if any(re.search(r'%(?:\d+\$)?(?:[-+#0 ]*\d*(?:\.\d+)?)(?:hh|ll|[hljztqL])?[@diuoxXfFeEgGcsS](?![a-zA-Z])', unit["value"]) for unit in english):
+                other = localizations.get("en", {}).get("variations", {}).get("plural", {}).get("other", {})
+                # Prefer the required catch-all form when branches have the
+                # same number of arguments; a count-free form can have fewer.
+                expected = max((format_signature(unit["value"]) for unit in [*string_units(other), *english]), key=len)
                 for language, localization in localizations.items():
                     units = list(string_units(localization))
+                    allowed = [expected]
+                    if "plural" in localization.get("variations", {}) and expected.get(1) in {"d", "ld", "lld", "hd", "hhd", "jd", "zd", "td", "qd"}:
+                        # Some plural forms express the count in words. Other
+                        # arguments must retain their original positions/types.
+                        allowed.append({index: kind for index, kind in expected.items() if index != 1})
                     for unit in units:
-                        if format_signature(unit["value"]) != expected:
+                        if format_signature(unit["value"]) not in allowed:
                             errors.append({"kind": "format_mismatch", "catalog": path, "key": key, "language": language})
     return {"catalog_count": len(catalogs), "key_count": sum(map(len, catalogs.values())),
             "reference_count": len(all_references), "errors": errors, "translation_gaps": gaps}
