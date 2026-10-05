@@ -517,9 +517,7 @@ enum DiskCleanFormat {
     static let byteColumnWidth: CGFloat = 92
 
     static func bytes(_ value: Int64) -> String {
-        let formatter = ByteCountFormatter()
-        formatter.countStyle = .file
-        return formatter.string(fromByteCount: value)
+        value.formatted(.byteCount(style: .file).locale(PluginRuntimeLocalization.locale))
     }
 
     static func approximateBytes(_ value: Int64, localization: PluginLocalization) -> String {
@@ -532,6 +530,7 @@ enum DiskCleanFormat {
 
     static func timestamp(_ date: Date) -> String {
         let formatter = DateFormatter()
+        formatter.locale = PluginRuntimeLocalization.locale
         formatter.dateStyle = .short
         formatter.timeStyle = .short
         return formatter.string(from: date)

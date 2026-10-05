@@ -11,6 +11,7 @@ import SwiftUI
 /// app. Arrow/Return/Esc are handled via `doCommandBySelector`; plain + composed
 /// characters flow into the field naturally.
 struct LaunchpadSearchField: NSViewRepresentable {
+    @Environment(\.layoutDirection) private var layoutDirection
     @Binding var text: String
     var localization: PluginLocalization = PluginLocalization(bundle: .main)
     var onMove: (MoveDirection) -> Void
@@ -25,6 +26,9 @@ struct LaunchpadSearchField: NSViewRepresentable {
         field.focusRingType = .none
         field.bezelStyle = .roundedBezel
         field.placeholderString = localization.string("search.placeholder", defaultValue: "搜索应用")
+        field.alignment = .natural
+        field.cell?.baseWritingDirection = .natural
+        configureDirectionAndAccessibility(field)
         field.sendsSearchStringImmediately = true
         field.sendsWholeSearchString = false
         // Focus so typing/IME works immediately while the grid stays visible.
@@ -35,12 +39,23 @@ struct LaunchpadSearchField: NSViewRepresentable {
     func updateNSView(_ nsView: NSSearchField, context: Context) {
         context.coordinator.parent = self
         nsView.placeholderString = localization.string("search.placeholder", defaultValue: "搜索应用")
+        configureDirectionAndAccessibility(nsView)
         if nsView.stringValue != text {
             nsView.stringValue = text
         }
     }
 
     func makeCoordinator() -> Coordinator { Coordinator(self) }
+
+    private func configureDirectionAndAccessibility(_ field: NSSearchField) {
+        let direction: NSUserInterfaceLayoutDirection = layoutDirection == .rightToLeft
+            ? .rightToLeft : .leftToRight
+        if field.userInterfaceLayoutDirection != direction {
+            field.userInterfaceLayoutDirection = direction
+            field.cell?.userInterfaceLayoutDirection = direction
+        }
+        field.setAccessibilityLabel(field.placeholderString)
+    }
 
     final class Coordinator: NSObject, NSSearchFieldDelegate {
         var parent: LaunchpadSearchField

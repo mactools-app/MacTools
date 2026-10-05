@@ -1,13 +1,496 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
-    "widget.title": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"إجراءات سريعة"}},"de":{"stringUnit":{"state":"translated","value":"Schnellaktionen"}},"en":{"stringUnit":{"state":"translated","value":"Quick Actions"}},"es":{"stringUnit":{"state":"translated","value":"Acciones rápidas"}},"fr":{"stringUnit":{"state":"translated","value":"Actions rapides"}},"ja":{"stringUnit":{"state":"translated","value":"クイックアクション"}},"ko":{"stringUnit":{"state":"translated","value":"빠른 동작"}},"pt":{"stringUnit":{"state":"translated","value":"Ações rápidas"}},"ru":{"stringUnit":{"state":"translated","value":"Быстрые действия"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"快捷操作"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"快捷操作"}}}},
-    "action.singleKey": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"مفتاح واحد"}},"de":{"stringUnit":{"state":"translated","value":"Einzeltaste"}},"en":{"stringUnit":{"state":"translated","value":"Single Key"}},"es":{"stringUnit":{"state":"translated","value":"Tecla única"}},"fr":{"stringUnit":{"state":"translated","value":"Touche unique"}},"ja":{"stringUnit":{"state":"translated","value":"単一キー"}},"ko":{"stringUnit":{"state":"translated","value":"단일 키"}},"pt":{"stringUnit":{"state":"translated","value":"Tecla única"}},"ru":{"stringUnit":{"state":"translated","value":"Одна клавиша"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"单键"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"單鍵"}}}},
-    "action.singleKey.format": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"مفتاح واحد %@"}},"de":{"stringUnit":{"state":"translated","value":"Einzeltaste %@"}},"en":{"stringUnit":{"state":"translated","value":"Single key %@"}},"es":{"stringUnit":{"state":"translated","value":"Tecla única %@"}},"fr":{"stringUnit":{"state":"translated","value":"Touche unique %@"}},"ja":{"stringUnit":{"state":"translated","value":"単一キー %@"}},"ko":{"stringUnit":{"state":"translated","value":"단일 키 %@"}},"pt":{"stringUnit":{"state":"translated","value":"Tecla única %@"}},"ru":{"stringUnit":{"state":"translated","value":"Одна клавиша %@"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"单键 %@"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"單鍵 %@"}}}},
-    "settings.singleKey.preparing": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"جارٍ تحضير تسجيل المفتاح…"}},"de":{"stringUnit":{"state":"translated","value":"Tastenaufnahme wird vorbereitet …"}},"en":{"stringUnit":{"state":"translated","value":"Preparing key recording…"}},"es":{"stringUnit":{"state":"translated","value":"Preparando la grabación de tecla…"}},"fr":{"stringUnit":{"state":"translated","value":"Préparation de l’enregistrement…"}},"ja":{"stringUnit":{"state":"translated","value":"キー記録を準備中…"}},"ko":{"stringUnit":{"state":"translated","value":"키 기록 준비 중…"}},"pt":{"stringUnit":{"state":"translated","value":"A preparar gravação da tecla…"}},"ru":{"stringUnit":{"state":"translated","value":"Подготовка записи клавиши…"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"正在准备按键录制…"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"正在準備按鍵錄製…"}}}},
-    "settings.singleKey.preparing.detail": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"حرّر زر تسجيل المفتاح؛ سيبدأ الاستماع بعد ذلك."}},"de":{"stringUnit":{"state":"translated","value":"Lass die Taste „Taste aufnehmen“ los; danach beginnt die Aufnahme."}},"en":{"stringUnit":{"state":"translated","value":"Release the Record Key button; listening starts next."}},"es":{"stringUnit":{"state":"translated","value":"Suelta el botón Grabar tecla; la escucha comenzará después."}},"fr":{"stringUnit":{"state":"translated","value":"Relâchez le bouton Enregistrer la touche ; l’écoute commencera ensuite."}},"ja":{"stringUnit":{"state":"translated","value":"「キーを記録」ボタンを離すと、待機が始まります。"}},"ko":{"stringUnit":{"state":"translated","value":"키 기록 버튼에서 손을 떼면 감지가 시작됩니다."}},"pt":{"stringUnit":{"state":"translated","value":"Solte o botão Gravar tecla; a escuta começa a seguir."}},"ru":{"stringUnit":{"state":"translated","value":"Отпустите кнопку записи — затем начнётся ожидание клавиши."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"松开“录制按键”按钮后开始监听。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"放開「錄製按鍵」按鈕後開始聆聽。"}}}},
-    "settings.singleKey.record": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"تسجيل مفتاح"}},"de":{"stringUnit":{"state":"translated","value":"Taste aufnehmen"}},"en":{"stringUnit":{"state":"translated","value":"Record Key"}},"es":{"stringUnit":{"state":"translated","value":"Grabar tecla"}},"fr":{"stringUnit":{"state":"translated","value":"Enregistrer la touche"}},"ja":{"stringUnit":{"state":"translated","value":"キーを記録"}},"ko":{"stringUnit":{"state":"translated","value":"키 기록"}},"pt":{"stringUnit":{"state":"translated","value":"Gravar tecla"}},"ru":{"stringUnit":{"state":"translated","value":"Записать клавишу"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"录制按键"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"錄製按鍵"}}}},
-    "settings.singleKey.recording": {"localizations":{"ar":{"stringUnit":{"state":"translated","value":"اضغط مفتاحًا واحدًا"}},"de":{"stringUnit":{"state":"translated","value":"Eine Taste drücken"}},"en":{"stringUnit":{"state":"translated","value":"Press one key"}},"es":{"stringUnit":{"state":"translated","value":"Pulsa una tecla"}},"fr":{"stringUnit":{"state":"translated","value":"Appuyez sur une touche"}},"ja":{"stringUnit":{"state":"translated","value":"キーを1つ押す"}},"ko":{"stringUnit":{"state":"translated","value":"키 하나 누르기"}},"pt":{"stringUnit":{"state":"translated","value":"Prima uma tecla"}},"ru":{"stringUnit":{"state":"translated","value":"Нажмите одну клавишу"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"按下一个按键"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"按下一個按鍵"}}}},
+    "widget.title": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إجراءات سريعة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schnellaktionen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Actions"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acciones rápidas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actions rapides"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クイックアクション"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "빠른 동작"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ações rápidas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Быстрые действия"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷操作"
+          }
+        }
+      }
+    },
+    "action.singleKey": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفتاح واحد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einzeltaste"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Single Key"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tecla única"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Touche unique"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "単一キー"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "단일 키"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tecla única"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Одна клавиша"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "单键"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "單鍵"
+          }
+        }
+      }
+    },
+    "action.singleKey.format": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفتاح واحد %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einzeltaste %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Single key %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tecla única %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Touche unique %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "単一キー %@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "단일 키 %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tecla única %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Одна клавиша %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "单键 %@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "單鍵 %@"
+          }
+        }
+      }
+    },
+    "settings.singleKey.preparing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ تحضير تسجيل المفتاح…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tastenaufnahme wird vorbereitet …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing key recording…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparando la grabación de tecla…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Préparation de l’enregistrement…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キー記録を準備中…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키 기록 준비 중…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A preparar gravação da tecla…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подготовка записи клавиши…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在准备按键录制…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在準備按鍵錄製…"
+          }
+        }
+      }
+    },
+    "settings.singleKey.preparing.detail": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حرّر زر تسجيل المفتاح؛ سيبدأ الاستماع بعد ذلك."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lass die Taste „Taste aufnehmen“ los; danach beginnt die Aufnahme."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Release the Record Key button; listening starts next."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suelta el botón Grabar tecla; la escucha comenzará después."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Relâchez le bouton Enregistrer la touche ; l’écoute commencera ensuite."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「キーを記録」ボタンを離すと、待機が始まります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키 기록 버튼에서 손을 떼면 감지가 시작됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solte o botão Gravar tecla; a escuta começa a seguir."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отпустите кнопку записи — затем начнётся ожидание клавиши."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "松开“录制按键”按钮后开始监听。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放開「錄製按鍵」按鈕後開始聆聽。"
+          }
+        }
+      }
+    },
+    "settings.singleKey.record": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل مفتاح"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taste aufnehmen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record Key"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabar tecla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer la touche"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キーを記録"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키 기록"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gravar tecla"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Записать клавишу"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录制按键"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "錄製按鍵"
+          }
+        }
+      }
+    },
+    "settings.singleKey.recording": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط مفتاحًا واحدًا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine Taste drücken"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press one key"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulsa una tecla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appuyez sur une touche"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キーを1つ押す"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키 하나 누르기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prima uma tecla"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нажмите одну клавишу"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按下一个按键"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按下一個按鍵"
+          }
+        }
+      }
+    },
     "action.mediaPlayPause": {
       "localizations": {
         "en": {
@@ -95,7 +578,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "مراقبة المهمة"
+            "value": "إدارة المهام"
           }
         },
         "de": {
@@ -165,7 +648,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "عودة الماوس"
+            "value": "زر الرجوع في الماوس"
           }
         },
         "de": {
@@ -235,7 +718,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "الماوس إلى الأمام"
+            "value": "زر التقدم في الماوس"
           }
         },
         "de": {
@@ -305,7 +788,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "انقر الأوسط"
+            "value": "النقر بالزر الأوسط"
           }
         },
         "de": {
@@ -515,7 +998,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "مساحة اليسار"
+            "value": "المساحة على اليسار"
           }
         },
         "de": {
@@ -585,7 +1068,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "حق الفضاء"
+            "value": "المساحة على اليمين"
           }
         },
         "de": {
@@ -5960,62 +6443,1205 @@
     },
     "settings.recording.error": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Recording could not start." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法开始录制。" } },
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر بدء التسجيل." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Aufnahme konnte nicht gestartet werden." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudo iniciar la grabación." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible de démarrer l’enregistrement." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "入力キャプチャを開始できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "입력 캡처를 시작할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível iniciar a gravação." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось начать запись." } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法開始記錄。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording could not start."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法开始录制。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر بدء التسجيل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Aufnahme konnte nicht gestartet werden."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo iniciar la grabación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de démarrer l’enregistrement."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力キャプチャを開始できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 캡처를 시작할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível iniciar a gravação."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось начать запись."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法開始記錄。"
+          }
+        }
       }
     },
     "settings.recording.unavailable": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Input capture is unavailable right now. Try again." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "输入捕获暂时不可用，请重试。" } },
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر التقاط الإدخال الآن. حاول مرة أخرى." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Eingabeerfassung ist derzeit nicht verfügbar. Erneut versuchen." } },
-        "es": { "stringUnit": { "state": "translated", "value": "La captura de entrada no está disponible ahora. Inténtalo de nuevo." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "La capture des entrées est momentanément indisponible. Réessayez." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "入力キャプチャを現在利用できません。再試行してください。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "입력 캡처를 지금 사용할 수 없습니다. 다시 시도하세요." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "A captura de entrada não está disponível agora. Tente novamente." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Захват ввода сейчас недоступен. Повторите попытку." } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "輸入擷取目前無法使用，請重試。" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input capture is unavailable right now. Try again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入捕获暂时不可用，请重试。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر التقاط الإدخال الآن. حاول مرة أخرى."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Eingabeerfassung ist derzeit nicht verfügbar. Erneut versuchen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La captura de entrada no está disponible ahora. Inténtalo de nuevo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La capture des entrées est momentanément indisponible. Réessayez."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入力キャプチャを現在利用できません。再試行してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력 캡처를 지금 사용할 수 없습니다. 다시 시도하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A captura de entrada não está disponível agora. Tente novamente."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Захват ввода сейчас недоступен. Повторите попытку."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入擷取目前無法使用，請重試。"
+          }
+        }
       }
     },
     "settings.recording.openFormat": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Open %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "打开%@" } },
-        "ar": { "stringUnit": { "state": "translated", "value": "فتح %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%@ öffnen" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Abrir %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ouvrir %@" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%@を開く" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%@ 열기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Abrir %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Открыть: %@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "打開%@" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开%@"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ öffnen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@を開く"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть: %@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打開%@"
+          }
+        }
       }
     },
     "settings.recording.retry": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Try again" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "重试" } },
-        "ar": { "stringUnit": { "state": "translated", "value": "حاول مرة أخرى" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Erneut versuchen" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Intentar de nuevo" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Réessayer" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "再試行" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "다시 시도" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Tentar novamente" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Повторить" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "重試" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重试"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حاول مرة أخرى"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erneut versuchen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intentar de nuevo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réessayer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再試行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다시 시도"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tentar novamente"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повторить"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重試"
+          }
+        }
+      }
+    },
+    "settings.trackpadGesture": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad Gesture"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触控板手势"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "觸控板手勢"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesto del trackpad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geste du trackpad"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Жест трекпада"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesto do trackpad"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad-Geste"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "トラックパッドのジェスチャ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "트랙패드 제스처"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيماءة لوحة التعقب"
+          }
+        }
+      }
+    },
+    "settings.mapping.usedByAnotherPlugin": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Used by another plugin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已被其他插件使用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已被其他外掛使用"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usado por otro plugin"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisé par un autre plugin"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Используется другим плагином"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usado por outro plugin"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Von einem anderen Plugin verwendet"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "別のプラグインが使用中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다른 플러그인에서 사용 중"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تستخدمه إضافة أخرى"
+          }
+        }
+      }
+    },
+    "settings.trigger.keyboard.format": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key %@%d"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按键 %@%d"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按鍵 %@%d"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tecla %@%d"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Touche %@%d"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Клавиша %@%d"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tecla %@%d"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taste %@%d"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キー %@%d"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키 %@%d"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفتاح %@%d"
+          }
+        }
+      }
+    },
+    "settings.trigger.mouse.format": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mouse button %@%d"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标按键 %@%d"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滑鼠按鍵 %@%d"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Botón del ratón %@%d"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bouton de souris %@%d"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кнопка мыши %@%d"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Botão do mouse %@%d"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maustaste %@%d"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マウスボタン %@%d"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "마우스 버튼 %@%d"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زر الماوس %@%d"
+          }
+        }
+      }
+    },
+    "settings.trigger.scroll.format": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scroll %@%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滚动 %@%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捲動 %@%@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desplazamiento %@%@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Défilement %@%@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прокрутка %@%@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rolar %@%@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scrollen %@%@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクロール %@%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스크롤 %@%@"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمرير %@%@"
+          }
+        }
+      }
+    },
+    "settings.trigger.trackpad.format": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触控板 %@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "觸控板 %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Трекпад %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "トラックパッド %@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "트랙패드 %@"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لوحة التعقب %@"
+          }
+        }
+      }
+    },
+    "settings.mouseInteraction.click": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Click"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "单击"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按一下"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clic"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clic"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Щелчок"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clique"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klick"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クリック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클릭"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقرة"
+          }
+        }
+      }
+    },
+    "settings.mouseInteraction.doubleClick": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double-click"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "双击"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按兩下"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doble clic"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double-clic"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Двойной щелчок"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clique duplo"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doppelklick"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダブルクリック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이중 클릭"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقرة مزدوجة"
+          }
+        }
+      }
+    },
+    "settings.mouseInteraction.longPress": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Long Press"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "长按"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "長按"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulsación larga"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appui long"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Долгое нажатие"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pressão longa"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Langes Drücken"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "長押し"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "길게 누르기"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضغط مطوّل"
+          }
+        }
+      }
+    },
+    "settings.scroll.up": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Up"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向上"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向上"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arriba"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vers le haut"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вверх"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para cima"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach oben"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "위로"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لأعلى"
+          }
+        }
+      }
+    },
+    "settings.scroll.down": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Down"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向下"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向下"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abajo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vers le bas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вниз"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para baixo"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach unten"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "아래로"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لأسفل"
+          }
+        }
+      }
+    },
+    "settings.scroll.left": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Left"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向左"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向左"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Izquierda"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vers la gauche"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Влево"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para a esquerda"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach links"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "왼쪽으로"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لليسار"
+          }
+        }
+      }
+    },
+    "settings.scroll.right": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Right"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向右"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向右"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Derecha"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vers la droite"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вправо"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para a direita"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach rechts"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "오른쪽으로"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لليمين"
+          }
+        }
       }
     }
   },

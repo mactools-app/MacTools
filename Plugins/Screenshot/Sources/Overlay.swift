@@ -1098,7 +1098,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
     }
 
     private func buildScrollBar() {
-        let hint = NSTextField(labelWithString: environment.string("overlay.scroll.hint", "框住要滚的内容，开始后自己往下滚"))
+        let hint = NSTextField(labelWithString: environment.string("overlay.scroll.hint", "选择要截取的区域，开始后手动向下滚动"))
         hint.font = PluginTypography.detail.nsFont
         hint.textColor = .secondaryLabelColor
         let start = sessionButton(
@@ -1212,13 +1212,13 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         let process: [NSView] = [
             iconButton("rectangle.roundedtop", tip: environment.string("overlay.tool.effects", "圆角与阴影（[ ] 圆角，{ } 阴影）"), action: #selector(toggleRadiusRow)),
             iconButton("text.viewfinder", tip: environment.string("overlay.recognition.text", "提取文字"), action: #selector(runOCR)),
-            iconButton("qrcode.viewfinder", tip: environment.string("overlay.recognition.barcode", "识别二维码"), action: #selector(detectQR)),
+            iconButton("qrcode.viewfinder", tip: environment.string("overlay.recognition.barcode", "识别二维码与条形码"), action: #selector(detectQR)),
             iconButton("pin", tip: environment.string("overlay.action.pin", "贴图：钉在屏幕上"), action: #selector(pinShot)),
         ]
 
         let output: [NSView] = [
             iconButton("arrow.uturn.backward", tip: environment.string("overlay.action.undo", "撤销 (⌘Z)"), action: #selector(undoLast)),
-            iconButton("arrow.down.to.line", tip: environment.format("overlay.action.save", "保存到「%@」(⌘S) · ⌥点击 另存为 (⇧⌘S)",
+            iconButton("arrow.down.to.line", tip: environment.format("overlay.action.save", "保存到「%@」(⌘S) · 按住 ⌥ 点击可另存为 (⇧⌘S)",
                                                                     environment.saveFolderDisplayName), action: #selector(download)),
         ]
 
@@ -1561,7 +1561,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         let text = lines.joined(separator: "\n")
         resultURL = Self.firstLink(in: text)
         if lines.isEmpty {
-            showOcrPanel(title: title, text: "", status: environment.string("overlay.recognition.empty", "没识别到内容"), busy: false)
+            showOcrPanel(title: title, text: "", status: environment.string("overlay.recognition.empty", "未识别到内容"), busy: false)
             return
         }
         let pasteboard = NSPasteboard.general
@@ -1666,7 +1666,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         ocrScrollHeight?.isActive = true
         ocrTextView = textView
 
-        let hint = NSTextField(labelWithString: environment.string("overlay.recognition.editHint", "可直接编辑 · 选中一段后 ⌘C 只复制那段 · Esc 关闭"))
+        let hint = NSTextField(labelWithString: environment.string("overlay.recognition.editHint", "可直接编辑 · 选中文本后按 ⌘C 复制 · Esc 关闭"))
         hint.font = PluginTypography.detail.nsFont
         hint.textColor = .tertiaryLabelColor
         CaptureActionBar.configure(maskButton)

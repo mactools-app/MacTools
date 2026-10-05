@@ -10,6 +10,21 @@ final class LaunchpadOverlayWindow: NSWindow {
     override var canBecomeMain: Bool { true }
 }
 
+private struct LaunchpadOverlayRootView: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
+    let grid: LaunchpadGridView
+    let onLocaleChange: () -> Void
+
+    var body: some View {
+        let _ = runtimeLocale.revision
+        grid
+            .environment(\.locale, runtimeLocale.locale)
+            // Paging offsets, keyboard arrows, and AppKit hit testing share physical coordinates.
+            .environment(\.layoutDirection, .leftToRight)
+            .onChange(of: runtimeLocale.revision, initial: true) { _, _ in onLocaleChange() }
+    }
+}
+
 /// Holds the AppKit monitor/observer tokens. Kept in a separate, non–actor-isolated
 /// class so its `deinit` can remove them as a backstop (Codex P2 #5) without tripping
 /// Swift 6's "non-Sendable access from nonisolated deinit" rule. `removeMonitor` /
@@ -93,10 +108,10 @@ final class LaunchpadOverlayController: NSObject, NSWindowDelegate {
         // The synchronous mouseUp data path (design §1.3): the controller owns both the store and
         // the coordinator, so the commit writes the store directly — never through a SwiftUI
         // `@Published` token a torn-down view could fail to consume (the resign-active data-loss
-        // race). Captures the store/name directly: no reference back to self, no cycle.
-        let folderName = localization.string("folder.defaultName", defaultValue: "未命名")
-        dragCoordinator.storeApplier = { [layoutStore] action, frozenOrder in
-            Self.apply(action, frozenOrder: frozenOrder, to: layoutStore, folderName: folderName)
+        // race). Captures the store/localization directly: no reference back to self, no cycle.
+        dragCoordinator.storeApplier = { [layoutStore, localization] action, frozenOrder in
+            let folderName = localization.string("folder.defaultName", defaultValue: "未命名")
+            return Self.apply(action, frozenOrder: frozenOrder, to: layoutStore, folderName: folderName)
         }
     }
 
@@ -215,7 +230,7 @@ final class LaunchpadOverlayController: NSObject, NSWindowDelegate {
         win.level = .popUpMenu
         win.collectionBehavior = [.canJoinAllApplications, .fullScreenAuxiliary, .stationary, .ignoresCycle]
         win.setFrame(frame, display: true)
-        let host = NSHostingView(rootView: LaunchpadGridView(
+        let host = NSHostingView(rootView: LaunchpadOverlayRootView(grid: LaunchpadGridView(
             catalog: catalog,
             layoutStore: layoutStore,
             dragCoordinator: dragCoordinator,
@@ -233,7 +248,11 @@ final class LaunchpadOverlayController: NSObject, NSWindowDelegate {
             onReveal: { [weak self] app in self?.reveal(app) },
             onHide: { [weak self] app in self?.preferences.hide(app.id) },
             onDismiss: { [weak self] in self?.close() }
-        ))
+        ), onLocaleChange: { [weak win, localization] in
+            guard let win else { return }
+            win.title = localization.string("metadata.title", defaultValue: "启动台")
+            win.setAccessibilityLabel(win.title)
+        }))
         win.contentView = host
         if isCompact {
             // Round the floating panel. This layer mask clips the in-process SwiftUI

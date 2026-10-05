@@ -74,7 +74,8 @@ final class HideNotchPlugin: MacToolsPlugin, PluginActionProviding {
         )
         self.controller = controller ?? HideNotchController(
             maskManager: HideNotchDesktopMaskManager(localization: localization),
-            context: context
+            context: context,
+            localization: localization
         )
         self.controller.onStateChange = { [weak self] in
             self?.onStateChange?()

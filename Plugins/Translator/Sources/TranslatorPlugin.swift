@@ -397,7 +397,7 @@ final class TranslatorPlugin:
                     ? nil
                     : localization.string(
                         "permission.screenRecording.footnote",
-                        defaultValue: "前往系统设置 → 隐私与安全性 → 屏幕录制，授权 MacTools。"
+                        defaultValue: "请在系统设置 → 隐私与安全性 → 录屏与系统录音（或录屏）中授权 MacTools。"
                     )
             )
         default:

@@ -44,7 +44,7 @@ final class ScrollSession {
         }
         capture.onUnmatched = { [weak self] in
             guard let self, !finishing else { return }
-            panel.update(environment.string("scroll.unmatched", "未找到连续内容，请放慢滚动或回滚少许"))
+            panel.update(environment.string("scroll.unmatched", "未找到连续内容，请放慢滚动或向上滚动少许"))
         }
         panel.update(environment.string("capture.preparing", "正在准备…"))
         startupTask = Task { [self] in
@@ -62,7 +62,7 @@ final class ScrollSession {
                 session.onStarted = { [weak self] in self?.waitForFirstFrame() }
                 session.onWaiting = { [weak self, weak session] in
                     guard let self, let session else { return }
-                    panel.update(environment.string("capture.stoppingSlowly", "正在等待系统停止…"),
+                    panel.update(environment.string("capture.stoppingSlowly", "正在等待屏幕采集停止…"),
                                  primaryEnabled: session.canRetryStop)
                 }
                 try session.stream.addStreamOutput(source, type: .screen, sampleHandlerQueue: source.queue)

@@ -5,6 +5,26 @@ import MacToolsPluginKit
 import QuickLookThumbnailing
 import SwiftUI
 
+private struct ClipboardHistoryLocalizedRoot<Content: View>: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
+    let content: Content
+    let onLocaleChange: () -> Void
+
+    init(content: Content, onLocaleChange: @escaping () -> Void = {}) {
+        self.content = content
+        self.onLocaleChange = onLocaleChange
+    }
+
+    var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
+        content
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight)
+            .onChange(of: runtimeLocale.revision) { _, _ in onLocaleChange() }
+    }
+}
+
 private struct ClipboardItemShortcutRequest: Identifiable {
     let itemID: UUID
     var id: UUID { itemID }
@@ -2329,6 +2349,9 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
             hudPresenter: hudPresenter
         )
         super.init()
+        PluginRuntimeLocalization.source.$revision.dropFirst().sink { [weak self] _ in
+            DispatchQueue.main.async { [weak self] in self?.refreshPanelLocalization() }
+        }.store(in: &itemSubscriptions)
         historyController.itemUpdates.sink { [weak self] update in
             guard let self else { return }
             self.model.updateItems(update.items, revision: update.revision, changedIDs: update.changedIDs, knownChanges: update.changes)
@@ -2719,7 +2742,7 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
         panel.delegate = self
         windowSnapCoordinator.attach(to: panel)
         panel.contentView = ClipboardHistoryWindowContent.makeHostingView(
-            rootView: ClipboardHistoryPanelView(
+            rootView: ClipboardHistoryLocalizedRoot(content: ClipboardHistoryPanelView(
                 controller: historyController,
                 savedLibraryController: savedLibraryController,
                 itemShortcutStore: itemShortcutStore,
@@ -2822,17 +2845,23 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
                 },
                 onClose: { [weak self] in self?.close() },
                 onOpenSettings: { [weak self] in self?.openSettings() },
-                onOpenShortcutSettings: { [weak self] in self?.openShortcutSettings() }
-            )
-            .environment(\.locale, PluginRuntimeLocalization.locale)
-            .environment(
-                \.layoutDirection,
-                PluginRuntimeLocalization.locale.language.characterDirection == .rightToLeft
-                    ? .rightToLeft
-                    : .leftToRight
-            )
+                onOpenShortcutSettings: { [weak self] in self?.openShortcutSettings() },
+                onRefreshActionPalette: { [weak self] entries in
+                    guard let self else { return }
+                    self.actionPaletteController.refreshLocalization(
+                        entries: entries,
+                        contextTitle: self.model.actionContextTitle(localization: self.localization)
+                    )
+                }
+            ))
         )
         return panel
+    }
+
+    private func refreshPanelLocalization() {
+        guard let panel else { return }
+        panel.title = localization.string("metadata.title", defaultValue: "剪贴板历史")
+        panel.setAccessibilityTitle(panel.title)
     }
 
     func openSettings() {
@@ -3977,12 +4006,14 @@ struct ClipboardHistoryPanelView: View {
     let onClose: () -> Void
     let onOpenSettings: () -> Void
     let onOpenShortcutSettings: () -> Void
+    let onRefreshActionPalette: ([ClipboardHistoryExportMenuEntry]) -> Void
     let localization: PluginLocalization
 
     @ObservedObject private var settings: ClipboardHistorySettingsStore
     @Environment(\.accessibilityReduceTransparency) private var accessibilityReduceTransparency
     @Environment(\.colorSchemeContrast) private var surfaceContrast
     @Environment(\.locale) private var locale
+    @Environment(\.layoutDirection) private var layoutDirection
     @State private var clearRequest: ClipboardHistoryClearRequest?
     @State private var detailMetadataByItemID: [UUID: ClipboardHistoryDetailMetadata] = [:]
     @State private var shortcutDisplayRevision: UInt = 0
@@ -4028,7 +4059,8 @@ struct ClipboardHistoryPanelView: View {
         shortcutSettingsContextProvider: @escaping () -> PluginSettingsContext?,
         onClose: @escaping () -> Void,
         onOpenSettings: @escaping () -> Void = {},
-        onOpenShortcutSettings: @escaping () -> Void = {}
+        onOpenShortcutSettings: @escaping () -> Void = {},
+        onRefreshActionPalette: @escaping ([ClipboardHistoryExportMenuEntry]) -> Void = { _ in }
     ) {
         self.controller = controller
         self.savedLibraryController = savedLibraryController
@@ -4064,6 +4096,7 @@ struct ClipboardHistoryPanelView: View {
         self.onClose = onClose
         self.onOpenSettings = onOpenSettings
         self.onOpenShortcutSettings = onOpenShortcutSettings
+        self.onRefreshActionPalette = onRefreshActionPalette
         _settings = ObservedObject(wrappedValue: controller.settings)
     }
 
@@ -4111,6 +4144,7 @@ struct ClipboardHistoryPanelView: View {
     }
 
     var body: some View {
+        let _ = locale
         VStack(alignment: .leading, spacing: PluginPaletteMetrics.contentSpacing) {
             panelToolbar
             if presentation.showsInlineStorageError,
@@ -4198,6 +4232,9 @@ struct ClipboardHistoryPanelView: View {
                 performActionMenuAction(action, expectedContext: context)
             }
         }
+        .onChange(of: locale.identifier) { _, _ in
+            if model.isActionPalettePresented { onRefreshActionPalette(actionMenuEntries()) }
+        }
         .onChange(of: model.actionContext) { _, _ in
             if model.isActionPalettePresented { model.dismissActionMenu() }
         }
@@ -4236,6 +4273,8 @@ struct ClipboardHistoryPanelView: View {
                 onRemove: { format in onRemoveItemShortcut(request.itemID, format) },
                 onOpenShortcutSettings: onOpenShortcutSettings
             )
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, layoutDirection)
         }
         .alert(item: $clearRequest) { request in
             switch request {
@@ -4294,6 +4333,8 @@ struct ClipboardHistoryPanelView: View {
                 },
                 onCancel: { snippetEditorDraft = nil }
             )
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, layoutDirection)
         }
         .sheet(item: $savedMetadataDraft) { draft in
             ClipboardSavedMetadataEditorSheet(
@@ -4307,6 +4348,8 @@ struct ClipboardHistoryPanelView: View {
                 },
                 onCancel: { savedMetadataDraft = nil }
             )
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, layoutDirection)
         }
     }
 
@@ -7063,6 +7106,15 @@ final class ClipboardHistoryActionPaletteModel: ObservableObject {
         selectedAction = nil
     }
 
+    func refreshLocalization(entries: [ClipboardHistoryExportMenuEntry], contextTitle: String) {
+        self.entries = entries
+        self.contextTitle = contextTitle
+        rebuildSections()
+        if !filteredEntries.contains(where: { $0.action == selectedAction }) {
+            selectedAction = filteredEntries.first?.action
+        }
+    }
+
     func requestKeyboardScroll() {
         keyboardScrollRevision &+= 1
     }
@@ -7085,7 +7137,7 @@ private final class ClipboardHistoryActionPaletteController: NSObject, NSWindowD
     private let localization: PluginLocalization
     private let model: ClipboardHistoryActionPaletteModel
     private var panel: PalettePanel?
-    private var hostingView: NSHostingView<ClipboardHistoryActionPalette>?
+    private var hostingView: NSHostingView<ClipboardHistoryLocalizedRoot<ClipboardHistoryActionPalette>>?
     private weak var parentWindow: NSWindow?
     private var onDismiss: (() -> Void)?
     private var shortcutEntries: [ClipboardHistoryExportMenuEntry] = []
@@ -7136,6 +7188,7 @@ private final class ClipboardHistoryActionPaletteController: NSObject, NSWindowD
     ) {
         let panel = panel ?? makePanel()
         self.panel = panel
+        refreshPanelLocalization()
         self.parentWindow = parentWindow
         self.onDismiss = onDismiss
         self.shortcutEntries = entries
@@ -7150,6 +7203,18 @@ private final class ClipboardHistoryActionPaletteController: NSObject, NSWindowD
         }
         reposition(relativeTo: parentWindow)
         PluginPanelPresentation.present(panel)
+    }
+
+    func refreshLocalization(entries: [ClipboardHistoryExportMenuEntry], contextTitle: String) {
+        guard isVisible else { return }
+        shortcutEntries = entries
+        model.refreshLocalization(entries: entries, contextTitle: contextTitle)
+    }
+
+    private func refreshPanelLocalization() {
+        guard let panel else { return }
+        panel.title = localization.string("common.actions", defaultValue: "Actions")
+        panel.setAccessibilityTitle(panel.title)
     }
 
     func reposition(relativeTo parentWindow: NSWindow) {
@@ -7198,14 +7263,14 @@ private final class ClipboardHistoryActionPaletteController: NSObject, NSWindowD
         panel.level = .floating
         panel.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary, .canJoinAllApplications, .ignoresCycle]
         panel.delegate = self
-        let hostingView = NSHostingView(rootView: ClipboardHistoryActionPalette(
+        let hostingView = NSHostingView(rootView: ClipboardHistoryLocalizedRoot(content: ClipboardHistoryActionPalette(
             model: model,
             localization: localization,
             shortcutSettingsContextProvider: { [weak self] in self?.shortcutSettingsContextProvider?() },
             onShortcutRecordingChanged: { [weak self] in self?.isRecordingShortcut = $0 },
             onSelect: { [weak self] action in self?.onSelect?(action) },
             onDismiss: { [weak self] in self?.dismiss() }
-        ))
+        ), onLocaleChange: { [weak self] in self?.refreshPanelLocalization() }))
         self.hostingView = hostingView
         panel.contentView = hostingView
         return panel
@@ -7225,6 +7290,7 @@ private struct ClipboardHistoryActionPalette: View {
     let onDismiss: () -> Void
 
     @Environment(\.accessibilityReduceTransparency) private var accessibilityReduceTransparency
+    @Environment(\.locale) private var locale
     @State private var shortcutDisplayRevision: UInt = 0
     @State private var keyboardNavigationMouseLocation: NSPoint?
 
@@ -7233,6 +7299,7 @@ private struct ClipboardHistoryActionPalette: View {
     }
 
     var body: some View {
+        let _ = locale
         VStack(spacing: 0) {
             PluginPaletteSearchToolbar(
                 text: $model.query,

@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import MacToolsPluginKit
 import SwiftUI
 
@@ -11,17 +12,22 @@ final class TranslatorPanelController: TranslatorPanelControlling {
     private var lastFrame: NSRect?
     private let model = TranslatorPanelModel()
     private let localization: PluginLocalization
+    private var localeSubscription: AnyCancellable?
 
     var onAction: ((TranslatorPanelAction) -> Void)?
 
     init(localization: PluginLocalization = PluginLocalization(bundle: .main)) {
         self.localization = localization
+        localeSubscription = PluginRuntimeLocalization.source.$revision.dropFirst().sink { [weak self] _ in
+            DispatchQueue.main.async { [weak self] in self?.refreshPanelLocalization() }
+        }
     }
 
     func show(snapshot: TranslatorPanelSnapshot) {
         model.snapshot = snapshot
         let panel = panelWindow ?? makePanel()
         panelWindow = panel
+        refreshPanelLocalization()
         panel.setFrame(clampedFrame(for: panel.frame, panel: panel), display: true)
 
         PluginPresentationSafety.prepareForWindowOrdering(panel)
@@ -73,6 +79,12 @@ final class TranslatorPanelController: TranslatorPanelControlling {
         let initialFrame = lastFrame ?? defaultFrame(for: panel)
         panel.setFrame(clampedFrame(for: initialFrame, panel: panel), display: true)
         return panel
+    }
+
+    private func refreshPanelLocalization() {
+        guard let panelWindow else { return }
+        panelWindow.title = localization.string("metadata.title", defaultValue: "翻译")
+        panelWindow.setAccessibilityTitle(panelWindow.title)
     }
 
     private func defaultFrame(for panel: NSPanel) -> NSRect {

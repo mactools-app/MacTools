@@ -7,16 +7,28 @@ final class AIAssistantPanelModel: ObservableObject {
 }
 
 struct AIAssistantPanelHostView: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
     @ObservedObject var model: AIAssistantPanelModel
     let localization: PluginLocalization
     let onAction: (AIAssistantPanelAction) -> Void
 
+    init(model: AIAssistantPanelModel, localization: PluginLocalization, onAction: @escaping (AIAssistantPanelAction) -> Void) {
+        self.model = model
+        self.localization = localization
+        self.onAction = onAction
+    }
+
     var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
         AIAssistantPanelView(snapshot: model.snapshot, localization: localization, onAction: onAction)
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight)
     }
 }
 
 struct AIAssistantPanelView: View {
+    @Environment(\.locale) private var locale
     let snapshot: AIAssistantPanelSnapshot
     let localization: PluginLocalization
     let onAction: (AIAssistantPanelAction) -> Void
@@ -38,6 +50,7 @@ struct AIAssistantPanelView: View {
     }
 
     var body: some View {
+        let _ = locale
         VStack(alignment: .leading, spacing: 10) {
             headerSection
             sourceSection
@@ -147,7 +160,7 @@ struct AIAssistantPanelView: View {
                         .font(.system(size: 10))
                         .foregroundStyle(Color.accentColor)
                 } else {
-                    Text(localization.string("panel.source.hint", defaultValue: "（双击或点击编辑）"))
+                    Text(localization.string("panel.source.hint", defaultValue: "（双击文本或点按“编辑”）"))
                         .font(.system(size: 10))
                         .foregroundStyle(Color.secondary.opacity(0.8))
                 }
@@ -156,7 +169,7 @@ struct AIAssistantPanelView: View {
 
                 if isEditingSource {
                     HStack(spacing: 6) {
-                        Button(localization.string("panel.source.applyAndRerun", defaultValue: "应用并重跑")) {
+                        Button(localization.string("panel.source.applyAndRerun", defaultValue: "应用并重新处理")) {
                             isEditingSource = false
                             isSourceFocused = false
                             let trimmed = editedSourceText.trimmingCharacters(in: .whitespacesAndNewlines)

@@ -104,6 +104,8 @@ private final class ClipboardHistorySettingsPresentationModel: ObservableObject 
 @MainActor
 struct ClipboardHistorySettingsView: View {
     @Environment(\.pluginSettingsSearchTarget) private var searchTarget
+    @Environment(\.locale) private var locale
+    @Environment(\.layoutDirection) private var layoutDirection
     let controller: ClipboardHistoryController
     let savedLibraryController: ClipboardSavedLibraryController
     @ObservedObject private var settings: ClipboardHistorySettingsStore
@@ -215,6 +217,8 @@ struct ClipboardHistorySettingsView: View {
                     localization: localization,
                     settingsContext: settingsContext
                 )
+                .environment(\.locale, locale)
+                .environment(\.layoutDirection, layoutDirection)
             }
         }
         .alert(item: $clearRequest) { request in
@@ -360,7 +364,7 @@ struct ClipboardHistorySettingsView: View {
                 HStack {
                     Text(assignment.expiresAt.map {
                         localization.format("settings.quickPaste.until", defaultValue: "Until %@",
-                                            $0.formatted(date: .abbreviated, time: .shortened))
+                                            $0.formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).locale(PluginRuntimeLocalization.locale)))
                     } ?? localization.string("settings.quickPaste.noExpiry", defaultValue: "Until removed"))
                     .font(PluginSettingsTheme.Typography.rowDescription)
                     .foregroundStyle(.secondary)
@@ -1544,7 +1548,7 @@ private struct ClipboardSettingsDisclosureStyle: DisclosureGroupStyle {
                 HStack(spacing: PluginSettingsTheme.Spacing.rowContentControl) {
                     configuration.label
                     Spacer(minLength: PluginSettingsTheme.Spacing.rowContentControl)
-                    Image(systemName: configuration.isExpanded ? "chevron.down" : "chevron.right")
+                    Image(systemName: configuration.isExpanded ? "chevron.down" : "chevron.forward")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.secondary)
                         .frame(width: 12)

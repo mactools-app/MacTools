@@ -17,7 +17,7 @@ private struct AIUsagePluginProvider: PluginProvider {
 }
 
 @MainActor
-final class AIUsagePlugin: MacToolsPlugin, PluginSettingsPresenting, PluginDashboardPresenting, PluginApplicationActivityStateHandling {
+final class AIUsagePlugin: MacToolsPlugin, PluginSettingsPresenting, PluginDashboardPresenting, PluginApplicationActivityStateHandling, PluginRuntimeLocalizationRefreshing {
     var panelItems: [PluginPanelItem] {
         return [
             .widget(id: "widget", initialPlacement: .dashboard,
@@ -102,6 +102,7 @@ final class AIUsagePlugin: MacToolsPlugin, PluginSettingsPresenting, PluginDashb
     func activate(context: PluginRuntimeContext) { active = true; model.start(); updateMenuBar() }
     func deactivate(reason: PluginDeactivationReason) { active = false; model.stop(); menuBar.remove() }
     func refresh() { model.refresh(); updateMenuBar() }
+    func refreshLocalization() { updateMenuBar() }
     func applicationActivityStateDidChange(_ state: PluginApplicationActivityState) { model.setActivity(state) }
     func panelItemDidBecomeVisible(_ surface: String) {
         if surface == "widget" { model.panelVisible = true }

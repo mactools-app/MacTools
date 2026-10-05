@@ -35,6 +35,7 @@ private struct CalendarContentHeightPreferenceKey: PreferenceKey {
 }
 
 struct CalendarComponentView: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
     @ObservedObject private var viewModel: CalendarComponentViewModel
     @ObservedObject private var settingsStore: CalendarSettingsStore
     private let localization: PluginLocalization
@@ -58,6 +59,7 @@ struct CalendarComponentView: View {
     }
 
     var body: some View {
+        let _ = runtimeLocale.revision
         VStack(spacing: 0) {
             monthContent
             if settingsStore.showsRecentAgenda && viewModel.hasAgendaContent {
@@ -80,6 +82,7 @@ struct CalendarComponentView: View {
         }
         .onPreferenceChange(CalendarContentHeightPreferenceKey.self, perform: onContentHeightChange)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .onChange(of: runtimeLocale.revision) { _, _ in viewModel.refreshIfVisible() }
     }
 
     private var monthContent: some View {
@@ -144,7 +147,7 @@ private struct CalendarHeaderView: View {
                 .lineLimit(1)
 
             CalendarIconButton(
-                systemName: "chevron.left",
+                systemName: "chevron.backward",
                 help: localization.string("header.previous.help", defaultValue: "上个月"),
                 action: onPrevious
             )
@@ -164,7 +167,7 @@ private struct CalendarHeaderView: View {
             .onHover { isTodayHovered = $0 }
             .help(localization.string("header.today.help", defaultValue: "回到今天"))
             CalendarIconButton(
-                systemName: "chevron.right",
+                systemName: "chevron.forward",
                 help: localization.string("header.next.help", defaultValue: "下个月"),
                 action: onNext
             )
@@ -551,6 +554,8 @@ struct CalendarEventPopoverPresenter: NSViewRepresentable {
 
             controller.view.layoutSubtreeIfNeeded()
             popover.contentSize = controller.popoverSize
+            controller.view.window?.title = title
+            controller.view.window?.setAccessibilityTitle(title)
             self.popover = popover
         }
 
@@ -577,8 +582,10 @@ private struct CalendarFloatingEventPopoverContent: View {
     let events: [CalendarEventSummary]
     let localization: PluginLocalization
     @Environment(\.pluginComponentTheme) private var theme
+    @Environment(\.locale) private var locale
 
     var body: some View {
+        let _ = locale
         VStack(alignment: .leading, spacing: 7) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

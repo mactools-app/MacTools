@@ -49,7 +49,7 @@ struct ActionRunLinkControl: View {
             Button {
                 toggleExpansion(hasRepresentation: representation != nil)
             } label: {
-                Label(FeatureL10n.string("运行链接"), systemImage: isExpanded ? "chevron.down" : "chevron.right")
+                Label(FeatureL10n.string("运行链接"), systemImage: isExpanded ? "chevron.down" : "chevron.forward")
                     .font(PluginSettingsTheme.Typography.rowDescription)
             }
             .buttonStyle(.plain)

@@ -347,7 +347,7 @@ private struct PanelLayoutReorderItem<Content: View>: View {
                         .accessibilityIdentifier("panel.layout.remove.\(id)")
 
                         MenuBarPanelMenu(makeMenu: { destinationMenu(showsHeading: true) }) {
-                            controlIcon("arrow.right.square", side: metrics.buttonSide)
+                            controlIcon("arrow.forward.square", side: metrics.buttonSide)
                         }
                         .focused($focusedControl, equals: .moveTo)
                         .help(FeatureL10n.string("移动到"))

@@ -10,7 +10,10 @@ struct MenuBarPanelDeleteConfirmation: View {
     var body: some View {
         MenuBarPanelRemovalConfirmation(
             title: FeatureL10n.string("删除面板？"),
-            message: FeatureL10n.string("此面板中的内容将回到各自的默认面板。"),
+            message: AppL10n.feature(
+                "此面板中的内容将回到各自的默认面板。",
+                defaultValue: "此面板中的内容将保留并移至其他面板。"
+            ),
             systemImage: panel.systemImage, actionTitle: FeatureL10n.string("删除"),
             errorLabel: FeatureL10n.string("无法删除面板"), identifier: "menuBarPanel.delete",
             isEnabled: !panel.isDefault, onCancel: onCancel, onConfirm: onDelete

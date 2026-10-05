@@ -290,7 +290,7 @@ struct AIAssistantServiceSettingsView: View {
                         ProgressView()
                             .controlSize(.small)
                     } else {
-                        Text(localization.string("settings.test.title", defaultValue: "测试验证"))
+                        Text(localization.string("settings.test.title", defaultValue: "测试连接"))
                     }
                 }
                 .buttonStyle(.bordered)
@@ -471,7 +471,7 @@ struct AIAssistantPromptSettingsView: View {
             }
         }
         .alert(
-            localization.string("settings.prompt.deleteConfirm.title", defaultValue: "确认删除处理模块？"),
+            localization.string("settings.prompt.deleteConfirm.title", defaultValue: "删除处理模板？"),
             isPresented: Binding(
                 get: { promptPendingDeletion != nil },
                 set: { if !$0 { promptPendingDeletion = nil } }
@@ -573,12 +573,12 @@ struct AIAssistantPromptSettingsView: View {
             // Prompt preview.
             VStack(alignment: .leading, spacing: 3) {
                 if let sys = prompt.systemPrompt, !sys.isEmpty {
-                    Text("系统: \(sys)")
+                    Text(localization.format("settings.promptRow.systemPreview", defaultValue: "系统：%@", sys))
                         .font(PluginSettingsTheme.Typography.rowDescription)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                 }
-                Text("模板: \(prompt.template)")
+                Text(localization.format("settings.promptRow.templatePreview", defaultValue: "模板：%@", prompt.template))
                     .font(PluginSettingsTheme.Typography.rowDescription)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
@@ -765,7 +765,7 @@ struct AIAssistantPromptSettingsView: View {
                         Text(localization.string("settings.prompt.template.title", defaultValue: "提示词模板 (Prompt Template)"))
                             .font(PluginSettingsTheme.Typography.rowTitle)
                         Spacer()
-                        Text("必须包含 {{text}}")
+                        Text(localization.string("settings.prompt.template.required", defaultValue: "必须包含 {{text}}"))
                             .font(.system(size: 10))
                             .foregroundStyle(.secondary)
                     }

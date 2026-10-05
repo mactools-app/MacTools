@@ -394,7 +394,7 @@ final class KeepAwakePlugin:
                 ),
                 description: localization.string(
                     "settings.mode.search.description",
-                    defaultValue: "选择阻止休眠运行时保持可用的内容。"
+                    defaultValue: "选择“阻止休眠”运行期间要保持可用的功能。"
                 ),
                 keywords: [
                     localization.string(

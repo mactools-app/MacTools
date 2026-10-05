@@ -1,10 +1,39 @@
 import Darwin
 import Foundation
+import MacToolsPluginKit
 import XCTest
 @testable import StorageExplorerPlugin
 
 @MainActor
 final class StorageExplorerControllerTests: XCTestCase {
+    func testLanguageChangeRebuildsRetainedPresentationWithoutScanningOrChangingSelection() async throws {
+        let originalPreference = UserDefaults.standard.string(forKey: PluginRuntimeLocalization.preferenceUserDefaultsKey)
+        defer { PluginRuntimeLocalization.source.setPreference(originalPreference) }
+        PluginRuntimeLocalization.source.setPreference("en")
+        let scanner = ControlledStorageScanner()
+        let controller = StorageExplorerController(scanner: scanner)
+        let root = "/tmp/storage-localization"
+        controller.startScan(at: URL(fileURLWithPath: root))
+        try await waitUntil { scanner.hasRequest(root) }
+        scanner.finish(path: root, snapshot: Self.fixture(root: root))
+        try await waitUntil { !controller.rows.isEmpty }
+        controller.toggleSelection(path: root + "/a")
+        try await waitUntil { controller.hierarchyNodes.map(\.id) == [root + "/b"] }
+        let rows = controller.rows
+        let selection = controller.basket
+        let revision = controller.hierarchyRevision
+
+        PluginRuntimeLocalization.source.setPreference("fr")
+        controller.refreshLocalization(copy: controller.copy)
+        try await waitUntil { controller.hierarchyRevision > revision }
+
+        XCTAssertEqual(scanner.scanCount, 1)
+        XCTAssertEqual(controller.scanRootURL?.path, root)
+        XCTAssertEqual(controller.basket, selection)
+        XCTAssertEqual(controller.rows.map(\.bytes), rows.map(\.bytes))
+        XCTAssertNotEqual(controller.rows.map(\.sizeLabel), rows.map(\.sizeLabel))
+    }
+
     func testObsoleteProgressAndFailureCannotReplaceNewScan() async throws {
         let scanner = ControlledStorageScanner()
         let controller = StorageExplorerController(scanner: scanner)
@@ -617,12 +646,17 @@ private final class ControlledStorageScanner: StorageExplorerScanning, @unchecke
     }
     private let lock = NSLock()
     private var requests: [String: Request] = [:]
+    private var requestCount = 0
+    var scanCount: Int { lock.withLock { requestCount } }
     func invalidate(paths: [String]) {}
     func clearCache() {}
     func hasRequest(_ path: String) -> Bool { lock.withLock { requests[path] != nil } }
     func scanSnapshot(rootURL: URL, update: @escaping @Sendable (StorageExplorerScanUpdate) -> Void) async throws -> StorageExplorerSnapshot {
         try await withCheckedThrowingContinuation { continuation in
-            lock.withLock { requests[rootURL.path] = Request(update: update, continuation: continuation) }
+            lock.withLock {
+                requestCount += 1
+                requests[rootURL.path] = Request(update: update, continuation: continuation)
+            }
         }
     }
     func emitSnapshot(path: String, snapshot: StorageExplorerSnapshot) {

@@ -55,7 +55,7 @@ struct WindowModifierDragSettingsView: View {
 
                     Text(plugin.localizedKey(
                         "settings.modifierDrag.modifiers.description",
-                        "必须精确按住所选按键；额外的修饰键会取消拖移。"
+                        "只能按住所选修饰键；按下其他修饰键将取消拖移。"
                     ))
                     .font(PluginSettingsTheme.Typography.rowDescription)
                     .foregroundStyle(.secondary)

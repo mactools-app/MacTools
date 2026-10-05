@@ -560,8 +560,6 @@ final class DiskCleanPlugin: MacToolsPlugin, PluginSettingsPresenting, PluginAct
     }
 
     private func byteText(_ bytes: Int64) -> String {
-        let formatter = ByteCountFormatter()
-        formatter.countStyle = .file
-        return formatter.string(fromByteCount: bytes)
+        bytes.formatted(.byteCount(style: .file).locale(PluginRuntimeLocalization.locale))
     }
 }

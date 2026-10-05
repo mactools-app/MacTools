@@ -8,6 +8,8 @@ struct MenuBarPanelThemeSettingsRow: View {
     let appearancePreference: AppAppearancePreference
 
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.locale) private var locale
+    @Environment(\.layoutDirection) private var layoutDirection
     @State private var pickerPresentation: MenuBarPanelThemePickerPresentation?
 
     var body: some View {
@@ -53,7 +55,7 @@ struct MenuBarPanelThemeSettingsRow: View {
             Button {
                 presentPicker(for: preferredPickerAppearance)
             } label: {
-                Image(systemName: "chevron.right")
+                Image(systemName: "chevron.forward")
                     .font(.system(size: 10, weight: .semibold))
                     .foregroundStyle(.tertiary)
                     .frame(width: 16, height: 24)
@@ -75,6 +77,8 @@ struct MenuBarPanelThemeSettingsRow: View {
                 appearancePreference: appearancePreference,
                 initialAppearance: presentation.appearance
             )
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, layoutDirection)
         }
     }
 

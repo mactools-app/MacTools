@@ -1,4 +1,5 @@
 import Foundation
+import MacToolsPluginKit
 
 public enum StorageExplorerMode: String, CaseIterable, Sendable { case folders, largestFiles, fileTypes }
 public enum StorageExplorerMetric: String, CaseIterable, Sendable {
@@ -30,7 +31,7 @@ struct StorageExplorerPresentation: Sendable {
     static func make(snapshot: StorageExplorerSnapshot, directory: String, mode: StorageExplorerMode,
                      metric: StorageExplorerMetric, query: String, sort: StorageExplorerSort,
                      ascending: Bool, excluding excludedPaths: Set<String> = [],
-                     otherName: String = "Other") -> Self {
+                     otherName: String = "Other", locale: Locale = .current) -> Self {
         var candidates: [StorageItem]
         switch mode {
         case .folders: candidates = snapshot.children(of: directory)
@@ -62,16 +63,16 @@ struct StorageExplorerPresentation: Sendable {
                 || (mode == .largestFiles && $0.path.localizedStandardContains(query)) }
         }
         let total = candidates.reduce(Int64(0)) { $0 + metric.bytes($1) }
-        let formatter = ByteCountFormatter()
-        formatter.countStyle = .file
+        let byteStyle = ByteCountFormatStyle(style: .file).locale(locale)
         let dates = DateFormatter()
+        dates.locale = locale
         dates.dateStyle = .short
         dates.timeStyle = .none
         func row(_ item: StorageItem) -> StorageExplorerRow {
             let bytes = metric.bytes(item)
             return StorageExplorerRow(item: item, name: item.name, bytes: bytes,
-                sizeLabel: formatter.string(fromByteCount: bytes),
-                percentage: total > 0 ? String(format: "%.1f%%", Double(bytes) * 100 / Double(total)) : "—",
+                sizeLabel: bytes.formatted(byteStyle),
+                percentage: total > 0 ? (Double(bytes) / Double(total)).formatted(.percent.precision(.fractionLength(1)).locale(locale)) : "—",
                 kind: item.isPackage ? "package" : item.isDirectory ? "folder" : item.fileExtension,
                 modified: item.modificationDate ?? .distantPast,
                 dateLabel: item.modificationDate.map { dates.string(from: $0) } ?? "—")
@@ -83,7 +84,7 @@ struct StorageExplorerPresentation: Sendable {
         var chart = visibleChart.map(row)
         let remaining = total - visibleChart.reduce(Int64(0)) { $0 + metric.bytes($1) }
         if remaining > 0 {
-            let other = StorageItem(name: "Other", path: "group:other", url: URL(fileURLWithPath: "/"),
+            let other = StorageItem(name: otherName, path: "group:other", url: URL(fileURLWithPath: "/"),
                 isDirectory: false, size: remaining, allocatedSize: remaining)
             chart.append(row(other))
         }
@@ -155,5 +156,11 @@ struct StorageExplorerTreemapLayout {
         }
         split(rows.indices, rect)
         return result
+    }
+}
+
+enum StorageExplorerFormatting {
+    static func bytes(_ value: Int64, locale: Locale = PluginRuntimeLocalization.locale) -> String {
+        value.formatted(.byteCount(style: .file).locale(locale))
     }
 }

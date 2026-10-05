@@ -9,16 +9,28 @@ final class TranslatorPanelModel: ObservableObject {
 /// Keeps the SwiftUI view tree alive and lets SwiftUI diff updates when `model.snapshot` changes.
 /// This avoids rebuilding the NSHostingView for every snapshot and losing scroll position or text selection.
 struct TranslatorPanelHostView: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
     @ObservedObject var model: TranslatorPanelModel
     let localization: PluginLocalization
     let onAction: (TranslatorPanelAction) -> Void
 
+    init(model: TranslatorPanelModel, localization: PluginLocalization, onAction: @escaping (TranslatorPanelAction) -> Void) {
+        self.model = model
+        self.localization = localization
+        self.onAction = onAction
+    }
+
     var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
         TranslatorPanelView(snapshot: model.snapshot, localization: localization, onAction: onAction)
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight)
     }
 }
 
 struct TranslatorPanelView: View {
+    @Environment(\.locale) private var locale
     let snapshot: TranslatorPanelSnapshot
     let localization: PluginLocalization
     let onAction: (TranslatorPanelAction) -> Void
@@ -34,6 +46,7 @@ struct TranslatorPanelView: View {
     }
 
     var body: some View {
+        let _ = locale
         VStack(spacing: 8) {
             sourceEditor
             languageRow
@@ -179,7 +192,7 @@ struct TranslatorPanelView: View {
                     ProgressView()
                         .controlSize(.small)
                 }
-                Image(systemName: "chevron.left")
+                Image(systemName: row.isExpanded ? "chevron.down" : "chevron.forward")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(.primary)
             }

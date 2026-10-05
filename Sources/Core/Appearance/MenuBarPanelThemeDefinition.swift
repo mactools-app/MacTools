@@ -300,7 +300,7 @@ enum MenuBarPanelThemeImportError: LocalizedError, Equatable {
         case .missingName:
             return AppL10n.settings(
                 "panelTheme.error.missingName",
-                defaultValue: "主题文件缺少 name 或 scheme 名称。"
+                defaultValue: "主题文件缺少名称（name 或 scheme）。"
             )
         case let .missingColor(key):
             return AppL10n.settingsFormat(

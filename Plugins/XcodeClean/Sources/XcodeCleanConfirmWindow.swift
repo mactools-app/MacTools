@@ -52,6 +52,11 @@ final class XcodeCleanConfirmWindow: NSPanel {
                 onCancel()
                 self?.orderOut(nil)
                 self?.onDismiss?()
+            },
+            onLocaleChange: { [weak self] in
+                guard let self else { return }
+                self.title = localization.string("confirm.title", defaultValue: "确认清理 Xcode 缓存")
+                self.setAccessibilityLabel(self.title)
             }
         )
 
@@ -96,8 +101,10 @@ final class XcodeCleanConfirmWindow: NSPanel {
 final class XcodeCleanConfirmViewModel: ObservableObject {
     struct Section: Identifiable {
         let id: XcodeCleanCategory
-        let title: String
+        let localization: PluginLocalization
         let candidates: [XcodeCleanCandidate]
+
+        var title: String { id.title(localization: localization) }
     }
 
     @Published private(set) var sections: [Section]
@@ -121,7 +128,7 @@ final class XcodeCleanConfirmViewModel: ObservableObject {
             guard let items = grouped[category], !items.isEmpty else { return nil }
             return Section(
                 id: category,
-                title: category.title(localization: localization),
+                localization: localization,
                 candidates: items.sorted { $0.sizeBytes > $1.sizeBytes }
             )
         }
@@ -189,11 +196,15 @@ enum SectionSelectionState {
 
 private struct XcodeCleanConfirmView: View {
     @ObservedObject var viewModel: XcodeCleanConfirmViewModel
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
     let localization: PluginLocalization
     let onConfirm: (Set<XcodeCleanCandidate.ID>) -> Void
     let onCancel: () -> Void
+    let onLocaleChange: () -> Void
 
     var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
         VStack(spacing: 0) {
             header
             Divider().opacity(0.5)
@@ -201,6 +212,12 @@ private struct XcodeCleanConfirmView: View {
             Divider().opacity(0.5)
             footer
         }
+        .environment(\.locale, locale)
+        .environment(
+            \.layoutDirection,
+            locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight
+        )
+        .onChange(of: runtimeLocale.revision, initial: true) { _, _ in onLocaleChange() }
     }
 
     private var header: some View {

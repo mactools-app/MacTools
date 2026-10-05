@@ -116,7 +116,7 @@ final class SystemRunLinkFeedbackPresenter: RunLinkFeedbackPresenting {
         }
         panel.setAccessibilityLabel(feedback.accessibilityLabel)
         panel.contentView = NSHostingView(
-            rootView: RunLinkFeedbackView(feedback: feedback)
+            rootView: RuntimeLocalizedContent(content: RunLinkFeedbackView(feedback: feedback))
         )
         PluginPresentationSafety.prepareForWindowOrdering(panel)
         panel.orderFrontRegardless()

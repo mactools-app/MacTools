@@ -1430,7 +1430,7 @@ struct FeatureRowView: View {
                     onChange: onSwitchChange
                 )
             case .disclosure:
-                Image(systemName: item.isExpanded ? "chevron.down" : "chevron.right")
+                Image(systemName: item.isExpanded ? "chevron.down" : "chevron.forward")
                     .font(.system(size: 10, weight: .semibold))
                     .foregroundStyle(item.isEnabled ? theme.text.secondary : theme.text.disabled)
                     .frame(width: FeatureRowLayout.chevronSize, height: FeatureRowLayout.chevronSize)
@@ -1881,13 +1881,13 @@ enum IPOverviewFeatureRowModel {
         return [
             value(
                 from: localControl,
-                fallbackLabel: "内网 IPv4",
-                fallbackCopyHelp: "复制内网 IPv4"
+                fallbackLabel: FeatureL10n.string("内网 IPv4"),
+                fallbackCopyHelp: FeatureL10n.string("复制内网 IPv4")
             ),
             value(
                 from: publicControl,
-                fallbackLabel: "公网 IPv4",
-                fallbackCopyHelp: "复制公网 IPv4"
+                fallbackLabel: FeatureL10n.string("公网 IPv4"),
+                fallbackCopyHelp: FeatureL10n.string("复制公网 IPv4")
             )
         ]
     }
@@ -1903,7 +1903,7 @@ enum IPOverviewFeatureRowModel {
             id: control.id,
             label: label,
             text: control.actionTitle ?? "--",
-            copyHelp: control.isEnabled ? copyHelp : "\(label)不可用",
+            copyHelp: control.isEnabled ? copyHelp : FeatureL10n.format("%@不可用", label),
             isEnabled: control.isEnabled
         )
     }
@@ -2415,7 +2415,7 @@ private struct NavigationListRow: View {
 
                 Spacer()
 
-                Image(systemName: "chevron.right")
+                Image(systemName: "chevron.forward")
                     .font(.system(size: 9.5, weight: .semibold))
                     .foregroundStyle(isEnabled ? theme.text.secondary : theme.text.disabled)
                     .opacity(isSelected ? 1 : (isHovered ? 0.55 : 0.35))
@@ -2630,13 +2630,15 @@ private struct SecondarySlidingPanel: View {
     let onHoverChange: (Bool) -> Void
     let onSliderChange: (String, Double, PluginPanelAction.SliderPhase) -> Void
     @Environment(\.menuBarPanelTheme) private var theme
+    @Environment(\.locale) private var locale
 
     var body: some View {
+        let _ = locale
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 if showsDismissButton {
                     Button(action: { onDismiss?() }) {
-                        Image(systemName: "chevron.left")
+                        Image(systemName: "chevron.backward")
                             .font(.system(size: 11, weight: .semibold))
                             .frame(width: 18, height: 18)
                     }
@@ -2805,15 +2807,16 @@ final class SecondaryPanelController: ObservableObject {
         guard let hostWindow, hostWindow.isVisible else { return }
 
         let panelWindow = panelWindow ?? makePanel()
+        let localizedRoot = AnyView(RuntimeLocalizedContent(content: rootView))
         // Reuse one NSHostingView. Rebuilding `contentView` on every `show()` destroys the SwiftUI
         // Button hit between mouseDown and mouseUp, dropping clicks such as display-resolution
         // selections. Updating `rootView` in place preserves pressed state and hover tracking.
         let hostingView: NSHostingView<AnyView>
         if let existing = panelHostingView, panelWindow.contentView === existing {
-            existing.rootView = rootView
+            existing.rootView = localizedRoot
             hostingView = existing
         } else {
-            let newHosting = NSHostingView(rootView: rootView)
+            let newHosting = NSHostingView(rootView: localizedRoot)
             panelWindow.contentView = newHosting
             panelHostingView = newHosting
             hostingView = newHosting

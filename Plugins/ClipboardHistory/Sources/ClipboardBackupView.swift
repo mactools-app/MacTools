@@ -107,6 +107,8 @@ final class ClipboardBackupPresentation: ObservableObject {
 
 @MainActor
 struct ClipboardBackupRegion: View {
+    @Environment(\.locale) private var locale
+    @Environment(\.layoutDirection) private var layoutDirection
     let localization: PluginLocalization
     let controller: ClipboardHistoryController
     let makeService: () -> ClipboardBackupService?
@@ -141,6 +143,8 @@ struct ClipboardBackupRegion: View {
                                      historyBytes: history.reduce(0) { $0 + $1.payloadByteCount },
                                      suspend: suspend, resume: resume,
                                      provisionalSavedMetadata: provisionalSavedMetadata)
+                    .environment(\.locale, locale)
+                    .environment(\.layoutDirection, layoutDirection)
             }
         }
     }

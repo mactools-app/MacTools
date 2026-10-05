@@ -940,7 +940,7 @@ private struct InputRemappingRuleEditor: View {
     }
 
     private var flowArrow: some View {
-        Image(systemName: "arrow.right")
+        Image(systemName: "arrow.forward")
             .font(.title3)
             .foregroundStyle(.secondary)
             .frame(width: 16)

@@ -165,7 +165,12 @@ final class SystemSoftRestartWindow: NSPanel {
             viewModel: viewModel,
             localization: localization,
             onConfirm: onConfirm,
-            onDismiss: { [weak self] in self?.dismissIfAllowed() }
+            onDismiss: { [weak self] in self?.dismissIfAllowed() },
+            onLocaleChange: { [weak self] in
+                guard let self else { return }
+                self.title = localization.string("window.title", defaultValue: "系统软重启")
+                self.setAccessibilityLabel(self.title)
+            }
         )
         contentView = NSHostingView(rootView: rootView)
         setContentSize(size)
@@ -262,12 +267,16 @@ final class SystemSoftRestartWindowViewModel: ObservableObject {
 
 private struct SystemSoftRestartWindowView: View {
     @ObservedObject var viewModel: SystemSoftRestartWindowViewModel
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
 
     let localization: PluginLocalization
     let onConfirm: () -> Void
     let onDismiss: () -> Void
+    let onLocaleChange: () -> Void
 
     var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.horizontal, SystemSoftRestartWindowLayout.horizontalPadding)
@@ -277,6 +286,12 @@ private struct SystemSoftRestartWindowView: View {
                 width: SystemSoftRestartWindowLayout.size.width,
                 height: SystemSoftRestartWindowLayout.size.height
             )
+            .environment(\.locale, locale)
+            .environment(
+                \.layoutDirection,
+                locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight
+            )
+            .onChange(of: runtimeLocale.revision, initial: true) { _, _ in onLocaleChange() }
     }
 
     @ViewBuilder

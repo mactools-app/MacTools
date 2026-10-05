@@ -387,7 +387,7 @@ final class AIAssistantPlugin:
             ),
             PluginSettingsSection(
                 id: "ai-prompts",
-                title: localization.string("settings.prompts.title", defaultValue: "处理模块"),
+                title: localization.string("settings.prompts.title", defaultValue: "处理模板"),
                 systemImage: "square.stack.3d.up",
                 presentation: .edgeToEdge,
                 embeddedShortcutGroupIDs: ["ai-assistant-prompts"]
@@ -408,7 +408,7 @@ final class AIAssistantPlugin:
                             self?.promptStore.makeNewPrompt(existing: existing)
                                 ?? AIAssistantPrompt(
                                     id: UUID().uuidString,
-                                    name: "新模板",
+                                    name: localization.format("prompt.newDefaultName", defaultValue: "新模板 %d", existing.count + 1),
                                     template: "{{text}}",
                                     systemPrompt: nil,
                                     isEnabled: true
@@ -447,7 +447,7 @@ final class AIAssistantPlugin:
                 isGranted: true,
                 footnote: localization.string(
                     "permission.automation.footnote",
-                    defaultValue: "macOS 会在首次控制浏览器时请求自动化授权。"
+                    defaultValue: "MacTools 首次控制浏览器时，macOS 会请求自动化授权。"
                 ),
                 statusText: localization.string("permission.automation.status", defaultValue: "按需确认"),
                 statusSystemImage: "sparkles",

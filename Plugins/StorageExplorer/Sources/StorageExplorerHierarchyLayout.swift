@@ -130,7 +130,8 @@ enum StorageExplorerHierarchyRectLayout {
         in bounds: CGRect,
         maximumRectangles: Int = 500,
         minimumChildWidth: CGFloat = 44,
-        minimumChildHeight: CGFloat = 34
+        minimumChildHeight: CGFloat = 34,
+        locale: Locale = .current
     ) -> [StorageExplorerHierarchyRect] {
         struct Work {
             let nodes: [StorageExplorerHierarchyNode]
@@ -142,8 +143,7 @@ enum StorageExplorerHierarchyRectLayout {
         var result: [StorageExplorerHierarchyRect] = []
         var queue = [Work(nodes: nodes, rect: bounds, depth: 0, rootID: nil)]
         var queueIndex = 0
-        let formatter = ByteCountFormatter()
-        formatter.countStyle = .file
+        let byteStyle = ByteCountFormatStyle(style: .file).locale(locale)
 
         while queueIndex < queue.count, result.count < maximumRectangles {
             let work = queue[queueIndex]
@@ -160,7 +160,7 @@ enum StorageExplorerHierarchyRectLayout {
                     rect: box,
                     depth: work.depth,
                     rootID: rootID,
-                    sizeLabel: formatter.string(fromByteCount: node.bytes)
+                    sizeLabel: node.bytes.formatted(byteStyle)
                 ))
                 guard !node.children.isEmpty else { continue }
                 let header = min(26, max(18, box.height * 0.12))

@@ -13,6 +13,7 @@ final class HideNotchController: HideNotchWallpaperControlling {
 
     private let displayCatalog: HideNotchDisplayCatalogProviding
     private let maskManager: HideNotchDesktopMaskManaging
+    private let localization: PluginLocalization
     private let stateStore: HideNotchStateStoring
     private let notificationCenter: NotificationCenter
     private let workspaceNotificationCenter: NotificationCenter
@@ -29,9 +30,11 @@ final class HideNotchController: HideNotchWallpaperControlling {
         maskManager: HideNotchDesktopMaskManaging = HideNotchDesktopMaskManager(),
         stateStore: HideNotchStateStoring? = nil,
         context: PluginRuntimeContext = PluginRuntimeContext(pluginID: "hide-notch"),
+        localization: PluginLocalization = PluginLocalization(bundle: .main),
         notificationCenter: NotificationCenter = .default,
         workspaceNotificationCenter: NotificationCenter = NSWorkspace.shared.notificationCenter
     ) {
+        self.localization = localization
         self.displayCatalog = displayCatalog
         self.maskManager = maskManager
         self.stateStore = stateStore ?? HideNotchStateStore(context: context)
@@ -122,7 +125,7 @@ final class HideNotchController: HideNotchWallpaperControlling {
     }
 
     private func localizationFailure(target: String, rollback: String) -> String {
-        "\(target)；恢复先前状态失败：\(rollback)"
+        localization.format("error.rollbackFailed.format", defaultValue: "%@；恢复先前状态失败：%@", target, rollback)
     }
 
     private func scheduleSync(forceNotify: Bool = false) {

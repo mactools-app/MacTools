@@ -7,6 +7,7 @@ public struct StorageExplorerWorkspaceView: View {
     @ObservedObject public var controller: StorageExplorerController
     public let localization: PluginLocalization
     @Environment(\.locale) private var locale
+    @Environment(\.layoutDirection) private var layoutDirection
     @State private var hoveredBreadcrumbIndex: Int?
     @State private var hoveredTreemapListRowID: String?
     @State private var hoveredTreemapSummary: StorageExplorerTreemapHoverSummary?
@@ -63,7 +64,11 @@ public struct StorageExplorerWorkspaceView: View {
         }
         .padding(PluginSettingsTheme.Spacing.section)
         .frame(maxHeight: .infinity, alignment: .topLeading)
-        .sheet(isPresented: $controller.isConfirmingTrash) { confirmation }
+        .sheet(isPresented: $controller.isConfirmingTrash) {
+            confirmation
+                .environment(\.layoutDirection, layoutDirection)
+                .environment(\.locale, locale)
+        }
     }
 
     private func explorer(width: CGFloat) -> some View {
@@ -160,7 +165,9 @@ public struct StorageExplorerWorkspaceView: View {
     private var controls: some View {
         HStack {
             Button { controller.scanHomeFolder() } label: { Label(text("homeFolder", "个人目录"), systemImage: "house") }
+                .fixedSize(horizontal: true, vertical: false)
             Button { controller.selectFolderAndScan() } label: { Label(text("selectFolder", "选择文件夹…"), systemImage: "folder.badge.plus") }
+                .fixedSize(horizontal: true, vertical: false)
             Spacer()
             if controller.isScanning {
                 Button(text("cancel", "取消"), role: .cancel) { controller.cancelScan() }
@@ -216,7 +223,7 @@ public struct StorageExplorerWorkspaceView: View {
                 HStack(spacing: 2) {
                     ForEach(Array(controller.navigationStack.enumerated()), id: \.element.path) { index, item in
                         if index > 0 {
-                            Image(systemName: "chevron.right")
+                            Image(systemName: "chevron.forward")
                                 .font(.caption2.weight(.semibold))
                                 .foregroundStyle(.tertiary)
                         }
@@ -278,7 +285,7 @@ public struct StorageExplorerWorkspaceView: View {
 
     private func breadcrumbSegment(_ item: StorageItem, index: Int) -> some View {
         let isCurrent = index == controller.navigationStack.count - 1
-        let size = ByteCountFormatter.string(fromByteCount: controller.metric.bytes(item), countStyle: .file)
+        let size = StorageExplorerFormatting.bytes(controller.metric.bytes(item))
         return Button {
             controller.navigateToBreadcrumb(at: index)
         } label: {
@@ -303,21 +310,21 @@ public struct StorageExplorerWorkspaceView: View {
             }
         }
         .help("\(item.path)\n\(size)")
-        .accessibilityHint(String(format: text("openPath", "打开 %@"), item.path))
+        .accessibilityHint(String(format: text("openPath", "打开 %@"), locale: PluginRuntimeLocalization.locale, item.path))
     }
 
     private var scanSummary: some View {
         let summaryBytes = controller.isShowingCachedPreview
             ? controller.rootItem.map(controller.metric.bytes) ?? 0
             : controller.status.progress.allocatedBytesScanned
-        let size = ByteCountFormatter.string(fromByteCount: summaryBytes, countStyle: .file)
+        let size = StorageExplorerFormatting.bytes(summaryBytes)
         let skipped = controller.status.progress.skippedCount
         return HStack(spacing: 7) {
             Text(size).fontWeight(.semibold)
             if controller.isShowingCachedPreview, let previewDate = controller.cachedPreviewDate {
                 TimelineView(.periodic(from: .now, by: 30)) { context in
                     Label(
-                        String(format: text("previousScanAgeFormat", "上次扫描：%@"), relativeScanAge(
+                        String(format: text("previousScanAgeFormat", "上次扫描：%@"), locale: PluginRuntimeLocalization.locale, relativeScanAge(
                             from: previewDate,
                             relativeTo: context.date
                         )),
@@ -328,7 +335,7 @@ public struct StorageExplorerWorkspaceView: View {
                 Label(text("scanning", "正在扫描…"), systemImage: "arrow.triangle.2.circlepath")
             } else if let completedAt = controller.scanCompletedAt {
                 TimelineView(.periodic(from: .now, by: 30)) { context in
-                    Text(String(format: text("scanAgeFormat", "扫描时间：%@"), relativeScanAge(
+                    Text(String(format: text("scanAgeFormat", "扫描时间：%@"), locale: PluginRuntimeLocalization.locale, relativeScanAge(
                         from: completedAt,
                         relativeTo: context.date
                     )))
@@ -344,14 +351,14 @@ public struct StorageExplorerWorkspaceView: View {
 
     private func skippedSummary(count: Int) -> some View {
         Label(
-            String(format: text("skippedCount", "跳过 %d 项"), count),
+            String(format: text("skippedCount", "跳过 %d 项"), locale: PluginRuntimeLocalization.locale, count),
             systemImage: "exclamationmark.circle"
         )
         .foregroundStyle(.orange)
         .help(String(format: text(
             "skippedDetailsMessage",
             "%d 个项目因权限、云端占位文件或文件系统边界而被跳过。显示的总大小可能偏低。"
-        ), count))
+        ), locale: PluginRuntimeLocalization.locale, count))
     }
 
     private var scanActions: some View {
@@ -429,7 +436,7 @@ public struct StorageExplorerWorkspaceView: View {
                 .font(.caption).monospacedDigit().foregroundStyle(.secondary)
             if row.item.isDirectory && !row.item.isPackage {
                 Button { controller.drillDown(to: row.item) } label: {
-                    Image(systemName: "chevron.right")
+                    Image(systemName: "chevron.forward")
                 }
                 .buttonStyle(.plain)
                 .help(text("openFolder", "打开文件夹"))
@@ -552,10 +559,10 @@ public struct StorageExplorerWorkspaceView: View {
             }
             Spacer(minLength: 4)
             VStack(alignment: .trailing, spacing: 1) {
-                Text(ByteCountFormatter.string(fromByteCount: item.allocatedSize, countStyle: .file))
+                Text(StorageExplorerFormatting.bytes(item.allocatedSize))
                     .font(PluginSettingsTheme.Typography.monospacedValue)
                 if item.size != item.allocatedSize {
-                    Text(ByteCountFormatter.string(fromByteCount: item.size, countStyle: .file))
+                    Text(StorageExplorerFormatting.bytes(item.size))
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                         .help(text("logicalSize", "文件大小"))
@@ -606,13 +613,13 @@ public struct StorageExplorerWorkspaceView: View {
 
     private func inlineDetailsHelp(for item: StorageItem) -> String {
         var lines = [item.path]
-        lines.append("\(text("allocatedSize", "占用空间")): \(ByteCountFormatter.string(fromByteCount: item.allocatedSize, countStyle: .file))")
-        lines.append("\(text("logicalSize", "文件大小")): \(ByteCountFormatter.string(fromByteCount: item.size, countStyle: .file))")
+        lines.append("\(text("allocatedSize", "占用空间")): \(StorageExplorerFormatting.bytes(item.allocatedSize))")
+        lines.append("\(text("logicalSize", "文件大小")): \(StorageExplorerFormatting.bytes(item.size))")
         if item.isHardLinked {
             lines.append(String(format: text(
                 "hardLinkNotice",
                 "此文件有 %d 个硬链接；移除最后一个链接后才会释放空间。"
-            ), item.hardLinkCount))
+            ), locale: PluginRuntimeLocalization.locale, item.hardLinkCount))
         }
         if item.isAccessDenied { lines.append(text("accessDenied", "无访问权限")) }
         if item.isCloudPlaceholder { lines.append(text("cloudPlaceholder", "仅在云端")) }
@@ -640,8 +647,8 @@ public struct StorageExplorerWorkspaceView: View {
                     Text(text("dropToReviewDescription", "也可以点按项目旁的加号。"))
                         .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
                 } else {
-                    Text(String(format: text("selectedItemsFormat", "已选 %d 个项目（共 %@）"), controller.basket.count,
-                        ByteCountFormatter.string(fromByteCount: controller.totalSelectedBytes, countStyle: .file)))
+                    Text(String(format: text("selectedItemsFormat", "已选 %d 个项目（共 %@）"), locale: PluginRuntimeLocalization.locale, controller.basket.count,
+                        StorageExplorerFormatting.bytes(controller.totalSelectedBytes)))
                         .font(PluginSettingsTheme.Typography.emphasizedRowTitle).monospacedDigit()
                     Text(controller.selectedItemsForReview.prefix(3).map(\.name).joined(separator: " · "))
                         .font(PluginSettingsTheme.Typography.rowDescription)
@@ -727,7 +734,7 @@ public struct StorageExplorerWorkspaceView: View {
                             String(format: text(
                                 "reviewIncompleteFormat",
                                 "有 %d 个内容未能扫描。显示大小为最低估计，实际释放空间可能不同。"
-                            ), max(1, item.skippedCount)),
+                            ), locale: PluginRuntimeLocalization.locale, max(1, item.skippedCount)),
                             systemImage: "exclamationmark.triangle.fill"
                         )
                         .font(PluginSettingsTheme.Typography.rowDescription)
@@ -735,8 +742,8 @@ public struct StorageExplorerWorkspaceView: View {
                     }
                 }
             }.frame(height: 220)
-            Text(String(format: text("selectedItemsFormat", "已选 %d 个项目（共 %@）"), controller.reviewItems.count,
-                ByteCountFormatter.string(fromByteCount: controller.reviewItems.reduce(0) { $0 + controller.metric.bytes($1) }, countStyle: .file)))
+            Text(String(format: text("selectedItemsFormat", "已选 %d 个项目（共 %@）"), locale: PluginRuntimeLocalization.locale, controller.reviewItems.count,
+                StorageExplorerFormatting.bytes(controller.reviewItems.reduce(0) { $0 + controller.metric.bytes($1) })))
             HStack {
                 Spacer()
                 Button(text("cancel", "取消"), role: .cancel) { controller.isConfirmingTrash = false }
@@ -804,17 +811,15 @@ private struct StorageExplorerScanningView: View {
                 .font(PluginSettingsTheme.Typography.sectionTitle)
             TimelineView(.periodic(from: .now, by: 0.25)) { context in
                 HStack(spacing: 18) {
-                    Text(ByteCountFormatter.string(
-                        fromByteCount: metric == .logical
-                            ? status.progress.bytesScanned
-                            : status.progress.allocatedBytesScanned,
-                        countStyle: .file
+                    Text(StorageExplorerFormatting.bytes(
+                        metric == .logical ? status.progress.bytesScanned : status.progress.allocatedBytesScanned
                     ))
-                    .frame(width: 110, alignment: .trailing)
-                    Text(String(format: filesScannedFormat, status.progress.filesScanned))
+                        .frame(width: 110, alignment: .trailing)
+                    Text(String(format: filesScannedFormat, locale: PluginRuntimeLocalization.locale, status.progress.filesScanned))
                         .frame(width: 170, alignment: .leading)
                     Text(String(
                         format: elapsedSecondsFormat,
+                        locale: PluginRuntimeLocalization.locale,
                         displayedElapsed(at: context.date)
                     ))
                         .frame(width: 64, alignment: .trailing)
@@ -823,7 +828,7 @@ private struct StorageExplorerScanningView: View {
                 .monospacedDigit()
             }
             if status.progress.skippedCount > 0 {
-                Label(String(format: skippedCountFormat, status.progress.skippedCount),
+                Label(String(format: skippedCountFormat, locale: PluginRuntimeLocalization.locale, status.progress.skippedCount),
                       systemImage: "exclamationmark.circle")
                     .font(PluginSettingsTheme.Typography.rowDescription)
                     .foregroundStyle(.orange)
@@ -862,15 +867,13 @@ private struct StorageExplorerRefreshStatusView: View {
                     Text(status.progress.phase == .finalizing ? finalizingTitle : refreshingTitle)
                         .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
                     HStack(spacing: 8) {
-                        Text(ByteCountFormatter.string(
-                            fromByteCount: metric == .logical
-                                ? status.progress.bytesScanned
-                                : status.progress.allocatedBytesScanned,
-                            countStyle: .file
+                        Text(StorageExplorerFormatting.bytes(
+                            metric == .logical ? status.progress.bytesScanned : status.progress.allocatedBytesScanned
                         ))
-                        Text(String(format: filesScannedFormat, status.progress.filesScanned))
+                        Text(String(format: filesScannedFormat, locale: PluginRuntimeLocalization.locale, status.progress.filesScanned))
                         Text(String(
                             format: elapsedSecondsFormat,
+                            locale: PluginRuntimeLocalization.locale,
                             StorageExplorerElapsedClock.elapsed(
                                 startedAt: startedAt,
                                 reported: status.progress.elapsed,

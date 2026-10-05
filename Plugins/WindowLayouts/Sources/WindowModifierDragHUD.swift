@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import Foundation
 import MacToolsPluginKit
 import SwiftUI
@@ -110,7 +111,9 @@ struct WindowModifierDragHUDView: View {
 @MainActor
 final class WindowModifierDragHUDController: WindowModifierDragHUDPresenting {
     private var panel: WindowModifierDragHUDPanel?
-    private var hostingView: NSHostingView<WindowModifierDragHUDView>?
+    private var hostingView: NSHostingView<WindowModifierDragHUDRootView>?
+    private var localeSubscription: AnyCancellable?
+    private var renderedLocaleRevision: Int?
     private(set) var currentState: WindowModifierDragHUDState?
 
     private let visibleFramesProvider: () -> [CGRect]
@@ -146,13 +149,23 @@ final class WindowModifierDragHUDController: WindowModifierDragHUDPresenting {
         self.movePointerTitleProvider = movePointerTitleProvider
         self.movingWindowTitleProvider = movingWindowTitleProvider
         self.announceAccessibility = announceAccessibility
+        localeSubscription = PluginRuntimeLocalization.source.$revision.dropFirst().sink { [weak self] _ in
+            DispatchQueue.main.async { [weak self] in
+                guard let self, let state = self.currentState else { return }
+                self.update(state, announcesFailure: false)
+            }
+        }
     }
 
     func present(_ state: WindowModifierDragHUDState) {
+        update(state, announcesFailure: true)
+    }
+
+    private func update(_ state: WindowModifierDragHUDState, announcesFailure: Bool) {
         let previousState = currentState
         currentState = state
 
-        if case let .failure(message, _) = state {
+        if announcesFailure, case let .failure(message, _) = state {
             announceAccessibility(message)
         }
 
@@ -160,6 +173,7 @@ final class WindowModifierDragHUDController: WindowModifierDragHUDPresenting {
         self.panel = panel
 
         if let hostingView,
+           renderedLocaleRevision == PluginRuntimeLocalization.source.revision,
            Self.hasSameContent(previousState, state) {
             let targetFrame = Self.panelFrame(
                 at: Self.pointerLocation(from: state),
@@ -180,13 +194,22 @@ final class WindowModifierDragHUDController: WindowModifierDragHUDPresenting {
             return
         }
 
-        let hudView = WindowModifierDragHUDView(
+        let movePointerTitle = movePointerTitleProvider()
+        let movingWindowTitle = movingWindowTitleProvider()
+        let hudView = WindowModifierDragHUDRootView(content: WindowModifierDragHUDView(
             state: state,
-            movePointerTitle: movePointerTitleProvider(),
-            movingWindowTitle: movingWindowTitleProvider()
-        )
+            movePointerTitle: movePointerTitle,
+            movingWindowTitle: movingWindowTitle
+        ))
+        renderedLocaleRevision = PluginRuntimeLocalization.source.revision
+        switch state {
+        case .armed: panel.title = movePointerTitle
+        case .active: panel.title = movingWindowTitle
+        case let .failure(message, _): panel.title = message
+        }
+        panel.setAccessibilityLabel(panel.title)
 
-        let hosting: NSHostingView<WindowModifierDragHUDView>
+        let hosting: NSHostingView<WindowModifierDragHUDRootView>
         if let existing = hostingView {
             existing.rootView = hudView
             existing.invalidateIntrinsicContentSize()
@@ -243,6 +266,7 @@ final class WindowModifierDragHUDController: WindowModifierDragHUDPresenting {
         panel?.orderOut(nil)
         panel = nil
         hostingView = nil
+        renderedLocaleRevision = nil
     }
 
     private func makePanel() -> WindowModifierDragHUDPanel {
@@ -362,5 +386,20 @@ final class WindowModifierDragHUDController: WindowModifierDragHUDPresenting {
         let dx = max(rect.minX - point.x, 0, point.x - rect.maxX)
         let dy = max(rect.minY - point.y, 0, point.y - rect.maxY)
         return hypot(dx, dy)
+    }
+}
+
+private struct WindowModifierDragHUDRootView: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
+    let content: WindowModifierDragHUDView
+
+    init(content: WindowModifierDragHUDView) { self.content = content }
+
+    var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
+        content
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight)
     }
 }

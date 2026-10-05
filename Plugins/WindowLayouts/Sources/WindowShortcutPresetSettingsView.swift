@@ -24,6 +24,8 @@ struct WindowShortcutPresetPreviewState {
 
 @MainActor
 struct WindowShortcutPresetSettingsView: View {
+    @Environment(\.layoutDirection) private var layoutDirection
+    @Environment(\.locale) private var locale
     @ObservedObject var plugin: WindowLayoutsPlugin
 
     @State private var editorRequest: WindowShortcutPresetEditorRequest?
@@ -80,6 +82,8 @@ struct WindowShortcutPresetSettingsView: View {
                 plugin: plugin,
                 initialPreset: request.initialPreset
             )
+            .environment(\.layoutDirection, layoutDirection)
+            .environment(\.locale, locale)
         }
     }
 }
@@ -270,7 +274,7 @@ private struct WindowShortcutPresetEditorSheet: View {
                     bindings: plugin.shortcutPresetCurrentBindings(for: item.actionID)
                 )
 
-                Image(systemName: "arrow.right")
+                Image(systemName: "arrow.forward")
                     .font(PluginSettingsTheme.Typography.statusBadge)
                     .foregroundStyle(.tertiary)
                     .accessibilityHidden(true)
@@ -314,7 +318,7 @@ private struct WindowShortcutPresetEditorSheet: View {
         } else if item.changesBinding {
             Label(
                 plugin.localizedKey("settings.preset.willChange", "将更改"),
-                systemImage: "arrow.right.circle"
+                systemImage: "arrow.forward.circle"
             )
             .font(PluginSettingsTheme.Typography.statusBadge)
             .foregroundStyle(.secondary)
