@@ -115,6 +115,9 @@ struct PluginManagementSettingsView: View {
                             }
                         }
                     }
+                    // Reserve room inside the clipped viewport for native row
+                    // focus rings, keeping the header and cards aligned.
+                    .padding(.horizontal, PluginSettingsTheme.Spacing.controlCluster)
                 }
                 .onAppear {
                     applySearchRevealRequest(
