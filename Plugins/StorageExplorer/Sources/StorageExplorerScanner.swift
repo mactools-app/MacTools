@@ -8,18 +8,32 @@ public final class StorageExplorerScanner: StorageExplorerScanning, @unchecked S
     public let collectsFileTypeTotals: Bool
     public let maximumRetainedFiles: Int
     private let cache = StorageExplorerDirectoryCache()
+    private let directoryReader: (@Sendable (String) throws -> FileSystemDirectoryListing)?
 
-    public init(
+    public convenience init(
         workerCount: Int? = nil,
         publishesItems: Bool = true,
         collectsFileTypeTotals: Bool? = nil,
         maximumRetainedFiles: Int = 10_000
+    ) {
+        self.init(workerCount: workerCount, publishesItems: publishesItems,
+                  collectsFileTypeTotals: collectsFileTypeTotals,
+                  maximumRetainedFiles: maximumRetainedFiles, directoryReader: nil)
+    }
+
+    init(
+        workerCount: Int? = nil,
+        publishesItems: Bool = true,
+        collectsFileTypeTotals: Bool? = nil,
+        maximumRetainedFiles: Int = 10_000,
+        directoryReader: (@Sendable (String) throws -> FileSystemDirectoryListing)?
     ) {
         let adaptiveWorkerCount = max(4, ProcessInfo.processInfo.activeProcessorCount / 2)
         self.workerCount = min(max(workerCount ?? adaptiveWorkerCount, 1), 6)
         self.publishesItems = publishesItems
         self.collectsFileTypeTotals = collectsFileTypeTotals ?? publishesItems
         self.maximumRetainedFiles = max(1, maximumRetainedFiles)
+        self.directoryReader = directoryReader
     }
 
     public func invalidate(paths: [String]) { cache.invalidate(paths: paths) }
@@ -56,7 +70,14 @@ public final class StorageExplorerScanner: StorageExplorerScanning, @unchecked S
                         DispatchQueue.concurrentPerform(iterations: workerCount) { _ in
                             while let job = state.next() {
                                 do {
-                                    let (listing, cached) = try cache.read(path: job.path, cancelled: { cancellation.isCancelled })
+                                    let listing: FileSystemDirectoryListing
+                                    let cached: Bool
+                                    if let directoryReader {
+                                        listing = try directoryReader(job.path)
+                                        cached = false
+                                    } else {
+                                        (listing, cached) = try cache.read(path: job.path, cancelled: { cancellation.isCancelled })
+                                    }
                                     let parentURL = URL(fileURLWithPath: job.path, isDirectory: true)
                                     let entries = listing.entries.compactMap { entry -> StorageExplorerScannedEntry? in
                                         guard let bytes = entry.nameBytes,
@@ -288,6 +309,7 @@ private final class ScanWork: @unchecked Sendable {
         var bytes: Int64 = 0
         var allocated: Int64 = 0
         var skipped = listing.skippedCount + listing.entries.count - entries.count
+        var retainedDirectorySkips = 0
         for scannedEntry in entries {
             var item = scannedEntry.item
             let entry = scannedEntry.metadata
@@ -313,6 +335,7 @@ private final class ScanWork: @unchecked Sendable {
                 if item.isCloudPlaceholder || entry.devid != device {
                     item.skippedCount = 1
                     skipped += 1
+                    if job.packageOwner == nil { retainedDirectorySkips += 1 }
                 }
             }
             bytes += item.size
@@ -326,7 +349,10 @@ private final class ScanWork: @unchecked Sendable {
         }
         if job.packageOwner == nil { snapshot.items[job.path]?.childCount = entries.count }
         else { snapshot.items[owner]?.childCount += entries.count }
-        addDirectTotals(to: owner, bytes: bytes, allocated: allocated, count: entries.count, skipped: skipped)
+        // Retained directories contribute their skips when folded into ancestors at completion.
+        // Package contents have no retained nodes, so their skips belong directly to the owner.
+        addDirectTotals(to: owner, bytes: bytes, allocated: allocated, count: entries.count,
+                        skipped: skipped - retainedDirectorySkips)
         progress.filesScanned += entries.count
         progress.bytesScanned += bytes
         progress.allocatedBytesScanned += allocated

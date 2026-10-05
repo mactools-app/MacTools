@@ -569,7 +569,167 @@ final class StorageExplorerControllerTests: XCTestCase {
         XCTAssertEqual(controller.reviewItems.map(\.path), [deduplicated.path])
     }
 
-    func testPartialTrashResultRescansAndKeepsOnlyFailedItemForReview() async throws {
+    func testTrashingCountedHardLinkPreservesSurvivingLinkAccountingWithoutRescanning() async throws {
+        var root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        if let physical = realpath(root.path, nil) {
+            root = URL(fileURLWithPath: String(cString: physical))
+            free(physical)
+        }
+        defer { try? FileManager.default.removeItem(at: root) }
+        let original = root.appendingPathComponent("a.bin")
+        let duplicate = root.appendingPathComponent("b.txt")
+        try Data(repeating: 1, count: 64).write(to: original)
+        XCTAssertEqual(link(original.path, duplicate.path), 0)
+        let scanner = CountingStorageScanner()
+        let controller = StorageExplorerController(
+            scanner: scanner,
+            safetyPolicy: StorageExplorerSafetyPolicy(trashRecycler: PartialTrashRecycler(successfulPath: original.path))
+        )
+        controller.startScan(at: root)
+        try await waitUntil { !controller.isScanning }
+        let allocated = try XCTUnwrap(controller.rootItem?.allocatedSize)
+        XCTAssertEqual(controller.snapshot.items[original.path]?.size, 64)
+        XCTAssertEqual(controller.snapshot.items[duplicate.path]?.size, 0)
+        controller.toggleSelection(path: original.path)
+        controller.confirmTrash()
+
+        await controller.executeTrash()
+
+        XCTAssertFalse(controller.isScanning)
+        XCTAssertNil(controller.snapshot.items[original.path])
+        XCTAssertEqual(controller.snapshot.items[duplicate.path]?.size, 64)
+        XCTAssertEqual(controller.snapshot.items[duplicate.path]?.allocatedSize, allocated)
+        XCTAssertEqual(controller.rootItem?.size, 64)
+        XCTAssertEqual(controller.rootItem?.allocatedSize, allocated)
+        XCTAssertNil(controller.snapshot.fileTypeTotals["bin"])
+        XCTAssertEqual(controller.snapshot.fileTypeTotals["txt"]?.size, 64)
+        XCTAssertEqual(controller.snapshot.fileTypeTotals["txt"]?.count, 1)
+        try await waitUntil { controller.rows.map(\.id) == [duplicate.path] }
+        XCTAssertEqual(scanner.scanCount, 1)
+
+        controller.startScan(at: root)
+        try await waitUntil { !controller.isScanning }
+        XCTAssertEqual(scanner.scanCount, 2)
+        XCTAssertEqual(controller.rootItem?.size, 64)
+    }
+
+    func testSuccessfulFolderTrashUpdatesSnapshotAndNavigationWithoutRescanning() async throws {
+        var root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        let requestedRoot = root
+        if let physical = realpath(root.path, nil) {
+            root = URL(fileURLWithPath: String(cString: physical))
+            free(physical)
+        }
+        defer { try? FileManager.default.removeItem(at: root) }
+        let folder = root.appendingPathComponent("selected")
+        let nested = folder.appendingPathComponent("nested")
+        try FileManager.default.createDirectory(at: nested, withIntermediateDirectories: true)
+        try Data(repeating: 1, count: 10).write(to: folder.appendingPathComponent("small.bin"))
+        try Data(repeating: 1, count: 8_192).write(to: folder.appendingPathComponent("larger.bin"))
+        try Data(repeating: 2, count: 20).write(to: nested.appendingPathComponent("small.bin"))
+        try Data(repeating: 3, count: 30).write(to: nested.appendingPathComponent("large.bin"))
+        let remaining = root.appendingPathComponent("selected-other.bin")
+        try Data(repeating: 4, count: 40).write(to: remaining)
+        let scanner = CountingStorageScanner(scanner: StorageExplorerScanner(
+            publishesItems: false,
+            collectsFileTypeTotals: true,
+            maximumRetainedFiles: 1
+        ))
+        let cache = ControlledStorageSnapshotCache()
+        let controller = StorageExplorerController(
+            scanner: scanner,
+            safetyPolicy: StorageExplorerSafetyPolicy(trashRecycler: PartialTrashRecycler(successfulPath: folder.path)),
+            snapshotCache: cache
+        )
+        controller.startScan(at: requestedRoot)
+        try await waitUntil { !controller.isScanning }
+        try await waitUntil { cache.savedSnapshot != nil }
+        let completedAt = controller.scanCompletedAt
+        XCTAssertNil(controller.snapshot.items[folder.appendingPathComponent("small.bin").path])
+        let remainingItem = try XCTUnwrap(controller.snapshot.items[remaining.path])
+        controller.drillDown(to: try XCTUnwrap(controller.snapshot.items[nested.path]))
+        controller.selectedPath = nested.appendingPathComponent("large.bin").path
+        controller.toggleSelection(path: folder.path)
+        controller.confirmTrash()
+
+        await controller.executeTrash()
+
+        XCTAssertFalse(controller.isScanning)
+        XCTAssertEqual(controller.scanState, .completed)
+        XCTAssertEqual(controller.currentPath, root.path)
+        XCTAssertNil(controller.selectedPath)
+        XCTAssertEqual(controller.navigationStack.map(\.path), [root.path])
+        XCTAssertEqual(controller.rootItem?.size, 40)
+        XCTAssertEqual(controller.rootItem?.allocatedSize, remainingItem.allocatedSize)
+        XCTAssertEqual(controller.rootItem?.childCount, 1)
+        XCTAssertEqual(controller.rootItem?.scannedCount, 2)
+        XCTAssertEqual(controller.status.progress.filesScanned, 1)
+        XCTAssertEqual(controller.snapshot.fileTypeTotals["bin"]?.count, 1)
+        XCTAssertEqual(controller.snapshot.fileTypeTotals["bin"]?.size, 40)
+        XCTAssertFalse(controller.snapshot.items.keys.contains { $0 == folder.path || $0.hasPrefix(folder.path + "/") })
+        XCTAssertNil(controller.snapshot.children[folder.path])
+        XCTAssertNil(controller.snapshot.fileTypeTotalsByDirectory[nested.path])
+        XCTAssertTrue(controller.basket.isEmpty)
+        XCTAssertTrue(controller.reviewItems.isEmpty)
+        XCTAssertNil(controller.lastErrorMessage)
+        XCTAssertNotNil(controller.lastSuccessMessage)
+        XCTAssertEqual(controller.scanCompletedAt, completedAt)
+        try await waitUntil { controller.rows.map(\.id) == [remaining.path] }
+        try await waitUntil { cache.savedSnapshot?.items[folder.path] == nil }
+        XCTAssertEqual(cache.savedRootPath, requestedRoot.path)
+        XCTAssertEqual(controller.hierarchyNodes.map(\.id), [remaining.path])
+        controller.mode = .largestFiles
+        try await waitUntil { controller.rows.map(\.id) == [remaining.path] }
+        controller.mode = .fileTypes
+        try await waitUntil { controller.rows.map(\.id) == ["type:bin"] }
+        XCTAssertEqual(controller.rows.first?.item.childCount, 1)
+        XCTAssertEqual(scanner.scanCount, 1)
+    }
+
+    func testFailedTrashRetainsSnapshotAndSelectionWithoutRescanning() async throws {
+        var root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        if let physical = realpath(root.path, nil) {
+            root = URL(fileURLWithPath: String(cString: physical))
+            free(physical)
+        }
+        defer { try? FileManager.default.removeItem(at: root) }
+        let file = root.appendingPathComponent("file.bin")
+        try Data([1, 2, 3]).write(to: file)
+        let scanner = CountingStorageScanner()
+        let controller = StorageExplorerController(
+            scanner: scanner,
+            safetyPolicy: StorageExplorerSafetyPolicy(trashRecycler: FailingTrashRecycler())
+        )
+        controller.startScan(at: root)
+        try await waitUntil { !controller.isScanning }
+        let previousItems = controller.snapshot.items
+        controller.toggleSelection(path: file.path)
+        controller.confirmTrash()
+
+        await controller.executeTrash()
+
+        XCTAssertFalse(controller.isScanning)
+        XCTAssertEqual(controller.scanState, .completed)
+        XCTAssertEqual(controller.snapshot.items, previousItems)
+        XCTAssertEqual(controller.basket, [file.path])
+        XCTAssertEqual(controller.reviewItems.map(\.path), [file.path])
+        XCTAssertTrue(FileManager.default.fileExists(atPath: file.path))
+        XCTAssertNotNil(controller.lastErrorMessage)
+        XCTAssertNil(controller.lastSuccessMessage)
+        try await waitUntil { controller.rows.map(\.id) == [file.path] }
+        let previousMessage = try XCTUnwrap(controller.lastErrorMessage)
+        let revision = controller.hierarchyRevision
+        controller.refreshLocalization(copy: Self.updatedCopy(controller.copy))
+        try await waitUntil { controller.hierarchyRevision > revision }
+        XCTAssertNotEqual(controller.lastErrorMessage, previousMessage)
+        XCTAssertEqual(controller.reviewItems.map(\.path), [file.path])
+        XCTAssertEqual(scanner.scanCount, 1)
+    }
+
+    func testPartialTrashResultUpdatesSnapshotAndKeepsOnlyFailedItemWithoutRescanning() async throws {
         var root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         if let physical = realpath(root.path, nil) {
@@ -582,7 +742,9 @@ final class StorageExplorerControllerTests: XCTestCase {
         try Data(repeating: 1, count: 10).write(to: first)
         try Data(repeating: 2, count: 20).write(to: second)
         let recycler = PartialTrashRecycler(successfulPath: first.path)
+        let scanner = CountingStorageScanner()
         let controller = StorageExplorerController(
+            scanner: scanner,
             safetyPolicy: StorageExplorerSafetyPolicy(trashRecycler: recycler)
         )
         controller.startScan(at: root)
@@ -592,12 +754,31 @@ final class StorageExplorerControllerTests: XCTestCase {
         controller.toggleSelection(path: second.path)
         controller.confirmTrash()
         await controller.executeTrash()
-        try await waitUntil { !controller.isScanning }
 
+        XCTAssertFalse(controller.isScanning)
         XCTAssertFalse(FileManager.default.fileExists(atPath: first.path))
+        XCTAssertNil(controller.snapshot.items[first.path])
+        XCTAssertEqual(controller.rootItem?.size, 20)
         XCTAssertEqual(controller.basket, [second.path])
         XCTAssertEqual(controller.reviewItems.map(\.path), [second.path])
         XCTAssertNotNil(controller.lastErrorMessage)
+        try await waitUntil { controller.rows.map(\.id) == [second.path] }
+        let previousMessage = try XCTUnwrap(controller.lastErrorMessage)
+        let revision = controller.hierarchyRevision
+        controller.refreshLocalization(copy: Self.updatedCopy(controller.copy))
+        try await waitUntil { controller.hierarchyRevision > revision }
+        XCTAssertNotEqual(controller.lastErrorMessage, previousMessage)
+        XCTAssertEqual(controller.reviewItems.map(\.path), [second.path])
+        XCTAssertEqual(scanner.scanCount, 1)
+    }
+
+    private static func updatedCopy(_ copy: StorageExplorerControllerCopy) -> StorageExplorerControllerCopy {
+        StorageExplorerControllerCopy(
+            movedToTrash: "updated-" + copy.movedToTrash,
+            trashOperationFailed: "updated-" + copy.trashOperationFailed,
+            trashPartialFailure: "updated-" + copy.trashPartialFailure,
+            otherName: copy.otherName
+        )
     }
 
     static func fixture(root: String) -> StorageExplorerSnapshot {
@@ -620,6 +801,32 @@ final class StorageExplorerControllerTests: XCTestCase {
         }
         XCTFail("Timed out waiting for controlled scan")
     }
+}
+
+private struct FailingTrashRecycler: StorageExplorerTrashRecycling {
+    func recycle(urls: [URL]) async throws -> StorageExplorerRecycleResult {
+        throw CocoaError(.fileWriteNoPermission)
+    }
+}
+
+private final class CountingStorageScanner: StorageExplorerScanning, @unchecked Sendable {
+    private let scanner: StorageExplorerScanner
+    private let lock = NSLock()
+    private var count = 0
+
+    init(scanner: StorageExplorerScanner = StorageExplorerScanner(publishesItems: true)) {
+        self.scanner = scanner
+    }
+
+    var scanCount: Int { lock.withLock { count } }
+
+    func scanSnapshot(rootURL: URL, update: @escaping @Sendable (StorageExplorerScanUpdate) -> Void) async throws -> StorageExplorerSnapshot {
+        lock.withLock { count += 1 }
+        return try await scanner.scanSnapshot(rootURL: rootURL, update: update)
+    }
+
+    func invalidate(paths: [String]) { scanner.invalidate(paths: paths) }
+    func clearCache() { scanner.clearCache() }
 }
 
 private final class PartialTrashRecycler: StorageExplorerTrashRecycling, @unchecked Sendable {

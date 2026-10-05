@@ -123,6 +123,92 @@ final class StorageExplorerProgressTests: XCTestCase {
         XCTAssertTrue(result.items.values.contains { $0.name == "blocked" && $0.isAccessDenied })
     }
 
+    func testRemovingSkippedFolderClearsAncestorWarnings() async throws {
+        let device = try fixtureDevice()
+        let parentPath = root.appendingPathComponent("parent").path
+        let skippedPath = root.appendingPathComponent("parent/skipped").path
+        for cloudOnly in [true, false] {
+            let listings = [
+                root.path: FileSystemDirectoryListing(entries: [fixtureEntry("parent", directory: true, device: device)]),
+                parentPath: FileSystemDirectoryListing(entries: [
+                    fixtureEntry("skipped", directory: true, device: cloudOnly ? device : device ^ 1,
+                                 flags: cloudOnly ? UInt32(SF_DATALESS) : 0),
+                    fixtureEntry("file.bin", device: device, size: 20)
+                ])
+            ]
+            let scanner = StorageExplorerScanner(publishesItems: false, directoryReader: { path in
+                guard let listing = listings[path] else { throw CocoaError(.fileNoSuchFile) }
+                return listing
+            })
+            var snapshot = try await scanner.scanSnapshot(rootURL: root) { _ in }
+            XCTAssertEqual(snapshot.progress.skippedCount, 1)
+            XCTAssertEqual(snapshot.items[parentPath]?.skippedCount, 1)
+            XCTAssertEqual(snapshot.items[root.path]?.skippedCount, 1)
+
+            snapshot.removeSubtrees(at: [skippedPath])
+
+            XCTAssertNil(snapshot.items[skippedPath])
+            XCTAssertEqual(snapshot.items[parentPath]?.size, 20)
+            XCTAssertEqual(snapshot.items[parentPath]?.skippedCount, 0)
+            XCTAssertEqual(snapshot.items[parentPath]?.isIncomplete, false)
+            XCTAssertEqual(snapshot.items[root.path]?.skippedCount, 0)
+            XCTAssertEqual(snapshot.items[root.path]?.isIncomplete, false)
+            XCTAssertEqual(snapshot.progress.skippedCount, 0)
+        }
+    }
+
+    func testRemovingIncompleteSubtreePreservesUnrelatedSkippedItem() async throws {
+        let device = try fixtureDevice()
+        let deniedPath = root.appendingPathComponent("denied").path
+        for name in ["selected", "Selected.app"] {
+            let selectedPath = root.appendingPathComponent(name).path
+            let listings = [
+                root.path: FileSystemDirectoryListing(entries: [
+                    fixtureEntry(name, directory: true, device: device),
+                    fixtureEntry("denied", directory: true, device: device)
+                ]),
+                selectedPath: FileSystemDirectoryListing(entries: [
+                    fixtureEntry("cloud", directory: true, device: device, flags: UInt32(SF_DATALESS))
+                ])
+            ]
+            let scanner = StorageExplorerScanner(publishesItems: false, directoryReader: { path in
+                if path == deniedPath { throw POSIXError(.EACCES) }
+                guard let listing = listings[path] else { throw CocoaError(.fileNoSuchFile) }
+                return listing
+            })
+            var snapshot = try await scanner.scanSnapshot(rootURL: root) { _ in }
+            XCTAssertEqual(snapshot.items[root.path]?.skippedCount, 2)
+            XCTAssertEqual(snapshot.progress.skippedCount, 2)
+
+            snapshot.removeSubtrees(at: [selectedPath])
+
+            XCTAssertEqual(snapshot.items[root.path]?.skippedCount, 1)
+            XCTAssertEqual(snapshot.items[root.path]?.isIncomplete, true)
+            XCTAssertEqual(snapshot.items[deniedPath]?.isAccessDenied, true)
+            XCTAssertEqual(snapshot.progress.skippedCount, 1)
+        }
+    }
+
+    private func fixtureDevice() throws -> UInt64 {
+        var status = stat()
+        guard lstat(root.path, &status) == 0 else { throw POSIXError(.EIO) }
+        return UInt64(UInt32(bitPattern: status.st_dev))
+    }
+
+    private func fixtureEntry(_ name: String, directory: Bool = false, device: UInt64,
+                              flags: UInt32 = 0, size: Int64 = 0) -> FileSystemBulkAttributeEntry {
+        var entry = FileSystemBulkAttributeEntry()
+        entry.nameBytes = name.utf8.map { CChar(bitPattern: $0) } + [0]
+        entry.fileType = directory ? .directory : .regularFile
+        entry.devid = device
+        entry.fileID = 1
+        entry.linkCount = 1
+        entry.flags = flags
+        entry.dataLength = size
+        entry.allocatedSize = size
+        return entry
+    }
+
     func testProgressOnlySnapshotBoundsRetainedFilesWithoutUnusedFileTypeTotals() async throws {
         for directory in 0..<3 {
             let folder = root.appendingPathComponent("folder-\(directory)")
