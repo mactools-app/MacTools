@@ -39,6 +39,10 @@
       "displayName": "Сохранённые скрипты",
       "summary": "Сохраняйте и запускайте скрипты AppleScript и shell."
     },
+    "tr": {
+      "displayName": "Kayıtlı Betikler",
+      "summary": "AppleScript ve Shell betiklerini kaydedin ve çalıştırın."
+    },
     "zh-Hans": {
       "displayName": "已存脚本",
       "summary": "保存并运行 AppleScript 和 Shell 脚本。"
@@ -61,6 +65,7 @@
       "ko": "이 Mac에 저장된 스크립트 중 실행할 항목을 선택하세요.",
       "pt": "Selecione o script salvo neste Mac para executar.",
       "ru": "Выберите сохранённый на этом Mac скрипт для запуска.",
+      "tr": "Bu Mac'te depolanan, çalıştırılacak kaydedilmiş betiği seçin.",
       "zh-Hans": "选择存储在此 Mac 上、要运行的已存脚本。",
       "zh-Hant": "選擇儲存在此 Mac 上、要執行的已儲存指令碼。"
     }
@@ -129,6 +134,9 @@
       ],
       "ru": [
         "Сохранённые скрипты"
+      ],
+      "tr": [
+        "Kayıtlı Betikler"
       ],
       "zh-Hans": [
         "已存脚本"

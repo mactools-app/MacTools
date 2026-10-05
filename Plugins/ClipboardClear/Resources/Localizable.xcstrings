@@ -58,6 +58,12 @@
             "value": "Очистить буфер обмена"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panoyu Temizle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -129,6 +135,12 @@
             "value": "Очистите текущее содержимое буфера обмена одним щелчком мыши."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli pano içeriğini tek tıkla temizler."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -198,6 +210,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очистить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizle"
           }
         },
         "zh-Hans": {

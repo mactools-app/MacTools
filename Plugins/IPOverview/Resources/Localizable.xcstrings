@@ -58,6 +58,12 @@
             "value": "Проверка"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrol ediliyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не обнаружено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Algılanmadı"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Неизвестно"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilinmiyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ожидание"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bekliyor"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Проверка IP"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IP Kontrolü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неверный URL"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz URL"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Обновить подключение"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlantıyı yenile"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Подключение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlantı"
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Недоступно"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilemiyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Введите имя"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir ad girin"
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Введите действительный URL"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli bir URL girin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Имя"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ad"
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "Вернуться к обзору"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel görünüme dön"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -979,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Копировать полный результат проверки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam kontrol sonucunu kopyala"
           }
         },
         "zh-Hans": {
@@ -1052,6 +1136,12 @@
             "value": "Обновить все проверки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm kontrolleri yenile"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1121,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сведения об IP"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IP Ayrıntıları"
           }
         },
         "zh-Hans": {
@@ -1194,6 +1290,12 @@
             "value": "Утечка DNS означает, что после включения VPN или прокси доменные запросы всё еще могут обрабатываться локальным провайдером. Это может раскрыть ваше реальное сетевое местоположение.\n\nТест обращается к новым доменам и проверяет, через какой DNS-выход они разрешаются. Если регион выхода совпадает с регионом локального провайдера, возможна утечка DNS и стоит проверить настройки VPN или прокси."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS sızıntısı; VPN veya vekil sunucu etkinleştirildikten sonra bile alan adı sorgularının yine yerel İSS'niz tarafından çözümlenmesi demektir. Bu durum, gerçek ağ konumunuzun ortaya çıkmasına yol açabilir.\\n\\nBu test, yeni oluşturulan alan adlarını ziyaret ederek bunların hangi DNS çıkışı tarafından çözümlendiğini kontrol eder. Çıkış bölgesi yerel İSS'nizin bölgesiyle eşleşiyorsa DNS sızıntınız olabilir ve VPN ya da vekil sunucu ayarlarınızı düzenlemeniz gerekebilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1263,6 +1365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка выхода DNS #%d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS çıkış kontrolü #%d"
           }
         },
         "zh-Hans": {
@@ -1336,6 +1444,12 @@
             "value": "Тест на утечку DNS"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS Sızıntı Testi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1405,6 +1519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Прокси-сервер не обнаружен"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vekil sunucu algılanmadı"
           }
         },
         "zh-Hans": {
@@ -1478,6 +1598,12 @@
             "value": "Возможный прокси"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olası vekil sunucu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1547,6 +1673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сеть"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağ"
           }
         },
         "zh-Hans": {
@@ -1620,6 +1752,12 @@
             "value": "Прокси"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vekil Sunucu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1689,6 +1827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Часовой пояс"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saat Dilimi"
           }
         },
         "zh-Hans": {
@@ -1762,6 +1906,12 @@
             "value": "Тип"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tür"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1831,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось получить адрес %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ adresi alınamadı"
           }
         },
         "zh-Hans": {
@@ -1904,6 +2060,12 @@
             "value": "Информация о местоположении загружается или недоступна"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konum bilgisi yükleniyor veya kullanılamıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1973,6 +2135,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Источник IP: IPCheck.ing IPv4"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IP Kaynağı: IPCheck.ing IPv4"
           }
         },
         "zh-Hans": {
@@ -2046,6 +2214,12 @@
             "value": "Источник IP: IPCheck.ing IPv6"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IP Kaynağı: IPCheck.ing IPv6"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2115,6 +2289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Локальный"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel"
           }
         },
         "zh-Hans": {
@@ -2188,6 +2368,12 @@
             "value": "Публичный IP, местоположение и подключение"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel IP, konum ve bağlantı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2257,6 +2443,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выход DNS не найден"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS çıkışı bulunamadı"
           }
         },
         "zh-Hans": {
@@ -2330,6 +2522,12 @@
             "value": "Регион выхода"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkış Bölgesi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2399,6 +2597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başarısız"
           }
         },
         "zh-Hans": {
@@ -2472,6 +2676,12 @@
             "value": "Ограничение портов или симметричный"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Port kısıtlı veya simetrik"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2541,6 +2751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сеть"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağ"
           }
         },
         "zh-Hans": {
@@ -2614,6 +2830,12 @@
             "value": "Не найден подходящий локальный адрес"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılabilir yerel adres bulunamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2683,6 +2905,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "IP-адрес локальной сети"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel Ağ IP'si"
           }
         },
         "zh-Hans": {
@@ -2756,6 +2984,12 @@
             "value": "Просмотр публичного IP, локальных адресов и местоположения."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel IP'yi, yerel adresleri ve konumu görüntüleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2825,6 +3059,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка IP"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IP Kontrolü"
           }
         },
         "zh-Hans": {
@@ -2898,6 +3138,12 @@
             "value": "Деловая сеть"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurumsal ağ"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2967,6 +3213,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Центр обработки данных"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veri merkezi"
           }
         },
         "zh-Hans": {
@@ -3040,6 +3292,12 @@
             "value": "Образовательная сеть"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eğitim ağı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3109,6 +3367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Мобильная сеть"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mobil ağ"
           }
         },
         "zh-Hans": {
@@ -3182,6 +3446,12 @@
             "value": "Жилой/широкополосный доступ"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ev/geniş bant"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3251,6 +3521,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Копировать публичный IP"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel IP'yi Kopyala"
           }
         },
         "zh-Hans": {
@@ -3324,6 +3600,12 @@
             "value": "Копировать полный результат"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam Sonucu Kopyala"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3393,6 +3675,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть подробности"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayrıntıları Aç"
           }
         },
         "zh-Hans": {
@@ -3466,6 +3754,12 @@
             "value": "Обновить все проверки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Kontrolleri Yenile"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3535,6 +3829,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обновление…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yenileniyor…"
           }
         },
         "zh-Hans": {
@@ -3608,6 +3908,12 @@
             "value": "Проверка публичного IP…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel IP kontrol ediliyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3677,6 +3983,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверки публичного IP, местоположения и подключения обращаются к внешним службам. Локальные адреса считываются только на этом Mac."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel IP, konum ve bağlantı kontrolleri dış servislere istek gönderir. Yerel adresler yalnızca bu Mac'te okunur."
           }
         },
         "zh-Hans": {
@@ -3750,6 +4062,12 @@
             "value": " Город: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "  Şehir: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3819,6 +4137,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ошибка: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hata: %@"
           }
         },
         "zh-Hans": {
@@ -3892,6 +4216,12 @@
             "value": "Местоположение:"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konum:"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3958,6 +4288,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "- %@ %@: %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "- %@ %@: %@"
@@ -4034,6 +4370,12 @@
             "value": "Локальные адреса:"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerel adresler:"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4103,6 +4445,12 @@
           "stringUnit": {
             "state": "translated",
             "value": " Сеть: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "  Ağ: %@"
           }
         },
         "zh-Hans": {
@@ -4176,6 +4524,12 @@
             "value": " Регион: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "  İl: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4245,6 +4599,12 @@
           "stringUnit": {
             "state": "translated",
             "value": " Прокси: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "  Vekil Sunucu: %@"
           }
         },
         "zh-Hans": {
@@ -4318,6 +4678,12 @@
             "value": "Публичный IPv4: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel IPv4: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4387,6 +4753,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Публичный IPv6: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel IPv6: %@"
           }
         },
         "zh-Hans": {
@@ -4460,6 +4832,12 @@
             "value": " Регион: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "  Bölge: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4529,6 +4907,12 @@
           "stringUnit": {
             "state": "translated",
             "value": " Источник: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "  Kaynak: %@"
           }
         },
         "zh-Hans": {
@@ -4602,6 +4986,12 @@
             "value": "- %@ %@: ошибка (%@)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "- %@ %@: başarısız (%@)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4668,6 +5058,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "- %@ %@: %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "- %@ %@: %@"
@@ -4744,6 +5140,12 @@
             "value": "Источники:"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaynaklar:"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4813,6 +5215,12 @@
           "stringUnit": {
             "state": "translated",
             "value": " Часовой пояс: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "  Saat Dilimi: %@"
           }
         },
         "zh-Hans": {
@@ -4886,6 +5294,12 @@
             "value": "Результат проверки IP"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IP Kontrol Sonucu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4955,6 +5369,12 @@
           "stringUnit": {
             "state": "translated",
             "value": " Тип: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "  Tür: %@"
           }
         },
         "zh-Hans": {
@@ -5028,6 +5448,12 @@
             "value": "Обновлено: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncellendi: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5097,6 +5523,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неверный IP: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz IP: %@"
           }
         },
         "zh-Hans": {
@@ -5170,6 +5602,12 @@
             "value": "Неверный формат данных"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz veri biçimi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5239,6 +5677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неверный ответ"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz yanıt"
           }
         },
         "zh-Hans": {
@@ -5312,6 +5756,12 @@
             "value": "Не удалось получить публичный IP из внешних источников"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dış kaynaklardan genel IP alınamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5381,6 +5831,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrol ediliyor"
           }
         },
         "zh-Hans": {
@@ -5454,6 +5910,12 @@
             "value": "Ожидание"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bekliyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5523,6 +5985,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неверный порт STUN"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçersiz STUN bağlantı noktası"
           }
         },
         "zh-Hans": {
@@ -5596,6 +6064,12 @@
             "value": "Внешний адрес не возвращен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dış adres döndürülmedi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5665,6 +6139,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Тайм-аут запроса STUN"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "STUN isteği zaman aşımına uğradı"
           }
         },
         "zh-Hans": {
@@ -5738,6 +6218,12 @@
             "value": "WebRTC часто устанавливает прямые UDP-соединения. Если тест возвращает ваш реальный IP, настройки прокси не покрывают эти соединения. Помимо IP, используемого WebRTC, проверяется и тип NAT. Определение NAT не является полностью точным и приведено только для справки."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WebRTC çoğu zaman doğrudan UDP bağlantıları kurar. Bu test gerçek IP'nizi döndürürse vekil sunucu ayarlarınız bu bağlantıları kapsamıyordur. WebRTC'de kullanılan IP'nin yanı sıra NAT türünüz de kontrol edilir. NAT algılama tam olarak doğru değildir ve yalnızca bilgi amaçlıdır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5807,6 +6293,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка утечки WebRTC"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WebRTC Sızıntı Testi"
           }
         },
         "zh-Hans": {
@@ -5880,6 +6372,12 @@
             "value": "Обновить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yenile"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5949,6 +6447,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Копировать %@ IP"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ IP'yi kopyala"
           }
         },
         "zh-Hans": {
@@ -6022,6 +6526,12 @@
             "value": "Копировать исходящий IP"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkış IP'sini kopyala"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6091,6 +6601,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Копировать результат"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonucu Kopyala"
           }
         },
         "zh-Hans": {
@@ -6164,6 +6680,12 @@
             "value": "Проверить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrol Et"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6233,6 +6755,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrol ediliyor"
           }
         },
         "zh-Hans": {
@@ -6306,6 +6834,12 @@
             "value": "Проверка DNS"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS kontrol ediliyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6375,6 +6909,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Утечки DNS не обнаружено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS sızıntısı bulunamadı"
           }
         },
         "zh-Hans": {
@@ -6448,6 +6988,12 @@
             "value": "Результат DNS неполный"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS sonucu eksik"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6517,6 +7063,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ожидание проверки DNS"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS kontrolü bekleniyor"
           }
         },
         "zh-Hans": {
@@ -6590,6 +7142,12 @@
             "value": "Возможная утечка DNS"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olası DNS sızıntısı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6659,6 +7217,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Внутренний выход"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yurt içi çıkış"
           }
         },
         "zh-Hans": {
@@ -6732,6 +7296,12 @@
             "value": "Международный выход"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uluslararası çıkış"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6801,6 +7371,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Интернет-провайдер"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İSS"
           }
         },
         "zh-Hans": {
@@ -6874,6 +7450,12 @@
             "value": "Местоположение"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konum"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6943,6 +7525,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Внутренний"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yurt içi"
           }
         },
         "zh-Hans": {
@@ -7016,6 +7604,12 @@
             "value": "Международный"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uluslararası"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7085,6 +7679,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrol ediliyor"
           }
         },
         "zh-Hans": {
@@ -7158,6 +7758,12 @@
             "value": "Пройдено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçti"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7227,6 +7833,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неизвестно"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilinmiyor"
           }
         },
         "zh-Hans": {
@@ -7300,6 +7912,12 @@
             "value": "Ожидание"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bekliyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7369,6 +7987,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Внимание"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikkat"
           }
         },
         "zh-Hans": {
@@ -7442,6 +8066,12 @@
             "value": "Просмотреть сведения о проверке"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrol ayrıntılarını görüntüle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7511,6 +8141,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сведения о проверке"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrol Ayrıntıları"
           }
         },
         "zh-Hans": {
@@ -7584,6 +8220,12 @@
             "value": "Сообщено об узлах %d/%d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d/%d düğüm sonuç bildirdi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7653,6 +8295,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Замечено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gözlemlenen"
           }
         },
         "zh-Hans": {
@@ -7726,6 +8374,12 @@
             "value": "Сбор исходящей информации, возвращаемой каждым узлом."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her düğümün döndürdüğü çıkış bilgileri toplanıyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7795,6 +8449,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Регион DNS-резолвера отличается от региона текущего публичного IP."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS çözümleyicisinin bölgesi, geçerli genel çıkıştan farklı."
           }
         },
         "zh-Hans": {
@@ -7868,6 +8528,12 @@
             "value": "Регион DNS-резолвера совпадает с регионом текущего публичного IP."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS çözümleyicisinin bölgesi, geçerli genel çıkışla eşleşiyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7937,6 +8603,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DNS-выход найден, но данных о местоположении публичного IP недостаточно для сравнения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS çıkışı bulundu, ancak karşılaştırma için genel konum verileri yeterli değil."
           }
         },
         "zh-Hans": {
@@ -8010,6 +8682,12 @@
             "value": "Выходной канал DNS-преобразователя не найден; сеть или служба могут блокировать его."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DNS çözümleyici çıkışı bulunamadı; ağ veya servis bunu engelliyor olabilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8079,6 +8757,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Текущий публичный IP еще не готов, поэтому базовая точка пока недоступна."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli genel IP henüz hazır değil; bu nedenle karşılaştırma tabanı da yok."
           }
         },
         "zh-Hans": {
@@ -8152,6 +8836,12 @@
             "value": "Обновите, чтобы проверить, соответствует ли видимый выход текущему публичному IP."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünür çıkışın geçerli genel IP ile eşleşip eşleşmediğini kontrol etmek için yenileyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8221,6 +8911,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "STUN вернул выходной IP, отличный от текущего публичного IP."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "STUN, geçerli genel IP'den farklı bir çıkış IP'si döndürdü."
           }
         },
         "zh-Hans": {
@@ -8294,6 +8990,12 @@
             "value": "Выход STUN совпадает с текущим публичным IP."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "STUN çıkışı, geçerli genel IP ile eşleşiyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8363,6 +9065,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Видимый выход WebRTC не найден; STUN может быть заблокирован или недоступен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünür WebRTC çıkışı bulunamadı; STUN engellenmiş veya erişilemez olabilir."
           }
         },
         "zh-Hans": {
@@ -8436,6 +9144,12 @@
             "value": "Проверить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrol Et"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8505,6 +9219,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скрыть IP-адреса"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IP adreslerini gizle"
           }
         },
         "zh-Hans": {
@@ -8578,6 +9298,12 @@
             "value": "Показать IP-адреса"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IP adreslerini göster"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8647,6 +9373,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обновить публичный IP и местоположение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel IP'yi ve konumu yenile"
           }
         },
         "zh-Hans": {
@@ -8720,6 +9452,12 @@
             "value": "Публичный IP"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel IP"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8789,6 +9527,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Внутренний исходящий IPv4: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yurt içi çıkış IPv4: %@"
           }
         },
         "zh-Hans": {
@@ -8862,6 +9606,12 @@
             "value": "Внутренний исходящий IPv6: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yurt içi çıkış IPv6: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8931,6 +9681,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Загрузить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirme"
           }
         },
         "zh-Hans": {
@@ -9004,6 +9760,12 @@
             "value": "%.1f сек"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f sn"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9073,6 +9835,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка скорости отменена"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hız testi iptal edildi"
           }
         },
         "zh-Hans": {
@@ -9146,6 +9914,12 @@
             "value": "Проверка скорости не удалась"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hız testi başarısız oldu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9215,6 +9989,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Вывод теста скорости не читается"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hız testi çıktısı okunamıyor"
           }
         },
         "zh-Hans": {
@@ -9288,6 +10068,12 @@
             "value": "сетевое качество недоступно в этой системе"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu sistemde networkQuality kullanılamıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9357,6 +10143,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка скорости не удалась"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hız testi başarısız oldu"
           }
         },
         "zh-Hans": {
@@ -9430,6 +10222,12 @@
             "value": "Отлично"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mükemmel"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9499,6 +10297,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ярмарка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta"
           }
         },
         "zh-Hans": {
@@ -9572,6 +10376,12 @@
             "value": "Хорошо"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İyi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9641,6 +10451,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Медленно"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yavaş"
           }
         },
         "zh-Hans": {
@@ -9714,6 +10530,12 @@
             "value": "Задержка"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gecikme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9783,6 +10605,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Измерение загрузки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirme ölçülüyor"
           }
         },
         "zh-Hans": {
@@ -9856,6 +10684,12 @@
             "value": "Подготовка теста скорости"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hız testi hazırlanıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9925,6 +10759,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Измерение задержки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gecikme ölçülüyor"
           }
         },
         "zh-Hans": {
@@ -9998,6 +10838,12 @@
             "value": "Измерение загрузки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşıya yükleme ölçülüyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10067,6 +10913,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отзывчивость"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yanıt verme hızı"
           }
         },
         "zh-Hans": {
@@ -10140,6 +10992,12 @@
             "value": "Тестирование"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test ediliyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10209,6 +11067,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Измерение текущей сети с помощью macOS networkQuality"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli ağı macOS networkQuality ile ölç"
           }
         },
         "zh-Hans": {
@@ -10282,6 +11146,12 @@
             "value": "Скорость сети"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağ Hızı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10351,6 +11221,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Загрузить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşıya yükleme"
           }
         },
         "zh-Hans": {
@@ -10424,6 +11300,12 @@
             "value": "Обновите, чтобы последовательно измерить загрузку, выгрузку, задержку и скорость отклика."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirme, karşıya yükleme, gecikme ve yanıt verme hızını sırayla ölçmek için yenileyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10493,6 +11375,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка WebRTC"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WebRTC kontrol ediliyor"
           }
         },
         "zh-Hans": {
@@ -10566,6 +11454,12 @@
             "value": "Утечки WebRTC не обнаружено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WebRTC sızıntısı bulunamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10635,6 +11529,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "WebRTC результат неполный"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WebRTC sonucu eksik"
           }
         },
         "zh-Hans": {
@@ -10708,6 +11608,12 @@
             "value": "Ожидание проверки WebRTC"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WebRTC kontrolü bekleniyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10777,6 +11683,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Возможная утечка WebRTC"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olası WebRTC sızıntısı"
           }
         },
         "zh-Hans": {

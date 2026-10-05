@@ -16,7 +16,7 @@ import re
 from collections import Counter
 
 ROOT = Path(__file__).resolve().parents[1]
-LOCALES = frozenset("en zh-Hans zh-Hant es fr ru pt de ja ko ar".split())
+LOCALES = frozenset("en zh-Hans zh-Hant es fr ru pt de ja ko ar tr".split())
 TABLES = {
     "settings": "Settings", "plugins": "Plugins", "search": "Search",
     "preferencesBackup": "PreferencesBackup", "feature": "FeatureUI",

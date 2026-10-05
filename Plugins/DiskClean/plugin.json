@@ -39,6 +39,10 @@
       "displayName": "Очистка диска",
       "summary": "Сканирует системные кэши, артефакты разработки и оставшиеся установщики; по умолчанию перемещает в Корзину с проверкой безопасности пути перед удалением."
     },
+    "tr": {
+      "displayName": "Disk Temizliği",
+      "summary": "Sistem önbelleklerini, geliştirici dosyalarını ve artakalan yükleyicileri tarar; silmeden önce yol güvenlik denetimleriyle bunları varsayılan olarak çöpe taşır."
+    },
     "zh-Hans": {
       "displayName": "磁盘清理",
       "summary": "扫描系统缓存、开发产物与残留安装包，默认移到废纸篓，执行前校验路径安全"
@@ -61,6 +65,7 @@
       "ko": "정리 설정은 플러그인 데이터를 제거할 때까지 유지됩니다. 감사 기록은 최대 5MB 로그 파일 2개를 보관하며 스테이징 기록은 복구 후 정리됩니다.",
       "pt": "As definições de limpeza permanecem até os dados do plugin serem removidos. O histórico de auditoria mantém no máximo dois ficheiros de 5 MB e os registos de preparação são compactados após a recuperação.",
       "ru": "Настройки очистки хранятся до удаления данных плагина. История аудита содержит не более двух файлов по 5 МБ, а записи подготовки уплотняются после восстановления.",
+      "tr": "Temizlik ayarları, eklenti verileri kaldırılana kadar saklanır. Denetim geçmişi en fazla iki 5 MB günlük dosyası tutar; hazırlama kayıtları kurtarma işleminden sonra sıkıştırılır.",
       "zh-Hans": "清理设置会保留到插件数据被移除。审计历史最多保留两个 5 MB 日志文件，暂存记录会在恢复后压缩整理。",
       "zh-Hant": "清理設定會保留到外掛資料被移除。稽核歷史最多保留兩個 5 MB 記錄檔，暫存記錄會在復原後壓縮整理。"
     }
@@ -132,6 +137,9 @@
       ],
       "ru": [
         "Очистка диска"
+      ],
+      "tr": [
+        "Disk Temizliği"
       ],
       "zh-Hans": [
         "磁盘清理"

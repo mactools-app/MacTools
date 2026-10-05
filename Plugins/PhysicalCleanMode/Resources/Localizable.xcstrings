@@ -58,6 +58,12 @@
             "value": "Запустить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Режим очистки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlik Modu"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Затемните экран и временно заблокируйте ввод с клавиатуры."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranı karartır ve klavye girişini geçici olarak engeller."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Доступность"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Для чистого режима требуется разрешение на доступ."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlik Modu için Erişilebilirlik izni gerekir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выйти из режима очистки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlik Modundan Çık"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Восстанавливает ввод и закрывает наложение черного экрана, пока активен режим очистки."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlik Modu etkinken girişi geri yükler ve siyah ekran örtüsünü kapatır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ярлык выхода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkış Kısayolu"
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Восстанавливает ввод и закрывает наложение черного экрана, пока активен режим очистки."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlik Modu etkinken girişi geri yükler ve siyah ekran örtüsünü kapatır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выход"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkış"
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Включено. Нажмите %@ для выхода."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık. Çıkmak için %@ kullanın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Требуется разрешение на доступ"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni gerektirir"
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "Для режима очистки требуется разрешение специальных возможностей. Сначала разрешите это в настройках."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlik Modu, Erişilebilirlik izni gerektirir. Önce Ayarlar'dan izin verin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -979,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Разрешение на доступ было отозвано. Режим очистки завершен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni kaldırıldı. Temizlik Modu sonlandırıldı."
           }
         },
         "zh-Hans": {
@@ -1052,6 +1136,12 @@
             "value": "Сначала установите действительный ярлык выхода для этой функции."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce bu özellik için geçerli bir çıkış kısayolu ayarlayın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1121,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нажмите %@ для выхода"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkmak için %@ tuşuna basın"
           }
         },
         "zh-Hans": {
@@ -1194,6 +1290,12 @@
             "value": "Или удерживайте правую кнопку мыши в течение %ds"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ya da sağ fare düğmesini %d saniye basılı tutun"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1263,6 +1365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно создать перехватчик ввода. Подтвердите, что разрешение на доступ предоставлено."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi yakalayıcı oluşturulamadı. Erişilebilirlik izninin verildiğinden emin olun."
           }
         },
         "zh-Hans": {
@@ -1336,6 +1444,12 @@
             "value": "Невозможно инициализировать цикл выполнения входного перехватчика."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi yakalayıcının çalışma döngüsü başlatılamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1405,6 +1519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Доступных экранов не обнаружено. Невозможно запустить режим очистки."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılabilir ekran algılanmadı. Temizlik Modu başlatılamıyor."
           }
         },
         "zh-Hans": {
@@ -1478,6 +1598,12 @@
             "value": "Невозможно создать наложение экрана. Режим очистки был отменен."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran örtüsü oluşturulamadı. Temizlik Modu iptal edildi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1547,6 +1673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно предотвратить блокировку в режиме ожидания. Режим очистки был отменен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boşta kilitleme engellenemedi. Temizlik Modu iptal edildi."
           }
         },
         "zh-Hans": {
@@ -1620,6 +1752,12 @@
             "value": "Оверлей режима очистки неожиданно закрылся. Системный ввод восстановлен."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temizlik Modu örtüsü beklenmedik şekilde kapandı. Sistem girişi geri yüklendi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1689,6 +1827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Текущая сессия была заблокирована или отключена. Режим очистки завершен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli oturum kilitlendi veya başka bir oturuma geçildi. Temizlik Modu sonlandırıldı."
           }
         },
         "zh-Hans": {
@@ -1762,6 +1906,12 @@
             "value": "Экран уснул. Режим очистки завершен."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran uyku moduna geçti. Temizlik Modu sonlandırıldı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1831,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Система переходит в режим сна. Режим очистки завершен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem uyku moduna geçmek üzere. Temizlik Modu sonlandırıldı."
           }
         },
         "zh-Hans": {
@@ -1904,6 +2060,12 @@
             "value": "Перехват ввода не удалось перезапустить. Режим очистки завершен."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi yakalama yeniden başlatılamadı. Temizlik Modu sonlandırıldı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1975,6 +2137,12 @@
             "value": "Перехват ввода был отключен системой и не может быть восстановлен. Режим очистки завершен."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi yakalama sistem tarafından devre dışı bırakıldı ve kurtarılamadı. Temizlik Modu sonlandırıldı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2044,6 +2212,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перехват ввода неоднократно отключался. Режим очистки завершен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi yakalama defalarca devre dışı bırakıldı. Temizlik Modu sonlandırıldı."
           }
         },
         "zh-Hans": {

@@ -39,6 +39,10 @@
       "displayName": "Автопереключение источника ввода",
       "summary": "Запоминайте и автоматически переключайте источники ввода для приложений."
     },
+    "tr": {
+      "displayName": "Otomatik Giriş Kaynağı",
+      "summary": "Giriş kaynağını her uygulama için hatırlar ve otomatik olarak değiştirir."
+    },
     "zh-Hans": {
       "displayName": "自动切换输入法",
       "summary": "按应用记住并自动切换输入法"
@@ -129,6 +133,9 @@
       ],
       "ru": [
         "Автопереключение источника ввода"
+      ],
+      "tr": [
+        "Otomatik Giriş Kaynağı"
       ],
       "zh-Hans": [
         "自动切换输入法"

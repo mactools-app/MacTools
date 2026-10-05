@@ -39,6 +39,10 @@
       "displayName": "Громкость приложений",
       "summary": "Настраивайте громкость каждого приложения с активным звуком."
     },
+    "tr": {
+      "displayName": "Uygulama Sesi",
+      "summary": "O anda ses çalan her uygulamanın ses düzeyini ayrı ayrı ayarlayın."
+    },
     "zh-Hans": {
       "displayName": "应用音量",
       "summary": "分别调节正在播放音频的应用音量"
@@ -59,6 +63,7 @@
       "ko": "오디오를 재생 중인 앱마다 음소거 및 재사용 가능한 음량을 개별 제어합니다.",
       "pt": "Controle separadamente cada app que reproduz áudio, incluindo silêncio e níveis reutilizáveis.",
       "ru": "Управляйте громкостью каждого приложения со звуком отдельно, включая отключение и повторное использование уровней.",
+      "tr": "Ses çalan her uygulamayı bağımsız olarak denetleyin; sessize alma ve yeniden kullanılabilir ses düzeyleri dahil.",
       "zh-Hans": "分别控制每个正在播放音频的应用，包括静音和可复用的音量级别。",
       "zh-Hant": "分別控制每個正在播放音訊的 App，包括靜音和可重複使用的音量級別。"
     },
@@ -72,6 +77,7 @@
       "ko": "회의 앱 음량은 유지하면서 음악 앱 음량만 낮춥니다.",
       "pt": "Baixe um app de música mantendo o app da reunião audível.",
       "ru": "Уменьшите громкость музыки, сохранив громкость приложения для встречи.",
+      "tr": "Toplantı uygulamanızın sesini yüksek tutarken bir müzik uygulamasının sesini kısın.",
       "zh-Hans": "调低音乐应用，同时保持会议应用音量。",
       "zh-Hant": "調低音樂 App，同時保持會議 App 音量。"
     },
@@ -85,6 +91,7 @@
       "ko": "앱 오디오 균형 조절",
       "pt": "Equilibrar áudio dos apps",
       "ru": "Сбалансировать звук приложений",
+      "tr": "Uygulama seslerini dengeleme",
       "zh-Hans": "平衡应用音量",
       "zh-Hant": "平衡 App 音量"
     },
@@ -98,6 +105,7 @@
       "ko": "활성 앱 음량 설정",
       "pt": "Definir volume de um app ativo",
       "ru": "Установить громкость активного приложения",
+      "tr": "Etkin Uygulamanın Sesini Ayarla",
       "zh-Hans": "设置活动应用音量",
       "zh-Hant": "設定活動 App 音量"
     },
@@ -111,6 +119,7 @@
       "ko": "이 Mac에서 현재 오디오를 재생 중인 앱의 음량을 설정합니다.",
       "pt": "Define o volume de um app que está a reproduzir áudio neste Mac.",
       "ru": "Задаёт громкость приложения, которое сейчас воспроизводит звук на этом Mac.",
+      "tr": "Bu Mac'te şu anda ses çalan bir uygulamanın ses düzeyini ayarlayın.",
       "zh-Hans": "设置当前在这台 Mac 上播放音频的应用音量。",
       "zh-Hant": "設定目前在這台 Mac 上播放音訊的 App 音量。"
     },
@@ -124,6 +133,7 @@
       "ko": "로컬 앱 식별자 및 0~1 음량",
       "pt": "Identificador local do app e volume de 0 a 1",
       "ru": "Локальный идентификатор приложения и громкость от 0 до 1",
+      "tr": "Yerel uygulama tanımlayıcısı ve 0 ile 1 arasında ses düzeyi",
       "zh-Hans": "本地应用标识符和 0 到 1 的音量",
       "zh-Hant": "本機 App 識別碼和 0 到 1 的音量"
     },
@@ -137,6 +147,7 @@
       "ko": "시스템 오디오 허용",
       "pt": "Permitir áudio do sistema",
       "ru": "Разрешить системный звук",
+      "tr": "Sistem Sesine İzin Ver",
       "zh-Hans": "允许系统音频",
       "zh-Hant": "允許系統音訊"
     },
@@ -150,6 +161,7 @@
       "ko": "앱 음량을 처음 변경할 때 권한을 허용합니다.",
       "pt": "Conceda permissão ao alterar o volume de um app pela primeira vez.",
       "ru": "Предоставьте разрешение при первом изменении громкости приложения.",
+      "tr": "İlk kez bir uygulamanın ses düzeyini değiştirirken izin verin.",
       "zh-Hans": "首次更改应用音量时授予权限。",
       "zh-Hant": "首次更改 App 音量時授予權限。"
     }
@@ -230,6 +242,9 @@
       "ru": [
         "громкость приложений",
         "аудиомикшер"
+      ],
+      "tr": [
+        "Uygulama Sesi"
       ],
       "zh-Hans": [
         "应用音量",

@@ -39,6 +39,10 @@
       "displayName": "Анализатор диска",
       "summary": "Наглядный анализ использования диска с иерархической навигацией, поиск больших файлов и перемещение в корзину после проверки."
     },
+    "tr": {
+      "displayName": "Depolama Gezgini",
+      "summary": "Disk kullanımını hiyerarşik gezinmeyle görsel olarak analiz edin, büyük dosyaları belirleyin ve açık bir inceleme sonrasında çöpe taşıyın."
+    },
     "zh-Hans": {
       "displayName": "存储空间分析",
       "summary": "以层级视图直观分析磁盘占用，找出大文件，在审阅确认后移至废纸篓"
@@ -61,6 +65,7 @@
       "ko": "설정은 플러그인 데이터를 제거할 때까지 유지됩니다. 최근 스캔 미리보기는 로컬에 캐시되며 자동으로 교체되거나 삭제됩니다.",
       "pt": "As definições permanecem até à remoção dos dados do plugin. As pré-visualizações recentes são guardadas localmente e substituídas ou removidas automaticamente.",
       "ru": "Настройки сохраняются до удаления данных плагина. Предварительные результаты последних сканирований хранятся локально и автоматически заменяются или удаляются.",
+      "tr": "Ayarlar, eklenti verileri kaldırılana kadar saklanır. Son tarama önizlemeleri yerel olarak önbelleğe alınır ve otomatik olarak değiştirilir ya da kaldırılır.",
       "zh-Hans": "设置会保留到插件数据被移除。最近的扫描预览会在本地缓存，并自动替换或删除。",
       "zh-Hant": "設定會保留到外掛資料被移除。最近的掃描預覽會在本機快取，並自動取代或刪除。"
     }
@@ -140,6 +145,9 @@
       "ru": [
         "Анализатор диска",
         "Использование диска"
+      ],
+      "tr": [
+        "Depolama Gezgini"
       ],
       "zh-Hans": [
         "存储空间分析",

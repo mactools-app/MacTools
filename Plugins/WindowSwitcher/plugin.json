@@ -39,6 +39,10 @@
       "displayName": "Переключатель окон",
       "summary": "Быстро переключайтесь между открытыми окнами с помощью настраиваемого сочетания клавиш."
     },
+    "tr": {
+      "displayName": "Pencere Değiştirici",
+      "summary": "Yapılandırılabilir bir kısayolla açık pencereler arasında hızla geçiş yapın."
+    },
     "zh-Hans": {
       "displayName": "窗口切换",
       "summary": "用可配置快捷键快速切换正在运行的窗口"
@@ -59,6 +63,7 @@
       "ko": "설정 가능한 전역 단축키와 대화형 전면 선택기로 앱 윈도우를 전환합니다.",
       "pt": "Alterne entre janelas de apps com um atalho global configurável e um seletor interativo.",
       "ru": "Переключайтесь между окнами приложений с помощью настраиваемого глобального сочетания и интерактивного выбора.",
+      "tr": "Yapılandırılabilir bir genel kısayol ve etkileşimli bir ön plan seçiciyle uygulama pencereleri arasında geçiş yapın.",
       "zh-Hans": "使用可配置的全局快捷键和前台交互选择器切换应用窗口。",
       "zh-Hant": "使用可設定的全域快速鍵和前景互動選擇器切換 App 視窗。"
     },
@@ -72,6 +77,7 @@
       "ko": "단축키를 반복해서 눌러 키보드로 윈도우를 선택합니다.",
       "pt": "Prima repetidamente o atalho para escolher uma janela pelo teclado.",
       "ru": "Нажимайте сочетание повторно, чтобы выбрать окно с клавиатуры.",
+      "tr": "Kısayola tekrar tekrar basarak klavyeden bir pencere seçin.",
       "zh-Hans": "重复按快捷键，通过键盘选择窗口。",
       "zh-Hant": "重複按快速鍵，透過鍵盤選擇視窗。"
     },
@@ -85,6 +91,7 @@
       "ko": "실행 중인 윈도우 전환",
       "pt": "Alternar janelas abertas",
       "ru": "Переключать открытые окна",
+      "tr": "Çalışan pencereler arasında geçiş",
       "zh-Hans": "切换正在运行的窗口",
       "zh-Hant": "切換正在執行的視窗"
     },
@@ -98,6 +105,7 @@
       "ko": "윈도우 전환기 열기",
       "pt": "Abrir alternador de janelas",
       "ru": "Открыть переключатель окон",
+      "tr": "Pencere Değiştiriciyi Aç",
       "zh-Hans": "打开窗口切换",
       "zh-Hant": "開啟視窗切換"
     },
@@ -111,6 +119,7 @@
       "ko": "앱 윈도우를 전환하는 대화형 선택기를 표시합니다.",
       "pt": "Mostra um seletor interativo para alternar entre janelas de apps.",
       "ru": "Показывает интерактивный выбор для переключения между окнами приложений.",
+      "tr": "Uygulama pencereleri arasında geçiş yapmak için etkileşimli bir seçici gösterir.",
       "zh-Hans": "显示用于切换应用窗口的交互选择器。",
       "zh-Hant": "顯示用於切換 App 視窗的互動選擇器。"
     },
@@ -124,6 +133,7 @@
       "ko": "손쉬운 사용 허용",
       "pt": "Permitir Acessibilidade",
       "ru": "Разрешить Универсальный доступ",
+      "tr": "Erişilebilirliğe İzin Ver",
       "zh-Hans": "允许辅助功能",
       "zh-Hant": "允許輔助使用"
     },
@@ -137,6 +147,7 @@
       "ko": "MacTools가 전역 단축키로 윈도우를 나열하고 전환하도록 허용합니다.",
       "pt": "Permita que o MacTools liste e alterne janelas pelo atalho global.",
       "ru": "Разрешите MacTools показывать и переключать окна глобальным сочетанием.",
+      "tr": "MacTools'un genel kısayoldan pencereleri listelemesine ve değiştirmesine izin verin.",
       "zh-Hans": "允许 MacTools 通过全局快捷键列出并切换窗口。",
       "zh-Hant": "允許 MacTools 透過全域快速鍵列出並切換視窗。"
     },
@@ -150,34 +161,37 @@
       "ko": "손쉬운 사용 권한과 윈도우 전환기 단축키를 활성화하십시오.",
       "pt": "Ative a permissão de Acessibilidade e o atalho do alternador de janelas.",
       "ru": "Включите разрешение Универсального доступа и сочетание переключателя окон.",
+      "tr": "Erişilebilirlik iznini ve Pencere Değiştirici kısayolunu etkinleştirin.",
       "zh-Hans": "启用辅助功能权限和窗口切换快捷键。",
       "zh-Hant": "啟用輔助使用權限和視窗切換快速鍵。"
     },
     "action-current-app-title": {
-      "en": "Current App Windows",
-      "zh-Hans": "当前应用窗口",
-      "zh-Hant": "目前 App 視窗",
       "ar": "نوافذ التطبيق الحالي",
       "de": "Fenster der aktuellen App",
+      "en": "Current App Windows",
       "es": "Ventanas de la app actual",
       "fr": "Fenêtres de l’app actuelle",
       "ja": "現在のアプリのウインドウ",
       "ko": "현재 앱 윈도우",
       "pt": "Janelas do app atual",
-      "ru": "Окна текущего приложения"
+      "ru": "Окна текущего приложения",
+      "tr": "Etkin Uygulamanın Pencereleri",
+      "zh-Hans": "当前应用窗口",
+      "zh-Hant": "目前 App 視窗"
     },
     "action-current-app-description": {
-      "en": "Find and select a window of the current app.",
-      "zh-Hans": "搜索和选择当前应用的窗口。",
-      "zh-Hant": "搜尋並選取目前 App 的視窗。",
       "ar": "ابحث عن نافذة للتطبيق الحالي وحددها.",
       "de": "Suche ein Fenster der aktuellen App und wähle es aus.",
+      "en": "Find and select a window of the current app.",
       "es": "Busca y selecciona una ventana de la app actual.",
       "fr": "Recherchez et sélectionnez une fenêtre de l’app actuelle.",
       "ja": "現在のアプリのウインドウを検索して選択します。",
       "ko": "현재 앱의 윈도우를 검색하고 선택합니다.",
       "pt": "Encontre e selecione uma janela do app atual.",
-      "ru": "Найдите и выберите окно текущего приложения."
+      "ru": "Найдите и выберите окно текущего приложения.",
+      "tr": "Etkin uygulamanın bir penceresini bulun ve seçin.",
+      "zh-Hans": "搜索和选择当前应用的窗口。",
+      "zh-Hant": "搜尋並選取目前 App 的視窗。"
     }
   },
   "version": "2.0.0",
@@ -254,6 +268,9 @@
       "ru": [
         "переключатель окон",
         "сочетание для окон"
+      ],
+      "tr": [
+        "Pencere Değiştirici"
       ],
       "zh-Hans": [
         "窗口切换",

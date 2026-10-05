@@ -39,6 +39,10 @@
       "displayName": "Лимит заряда батареи",
       "summary": "Установите лимит заряда аккумулятора и прекращайте зарядку при его достижении; зарядка возобновляется только тогда, когда вы выберете."
     },
+    "tr": {
+      "displayName": "Pil Şarj Sınırı",
+      "summary": "Bir pil şarj sınırı belirleyin; sınıra ulaşıldığında şarj durur ve yalnızca siz istediğinizde devam eder."
+    },
     "zh-Hans": {
       "displayName": "电池充电上限",
       "summary": "设置电池充电上限，达到上限后停止充电；不自动恢复，由用户决定何时继续充电"
@@ -61,6 +65,7 @@
       "ko": "권한 있는 도우미 설치",
       "pt": "Instalar auxiliar privilegiado",
       "ru": "Установить привилегированную службу",
+      "tr": "Ayrıcalıklı Yardımcıyı Yükle",
       "zh-Hans": "安装特权辅助工具",
       "zh-Hant": "安裝特權輔助工具"
     },
@@ -74,6 +79,7 @@
       "ko": "처음 사용할 때 MacTools는 관리자 인증을 요청하고 root 소유의 모드 4755 도우미를 /Library/PrivilegedHelperTools/cc.ggbond.mactools.battery-charge-limit.smc-helper에 설치합니다. 이 도우미는 배터리 충전 상태를 변경합니다.",
       "pt": "No primeiro uso, o MacTools solicita autorização de administrador para instalar em /Library/PrivilegedHelperTools/cc.ggbond.mactools.battery-charge-limit.smc-helper um auxiliar pertencente ao root e com modo 4755. O auxiliar altera o estado de carregamento da bateria.",
       "ru": "При первом использовании MacTools запрашивает авторизацию администратора, чтобы установить в /Library/PrivilegedHelperTools/cc.ggbond.mactools.battery-charge-limit.smc-helper принадлежащую root службу с режимом 4755. Она изменяет состояние зарядки батареи.",
+      "tr": "İlk kullanımda MacTools, /Library/PrivilegedHelperTools/cc.ggbond.mactools.battery-charge-limit.smc-helper konumuna kök sahipliğinde, 4755 kipinde bir yardımcı yüklemek için yönetici yetkisi ister. Yardımcı, pil şarj durumunu değiştirir.",
       "zh-Hans": "首次使用时，MacTools 会请求管理员授权，在 /Library/PrivilegedHelperTools/cc.ggbond.mactools.battery-charge-limit.smc-helper 安装 root 所有且权限模式为 4755 的辅助工具，用于更改电池充电状态。",
       "zh-Hant": "首次使用時，MacTools 會要求管理員授權，在 /Library/PrivilegedHelperTools/cc.ggbond.mactools.battery-charge-limit.smc-helper 安裝 root 所有且權限模式為 4755 的輔助工具，用於更改電池充電狀態。"
     },
@@ -87,6 +93,7 @@
       "ko": "호환 배터리 확인",
       "pt": "Verificar bateria compatível",
       "ru": "Проверить совместимость батареи",
+      "tr": "Uyumlu Pili Doğrula",
       "zh-Hans": "确认电池兼容性",
       "zh-Hant": "確認電池相容性"
     },
@@ -100,6 +107,7 @@
       "ko": "SMC를 통해 충전 상태를 제어할 수 있는 내장 배터리가 탑재된 Mac이 필요합니다.",
       "pt": "Requer um Mac com bateria integrada cujo estado de carregamento possa ser controlado pelo SMC.",
       "ru": "Требуется Mac со встроенной батареей, состоянием зарядки которой можно управлять через SMC.",
+      "tr": "SMC üzerinden şarj durumu denetlenebilen yerleşik pilli bir Mac gerekir.",
       "zh-Hans": "需要配备内置电池，且可通过 SMC 控制充电状态的 Mac。",
       "zh-Hant": "需要配備內建電池，且可透過 SMC 控制充電狀態的 Mac。"
     },
@@ -186,6 +194,9 @@
       ],
       "ru": [
         "Лимит заряда батареи"
+      ],
+      "tr": [
+        "Pil Şarj Sınırı"
       ],
       "zh-Hans": [
         "电池充电上限"

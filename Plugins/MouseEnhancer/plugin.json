@@ -39,6 +39,10 @@
       "displayName": "Расширение мыши",
       "summary": "Настраивайте прокрутку мыши и трекпада отдельно."
     },
+    "tr": {
+      "displayName": "Fare Geliştirici",
+      "summary": "Fare ve Trackpad kaydırma yönlerini ayrı ayrı ayarlayın."
+    },
     "zh-Hans": {
       "displayName": "鼠标增强",
       "summary": "分别调整鼠标与触控板的滚动方向"
@@ -122,6 +126,9 @@
       ],
       "ru": [
         "Расширение мыши"
+      ],
+      "tr": [
+        "Fare Geliştirici"
       ],
       "zh-Hans": [
         "鼠标增强"

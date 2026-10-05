@@ -39,6 +39,10 @@
       "displayName": "Громкость дисплея",
       "summary": "Быстро отрегулируйте громкость каждого дисплея."
     },
+    "tr": {
+      "displayName": "Ekran Sesi",
+      "summary": "Her ekranın ses düzeyini hızla ayarlayın."
+    },
     "zh-Hans": {
       "displayName": "显示器音量",
       "summary": "快速调节每个显示器的音量"
@@ -68,7 +72,9 @@
     "scheme": "DisplayVolumePlugin"
   },
   "capabilities": {
-    "panelItems": ["row"],
+    "panelItems": [
+      "row"
+    ],
     "settings": "form"
   },
   "permissions": [],
@@ -93,17 +99,42 @@
       "volume"
     ],
     "localizedSynonyms": {
-      "ar": ["مستوى صوت الشاشة"],
-      "de": ["Displaylautstärke"],
-      "en": ["Display Volume"],
-      "es": ["Volumen de pantalla"],
-      "fr": ["Volume de l'écran"],
-      "ja": ["ディスプレイ音量"],
-      "ko": ["디스플레이 볼륨"],
-      "pt": ["Volume da tela"],
-      "ru": ["Громкость дисплея"],
-      "zh-Hans": ["显示器音量"],
-      "zh-Hant": ["顯示器音量"]
+      "ar": [
+        "مستوى صوت الشاشة"
+      ],
+      "de": [
+        "Displaylautstärke"
+      ],
+      "en": [
+        "Display Volume"
+      ],
+      "es": [
+        "Volumen de pantalla"
+      ],
+      "fr": [
+        "Volume de l'écran"
+      ],
+      "ja": [
+        "ディスプレイ音量"
+      ],
+      "ko": [
+        "디스플레이 볼륨"
+      ],
+      "pt": [
+        "Volume da tela"
+      ],
+      "ru": [
+        "Громкость дисплея"
+      ],
+      "tr": [
+        "Ekran Sesi"
+      ],
+      "zh-Hans": [
+        "显示器音量"
+      ],
+      "zh-Hant": [
+        "顯示器音量"
+      ]
     },
     "useCases": [
       {

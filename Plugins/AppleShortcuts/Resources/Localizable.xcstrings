@@ -10,6 +10,12 @@
             "value": "Run"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalıştır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -39,6 +45,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This shortcut will run through Apple Shortcuts and may access other apps or data."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kısayol Apple Shortcuts üzerinden çalışacak ve diğer uygulamalara veya verilere erişebilir."
           }
         },
         "zh-Hans": {
@@ -72,6 +84,12 @@
             "value": "Run “%@”?"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” çalıştırılsın mı?"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -103,6 +121,12 @@
             "value": "Run the Apple Shortcut “%@”."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” Apple kısayolunu çalıştırır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -129,6 +153,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Shortcuts"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Apple Shortcuts"
@@ -165,6 +195,12 @@
             "value": "The Shortcuts command is unavailable on this system."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu sistemde Shortcuts komutu kullanılamıyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -194,6 +230,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This item could not be found in Apple Shortcuts."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu öğe Apple Shortcuts'ta bulunamadı."
           }
         },
         "zh-Hans": {
@@ -227,6 +269,12 @@
             "value": "This shortcut is already running."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kısayol zaten çalışıyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -256,6 +304,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This shortcut is not enabled."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kısayol etkin değil."
           }
         },
         "zh-Hans": {
@@ -289,6 +343,12 @@
             "value": "Bulk Actions"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toplu İşlemler"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -318,6 +378,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Clear Selection"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçimi Temizle"
           }
         },
         "zh-Hans": {
@@ -351,6 +417,12 @@
             "value": "These shortcuts will no longer appear in MacTools, and their MacTools run settings will be removed."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kısayollar artık MacTools'ta görünmeyecek ve MacTools çalıştırma ayarları kaldırılacak."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -380,6 +452,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Disable Shortcuts (%lld)?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld kısayol devre dışı bırakılsın mı?"
           }
         },
         "zh-Hans": {
@@ -413,6 +491,12 @@
             "value": "Disable (%lld)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devre Dışı Bırak (%lld)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -442,6 +526,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Done"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamamlandı"
           }
         },
         "zh-Hans": {
@@ -475,6 +565,12 @@
             "value": "These shortcuts will appear in MacTools. Run Links will not be enabled."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kısayollar MacTools'ta görünecek. Run Link'ler etkinleştirilmeyecek."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -504,6 +600,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enable Shortcuts (%lld)?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld kısayol etkinleştirilsin mi?"
           }
         },
         "zh-Hans": {
@@ -537,6 +639,12 @@
             "value": "Enable (%lld)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştir (%lld)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -566,6 +674,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Select"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seç"
           }
         },
         "zh-Hans": {
@@ -599,6 +713,12 @@
             "value": "Select All Visible"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünen Tümünü Seç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -628,6 +748,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld selected"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld seçildi"
           }
         },
         "zh-Hans": {
@@ -661,6 +787,12 @@
             "value": "Select shortcut"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayolu seç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -690,6 +822,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cancel"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
           }
         },
         "zh-Hans": {
@@ -723,6 +861,12 @@
             "value": "Select a shortcut"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir kısayol seçin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -752,6 +896,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sources"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaynaklar"
           }
         },
         "zh-Hans": {
@@ -785,6 +935,12 @@
             "value": "No shortcuts are enabled"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin kısayol yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -814,6 +970,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "No shortcuts"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol yok"
           }
         },
         "zh-Hans": {
@@ -847,6 +1009,12 @@
             "value": "Create a shortcut in Apple Shortcuts, then refresh."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Shortcuts'ta bir kısayol oluşturun, ardından yenileyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -876,6 +1044,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "No missing shortcuts"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eksik kısayol yok"
           }
         },
         "zh-Hans": {
@@ -909,6 +1083,12 @@
             "value": "No matches"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleşme yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -938,6 +1118,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Try a different search."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farklı bir arama deneyin."
           }
         },
         "zh-Hans": {
@@ -971,6 +1157,12 @@
             "value": "The Shortcuts command is unavailable on this system."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu sistemde Shortcuts komutu kullanılamıyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1000,6 +1192,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not launch the Shortcuts command."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts komutu başlatılamadı."
           }
         },
         "zh-Hans": {
@@ -1033,6 +1231,12 @@
             "value": "Could not read the data returned by Shortcuts."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts tarafından döndürülen veriler okunamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1062,6 +1266,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The operation timed out."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşlem zaman aşımına uğradı."
           }
         },
         "zh-Hans": {
@@ -1095,6 +1305,12 @@
             "value": "Stop Syncing"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşitlemeyi Durdur"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1124,6 +1340,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "After syncing stops, actions enabled only by this folder will no longer be available in MacTools. Affected: %lld."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşitleme durdurulduktan sonra, yalnızca bu klasör üzerinden etkinleştirilen %lld eylem artık yayınlanmayacak."
           }
         },
         "zh-Hans": {
@@ -1157,6 +1379,12 @@
             "value": "Stop syncing this folder?"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu klasörün eşitlemesi durdurulsun mu?"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1186,6 +1414,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Keep in Sync"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşitlemeyi Sürdür"
           }
         },
         "zh-Hans": {
@@ -1219,6 +1453,12 @@
             "value": "Actions to add: %lld. Shortcuts added to this folder later will also be enabled automatically."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld eylem eklenecek. Bu klasöre daha sonra eklenen kısayollar da otomatik olarak etkinleştirilecek."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1248,6 +1488,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Keep this folder in sync?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu klasör eşitlensin mi?"
           }
         },
         "zh-Hans": {
@@ -1281,6 +1527,12 @@
             "value": "Enabling this would exceed the 512-shortcut limit."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bunu etkinleştirmek 512 kısayol sınırını aşar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1310,6 +1562,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Will Enable"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştirilecek"
           }
         },
         "zh-Hans": {
@@ -1343,6 +1601,12 @@
             "value": "Enabled"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1372,6 +1636,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Keep Disabled"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devre Dışı Tutulacak"
           }
         },
         "zh-Hans": {
@@ -1405,6 +1675,12 @@
             "value": "Current Members"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Üyeler"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1434,6 +1710,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This folder currently has no shortcuts."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu klasörde şu anda kısayol yok."
           }
         },
         "zh-Hans": {
@@ -1467,6 +1749,12 @@
             "value": "Keep in Sync"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşitlemeyi Sürdür"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1496,6 +1784,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stop Syncing"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşitlemeyi Durdur"
           }
         },
         "zh-Hans": {
@@ -1529,6 +1823,12 @@
             "value": "Missing Folder"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eksik Klasör"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1560,6 +1860,12 @@
             "value": "Discover and run existing Apple Shortcuts"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mevcut Apple kısayollarını keşfedin ve çalıştırın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1586,6 +1892,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Shortcuts"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Apple Shortcuts"
@@ -1622,6 +1934,12 @@
             "value": "Require confirmation before running from MacTools."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools'tan çalıştırmadan önce onay istenir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1651,6 +1969,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Confirm Before Running"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalıştırmadan Önce Onay İste"
           }
         },
         "zh-Hans": {
@@ -1684,6 +2008,12 @@
             "value": "Allow external links to trigger this shortcut; confirmation is still required every time."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dış bağlantıların bu kısayolu tetiklemesine izin verir; her seferinde yine onay istenir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1713,6 +2043,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Allow Run Link"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run Link'e İzin Ver"
           }
         },
         "zh-Hans": {
@@ -1746,6 +2082,12 @@
             "value": "Could not refresh shortcuts; the previous results were kept."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayollar yenilenemedi; önceki sonuçlar korundu."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1775,6 +2117,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Some folders could not be refreshed; their previous members were kept."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bazı klasörler yenilenemedi; önceki üyeleri korundu."
           }
         },
         "zh-Hans": {
@@ -1808,6 +2156,12 @@
             "value": "Cancelled"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal edildi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1837,6 +2191,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The shortcut exited with status %d."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol %d durum koduyla sonlandı."
           }
         },
         "zh-Hans": {
@@ -1870,6 +2230,12 @@
             "value": "The shortcut failed to run."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol çalıştırılamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1899,6 +2265,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Failed"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başarısız"
           }
         },
         "zh-Hans": {
@@ -1932,6 +2304,12 @@
             "value": "Running"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalışıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1961,6 +2339,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stop"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durdur"
           }
         },
         "zh-Hans": {
@@ -1994,6 +2378,12 @@
             "value": "Completed"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamamlandı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2023,6 +2413,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Test Run"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test Çalıştır"
           }
         },
         "zh-Hans": {
@@ -2056,6 +2452,12 @@
             "value": "The output was too long and was truncated."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıktı çok uzundu ve kısaltıldı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2085,6 +2487,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The Apple Shortcuts plugin is not currently active."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Shortcuts eklentisi şu anda etkin değil."
           }
         },
         "zh-Hans": {
@@ -2118,6 +2526,12 @@
             "value": "Up to four shortcuts can run at the same time."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aynı anda en fazla dört kısayol çalışabilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2149,6 +2563,12 @@
             "value": "Discovered / Enabled"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bulunan / Etkin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2175,6 +2595,12 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld / %2$lld"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$lld / %2$lld"
@@ -2211,6 +2637,12 @@
             "value": "Shortcuts: %lld"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld kısayol"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2240,6 +2672,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Filter"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtre"
           }
         },
         "zh-Hans": {
@@ -2273,6 +2711,12 @@
             "value": "All"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2302,6 +2746,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enabled"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin"
           }
         },
         "zh-Hans": {
@@ -2335,6 +2785,12 @@
             "value": "Settings could not be read; the original data was preserved."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar okunamadı; özgün veriler korundu."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2364,6 +2820,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Up to 512 shortcuts can be enabled or retained."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En fazla 512 kısayol etkinleştirilebilir veya tutulabilir."
           }
         },
         "zh-Hans": {
@@ -2397,6 +2859,12 @@
             "value": "Loading shortcuts"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayollar yükleniyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2426,6 +2894,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The settings data must be recovered before it can be changed."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar verileri değiştirilmeden önce kurtarılmalıdır."
           }
         },
         "zh-Hans": {
@@ -2459,6 +2933,12 @@
             "value": "Refresh"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yenile"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2488,6 +2968,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Refreshing"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yenileniyor"
           }
         },
         "zh-Hans": {
@@ -2521,6 +3007,12 @@
             "value": "Run"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalıştır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2550,6 +3042,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This shortcut will run through Apple Shortcuts and may access other apps or data."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kısayol Apple Shortcuts üzerinden çalışacak ve diğer uygulamalara veya verilere erişebilir."
           }
         },
         "zh-Hans": {
@@ -2583,6 +3081,12 @@
             "value": "Run “%@”?"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” çalıştırılsın mı?"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2612,6 +3116,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not save the shortcut settings."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol ayarları kaydedilemedi."
           }
         },
         "zh-Hans": {
@@ -2645,6 +3155,12 @@
             "value": "Search Shortcuts"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayolları Ara"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2674,6 +3190,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enable Shortcut"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayolu Etkinleştir"
           }
         },
         "zh-Hans": {
@@ -2707,6 +3229,12 @@
             "value": "Not found in Apple Shortcuts"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Shortcuts'ta bulunamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2736,6 +3264,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Missing"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eksik"
           }
         },
         "zh-Hans": {
@@ -2769,6 +3303,12 @@
             "value": "Missing Shortcut"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eksik Kısayol"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2798,6 +3338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "All Shortcuts"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Kısayollar"
           }
         },
         "zh-Hans": {
@@ -2831,6 +3377,12 @@
             "value": "Enabled Individually"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tek Tek Etkinleştirilen"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2860,6 +3412,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Folders"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasörler"
           }
         },
         "zh-Hans": {
@@ -2893,6 +3451,12 @@
             "value": "Folders: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasörler: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2922,6 +3486,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Missing"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eksik"
           }
         },
         "zh-Hans": {
@@ -2955,6 +3525,12 @@
             "value": "No enablement source"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştirme kaynağı yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2984,6 +3560,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "More than one shortcut has this name; open it directly in Apple Shortcuts."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu adda birden fazla kısayol var; kısayolu doğrudan Apple Shortcuts'ta açın."
           }
         },
         "zh-Hans": {
@@ -3017,6 +3599,12 @@
             "value": "Could not open the shortcut in Apple Shortcuts."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol Apple Shortcuts'ta açılamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3046,6 +3634,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "This item could not be found in Apple Shortcuts."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu öğe Apple Shortcuts'ta bulunamadı."
           }
         },
         "zh-Hans": {
@@ -3079,6 +3673,12 @@
             "value": "Open in Shortcuts"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts'ta Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3110,6 +3710,12 @@
             "value": "Opened in Apple Shortcuts."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Shortcuts'ta açıldı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3135,19 +3741,64 @@
     "permission.automation.description": {
       "extractionState": "manual",
       "localizations": {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "يتطلب تحميل أيقونات الاختصارات التحكم في تطبيق الاختصارات من Apple." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Zum Laden von Kurzbefehlssymbolen muss Apple Kurzbefehle gesteuert werden." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Para cargar los iconos de los atajos es necesario controlar Atajos de Apple." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Le chargement des icônes de raccourcis nécessite de contrôler Raccourcis d’Apple." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ショートカットのアイコンを読み込むには、Appleの「ショートカット」の制御が必要です。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "단축어 아이콘을 불러오려면 Apple 단축어 앱을 제어해야 합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Carregar ícones de atalhos requer o controlo da app Atalhos da Apple." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Для загрузки значков команд требуется управление приложением Apple «Команды»." } },
-
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتطلب تحميل أيقونات الاختصارات التحكم في تطبيق الاختصارات من Apple."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zum Laden von Kurzbefehlssymbolen muss Apple Kurzbefehle gesteuert werden."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Loading shortcut icons requires controlling Apple Shortcuts."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para cargar los iconos de los atajos es necesario controlar Atajos de Apple."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le chargement des icônes de raccourcis nécessite de contrôler Raccourcis d’Apple."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカットのアイコンを読み込むには、Appleの「ショートカット」の制御が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "단축어 아이콘을 불러오려면 Apple 단축어 앱을 제어해야 합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carregar ícones de atalhos requer o controlo da app Atalhos da Apple."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для загрузки значков команд требуется управление приложением Apple «Команды»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol simgelerini yüklemek, Apple Shortcuts'ı denetlemeyi gerektirir."
           }
         },
         "zh-Hans": {
@@ -3167,19 +3818,64 @@
     "permission.automation.footnote": {
       "extractionState": "manual",
       "localizations": {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "سيطلب macOS إذن الأتمتة عند تحميل أيقونات الاختصارات لأول مرة." } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "macOS fragt beim ersten Laden von Kurzbefehlssymbolen nach der Automation-Berechtigung." } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "macOS solicitará acceso de automatización la primera vez que se carguen los iconos de los atajos." } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "macOS demandera l’accès à l’automatisation lors du premier chargement des icônes de raccourcis." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ショートカットのアイコンを初めて読み込むときに、macOS がオートメーションの許可を求めます。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "단축어 아이콘을 처음 불러올 때 macOS가 자동화 권한을 요청합니다." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "O macOS pedirá acesso à Automação quando os ícones de atalhos forem carregados pela primeira vez." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "При первой загрузке значков команд macOS запросит доступ к автоматизации." } },
-
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيطلب macOS إذن الأتمتة عند تحميل أيقونات الاختصارات لأول مرة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS fragt beim ersten Laden von Kurzbefehlssymbolen nach der Automation-Berechtigung."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "macOS will request Automation access the first time shortcut icons are loaded."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS solicitará acceso de automatización la primera vez que se carguen los iconos de los atajos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS demandera l’accès à l’automatisation lors du premier chargement des icônes de raccourcis."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカットのアイコンを初めて読み込むときに、macOS がオートメーションの許可を求めます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "단축어 아이콘을 처음 불러올 때 macOS가 자동화 권한을 요청합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O macOS pedirá acesso à Automação quando os ícones de atalhos forem carregados pela primeira vez."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "При первой загрузке значков команд macOS запросит доступ к автоматизации."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS, kısayol simgeleri ilk kez yüklendiğinde Otomasyon erişimi isteyecek."
           }
         },
         "zh-Hans": {
@@ -3199,19 +3895,64 @@
     "permission.automation.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "الأتمتة" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Automation" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Automatización" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Automatisation" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "オートメーション" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "자동화" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Automação" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Автоматизация" } },
-
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأتمتة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automation"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Automation"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatización"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatisation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オートメーション"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자동화"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automação"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматизация"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon"
           }
         },
         "zh-Hans": {
@@ -3229,74 +3970,80 @@
       }
     },
     "permission.automation.status": {
-        "localizations": {
-            "ar": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "تأكيد عند الاستخدام"
-                }
-            },
-            "de": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Bestätigung bei Verwendung"
-                }
-            },
-            "en": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirm on Use"
-                }
-            },
-            "es": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmar al usar"
-                }
-            },
-            "fr": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmation à l’utilisation"
-                }
-            },
-            "ja": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "使用時に確認"
-                }
-            },
-            "ko": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "사용 시 확인"
-                }
-            },
-            "pt": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmar ao usar"
-                }
-            },
-            "ru": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Подтверждение при использовании"
-                }
-            },
-            "zh-Hans": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "按需确认"
-                }
-            },
-            "zh-Hant": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "按需確認"
-                }
-            }
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأكيد عند الاستخدام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestätigung bei Verwendung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm on Use"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar al usar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmation à l’utilisation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用時に確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사용 시 확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar ao usar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтверждение при использовании"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanımda Onaylanır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需确认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需確認"
+          }
         }
+      }
     }
   },
   "version": "1.0"

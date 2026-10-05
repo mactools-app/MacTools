@@ -57,6 +57,12 @@
             "value": "Трекпад"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -122,6 +128,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Magic Trackpad (Bluetooth) · %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Magic Trackpad (Bluetooth) · %@"
@@ -197,6 +209,12 @@
             "value": "Встроенный трекпад · %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerleşik Trackpad · %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -267,6 +285,12 @@
             "value": "Трекпад · %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad · %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -332,6 +356,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Magic Trackpad (USB) · %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Magic Trackpad (USB) · %@"
@@ -407,6 +437,12 @@
             "value": "Левая зона касания"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sol Dokunma Bölgesi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -475,6 +511,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Средняя зона касания"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta Dokunma Bölgesi"
           }
         },
         "zh-Hans": {
@@ -547,6 +589,12 @@
             "value": "Правая зона касания"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağ Dokunma Bölgesi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -615,6 +663,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неподвижные пальцы расположены слишком близко. Немного раздвиньте их, чтобы появилась средняя зона."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabit parmaklar birbirine çok yakın. Orta hedef bölgesinin görünmesi için parmaklarınızı hafifçe açın."
           }
         },
         "zh-Hans": {
@@ -687,6 +741,12 @@
             "value": "Неподвижные пальцы слишком близко к краю. Переместите их к центру трекпада."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabit parmaklar kenara çok yakın. Parmaklarınızı Trackpad'in ortasına doğru hareket ettirin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -755,6 +815,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сначала зафиксируйте пальцы (%d/%d), после чего появится целевая зона."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce sabit parmakları yerleştirin (%d/%d); hedef bölgesi daha sonra görünecek."
           }
         },
         "zh-Hans": {
@@ -827,6 +893,12 @@
             "value": "Проверить все"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümünü Test Et"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -895,6 +967,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Текущий режим"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli Mod"
           }
         },
         "zh-Hans": {
@@ -967,6 +1045,12 @@
             "value": "Неактивно"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin Değil"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1035,6 +1119,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отработать один жест"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tek Hareket Alıştırması"
           }
         },
         "zh-Hans": {
@@ -1107,6 +1197,12 @@
             "value": "Обнаружен контактный шаблон для %@. Для фактического сопоставления по-прежнему требуется соответствующее событие касания для нажатия macOS."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ için temas deseni algılandı. Eşlemenin çalışması için ayrıca eşleşen bir macOS dokunarak tıklama olayı gerekir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1175,6 +1271,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Текущее сопоставление: %@. Во время проверки оно не выполняется."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli eşleme: %@. Test sırasında çalıştırılmaz."
           }
         },
         "zh-Hans": {
@@ -1247,6 +1349,12 @@
             "value": "Для этого жеста ещё нет сопоставления, но здесь всё равно можно потренировать распознавание."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu hareket henüz eşlenmemiş; yine de tanımayı burada alıştırabilirsiniz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1315,6 +1423,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отработать «%@»"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” Alıştırması"
           }
         },
         "zh-Hans": {
@@ -1387,6 +1501,12 @@
             "value": "Прогресс долгого касания"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basılı Tutma İlerlemesi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1455,6 +1575,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%.0f мс"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.0f ms"
           }
         },
         "zh-Hans": {
@@ -1527,6 +1653,12 @@
             "value": "Время истекло. Начните снова."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Süre doldu. Yeniden başlayın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1595,6 +1727,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Интервал второго касания"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İkinci Dokunma Aralığı"
           }
         },
         "zh-Hans": {
@@ -1667,6 +1805,12 @@
             "value": "Время жеста"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareket Zamanlaması"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1735,6 +1879,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Палец для касания"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokunan Parmak"
           }
         },
         "zh-Hans": {
@@ -1807,6 +1957,12 @@
             "value": "Касание"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temas"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1875,6 +2031,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неподвижный палец"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabit Parmak"
           }
         },
         "zh-Hans": {
@@ -1947,6 +2109,12 @@
             "value": "Положите остальные необходимые пальцы."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gereken diğer parmakları da yerleştirin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2015,6 +2183,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неподвижные пальцы готовы; теперь положите палец для касания."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabit parmaklar hazır; şimdi dokunan parmağı ekleyin."
           }
         },
         "zh-Hans": {
@@ -2087,6 +2261,12 @@
             "value": "Касание обнаружено; поднимите палец для касания."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokunma algılandı; dokunan parmağı kaldırın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2155,6 +2335,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удерживайте до завершения долгого касания."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uzun dokunuş tamamlanana kadar basılı tutun."
           }
         },
         "zh-Hans": {
@@ -2227,6 +2413,12 @@
             "value": "Положите нужные пальцы, затем нажмите на трекпад."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerekli parmakları yerleştirin, ardından Trackpad'e basın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2295,6 +2487,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Готово. Положите пальцы."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hazır. Parmaklarınızı yerleştirin."
           }
         },
         "zh-Hans": {
@@ -2367,6 +2565,12 @@
             "value": "Это касание не распознано. Поднимите добавленные пальцы и повторите попытку."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu dokunma tanınmadı. Yeniden denemek için eklediğiniz parmakları kaldırın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2435,6 +2639,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обнаружен лишний палец. Поднимите добавленные пальцы и повторите касание одним пальцем."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fazladan parmak algılandı. Eklediğiniz parmakları kaldırın, ardından tek bir dokunma parmağıyla yeniden deneyin."
           }
         },
         "zh-Hans": {
@@ -2507,6 +2717,12 @@
             "value": "Неподвижные пальцы ещё не зафиксировались. Не двигайте их и снова положите палец для касания."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabit parmaklar yerleşmedi. Onları hareketsiz tutun, ardından dokunan parmağı yeniden ekleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2575,6 +2791,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неподвижный палец сдвинулся или был поднят. Сначала поднимите все пальцы и повторите попытку."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabit parmaklardan biri hareket etti veya kaldırıldı. Önce tüm parmaklarınızı kaldırın, sonra yeniden deneyin."
           }
         },
         "zh-Hans": {
@@ -2647,6 +2869,12 @@
             "value": "Палец для касания сдвинулся слишком далеко. Не двигайте его во время касания."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokunan parmak çok fazla hareket etti. Dokunma sırasında parmağınızı yerinde tutun."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2715,6 +2943,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Касание было слишком коротким. Задержите палец немного дольше перед поднятием."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokunma çok kısa sürdü. Kaldırmadan önce biraz daha uzun basılı tutun."
           }
         },
         "zh-Hans": {
@@ -2787,6 +3021,12 @@
             "value": "Касание длилось слишком долго. Поднимите палец раньше."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokunma çok uzun sürdü. Dokunan parmağınızı daha erken kaldırın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2855,6 +3095,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Касание было вне целевой зоны. Повторите попытку в выделенной области."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokunma, hedef bölgenin dışında gerçekleşti. Vurgulanan alanda yeniden deneyin."
           }
         },
         "zh-Hans": {
@@ -2927,6 +3173,12 @@
             "value": "Сначала поднимите все пальцы."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce tüm parmaklarınızı kaldırın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2995,6 +3247,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выполните второе касание до истечения времени."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Süre dolmadan ikinci dokunmayı tamamlayın."
           }
         },
         "zh-Hans": {
@@ -3067,6 +3325,12 @@
             "value": "Не двигайте неподвижные пальцы."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabit parmakları hareketsiz tutun."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3135,6 +3399,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сохраняйте положение, затем поднимите пальцы."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konumu koruyun, ardından parmaklarınızı kaldırın."
           }
         },
         "zh-Hans": {
@@ -3207,6 +3477,12 @@
             "value": "Виртуальный трекпад в реальном времени"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Canlı sanal Trackpad"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3275,6 +3551,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@, позиция %.0f%%, %.0f%%"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, konum %.0f%%, %.0f%%"
           }
         },
         "zh-Hans": {
@@ -3347,6 +3629,12 @@
             "value": "Обнаружено касаний: %d; продолжите жест."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d temas algılandı; harekete devam edin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3415,6 +3703,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Касаний нет. Положите пальцы, чтобы начать."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temas yok. Başlamak için parmaklarınızı yerleştirin."
           }
         },
         "zh-Hans": {
@@ -3487,6 +3781,12 @@
             "value": "Положите пальцы (%d)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d parmak yerleştirin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3555,6 +3855,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Теперь нажмите на трекпад"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şimdi Trackpad'e basın"
           }
         },
         "zh-Hans": {
@@ -3627,6 +3933,12 @@
             "value": "Распознано: %@. Можно проверить следующий жест."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tanındı: %@. Sıradaki hareketi test edebilirsiniz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3695,6 +4007,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обнаружен контактный шаблон для %@. Для фактического сопоставления macOS должна создать и связать соответствующее событие касания для нажатия."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ için temas deseni algılandı. Eşlemenin çalışması için macOS'un eşleşen bir dokunarak tıklama olayı üretmesi ve ilişkilendirmesi gerekir."
           }
         },
         "zh-Hans": {
@@ -3767,6 +4085,12 @@
             "value": "Пальцев: %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d parmak"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3835,6 +4159,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Положите пальцы на трекпад. Касания отображаются только в памяти."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parmaklarınızı Trackpad'e yerleştirin. Temaslar yalnızca bellekte gösterilir."
           }
         },
         "zh-Hans": {
@@ -3907,6 +4237,12 @@
             "value": "Ожидание касания"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temas Bekleniyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3975,6 +4311,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Одна клавиша"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tek Tuş"
           }
         },
         "zh-Hans": {
@@ -4047,6 +4389,12 @@
             "value": "Одна клавиша %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tek tuş %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4115,6 +4463,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите одну клавишу."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir tuş seçin."
           }
         },
         "zh-Hans": {
@@ -4187,6 +4541,12 @@
             "value": "Нажмите одну клавишу"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir tuşa basın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4255,6 +4615,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Записать клавишу"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuşu Kaydet"
           }
         },
         "zh-Hans": {
@@ -4327,6 +4693,12 @@
             "value": "Не задано"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlanmadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4395,6 +4767,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перед запуском требуется подтверждение."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalıştırmadan önce onay gerekir."
           }
         },
         "zh-Hans": {
@@ -4467,6 +4845,12 @@
             "value": "Действие MacTools"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools Eylemi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4535,6 +4919,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выбрать действие"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Seç"
           }
         },
         "zh-Hans": {
@@ -4607,6 +4997,12 @@
             "value": "Ввод"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girdi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4675,6 +5071,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет подходящих действий"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleşen Eylem Yok"
           }
         },
         "zh-Hans": {
@@ -4747,6 +5149,12 @@
             "value": "Поиск действий"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylemleri Ara"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4815,6 +5223,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Недоступное действие MacTools"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılamayan MacTools Eylemi"
           }
         },
         "zh-Hans": {
@@ -4887,6 +5301,12 @@
             "value": "Выберите действие."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir eylem seçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4903,18 +5323,6 @@
     },
     "metadata.title": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Trackpad Gestures"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "触控板手势"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -4925,6 +5333,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Trackpad-Gesten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad Gestures"
           }
         },
         "es": {
@@ -4963,6 +5377,18 @@
             "value": "Жесты трекпада"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad Hareketleri"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触控板手势"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -4973,18 +5399,6 @@
     },
     "metadata.description": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Map trackpad gestures to MacTools actions, keyboard shortcuts, or middle clicks."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "将触控板手势映射为 MacTools 操作、快捷键或中键点击"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -4995,6 +5409,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ordnen Sie Trackpad-Gesten MacTools-Aktionen, Tastaturkürzeln oder Mittelklicks zu."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Map trackpad gestures to MacTools actions, keyboard shortcuts, or middle clicks."
           }
         },
         "es": {
@@ -5033,6 +5453,18 @@
             "value": "Назначьте жестам трекпада действия MacTools, сочетания клавиш или средний щелчок мыши."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad hareketlerini MacTools eylemlerine, klavye kısayollarına veya orta tıklamaya eşleyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将触控板手势映射为 MacTools 操作、快捷键或中键点击"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5043,18 +5475,6 @@
     },
     "panel.button.settings": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "设置"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5065,6 +5485,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Einstellungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
           }
         },
         "es": {
@@ -5103,6 +5529,18 @@
             "value": "Настройки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5113,18 +5551,6 @@
     },
     "panel.subtitle.empty": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No gestures configured"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "尚未配置手势"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5135,6 +5561,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Keine Gesten konfiguriert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No gestures configured"
           }
         },
         "es": {
@@ -5173,6 +5605,18 @@
             "value": "Жесты не настроены"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapılandırılmış hareket yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚未配置手势"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5183,18 +5627,6 @@
     },
     "panel.subtitle.enabledCountFormat": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d gestures enabled"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已启用 %d 个手势"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5205,6 +5637,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d Gesten aktiviert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d gestures enabled"
           }
         },
         "es": {
@@ -5243,6 +5681,18 @@
             "value": "%d жестов включено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d hareket etkin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已启用 %d 个手势"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5253,18 +5703,6 @@
     },
     "panel.subtitle.needsPermission": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Permissions required"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "需要完成权限设置"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5275,6 +5713,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Berechtigungen erforderlich"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permissions required"
           }
         },
         "es": {
@@ -5313,6 +5757,18 @@
             "value": "Требуются разрешения"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin gerekiyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要完成权限设置"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5323,18 +5779,6 @@
     },
     "panel.subtitle.testing": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Testing gestures"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在测试手势"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5345,6 +5789,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gesten testen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testing gestures"
           }
         },
         "es": {
@@ -5383,6 +5833,18 @@
             "value": "Тестирование жестов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareketler test ediliyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在测试手势"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5393,18 +5855,6 @@
     },
     "permission.accessibility.title": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Accessibility"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "辅助功能"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5415,6 +5865,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Barrierefreiheit"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility"
           }
         },
         "es": {
@@ -5453,6 +5909,18 @@
             "value": "Доступность"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "辅助功能"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5463,18 +5931,6 @@
     },
     "permission.accessibility.description": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sends keyboard shortcuts and middle clicks."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "用于发送快捷键和中键点击。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5485,6 +5941,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sendet Tastaturkürzel und Mittelklicks."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sends keyboard shortcuts and middle clicks."
           }
         },
         "es": {
@@ -5523,6 +5985,18 @@
             "value": "Отправляет сочетания клавиш и средние щелчки."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klavye kısayollarını ve orta tıklamaları gönderir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于发送快捷键和中键点击。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5533,18 +6007,6 @@
     },
     "permission.accessibility.footnote": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Allow MacTools in System Settings → Privacy & Security → Accessibility."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "系统设置 → 隐私与安全性 → 辅助功能，允许 MacTools。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5555,6 +6017,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Erlauben Sie MacTools in den Systemeinstellungen → Datenschutz und Sicherheit → Barrierefreiheit."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow MacTools in System Settings → Privacy & Security → Accessibility."
           }
         },
         "es": {
@@ -5593,6 +6061,18 @@
             "value": "Разрешите MacTools в настройках системы → Конфиденциальность и безопасность → Доступность."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Erişilebilirlik bölümünden MacTools'a izin verin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统设置 → 隐私与安全性 → 辅助功能，允许 MacTools。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5603,18 +6083,6 @@
     },
     "permission.inputMonitoring.title": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Input Monitoring"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "输入监控"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5625,6 +6093,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Eingabeüberwachung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input Monitoring"
           }
         },
         "es": {
@@ -5663,6 +6137,18 @@
             "value": "Входной мониторинг"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giriş İzleme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入监控"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5673,18 +6159,6 @@
     },
     "permission.inputMonitoring.description": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recognizes trackpad contact gestures system-wide. All processing stays on this Mac."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "用于在系统范围内识别触控板接触手势。所有处理均在本机完成。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5695,6 +6169,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Erkennt Trackpad-Kontaktgesten systemweit. Die gesamte Verarbeitung bleibt auf diesem Mac."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recognizes trackpad contact gestures system-wide. All processing stays on this Mac."
           }
         },
         "es": {
@@ -5733,6 +6213,18 @@
             "value": "Распознает жесты касания трекпада во всей системе. Вся обработка остается на этом Mac."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad temas hareketlerini sistem genelinde tanır. Tüm işlemler bu Mac'te yapılır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于在系统范围内识别触控板接触手势。所有处理均在本机完成。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5743,18 +6235,6 @@
     },
     "permission.inputMonitoring.footnote": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Allow MacTools in System Settings → Privacy & Security → Input Monitoring. If the status does not update, reopen MacTools."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "系统设置 → 隐私与安全性 → 输入监控，允许 MacTools；若状态未更新，请重新打开 MacTools。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5765,6 +6245,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Erlauben Sie MacTools in den Systemeinstellungen → Datenschutz und Sicherheit → Eingabeüberwachung. Wenn der Status nicht aktualisiert wird, öffnen Sie MacTools erneut."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow MacTools in System Settings → Privacy & Security → Input Monitoring. If the status does not update, reopen MacTools."
           }
         },
         "es": {
@@ -5803,6 +6289,18 @@
             "value": "Разрешите MacTools в настройках системы → Конфиденциальность и безопасность → Мониторинг ввода. Если статус не обновится, снова откройте MacTools."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Giriş İzleme bölümünden MacTools'a izin verin. Durum güncellenmezse MacTools'u yeniden açın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统设置 → 隐私与安全性 → 输入监控，允许 MacTools；若状态未更新，请重新打开 MacTools。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5813,18 +6311,6 @@
     },
     "error.accessibilityRequired": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Trackpad Gestures needs Accessibility permission."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "触控板手势需要辅助功能权限。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5835,6 +6321,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Für Trackpad-Gesten ist eine Barrierefreiheitsberechtigung erforderlich."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad Gestures needs Accessibility permission."
           }
         },
         "es": {
@@ -5873,6 +6365,18 @@
             "value": "Для жестов трекпада требуется разрешение специальных возможностей."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad Hareketleri özelliği için Erişilebilirlik izni gerekiyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触控板手势需要辅助功能权限。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5883,18 +6387,6 @@
     },
     "error.inputMonitoringRequired": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Trackpad Gestures needs Input Monitoring permission."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "触控板手势需要输入监控权限。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5905,6 +6397,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Für Trackpad-Gesten ist die Berechtigung „Eingabeüberwachung“ erforderlich."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad Gestures needs Input Monitoring permission."
           }
         },
         "es": {
@@ -5943,6 +6441,18 @@
             "value": "Для жестов трекпада требуется разрешение на мониторинг ввода."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad Hareketleri özelliği için Giriş İzleme izni gerekiyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触控板手势需要输入监控权限。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -5953,18 +6463,6 @@
     },
     "error.listenerUnavailable": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Could not start gesture monitoring. Check permissions and try again."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无法启动手势监听，请检查权限后重试。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -5975,6 +6473,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Die Gestenüberwachung konnte nicht gestartet werden. Überprüfen Sie die Berechtigungen und versuchen Sie es erneut."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not start gesture monitoring. Check permissions and try again."
           }
         },
         "es": {
@@ -6013,6 +6517,18 @@
             "value": "Не удалось запустить мониторинг жестов. Проверьте разрешения и повторите попытку."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareket izleme başlatılamadı. İzinleri kontrol edip yeniden deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法启动手势监听，请检查权限后重试。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6023,18 +6539,6 @@
     },
     "settings.mappings.title": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gesture Mappings"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "手势映射"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6045,6 +6549,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gestenzuordnungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesture Mappings"
           }
         },
         "es": {
@@ -6083,6 +6593,18 @@
             "value": "Сопоставления жестов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareket Eşlemeleri"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手势映射"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6093,18 +6615,6 @@
     },
     "settings.mappings.tipTapGuide": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "How TipTap Works"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "了解 TipTap"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6115,6 +6625,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "So funktioniert TipTap"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How TipTap Works"
           }
         },
         "es": {
@@ -6153,6 +6669,18 @@
             "value": "Как работает TipTap"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap Nasıl Çalışır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "了解 TipTap"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6163,18 +6691,6 @@
     },
     "settings.mappings.tipTapGuide.middle": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "With two fixed fingers, “Middle” means tapping between them."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "固定两指时，“中间”表示在两指之间轻点。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6185,6 +6701,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bei zwei ruhenden Fingern bedeutet „Mitte“, zwischen ihnen zu tippen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "With two fixed fingers, “Middle” means tapping between them."
           }
         },
         "es": {
@@ -6223,6 +6745,18 @@
             "value": "При двух неподвижных пальцах «Середина» означает касание между ними."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İki sabit parmak kullanıldığında “Orta”, parmakların arasında dokunma anlamına gelir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "固定两指时，“中间”表示在两指之间轻点。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6233,18 +6767,6 @@
     },
     "settings.mappings.tipTapGuide.test": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Use “%@” to practice without running configured actions."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "可使用“%@”练习，不会执行已配置的操作。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6255,6 +6777,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Üben Sie mit „%@“, ohne konfigurierte Aktionen auszuführen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use “%@” to practice without running configured actions."
           }
         },
         "es": {
@@ -6293,6 +6821,18 @@
             "value": "Используйте «%@», чтобы потренироваться без запуска настроенных действий."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapılandırılmış eylemleri çalıştırmadan alıştırma yapmak için “%@” öğesini kullanın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可使用“%@”练习，不会执行已配置的操作。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6303,18 +6843,6 @@
     },
     "settings.mappings.add": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add Gesture"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "添加手势"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6325,6 +6853,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Geste hinzufügen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Gesture"
           }
         },
         "es": {
@@ -6363,6 +6897,18 @@
             "value": "Добавить жест"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareket Ekle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加手势"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6373,18 +6919,6 @@
     },
     "settings.empty.title": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No gestures configured"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "尚未配置手势"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6395,6 +6929,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Keine Gesten konfiguriert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No gestures configured"
           }
         },
         "es": {
@@ -6433,6 +6973,18 @@
             "value": "Жесты не настроены"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapılandırılmış Hareket Yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚未配置手势"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6443,18 +6995,6 @@
     },
     "settings.empty.description": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add only the trackpad gestures you want to use."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "仅添加你需要使用的触控板手势。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6465,6 +7005,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fügen Sie nur die Trackpad-Gesten hinzu, die Sie verwenden möchten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add only the trackpad gestures you want to use."
           }
         },
         "es": {
@@ -6503,6 +7049,18 @@
             "value": "Добавьте только те жесты трекпада, которые хотите использовать."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca kullanmak istediğiniz Trackpad hareketlerini ekleyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅添加你需要使用的触控板手势。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6513,18 +7071,6 @@
     },
     "settings.mapping.edit": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Edit mapping"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "编辑映射"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6535,6 +7081,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zuordnung bearbeiten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit mapping"
           }
         },
         "es": {
@@ -6573,6 +7125,18 @@
             "value": "Изменить сопоставление"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşlemeyi Düzenle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑映射"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6583,18 +7147,6 @@
     },
     "settings.mapping.delete": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "删除"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6605,6 +7157,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Löschen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
           }
         },
         "es": {
@@ -6643,6 +7201,18 @@
             "value": "Удалить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sil"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6653,18 +7223,6 @@
     },
     "settings.testing.title": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Test"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "测试"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6675,6 +7233,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Testen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test"
           }
         },
         "es": {
@@ -6713,6 +7277,18 @@
             "value": "Тест"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "测试"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6723,18 +7299,6 @@
     },
     "settings.testing.active": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recognizing gestures"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在识别手势"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6745,6 +7309,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gesten erkennen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recognizing gestures"
           }
         },
         "es": {
@@ -6783,6 +7353,18 @@
             "value": "Распознавание жестов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareketler tanınıyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在识别手势"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6793,18 +7375,6 @@
     },
     "settings.testing.inactive": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Test Gestures"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "测试手势"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6815,6 +7385,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Testgesten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test Gestures"
           }
         },
         "es": {
@@ -6853,6 +7429,18 @@
             "value": "Тестовые жесты"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareketleri Test Et"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "测试手势"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6863,18 +7451,6 @@
     },
     "settings.testing.description": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Test mode is active. Configured actions will not run until you stop testing."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "测试模式已开启。停止测试前，已配置的操作不会执行。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6885,6 +7461,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Der Testmodus ist aktiv. Konfigurierte Aktionen werden erst nach dem Stoppen des Tests ausgeführt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test mode is active. Configured actions will not run until you stop testing."
           }
         },
         "es": {
@@ -6923,6 +7505,18 @@
             "value": "Режим тестирования активен. Настроенные действия не выполняются, пока вы не остановите тест."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test modu etkin. Testi durdurana kadar yapılandırılmış eylemler çalıştırılmaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "测试模式已开启。停止测试前，已配置的操作不会执行。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -6933,18 +7527,6 @@
     },
     "settings.testing.recognizedFormat": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recognized: %@. Configured actions will not run until you stop testing."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已识别：%@。停止测试前，已配置的操作不会执行。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -6955,6 +7537,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Erkannt: %@. Konfigurierte Aktionen werden erst nach dem Stoppen des Tests ausgeführt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recognized: %@. Configured actions will not run until you stop testing."
           }
         },
         "es": {
@@ -6993,6 +7581,18 @@
             "value": "Распознано: %@. Настроенные действия не выполняются, пока вы не остановите тест."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tanındı: %@. Testi durdurana kadar yapılandırılmış eylemler çalıştırılmaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已识别：%@。停止测试前，已配置的操作不会执行。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7003,18 +7603,6 @@
     },
     "settings.testing.start": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Start Test"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开始测试"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7025,6 +7613,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Test starten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start Test"
           }
         },
         "es": {
@@ -7063,6 +7657,18 @@
             "value": "Начать тест"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testi Başlat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始测试"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7073,18 +7679,6 @@
     },
     "settings.testing.stop": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stop Test"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止测试"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7095,6 +7689,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Test stoppen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop Test"
           }
         },
         "es": {
@@ -7133,6 +7733,18 @@
             "value": "Остановить тест"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testi Durdur"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止测试"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7143,18 +7755,6 @@
     },
     "editor.title": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gesture Mapping"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "手势映射"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7165,6 +7765,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gestenzuordnung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesture Mapping"
           }
         },
         "es": {
@@ -7203,6 +7809,18 @@
             "value": "Сопоставление жестов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareket Eşlemesi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手势映射"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7213,18 +7831,6 @@
     },
     "editor.gesture.title": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gesture"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "手势"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7235,6 +7841,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Geste"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesture"
           }
         },
         "es": {
@@ -7273,6 +7885,18 @@
             "value": "Жест"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareket"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手势"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7283,18 +7907,6 @@
     },
     "editor.action.title": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Action"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "操作"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7305,6 +7917,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktion"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Action"
           }
         },
         "es": {
@@ -7343,6 +7961,18 @@
             "value": "Действие"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7353,18 +7983,6 @@
     },
     "editor.shortcut.record": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Record Shortcut"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "录制快捷键"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7375,6 +7993,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aufnahmeverknüpfung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record Shortcut"
           }
         },
         "es": {
@@ -7413,6 +8037,18 @@
             "value": "Ярлык записи"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayolu Kaydet"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录制快捷键"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7423,18 +8059,6 @@
     },
     "editor.shortcut.unset": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Not Set"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未设置"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7445,6 +8069,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nicht festgelegt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not Set"
           }
         },
         "es": {
@@ -7483,6 +8113,18 @@
             "value": "Не установлено"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlanmadı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未设置"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7493,18 +8135,6 @@
     },
     "editor.error.duplicateGesture": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "This gesture is already configured. Choose another gesture."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "该手势已配置，请选择其他手势。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7515,6 +8145,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Diese Geste ist bereits konfiguriert. Wählen Sie eine andere Geste."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This gesture is already configured. Choose another gesture."
           }
         },
         "es": {
@@ -7553,6 +8189,18 @@
             "value": "Этот жест уже настроен. Выберите другой жест."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu hareket zaten yapılandırılmış. Başka bir hareket seçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "该手势已配置，请选择其他手势。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7563,18 +8211,6 @@
     },
     "editor.error.shortcutRequired": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Record a keyboard shortcut."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请录制一个键盘快捷键。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7585,6 +8221,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zeichnen Sie eine Tastenkombination auf."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record a keyboard shortcut."
           }
         },
         "es": {
@@ -7623,6 +8265,18 @@
             "value": "Запишите сочетание клавиш."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir klavye kısayolu kaydedin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请录制一个键盘快捷键。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7633,18 +8287,6 @@
     },
     "editor.cancel": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancel"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "取消"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7655,6 +8297,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Abbrechen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
           }
         },
         "es": {
@@ -7693,6 +8341,18 @@
             "value": "Отмена"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7703,18 +8363,6 @@
     },
     "editor.save": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "保存"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7725,6 +8373,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Speichern"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
           }
         },
         "es": {
@@ -7763,6 +8417,18 @@
             "value": "Сохранить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydet"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7773,18 +8439,6 @@
     },
     "action.shortcut": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keyboard Shortcut"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "键盘快捷键"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7795,6 +8449,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tastaturkürzel"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keyboard Shortcut"
           }
         },
         "es": {
@@ -7833,6 +8493,18 @@
             "value": "Сочетание клавиш"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klavye Kısayolu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "键盘快捷键"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7843,18 +8515,6 @@
     },
     "action.shortcutFormat": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Shortcut %@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "快捷键 %@"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7865,6 +8525,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verknüpfung %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut %@"
           }
         },
         "es": {
@@ -7903,6 +8569,18 @@
             "value": "Ярлык %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷键 %@"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7913,18 +8591,6 @@
     },
     "action.middleClick": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Middle Click"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "鼠标中键"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -7935,6 +8601,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mittlerer Klick"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Middle Click"
           }
         },
         "es": {
@@ -7973,6 +8645,18 @@
             "value": "Средний щелчок"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta Tıklama"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标中键"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -7983,18 +8667,6 @@
     },
     "gesture.tipTapLeftOneFixed": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "TipTap Left (1 Fixed Finger)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "TipTap 左侧（1 指固定）"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -8005,6 +8677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "TipTap Left (1 fester Finger)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap Left (1 Fixed Finger)"
           }
         },
         "es": {
@@ -8043,6 +8721,18 @@
             "value": "TipTap влево (1 фиксированный палец)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap Sol (1 Sabit Parmak)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap 左侧（1 指固定）"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -8053,18 +8743,6 @@
     },
     "gesture.tipTapRightOneFixed": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "TipTap Right (1 Fixed Finger)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "TipTap 右侧（1 指固定）"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -8075,6 +8753,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "TipTap Right (1 fester Finger)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap Right (1 Fixed Finger)"
           }
         },
         "es": {
@@ -8113,6 +8797,18 @@
             "value": "TipTap Right (1 фиксированный палец)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap Sağ (1 Sabit Parmak)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap 右侧（1 指固定）"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -8123,18 +8819,6 @@
     },
     "gesture.tipTapLeftTwoFixed": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "TipTap Left (2 Fixed Fingers)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "TipTap 左侧（2 指固定）"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -8145,6 +8829,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "TipTap Left (2 feste Finger)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap Left (2 Fixed Fingers)"
           }
         },
         "es": {
@@ -8183,6 +8873,18 @@
             "value": "TipTap влево (2 фиксированных пальца)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap Sol (2 Sabit Parmak)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap 左侧（2 指固定）"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -8193,18 +8895,6 @@
     },
     "gesture.tipTapMiddleTwoFixed": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "TipTap Middle (2 Fixed Fingers)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "TipTap 中间（2 指固定）"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -8215,6 +8905,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "TipTap Middle (2 feste Finger)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap Middle (2 Fixed Fingers)"
           }
         },
         "es": {
@@ -8253,6 +8949,18 @@
             "value": "TipTap Middle (2 фиксированных пальца)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap Orta (2 Sabit Parmak)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap 中间（2 指固定）"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -8263,18 +8971,6 @@
     },
     "gesture.tipTapRightTwoFixed": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "TipTap Right (2 Fixed Fingers)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "TipTap 右侧（2 指固定）"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -8285,6 +8981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "TipTap Right (2 feste Finger)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap Right (2 Fixed Fingers)"
           }
         },
         "es": {
@@ -8323,6 +9025,18 @@
             "value": "TipTap Right (2 фиксированных пальца)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap Sağ (2 Sabit Parmak)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap 右侧（2 指固定）"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -8333,18 +9047,6 @@
     },
     "gesture.threeFingerTap": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Three-Finger Tap"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "三指轻点"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -8355,6 +9057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Drei-Finger-Tippen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Three-Finger Tap"
           }
         },
         "es": {
@@ -8393,6 +9101,18 @@
             "value": "Касание тремя пальцами"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üç Parmakla Dokunma"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "三指轻点"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -8403,18 +9123,6 @@
     },
     "gesture.fourFingerTap": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Four-Finger Tap"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "四指轻点"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -8425,6 +9133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vier-Finger-Tippen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Four-Finger Tap"
           }
         },
         "es": {
@@ -8463,6 +9177,18 @@
             "value": "Касание четырьмя пальцами"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dört Parmakla Dokunma"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "四指轻点"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -8473,18 +9199,6 @@
     },
     "gesture.fiveFingerTap": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Five-Finger Tap"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "五指轻点"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -8495,6 +9209,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fünf-Finger-Tippen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Five-Finger Tap"
           }
         },
         "es": {
@@ -8533,6 +9253,18 @@
             "value": "Касание пятью пальцами"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beş Parmakla Dokunma"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "五指轻点"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -8543,18 +9275,6 @@
     },
     "gesture.threeFingerLongTouch": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Three-Finger Long Touch"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "三指长触"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -8565,6 +9285,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Lange Berührung mit drei Fingern"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Three-Finger Long Touch"
           }
         },
         "es": {
@@ -8603,6 +9329,18 @@
             "value": "Длинное касание тремя пальцами"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üç Parmakla Uzun Dokunuş"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "三指长触"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -8613,18 +9351,6 @@
     },
     "gesture.fourFingerLongTouch": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Four-Finger Long Touch"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "四指长触"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -8635,6 +9361,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vier-Finger-Langberührung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Four-Finger Long Touch"
           }
         },
         "es": {
@@ -8671,6 +9403,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Длинное касание четырьмя пальцами"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dört Parmakla Uzun Dokunuş"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "四指长触"
           }
         },
         "zh-Hant": {
@@ -8735,6 +9479,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Длинное касание пятью пальцами"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beş Parmakla Uzun Dokunuş"
           }
         },
         "zh-Hans": {
@@ -8807,6 +9557,12 @@
             "value": "Двойное касание тремя пальцами"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üç Parmakla Çift Dokunma"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8875,6 +9631,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Двойное касание четырьмя пальцами"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dört Parmakla Çift Dokunma"
           }
         },
         "zh-Hans": {
@@ -8947,6 +9709,12 @@
             "value": "Двойное касание пятью пальцами"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beş Parmakla Çift Dokunma"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9017,6 +9785,12 @@
             "value": "Дважды подряд коснитесь и отпустите %d пальцами."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d parmakla art arda iki kez dokunup kaldırın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9033,18 +9807,6 @@
     },
     "gesture.demo.tipTapFormat": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keep %d fingers still, then repeatedly tap the selected area with one more finger."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "保持 %d 指不动，再用一指反复轻点指定区域。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -9055,6 +9817,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Halten Sie %d Finger ruhig und tippen Sie dann mit einem weiteren Finger wiederholt auf den ausgewählten Bereich."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep %d fingers still, then repeatedly tap the selected area with one more finger."
           }
         },
         "es": {
@@ -9093,6 +9861,18 @@
             "value": "Удерживайте %d пальца неподвижно, затем несколько раз коснитесь выбранной области еще одним пальцем."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d parmağı sabit tutun, ardından bir parmak daha kullanarak seçili alana art arda dokunun."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持 %d 指不动，再用一指反复轻点指定区域。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -9103,18 +9883,6 @@
     },
     "gesture.demo.tapFormat": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Touch and release with %d fingers together."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d 指同时轻触并抬起。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -9125,6 +9893,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mit %d Fingern gleichzeitig berühren und loslassen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Touch and release with %d fingers together."
           }
         },
         "es": {
@@ -9163,6 +9937,18 @@
             "value": "Коснитесь и отпустите, соединив %d пальцы."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d parmakla aynı anda dokunup kaldırın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 指同时轻触并抬起。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -9173,18 +9959,6 @@
     },
     "gesture.demo.longTouchFormat": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keep %d fingers touching for about half a second."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d 指保持接触约半秒。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -9195,6 +9969,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Berühren Sie %d Finger etwa eine halbe Sekunde lang."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep %d fingers touching for about half a second."
           }
         },
         "es": {
@@ -9231,6 +10011,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Держите пальцы %d соприкасающимися примерно полсекунды."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d parmağınızı yaklaşık yarım saniye temas halinde tutun."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 指保持接触约半秒。"
           }
         },
         "zh-Hant": {
@@ -9295,6 +10087,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Защита при вводе"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yazma Koruması"
           }
         },
         "zh-Hans": {
@@ -9367,6 +10165,12 @@
             "value": "Игнорировать жесты при вводе"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yazarken Hareketleri Yoksay"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9435,6 +10239,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Приостанавливает распознавание во время ввода, предотвращая случайные жесты на трекпаде."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yanlışlıkla yapılan Trackpad hareketlerini önlemek için yazarken tanıma duraklatılır."
           }
         },
         "zh-Hans": {
@@ -9507,6 +10317,12 @@
             "value": "Задержка после ввода"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yazmadan Sonraki Gecikme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9575,6 +10391,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Продлевает паузу после последнего нажатия. Меньшее значение быстрее реагирует, большее предотвращает больше случайных жестов. По умолчанию: 0,4 секунды."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son tuş işleminden sonra da tanıma duraklatılmaya devam eder. Süre kısalırsa daha çabuk yanıt verilir; uzarsa daha fazla yanlış hareket önlenir. Varsayılan: 0,4 saniye."
           }
         },
         "zh-Hans": {
@@ -9647,6 +10469,12 @@
             "value": "%.1f с"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f s"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -9663,18 +10491,6 @@
     },
     "gesture.conflict.secondaryClick": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "macOS does not identify native-click sources. While another mouse or virtual pointer is connected, click-producing trackpad gestures pass through without running their mappings."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "macOS 不提供原生点击来源。连接其他鼠标或虚拟指针时，会直接放行可产生点击的触控板手势，而不执行其映射。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -9685,6 +10501,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "macOS identifiziert die Quelle nativer Klicks nicht. Solange eine andere Maus oder ein virtueller Zeiger verbunden ist, werden klickerzeugende Trackpad-Gesten durchgereicht, ohne ihre Zuordnungen auszuführen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS does not identify native-click sources. While another mouse or virtual pointer is connected, click-producing trackpad gestures pass through without running their mappings."
           }
         },
         "es": {
@@ -9723,6 +10545,18 @@
             "value": "macOS не определяет источник системных щелчков. Пока подключена другая мышь или виртуальный указатель, жесты трекпада, создающие щелчки, пропускаются без выполнения своих сопоставлений."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS, yerel tıklamaların kaynağını belirlemez. Başka bir fare ya da sanal işaretçi bağlıyken tıklama oluşturan Trackpad hareketleri, eşlemeleri çalıştırılmadan doğrudan geçer."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 不提供原生点击来源。连接其他鼠标或虚拟指针时，会直接放行可产生点击的触控板手势，而不执行其映射。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -9733,18 +10567,6 @@
     },
     "gesture.conflict.threeFinger": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "May conflict with Look Up & Data Detectors or three-finger dragging."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "可能与“查询与数据检测器”或三指拖移冲突。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -9755,6 +10577,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kann mit Look Up & Data Detectors oder dem Ziehen mit drei Fingern in Konflikt geraten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "May conflict with Look Up & Data Detectors or three-finger dragging."
           }
         },
         "es": {
@@ -9793,6 +10621,18 @@
             "value": "Может конфликтовать с поиском и детекторами данных или перетаскиванием тремя пальцами."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sözlükte Ara ve Veri Dedektörleri ya da üç parmakla sürükleme özelliğiyle çakışabilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可能与“查询与数据检测器”或三指拖移冲突。"
+          }
+        },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
@@ -9803,18 +10643,6 @@
     },
     "gesture.conflict.fourFinger": {
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "May conflict with Mission Control, App Exposé, or full-screen app switching."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "可能与调度中心、App Exposé 或全屏切换手势冲突。"
-          }
-        },
         "ar": {
           "stringUnit": {
             "state": "translated",
@@ -9825,6 +10653,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Möglicherweise Konflikt mit Mission Control, App Exposé oder Vollbild-App-Wechsel."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "May conflict with Mission Control, App Exposé, or full-screen app switching."
           }
         },
         "es": {
@@ -9861,6 +10695,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Может конфликтовать с Mission Control, App Exposé или полноэкранным переключением приложений."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mission Control, App Exposé veya tam ekran uygulama geçişiyle çakışabilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可能与调度中心、App Exposé 或全屏切换手势冲突。"
           }
         },
         "zh-Hant": {
@@ -9922,6 +10768,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TipTap"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "TipTap"
@@ -9997,6 +10849,12 @@
             "value": "Касание"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokunma"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10065,6 +10923,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Двойное касание"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çift Dokunma"
           }
         },
         "zh-Hans": {
@@ -10137,6 +11001,12 @@
             "value": "Физический щелчок"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fiziksel Tıklama"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10205,6 +11075,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Долгое касание"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basılı Tutma"
           }
         },
         "zh-Hans": {
@@ -10277,6 +11153,12 @@
             "value": "Щелчок двумя пальцами"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İki Parmakla Tıklama"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10345,6 +11227,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Щелчок тремя пальцами"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üç Parmakla Tıklama"
           }
         },
         "zh-Hans": {
@@ -10417,6 +11305,12 @@
             "value": "Удерживайте %d пальца на трекпаде и нажмите до одного физического щелчка."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d parmağınız temas halindeyken Trackpad'e fiziksel olarak bir kez tıklayana kadar basın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10485,6 +11379,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обычно заменяет вторичный щелчок двумя пальцами (правую кнопку) в macOS."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu hareket genellikle macOS'taki iki parmakla ikincil tıklamanın (sağ tıklama) yerini alır."
           }
         },
         "zh-Hans": {
@@ -10557,6 +11457,12 @@
             "value": "Положите один или два пальца и держите их неподвижно."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir ya da iki parmak yerleştirin ve hareketsiz tutun."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10625,6 +11531,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Другим пальцем коснитесь слева или справа от неподвижных пальцев."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer parmağınızla, sabit parmak grubunun soluna veya sağına dokunun."
           }
         },
         "zh-Hans": {
@@ -10697,6 +11609,12 @@
             "value": "Поднимайте только касающийся палец, оставляя неподвижные пальцы для продолжения."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca dokunan parmağı kaldırın; devam etmek için sabit parmakları yerinde tutun."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10765,6 +11683,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Это сочетание также используется для: %@. Повторное использование разрешено."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kısayol ayrıca şunlar tarafından da kullanılıyor: %@. Yeniden kullanılabilir."
           }
         },
         "zh-Hans": {
@@ -10837,6 +11761,12 @@
             "value": "Отключить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devre Dışı Bırak"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -10905,6 +11835,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştir"
           }
         },
         "zh-Hans": {
@@ -10977,6 +11913,12 @@
             "value": "Управление сопоставлением"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşlemeyi Yönet"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -11045,6 +11987,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Тип действия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Türü"
           }
         },
         "zh-Hans": {
@@ -11117,6 +12065,12 @@
             "value": "Все действия"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Eylemler"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -11185,6 +12139,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Действия MacTools"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools Eylemleri"
           }
         },
         "zh-Hans": {
@@ -11257,6 +12217,12 @@
             "value": "Все"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -11325,6 +12291,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отключённые"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devre Dışı"
           }
         },
         "zh-Hans": {
@@ -11397,6 +12369,12 @@
             "value": "Включённые"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -11465,6 +12443,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Состояние"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durum"
           }
         },
         "zh-Hans": {
@@ -11537,6 +12521,12 @@
             "value": "Нет подходящих сопоставлений"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleşen Eşleme Yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -11605,6 +12595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Поиск сопоставлений"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşlemeleri Ara"
           }
         },
         "zh-Hans": {
@@ -11677,6 +12673,12 @@
             "value": "Очистить поиск"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aramayı Temizle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -11745,6 +12747,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Поиск жестов, действий или поставщиков"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareket, eylem veya sağlayıcı arayın"
           }
         },
         "zh-Hans": {
@@ -11817,6 +12825,12 @@
             "value": "Название действия"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eylem Adı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -11885,6 +12899,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Порядок добавления"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenme Sırası"
           }
         },
         "zh-Hans": {
@@ -11957,6 +12977,12 @@
             "value": "Сначала включённые"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce Etkin Olanlar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -12025,6 +13051,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Порядок жестов"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareket Sırası"
           }
         },
         "zh-Hans": {
@@ -12097,6 +13129,12 @@
             "value": "Сортировать по"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıralama Ölçütü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -12165,6 +13203,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сопоставления: %d · Включено: %d"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleme: %d · Etkin: %d"
           }
         },
         "zh-Hans": {
@@ -12237,6 +13281,12 @@
             "value": "Сбросить вид"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünümü Sıfırla"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -12305,6 +13355,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Параметры просмотра"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm Seçenekleri"
           }
         },
         "zh-Hans": {
@@ -12377,6 +13433,12 @@
             "value": "Если включены касание и двойное касание с одинаковым числом пальцев, двойное касание сначала выполняет действие обычного касания, а затем действие двойного касания."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleşen tek ve çift dokunmalar etkinleştirildiğinde, çift dokunma önce tek dokunma eylemini, ardından çift dokunma eylemini çalıştırır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -12445,6 +13507,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалить сопоставление"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşlemeyi Sil"
           }
         },
         "zh-Hans": {
@@ -12528,6 +13596,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "تستخدمه إضافة أخرى"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başka bir eklenti tarafından kullanılıyor"
           }
         }
       }

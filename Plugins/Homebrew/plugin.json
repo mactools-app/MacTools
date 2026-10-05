@@ -39,6 +39,10 @@
       "displayName": "Homebrew",
       "summary": "Управляйте пакетами и репозиториями Homebrew и запускайте диагностику системы."
     },
+    "tr": {
+      "displayName": "Homebrew Yöneticisi",
+      "summary": "Homebrew paketlerini ve depolarını yönetin, sistem tanılamaları çalıştırın."
+    },
     "zh-Hans": {
       "displayName": "Homebrew 管理",
       "summary": "管理 Homebrew 包、软件仓库并执行系统诊断"
@@ -127,6 +131,9 @@
       ],
       "ru": [
         "Homebrew"
+      ],
+      "tr": [
+        "Homebrew Yöneticisi"
       ],
       "zh-Hans": [
         "Homebrew 管理"

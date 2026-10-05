@@ -39,6 +39,10 @@
       "displayName": "Правый клик",
       "summary": "Добавьте быстрые действия контекстного меню Finder для папок и путей."
     },
+    "tr": {
+      "displayName": "Sağ Tıklama",
+      "summary": "Klasörler ve yollar için hızlı Finder bağlam menüsü eylemleri ekleyin."
+    },
     "zh-Hans": {
       "displayName": "右键工具",
       "summary": "为 Finder 右键菜单添加新建文件夹和路径复制"
@@ -61,6 +65,7 @@
       "ko": "시스템 설정의 일반 > 로그인 항목 및 확장 프로그램 > Finder 확장 프로그램에서 MacTools Finder 확장 프로그램을 켜십시오.",
       "pt": "Ative a extensão do Finder do MacTools em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões > Extensões do Finder.",
       "ru": "Включите расширение Finder для MacTools в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения» > «Расширения Finder».",
+      "tr": "MacTools Finder uzantısını, Sistem Ayarları > Genel > Oturum Öğeleri ve Uzantılar > Finder Uzantıları altından etkinleştirin.",
       "zh-Hans": "在“系统设置 > 通用 > 登录项与扩展 > Finder 扩展”中启用 MacTools 右键工具。",
       "zh-Hant": "在「系統設定 > 一般 > 登入項目與延伸功能 > Finder 延伸功能」中啟用 MacTools 右鍵工具。"
     }
@@ -127,6 +132,9 @@
       ],
       "ru": [
         "Правый клик"
+      ],
+      "tr": [
+        "Sağ Tıklama"
       ],
       "zh-Hans": [
         "右键工具"

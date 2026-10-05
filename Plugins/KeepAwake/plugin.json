@@ -39,6 +39,10 @@
       "displayName": "Не давать уснуть",
       "summary": "Не даёт Mac уснуть; при необходимости не гасит экран или сохраняет работу экранных инструментов. Для работы MacBook с закрытой крышкой требуется питание от сети."
     },
+    "tr": {
+      "displayName": "Uyanık Tutma",
+      "summary": "Mac'i uyanık tutun; isterseniz ekranı açık tutun veya ekran kullanan araçların çalışmaya devam etmesini sağlayın. Kapağı kapalıyken MacBook kullanımı güç bağlantısı gerektirir."
+    },
     "zh-Hans": {
       "displayName": "阻止休眠",
       "summary": "保持 Mac 唤醒；可选保持屏幕常亮或让屏幕工具继续工作。MacBook 合盖运行要求连接电源"
@@ -129,6 +133,9 @@
       ],
       "ru": [
         "Не давать уснуть"
+      ],
+      "tr": [
+        "Uyanık Tutma"
       ],
       "zh-Hans": [
         "阻止休眠"

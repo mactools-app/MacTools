@@ -58,6 +58,12 @@
             "value": "Исправить поврежденные приложения"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hasarlı Uygulamaları Onar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалите атрибуты карантина, чтобы устранить предупреждения поврежденных или ненадежных приложений."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hasarlı veya güvenilmeyen uygulama uyarılarını çözmek için karantina özniteliklerini kaldırır."
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Выбрать"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите файл .app для восстановления"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onarılacak bir .app dosyası seçin"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Исправление…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onarılıyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отремонтировано: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onarıldı: %@"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Выберите приложение для восстановления"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onarılacak Uygulamayı Seç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите приложение, которое показывает предупреждение «повреждено» или «ненадежно»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\"Hasarlı\" veya \"güvenilmeyen\" uyarısı gösteren bir uygulama seçin."
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Поведение"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Davranış"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обнаружение перетаскивания"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sürükleme Algılama"
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Перетащите файл .app, чтобы открыть окно восстановления и запустить его автоматически."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir .app dosyası bıraktığınızda onarım penceresi açılır ve işlem otomatik başlar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перетащите сюда файл .app, чтобы восстановить его"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onarmak için bir .app dosyasını buraya bırakın"
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "Исправляем…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onarılıyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -979,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отремонтировано: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onarıldı: %@"
           }
         },
         "zh-Hans": {
@@ -1052,6 +1136,12 @@
             "value": "Закрыть"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1121,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Восстановление не удалось"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onarım başarısız"
           }
         },
         "zh-Hans": {
@@ -1194,6 +1290,12 @@
             "value": "Путь к приложению содержит неподдерживаемые символы (двойные кавычки)."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama yolu desteklenmeyen karakterler (çift tırnak) içeriyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1265,6 +1367,12 @@
             "value": "Аутентификация отменена."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kimlik doğrulama iptal edildi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1334,6 +1442,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Восстановление не удалось из-за неизвестной ошибки."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onarım bilinmeyen bir hatayla başarısız oldu."
           }
         },
         "zh-Hans": {

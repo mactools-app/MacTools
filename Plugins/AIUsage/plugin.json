@@ -3,17 +3,25 @@
   "displayName": "AI 用量",
   "summary": "查看 Codex 与 Claude Code 订阅额度和重置时间",
   "localizedMetadata": {
+    "ar": {
+      "displayName": "استخدام الذكاء الاصطناعي",
+      "summary": "عرض حصص اشتراك Codex وClaude Code وأوقات إعادة التعيين."
+    },
+    "de": {
+      "displayName": "KI-Nutzung",
+      "summary": "Abonnementkontingente und Rücksetzzeiten für Codex und Claude Code anzeigen."
+    },
     "en": {
       "displayName": "AI Usage",
       "summary": "View Codex and Claude Code subscription quotas and reset times."
     },
-    "zh-Hans": {
-      "displayName": "AI 用量",
-      "summary": "查看 Codex 与 Claude Code 订阅额度和重置时间"
+    "es": {
+      "displayName": "Uso de IA",
+      "summary": "Consulta las cuotas y los tiempos de reinicio de Codex y Claude Code."
     },
-    "zh-Hant": {
-      "displayName": "AI 用量",
-      "summary": "查看 Codex 與 Claude Code 訂閱額度和重置時間"
+    "fr": {
+      "displayName": "Utilisation IA",
+      "summary": "Consultez les quotas et les heures de réinitialisation de Codex et Claude Code."
     },
     "ja": {
       "displayName": "AI 使用量",
@@ -23,18 +31,6 @@
       "displayName": "AI 사용량",
       "summary": "Codex 및 Claude Code 구독 한도와 초기화 시간을 확인합니다."
     },
-    "de": {
-      "displayName": "KI-Nutzung",
-      "summary": "Abonnementkontingente und Rücksetzzeiten für Codex und Claude Code anzeigen."
-    },
-    "fr": {
-      "displayName": "Utilisation IA",
-      "summary": "Consultez les quotas et les heures de réinitialisation de Codex et Claude Code."
-    },
-    "es": {
-      "displayName": "Uso de IA",
-      "summary": "Consulta las cuotas y los tiempos de reinicio de Codex y Claude Code."
-    },
     "pt": {
       "displayName": "Uso de IA",
       "summary": "Veja as cotas e os horários de redefinição de Codex e Claude Code."
@@ -43,9 +39,17 @@
       "displayName": "Использование ИИ",
       "summary": "Просматривайте квоты подписок Codex и Claude Code и время их сброса."
     },
-    "ar": {
-      "displayName": "استخدام الذكاء الاصطناعي",
-      "summary": "عرض حصص اشتراك Codex وClaude Code وأوقات إعادة التعيين."
+    "tr": {
+      "displayName": "Yapay Zekâ Kullanımı",
+      "summary": "Codex ve Claude Code abonelik kotalarını ve sıfırlanma zamanlarını görüntüleyin."
+    },
+    "zh-Hans": {
+      "displayName": "AI 用量",
+      "summary": "查看 Codex 与 Claude Code 订阅额度和重置时间"
+    },
+    "zh-Hant": {
+      "displayName": "AI 用量",
+      "summary": "查看 Codex 與 Claude Code 訂閱額度和重置時間"
     }
   },
   "productStrings": {
@@ -62,7 +66,9 @@
     "scheme": "AIUsagePlugin"
   },
   "capabilities": {
-    "panelItems": ["widget"],
+    "panelItems": [
+      "widget"
+    ],
     "settings": "form"
   },
   "permissions": [],
@@ -91,14 +97,20 @@
       "subscription"
     ],
     "localizedSynonyms": {
+      "ar": [
+        "استخدام الذكاء الاصطناعي"
+      ],
+      "de": [
+        "KI-Nutzung"
+      ],
       "en": [
         "AI Usage"
       ],
-      "zh-Hans": [
-        "AI 用量"
+      "es": [
+        "Uso de IA"
       ],
-      "zh-Hant": [
-        "AI 用量"
+      "fr": [
+        "Utilisation IA"
       ],
       "ja": [
         "AI 使用量"
@@ -106,23 +118,20 @@
       "ko": [
         "AI 사용량"
       ],
-      "de": [
-        "KI-Nutzung"
-      ],
-      "fr": [
-        "Utilisation IA"
-      ],
-      "es": [
-        "Uso de IA"
-      ],
       "pt": [
         "Uso de IA"
       ],
       "ru": [
         "Использование ИИ"
       ],
-      "ar": [
-        "استخدام الذكاء الاصطناعي"
+      "tr": [
+        "Yapay Zekâ Kullanımı"
+      ],
+      "zh-Hans": [
+        "AI 用量"
+      ],
+      "zh-Hant": [
+        "AI 用量"
       ]
     },
     "useCases": [

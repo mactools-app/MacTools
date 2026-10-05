@@ -89,7 +89,7 @@ Switching between grid and list keeps the selected window and visible shortcut n
 
 The selected window stays fully visible when the chooser opens, resizes, or changes layout. Grid results scroll with a mouse or trackpad. Previews support pinch zoom in every chooser mode, including while Tab changes the selected window. Choosing a minimized window restores it before switching. Helper-rendered apps participate in recent-use ordering, while inactive titleless surfaces stay out of the chooser.
 
-Editing a direct shortcut highlights its key and shows a concise prompt beside Direct Keys, with Cancel at the far right. Recording instructions and feedback are available in all 11 supported languages.
+Editing a direct shortcut highlights its key and shows a concise prompt beside Direct Keys, with Cancel at the far right. Recording instructions and feedback are available in all 12 supported languages.
 
 <p align="center"><a href="docs/assets/screenshots/readme/search-en-dark.png"><img src="docs/assets/screenshots/readme/search-en-dark.png" width="640" alt="Command Palette searching window actions, settings, and plugins in English"></a></p>
 
@@ -122,7 +122,7 @@ Screenshots work on macOS 14+; region recording and per-app volume require macOS
 
 Screenshot selection remains available on each display after switching desktops or entering and leaving full-screen apps.
 
-**Take your setup with you:** export and import preferences, keep local backups, or sync supported settings through a cloud or shared folder. The app supports **11 languages** and follows your system language by default.
+**Take your setup with you:** export and import preferences, keep local backups, or sync supported settings through a cloud or shared folder. The app supports **12 languages** and follows your system language by default.
 
 ## `mactools` in your terminal
 

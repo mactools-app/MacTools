@@ -39,6 +39,10 @@
       "displayName": "Управление вентиляторами",
       "summary": "Управляйте предустановками скорости вращения вентилятора с помощью автоматических, полноскоростных и пользовательских стратегий."
     },
+    "tr": {
+      "displayName": "Fan Kontrolü",
+      "summary": "Fan hızını otomatik, tam hız ve özel stratejiler sunan hazır ayarlarla yönetin."
+    },
     "zh-Hans": {
       "displayName": "风扇控制",
       "summary": "管理风扇转速预设，支持自动、全速和自定义策略"
@@ -61,6 +65,7 @@
       "ko": "권한 있는 도우미 설치",
       "pt": "Instalar auxiliar privilegiado",
       "ru": "Установить привилегированную службу",
+      "tr": "Ayrıcalıklı Yardımcıyı Yükle",
       "zh-Hans": "安装特权辅助工具",
       "zh-Hant": "安裝特權輔助工具"
     },
@@ -74,6 +79,7 @@
       "ko": "처음 사용할 때 MacTools는 관리자 인증을 요청하고 root 소유의 모드 4755 도우미를 /Library/PrivilegedHelperTools/cc.ggbond.mactools.fan-control.smc-helper에 설치합니다. 이 도우미는 시스템 팬 설정을 변경합니다.",
       "pt": "No primeiro uso, o MacTools solicita autorização de administrador para instalar em /Library/PrivilegedHelperTools/cc.ggbond.mactools.fan-control.smc-helper um auxiliar pertencente ao root e com modo 4755. O auxiliar altera os ajustes das ventoinhas do sistema.",
       "ru": "При первом использовании MacTools запрашивает авторизацию администратора, чтобы установить в /Library/PrivilegedHelperTools/cc.ggbond.mactools.fan-control.smc-helper принадлежащую root службу с режимом 4755. Она изменяет настройки системных вентиляторов.",
+      "tr": "İlk kullanımda MacTools, /Library/PrivilegedHelperTools/cc.ggbond.mactools.fan-control.smc-helper konumuna kök sahipliğinde, 4755 kipinde bir yardımcı yüklemek için yönetici yetkisi ister. Yardımcı, sistem fanı ayarlarını değiştirir.",
       "zh-Hans": "首次使用时，MacTools 会请求管理员授权，在 /Library/PrivilegedHelperTools/cc.ggbond.mactools.fan-control.smc-helper 安装 root 所有且权限模式为 4755 的辅助工具，用于更改系统风扇设置。",
       "zh-Hant": "首次使用時，MacTools 會要求管理員授權，在 /Library/PrivilegedHelperTools/cc.ggbond.mactools.fan-control.smc-helper 安裝 root 所有且權限模式為 4755 的輔助工具，用於更改系統風扇設定。"
     },
@@ -87,6 +93,7 @@
       "ko": "제어 가능한 팬 확인",
       "pt": "Verificar ventoinhas controláveis",
       "ru": "Проверить управляемые вентиляторы",
+      "tr": "Denetlenebilir Fanları Doğrula",
       "zh-Hans": "确认风扇可控制",
       "zh-Hant": "確認風扇可控制"
     },
@@ -100,6 +107,7 @@
       "ko": "SMC를 통해 시스템 팬을 읽고 제어할 수 있는 Mac이 필요합니다.",
       "pt": "Requer um Mac cujas ventoinhas do sistema possam ser lidas e controladas pelo SMC.",
       "ru": "Требуется Mac, системные вентиляторы которого можно считывать и контролировать через SMC.",
+      "tr": "SMC üzerinden sistem fanlarının okunabildiği ve denetlenebildiği bir Mac gerekir.",
       "zh-Hans": "需要系统风扇可通过 SMC 读取和控制的 Mac。",
       "zh-Hant": "需要系統風扇可透過 SMC 讀取和控制的 Mac。"
     },
@@ -113,6 +121,7 @@
       "ko": "팬 사전 설정 적용",
       "pt": "Aplicar predefinição de ventoinha",
       "ru": "Применить профиль вентилятора",
+      "tr": "Fan Hazır Ayarını Uygula",
       "zh-Hans": "应用风扇预设",
       "zh-Hant": "套用風扇預設"
     },
@@ -126,6 +135,7 @@
       "ko": "저장된 사전 설정의 팬 속도 전략을 적용합니다.",
       "pt": "Aplica a estratégia de velocidade de uma predefinição salva.",
       "ru": "Применяет стратегию скорости из сохранённого профиля.",
+      "tr": "Kaydedilmiş bir hazır ayardaki fan hızı stratejisini uygulayın.",
       "zh-Hans": "应用已存预设中的风扇转速策略。",
       "zh-Hant": "套用已儲存預設中的風扇轉速策略。"
     },
@@ -139,6 +149,7 @@
       "ko": "적용할 저장된 팬 사전 설정을 선택하세요.",
       "pt": "Selecione a predefinição de ventoinha salva que deseja aplicar.",
       "ru": "Выберите сохранённый профиль вентилятора для применения.",
+      "tr": "Uygulanacak kaydedilmiş fan hazır ayarını seçin.",
       "zh-Hans": "选择要应用的已存风扇预设。",
       "zh-Hant": "選擇要套用的已儲存風扇預設。"
     }
@@ -212,6 +223,9 @@
       ],
       "ru": [
         "Управление вентиляторами"
+      ],
+      "tr": [
+        "Fan Kontrolü"
       ],
       "zh-Hans": [
         "风扇控制"

@@ -4,49 +4,232 @@
     "action.confirmation.confirm": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "سكون" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Ruhezustand" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Sleep" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Reposo" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Mettre en veille" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "スリープ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "잠자기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Repouso" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Режим сна" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "休眠" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "睡眠" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سكون"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ruhezustand"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sleep"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reposo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre en veille"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スリープ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "잠자기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Repouso"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Режим сна"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uyku"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休眠"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "睡眠"
+          }
+        }
       }
     },
     "action.confirmation.message": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "سيؤدي رابط التشغيل هذا إلى إطفاء شاشات العرض فورًا." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Dieser Ausführungslink schaltet die Displays sofort aus." } },
-        "en": { "stringUnit": { "state": "translated", "value": "This Run Link will turn off the displays immediately." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Este enlace de ejecución apagará las pantallas inmediatamente." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ce lien d’exécution éteindra immédiatement les écrans." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "この実行リンクはディスプレイをすぐにオフにします。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이 실행 링크는 디스플레이를 즉시 끕니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Este link de execução desligará as telas imediatamente." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Эта ссылка запуска немедленно выключит дисплеи." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "此运行链接将立即关闭显示器。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "此執行連結會立即關閉顯示器。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيؤدي رابط التشغيل هذا إلى إطفاء شاشات العرض فورًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Ausführungslink schaltet die Displays sofort aus."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This Run Link will turn off the displays immediately."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este enlace de ejecución apagará las pantallas inmediatamente."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce lien d’exécution éteindra immédiatement les écrans."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この実行リンクはディスプレイをすぐにオフにします。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 실행 링크는 디스플레이를 즉시 끕니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este link de execução desligará as telas imediatamente."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эта ссылка запуска немедленно выключит дисплеи."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Çalıştırma Bağlantısı ekranları hemen kapatacak."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此运行链接将立即关闭显示器。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此執行連結會立即關閉顯示器。"
+          }
+        }
       }
     },
     "action.confirmation.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "وضع شاشات العرض في السكون؟" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Displays in den Ruhezustand versetzen?" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Put Displays to Sleep?" } },
-        "es": { "stringUnit": { "state": "translated", "value": "¿Poner las pantallas en reposo?" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Mettre les écrans en veille ?" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ディスプレイをスリープしますか？" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "디스플레이를 잠자기 상태로 전환할까요?" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Colocar as telas em repouso?" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Перевести дисплеи в режим сна?" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "让显示器休眠？" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "讓顯示器進入睡眠？" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وضع شاشات العرض في السكون؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Displays in den Ruhezustand versetzen?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Put Displays to Sleep?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Poner las pantallas en reposo?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre les écrans en veille ?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ディスプレイをスリープしますか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "디스플레이를 잠자기 상태로 전환할까요?"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colocar as telas em repouso?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести дисплеи в режим сна?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranlar uyku moduna alınsın mı?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让显示器休眠？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讓顯示器進入睡眠？"
+          }
+        }
       }
     },
     "metadata.title": {
@@ -104,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сон дисплея"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Uykusu"
           }
         },
         "zh-Hans": {
@@ -177,6 +366,12 @@
             "value": "Немедленно перевести дисплеи в спящий режим."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranları hemen uyku moduna alır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -248,6 +443,12 @@
             "value": "Сон"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uyku"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -265,17 +466,78 @@
     "error.sleepFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر إدخال الشاشات في وضع السكون." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Displays konnten nicht in den Ruhezustand versetzt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The displays could not be put to sleep." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudieron poner las pantallas en reposo." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible de mettre les écrans en veille." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ディスプレイをスリープ状態にできませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "디스플레이를 잠자기 상태로 전환할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível colocar os ecrãs em pausa." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось перевести дисплеи в режим сна." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法让显示器进入休眠。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法讓顯示器進入睡眠。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر إدخال الشاشات في وضع السكون."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Displays konnten nicht in den Ruhezustand versetzt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The displays could not be put to sleep."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron poner las pantallas en reposo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de mettre les écrans en veille."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ディスプレイをスリープ状態にできませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "디스플레이를 잠자기 상태로 전환할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível colocar os ecrãs em pausa."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось перевести дисплеи в режим сна."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranlar uyku moduna alınamadı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法让显示器进入休眠。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法讓顯示器進入睡眠。"
+          }
+        }
       }
     }
   },

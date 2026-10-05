@@ -39,6 +39,10 @@
       "displayName": "Яркость дисплея",
       "summary": "Быстро отрегулируйте яркость каждого дисплея."
     },
+    "tr": {
+      "displayName": "Ekran Parlaklığı",
+      "summary": "Her ekranın parlaklığını hızla ayarlayın."
+    },
     "zh-Hans": {
       "displayName": "显示器亮度",
       "summary": "快速调节每个显示器的亮度"
@@ -125,6 +129,9 @@
       ],
       "ru": [
         "Яркость дисплея"
+      ],
+      "tr": [
+        "Ekran Parlaklığı"
       ],
       "zh-Hans": [
         "显示器亮度"

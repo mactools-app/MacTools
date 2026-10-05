@@ -39,6 +39,10 @@
       "displayName": "Сетка действий",
       "summary": "Открывает рядом с указателем настроенную пользователем сетку избранных действий."
     },
+    "tr": {
+      "displayName": "Eylem Izgarası",
+      "summary": "Sık kullandığınız eylemlerden oluşan özel ızgarayı işaretçinin yakınında açın."
+    },
     "zh-Hans": {
       "displayName": "操作网格",
       "summary": "在指针附近打开用户配置的常用操作网格。"
@@ -114,6 +118,9 @@
       ],
       "ru": [
         "Сетка действий"
+      ],
+      "tr": [
+        "Eylem Izgarası"
       ],
       "zh-Hans": [
         "操作网格"

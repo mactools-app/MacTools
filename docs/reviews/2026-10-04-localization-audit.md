@@ -1,5 +1,7 @@
 # Localization audit — 2026-10-04
 
+The 11-language approval and UI receipts below describe the original audit milestone. The latest-main integration at the end adds Turkish as the twelfth supported language; its translation additions are reviewed separately.
+
 Scope: [issue #463](https://github.com/mactools-app/MacTools/issues/463), expanded to the host, all plugins, PluginKit, Finder Sync, App Intents, Marketplace metadata, and website language behavior. Baseline: `3442f9f8` on `origin/main`.
 
 ## Findings fixed
@@ -229,3 +231,13 @@ The rebuilt isolated app passed English → Arabic → English switching for Qui
 Focused tests protect same-instance action presentation, cached host management metadata without loading/reactivating plugins, denied-permission presentation without restarting monitoring, and retained fan failure presentation without additional hardware writes. Existing fan and battery rollback tests remain part of verification. Exact check logs, stable source fingerprints, and the independent two-stage review receipt are retained locally under `build/LocalizationReview/07a89fe5/Manual/LiveRefreshFix/`. The guided checklist and isolated-build identities are recorded under `Manual/`.
 
 The user requested that accessible UI checks be automated. Further human involvement is limited to actual permission decisions, speech output unavailable through the tools, unavailable device/account or macOS prerequisites, and signed release evidence. Shortcuts discovery alone does not establish successful invocation. AI language approval remains distinct from human native-speaker certification.
+
+## Latest-main integration: Turkish support and Marketplace focus
+
+Integrated canonical `main` at `569d8690`, including Turkish support from #462 and the Marketplace focus-outline fix from #465. Eighteen string-catalog conflicts were JSON formatting conflicts: a recursive three-way merge found no competing unequal translation edits. The semantic merge initially preserved all 66,433 existing non-Turkish catalog localizations and all 5,851 upstream Turkish catalog localizations.
+
+The combined inventory exposed 232 Turkish gaps in copy added by this audit or in System Soft Restart’s hand-authored table. Added Turkish translations for those entries, preserving printf argument types and AI prompt variables. Turkish now participates in strict completeness validation, and the manifest schema declares the Turkish properties it requires. Regenerated website metadata uses all twelve locales. The strict inventory contains 74 tables, 6,083 keys, and 6,729 resource references, with no discovered translation gaps.
+
+Earlier interactive screenshots, eleven-language linguistic approvals, and live-switching checks remain historical evidence for their recorded source snapshots. They do not establish Turkish runtime UI verification or a complete linguistic review of upstream Turkish copy. Source integration checks and independent review receipts are recorded under `build/LocalizationReview/07a89fe5/Manual/MainIntegration569d8690/`; outstanding device, account, speech, Finder activation, Siri/Shortcuts invocation, and additional UI-evidence checks remain as stated above.
+
+A separate read-only AI language review examined all 232 Turkish additions, six standard templates, and eleven requirement names. It corrected the on/off control label, toggle-state wording, and Apple Shortcuts terminology. Input Monitoring captions and guidance also use Apple’s [Giriş İzleme](https://support.apple.com/tr-tr/guide/mac-help/mchl211c911f/14.0/mac/14.0) terminology, including 26 inherited Turkish catalog entries; Apple’s Turkish app name is [Kestirmeler](https://support.apple.com/tr-tr/guide/shortcuts-mac/apdf22b0444c/mac). This targeted AI review is not human native-speaker certification.

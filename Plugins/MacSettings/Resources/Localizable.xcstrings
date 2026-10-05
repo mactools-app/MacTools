@@ -4,81 +4,386 @@
     "permission.fullDiskAccess.descriptionFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "يُستخدم لتغيير الإعدادات التي يحميها macOS. يتطلب هذا الإذن حاليًا: %@." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Wird benötigt, um von macOS geschützte Einstellungen zu ändern. Derzeit erforderlich für: %@." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Used to change settings protected by macOS. Currently required for: %@." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Se usa para cambiar ajustes protegidos por macOS. Actualmente se requiere para: %@." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Utilisé pour modifier les réglages protégés par macOS. Actuellement requis pour : %@." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "macOS で保護された設定を変更するために使用します。現在必要な設定：%@。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "macOS에서 보호하는 설정을 변경하는 데 사용됩니다. 현재 필요한 설정: %@." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Usado para alterar definições protegidas pelo macOS. Atualmente necessário para: %@." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Используется для изменения настроек, защищённых macOS. Сейчас требуется для: %@." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "用于更改受 macOS 保护的设置。当前需要此权限：%@。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "用於更改受 macOS 保護的設定。目前需要此權限：%@。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُستخدم لتغيير الإعدادات التي يحميها macOS. يتطلب هذا الإذن حاليًا: %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird benötigt, um von macOS geschützte Einstellungen zu ändern. Derzeit erforderlich für: %@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Used to change settings protected by macOS. Currently required for: %@."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se usa para cambiar ajustes protegidos por macOS. Actualmente se requiere para: %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisé pour modifier les réglages protégés par macOS. Actuellement requis pour : %@."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS で保護された設定を変更するために使用します。現在必要な設定：%@。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS에서 보호하는 설정을 변경하는 데 사용됩니다. 현재 필요한 설정: %@."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usado para alterar definições protegidas pelo macOS. Atualmente necessário para: %@."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Используется для изменения настроек, защищённых macOS. Сейчас требуется для: %@."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS tarafından korunan ayarları değiştirmek için kullanılır. Şu anda şunlar için gerekli: %@."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于更改受 macOS 保护的设置。当前需要此权限：%@。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用於更改受 macOS 保護的設定。目前需要此權限：%@。"
+          }
+        }
       }
     },
     "permission.fullDiskAccess.footnote": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "بعد منح الإذن في إعدادات النظام، قم بإنهاء MacTools وافتحه مجددًا." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Beende MacTools nach der Freigabe in den Systemeinstellungen und öffne es erneut." } },
-        "en": { "stringUnit": { "state": "translated", "value": "After granting access in System Settings, quit and reopen MacTools." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Después de conceder acceso en Ajustes del Sistema, cierra y vuelve a abrir MacTools." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Après avoir accordé l’accès dans Réglages Système, quittez puis rouvrez MacTools." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "システム設定で許可した後、MacTools を終了して再度開いてください。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "시스템 설정에서 허용한 후 MacTools를 종료했다가 다시 여십시오." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Depois de conceder acesso nas Definições do Sistema, feche e volte a abrir o MacTools." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "После предоставления доступа в Системных настройках закройте и снова откройте MacTools." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "在系统设置中授权后，请退出并重新打开 MacTools。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "在系統設定中授權後，請結束並重新開啟 MacTools。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بعد منح الإذن في إعدادات النظام، قم بإنهاء MacTools وافتحه مجددًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beende MacTools nach der Freigabe in den Systemeinstellungen und öffne es erneut."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After granting access in System Settings, quit and reopen MacTools."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Después de conceder acceso en Ajustes del Sistema, cierra y vuelve a abrir MacTools."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Après avoir accordé l’accès dans Réglages Système, quittez puis rouvrez MacTools."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム設定で許可した後、MacTools を終了して再度開いてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 설정에서 허용한 후 MacTools를 종료했다가 다시 여십시오."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Depois de conceder acesso nas Definições do Sistema, feche e volte a abrir o MacTools."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "После предоставления доступа в Системных настройках закройте и снова откройте MacTools."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları'nda erişim izni verdikten sonra MacTools'tan çıkın ve uygulamayı yeniden açın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在系统设置中授权后，请退出并重新打开 MacTools。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在系統設定中授權後，請結束並重新開啟 MacTools。"
+          }
+        }
       }
     },
     "permission.fullDiskAccess.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "الوصول الكامل إلى القرص" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Festplattenvollzugriff" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Full Disk Access" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Acceso total al disco" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Accès complet au disque" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "フルディスクアクセス" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "전체 디스크 접근" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Acesso total ao disco" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Полный доступ к диску" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "完全磁盘访问" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "完整磁碟存取權" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوصول الكامل إلى القرص"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Festplattenvollzugriff"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Full Disk Access"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acceso total al disco"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accès complet au disque"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フルディスクアクセス"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전체 디스크 접근"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acesso total ao disco"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Полный доступ к диску"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam Disk Erişimi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完全磁盘访问"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完整磁碟存取權"
+          }
+        }
       }
     },
     "metadata.description": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "ابحث عن إعدادات Mac الشائعة واضبطها في مكان واحد." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Häufige Mac-Einstellungen suchen und zentral anpassen." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Search and adjust common settings for this Mac in one place." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Busca y ajusta opciones habituales del Mac en un solo lugar." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Recherchez et ajustez les réglages courants du Mac au même endroit." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "この Mac のよく使う設定を検索して一か所で調整します。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이 Mac의 자주 쓰는 설정을 검색하고 한곳에서 조절합니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Pesquise e ajuste configurações comuns do Mac em um só lugar." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Ищите и меняйте основные настройки этого Mac в одном месте." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "搜索并集中调整当前 Mac 的常用设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "搜尋並集中調整目前 Mac 的常用設定" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابحث عن إعدادات Mac الشائعة واضبطها في مكان واحد."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Häufige Mac-Einstellungen suchen und zentral anpassen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search and adjust common settings for this Mac in one place."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Busca y ajusta opciones habituales del Mac en un solo lugar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recherchez et ajustez les réglages courants du Mac au même endroit."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この Mac のよく使う設定を検索して一か所で調整します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 Mac의 자주 쓰는 설정을 검색하고 한곳에서 조절합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pesquise e ajuste configurações comuns do Mac em um só lugar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ищите и меняйте основные настройки этого Mac в одном месте."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac'in sık kullanılan ayarlarını tek bir yerden arayıp düzenlemenizi sağlar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索并集中调整当前 Mac 的常用设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜尋並集中調整目前 Mac 的常用設定"
+          }
+        }
       }
     },
     "metadata.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إعدادات Mac" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Mac-Einstellungen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Mac Settings" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Ajustes del Mac" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Réglages du Mac" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "Mac 設定" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "Mac 설정" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Ajustes do Mac" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Настройки Mac" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "Mac 设置" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "Mac 設定" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعدادات Mac"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac-Einstellungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes del Mac"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages du Mac"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac 設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac 설정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes do Mac"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки Mac"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac Ayarları"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac 设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac 設定"
+          }
+        }
       }
     }
   },

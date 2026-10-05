@@ -39,6 +39,10 @@
       "displayName": "Снимок экрана",
       "summary": "Снимайте области и окна, добавляйте пометки, распознавайте текст и коды, делайте снимки с прокруткой и записывайте экран."
     },
+    "tr": {
+      "displayName": "Ekran Görüntüsü",
+      "summary": "Bölge veya pencere yakalayın, açıklama ekleyin, metin ve kodları tanıyın, uzun ekran görüntüleri alın ve ekran kaydı yapın."
+    },
     "zh-Hans": {
       "displayName": "截图",
       "summary": "区域和窗口截图、标注、文字与二维码识别、贴图、滚动截图和录屏。"
@@ -58,7 +62,9 @@
     "scheme": "ScreenshotPlugin"
   },
   "capabilities": {
-    "panelItems": ["row"],
+    "panelItems": [
+      "row"
+    ],
     "settings": "form"
   },
   "permissions": [
@@ -81,6 +87,7 @@
       "ko": "영역·창 캡처, 주석, 모자이크·흐림, 텍스트·코드 인식, 이미지 고정, 스크롤 캡처를 로컬에서 처리합니다. 명시적인 전경 작업으로만 시작합니다. 소리 없는 영역 녹화는 macOS 15 이상, 나머지 기능은 macOS 14 이상이 필요합니다.",
       "pt": "Capturas locais de áreas e janelas com anotações, mosaico, desfoque, reconhecimento de textos e códigos, imagens fixadas e rolagem. Inicia apenas por uma ação explícita em primeiro plano. A gravação de áreas sem áudio exige macOS 15; os demais recursos, macOS 14.",
       "ru": "Локальные снимки областей и окон с пометками, мозаикой и размытием, распознаванием текста и кодов, закреплением изображений и прокруткой. Запуск только явным действием на переднем плане. Запись области без звука требует macOS 15; остальные функции — macOS 14.",
+      "tr": "Ek açıklamalar, mozaik ve bulanıklık, metin ve kod tanıma, sabitlenmiş görseller ve kaydırma ekran görüntüleriyle yerel bölge ve pencere yakalama. Yalnızca açık bir ön plan eylemiyle başlar. Sessiz bölge kaydı macOS 15 veya sonrasını gerektirir; diğer özellikler macOS 14 veya sonrasını destekler.",
       "zh-Hans": "本地完成区域和窗口截图、标注、马赛克与模糊、文字与二维码识别、贴图和滚动截图。仅由明确的前台操作启动；无声区域录屏需要 macOS 15 或更高，其他功能支持 macOS 14 或更高。",
       "zh-Hant": "在本機完成區域和視窗截圖、標註、馬賽克與模糊、文字與 QR 碼辨識、釘選圖片及捲動截圖。僅由明確的前景操作啟動；無聲區域錄製需要 macOS 15 或更新版本，其他功能支援 macOS 14 或更新版本。"
     },
@@ -94,6 +101,7 @@
       "ko": "내보낸 파일과 클립보드 내용은 사용자가 관리합니다. 제거 시 플러그인 전용 데이터와 설정이 삭제되지만 내보낸 파일은 유지됩니다.",
       "pt": "Os arquivos exportados e a área de transferência ficam sob seu controle. A desinstalação remove dados privados e ajustes do plugin, mas mantém os arquivos exportados.",
       "ru": "Экспортированные файлы и буфер обмена остаются под вашим контролем. Удаление плагина очищает его частные данные и настройки, но сохраняет экспортированные файлы.",
+      "tr": "Dışa aktarılan dosyalar ve pano içeriği denetiminiz altında kalır. Kaldırma işlemi eklentiye özel verileri ve ayarları siler; kullanıcı tarafından dışa aktarılan dosyalar kalır.",
       "zh-Hans": "导出的文件和剪贴板内容由你管理。卸载会清除插件私有数据和设置，保留你导出的文件。",
       "zh-Hant": "匯出的檔案和剪貼簿內容由你管理。解除安裝會清除外掛程式私有資料與設定，保留你匯出的檔案。"
     },
@@ -165,6 +173,9 @@
       "ru": [
         "Снимок экрана",
         "Быстрый снимок"
+      ],
+      "tr": [
+        "Ekran Görüntüsü"
       ],
       "zh-Hans": [
         "截图",

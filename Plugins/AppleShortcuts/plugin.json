@@ -39,6 +39,10 @@
       "displayName": "Быстрые команды Apple",
       "summary": "Находите и запускайте существующие быстрые команды Apple."
     },
+    "tr": {
+      "displayName": "Apple Shortcuts",
+      "summary": "Mevcut Apple Shortcuts kısayollarını keşfedin ve çalıştırın."
+    },
     "zh-Hans": {
       "displayName": "Apple 快捷指令",
       "summary": "发现并运行现有的 Apple 快捷指令。"
@@ -63,6 +67,7 @@
       "ko": "이 Mac에 저장된 Apple 단축어 중 실행할 항목을 선택하세요.",
       "pt": "Selecione o Atalho Apple salvo neste Mac para executar.",
       "ru": "Выберите сохранённую на этом Mac быструю команду Apple для запуска.",
+      "tr": "Bu Mac'te depolanan, çalıştırılacak Apple kısayolunu seçin.",
       "zh-Hans": "选择存储在此 Mac 上、要运行的 Apple 快捷指令。",
       "zh-Hant": "選擇儲存在此 Mac 上、要執行的 Apple 捷徑。"
     }
@@ -131,6 +136,9 @@
       ],
       "ru": [
         "Быстрые команды Apple"
+      ],
+      "tr": [
+        "Apple Shortcuts"
       ],
       "zh-Hans": [
         "Apple 快捷指令"

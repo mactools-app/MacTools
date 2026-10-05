@@ -1,26 +1,1546 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
-    "action.logOut.description": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"إظهار تأكيد تسجيل الخروج في macOS"}},"de":{"stringUnit":{"state":"translated","value":"macOS-Abmeldebestätigung anzeigen"}},"en":{"stringUnit":{"state":"translated","value":"Show the macOS log out confirmation"}},"es":{"stringUnit":{"state":"translated","value":"Muestra la confirmación de cierre de sesión de macOS"}},"fr":{"stringUnit":{"state":"translated","value":"Afficher la confirmation de fermeture de session de macOS"}},"ja":{"stringUnit":{"state":"translated","value":"macOSのログアウト確認を表示します"}},"ko":{"stringUnit":{"state":"translated","value":"macOS 로그아웃 확인을 표시합니다"}},"pt":{"stringUnit":{"state":"translated","value":"Mostrar a confirmação de fim de sessão do macOS"}},"ru":{"stringUnit":{"state":"translated","value":"Показать подтверждение выхода из macOS"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"显示 macOS 退出登录确认"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"顯示 macOS 登出確認"}}}},
-    "action.logOut.title": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"تسجيل الخروج…"}},"de":{"stringUnit":{"state":"translated","value":"Abmelden…"}},"en":{"stringUnit":{"state":"translated","value":"Log Out…"}},"es":{"stringUnit":{"state":"translated","value":"Cerrar sesión…"}},"fr":{"stringUnit":{"state":"translated","value":"Fermer la session…"}},"ja":{"stringUnit":{"state":"translated","value":"ログアウト…"}},"ko":{"stringUnit":{"state":"translated","value":"로그아웃…"}},"pt":{"stringUnit":{"state":"translated","value":"Terminar sessão…"}},"ru":{"stringUnit":{"state":"translated","value":"Выйти из системы…"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"退出登录…"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"登出…"}}}},
-    "action.restart.description": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"إظهار تأكيد إعادة التشغيل في macOS"}},"de":{"stringUnit":{"state":"translated","value":"macOS-Neustartbestätigung anzeigen"}},"en":{"stringUnit":{"state":"translated","value":"Show the macOS restart confirmation"}},"es":{"stringUnit":{"state":"translated","value":"Muestra la confirmación de reinicio de macOS"}},"fr":{"stringUnit":{"state":"translated","value":"Afficher la confirmation de redémarrage de macOS"}},"ja":{"stringUnit":{"state":"translated","value":"macOSの再起動確認を表示します"}},"ko":{"stringUnit":{"state":"translated","value":"macOS 재시동 확인을 표시합니다"}},"pt":{"stringUnit":{"state":"translated","value":"Mostrar a confirmação de reinício do macOS"}},"ru":{"stringUnit":{"state":"translated","value":"Показать подтверждение перезагрузки macOS"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"显示 macOS 重新启动确认"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"顯示 macOS 重新啟動確認"}}}},
-    "action.restart.title": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"إعادة تشغيل Mac…"}},"de":{"stringUnit":{"state":"translated","value":"Mac neu starten…"}},"en":{"stringUnit":{"state":"translated","value":"Restart Mac…"}},"es":{"stringUnit":{"state":"translated","value":"Reiniciar el Mac…"}},"fr":{"stringUnit":{"state":"translated","value":"Redémarrer le Mac…"}},"ja":{"stringUnit":{"state":"translated","value":"Macを再起動…"}},"ko":{"stringUnit":{"state":"translated","value":"Mac 재시동…"}},"pt":{"stringUnit":{"state":"translated","value":"Reiniciar o Mac…"}},"ru":{"stringUnit":{"state":"translated","value":"Перезагрузить Mac…"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"重新启动 Mac…"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"重新啟動 Mac…"}}}},
-    "action.shutDown.description": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"إظهار تأكيد إيقاف التشغيل في macOS"}},"de":{"stringUnit":{"state":"translated","value":"macOS-Ausschaltbestätigung anzeigen"}},"en":{"stringUnit":{"state":"translated","value":"Show the macOS shut down confirmation"}},"es":{"stringUnit":{"state":"translated","value":"Muestra la confirmación de apagado de macOS"}},"fr":{"stringUnit":{"state":"translated","value":"Afficher la confirmation d’extinction de macOS"}},"ja":{"stringUnit":{"state":"translated","value":"macOSのシステム終了確認を表示します"}},"ko":{"stringUnit":{"state":"translated","value":"macOS 종료 확인을 표시합니다"}},"pt":{"stringUnit":{"state":"translated","value":"Mostrar a confirmação de encerramento do macOS"}},"ru":{"stringUnit":{"state":"translated","value":"Показать подтверждение выключения macOS"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"显示 macOS 关机确认"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"顯示 macOS 關機確認"}}}},
-    "action.shutDown.title": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"إيقاف تشغيل Mac…"}},"de":{"stringUnit":{"state":"translated","value":"Mac ausschalten…"}},"en":{"stringUnit":{"state":"translated","value":"Shut Down Mac…"}},"es":{"stringUnit":{"state":"translated","value":"Apagar el Mac…"}},"fr":{"stringUnit":{"state":"translated","value":"Éteindre le Mac…"}},"ja":{"stringUnit":{"state":"translated","value":"Macをシステム終了…"}},"ko":{"stringUnit":{"state":"translated","value":"Mac 종료…"}},"pt":{"stringUnit":{"state":"translated","value":"Desligar o Mac…"}},"ru":{"stringUnit":{"state":"translated","value":"Выключить Mac…"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"将 Mac 关机…"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"將 Mac 關機…"}}}},
-    "action.sleep.description": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"ضع Mac في وضع السكون فورًا"}},"de":{"stringUnit":{"state":"translated","value":"Mac sofort in den Ruhezustand versetzen"}},"en":{"stringUnit":{"state":"translated","value":"Put your Mac to sleep immediately"}},"es":{"stringUnit":{"state":"translated","value":"Pon el Mac en reposo inmediatamente"}},"fr":{"stringUnit":{"state":"translated","value":"Mettre immédiatement le Mac en veille"}},"ja":{"stringUnit":{"state":"translated","value":"Macをすぐにスリープ状態にします"}},"ko":{"stringUnit":{"state":"translated","value":"Mac을 즉시 잠자기 상태로 전환합니다"}},"pt":{"stringUnit":{"state":"translated","value":"Coloque o Mac em repouso imediatamente"}},"ru":{"stringUnit":{"state":"translated","value":"Немедленно перевести Mac в режим сна"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"立即让 Mac 进入睡眠"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"立即讓 Mac 進入睡眠"}}}},
-    "action.sleep.title": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"إسبات Mac"}},"de":{"stringUnit":{"state":"translated","value":"Mac in Ruhezustand"}},"en":{"stringUnit":{"state":"translated","value":"Sleep Mac"}},"es":{"stringUnit":{"state":"translated","value":"Poner el Mac en reposo"}},"fr":{"stringUnit":{"state":"translated","value":"Mettre le Mac en veille"}},"ja":{"stringUnit":{"state":"translated","value":"Macをスリープ"}},"ko":{"stringUnit":{"state":"translated","value":"Mac 잠자기"}},"pt":{"stringUnit":{"state":"translated","value":"Colocar o Mac em repouso"}},"ru":{"stringUnit":{"state":"translated","value":"Перевести Mac в режим сна"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"Mac 睡眠"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"Mac 睡眠"}}}},
-    "error.logOut": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"تعذر إظهار تأكيد تسجيل الخروج."}},"de":{"stringUnit":{"state":"translated","value":"Die Abmeldebestätigung konnte nicht angezeigt werden."}},"en":{"stringUnit":{"state":"translated","value":"The log out confirmation could not be shown."}},"es":{"stringUnit":{"state":"translated","value":"No se pudo mostrar la confirmación de cierre de sesión."}},"fr":{"stringUnit":{"state":"translated","value":"Impossible d’afficher la confirmation de fermeture de session."}},"ja":{"stringUnit":{"state":"translated","value":"ログアウト確認を表示できませんでした。"}},"ko":{"stringUnit":{"state":"translated","value":"로그아웃 확인을 표시할 수 없습니다."}},"pt":{"stringUnit":{"state":"translated","value":"Não foi possível mostrar a confirmação de fim de sessão."}},"ru":{"stringUnit":{"state":"translated","value":"Не удалось показать подтверждение выхода."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"无法显示退出登录确认。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"無法顯示登出確認。"}}}},
-    "error.restart": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"تعذر إظهار تأكيد إعادة التشغيل."}},"de":{"stringUnit":{"state":"translated","value":"Die Neustartbestätigung konnte nicht angezeigt werden."}},"en":{"stringUnit":{"state":"translated","value":"The restart confirmation could not be shown."}},"es":{"stringUnit":{"state":"translated","value":"No se pudo mostrar la confirmación de reinicio."}},"fr":{"stringUnit":{"state":"translated","value":"Impossible d’afficher la confirmation de redémarrage."}},"ja":{"stringUnit":{"state":"translated","value":"再起動確認を表示できませんでした。"}},"ko":{"stringUnit":{"state":"translated","value":"재시동 확인을 표시할 수 없습니다."}},"pt":{"stringUnit":{"state":"translated","value":"Não foi possível mostrar a confirmação de reinício."}},"ru":{"stringUnit":{"state":"translated","value":"Не удалось показать подтверждение перезагрузки."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"无法显示重新启动确认。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"無法顯示重新啟動確認。"}}}},
-    "error.shutDown": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"تعذر إظهار تأكيد إيقاف التشغيل."}},"de":{"stringUnit":{"state":"translated","value":"Die Ausschaltbestätigung konnte nicht angezeigt werden."}},"en":{"stringUnit":{"state":"translated","value":"The shut down confirmation could not be shown."}},"es":{"stringUnit":{"state":"translated","value":"No se pudo mostrar la confirmación de apagado."}},"fr":{"stringUnit":{"state":"translated","value":"Impossible d’afficher la confirmation d’extinction."}},"ja":{"stringUnit":{"state":"translated","value":"システム終了確認を表示できませんでした。"}},"ko":{"stringUnit":{"state":"translated","value":"종료 확인을 표시할 수 없습니다."}},"pt":{"stringUnit":{"state":"translated","value":"Não foi possível mostrar a confirmação de encerramento."}},"ru":{"stringUnit":{"state":"translated","value":"Не удалось показать подтверждение выключения."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"无法显示关机确认。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"無法顯示關機確認。"}}}},
-    "error.sleep": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"تعذر وضع Mac في وضع السكون."}},"de":{"stringUnit":{"state":"translated","value":"Der Mac konnte nicht in den Ruhezustand versetzt werden."}},"en":{"stringUnit":{"state":"translated","value":"The Mac could not be put to sleep."}},"es":{"stringUnit":{"state":"translated","value":"No se pudo poner el Mac en reposo."}},"fr":{"stringUnit":{"state":"translated","value":"Impossible de mettre le Mac en veille."}},"ja":{"stringUnit":{"state":"translated","value":"Macをスリープ状態にできませんでした。"}},"ko":{"stringUnit":{"state":"translated","value":"Mac을 잠자기 상태로 전환할 수 없습니다."}},"pt":{"stringUnit":{"state":"translated","value":"Não foi possível colocar o Mac em repouso."}},"ru":{"stringUnit":{"state":"translated","value":"Не удалось перевести Mac в режим сна."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"无法让 Mac 进入睡眠。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"無法讓 Mac 進入睡眠。"}}}},
-    "error.automationDenied": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"يلزم إذن الأتمتة. اسمح لـ MacTools بالتحكم في أحداث النظام من إعدادات النظام."}},"de":{"stringUnit":{"state":"translated","value":"Eine Automatisierungsberechtigung ist erforderlich. Erlaube MacTools in den Systemeinstellungen, Systemereignisse zu steuern."}},"en":{"stringUnit":{"state":"translated","value":"Automation permission is required. Allow MacTools to control system events in System Settings."}},"es":{"stringUnit":{"state":"translated","value":"Se necesita permiso de automatización. Permite que MacTools controle los eventos del sistema en Ajustes del Sistema."}},"fr":{"stringUnit":{"state":"translated","value":"L’autorisation d’automatisation est requise. Autorisez MacTools à contrôler les événements système dans Réglages Système."}},"ja":{"stringUnit":{"state":"translated","value":"オートメーションの許可が必要です。システム設定で MacTools にシステムイベントの制御を許可してください。"}},"ko":{"stringUnit":{"state":"translated","value":"자동화 권한이 필요합니다. 시스템 설정에서 MacTools가 시스템 이벤트를 제어하도록 허용하십시오."}},"pt":{"stringUnit":{"state":"translated","value":"É necessária a permissão de automação. Permita que o MacTools controle eventos do sistema nas Definições do Sistema."}},"ru":{"stringUnit":{"state":"translated","value":"Требуется разрешение на автоматизацию. Разрешите MacTools управлять системными событиями в Системных настройках."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"需要自动化授权，请前往系统设置允许 MacTools 控制系统事件。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"需要自動化授權，請前往系統設定允許 MacTools 控制系統事件。"}}}},
-    "permission.automation.deniedFootnote": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"انتقل إلى إعدادات النظام ← الخصوصية والأمن ← الأتمتة، ثم اسمح لـ MacTools بالتحكم في أحداث النظام."}},"de":{"stringUnit":{"state":"translated","value":"Öffne Systemeinstellungen → Datenschutz & Sicherheit → Automation und erlaube MacTools, Systemereignisse zu steuern."}},"en":{"stringUnit":{"state":"translated","value":"Open System Settings → Privacy & Security → Automation and allow MacTools to control system events."}},"es":{"stringUnit":{"state":"translated","value":"Ve a Ajustes del Sistema → Privacidad y seguridad → Automatización y permite que MacTools controle los eventos del sistema."}},"fr":{"stringUnit":{"state":"translated","value":"Ouvrez Réglages Système → Confidentialité et sécurité → Automatisation, puis autorisez MacTools à contrôler les événements système."}},"ja":{"stringUnit":{"state":"translated","value":"システム設定 → プライバシーとセキュリティ → オートメーションで、MacTools にシステムイベントの制御を許可してください。"}},"ko":{"stringUnit":{"state":"translated","value":"시스템 설정 → 개인정보 보호 및 보안 → 자동화에서 MacTools가 시스템 이벤트를 제어하도록 허용하십시오."}},"pt":{"stringUnit":{"state":"translated","value":"Abra Definições do Sistema → Privacidade e Segurança → Automação e permita que o MacTools controle eventos do sistema."}},"ru":{"stringUnit":{"state":"translated","value":"Откройте Системные настройки → Конфиденциальность и безопасность → Автоматизация и разрешите MacTools управлять системными событиями."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"前往系统设置 → 隐私与安全性 → 自动化，允许 MacTools 控制系统事件。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"前往系統設定 → 隱私權與安全性 → 自動化，允許 MacTools 控制系統事件。"}}}},
-    "permission.automation.description": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"يُستخدم لإظهار تأكيد تسجيل الخروج وإعادة التشغيل وإيقاف التشغيل في macOS."}},"de":{"stringUnit":{"state":"translated","value":"Wird verwendet, um die macOS-Bestätigungen zum Abmelden, Neustarten und Ausschalten anzuzeigen."}},"en":{"stringUnit":{"state":"translated","value":"Used to show macOS confirmations for logging out, restarting, and shutting down."}},"es":{"stringUnit":{"state":"translated","value":"Se utiliza para mostrar las confirmaciones de macOS al cerrar sesión, reiniciar y apagar."}},"fr":{"stringUnit":{"state":"translated","value":"Utilisée pour afficher les confirmations macOS de fermeture de session, de redémarrage et d’extinction."}},"ja":{"stringUnit":{"state":"translated","value":"macOS のログアウト、再起動、システム終了の確認を表示するために使用します。"}},"ko":{"stringUnit":{"state":"translated","value":"macOS 로그아웃, 재시동 및 종료 확인을 표시하는 데 사용됩니다."}},"pt":{"stringUnit":{"state":"translated","value":"Usada para mostrar as confirmações do macOS de fim de sessão, reinício e encerramento."}},"ru":{"stringUnit":{"state":"translated","value":"Используется для показа подтверждений macOS при выходе из системы, перезагрузке и выключении."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"用于显示 macOS 退出登录、重新启动和关机确认。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"用於顯示 macOS 登出、重新啟動和關機確認。"}}}},
-    "permission.automation.footnote": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"سيطلب macOS إذن الأتمتة عند تنفيذ إجراء ذي صلة لأول مرة."}},"de":{"stringUnit":{"state":"translated","value":"macOS fragt beim ersten Ausführen einer entsprechenden Aktion nach der Automatisierungsberechtigung."}},"en":{"stringUnit":{"state":"translated","value":"macOS asks for Automation permission the first time you perform a related action."}},"es":{"stringUnit":{"state":"translated","value":"macOS solicita permiso de automatización la primera vez que realizas una acción relacionada."}},"fr":{"stringUnit":{"state":"translated","value":"macOS demande l’autorisation d’automatisation lors de la première action concernée."}},"ja":{"stringUnit":{"state":"translated","value":"関連する操作を初めて実行するときに、macOS がオートメーションの許可を求めます。"}},"ko":{"stringUnit":{"state":"translated","value":"관련 동작을 처음 수행할 때 macOS가 자동화 권한을 요청합니다."}},"pt":{"stringUnit":{"state":"translated","value":"O macOS solicita permissão de automação na primeira vez que efetuar uma ação relacionada."}},"ru":{"stringUnit":{"state":"translated","value":"macOS запросит разрешение на автоматизацию при первом выполнении соответствующего действия."}},"zh-Hans":{"stringUnit":{"state":"translated","value":"macOS 会在首次执行相关操作时请求自动化授权。"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"macOS 會在首次執行相關操作時要求自動化授權。"}}}},
-    "permission.automation.status": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"تأكيد عند الحاجة"}},"de":{"stringUnit":{"state":"translated","value":"Bei Bedarf bestätigen"}},"en":{"stringUnit":{"state":"translated","value":"Confirm When Needed"}},"es":{"stringUnit":{"state":"translated","value":"Confirmar cuando sea necesario"}},"fr":{"stringUnit":{"state":"translated","value":"Confirmer si nécessaire"}},"ja":{"stringUnit":{"state":"translated","value":"必要時に確認"}},"ko":{"stringUnit":{"state":"translated","value":"필요할 때 확인"}},"pt":{"stringUnit":{"state":"translated","value":"Confirmar quando necessário"}},"ru":{"stringUnit":{"state":"translated","value":"Подтверждать при необходимости"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"按需确认"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"視需要確認"}}}},
-    "permission.automation.title": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"إذن الأتمتة"}},"de":{"stringUnit":{"state":"translated","value":"Automatisierungsberechtigung"}},"en":{"stringUnit":{"state":"translated","value":"Automation Permission"}},"es":{"stringUnit":{"state":"translated","value":"Permiso de automatización"}},"fr":{"stringUnit":{"state":"translated","value":"Autorisation d’automatisation"}},"ja":{"stringUnit":{"state":"translated","value":"オートメーションの許可"}},"ko":{"stringUnit":{"state":"translated","value":"자동화 권한"}},"pt":{"stringUnit":{"state":"translated","value":"Permissão de automação"}},"ru":{"stringUnit":{"state":"translated","value":"Разрешение на автоматизацию"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"自动化授权"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"自動化授權"}}}},
-    "metadata.description": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"ضع Mac في وضع السكون أو سجّل الخروج أو أعد التشغيل أو أوقف التشغيل"}},"de":{"stringUnit":{"state":"translated","value":"Mac in den Ruhezustand versetzen, abmelden, neu starten oder ausschalten"}},"en":{"stringUnit":{"state":"translated","value":"Sleep, log out, restart, or shut down your Mac"}},"es":{"stringUnit":{"state":"translated","value":"Pon el Mac en reposo, cierra sesión, reinícialo o apágalo"}},"fr":{"stringUnit":{"state":"translated","value":"Mettez le Mac en veille, déconnectez-vous, redémarrez-le ou éteignez-le"}},"ja":{"stringUnit":{"state":"translated","value":"Macをスリープ、ログアウト、再起動、またはシステム終了します"}},"ko":{"stringUnit":{"state":"translated","value":"Mac을 잠자기 상태로 전환하거나 로그아웃, 재시동 또는 종료합니다"}},"pt":{"stringUnit":{"state":"translated","value":"Coloque o Mac em repouso, termine a sessão, reinicie-o ou desligue-o"}},"ru":{"stringUnit":{"state":"translated","value":"Переведите Mac в режим сна, выйдите из системы, перезагрузите или выключите его"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"让 Mac 睡眠、退出登录、重新启动或关机"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"讓 Mac 睡眠、登出、重新啟動或關機"}}}},
-    "metadata.title": {"extractionState":"manual","localizations":{"ar":{"stringUnit":{"state":"translated","value":"إجراءات الطاقة"}},"de":{"stringUnit":{"state":"translated","value":"Energieaktionen"}},"en":{"stringUnit":{"state":"translated","value":"Power Actions"}},"es":{"stringUnit":{"state":"translated","value":"Acciones de energía"}},"fr":{"stringUnit":{"state":"translated","value":"Actions d’alimentation"}},"ja":{"stringUnit":{"state":"translated","value":"電源操作"}},"ko":{"stringUnit":{"state":"translated","value":"전원 동작"}},"pt":{"stringUnit":{"state":"translated","value":"Ações de energia"}},"ru":{"stringUnit":{"state":"translated","value":"Действия питания"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"电源操作"}},"zh-Hant":{"stringUnit":{"state":"translated","value":"電源操作"}}}}
+    "action.logOut.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار تأكيد تسجيل الخروج في macOS"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS-Abmeldebestätigung anzeigen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the macOS log out confirmation"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra la confirmación de cierre de sesión de macOS"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher la confirmation de fermeture de session de macOS"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOSのログアウト確認を表示します"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 로그아웃 확인을 표시합니다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar a confirmação de fim de sessão do macOS"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать подтверждение выхода из macOS"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS oturum kapatma onayını gösterir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示 macOS 退出登录确认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示 macOS 登出確認"
+          }
+        }
+      }
+    },
+    "action.logOut.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل الخروج…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abmelden…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log Out…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar sesión…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fermer la session…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ログアウト…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로그아웃…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminar sessão…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выйти из системы…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturumu Kapat…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出登录…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登出…"
+          }
+        }
+      }
+    },
+    "action.restart.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار تأكيد إعادة التشغيل في macOS"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS-Neustartbestätigung anzeigen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the macOS restart confirmation"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra la confirmación de reinicio de macOS"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher la confirmation de redémarrage de macOS"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOSの再起動確認を表示します"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 재시동 확인을 표시합니다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar a confirmação de reinício do macOS"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать подтверждение перезагрузки macOS"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS yeniden başlatma onayını gösterir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示 macOS 重新启动确认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示 macOS 重新啟動確認"
+          }
+        }
+      }
+    },
+    "action.restart.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تشغيل Mac…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac neu starten…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restart Mac…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reiniciar el Mac…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redémarrer le Mac…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Macを再起動…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac 재시동…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reiniciar o Mac…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перезагрузить Mac…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'i Yeniden Başlat…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新启动 Mac…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新啟動 Mac…"
+          }
+        }
+      }
+    },
+    "action.shutDown.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار تأكيد إيقاف التشغيل في macOS"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS-Ausschaltbestätigung anzeigen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the macOS shut down confirmation"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra la confirmación de apagado de macOS"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher la confirmation d’extinction de macOS"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOSのシステム終了確認を表示します"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 종료 확인을 표시합니다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar a confirmação de encerramento do macOS"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать подтверждение выключения macOS"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS kapatma onayını gösterir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示 macOS 关机确认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示 macOS 關機確認"
+          }
+        }
+      }
+    },
+    "action.shutDown.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف تشغيل Mac…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac ausschalten…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shut Down Mac…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apagar el Mac…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Éteindre le Mac…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Macをシステム終了…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac 종료…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desligar o Mac…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выключить Mac…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'i Kapat…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将 Mac 关机…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "將 Mac 關機…"
+          }
+        }
+      }
+    },
+    "action.sleep.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضع Mac في وضع السكون فورًا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac sofort in den Ruhezustand versetzen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Put your Mac to sleep immediately"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pon el Mac en reposo inmediatamente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre immédiatement le Mac en veille"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Macをすぐにスリープ状態にします"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac을 즉시 잠자기 상태로 전환합니다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloque o Mac em repouso imediatamente"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Немедленно перевести Mac в режим сна"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'inizi hemen uyutur"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即让 Mac 进入睡眠"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即讓 Mac 進入睡眠"
+          }
+        }
+      }
+    },
+    "action.sleep.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إسبات Mac"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac in Ruhezustand"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sleep Mac"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poner el Mac en reposo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre le Mac en veille"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Macをスリープ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac 잠자기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colocar o Mac em repouso"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести Mac в режим сна"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'i Uyut"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac 睡眠"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac 睡眠"
+          }
+        }
+      }
+    },
+    "error.logOut": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر إظهار تأكيد تسجيل الخروج."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Abmeldebestätigung konnte nicht angezeigt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The log out confirmation could not be shown."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo mostrar la confirmación de cierre de sesión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’afficher la confirmation de fermeture de session."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ログアウト確認を表示できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로그아웃 확인을 표시할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível mostrar a confirmação de fim de sessão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось показать подтверждение выхода."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum kapatma onayı gösterilemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法显示退出登录确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法顯示登出確認。"
+          }
+        }
+      }
+    },
+    "error.restart": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر إظهار تأكيد إعادة التشغيل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Neustartbestätigung konnte nicht angezeigt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The restart confirmation could not be shown."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo mostrar la confirmación de reinicio."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’afficher la confirmation de redémarrage."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再起動確認を表示できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "재시동 확인을 표시할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível mostrar a confirmação de reinício."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось показать подтверждение перезагрузки."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden başlatma onayı gösterilemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法显示重新启动确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法顯示重新啟動確認。"
+          }
+        }
+      }
+    },
+    "error.shutDown": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر إظهار تأكيد إيقاف التشغيل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Ausschaltbestätigung konnte nicht angezeigt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The shut down confirmation could not be shown."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo mostrar la confirmación de apagado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’afficher la confirmation d’extinction."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム終了確認を表示できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "종료 확인을 표시할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível mostrar a confirmação de encerramento."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось показать подтверждение выключения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapatma onayı gösterilemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法显示关机确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法顯示關機確認。"
+          }
+        }
+      }
+    },
+    "error.sleep": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر وضع Mac في وضع السكون."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Mac konnte nicht in den Ruhezustand versetzt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Mac could not be put to sleep."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo poner el Mac en reposo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de mettre le Mac en veille."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Macをスリープ状態にできませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac을 잠자기 상태로 전환할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível colocar o Mac em repouso."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось перевести Mac в режим сна."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac uyutulamadı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法让 Mac 进入睡眠。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法讓 Mac 進入睡眠。"
+          }
+        }
+      }
+    },
+    "error.automationDenied": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يلزم إذن الأتمتة. اسمح لـ MacTools بالتحكم في أحداث النظام من إعدادات النظام."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine Automatisierungsberechtigung ist erforderlich. Erlaube MacTools in den Systemeinstellungen, Systemereignisse zu steuern."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automation permission is required. Allow MacTools to control system events in System Settings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se necesita permiso de automatización. Permite que MacTools controle los eventos del sistema en Ajustes del Sistema."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’autorisation d’automatisation est requise. Autorisez MacTools à contrôler les événements système dans Réglages Système."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オートメーションの許可が必要です。システム設定で MacTools にシステムイベントの制御を許可してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자동화 권한이 필요합니다. 시스템 설정에서 MacTools가 시스템 이벤트를 제어하도록 허용하십시오."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "É necessária a permissão de automação. Permita que o MacTools controle eventos do sistema nas Definições do Sistema."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требуется разрешение на автоматизацию. Разрешите MacTools управлять системными событиями в Системных настройках."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon izni gerekiyor. Sistem Ayarları'nda MacTools'un System Events'i denetlemesine izin verin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要自动化授权，请前往系统设置允许 MacTools 控制系统事件。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要自動化授權，請前往系統設定允許 MacTools 控制系統事件。"
+          }
+        }
+      }
+    },
+    "permission.automation.deniedFootnote": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتقل إلى إعدادات النظام ← الخصوصية والأمن ← الأتمتة، ثم اسمح لـ MacTools بالتحكم في أحداث النظام."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffne Systemeinstellungen → Datenschutz & Sicherheit → Automation und erlaube MacTools, Systemereignisse zu steuern."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open System Settings → Privacy & Security → Automation and allow MacTools to control system events."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ve a Ajustes del Sistema → Privacidad y seguridad → Automatización y permite que MacTools controle los eventos del sistema."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrez Réglages Système → Confidentialité et sécurité → Automatisation, puis autorisez MacTools à contrôler les événements système."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム設定 → プライバシーとセキュリティ → オートメーションで、MacTools にシステムイベントの制御を許可してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 설정 → 개인정보 보호 및 보안 → 자동화에서 MacTools가 시스템 이벤트를 제어하도록 허용하십시오."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abra Definições do Sistema → Privacidade e Segurança → Automação e permita que o MacTools controle eventos do sistema."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откройте Системные настройки → Конфиденциальность и безопасность → Автоматизация и разрешите MacTools управлять системными событиями."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Otomasyon'u açın ve MacTools'un System Events'i denetlemesine izin verin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往系统设置 → 隐私与安全性 → 自动化，允许 MacTools 控制系统事件。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往系統設定 → 隱私權與安全性 → 自動化，允許 MacTools 控制系統事件。"
+          }
+        }
+      }
+    },
+    "permission.automation.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُستخدم لإظهار تأكيد تسجيل الخروج وإعادة التشغيل وإيقاف التشغيل في macOS."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird verwendet, um die macOS-Bestätigungen zum Abmelden, Neustarten und Ausschalten anzuzeigen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Used to show macOS confirmations for logging out, restarting, and shutting down."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se utiliza para mostrar las confirmaciones de macOS al cerrar sesión, reiniciar y apagar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisée pour afficher les confirmations macOS de fermeture de session, de redémarrage et d’extinction."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS のログアウト、再起動、システム終了の確認を表示するために使用します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 로그아웃, 재시동 및 종료 확인을 표시하는 데 사용됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usada para mostrar as confirmações do macOS de fim de sessão, reinício e encerramento."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Используется для показа подтверждений macOS при выходе из системы, перезагрузке и выключении."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturumu kapatma, yeniden başlatma ve kapatma onaylarını göstermek için kullanılır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于显示 macOS 退出登录、重新启动和关机确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用於顯示 macOS 登出、重新啟動和關機確認。"
+          }
+        }
+      }
+    },
+    "permission.automation.footnote": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيطلب macOS إذن الأتمتة عند تنفيذ إجراء ذي صلة لأول مرة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS fragt beim ersten Ausführen einer entsprechenden Aktion nach der Automatisierungsberechtigung."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS asks for Automation permission the first time you perform a related action."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS solicita permiso de automatización la primera vez que realizas una acción relacionada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS demande l’autorisation d’automatisation lors de la première action concernée."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "関連する操作を初めて実行するときに、macOS がオートメーションの許可を求めます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "관련 동작을 처음 수행할 때 macOS가 자동화 권한을 요청합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O macOS solicita permissão de automação na primeira vez que efetuar uma ação relacionada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS запросит разрешение на автоматизацию при первом выполнении соответствующего действия."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS, ilgili bir eylemi ilk kez gerçekleştirdiğinizde Otomasyon izni ister."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 会在首次执行相关操作时请求自动化授权。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 會在首次執行相關操作時要求自動化授權。"
+          }
+        }
+      }
+    },
+    "permission.automation.status": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأكيد عند الحاجة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bei Bedarf bestätigen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm When Needed"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar cuando sea necesario"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmer si nécessaire"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "必要時に確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "필요할 때 확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar quando necessário"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтверждать при необходимости"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerektiğinde Onayla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需确认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "視需要確認"
+          }
+        }
+      }
+    },
+    "permission.automation.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إذن الأتمتة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatisierungsberechtigung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automation Permission"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permiso de automatización"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorisation d’automatisation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オートメーションの許可"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자동화 권한"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permissão de automação"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешение на автоматизацию"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon İzni"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动化授权"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動化授權"
+          }
+        }
+      }
+    },
+    "metadata.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضع Mac في وضع السكون أو سجّل الخروج أو أعد التشغيل أو أوقف التشغيل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac in den Ruhezustand versetzen, abmelden, neu starten oder ausschalten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sleep, log out, restart, or shut down your Mac"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pon el Mac en reposo, cierra sesión, reinícialo o apágalo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettez le Mac en veille, déconnectez-vous, redémarrez-le ou éteignez-le"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Macをスリープ、ログアウト、再起動、またはシステム終了します"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac을 잠자기 상태로 전환하거나 로그아웃, 재시동 또는 종료합니다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloque o Mac em repouso, termine a sessão, reinicie-o ou desligue-o"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переведите Mac в режим сна, выйдите из системы, перезагрузите или выключите его"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'inizi uyutun, oturumunu kapatın, yeniden başlatın veya kapatın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让 Mac 睡眠、退出登录、重新启动或关机"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讓 Mac 睡眠、登出、重新啟動或關機"
+          }
+        }
+      }
+    },
+    "metadata.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إجراءات الطاقة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Energieaktionen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Power Actions"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acciones de energía"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actions d’alimentation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "電源操作"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전원 동작"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ações de energia"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Действия питания"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güç Eylemleri"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "电源操作"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "電源操作"
+          }
+        }
+      }
+    }
   },
   "version": "1.0"
 }

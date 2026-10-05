@@ -39,6 +39,10 @@
       "displayName": "Скрыть активное приложение щелчком по Dock",
       "summary": "Скрывает активное приложение щелчком по его значку в Dock (как в Windows)."
     },
+    "tr": {
+      "displayName": "Dock Tıklamasıyla Etkin Uygulamayı Gizleme",
+      "summary": "Etkin uygulamayı, Dock simgesine tıklayarak gizleyin (Windows'taki gibi)."
+    },
     "zh-Hans": {
       "displayName": "点击程序坞隐藏活跃 App",
       "summary": "点击活跃 App 的程序坞图标即可将其隐藏（如 Windows）。"
@@ -127,6 +131,9 @@
       ],
       "ru": [
         "Скрыть активное приложение щелчком по Dock"
+      ],
+      "tr": [
+        "Dock Tıklamasıyla Etkin Uygulamayı Gizleme"
       ],
       "zh-Hans": [
         "点击程序坞隐藏活跃 App"

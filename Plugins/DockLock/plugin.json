@@ -39,6 +39,10 @@
       "displayName": "Блокировка Dock",
       "summary": "Не позволяет Dock случайно перемещаться между дисплеями."
     },
+    "tr": {
+      "displayName": "Dock Kilidi",
+      "summary": "Dock'un ekranlar arasında yanlışlıkla yer değiştirmesini önleyin."
+    },
     "zh-Hans": {
       "displayName": "锁定程序坞",
       "summary": "防止程序坞在多显示器之间意外移动"
@@ -126,6 +130,9 @@
       ],
       "ru": [
         "Блокировка Dock"
+      ],
+      "tr": [
+        "Dock Kilidi"
       ],
       "zh-Hans": [
         "锁定程序坞"

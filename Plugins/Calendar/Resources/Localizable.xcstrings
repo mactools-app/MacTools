@@ -58,6 +58,12 @@
             "value": "%d события"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d etkinlik"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сегодня"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bugün"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Доступ к календарю не предоставлен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim erişim izni verilmedi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Доступ к календарю ограничен системой"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim erişimi sistem tarafından kısıtlandı"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Эта система не позволяет читать календари"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu sistem takvimlerin okunmasına izin vermiyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Разрешен только доступ к календарю для записи, поэтому события нельзя читать"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca takvime yazma izni verildiğinden etkinlikler okunamıyor"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Праздник"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tatil"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выходные"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hafta Sonu"
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Скорректированный рабочий день"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzeltilmiş İş Günü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Весь день"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm gün"
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "%d больше событий"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d etkinlik daha"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Событие без названия"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adsız etkinlik"
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "В следующем месяце"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonraki ay"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -979,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Предыдущий месяц"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki ay"
           }
         },
         "zh-Hans": {
@@ -1052,6 +1136,12 @@
             "value": "Сегодня"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bugün"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1121,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Назад в сегодняшний день"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bugüne dön"
           }
         },
         "zh-Hans": {
@@ -1194,6 +1290,12 @@
             "value": "Ч"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "T"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1265,6 +1367,12 @@
             "value": "В"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İ"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1331,6 +1439,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", "
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": ", "
@@ -1407,6 +1521,12 @@
             "value": " · "
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " · "
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1476,6 +1596,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "D1"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G1"
           }
         },
         "zh-Hans": {
@@ -1549,6 +1675,12 @@
             "value": "Д10"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G10"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1618,6 +1750,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Д11"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G11"
           }
         },
         "zh-Hans": {
@@ -1691,6 +1829,12 @@
             "value": "Д12"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G12"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1760,6 +1904,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Д13"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G13"
           }
         },
         "zh-Hans": {
@@ -1833,6 +1983,12 @@
             "value": "Д14"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G14"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1902,6 +2058,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Д15"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G15"
           }
         },
         "zh-Hans": {
@@ -1975,6 +2137,12 @@
             "value": "Д16"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G16"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2044,6 +2212,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Д17"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G17"
           }
         },
         "zh-Hans": {
@@ -2117,6 +2291,12 @@
             "value": "Д18"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G18"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2186,6 +2366,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Д19"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G19"
           }
         },
         "zh-Hans": {
@@ -2259,6 +2445,12 @@
             "value": "Д2"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G2"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2328,6 +2520,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Д20"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G20"
           }
         },
         "zh-Hans": {
@@ -2401,6 +2599,12 @@
             "value": "Д21"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G21"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2470,6 +2674,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Д22"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G22"
           }
         },
         "zh-Hans": {
@@ -2543,6 +2753,12 @@
             "value": "Д23"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G23"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2612,6 +2828,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Д24"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G24"
           }
         },
         "zh-Hans": {
@@ -2685,6 +2907,12 @@
             "value": "Д25"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G25"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2754,6 +2982,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Д26"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G26"
           }
         },
         "zh-Hans": {
@@ -2827,6 +3061,12 @@
             "value": "Д27"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G27"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2896,6 +3136,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Д28"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G28"
           }
         },
         "zh-Hans": {
@@ -2969,6 +3215,12 @@
             "value": "Д29"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G29"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3038,6 +3290,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "D3"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G3"
           }
         },
         "zh-Hans": {
@@ -3111,6 +3369,12 @@
             "value": "D30"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G30"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3180,6 +3444,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "D4"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G4"
           }
         },
         "zh-Hans": {
@@ -3253,6 +3523,12 @@
             "value": "D5"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G5"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3322,6 +3598,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "D6"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G6"
           }
         },
         "zh-Hans": {
@@ -3395,6 +3677,12 @@
             "value": "D7"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G7"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3464,6 +3752,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "D8"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G8"
           }
         },
         "zh-Hans": {
@@ -3537,6 +3831,12 @@
             "value": "D9"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G9"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3606,6 +3906,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Двойной. 9-е"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çifte 9."
           }
         },
         "zh-Hans": {
@@ -3679,6 +3985,12 @@
             "value": "Дуаньу"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duanwu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3748,6 +4060,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Лаба"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laba"
           }
         },
         "zh-Hans": {
@@ -3821,6 +4139,12 @@
             "value": "Фонарь"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fener"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3890,6 +4214,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сяонянь"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xiaonian"
           }
         },
         "zh-Hans": {
@@ -3963,6 +4293,12 @@
             "value": "Середина августа."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonbahar Ortası"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4032,6 +4368,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Канун НЙ"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çin Yeni Yılı Arifesi"
           }
         },
         "zh-Hans": {
@@ -4105,6 +4447,12 @@
             "value": "Циси"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qixi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4174,6 +4522,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "ЛНЙ"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çin Yeni Yılı"
           }
         },
         "zh-Hans": {
@@ -4247,6 +4601,12 @@
             "value": "Прыжок "
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artık "
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4316,6 +4676,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "M1"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A1"
           }
         },
         "zh-Hans": {
@@ -4389,6 +4755,12 @@
             "value": "M10"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A10"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4458,6 +4830,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "M11"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A11"
           }
         },
         "zh-Hans": {
@@ -4531,6 +4909,12 @@
             "value": "M12"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A12"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4600,6 +4984,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "M2"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A2"
           }
         },
         "zh-Hans": {
@@ -4673,6 +5063,12 @@
             "value": "M3"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A3"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4742,6 +5138,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "M4"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A4"
           }
         },
         "zh-Hans": {
@@ -4815,6 +5217,12 @@
             "value": "M5"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A5"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4884,6 +5292,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "M6"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A6"
           }
         },
         "zh-Hans": {
@@ -4957,6 +5371,12 @@
             "value": "M7"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A7"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5026,6 +5446,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "M8"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A8"
           }
         },
         "zh-Hans": {
@@ -5099,6 +5525,12 @@
             "value": "M9"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A9"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5168,6 +5600,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "М"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A"
           }
         },
         "zh-Hans": {
@@ -5241,6 +5679,12 @@
             "value": "Просмотр дат, праздников и событий календаря."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarihleri, tatilleri ve takvim etkinliklerini görüntüleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5312,6 +5756,12 @@
             "value": "Календарь"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5378,6 +5828,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$04d/%2$02d"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$04d/%2$02d"
@@ -5454,6 +5910,12 @@
             "value": "Управляет системным приложением «Календарь», открывая выбранную дату при нажатии на день."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir güne tıkladığınızda seçilen tarihi açmak için sistem Takvim uygulamasını denetler."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5523,6 +5985,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "macOS запросит разрешение на управление Календарем при первом открытии даты. Если вы ранее отклонили это, разрешите это в настройках автоматизации."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir tarihi ilk açtığınızda macOS, Takvim'i denetleme izni isteyecek. Daha önce reddettiyseniz Otomasyon ayarlarından izin verin."
           }
         },
         "zh-Hans": {
@@ -5596,6 +6064,12 @@
             "value": "Подтвердите при необходимости"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerektiğinde onaylanır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5665,6 +6139,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть даты в календаре"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim'de Tarih Açma"
           }
         },
         "zh-Hans": {
@@ -5738,6 +6218,12 @@
             "value": "%@. Снова разрешите доступ в настройках конфиденциальности Календаря."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@. Takvim gizlilik ayarlarından yeniden erişim izni verin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5807,6 +6293,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Считывает события календаря, чтобы расписание на сегодня могло отображаться в компоненте календаря."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim etkinliklerini okuyarak bugünün programının takvim bileşeninde görünmesini sağlar."
           }
         },
         "zh-Hans": {
@@ -5880,6 +6372,12 @@
             "value": "После того, как вы запросите доступ, macOS спросит, разрешить ли чтение событий календаря."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişim istediğinizde macOS, takvim etkinliklerinin okunmasına izin verilip verilmeyeceğini soracak."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5949,6 +6447,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "События календаря"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim Etkinlikleri"
           }
         },
         "zh-Hans": {
@@ -6022,6 +6526,12 @@
             "value": "Отображение календаря"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim Görünümü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6091,6 +6601,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите первый день каждой недели в календаре на месяц."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aylık takvimde haftaların hangi günle başlayacağını seçin."
           }
         },
         "zh-Hans": {
@@ -6164,6 +6680,12 @@
             "value": "Первый день недели"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftanın İlk Günü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6233,6 +6755,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пятница"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cum"
           }
         },
         "zh-Hans": {
@@ -6306,6 +6834,12 @@
             "value": "Пн"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pzt"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6375,6 +6909,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сб"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cmt"
           }
         },
         "zh-Hans": {
@@ -6448,6 +6988,12 @@
             "value": "Вс"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paz"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6517,6 +7063,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Чт"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per"
           }
         },
         "zh-Hans": {
@@ -6590,6 +7142,12 @@
             "value": "Вторник"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sal"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6659,6 +7217,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ср"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çar"
           }
         },
         "zh-Hans": {
@@ -6732,6 +7296,12 @@
             "value": "Разрешить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin Ver"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6801,6 +7371,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Будущее"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gelecek"
           }
         },
         "zh-Hans": {
@@ -6874,6 +7450,12 @@
             "value": "Прошлое"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçmiş"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -6943,6 +7525,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Прошлое + Будущее"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçmiş + Gelecek"
           }
         },
         "zh-Hans": {
@@ -7016,6 +7604,12 @@
             "value": "Не удалось загрузить события"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlikler yüklenemedi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7085,6 +7679,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть этот день в Календаре"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu günü Takvim'de aç"
           }
         },
         "zh-Hans": {
@@ -7158,6 +7758,12 @@
             "value": "Открыть настройки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarları Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7227,6 +7833,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Разрешите доступ к календарю для просмотра событий"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlikleri görebilmek için takvim erişimine izin verin"
           }
         },
         "zh-Hans": {
@@ -7300,6 +7912,12 @@
             "value": "Повторить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden Dene"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7369,6 +7987,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ближайшие события"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakın Etkinlikler"
           }
         },
         "zh-Hans": {
@@ -7442,6 +8066,12 @@
             "value": "Завтра"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yarın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7511,6 +8141,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Вчера"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dün"
           }
         },
         "zh-Hans": {
@@ -7584,6 +8220,12 @@
             "value": "Количество дней"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gün Sayısı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7653,6 +8295,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d дн."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d gün"
           }
         },
         "zh-Hans": {
@@ -7726,6 +8374,12 @@
             "value": "Включая сегодня; оба направления отсчитываются от сегодня."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bugün dahildir; her iki yön de bugünü merkez alır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7795,6 +8449,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "События по датам под календарём месяца."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlikleri ayın altında tarihe göre gruplanmış görüntüleyin."
           }
         },
         "zh-Hans": {
@@ -7868,6 +8528,12 @@
             "value": "Период"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zaman Aralığı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -7937,6 +8603,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 день"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 gün"
           }
         },
         "zh-Hans": {
@@ -8010,6 +8682,12 @@
             "value": "Показывать ближайшие события"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakın Etkinlikleri Göster"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8079,6 +8757,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Дополнительный календарь"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alternatif takvim"
           }
         },
         "zh-Hans": {
@@ -8152,6 +8836,12 @@
             "value": "Показывать выбранный календарь рядом с григорианскими датами."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili takvimi Gregoryen tarihlerin yanında göster."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8223,6 +8913,12 @@
             "value": "Нет"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -8292,6 +8988,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Китайский лунный календарь"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çin ay takvimi"
           }
         },
         "zh-Hans": {

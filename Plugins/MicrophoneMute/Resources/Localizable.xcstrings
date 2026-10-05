@@ -4,49 +4,232 @@
     "action.confirmation.confirm": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "متابعة" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Fortfahren" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Continue" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Continuar" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Continuer" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "続ける" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "계속" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Continuar" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Продолжить" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "继续" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "繼續" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متابعة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fortfahren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "続ける"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "계속"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продолжить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devam Et"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "继续"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續"
+          }
+        }
       }
     },
     "action.confirmation.message": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "سيغيّر رابط التشغيل الخارجي هذا حالة كتم الميكروفون الافتراضي." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Dieser externe Ausführungslink ändert den Stummschaltungsstatus des Standardmikrofons." } },
-        "en": { "stringUnit": { "state": "translated", "value": "This external Run Link will change the mute state of the default microphone." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Este enlace de ejecución externo cambiará el estado de silencio del micrófono predeterminado." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ce lien d’exécution externe modifiera l’état de silence du microphone par défaut." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "この外部実行リンクはデフォルトのマイクのミュート状態を変更します。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이 외부 실행 링크는 기본 마이크의 음소거 상태를 변경합니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Este link de execução externo alterará o estado de silêncio do microfone padrão." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Эта внешняя ссылка запуска изменит состояние микрофона по умолчанию." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "外部运行链接将更改默认麦克风的静音状态。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "外部執行連結會更改預設麥克風的靜音狀態。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيغيّر رابط التشغيل الخارجي هذا حالة كتم الميكروفون الافتراضي."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser externe Ausführungslink ändert den Stummschaltungsstatus des Standardmikrofons."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This external Run Link will change the mute state of the default microphone."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este enlace de ejecución externo cambiará el estado de silencio del micrófono predeterminado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce lien d’exécution externe modifiera l’état de silence du microphone par défaut."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この外部実行リンクはデフォルトのマイクのミュート状態を変更します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 외부 실행 링크는 기본 마이크의 음소거 상태를 변경합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este link de execução externo alterará o estado de silêncio do microfone padrão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эта внешняя ссылка запуска изменит состояние микрофона по умолчанию."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu harici Çalıştırma Bağlantısı, varsayılan mikrofonun sessize alma durumunu değiştirecek."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外部运行链接将更改默认麦克风的静音状态。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外部執行連結會更改預設麥克風的靜音狀態。"
+          }
+        }
       }
     },
     "action.confirmation.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تأكيد تغيير حالة الميكروفون" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Mikrofonstatus ändern?" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Confirm Microphone Change" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Confirmar cambio del micrófono" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Confirmer la modification du microphone" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "マイクの状態変更を確認" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "마이크 상태 변경 확인" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Confirmar alteração do microfone" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Подтвердить изменение микрофона" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "确认更改麦克风状态" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "確認更改麥克風狀態" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأكيد تغيير حالة الميكروفون"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofonstatus ändern?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm Microphone Change"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar cambio del micrófono"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmer la modification du microphone"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マイクの状態変更を確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "마이크 상태 변경 확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar alteração do microfone"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтвердить изменение микрофона"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofon Değişikliğini Onayla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确认更改麦克风状态"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確認更改麥克風狀態"
+          }
+        }
       }
     },
     "action.mute.title": {
@@ -104,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выключить микрофон"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofonu Sessize Al"
           }
         },
         "zh-Hans": {
@@ -177,6 +366,12 @@
             "value": "Включить микрофон"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofonun Sesini Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -194,17 +389,78 @@
     "action.setMute.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعيين كتم الميكروفون" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Mikrofonstummschaltung festlegen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Set Microphone Mute" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Configurar silencio del micrófono" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Régler le silence du microphone" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "マイクのミュートを設定" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "마이크 음소거 설정" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Definir silêncio do microfone" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Настроить отключение микрофона" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "设置麦克风静音" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "設定麥克風靜音" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعيين كتم الميكروفون"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofonstummschaltung festlegen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set Microphone Mute"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configurar silencio del micrófono"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Régler le silence du microphone"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マイクのミュートを設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "마이크 음소거 설정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Definir silêncio do microfone"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настроить отключение микрофона"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofon Sessizliğini Ayarla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置麦克风静音"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定麥克風靜音"
+          }
+        }
       }
     },
     "metadata.title": {
@@ -262,6 +518,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отключение микрофона"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofon Sessize Alma"
           }
         },
         "zh-Hans": {
@@ -335,6 +597,12 @@
             "value": "Быстро отключите звук или восстановите вход микрофона по умолчанию."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varsayılan mikrofon girişini hızla sessize alın veya geri yükleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -404,6 +672,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отключено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sessize Alındı"
           }
         },
         "zh-Hans": {
@@ -477,6 +751,12 @@
             "value": "Включить звук"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesi Açık"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -548,6 +828,12 @@
             "value": "Не удалось отключить микрофон."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofon sessize alınamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -617,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось включить микрофон."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofonun sesi açılamadı."
           }
         },
         "zh-Hans": {

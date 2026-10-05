@@ -39,6 +39,10 @@
       "displayName": "Извлечь диски",
       "summary": "Извлечь все съемные диски."
     },
+    "tr": {
+      "displayName": "Disk Çıkarma",
+      "summary": "Tüm çıkarılabilir diskleri çıkarın."
+    },
     "zh-Hans": {
       "displayName": "推出磁盘",
       "summary": "推出所有可移动磁盘"
@@ -118,6 +122,9 @@
       ],
       "ru": [
         "Извлечь диски"
+      ],
+      "tr": [
+        "Disk Çıkarma"
       ],
       "zh-Hans": [
         "推出磁盘"

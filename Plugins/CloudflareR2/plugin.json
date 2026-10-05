@@ -3,17 +3,17 @@
   "displayName": "Cloudflare R2 上传",
   "summary": "上传文件到 Cloudflare R2",
   "localizedMetadata": {
+    "ar": {
+      "displayName": "الرفع إلى Cloudflare R2",
+      "summary": "ارفع الملفات إلى Cloudflare R2."
+    },
+    "de": {
+      "displayName": "Cloudflare R2-Upload",
+      "summary": "Dateien zu Cloudflare R2 hochladen."
+    },
     "en": {
       "displayName": "Cloudflare R2 Upload",
       "summary": "Upload files to Cloudflare R2."
-    },
-    "zh-Hans": {
-      "displayName": "Cloudflare R2 上传",
-      "summary": "上传文件到 Cloudflare R2"
-    },
-    "zh-Hant": {
-      "displayName": "Cloudflare R2 上傳",
-      "summary": "將檔案上傳到 Cloudflare R2"
     },
     "es": {
       "displayName": "Carga en Cloudflare R2",
@@ -23,18 +23,6 @@
       "displayName": "Envoi vers Cloudflare R2",
       "summary": "Envoyez des fichiers vers Cloudflare R2."
     },
-    "ru": {
-      "displayName": "Загрузка в Cloudflare R2",
-      "summary": "Загружайте файлы в Cloudflare R2."
-    },
-    "pt": {
-      "displayName": "Upload para o Cloudflare R2",
-      "summary": "Envie arquivos para o Cloudflare R2."
-    },
-    "de": {
-      "displayName": "Cloudflare R2-Upload",
-      "summary": "Dateien zu Cloudflare R2 hochladen."
-    },
     "ja": {
       "displayName": "Cloudflare R2 アップロード",
       "summary": "Cloudflare R2 にファイルをアップロードします。"
@@ -43,9 +31,25 @@
       "displayName": "Cloudflare R2 업로드",
       "summary": "Cloudflare R2에 파일을 업로드합니다."
     },
-    "ar": {
-      "displayName": "الرفع إلى Cloudflare R2",
-      "summary": "ارفع الملفات إلى Cloudflare R2."
+    "pt": {
+      "displayName": "Upload para o Cloudflare R2",
+      "summary": "Envie arquivos para o Cloudflare R2."
+    },
+    "ru": {
+      "displayName": "Загрузка в Cloudflare R2",
+      "summary": "Загружайте файлы в Cloudflare R2."
+    },
+    "tr": {
+      "displayName": "Cloudflare R2 Karşıya Yükleme",
+      "summary": "Dosyaları Cloudflare R2'ye karşıya yükleyin."
+    },
+    "zh-Hans": {
+      "displayName": "Cloudflare R2 上传",
+      "summary": "上传文件到 Cloudflare R2"
+    },
+    "zh-Hant": {
+      "displayName": "Cloudflare R2 上傳",
+      "summary": "將檔案上傳到 Cloudflare R2"
     }
   },
   "productStrings": {
@@ -61,6 +65,7 @@
       "ko": "처음 업로드하기 전에 계정 ID, 버킷, 액세스 키와 키체인에 저장할 비밀 키를 입력하세요.",
       "pt": "Antes do primeiro envio, introduza o ID da conta, o bucket, a chave de acesso e o segredo guardado no Porta‑Chaves.",
       "ru": "Перед первой загрузкой укажите ID учётной записи, бакет, ключ доступа и секрет, сохранённый в Связке ключей.",
+      "tr": "İlk karşıya yüklemeden önce hesap kimliğini, kovayı, erişim anahtarını ve Keychain'de saklanan gizli anahtarı girin.",
       "zh-Hans": "首次上传前，请填写账户 ID、存储桶、访问密钥，并将密钥安全地存入钥匙串。",
       "zh-Hant": "首次上傳前，請填寫帳戶 ID、儲存貯體、存取金鑰，並將密鑰安全地存入鑰匙圈。"
     }
@@ -131,6 +136,9 @@
       ],
       "ru": [
         "Загрузка в Cloudflare R2"
+      ],
+      "tr": [
+        "Cloudflare R2 Karşıya Yükleme"
       ],
       "zh-Hans": [
         "Cloudflare R2 上传"

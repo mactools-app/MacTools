@@ -39,6 +39,10 @@
       "displayName": "Настройки Mac",
       "summary": "Ищите и меняйте основные настройки этого Mac в одном месте."
     },
+    "tr": {
+      "displayName": "Mac Ayarları",
+      "summary": "Bu Mac'in sık kullanılan ayarlarını tek yerden arayın ve düzenleyin."
+    },
     "zh-Hans": {
       "displayName": "Mac 设置",
       "summary": "搜索并集中调整当前 Mac 的常用设置"
@@ -78,6 +82,7 @@
       "ko": "포인터 크기를 저장하려면 전체 디스크 접근을 허용하고 MacTools를 다시 열어야 합니다. 일부 설정은 지원되는 하드웨어 또는 활성화된 제공자 플러그인이 필요합니다.",
       "pt": "Salvar o tamanho do cursor exige Acesso Total ao Disco e reabrir o MacTools. Alguns outros ajustes dependem de hardware compatível ou plugins provedores ativados.",
       "ru": "Для сохранения размера указателя нужен полный доступ к диску и повторный запуск MacTools. Другие настройки могут требовать совместимое оборудование или включённые плагины-поставщики.",
+      "tr": "İşaretçi boyutunun kaydedilmesi Tam Disk Erişimi ve MacTools'un yeniden açılmasını gerektirir. Diğer bazı ayarlar desteklenen donanıma veya etkinleştirilmiş sağlayıcı eklentilere bağlıdır.",
       "zh-Hans": "保存指针大小需要完全磁盘访问并重新打开 MacTools。部分其他设置需要受支持的硬件或已启用的提供方插件。",
       "zh-Hant": "儲存指標大小需要完整磁碟存取權並重新開啟 MacTools。部分其他設定需要支援的硬體或已啟用的提供者外掛。"
     },
@@ -91,6 +96,7 @@
       "ko": "Mac 설정 열기",
       "pt": "Abrir ajustes do Mac",
       "ru": "Открыть настройки Mac",
+      "tr": "Mac Ayarlarını Aç",
       "zh-Hans": "打开 Mac 设置",
       "zh-Hant": "開啟 Mac 設定"
     },
@@ -104,6 +110,7 @@
       "ko": "고정된 Mac 설정 열기",
       "pt": "Abrir ajustes fixados do Mac",
       "ru": "Открыть закреплённые настройки Mac",
+      "tr": "Sabitlenmiş Mac Ayarlarını Aç",
       "zh-Hans": "打开固定的 Mac 设置",
       "zh-Hant": "開啟固定的 Mac 設定"
     },
@@ -117,6 +124,7 @@
       "ko": "Mac 설정 카테고리 열기",
       "pt": "Abrir uma categoria de ajustes do Mac",
       "ru": "Открыть категорию настроек Mac",
+      "tr": "Mac Ayarları Kategorisini Aç",
       "zh-Hans": "打开 Mac 设置类别",
       "zh-Hant": "開啟 Mac 設定類別"
     },
@@ -130,6 +138,7 @@
       "ko": "특정 Mac 설정 열기",
       "pt": "Abrir um ajuste específico do Mac",
       "ru": "Открыть конкретную настройку Mac",
+      "tr": "Belirli Bir Mac Ayarını Aç",
       "zh-Hans": "打开指定的 Mac 设置",
       "zh-Hant": "開啟指定的 Mac 設定"
     },
@@ -143,6 +152,7 @@
       "ko": "Mac 설정 검색",
       "pt": "Pesquisar ajustes do Mac",
       "ru": "Поиск настроек Mac",
+      "tr": "Mac Ayarlarında Ara",
       "zh-Hans": "搜索 Mac 设置",
       "zh-Hant": "搜尋 Mac 設定"
     },
@@ -156,6 +166,7 @@
       "ko": "Mac 설정 켜기 또는 끄기",
       "pt": "Ativar ou desativar um ajuste do Mac",
       "ru": "Включить или выключить настройку Mac",
+      "tr": "Bir Mac Ayarını Aç veya Kapat",
       "zh-Hans": "打开或关闭 Mac 设置",
       "zh-Hant": "開啟或關閉 Mac 設定"
     },
@@ -169,6 +180,7 @@
       "ko": "저장된 Mac 설정 프로필 미리보기",
       "pt": "Pré-visualizar um perfil salvo de ajustes do Mac",
       "ru": "Предпросмотр сохранённого профиля настроек Mac",
+      "tr": "Kaydedilmiş Mac Ayarları Profilini Önizle",
       "zh-Hans": "预览已保存的 Mac 设置配置",
       "zh-Hant": "預覽已儲存的 Mac 設定配置"
     },
@@ -182,6 +194,7 @@
       "ko": "최근 Mac 설정 변경 취소",
       "pt": "Desfazer a última alteração nos ajustes do Mac",
       "ru": "Отменить последнее изменение настроек Mac",
+      "tr": "En Son Mac Ayarları Değişikliğini Geri Al",
       "zh-Hans": "撤销最近的 Mac 设置更改",
       "zh-Hant": "復原最近的 Mac 設定變更"
     }
@@ -239,6 +252,9 @@
       ],
       "ru": [
         "Поиск настроек Mac"
+      ],
+      "tr": [
+        "Mac Ayarları"
       ],
       "zh-Hans": [
         "搜索 Mac 设置"
