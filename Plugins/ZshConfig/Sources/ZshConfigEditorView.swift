@@ -377,7 +377,7 @@ struct ZshConfigEditorView: View {
     private var snippetSection: some View {
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
             HStack(spacing: 6) {
-                Image(systemName: "arrow.right.circle")
+                Image(systemName: "arrow.forward.circle")
                     .font(PluginSettingsTheme.Typography.statusBadge)
                     .foregroundStyle(.secondary)
                 Text(localization.format(
@@ -444,10 +444,9 @@ struct ZshConfigEditorView: View {
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
-                Image(systemName: "chevron.right")
+                Image(systemName: isActive ? "chevron.down" : "chevron.forward")
                     .font(PluginSettingsTheme.Typography.statusBadge)
                     .foregroundStyle(.tertiary)
-                    .rotationEffect(.degrees(isActive ? 90 : 0))
                     .animation(.easeInOut(duration: 0.2), value: isActive)
             }
             .pluginSettingsListRowPadding()

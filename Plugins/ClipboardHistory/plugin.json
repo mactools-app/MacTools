@@ -279,7 +279,7 @@
               "clipboard",
               "queue"
             ],
-            "systemImage": "chevron.left",
+            "systemImage": "chevron.backward",
             "parameters": [],
             "permissionIDs": [],
             "risk": "safe",

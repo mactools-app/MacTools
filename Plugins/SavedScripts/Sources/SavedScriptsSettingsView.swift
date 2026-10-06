@@ -14,6 +14,8 @@ final class SavedScriptsSettingsSearchFocusController: ObservableObject {
 @MainActor
 struct SavedScriptsSettingsView: View {
     let plugin: SavedScriptsPlugin
+    @Environment(\.layoutDirection) private var layoutDirection
+    @Environment(\.locale) private var locale
     @ObservedObject private var store: SavedScriptsStore
     @ObservedObject private var executionStore: SavedScriptsExecutionStore
     @ObservedObject private var searchFocusController: SavedScriptsSettingsSearchFocusController
@@ -47,6 +49,8 @@ struct SavedScriptsSettingsView: View {
                 request: request,
                 onDismiss: { editorRequest = nil }
             )
+            .environment(\.layoutDirection, layoutDirection)
+            .environment(\.locale, locale)
         }
         .alert(item: $deletionRequest) { request in
             Alert(

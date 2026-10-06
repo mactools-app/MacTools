@@ -54,7 +54,19 @@ final class MenuBarHiddenPlugin: MacToolsPlugin, PluginActionProviding, MenuBarH
         static let setEnabled = "set-enabled"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: MenuBarHiddenConstants.pluginID,
+            title: localization.string("metadata.title", defaultValue: "隐藏菜单栏图标"),
+            iconName: "menubar.arrow.up.rectangle",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 12,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "隐藏菜单栏图标并支持拖拽布局与点击转发"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -107,17 +119,6 @@ final class MenuBarHiddenPlugin: MacToolsPlugin, PluginActionProviding, MenuBarH
     ) {
         self.context = context
         self.localization = localization
-        self.metadata = PluginMetadata(
-            id: MenuBarHiddenConstants.pluginID,
-            title: localization.string("metadata.title", defaultValue: "隐藏菜单栏图标"),
-            iconName: "menubar.arrow.up.rectangle",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 12,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "隐藏菜单栏图标并支持拖拽布局与点击转发"
-            )
-        )
         let ctrl = controller ?? MenuBarHiddenController(context: context, localization: localization)
         self.controller = ctrl
 

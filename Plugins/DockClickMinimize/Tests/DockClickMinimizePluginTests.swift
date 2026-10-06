@@ -54,6 +54,38 @@ final class DockClickMinimizePluginTests: XCTestCase {
         XCTAssertFalse(plugin.permissionState(for: "input-monitoring").isGranted)
     }
 
+    func testRetainedPermissionErrorSwitchesLanguageWithoutRestartingMonitor() throws {
+        let original = UserDefaults.standard.string(
+            forKey: PluginRuntimeLocalization.preferenceUserDefaultsKey
+        )
+        defer { PluginRuntimeLocalization.source.setPreference(original) }
+        let resource = try makeLocalizationBundle()
+        defer { try? FileManager.default.removeItem(at: resource.directory) }
+        PluginRuntimeLocalization.source.setPreference("en")
+        let monitor = MockDockClickMonitor()
+        let permissions = PermissionState(accessibilityGranted: false, inputMonitoringStatus: .denied)
+        let context = makeContext(isEnabled: true)
+        let plugin = makePlugin(
+            context: context,
+            monitor: monitor,
+            permissions: permissions,
+            localization: PluginLocalization(bundle: resource.bundle)
+        )
+        var permissionRequests = 0
+        plugin.requestPermissionGuidance = { _ in permissionRequests += 1 }
+        plugin.activate(context: context)
+        defer { plugin.deactivate(reason: .hostShutdown) }
+        XCTAssertEqual(plugin.rowState.errorMessage, "English permission error")
+        let stops = monitor.stopCallCount
+
+        PluginRuntimeLocalization.source.setPreference("ar")
+        XCTAssertEqual(plugin.rowState.errorMessage, "خطأ الأذونات")
+        XCTAssertEqual(monitor.startCallCount, 0)
+        XCTAssertEqual(monitor.stopCallCount, stops)
+        XCTAssertEqual(permissionRequests, 0)
+        XCTAssertTrue(plugin.rowState.isOn)
+    }
+
     func testExplicitEnableRequestsMissingPermissionGuidance() {
         let permissions = PermissionState(
             accessibilityGranted: false,
@@ -204,6 +236,27 @@ final class DockClickMinimizePluginTests: XCTestCase {
         DockApplicationTarget(bundleIdentifier: "com.apple.Safari")
     }
 
+    private func makeLocalizationBundle() throws -> (bundle: Bundle, directory: URL) {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let bundleURL = directory.appendingPathComponent("LocalizationTests.bundle", isDirectory: true)
+        for (language, values) in [
+            "en": ["error.accessibilityRequired": "English permission error"],
+            "ar": ["error.accessibilityRequired": "خطأ الأذونات"],
+        ] {
+            let languageURL = bundleURL.appendingPathComponent("\(language).lproj", isDirectory: true)
+            try FileManager.default.createDirectory(at: languageURL, withIntermediateDirectories: true)
+            try values.map { "\"\($0.key)\" = \"\($0.value)\";" }
+                .joined(separator: "\n")
+                .write(
+                    to: languageURL.appendingPathComponent("Localizable.strings"),
+                    atomically: true,
+                    encoding: .utf8
+                )
+        }
+        return (try XCTUnwrap(Bundle(url: bundleURL)), directory)
+    }
+
     private var safariApplication: DockFrontmostApplication {
         DockFrontmostApplication(bundleIdentifier: "com.apple.Safari", processIdentifier: 123)
     }
@@ -214,7 +267,8 @@ final class DockClickMinimizePluginTests: XCTestCase {
         applicationHider: MockDockApplicationHider? = nil,
         frontmostApplicationProvider: MutableFrontmostApplicationProvider? = nil,
         permissions: PermissionState? = nil,
-        scheduler: ManualScheduler? = nil
+        scheduler: ManualScheduler? = nil,
+        localization: PluginLocalization = PluginLocalization(bundle: .main)
     ) -> DockClickMinimizePlugin {
         let monitor = monitor ?? MockDockClickMonitor()
         let applicationHider = applicationHider ?? MockDockApplicationHider(hasVisibleWindow: true)
@@ -232,6 +286,7 @@ final class DockClickMinimizePluginTests: XCTestCase {
             monitor: monitor,
             applicationHider: applicationHider,
             frontmostApplicationProvider: frontmostApplicationProvider,
+            localization: localization,
             accessibilityTrusted: { permissions.accessibilityGranted },
             requestAccessibilityTrust: { _ in permissions.accessibilityGranted },
             inputMonitoringStatus: { permissions.inputMonitoringStatus },

@@ -1124,7 +1124,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Girdi İzleme."
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Giriş İzleme."
           }
         },
         "zh-Hans": {
@@ -1276,7 +1276,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Girdi İzleme"
+            "value": "Giriş İzleme"
           }
         },
         "zh-Hans": {

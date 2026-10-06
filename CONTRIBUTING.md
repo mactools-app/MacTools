@@ -89,6 +89,8 @@ Use `TEST_FILTER=ClassName/testMethod` for one method, or `make test` for all re
 
 Unsigned XCTest builds use `build/DerivedDataTests` by default, separate from the signed app used by `make run`. Override `TEST_DERIVED_DATA` when needed, keeping it separate from `DERIVED_DATA` to avoid leaving a test bundle inside the installed app.
 
+For copy and catalog changes, run `make validate-localization` to check English resources, complete coverage of all 11 supported languages, and translation format contracts. `make script-tests` includes this audit and fails when a translation is missing. To inspect per-key findings, run `python3 scripts/audit-localization.py --require-complete --json`. Follow the [plugin localization rules](docs/plugins/development-guidelines.md#protocols-and-ownership), and manually check language switching and affected UI layout. Action-symbol changes must keep manifests and runtime definitions consistent; verify them with `make test TEST_FILTER=PluginRuntimeActionSnapshotTests`.
+
 | Change | Verification scope |
 | --- | --- |
 | App or plugin behavior | Compile and run relevant existing tests. Add coverage only for missing core behavior or a regression; manually check hardware/system integration where needed. |

@@ -6090,55 +6090,55 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "افتح إعدادات النظام > الخصوصية والأمان > تسجيل الشاشة واسمح لـ MacTools."
+            "value": "امنح MacTools الإذن في إعدادات النظام ← الخصوصية والأمن ← تسجيل الشاشة وصوت النظام (أو تسجيل الشاشة)."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Öffnen Sie Systemeinstellungen > Datenschutz & Sicherheit > Bildschirmaufnahme und erlauben Sie MacTools."
+            "value": "MacTools unter Systemeinstellungen → Datenschutz & Sicherheit → Aufnahme von Bildschirm & Systemaudio (oder Bildschirmaufnahme) zulassen."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open System Settings > Privacy & Security > Screen Recording and allow MacTools."
+            "value": "Allow MacTools in System Settings → Privacy & Security → Screen & System Audio Recording (or Screen Recording)."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Abre Ajustes del Sistema > Privacidad y seguridad > Grabación de pantalla y permite MacTools."
+            "value": "Autoriza a MacTools en Ajustes del Sistema → Privacidad y seguridad → Grabación de pantalla y del audio del sistema (o Grabación de pantalla)."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ouvrez Réglages Système > Confidentialité et sécurité > Enregistrement de l’écran, puis autorisez MacTools."
+            "value": "Autorisez MacTools dans Réglages Système → Confidentialité et sécurité → Enregistrement de l’écran et des sons du système (ou Enregistrement de l’écran)."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "システム設定 > プライバシーとセキュリティ > 画面収録で MacTools を許可します。"
+            "value": "システム設定 → プライバシーとセキュリティ → 画面収録とシステムオーディオ録音（または画面収録）で MacTools を許可してください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "시스템 설정 > 개인정보 보호 및 보안 > 화면 기록에서 MacTools를 허용하세요."
+            "value": "시스템 설정 → 개인정보 보호 및 보안 → 화면 및 시스템 오디오 녹음(또는 화면 기록)에서 MacTools를 허용하세요."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Abra Ajustes do Sistema > Privacidade e Segurança > Gravação de Tela e permita MacTools."
+            "value": "Autorize o MacTools em Ajustes do Sistema → Privacidade e Segurança → Gravação do Áudio do Sistema e da Tela (ou Gravação de Tela)."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Откройте Системные настройки > Конфиденциальность и безопасность > Запись экрана и разрешите MacTools."
+            "value": "Разрешите доступ для MacTools в Системных настройках → Конфиденциальность и безопасность → Запись экрана и системного звука (или Запись экрана)."
           }
         },
         "tr": {
@@ -6150,13 +6150,13 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "前往系统设置 → 隐私与安全性 → 屏幕录制，授权 MacTools。"
+            "value": "请在系统设置 → 隐私与安全性 → 录屏与系统录音（或录屏）中授权 MacTools。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "前往系統設定 → 隱私權與安全性 → 螢幕錄製，授權 MacTools。"
+            "value": "請在「系統設定」→「隱私權與安全性」→「螢幕與系統錄音」（或「螢幕錄影」）中授權 MacTools。"
           }
         }
       }

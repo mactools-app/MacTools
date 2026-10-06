@@ -1174,6 +1174,13 @@ final class SystemStatusMenuBarMetricsController: NSObject {
     }
 
     private func observeState() {
+        PluginRuntimeLocalization.source.$revision.dropFirst().sink { [weak self] _ in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.viewModel.objectWillChange.send()
+                self.render(configuration: self.settingsController.configuration, snapshot: self.viewModel.snapshot)
+            }
+        }.store(in: &cancellables)
         settingsController.$configuration
             .removeDuplicates()
             .combineLatest(viewModel.$snapshot.removeDuplicates())
@@ -1397,10 +1404,10 @@ enum SystemStatusMenuBarPopoverLayout {
 
 @MainActor
 final class SystemStatusMenuBarPopoverContentController<Content: View>: NSViewController {
-    private let hostingController: NSHostingController<Content>
+    private let hostingController: NSHostingController<SystemStatusLocalizedRoot<Content>>
 
     init(rootView: Content) {
-        hostingController = NSHostingController(rootView: rootView)
+        hostingController = NSHostingController(rootView: SystemStatusLocalizedRoot(content: rootView))
         // The popover owns its size before positioning; SwiftUI must not resize it afterward.
         hostingController.sizingOptions = []
         super.init(nibName: nil, bundle: nil)
@@ -1428,6 +1435,21 @@ final class SystemStatusMenuBarPopoverContentController<Content: View>: NSViewCo
             content.topAnchor.constraint(equalTo: safeArea.topAnchor),
             content.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+}
+
+private struct SystemStatusLocalizedRoot<Content: View>: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
+    let content: Content
+
+    init(content: Content) { self.content = content }
+
+    var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
+        content
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight)
     }
 }
 
@@ -1466,6 +1488,7 @@ private final class SystemStatusMenuBarPopoverController: NSObject, NSPopoverDel
     private var appActivationObserver: NSObjectProtocol?
     private var anchorFrameObserver: NSObjectProtocol?
     private var contentSizeObservation: AnyCancellable?
+    private var localeSubscription: AnyCancellable?
     private var contentSize = NSSize.zero
     private var safeAreaInsets = SystemStatusMenuBarPopoverLayout.fallbackInsets
     private lazy var detailPanelController = SystemStatusMenuBarDetailPanelController(
@@ -1488,6 +1511,10 @@ private final class SystemStatusMenuBarPopoverController: NSObject, NSPopoverDel
         self.settingsController = settingsController
         self.localization = localization
         self.onConfigure = onConfigure
+        super.init()
+        localeSubscription = PluginRuntimeLocalization.source.$revision.dropFirst().sink { [weak self] _ in
+            DispatchQueue.main.async { [weak self] in self?.refreshPopoverLocalization() }
+        }
     }
 
     isolated deinit {
@@ -1541,6 +1568,7 @@ private final class SystemStatusMenuBarPopoverController: NSObject, NSPopoverDel
         viewModel.startForeground(for: .menuBarPopover)
         PluginPresentationSafety.prepareForWindowOrdering()
         popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+        refreshPopoverLocalization()
         detailPanelController.setHostWindow(popover.contentViewController?.view.window)
         installDismissMonitors()
     }
@@ -1571,6 +1599,12 @@ private final class SystemStatusMenuBarPopoverController: NSObject, NSPopoverDel
         )
         guard popover.contentSize != size else { return }
         popover.contentSize = size
+    }
+
+    private func refreshPopoverLocalization() {
+        guard let window = popover?.contentViewController?.view.window else { return }
+        window.title = localization.string("metadata.title", defaultValue: "系统状态")
+        window.setAccessibilityTitle(window.title)
     }
 
     nonisolated func popoverDidClose(_ notification: Notification) {
@@ -1735,8 +1769,10 @@ private struct SystemStatusMenuBarPopoverView: View {
     let onConfigure: () -> Void
 
     @Environment(\.pluginComponentTheme) private var theme
+    @Environment(\.locale) private var locale
 
     var body: some View {
+        let _ = locale
         VStack(alignment: .leading, spacing: Layout.spacing) {
             header
 
@@ -1792,6 +1828,7 @@ private final class SystemStatusMenuBarDetailPanelController {
     private weak var hostWindow: NSWindow?
     private var panelWindow: SystemStatusMenuBarDetailPanel?
     private var hostingView: NSHostingView<AnyView>?
+    private var localeSubscription: AnyCancellable?
     private(set) var selectedKind: SystemStatusMetricKind?
 
     var presentedWindow: NSWindow? {
@@ -1814,6 +1851,9 @@ private final class SystemStatusMenuBarDetailPanelController {
         self.minimumHeight = minimumHeight
         self.panelSpacing = panelSpacing
         self.screenMargin = screenMargin
+        localeSubscription = PluginRuntimeLocalization.source.$revision.dropFirst().sink { [weak self] _ in
+            DispatchQueue.main.async { [weak self] in self?.refreshPanelLocalization() }
+        }
     }
 
     func setHostWindow(_ window: NSWindow?) {
@@ -1843,14 +1883,14 @@ private final class SystemStatusMenuBarDetailPanelController {
         }
 
         let rootView = AnyView(
-            SystemStatusMenuBarDetailPanelView(
+            SystemStatusLocalizedRoot(content: SystemStatusMenuBarDetailPanelView(
                 viewModel: viewModel,
                 settingsController: settingsController,
                 kind: kind,
                 localization: localization,
                 onDismiss: { [weak self] in self?.hide() }
             )
-            .frame(width: width)
+            .frame(width: width))
         )
         let panel = panelWindow ?? makePanel()
         let hostedView: NSHostingView<AnyView>
@@ -1877,12 +1917,20 @@ private final class SystemStatusMenuBarDetailPanelController {
         )
 
         panel.setFrame(frame, display: true)
+        panel.title = kind.title(localization: localization)
+        panel.setAccessibilityTitle(panel.title)
         panel.level = NSWindow.Level(rawValue: hostWindow.level.rawValue + 1)
         panel.appearance = hostWindow.effectiveAppearance
         PluginPresentationSafety.prepareForWindowOrdering(panel)
         panel.orderFrontRegardless()
         panelWindow = panel
         selectedKind = kind
+    }
+
+    private func refreshPanelLocalization() {
+        guard let panelWindow, let selectedKind else { return }
+        panelWindow.title = selectedKind.title(localization: localization)
+        panelWindow.setAccessibilityTitle(panelWindow.title)
     }
 
     private func detailFrame(
@@ -1938,9 +1986,11 @@ private struct SystemStatusMenuBarDetailPanelView: View {
     let onDismiss: () -> Void
 
     @Environment(\.pluginComponentTheme) private var theme
+    @Environment(\.locale) private var locale
     @State private var isCloseHovered = false
 
     var body: some View {
+        let _ = locale
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 Text(kind.title(localization: localization))

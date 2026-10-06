@@ -29,7 +29,7 @@ STANDARD_ACTION_TEMPLATES = {
         "en": "Toggle {displayName}", "es": "Alternar {displayName}",
         "fr": "Activer ou désactiver {displayName}", "ja": "{displayName}を切り替える",
         "ko": "{displayName} 전환", "pt": "Alternar {displayName}",
-        "ru": "Переключить «{displayName}»", "tr": "{displayName} anahtarını değiştir",
+        "ru": "Переключить «{displayName}»", "tr": "{displayName} Durumunu Değiştir",
         "zh-Hans": "切换{displayName}",
         "zh-Hant": "切換{displayName}",
     },
@@ -142,7 +142,7 @@ LOCALIZED_REQUIREMENT_NAMES = {
         "Input Monitoring permission", ar="إذن مراقبة الإدخال", de="Eingabeüberwachung-Berechtigung",
         es="permiso de Monitorización de entrada", fr="autorisation Surveillance de l’entrée",
         ja="入力監視権限", ko="입력 모니터링 권한", pt="permissão de Monitoramento de Entrada",
-        ru="доступ к Мониторингу ввода", tr="Girdi İzleme izni",
+        ru="доступ к Мониторингу ввода", tr="Giriş İzleme izni",
         zh_hans="输入监控权限", zh_hant="輸入監控權限",
     ),
     "screen-recording": _localized_requirement(

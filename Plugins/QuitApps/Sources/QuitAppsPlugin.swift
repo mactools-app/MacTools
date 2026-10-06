@@ -50,7 +50,19 @@ final class QuitAppsPlugin: MacToolsPlugin, DropZoneAnchorProviding, PluginActio
 
     // MARK: Metadata
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "quit-apps",
+            title: localization.string("metadata.title", defaultValue: "退出应用"),
+            iconName: "power",
+            iconTint: Color(nsColor: .systemRed),
+            order: 96,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "选择并退出正在运行的应用"
+            )
+        )
+    }
 
     let rowDescriptor: PluginPanelRowDescriptor
 
@@ -87,17 +99,6 @@ final class QuitAppsPlugin: MacToolsPlugin, DropZoneAnchorProviding, PluginActio
         self.localization = localization
         self.runningAppCountProvider = runningAppCountProvider
         self.selectionPresenter = selectionPresenter
-        self.metadata = PluginMetadata(
-            id: "quit-apps",
-            title: localization.string("metadata.title", defaultValue: "退出应用"),
-            iconName: "power",
-            iconTint: Color(nsColor: .systemRed),
-            order: 96,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "选择并退出正在运行的应用"
-            )
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,

@@ -91,7 +91,16 @@ final class AppHotkeyPlugin:
 
     // MARK: Metadata
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "app-hotkey",
+            title: localization.string("metadata.title", defaultValue: "应用快捷键"),
+            iconName: "keyboard",
+            iconTint: Color(nsColor: .systemYellow),
+            order: 65,
+            defaultDescription: localization.string("metadata.description", defaultValue: "为常用应用绑定全局快捷键")
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -122,14 +131,6 @@ final class AppHotkeyPlugin:
         self.storage = context.storage
         self.store = AppHotkeyStore(storage: context.storage)
         self.applicationLauncher = applicationLauncher ?? SystemAppHotkeyApplicationLauncher()
-        self.metadata = PluginMetadata(
-            id: "app-hotkey",
-            title: localization.string("metadata.title", defaultValue: "应用快捷键"),
-            iconName: "keyboard",
-            iconTint: Color(nsColor: .systemYellow),
-            order: 65,
-            defaultDescription: localization.string("metadata.description", defaultValue: "为常用应用绑定全局快捷键")
-        )
         // Enabled by default; only an explicit user pause stores `false`.
         self.isEnabled = context.storage.object(forKey: "isEnabled") == nil
             ? true

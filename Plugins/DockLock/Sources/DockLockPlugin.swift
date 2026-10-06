@@ -284,7 +284,19 @@ final class DockLockPlugin:
         static let isEnabled = "dock-lock.settings.enabled"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "dock-lock",
+            title: localization.string("metadata.title", defaultValue: "锁定程序坞"),
+            iconName: "lock.rectangle",
+            iconTint: Color(nsColor: .systemIndigo),
+            order: 46,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "防止程序坞在多显示器之间意外移动"
+            )
+        )
+    }
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
         menuActionBehavior: .keepPresented
@@ -301,7 +313,34 @@ final class DockLockPlugin:
     private let requestAccessibilityTrust: @MainActor (Bool) -> Bool
     private var isEnabled: Bool
     private var isAccessibilityGranted: Bool
-    private var lastErrorMessage: String?
+    private enum RuntimeError {
+        case accessibilityRevoked
+        case accessibilityRequired
+        case startFailed
+    }
+
+    private var runtimeError: RuntimeError?
+
+    private var lastErrorMessage: String? {
+        guard let runtimeError else { return nil }
+        switch runtimeError {
+        case .accessibilityRevoked:
+            return localization.string(
+                "error.accessibilityRevoked",
+                defaultValue: "辅助功能权限已关闭，Dock 锁定已暂停。"
+            )
+        case .accessibilityRequired:
+            return localization.string(
+                "error.accessibilityRequired",
+                defaultValue: "Dock 锁定需要辅助功能权限。"
+            )
+        case .startFailed:
+            return localization.string(
+                "error.startFailed",
+                defaultValue: "无法启动 Dock 锁定，请检查辅助功能权限。"
+            )
+        }
+    }
 
     init(
         context: PluginRuntimeContext = PluginRuntimeContext(pluginID: "dock-lock"),
@@ -319,17 +358,6 @@ final class DockLockPlugin:
             ? false
             : context.storage.bool(forKey: StorageKey.isEnabled)
         self.isAccessibilityGranted = accessibilityTrusted()
-        self.metadata = PluginMetadata(
-            id: "dock-lock",
-            title: localization.string("metadata.title", defaultValue: "锁定程序坞"),
-            iconName: "lock.rectangle",
-            iconTint: Color(nsColor: .systemIndigo),
-            order: 46,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "防止程序坞在多显示器之间意外移动"
-            )
-        )
     }
 
     func activate(context: PluginRuntimeContext) {
@@ -559,14 +587,11 @@ final class DockLockPlugin:
         }
 
         if isAccessibilityGranted {
-            lastErrorMessage = nil
+            runtimeError = nil
             applyLockState(promptForPermission: false)
         } else {
             monitor.stop()
-            lastErrorMessage = localization.string(
-                "error.accessibilityRevoked",
-                defaultValue: "辅助功能权限已关闭，Dock 锁定已暂停。"
-            )
+            runtimeError = .accessibilityRevoked
         }
         onStateChange?()
     }
@@ -603,7 +628,7 @@ final class DockLockPlugin:
     private func applyLockState(promptForPermission: Bool) {
         guard isEnabled else {
             monitor.stop()
-            lastErrorMessage = nil
+            runtimeError = nil
             return
         }
 
@@ -613,22 +638,16 @@ final class DockLockPlugin:
         }
         guard isAccessibilityGranted else {
             monitor.stop()
-            lastErrorMessage = localization.string(
-                "error.accessibilityRequired",
-                defaultValue: "Dock 锁定需要辅助功能权限。"
-            )
+            runtimeError = .accessibilityRequired
             requestPermissionGuidance?(PermissionID.accessibility)
             return
         }
 
         guard monitor.start() else {
-            lastErrorMessage = localization.string(
-                "error.startFailed",
-                defaultValue: "无法启动 Dock 锁定，请检查辅助功能权限。"
-            )
+            runtimeError = .startFailed
             return
         }
-        lastErrorMessage = nil
+        runtimeError = nil
     }
 
     private static func isAccessibilityTrusted() -> Bool {

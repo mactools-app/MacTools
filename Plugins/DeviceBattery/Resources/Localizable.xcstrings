@@ -2140,7 +2140,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Girdi İzleme Gerekli"
+            "value": "Giriş İzleme Gerekli"
           }
         },
         "zh-Hans": {
@@ -3526,7 +3526,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "MacTools Girdi İzleme'yi kullanabiliyor ve desteklenen fare bilgilerini okudu."
+            "value": "MacTools Giriş İzleme'yi kullanabiliyor ve desteklenen fare bilgilerini okudu."
           }
         },
         "zh-Hans": {
@@ -3603,7 +3603,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "MacTools, desteklenen fareleri okumak için Girdi İzleme'yi kullanabilir."
+            "value": "MacTools, desteklenen fareleri okumak için Giriş İzleme'yi kullanabilir."
           }
         },
         "zh-Hans": {
@@ -3680,7 +3680,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "MacTools Girdi İzleme'yi kullanabiliyor. Desteklenen farenin son okuma girişimi başarısız oldu: %@"
+            "value": "MacTools Giriş İzleme'yi kullanabiliyor. Desteklenen farenin son okuma girişimi başarısız oldu: %@"
           }
         },
         "zh-Hans": {
@@ -3757,7 +3757,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sistem Ayarları > Gizlilik ve Güvenlik > Girdi İzleme bölümüne gidin ve MacTools'a izin verin."
+            "value": "Sistem Ayarları > Gizlilik ve Güvenlik > Giriş İzleme bölümüne gidin ve MacTools'a izin verin."
           }
         },
         "zh-Hans": {
@@ -3834,7 +3834,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Girdi İzleme"
+            "value": "Giriş İzleme"
           }
         },
         "zh-Hans": {
@@ -4219,7 +4219,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Girdi İzleme gerekli"
+            "value": "Giriş İzleme gerekli"
           }
         },
         "zh-Hans": {
@@ -5836,7 +5836,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Üretici HID fare arayüzüne erişilemiyor. Sistem Ayarları'nda MacTools'un Girdi İzleme'yi kullanmasına izin verin."
+            "value": "Üretici HID fare arayüzüne erişilemiyor. Sistem Ayarları'nda MacTools'un Giriş İzleme'yi kullanmasına izin verin."
           }
         },
         "zh-Hans": {
@@ -6067,7 +6067,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Girdi İzleme gerekli"
+            "value": "Giriş İzleme gerekli"
           }
         },
         "zh-Hans": {

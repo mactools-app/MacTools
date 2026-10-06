@@ -132,7 +132,22 @@ final class CloudflareR2Plugin: ObservableObject, MacToolsPlugin, PluginSettings
         static let upload = "upload-file"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "cloudflare-r2",
+            title: localization.string(
+                "metadata.title",
+                defaultValue: "Cloudflare R2 上传"
+            ),
+            iconName: "icloud.and.arrow.up.fill",
+            iconTint: Color(nsColor: .systemOrange),
+            order: 75,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "上传文件到 Cloudflare R2"
+            )
+        )
+    }
     let rowDescriptor: PluginPanelRowDescriptor
     let configurationStore: R2ConfigurationStore
     @Published private(set) var status = R2UploadStatus.idle
@@ -184,20 +199,6 @@ final class CloudflareR2Plugin: ObservableObject, MacToolsPlugin, PluginSettings
             category: "CloudflareR2Plugin"
         )
         self.terminalStatusDuration = terminalStatusDuration
-        metadata = PluginMetadata(
-            id: "cloudflare-r2",
-            title: localization.string(
-                "metadata.title",
-                defaultValue: "Cloudflare R2 上传"
-            ),
-            iconName: "icloud.and.arrow.up.fill",
-            iconTint: Color(nsColor: .systemOrange),
-            order: 75,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "上传文件到 Cloudflare R2"
-            )
-        )
         rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,

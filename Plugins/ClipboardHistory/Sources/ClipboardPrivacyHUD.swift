@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import MacToolsPluginKit
 import SwiftUI
 
@@ -19,7 +20,14 @@ protocol ClipboardPrivacyHUDPresenting: AnyObject {
     func handleSuppressionEvent(_ event: ClipboardCaptureSuppressionEvent)
     func showSuccess(_ message: String)
     func showFailure(_ message: String)
+    func showSuccess(localizedMessage: @escaping () -> String)
+    func showFailure(localizedMessage: @escaping () -> String)
     func dismiss()
+}
+
+extension ClipboardPrivacyHUDPresenting {
+    func showSuccess(localizedMessage: @escaping () -> String) { showSuccess(localizedMessage()) }
+    func showFailure(localizedMessage: @escaping () -> String) { showFailure(localizedMessage()) }
 }
 
 struct ClipboardPrivacyHUDContent: Equatable, Sendable {
@@ -91,7 +99,9 @@ final class ClipboardPrivacyHUDController: ClipboardPrivacyHUDPresenting {
     private let announce: (String) -> Void
 
     private var panel: ClipboardPrivacyHUDPanel?
-    private var hostingView: NSHostingView<ClipboardPrivacyHUDView>?
+    private var hostingView: NSHostingView<ClipboardPrivacyHUDRootView>?
+    private var localeSubscription: AnyCancellable?
+    private var contentProvider: (() -> ClipboardPrivacyHUDContent)?
     private var dismissTask: Task<Void, Never>?
     private var countdownTask: Task<Void, Never>?
     private var presentationGeneration: UInt64 = 0
@@ -121,6 +131,9 @@ final class ClipboardPrivacyHUDController: ClipboardPrivacyHUDPresenting {
         self.screens = screens
         self.mouseLocation = mouseLocation
         self.announce = announce
+        localeSubscription = PluginRuntimeLocalization.source.$revision.dropFirst().sink { [weak self] _ in
+            DispatchQueue.main.async { [weak self] in self?.refreshLocalization() }
+        }
     }
 
     func handleSuppressionEvent(_ event: ClipboardCaptureSuppressionEvent) {
@@ -133,20 +146,24 @@ final class ClipboardPrivacyHUDController: ClipboardPrivacyHUDPresenting {
                 dismiss()
             }
         case let .consumed(mode):
-            showTransient(
+            showTransient(contentProvider: { [localization] in
                 mode == .privateCopy
                     ? .privateCopySucceeded(localization: localization)
                     : .ignored(localization: localization)
-            )
+            })
         case let .expired(mode):
             if mode == .privateCopy {
-                showFailure(localization.string("hud.privateCopy.failed", defaultValue: "私密复制失败"))
+                showTransient(contentProvider: { [localization] in
+                    .failure(localization.string("hud.privateCopy.failed", defaultValue: "私密复制失败"))
+                }, duration: failureDuration)
             } else {
-                showTransient(.ignoreExpired(localization: localization))
+                showTransient(contentProvider: { [localization] in .ignoreExpired(localization: localization) })
             }
         case let .cancelled(mode):
             if mode == .privateCopy {
-                showFailure(localization.string("hud.privateCopy.failed", defaultValue: "私密复制失败"))
+                showTransient(contentProvider: { [localization] in
+                    .failure(localization.string("hud.privateCopy.failed", defaultValue: "私密复制失败"))
+                }, duration: failureDuration)
             } else {
                 dismiss()
             }
@@ -161,12 +178,21 @@ final class ClipboardPrivacyHUDController: ClipboardPrivacyHUDPresenting {
         showTransient(.success(message))
     }
 
+    func showFailure(localizedMessage: @escaping () -> String) {
+        showTransient(contentProvider: { .failure(localizedMessage()) }, duration: failureDuration)
+    }
+
+    func showSuccess(localizedMessage: @escaping () -> String) {
+        showTransient(contentProvider: { .success(localizedMessage()) })
+    }
+
     func dismiss() {
         presentationGeneration &+= 1
         dismissTask?.cancel()
         dismissTask = nil
         countdownTask?.cancel()
         countdownTask = nil
+        contentProvider = nil
         panel?.orderOut(nil)
     }
 
@@ -175,6 +201,7 @@ final class ClipboardPrivacyHUDController: ClipboardPrivacyHUDPresenting {
         let generation = presentationGeneration
         let deadline = systemUptime() + max(0, timeout)
         var displayedSeconds = max(1, Int(ceil(timeout)))
+        contentProvider = { [localization] in .armed(secondsRemaining: displayedSeconds, localization: localization) }
         present(content: .armed(secondsRemaining: displayedSeconds, localization: localization))
 
         countdownTask = Task { @MainActor [weak self] in
@@ -203,8 +230,16 @@ final class ClipboardPrivacyHUDController: ClipboardPrivacyHUDPresenting {
         _ content: ClipboardPrivacyHUDContent,
         duration: Duration? = nil
     ) {
+        showTransient(contentProvider: { content }, duration: duration)
+    }
+
+    private func showTransient(
+        contentProvider: @escaping () -> ClipboardPrivacyHUDContent,
+        duration: Duration? = nil
+    ) {
         beginPresentation()
-        present(content: content)
+        self.contentProvider = contentProvider
+        present(content: contentProvider())
         let generation = presentationGeneration
         let duration = duration ?? transientDuration
         dismissTask = Task { @MainActor [weak self] in
@@ -229,18 +264,20 @@ final class ClipboardPrivacyHUDController: ClipboardPrivacyHUDPresenting {
     private func present(content: ClipboardPrivacyHUDContent) {
         let panel = panel ?? Self.makePanel()
         self.panel = panel
-        let hostingView: NSHostingView<ClipboardPrivacyHUDView>
+        let rootView = ClipboardPrivacyHUDRootView(content: content)
+        let hostingView: NSHostingView<ClipboardPrivacyHUDRootView>
         if let existing = self.hostingView {
             hostingView = existing
-            hostingView.rootView = ClipboardPrivacyHUDView(content: content)
+            hostingView.rootView = rootView
         } else {
-            hostingView = NSHostingView(rootView: ClipboardPrivacyHUDView(content: content))
+            hostingView = NSHostingView(rootView: rootView)
             self.hostingView = hostingView
             panel.contentView = hostingView
         }
 
         let frame = panelFrame(on: targetScreen(), content: content)
         panel.setFrame(frame, display: true)
+        panel.title = content.title
         panel.setAccessibilityLabel(content.title)
         let restoration = PluginPresentationSafety.prepareForWindowOrdering(
             panel,
@@ -254,8 +291,21 @@ final class ClipboardPrivacyHUDController: ClipboardPrivacyHUDPresenting {
 
     private func updateVisibleContent(_ content: ClipboardPrivacyHUDContent) {
         guard let panel, panel.isVisible, let hostingView else { return }
-        hostingView.rootView = ClipboardPrivacyHUDView(content: content)
+        hostingView.rootView = ClipboardPrivacyHUDRootView(content: content)
+        panel.title = content.title
         panel.setAccessibilityLabel(content.title)
+    }
+
+    private func refreshLocalization() {
+        guard let panel, panel.isVisible, let contentProvider else { return }
+        let content = contentProvider()
+        updateVisibleContent(content)
+        let size = panelFrame(on: panel.screen, content: content).size
+        var frame = NSRect(x: panel.frame.midX - size.width / 2, y: panel.frame.maxY - size.height, width: size.width, height: size.height)
+        if let visibleFrame = panel.screen?.visibleFrame {
+            frame.origin.x = min(max(frame.minX, visibleFrame.minX), visibleFrame.maxX - frame.width)
+        }
+        panel.setFrame(frame, display: true)
     }
 
     private func targetScreen() -> NSScreen? {
@@ -346,5 +396,20 @@ private struct ClipboardPrivacyHUDView: View {
         case .failure:
             .orange
         }
+    }
+}
+
+private struct ClipboardPrivacyHUDRootView: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
+    let content: ClipboardPrivacyHUDContent
+
+    init(content: ClipboardPrivacyHUDContent) { self.content = content }
+
+    var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
+        ClipboardPrivacyHUDView(content: content)
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight)
     }
 }

@@ -1216,7 +1216,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Yerel istatistik toplamaya başlamak için Girdi İzleme izni verin ve bunu açın."
+            "value": "Yerel istatistik toplamaya başlamak için Giriş İzleme izni verin ve bunu açın."
           }
         },
         "zh-Hans": {
@@ -3988,7 +3988,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Girdi İzleme Ayarlarını Aç"
+            "value": "Giriş İzleme Ayarlarını Aç"
           }
         },
         "zh-Hans": {
@@ -4604,7 +4604,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Claude Code, Cursor ve Codex için hook ayarlarını yazar. Yapay zekâ etkinliği dinleme, Girdi İzleme gerektirmez."
+            "value": "Claude Code, Cursor ve Codex için hook ayarlarını yazar. Yapay zekâ etkinliği dinleme, Giriş İzleme gerektirmez."
           }
         },
         "zh-Hans": {
@@ -4912,7 +4912,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Klavye, fare ve kaydırma istatistikleri için Girdi İzleme'de MacTools'a izin vermeniz gerekir. Ön plan uygulaması kullanım süresi yine de kaydedilebilir."
+            "value": "Klavye, fare ve kaydırma istatistikleri için Giriş İzleme'de MacTools'a izin vermeniz gerekir. Ön plan uygulaması kullanım süresi yine de kaydedilebilir."
           }
         },
         "zh-Hans": {
@@ -4989,7 +4989,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Girdi İzleme"
+            "value": "Giriş İzleme"
           }
         },
         "zh-Hans": {

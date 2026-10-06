@@ -34,7 +34,14 @@ final class MenuBarHiddenPopupPanel: NSPanel {
         effect.state = .active
         effect.maskImage = Self.roundedMaskImage(size: panelSize, cornerRadius: 14)
 
-        let hosting = NSHostingView(rootView: MenuBarHiddenPopupView(controller: controller))
+        let hosting = NSHostingView(rootView: MenuBarHiddenPopupView(
+            controller: controller,
+            onLocaleChange: { [weak self] in
+                guard let self else { return }
+                self.title = controller.localization.string("popup.title", defaultValue: "隐藏图标")
+                self.setAccessibilityLabel(self.title)
+            }
+        ))
         hosting.frame = effect.bounds
         hosting.autoresizingMask = [.width, .height]
         effect.addSubview(hosting)
@@ -114,9 +121,13 @@ final class MenuBarHiddenPopupPanel: NSPanel {
 
 private struct MenuBarHiddenPopupView: View {
     @ObservedObject var controller: MenuBarHiddenController
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
+    let onLocaleChange: () -> Void
     private var localization: PluginLocalization { controller.localization }
 
     var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Label(
@@ -147,10 +158,18 @@ private struct MenuBarHiddenPopupView: View {
                     }
                     .padding(.vertical, 2)
                 }
+                // Mirror semantic copy, retaining the menu bar's physical item order.
+                .environment(\.layoutDirection, .leftToRight)
             }
         }
         .padding(14)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .environment(\.locale, locale)
+        .environment(
+            \.layoutDirection,
+            locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight
+        )
+        .onChange(of: runtimeLocale.revision, initial: true) { _, _ in onLocaleChange() }
     }
 
     private var emptyView: some View {

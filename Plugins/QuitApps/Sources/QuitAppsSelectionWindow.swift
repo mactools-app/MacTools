@@ -132,6 +132,11 @@ final class QuitAppsSelectionWindow: NSPanel {
             localization: localization,
             onDismiss: { [weak self] in
                 self?.dismiss()
+            },
+            onLocaleChange: { [weak self] in
+                guard let self else { return }
+                self.title = localization.string("selection.title", defaultValue: "退出应用")
+                self.setAccessibilityLabel(self.title)
             }
         )
         let hostingView = NSHostingView(rootView: rootView)
@@ -210,12 +215,16 @@ final class QuitAppsSelectionWindow: NSPanel {
 
 private struct QuitAppsSelectionView: View {
     @ObservedObject var viewModel: QuitAppsViewModel
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
     let localization: PluginLocalization
     let onDismiss: () -> Void
+    let onLocaleChange: () -> Void
 
     private let columns = [GridItem(.adaptive(minimum: 72), spacing: 8)]
 
     var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
         VStack(spacing: 0) {
             headerView
             Divider().opacity(0.5)
@@ -223,6 +232,12 @@ private struct QuitAppsSelectionView: View {
             Divider().opacity(0.5)
             footerView
         }
+        .environment(\.locale, locale)
+        .environment(
+            \.layoutDirection,
+            locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight
+        )
+        .onChange(of: runtimeLocale.revision, initial: true) { _, _ in onLocaleChange() }
     }
 
     // MARK: Header

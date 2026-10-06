@@ -68,6 +68,8 @@ struct MacSettingsHistoryView: View {
 
 struct MacSettingsProfilesView: View {
     @ObservedObject var controller: MacSettingsController
+    @Environment(\.layoutDirection) private var layoutDirection
+    @Environment(\.locale) private var locale
     @State private var editorTarget: MacSettingsProfileEditorTarget?
     @State private var profilePendingDeletion: SystemSettingsProfile?
     @State private var importsFile = false
@@ -118,6 +120,8 @@ struct MacSettingsProfilesView: View {
                 profile: target.profile
             )
             .frame(minWidth: 720, minHeight: 600)
+            .environment(\.layoutDirection, layoutDirection)
+            .environment(\.locale, locale)
         }
         .alert(
             MacSettingsStrings.text("Delete Profile?"),
@@ -162,7 +166,7 @@ struct MacSettingsProfilesView: View {
     private func profilePlanHeader(_ plan: SystemSettingsProfileApplyPlan) -> some View {
         HStack(alignment: .center, spacing: 16) {
             Button(action: controller.dismissActivePlan) {
-                Label(MacSettingsStrings.text("Profiles"), systemImage: "chevron.left")
+                Label(MacSettingsStrings.text("Profiles"), systemImage: "chevron.backward")
                     .font(PluginSettingsTheme.Typography.rowTitle)
                     .contentShape(Rectangle())
             }
@@ -846,7 +850,7 @@ private struct MacSettingsProfilePlanTable: View {
                         Text(valueDescription(item.currentValue, item.settingID))
                             .frame(width: 110, alignment: .trailing)
                             .foregroundStyle(.secondary)
-                        Image(systemName: "arrow.right")
+                        Image(systemName: "arrow.forward")
                             .frame(width: 14)
                             .foregroundStyle(.tertiary)
                             .accessibilityHidden(true)
@@ -881,7 +885,7 @@ private struct MacSettingsProfilePlanTable: View {
                                 title: MacSettingsStrings.text("Current"),
                                 value: valueDescription(item.currentValue, item.settingID)
                             )
-                            Image(systemName: "arrow.right")
+                            Image(systemName: "arrow.forward")
                                 .foregroundStyle(.tertiary)
                                 .accessibilityHidden(true)
                             valueColumn(

@@ -5,7 +5,7 @@ import SwiftUI
 extension AIUsagePlugin {
     var settingsPage: PluginSettingsPage? {
         let preferences = model.preferences
-        return .form(description: strings.text("settings.description", "集中查看订阅额度，及时了解可用空间。"), sections: [
+        return .form(description: strings.text("settings.description", "集中查看订阅额度和重置时间。"), sections: [
             PluginSettingsSection(
                 id: "data-access", title: strings.text("settings.access", "数据访问"), systemImage: "lock.shield",
                 footer: strings.text("access.footer", "仅读取登录凭据并向对应服务查询额度，不读取对话、不保存令牌。授权与服务展示独立，无需辅助功能或完全磁盘访问权限。"),

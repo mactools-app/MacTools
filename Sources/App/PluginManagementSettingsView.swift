@@ -2,6 +2,8 @@ import SwiftUI
 import MacToolsPluginKit
 
 struct PluginManagementSettingsView: View {
+    @Environment(\.locale) private var locale
+    @Environment(\.layoutDirection) private var layoutDirection
     let pluginHost: PluginHost
     @StateObject private var presentation: PluginMarketplacePresentationModel
     @ObservedObject var navigationCoordinator: SettingsNavigationCoordinator
@@ -159,6 +161,8 @@ struct PluginManagementSettingsView: View {
                 session: uninstallConfirmationSession,
                 onConfirm: uninstall
             )
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, layoutDirection)
         }
         .onAppear {
             syncAutomaticBulkUpdateProgress(presentation.automaticUpdateStatus)
@@ -309,7 +313,7 @@ struct PluginManagementSettingsView: View {
     private var marketplaceIntroductionConfiguration: SettingsPageIntroductionConfiguration {
         let status = presentation.catalogStatus
         let updatedText = status.lastUpdatedAt.map {
-            $0.formatted(date: .omitted, time: .shortened)
+            $0.formatted(Date.FormatStyle(date: .omitted, time: .shortened).locale(PluginRuntimeLocalization.locale))
         }
         let description = [status.title, updatedText, status.detailText]
             .compactMap { $0 }
@@ -337,6 +341,8 @@ struct PluginManagementSettingsView: View {
                 )
             }
             .buttonStyle(.borderedProminent)
+            .fixedSize(horizontal: true, vertical: false)
+            .layoutPriority(1)
             .disabled(
                 activeOperationID != nil
                     || !hasAvailablePluginUpdates
@@ -353,6 +359,8 @@ struct PluginManagementSettingsView: View {
             Label(AppL10n.plugins("plugin.marketplace.refresh", defaultValue: "刷新列表"), systemImage: "arrow.clockwise")
         }
         .buttonStyle(.bordered)
+        .fixedSize(horizontal: true, vertical: false)
+        .layoutPriority(1)
         .disabled(
             activeOperationID != nil
                 || presentation.catalogStatus.isRefreshing

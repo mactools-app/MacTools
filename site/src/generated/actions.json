@@ -741,7 +741,7 @@
           "ko": "Dock 자동 숨기기 전환",
           "pt": "Alternar Ocultar Dock automaticamente",
           "ru": "Переключить «Автоскрытие Dock»",
-          "tr": "Dock'u Otomatik Gizleme anahtarını değiştir",
+          "tr": "Dock'u Otomatik Gizleme Durumunu Değiştir",
           "zh-Hans": "切换自动隐藏程序坞",
           "zh-Hant": "切換自動隱藏 Dock"
         }
@@ -977,7 +977,7 @@
           "ko": "메뉴 막대 자동 숨기기 전환",
           "pt": "Alternar Ocultar barra de menus automaticamente",
           "ru": "Переключить «Автоскрытие строки меню»",
-          "tr": "Menü Çubuğunu Otomatik Gizleme anahtarını değiştir",
+          "tr": "Menü Çubuğunu Otomatik Gizleme Durumunu Değiştir",
           "zh-Hans": "切换自动隐藏菜单栏",
           "zh-Hant": "切換自動隱藏選單列"
         }
@@ -1121,7 +1121,7 @@
           "ko": "입력 소스 자동 전환 전환",
           "pt": "Alternar Troca automática de entrada",
           "ru": "Переключить «Автопереключение источника ввода»",
-          "tr": "Otomatik Giriş Kaynağı anahtarını değiştir",
+          "tr": "Otomatik Giriş Kaynağı Durumunu Değiştir",
           "zh-Hans": "切换自动切换输入法",
           "zh-Hant": "切換自動切換輸入法"
         }
@@ -1649,7 +1649,7 @@
           "trackpad-gesture",
           "manual"
         ],
-        "systemImage": "chevron.left",
+        "systemImage": "chevron.backward",
         "title": {
           "ar": "السابق",
           "de": "Zurück",
@@ -2516,7 +2516,7 @@
           "ko": "True Tone 전환",
           "pt": "Alternar True Tone",
           "ru": "Переключить «True Tone»",
-          "tr": "True Tone anahtarını değiştir",
+          "tr": "True Tone Durumunu Değiştir",
           "zh-Hans": "切换原彩显示",
           "zh-Hant": "切換原彩顯示"
         }
@@ -2788,7 +2788,7 @@
           "ko": "Dock 잠금 전환",
           "pt": "Alternar Bloqueio do Dock",
           "ru": "Переключить «Блокировка Dock»",
-          "tr": "Dock Kilidi anahtarını değiştir",
+          "tr": "Dock Kilidi Durumunu Değiştir",
           "zh-Hans": "切换锁定程序坞",
           "zh-Hant": "切換鎖定 Dock"
         }
@@ -3113,7 +3113,7 @@
           "ko": "노치 숨기기 전환",
           "pt": "Alternar Ocultar entalhe",
           "ru": "Переключить «Скрыть вырез»",
-          "tr": "Çentiği Gizle anahtarını değiştir",
+          "tr": "Çentiği Gizle Durumunu Değiştir",
           "zh-Hans": "切换隐藏刘海",
           "zh-Hant": "切換隱藏瀏海"
         }
@@ -3698,7 +3698,7 @@
           "ko": "잠자기 방지 전환",
           "pt": "Alternar Manter ativo",
           "ru": "Переключить «Не давать уснуть»",
-          "tr": "Uyanık Tutma anahtarını değiştir",
+          "tr": "Uyanık Tutma Durumunu Değiştir",
           "zh-Hans": "切换阻止休眠",
           "zh-Hant": "切換防止睡眠"
         }
@@ -4543,7 +4543,7 @@
           "ko": "마이크 음소거 전환",
           "pt": "Alternar Silenciar microfone",
           "ru": "Переключить «Отключить микрофон»",
-          "tr": "Mikrofon Sessize Alma anahtarını değiştir",
+          "tr": "Mikrofon Sessize Alma Durumunu Değiştir",
           "zh-Hans": "切换麦克风静音",
           "zh-Hant": "切換麥克風靜音"
         }
@@ -4749,7 +4749,7 @@
           "ko": "Night Shift 전환",
           "pt": "Alternar Night Shift",
           "ru": "Переключить «Night Shift»",
-          "tr": "Night Shift anahtarını değiştir",
+          "tr": "Night Shift Durumunu Değiştir",
           "zh-Hans": "切换夜览",
           "zh-Hant": "切換Night Shift"
         }
@@ -5315,7 +5315,7 @@
           "ko": "스테이지 매니저 전환",
           "pt": "Alternar Organizador Visual",
           "ru": "Переключить «Stage Manager»",
-          "tr": "Stage Manager anahtarını değiştir",
+          "tr": "Stage Manager Durumunu Değiştir",
           "zh-Hans": "切换台前调度",
           "zh-Hant": "切換幕前調度"
         }
@@ -5459,7 +5459,7 @@
           "ko": "시스템 음소거 전환",
           "pt": "Alternar Silenciar sistema",
           "ru": "Переключить «Отключить звук системы»",
-          "tr": "Sistem Sessize Alma anahtarını değiştir",
+          "tr": "Sistem Sessize Alma Durumunu Değiştir",
           "zh-Hans": "切换系统静音",
           "zh-Hant": "切換系統靜音"
         }

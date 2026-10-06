@@ -516,7 +516,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Girdi İzleme izni gerekiyor"
+            "value": "Giriş İzleme izni gerekiyor"
           }
         },
         "zh-Hans": {
@@ -820,7 +820,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Girdi İzleme"
+            "value": "Giriş İzleme"
           }
         },
         "zh-Hans": {
@@ -972,7 +972,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sistem Ayarları > Gizlilik ve Güvenlik > Girdi İzleme bölümünde MacTools'a izin verin."
+            "value": "Sistem Ayarları > Gizlilik ve Güvenlik > Giriş İzleme bölümünde MacTools'a izin verin."
           }
         },
         "zh-Hans": {
@@ -1200,7 +1200,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dock'a Tıklayınca Etkin Uygulamayı Gizle özelliği Girdi İzleme izni gerektiriyor."
+            "value": "Dock'a Tıklayınca Etkin Uygulamayı Gizle özelliği Giriş İzleme izni gerektiriyor."
           }
         },
         "zh-Hans": {

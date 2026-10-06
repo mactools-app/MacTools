@@ -27,6 +27,54 @@
             "state": "translated",
             "value": "共享設定仍在變更。請稍後重試；本機設定已保留。"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا تزال الإعدادات المشتركة تتغير. أعد المحاولة قريبًا؛ يتم الحفاظ على الإعدادات المحلية."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die gemeinsam genutzten Einstellungen werden gerade geändert. Bitte versuchen Sie es in Kürze erneut; die lokalen Einstellungen bleiben erhalten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los ajustes compartidos aún están cambiando. Reinténtalo en unos instantes; se conservan los ajustes locales."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les paramètres partagés continuent de changer. Réessayez sous peu ; les paramètres locaux sont préservés."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共有設定はまだ変更中です。しばらくしてから再試行してください。ローカル設定は保持されています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "공유 설정이 계속 변경 중입니다. 잠시 후 다시 시도하십시오. 로컬 설정은 유지됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As configurações compartilhadas ainda estão mudando. Tente novamente em breve; as configurações locais são preservadas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Общие настройки все еще меняются. Повторите попытку в ближайшее время; локальные настройки сохраняются."
+          }
         }
       }
     },
@@ -55,6 +103,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "本機和共享設定均已變更。兩個版本已保留，請選擇要同步的版本。此 Mac 的專屬設定會保留。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيّرت الإعدادات المحلية والمشتركة. حُفظ الإصداران. اختر الإصدار الذي تريد مزامنته؛ ستُحفظ الإعدادات الخاصة بجهاز Mac هذا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sowohl die lokalen als auch die gemeinsam genutzten Einstellungen wurden geändert. Beide Versionen wurden gespeichert. Wählen Sie aus, welche Version synchronisiert werden soll; Einstellungen, die spezifisch für diesen Mac sind, bleiben erhalten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los ajustes locales y los compartidos han cambiado. Ambas versiones están guardadas. Elige cuál sincronizar; se conservarán los ajustes específicos de este Mac."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les paramètres locaux et partagés ont tous deux changé. Les deux versions sont enregistrées. Choisissez la version à synchroniser ; les paramètres spécifiques à ce Mac seront conservés."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ローカル設定と共有設定の両方が変更されています。両方のバージョンは保存済みです。同期するバージョンを選択してください。この Mac に固有の設定は保持されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로컬 설정과 공유 설정이 모두 변경되었습니다. 두 버전 모두 저장되어 있습니다. 동기화할 버전을 선택하세요. 이 Mac 전용 설정은 유지됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As configurações locais e compartilhadas foram alteradas. Ambas as versões estão salvas. Escolha qual versão sincronizar; as configurações específicas deste Mac serão preservadas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменились локальные и общие настройки. Обе версии сохранены. Выберите версию для синхронизации; настройки, относящиеся только к этому Mac, будут сохранены."
           }
         }
       }
@@ -85,6 +181,54 @@
             "state": "translated",
             "value": "使用本機設定"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم الإعدادات المحلية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lokale Einstellungen verwenden"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar configuración local"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser les paramètres locaux"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ローカル設定を使用する"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로컬 설정 사용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar configurações locais"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использовать локальные настройки"
+          }
         }
       }
     },
@@ -113,6 +257,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "使用共享設定"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم الإعدادات المشتركة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemeinsam genutzte Einstellungen verwenden"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar configuración compartida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser les paramètres partagés"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共有設定を使用する"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "공유 설정 사용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar configurações compartilhadas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использовать общие настройки"
           }
         }
       }
@@ -143,6 +335,54 @@
             "state": "translated",
             "value": "等待同步"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "في انتظار المزامنة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warten auf Synchronisierung"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esperando sincronización"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En attente de synchronisation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同期を待機しています"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동기화 대기 중"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aguardando sincronização"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ожидание синхронизации"
+          }
         }
       }
     },
@@ -172,6 +412,54 @@
             "state": "translated",
             "value": "需要選擇設定版本"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر إصدار الإعدادات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version der Einstellungen wählen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elegir versión de los ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir la version des paramètres"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定バージョンの選択"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정 버전 선택"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha a versão das configurações"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбор версии настроек"
+          }
         }
       }
     },
@@ -200,6 +488,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "共享檔案暫不可用。請檢查雲端硬碟後重試；本機設定已保留。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملف المشترك غير متوفر. تحقق من محرك الأقراص السحابي الخاص بك وأعد المحاولة؛ يتم الحفاظ على الإعدادات المحلية."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die gemeinsam genutzte Datei ist nicht verfügbar. Überprüfen Sie Ihr Cloud-Laufwerk und versuchen Sie es erneut; die lokalen Einstellungen bleiben erhalten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El archivo compartido no está disponible. Comprueba la unidad en la nube y reinténtalo; se conservan los ajustes locales."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fichier partagé est indisponible. Vérifiez votre lecteur cloud et réessayez ; les paramètres locaux sont préservés."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共有ファイルを利用できません。クラウドストレージを確認して再試行してください。ローカル設定は保持されています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "공유 파일을 사용할 수 없습니다. 클라우드 드라이브를 확인하고 다시 시도하세요. 로컬 설정은 유지됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O arquivo compartilhado não está disponível. Verifique sua unidade na nuvem e tente novamente; as configurações locais são preservadas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Общий файл недоступен. Проверьте свой облачный диск и повторите попытку; локальные настройки сохраняются."
           }
         }
       }
@@ -306,6 +642,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "雲端同步"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المزامنة السحابية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud-Synchronisierung"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronización en la nube"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronisation Cloud"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クラウド同期"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클라우드 동기화"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronização na nuvem"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Облачная синхронизация"
           }
         }
       }
@@ -5637,6 +6021,54 @@
             "state": "translated",
             "value": "更改…"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيير…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ändern…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambiar…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changer…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "変更…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "변경…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alterar…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменить…"
+          }
         }
       }
     },
@@ -5666,6 +6098,54 @@
             "state": "translated",
             "value": "選擇資料夾…"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر المجلد..."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordner auswählen…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elija Carpeta…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir un dossier…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォルダーを選択…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "폴더 선택…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolher pasta…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать папку…"
+          }
         }
       }
     },
@@ -5675,7 +6155,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sync portable app and plugin settings through the selected cloud or shared folder. Permissions, caches, credentials, and other private data are excluded."
+            "value": "Sync portable app and plugin settings through the selected cloud or shared folder. System permissions, caches, and Keychain entries are excluded. Script text you choose to include in backups is also synced and may contain sensitive information."
           }
         },
         "tr": {
@@ -5687,13 +6167,61 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "通过所选的云盘或共享文件夹同步可移植的应用与插件设置；不会同步权限、缓存、凭证或其他私密数据。"
+            "value": "通过所选的云盘或共享文件夹，同步可在其他 Mac 上使用的应用与插件设置。系统权限、缓存和钥匙串项目不会同步。选择将脚本文本纳入备份后，这些文本也会同步，且可能包含敏感信息。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "透過所選的雲端硬碟或共享資料夾同步可攜式 App 與外掛設定；不會同步權限、快取、憑證或其他私密資料。"
+            "value": "透過所選的雲端硬碟或共享資料夾，同步可在其他 Mac 上使用的 App 與外掛設定。系統權限、快取和鑰匙圈項目不會同步。若選擇將腳本文字納入備份，這些文字也會同步，且可能含有敏感資訊。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مزامنة الإعدادات القابلة للنقل للتطبيق والإضافات عبر المجلد السحابي أو المشترك المحدد. لا تشمل المزامنة أذونات النظام أو ذاكرة التخزين المؤقت أو عناصر سلسلة المفاتيح. تتم أيضًا مزامنة محتوى البرامج النصية الذي تختار تضمينه في النسخ الاحتياطية، وقد يحتوي على معلومات حساسة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronisieren Sie übertragbare App- und Plugin-Einstellungen über den ausgewählten Cloud-Ordner oder freigegebenen Ordner. Systemberechtigungen, Caches und Schlüsselbund-Einträge sind ausgeschlossen. Skripttext, den Sie in Backups aufnehmen, wird ebenfalls synchronisiert und kann vertrauliche Informationen enthalten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincroniza los ajustes transferibles de la app y los plugins mediante la carpeta seleccionada en la nube o compartida. Se excluyen los permisos del sistema, las cachés y los elementos del llavero. El texto de los scripts que elijas incluir en las copias de seguridad también se sincroniza y puede contener información confidencial."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronisez les réglages transférables de l’app et des extensions via le dossier cloud ou partagé sélectionné. Les autorisations système, les caches et les éléments du trousseau sont exclus. Le texte des scripts que vous choisissez d’inclure dans les sauvegardes est également synchronisé et peut contenir des informations sensibles."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択したクラウドストレージや共有フォルダを使って、ほかのMacに移せるアプリとプラグインの設定を同期します。システム権限、キャッシュ、キーチェーン項目は対象外です。バックアップに含めるよう選択したスクリプト本文も同期され、機密情報が含まれる可能性があります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선택한 클라우드 또는 공유 폴더를 통해 다른 Mac에서도 사용할 수 있는 앱 및 플러그인 설정을 동기화합니다. 시스템 권한, 캐시 및 키체인 항목은 제외됩니다. 백업에 포함하도록 선택한 스크립트 소스도 동기화되며, 여기에 민감한 정보가 포함될 수 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronize os ajustes transferíveis do app e dos plugins pela pasta na nuvem ou compartilhada selecionada. Permissões do sistema, caches e itens das Chaves são excluídos. O texto dos scripts que você optar por incluir nos backups também será sincronizado e pode conter informações confidenciais."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Синхронизируйте переносимые настройки приложения и плагинов через выбранную облачную или общую папку. Системные разрешения, кэши и объекты связки ключей исключены. Текст скриптов, который вы решите включить в резервные копии, также синхронизируется и может содержать конфиденциальные сведения."
           }
         }
       }
@@ -5716,13 +6244,61 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "启用云同步偏好设置"
+            "value": "启用偏好设置云同步"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "啟用雲端偏好設定同步"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمكين مزامنة التفضيلات عبر السحابة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud-Synchronisierung der Einstellungen aktivieren"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activar sincronización de preferencias en la nube"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activer la synchronisation des préférences cloud"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定のクラウド同期を有効にする"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클라우드 환경설정 동기화 활성화"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativar sincronização de preferências na nuvem"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включить облачную синхронизацию настроек"
           }
         }
       }
@@ -5753,6 +6329,54 @@
             "state": "translated",
             "value": "同步資料夾"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد المزامنة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronisierungsordner"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carpeta de sincronización"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dossier de synchronisation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同期フォルダー"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동기화 폴더"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pasta de sincronização"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Папка синхронизации"
+          }
         }
       }
     },
@@ -5781,6 +6405,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "選擇用於同步 MacTools 偏好設定的資料夾（如 iCloud 雲端硬碟或 Dropbox）。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مجلدًا لمزامنة تفضيلات MacTools (على سبيل المثال، iCloud Drive أو Dropbox)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie einen Ordner zur Synchronisierung der MacTools-Einstellungen (z. B. iCloud Drive oder Dropbox)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elija una carpeta para sincronizar las preferencias de MacTools (por ejemplo, iCloud Drive o Dropbox)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez un dossier pour synchroniser les préférences MacTools (par exemple iCloud Drive ou Dropbox)."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools の設定を同期するフォルダーを選択します（例：iCloud Drive や Dropbox）。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 환경설정을 동기화할 폴더를 선택하세요(예: iCloud Drive 또는 Dropbox)."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha uma pasta para sincronizar as preferências do MacTools (por exemplo, iCloud Drive ou Dropbox)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите папку для синхронизации настроек MacTools (например, iCloud Drive или Dropbox)."
           }
         }
       }
@@ -5811,6 +6483,54 @@
             "state": "translated",
             "value": "未配置資料夾"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم تكوين المجلد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordner nicht konfiguriert"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carpeta no configurada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dossier non configuré"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォルダー未設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "폴더가 구성되지 않았습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pasta não configurada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Папка не настроена"
+          }
         }
       }
     },
@@ -5839,6 +6559,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "打開資料夾"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح المجلد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordner öffnen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir carpeta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir le dossier"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォルダを開く"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "폴더 열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir pasta"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть папку"
           }
         }
       }
@@ -5869,6 +6637,54 @@
             "state": "translated",
             "value": "雲端同步未啟用"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تعطيل المزامنة السحابية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud-Synchronisierung ist deaktiviert"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La sincronización en la nube está deshabilitada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La synchronisation cloud est désactivée"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クラウド同期が無効になっています"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클라우드 동기화가 비활성화되어 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A sincronização na nuvem está desativada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Облачная синхронизация отключена"
+          }
         }
       }
     },
@@ -5897,6 +6713,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "錯誤"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خطأ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehler"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erreur"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "エラー"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "오류"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erro"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ошибка"
           }
         }
       }
@@ -5927,6 +6791,54 @@
             "state": "translated",
             "value": "配置的同步資料夾不存在"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد المزامنة الذي تم تكوينه غير موجود"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konfigurierter Synchronisierungsordner existiert nicht"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La carpeta de sincronización configurada no existe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le dossier de synchronisation configuré n'existe pas"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定された同期フォルダーが存在しません"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "구성된 동기화 폴더가 존재하지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A pasta de sincronização configurada não existe"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настроенная папка синхронизации не существует"
+          }
         }
       }
     },
@@ -5955,6 +6867,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "上次同步：%@"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر مزامنة: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zuletzt synchronisiert: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Última sincronización: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dernière synchronisation : %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最終同期: %@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "마지막 동기화: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Última sincronização: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Последняя синхронизация: %@"
           }
         }
       }
@@ -5985,6 +6945,54 @@
             "state": "translated",
             "value": "離線"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير متصل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin conexión"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hors ligne"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オフライン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "오프라인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off-line"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не в сети"
+          }
         }
       }
     },
@@ -6013,6 +7021,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "已同步"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمت المزامنة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronisiert"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronizado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronisé"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同期しました"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동기화됨"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronizado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Синхронизировано"
           }
         }
       }
@@ -6043,6 +7099,54 @@
             "state": "translated",
             "value": "同步中…"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ المزامنة..."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronisierung läuft…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronizando…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronisation…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同期中…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동기화 중…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronizando…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Синхронизация…"
+          }
         }
       }
     },
@@ -6072,6 +7176,54 @@
             "state": "translated",
             "value": "立即同步"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المزامنة الآن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jetzt synchronisieren"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronizar ahora"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchroniser maintenant"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今すぐ同期"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지금 동기화"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronizar agora"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Синхронизировать сейчас"
+          }
         }
       }
     },
@@ -6093,13 +7245,61 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "云同步偏好设置"
+            "value": "偏好设置云同步"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "雲端同步偏好設定"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مزامنة التفضيلات عبر السحابة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud-Synchronisierung der Einstellungen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronización de preferencias en la nube"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronisation des préférences Cloud"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定のクラウド同期"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클라우드 환경설정 동기화"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronização de preferências na nuvem"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Облачная синхронизация настроек"
           }
         }
       }

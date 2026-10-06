@@ -21,6 +21,60 @@
             "state": "translated",
             "value": "命令面板触发短语"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عبارة تشغيل لوحة الأوامر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auslösephrase für die Befehlspalette"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frase de activación de la paleta de comandos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phrase de déclenchement de la palette de commandes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コマンドパレットのトリガーフレーズ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "명령 팔레트 트리거 문구"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frase de gatilho da paleta de comandos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Триггерная фраза палитры команд"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "命令面板觸發短語"
+          }
         }
       }
     },
@@ -43,6 +97,60 @@
           "stringUnit": {
             "state": "translated",
             "value": "触发短语"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عبارة التشغيل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auslösephrase"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frase de activación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phrase de déclenchement"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "トリガーフレーズ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "트리거 문구"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frase de gatilho"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Триггерная фраза"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "觸發短語"
           }
         }
       }
@@ -67,6 +175,60 @@
             "state": "translated",
             "value": "保存"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حفظ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sichern"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "저장"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранить"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "儲存"
+          }
         }
       }
     },
@@ -89,6 +251,60 @@
           "stringUnit": {
             "state": "translated",
             "value": "恢复默认"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استعادة الافتراضي"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf Standard zurücksetzen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurar valor predeterminado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurer les valeurs par défaut"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "デフォルトに戻す"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기본값 복원"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurar padrão"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Восстановить настройки по умолчанию"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "還原預設"
           }
         }
       }
@@ -113,6 +329,60 @@
             "state": "translated",
             "value": "示例：%@ 你的消息 ↵"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مثال: %@ رسالتك ↵"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beispiel: %@ Ihre Nachricht ↵"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejemplo: %@ tu mensaje ↵"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exemple : %@ votre message ↵"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "例: %@ あなたのメッセージ ↵"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "예: %@ 메시지 ↵"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exemplo: %@ sua mensagem ↵"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пример: %@ ваше сообщение ↵"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "例如：%@ 你的訊息 ↵"
+          }
         }
       }
     },
@@ -135,6 +405,60 @@
           "stringUnit": {
             "state": "translated",
             "value": "请输入不含首尾空格或换行的短语，最多 64 个字符。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أدخل عبارة بدون مسافات بادئة/لاحقة أو فواصل أسطر، حتى 64 حرفًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geben Sie eine Phrase mit bis zu 64 Zeichen ein (ohne führende/nachgestellte Leerzeichen oder Zeilenumbrüche)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ingrese una frase sin espacios iniciales/finales ni saltos de línea, hasta 64 caracteres."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saisissez une phrase sans espaces de début/fin ni sauts de ligne, jusqu'à 64 caractères."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前後にスペースがなく、改行を含まない 64 文字以内のフレーズを入力してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앞뒤 공백이나 줄바꿈 없이 최대 64자까지 문구를 입력하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insira uma frase sem espaços iniciais/finais ou quebras de linha, com até 64 caracteres."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Введите фразу длиной до 64 символов без начальных/конечных пробелов и разрывов строк."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請輸入開頭及結尾不含空格、且不含換行的短語，最多 64 個字元。"
           }
         }
       }
@@ -159,6 +483,60 @@
             "state": "translated",
             "value": "操作已更改，请重新打开设置。"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تغيير هذا الإجراء. أعد فتح الإعدادات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Aktion wurde geändert. Öffnen Sie die Einstellungen erneut."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta acción cambió. Vuelva a abrir la configuración."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette action a changé. Rouvrez les paramètres."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このアクションが変更されました。設定を再度開いてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 동작이 변경되었습니다. 설정을 다시 여세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta ação foi alterada. Reabra as configurações."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Это действие изменено. Снова откройте настройки."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作已更改，請重新開啟設定。"
+          }
         }
       }
     },
@@ -181,6 +559,60 @@
           "stringUnit": {
             "state": "translated",
             "value": "与“%@”的触发短语冲突。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتعارض مع عبارة التشغيل لـ \"%@\"."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konflikt mit der Auslösephrase für „%@“."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entra en conflicto con la frase de activación de «%@»."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conflit avec la phrase de déclenchement de « %@ »."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「%@」のトリガーフレーズと競合します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\"%@\"의 트리거 문구와 충돌합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conflita com a frase de acionamento de “%@”."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Конфликтует с триггерной фразой для «%@»."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "與「%@」的觸發短語衝突。"
           }
         }
       }
@@ -6910,6 +7342,54 @@
             "state": "translated",
             "value": "浮動面板外觀"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر اللوحة العائمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erscheinungsbild des schwebenden Panels"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apariencia del panel flotante"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apparence du panneau flottant"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フローティングパネル外観"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플로팅 패널 모양"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aparência do painel flutuante"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Внешний вид плавающей панели"
+          }
         }
       }
     },
@@ -6919,7 +7399,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Follow macOS transparency or use an opaque solid background. Reduce Transparency always uses Solid."
+            "value": "Follow macOS transparency or use an opaque solid background. When Reduce Transparency is enabled, Solid is always used."
           }
         },
         "tr": {
@@ -6931,13 +7411,61 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "跟随 macOS 的透明效果，或使用不透明的实色背景；减少透明度始终使用实色。"
+            "value": "跟随 macOS 的透明效果，或使用不透明的实色背景；启用“降低透明度”时始终使用实色。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "跟隨 macOS 的透明效果，或使用不透明的實色背景；減少透明度一律使用實色。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اتبع شفافية macOS أو استخدم خلفية معتمة بلون واحد. عند تفعيل «تقليل الشفافية»، يُستخدم المظهر «معتم» دائمًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS-Transparenz übernehmen oder undurchsichtigen Hintergrund verwenden. „Transparenz reduzieren“ verwendet immer einen undurchsichtigen Hintergrund."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Respeta la transparencia de macOS o usa un fondo sólido opaco. Si está activado Reducir transparencia, siempre se usa Sólido."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Respecter la transparence de macOS ou utiliser un fond uni opaque. L’option Réduire la transparence impose toujours le réglage Uni."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS の透明効果に合わせるか、不透明な単色の背景を使用します。「透明度を下げる」が有効な場合は、常に「単色」を使用します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS의 투명 효과를 따르거나 불투명한 단색 배경을 사용할 수 있습니다. ‘투명도 줄이기’가 켜져 있으면 항상 단색을 사용합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siga a transparência do macOS ou use um fundo sólido opaco. Reduzir Transparência sempre usa Sólido."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использовать прозрачность macOS или непрозрачный сплошной фон. При включенном уменьшении прозрачности всегда используется вариант «Сплошной»."
           }
         }
       }
@@ -6968,6 +7496,54 @@
             "state": "translated",
             "value": "跟隨 macOS"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اتبع macOS"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS-Einstellung übernehmen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seguir macOS"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suivre macOS"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS に合わせる"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 설정 따름"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seguir macOS"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Как в macOS"
+          }
         }
       }
     },
@@ -6996,6 +7572,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "實色"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معتم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Undurchsichtig"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sólido"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uni"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "単色"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "단색"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sólido"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сплошной"
           }
         }
       }
@@ -7026,6 +7650,54 @@
             "state": "translated",
             "value": "浮動面板外觀"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر اللوحة العائمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erscheinungsbild des schwebenden Panels"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apariencia del panel flotante"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apparence du panneau flottant"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フローティングパネル外観"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플로팅 패널 모양"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aparência do painel flutuante"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Внешний вид плавающей панели"
+          }
         }
       }
     },
@@ -7054,6 +7726,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "設定浮動面板和提示的背景外觀"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعيين مظهر خلفية اللوحات العائمة وإشعارات النتائج"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hintergrunddarstellung für schwebende Panels und Rückmeldungen festlegen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configurar el fondo de los paneles flotantes y los avisos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Définir l’apparence d’arrière-plan des panneaux flottants et des notifications"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フローティングパネルとフィードバックの背景の外観を設定します"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플로팅 패널과 상태 알림의 배경 모양 설정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Definir a aparência do plano de fundo para painéis flutuantes e feedback"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настроить фон плавающих панелей и индикаторов действий"
           }
         }
       }
@@ -7084,6 +7804,54 @@
             "state": "translated",
             "value": "主題"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Design"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thème"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tema"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тема"
+          }
         }
       }
     },
@@ -7112,6 +7880,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "選擇選單列面板的色彩主題"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار الألوان للوحات شريط القائمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farben für Menüleisten-Panels wählen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elija colores para los paneles de la barra de menú"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir les couleurs des panneaux de la barre de menus"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メニューバーパネルの色を選択してください"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "메뉴 막대 패널 색상 선택"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha as cores dos painéis da barra de menu"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать цвета панелей строки меню"
           }
         }
       }
@@ -7142,6 +7958,54 @@
             "state": "translated",
             "value": "淺色：%@ · 深色：%@"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فاتح: %@ · داكن: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hell: %@ · Dunkel: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claro: %@ · Oscuro: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clair : %@ · Sombre : %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ライト：%@・ダーク：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "라이트: %@ · 다크: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claro: %@ · Escuro: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Светлый: %@ · Темный: %@"
+          }
         }
       }
     },
@@ -7170,6 +8034,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "主題"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Design"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thème"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tema"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тема"
           }
         }
       }
@@ -7200,6 +8112,54 @@
             "state": "translated",
             "value": "刪除匯入的主題？"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هل تريد حذف السمة المستوردة؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importiertes Design löschen?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Eliminar tema importado?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer le thème importé ?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "インポートしたテーマを削除しますか?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "가져온 테마를 삭제하시겠습니까?"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Excluir tema importado?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить импортированную тему?"
+          }
         }
       }
     },
@@ -7228,6 +8188,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "刪除主題"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف السمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Design löschen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar tema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer le thème"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマを削除"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마 삭제"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Excluir tema"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить тему"
           }
         }
       }
@@ -7258,6 +8266,54 @@
             "state": "translated",
             "value": "主題"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Design"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thème"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tema"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тема"
+          }
         }
       }
     },
@@ -7286,6 +8342,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "主題會即時調整選單列面板的介面色彩；佈局、字體、行事曆事件色和品牌色保持不變。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُحدّث السمات ألوان لوحات شريط القوائم فورًا. يبقى التخطيط وتنسيق النص وألوان أحداث التقويم وألوان العلامات التجارية دون تغيير."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Designs aktualisieren die Farben der Menüleisten-Panels in Echtzeit. Layout, Typografie, Kalenderereignisfarben und Markenfarben bleiben unverändert."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los temas actualizan al instante los colores de los paneles de la barra de menús. El diseño, la tipografía, los colores de los eventos del calendario y los colores de marca se mantienen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les thèmes mettent à jour les couleurs du panneau de la barre de menus en direct. La mise en page, la typographie, les couleurs des événements du calendrier et les couleurs de la marque restent inchangées."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマはメニュー バー パネルの色をライブで更新します。レイアウト、タイポグラフィー、カレンダーのイベントカラー、ブランドカラーは変更されません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마는 메뉴 막대 패널의 색상을 실시간으로 변경합니다. 레이아웃, 텍스트 스타일, 캘린더 이벤트 색상 및 브랜드 색상은 변경되지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os temas atualizam as cores dos painéis da barra de menus em tempo real. Layout, tipografia, cores dos eventos do calendário e cores da marca permanecem inalterados."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Темы сразу обновляют цвета панелей строки меню. Расположение элементов, типографика, цвета событий календаря и фирменные цвета не изменяются."
           }
         }
       }
@@ -7316,6 +8420,54 @@
             "state": "translated",
             "value": "關閉"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إغلاق"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schließen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fermer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "閉じる"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "닫기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fechar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Закрыть"
+          }
         }
       }
     },
@@ -7344,6 +8496,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "匯入主題…"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استيراد السمة..."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Design importieren…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importar tema…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importer le thème…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマをインポート…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마 가져오기…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importar tema…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импортировать тему…"
           }
         }
       }
@@ -7374,6 +8574,54 @@
             "state": "translated",
             "value": "尋找更多主題"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابحث عن المزيد من السمات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weitere Designs finden"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar más temas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trouver plus de thèmes"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "他のテーマを探す"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "더 많은 테마 찾기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encontrar mais temas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Найти больше тем"
+          }
         }
       }
     },
@@ -7383,7 +8631,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Preview and download themes from iTerm2 Color Schemes. Supports .itermcolors (including .txt) and Base16/Base24 YAML/JSON."
+            "value": "Preview and download themes from iTerm2 Color Schemes. Supports .itermcolors files (including those saved as .txt) and Base16/Base24 YAML/JSON."
           }
         },
         "tr": {
@@ -7402,6 +8650,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "可從 iTerm2 Color Schemes 預覽並下載主題。支援 .itermcolors（含 .txt）和 Base16/Base24 YAML/JSON。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معاينة السمات وتنزيلها من iTerm2 Color Schemes. يدعم .itermcolors (بما في ذلك .txt) وBase16/Base24 YAML/JSON."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Designs aus „iTerm2 Color Schemes“ in der Vorschau ansehen und herunterladen. Unterstützt .itermcolors (einschließlich .txt) sowie Base16/Base24 YAML/JSON."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obtenga una vista previa y descargue temas de iTerm2 Color Schemes. Admite .itermcolors (incluido .txt) y Base16/Base24 YAML/JSON."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prévisualisez et téléchargez des thèmes depuis iTerm2 Color Schemes. Prend en charge .itermcolors (y compris .txt) et Base16/Base24 YAML/JSON."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iTerm2 Color Schemes からテーマをプレビューしてダウンロードできます。.itermcolors（.txt を含む）と Base16/Base24 YAML/JSON に対応しています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iTerm2 Color Schemes에서 테마를 미리 보고 다운로드하세요. .itermcolors(.txt 포함) 및 Base16/Base24 YAML/JSON 형식을 지원합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visualize e baixe temas do iTerm2 Color Schemes. Compatível com .itermcolors (incluindo .txt) e Base16/Base24 YAML/JSON."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Просматривайте и загружайте темы из iTerm2 Color Schemes. Поддерживаются файлы .itermcolors (в том числе .txt) и темы Base16/Base24 в YAML/JSON."
           }
         }
       }
@@ -7432,6 +8728,54 @@
             "state": "translated",
             "value": "系統預設"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتراضي النظام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Systemstandard"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Predeterminado del sistema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thème système par défaut"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム標準"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 기본값"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Padrão do sistema"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Системная тема"
+          }
         }
       }
     },
@@ -7460,6 +8804,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "跟隨 macOS 語意色彩"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يستخدم ألوان macOS الدلالية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verwendet semantische macOS-Farben"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa los colores semánticos de macOS"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilise les couleurs sémantiques macOS"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS のシステムカラーを使用"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 시스템 색상을 사용합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa cores semânticas do macOS"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использует семантические цвета macOS."
           }
         }
       }
@@ -7490,6 +8882,54 @@
             "state": "translated",
             "value": "已匯入"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستورد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importiert"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importé"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "インポート済み"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "가져옴"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импортировано"
+          }
         }
       }
     },
@@ -7518,6 +8958,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "選擇 .itermcolors（或包含該內容的 .txt）、Base16/Base24 YAML/JSON 主題檔案。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ملف .itermcolors (أو ملف .txt يحتوي على محتوى بهذا التنسيق)، أو سمة Base16/Base24 بصيغة YAML/JSON."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie eine .itermcolors-Datei (oder eine .txt-Datei, die eine solche enthält) oder ein Base16/Base24 YAML/JSON-Design aus."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elija un archivo .itermcolors (o .txt que contenga uno) o un tema Base16/Base24 YAML/JSON."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez un fichier .itermcolors (ou .txt en contenant un), ou un thème Base16/Base24 YAML/JSON."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ".itermcolors ファイル (またはそれを含む .txt)、または Base16/Base24 YAML/JSON テーマを選択します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ".itermcolors 파일(또는 이를 포함하는 .txt) 또는 Base16/Base24 YAML/JSON 테마를 선택하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha um arquivo .itermcolors (ou .txt contendo um) ou um tema Base16/Base24 YAML/JSON."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите файл .itermcolors (или .txt с его содержимым) либо тему Base16/Base24 в YAML/JSON."
           }
         }
       }
@@ -7548,6 +9036,54 @@
             "state": "translated",
             "value": "主題已匯入，但它屬於深色主題。請切換 App 外觀後選擇。"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم استيراد السمة، لكنها سمة داكنة. بدّل مظهر التطبيق لتحديدها."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Design wurde importiert, ist jedoch ein dunkles Design. Ändern Sie das Erscheinungsbild der App, um es auszuwählen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El tema se ha importado, pero es oscuro. Cambia la apariencia de la app para seleccionarlo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le thème a été importé, mais c’est un thème sombre. Changez l’apparence de l’app pour le sélectionner."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダークテーマをインポートしました。選択するには、アプリの外観をダークに切り替えてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마를 가져왔지만 다크 테마입니다. 앱의 화면 모드를 전환한 후 선택하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O tema foi importado, mas é um tema escuro. Mude a aparência do aplicativo para selecioná-lo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тема импортирована, но она темная. Переключите оформление приложения, чтобы выбрать ее."
+          }
         }
       }
     },
@@ -7576,6 +9112,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "主題已匯入，但它屬於淺色主題。請切換 App 外觀後選擇。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم استيراد السمة، لكنها سمة فاتحة. بدّل مظهر التطبيق لتحديدها."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Design wurde importiert, ist jedoch ein helles Design. Ändern Sie das Erscheinungsbild der App, um es auszuwählen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El tema se ha importado, pero es claro. Cambia la apariencia de la app para seleccionarlo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le thème a été importé, mais c’est un thème clair. Changez l’apparence de l’app pour le sélectionner."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ライトテーマをインポートしました。選択するには、アプリの外観をライトに切り替えてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마를 가져왔지만 라이트 테마입니다. 앱의 화면 모드를 전환한 후 선택하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O tema foi importado, mas é um tema claro. Mude a aparência do aplicativo para selecioná-lo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тема импортирована, но она светлая. Переключите оформление приложения, чтобы выбрать ее."
           }
         }
       }
@@ -7606,6 +9190,54 @@
             "state": "translated",
             "value": "主題檔案過大。"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملف السمة كبير جدًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Design-Datei ist zu groß."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El archivo del tema es demasiado grande."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fichier de thème est trop volumineux."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマファイルが大きすぎます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마 파일이 너무 큽니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O arquivo do tema é muito grande."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файл темы слишком велик."
+          }
         }
       }
     },
@@ -7634,6 +9266,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "無法讀取主題檔案。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذرت قراءة ملف السمة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Design-Datei konnte nicht gelesen werden."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo leer el archivo del tema."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fichier de thème n'a pas pu être lu."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマファイルを読み取れませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마 파일을 읽을 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível ler o arquivo do tema."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось прочитать файл темы."
           }
         }
       }
@@ -7664,6 +9344,54 @@
             "state": "translated",
             "value": "不支援此主題格式。請選擇 .itermcolors、Base16/Base24 YAML 或 JSON 檔案。"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنسيق السمة هذا غير مدعوم. اختر ملف .itermcolors أو Base16/Base24 YAML أو JSON."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieses Design-Format wird nicht unterstützt. Wählen Sie eine .itermcolors-, Base16/Base24 YAML- oder JSON-Datei aus."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este formato de tema no es compatible. Elija un archivo .itermcolors, Base16/Base24 YAML o JSON."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce format de thème n’est pas pris en charge. Choisissez un fichier .itermcolors, Base16/Base24 YAML ou JSON."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このテーマ形式には対応していません。.itermcolors、Base16/Base24 YAML、または JSON ファイルを選択してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 테마 형식은 지원되지 않습니다. .itermcolors, Base16/Base24 YAML 또는 JSON 파일을 선택하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este formato de tema não é suportado. Escolha um arquivo .itermcolors, Base16/Base24 YAML ou JSON."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Этот формат темы не поддерживается. Выберите файл .itermcolors, Base16/Base24 YAML или JSON."
+          }
         }
       }
     },
@@ -7673,7 +9401,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The theme file is missing a name or scheme."
+            "value": "The theme file is missing a name (the “name” or “scheme” field)."
           }
         },
         "tr": {
@@ -7685,13 +9413,61 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "主题文件缺少 name 或 scheme 名称。"
+            "value": "主题文件缺少名称（name 或 scheme）。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "主題檔案缺少 name 或 scheme 名稱。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يحتوي ملف السمة على اسم في أي من الحقلين name وscheme."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Design-Datei fehlt eine Namensangabe („name“ oder „scheme“)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El archivo del tema no contiene un nombre (campo «name» o «scheme»)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fichier de thème ne contient pas de nom (champ « name » ou « scheme »)."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマファイルに name または scheme がありません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마 파일에 name 또는 scheme으로 지정된 이름이 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O arquivo de tema não tem um nome (campo name ou scheme)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В файле темы отсутствует название (поле name или scheme)."
           }
         }
       }
@@ -7722,6 +9498,54 @@
             "state": "translated",
             "value": "主題檔案缺少必要色彩 %@。"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملف السمة يفتقد اللون المطلوب %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In der Design-Datei fehlt die erforderliche Farbe %@."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Al archivo de tema le falta el color requerido %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fichier de thème n'a pas la couleur requise %@."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマファイルに必要なカラー %@ がありません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마 파일에 필수 색상 ‘%@’이(가) 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O arquivo de tema não possui a cor necessária %@."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В файле темы отсутствует необходимый цвет %@."
+          }
         }
       }
     },
@@ -7751,6 +9575,54 @@
             "state": "translated",
             "value": "主題包含無效色彩：%@"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السمة تحتوي على لون غير صالح: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Design enthält eine ungültige Farbe: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El tema contiene un color no válido: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le thème contient une couleur invalide : %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマに無効な色が含まれています: %@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마에 잘못된 색상이 포함되어 있습니다: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O tema contém uma cor inválida: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тема содержит недопустимый цвет: %@."
+          }
         }
       }
     },
@@ -7760,7 +9632,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The theme foreground contrast is %.2f:1; at least 4.5:1 is required."
+            "value": "The contrast between the theme’s foreground and background is %.2f:1; at least 4.5:1 is required."
           }
         },
         "tr": {
@@ -7779,6 +9651,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "主題前景與背景對比度只有 %.2f:1，至少需要 4.5:1。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسبة التباين بين لون المقدمة والخلفية في السمة هي %.2f:1؛ يلزم 4.5:1 على الأقل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Kontrast zwischen Vorder- und Hintergrund des Designs beträgt %.2f:1; erforderlich sind mindestens 4,5:1."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El contraste del primer plano del tema es %.2f:1; se requiere al menos 4,5:1."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le contraste entre le premier plan et l’arrière-plan du thème est de %.2f:1 ; au moins 4,5:1 est requis."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマの前景色と背景色のコントラスト比は %.2f:1 です。少なくとも 4.5:1 が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마의 전경과 배경 대비는 %.2f:1입니다. 최소 4.5:1이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O contraste entre o primeiro plano e o fundo do tema é %.2f:1; é necessário pelo menos 4,5:1."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контраст между передним планом и фоном темы составляет %.2f:1; требуется как минимум 4,5:1."
           }
         }
       }
@@ -11871,7 +13791,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "مظلم"
+            "value": "داكن"
           }
         },
         "de": {
@@ -11907,7 +13827,7 @@
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "어두움"
+            "value": "다크"
           }
         },
         "pt": {
@@ -12103,13 +14023,13 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "الضوء"
+            "value": "فاتح"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Licht"
+            "value": "Hell"
           }
         },
         "en": {
@@ -12121,7 +14041,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Luz"
+            "value": "Claro"
           }
         },
         "fr": {
@@ -12133,25 +14053,25 @@
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "光"
+            "value": "ライト"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "빛"
+            "value": "라이트"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Luz"
+            "value": "Claro"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Свет"
+            "value": "Светлый"
           }
         },
         "tr": {
@@ -13876,13 +15796,13 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "وضع الضوء"
+            "value": "الوضع الفاتح"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lichtmodus"
+            "value": "Heller Modus"
           }
         },
         "en": {
@@ -13894,13 +15814,13 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Modo de luz"
+            "value": "Modo claro"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mode lumière"
+            "value": "Mode clair"
           }
         },
         "ja": {
@@ -16494,7 +18414,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "مظلم"
+            "value": "داكن"
           }
         },
         "de": {
@@ -16530,7 +18450,7 @@
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "어두움"
+            "value": "다크"
           }
         },
         "pt": {
@@ -16571,13 +18491,13 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "الضوء"
+            "value": "فاتح"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Licht"
+            "value": "Hell"
           }
         },
         "en": {
@@ -16589,13 +18509,13 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Luz"
+            "value": "Claro"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lumière"
+            "value": "Claire"
           }
         },
         "ja": {
@@ -16607,19 +18527,19 @@
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "빛"
+            "value": "라이트"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Luz"
+            "value": "Claro"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Свет"
+            "value": "Светлый"
           }
         },
         "tr": {
@@ -20949,6 +22869,83 @@
           "stringUnit": {
             "state": "translated",
             "value": "Türkçe"
+          }
+        }
+      }
+    },
+    "common.choose": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccionar…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolher…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswählen…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선택…"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seç…"
           }
         }
       }

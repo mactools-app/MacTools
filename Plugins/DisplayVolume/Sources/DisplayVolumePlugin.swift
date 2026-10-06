@@ -138,7 +138,19 @@ final class DisplayVolumePlugin:
         static let shortcutGroupID = "display-volume.shortcuts"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "display-volume",
+            title: localization.string("metadata.title", defaultValue: "显示器音量"),
+            iconName: "speaker.wave.2",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 30,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "快速调节每个显示器的音量"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .disclosure,
@@ -170,17 +182,6 @@ final class DisplayVolumePlugin:
             storage: UserDefaultsPluginStorage(pluginID: "display-volume")
         )
         self.mouseDisplayIDProvider = mouseDisplayIDProvider
-        self.metadata = PluginMetadata(
-            id: "display-volume",
-            title: localization.string("metadata.title", defaultValue: "显示器音量"),
-            iconName: "speaker.wave.2",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 30,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "快速调节每个显示器的音量"
-            )
-        )
         self.controller.onStateChange = { [weak self] in
             self?.onStateChange?()
         }

@@ -770,10 +770,9 @@ struct SystemStatusMetricEditorRow: View {
             }
             Spacer(minLength: 0)
             if canExpand {
-                Image(systemName: "chevron.right")
+                Image(systemName: isExpanded ? "chevron.down" : "chevron.forward")
                     .font(PluginSettingsTheme.Typography.rowIcon)
                     .foregroundStyle(.secondary)
-                    .rotationEffect(.degrees(isExpanded ? 90 : 0))
                     .accessibilityHidden(true)
             }
             // Reserve the independent visibility button's hit area.

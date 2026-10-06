@@ -104,7 +104,19 @@ final class ClipboardHistoryPlugin:
         static let data = "clipboard-data-settings"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: Self.pluginID,
+            title: localization.string("metadata.title", defaultValue: "剪贴板"),
+            iconName: "clipboard",
+            iconTint: .accentColor,
+            order: Self.pluginOrder,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "搜索历史记录并管理可重复使用的片段和已存项目"
+            )
+        )
+    }
     let rowDescriptor: PluginPanelRowDescriptor
     let controller: ClipboardHistoryController
     let savedLibraryController: ClipboardSavedLibraryController
@@ -547,17 +559,6 @@ final class ClipboardHistoryPlugin:
         self.savedLibraryController.maximumExpandedTextByteCount = { [weak settingsStore] in
             ClipboardHistorySettingsStore.validExpandedTextByteCount(settingsStore?.maximumExpandedTextByteCount ?? 0)
         }
-        self.metadata = PluginMetadata(
-            id: Self.pluginID,
-            title: localization.string("metadata.title", defaultValue: "剪贴板"),
-            iconName: "clipboard",
-            iconTint: .accentColor,
-            order: Self.pluginOrder,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "搜索历史记录并管理可重复使用的片段和已存项目"
-            )
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,
@@ -625,22 +626,22 @@ final class ClipboardHistoryPlugin:
             limit in
             switch reason {
             case .oversized:
-                privacyHUDPresenter?.showFailure(localization.format(
+                privacyHUDPresenter?.showFailure(localizedMessage: { [localization] in localization.format(
                     "hud.capture.oversized",
                     defaultValue: "未保存：内容超过 %d MB",
                     max(1, limit / (1_024 * 1_024))
-                ))
+                ) })
             case .historyCapacityFull:
-                privacyHUDPresenter?.showFailure(localization.string(
+                privacyHUDPresenter?.showFailure(localizedMessage: { [localization] in localization.string(
                     "hud.capture.capacityFull",
                     defaultValue: "Not saved: History capacity is full"
-                ))
+                ) })
             case .tooManyObjects:
-                privacyHUDPresenter?.showFailure(localization.format(
+                privacyHUDPresenter?.showFailure(localizedMessage: { [localization] in localization.format(
                     "hud.capture.tooManyObjects",
                     defaultValue: "未保存：剪贴板项目超过 %d 个",
                     limit
-                ))
+                ) })
             default:
                 break
             }
@@ -1198,7 +1199,7 @@ final class ClipboardHistoryPlugin:
                     "action.queue.previous.description",
                     defaultValue: "Move the sequential paste queue to the previous item."
                 ),
-                systemImage: "chevron.left"
+                systemImage: "chevron.backward"
             ),
             action(
                 id: ActionID.skipSequentialQueueItem,
@@ -1655,10 +1656,10 @@ final class ClipboardHistoryPlugin:
             return
         }
         guard accessibilityTrusted() else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.privateCopy.accessibilityRequired",
                 defaultValue: "私密复制需要辅助功能权限"
-            ))
+            ) })
             if !accessibilityRequester(true) {
                 requestPermissionGuidance?(PermissionID.accessibility)
             }
@@ -1666,10 +1667,10 @@ final class ClipboardHistoryPlugin:
             return
         }
         guard let targetProcessIdentifier else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.privateCopy.failed",
                 defaultValue: "私密复制失败"
-            ))
+            ) })
             return
         }
 
@@ -1697,10 +1698,10 @@ final class ClipboardHistoryPlugin:
             if !controller.canSuppressNextCapture {
                 showClipboardUnavailableHUD()
             } else if !hadPendingSuppression {
-                privacyHUDPresenter.showFailure(localization.string(
+                privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                     "hud.privateCopy.failed",
                     defaultValue: "私密复制失败"
-                ))
+                ) })
             }
             if !accessibilityTrusted() {
                 requestPermissionGuidance?(PermissionID.accessibility)
@@ -1711,10 +1712,10 @@ final class ClipboardHistoryPlugin:
 
     private func performPasteClipboardAsPlainText(targetProcessIdentifier: pid_t?) async {
         guard accessibilityTrusted() else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.pastePlain.accessibilityRequired",
                 defaultValue: "纯文本粘贴需要辅助功能权限"
-            ))
+            ) })
             if !accessibilityRequester(true) {
                 requestPermissionGuidance?(PermissionID.accessibility)
             }
@@ -1723,10 +1724,10 @@ final class ClipboardHistoryPlugin:
         }
         guard let targetProcessIdentifier,
               frontmostProcessIdentifier() == targetProcessIdentifier else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.pastePlain.failed",
                 defaultValue: "无法粘贴纯文本"
-            ))
+            ) })
             return
         }
         switch await controller.rewriteCurrentClipboardAsPlainText() {
@@ -1734,22 +1735,22 @@ final class ClipboardHistoryPlugin:
             resetImplicitQueueForManualClipboardWrite()
             break
         case .imageTextRecognitionPending:
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "panel.imageText.pending",
                 defaultValue: "正在识别文字…"
-            ))
+            ) })
             return
         case .imageTextUnavailable:
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "panel.imageText.unavailable",
                 defaultValue: "未识别到文字"
-            ))
+            ) })
             return
         case .unavailable:
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.pastePlain.unavailable",
                 defaultValue: "剪贴板中没有可粘贴的文本"
-            ))
+            ) })
             return
         }
         let preparedClipboardVersion = controller.currentPasteboardVersion
@@ -1758,10 +1759,10 @@ final class ClipboardHistoryPlugin:
             expectedPasteboardVersion: preparedClipboardVersion,
             currentPasteboardVersion: { self.controller.currentPasteboardVersion }
         ) else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.pastePlain.failed",
                 defaultValue: "无法粘贴纯文本"
-            ))
+            ) })
             if !accessibilityTrusted() {
                 requestPermissionGuidance?(PermissionID.accessibility)
                 onStateChange?()
@@ -2071,9 +2072,9 @@ final class ClipboardHistoryPlugin:
             }
         }
         onStateChange?()
-        privacyHUDPresenter.showSuccess(localization.string(
+        privacyHUDPresenter.showSuccess(localizedMessage: { [localization] in localization.string(
             "itemShortcut.assigned", defaultValue: "Item shortcut assigned"
-        ))
+        ) })
         return .accepted
     }
 
@@ -2083,9 +2084,9 @@ final class ClipboardHistoryPlugin:
             itemShortcutRequestGeneration[requestKey, default: 0] &+= 1
         }
         guard itemShortcutStore.remove(itemID: itemID, pasteFormat: pasteFormat) else { return }
-        privacyHUDPresenter.showSuccess(localization.string(
+        privacyHUDPresenter.showSuccess(localizedMessage: { [localization] in localization.string(
             "itemShortcut.removed", defaultValue: "Item shortcut removed"
-        ))
+        ) })
     }
 
     private func waitForItemShortcutAssignmentSlot(itemID: UUID) async {
@@ -2151,9 +2152,9 @@ final class ClipboardHistoryPlugin:
     ) async {
         guard itemShortcutLifecycleGeneration == lifecycleGeneration, !Task.isCancelled else { return }
         guard accessibilityTrusted() else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.quickPaste.accessibilityRequired", defaultValue: "Quick Paste requires Accessibility permission"
-            ))
+            ) })
             if !accessibilityRequester(true) {
                 requestPermissionGuidance?(PermissionID.accessibility)
             }
@@ -2198,17 +2199,17 @@ final class ClipboardHistoryPlugin:
         } catch {
             if !Task.isCancelled, itemShortcutLifecycleGeneration == lifecycleGeneration,
                itemShortcutStore.isCurrent(assignment.id, itemID: assignment.itemID) {
-                privacyHUDPresenter.showFailure(localization.string(
+                privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                     "hud.quickPaste.unavailable", defaultValue: "Quick Paste item is unavailable"
-                ))
+                ) })
             }
             return
         }
         guard itemShortcutLifecycleGeneration == lifecycleGeneration, !Task.isCancelled else { return }
         if assignment.pasteFormat == .plainText && plainText == nil {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "itemShortcut.plainTextUnavailable", defaultValue: "This item has no plain text to paste."
-            ))
+            ) })
             return
         }
         guard snapshot.payloadByteCount <= ClipboardSequentialPasteSession.maximumPayloadByteCount else { return }
@@ -2218,9 +2219,9 @@ final class ClipboardHistoryPlugin:
         }.value
         guard itemShortcutLifecycleGeneration == lifecycleGeneration, !Task.isCancelled else { return }
         guard filesAvailable, itemShortcutStore.isCurrent(assignment.id, itemID: assignment.itemID), !Task.isCancelled else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.quickPaste.unavailable", defaultValue: "Quick Paste item is unavailable"
-            ))
+            ) })
             return
         }
         guard let prepared = await savedLibraryController.copyQueuedSnapshotForPaste(
@@ -2236,9 +2237,9 @@ final class ClipboardHistoryPlugin:
         ) else {
             if itemShortcutLifecycleGeneration == lifecycleGeneration,
                itemShortcutStore.isCurrent(assignment.id, itemID: assignment.itemID), !Task.isCancelled {
-                privacyHUDPresenter.showFailure(localization.string(
+                privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                     "hud.quickPaste.failed", defaultValue: "Couldn’t paste Quick Paste item"
-                ))
+                ) })
             }
             return
         }
@@ -2263,9 +2264,9 @@ final class ClipboardHistoryPlugin:
         }
         guard itemShortcutLifecycleGeneration == lifecycleGeneration, !Task.isCancelled else { return }
         guard didPaste else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.quickPaste.failed", defaultValue: "Couldn’t paste Quick Paste item"
-            ))
+            ) })
             return
         }
         if assignment.source == .snippet {
@@ -2287,10 +2288,10 @@ final class ClipboardHistoryPlugin:
         workerGeneration: Int
     ) async -> Bool {
         guard accessibilityTrusted() else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.sequentialPaste.accessibilityRequired",
                 defaultValue: "Sequential paste requires Accessibility permission"
-            ))
+            ) })
             if !accessibilityRequester(true) {
                 requestPermissionGuidance?(PermissionID.accessibility)
             }
@@ -2299,10 +2300,10 @@ final class ClipboardHistoryPlugin:
         }
         guard let targetProcessIdentifier,
               frontmostProcessIdentifier() == targetProcessIdentifier else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.sequentialPaste.failed",
                 defaultValue: "Couldn’t paste the next clipboard item"
-            ))
+            ) })
             return false
         }
         let operation: ClipboardSequentialPasteOperation
@@ -2310,10 +2311,10 @@ final class ClipboardHistoryPlugin:
             guard let next = try await sequentialPasteCoordinator.nextOperation(
                 recentHistoryItemIDs: controller.recentItemIDsForSequentialPaste
             ) else {
-                privacyHUDPresenter.showFailure(localization.string(
+                privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                     "hud.sequentialPaste.empty",
                     defaultValue: "No clipboard items are available to paste"
-                ))
+                ) })
                 return false
             }
             operation = next
@@ -2390,10 +2391,10 @@ final class ClipboardHistoryPlugin:
         }
         guard didSendPaste else {
             synchronizeSequentialPasteProtection()
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.sequentialPaste.failed",
                 defaultValue: "Couldn’t paste the next clipboard item"
-            ))
+            ) })
             return false
         }
         if savedLibraryController.items.contains(where: { $0.id == itemID }) {
@@ -2439,10 +2440,10 @@ final class ClipboardHistoryPlugin:
             return false
         }
         synchronizeSequentialPasteProtection()
-        privacyHUDPresenter.showFailure(localization.string(
+        privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
             "hud.sequentialPaste.unavailable",
             defaultValue: "This queued item is no longer available"
-        ))
+        ) })
         return false
     }
 
@@ -2478,10 +2479,10 @@ final class ClipboardHistoryPlugin:
     private func requestSequentialQueueCreation(itemIDs: [UUID]) async -> Bool {
         guard !isBackingUpClipboard else { return false }
         guard sequentialQueueCreationTask == nil else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.queue.active",
                 defaultValue: "Finish or cancel the current queue before creating another one"
-            ))
+            ) })
             return false
         }
         sequentialQueueCreationGeneration &+= 1
@@ -2504,10 +2505,10 @@ final class ClipboardHistoryPlugin:
         let savedItemsByID = Dictionary(uniqueKeysWithValues: savedLibraryController.items.map { ($0.id, $0) })
         let availableItemIDs = Set(historyItemsByID.keys).union(savedItemsByID.keys)
         guard !itemIDs.isEmpty, itemIDs.allSatisfy(availableItemIDs.contains) else {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.sequentialPaste.unavailable",
                 defaultValue: "This queued item is no longer available"
-            ))
+            ) })
             return false
         }
         do {
@@ -2546,35 +2547,36 @@ final class ClipboardHistoryPlugin:
             try await sequentialPasteCoordinator.startExplicitQueue(snapshots: snapshots)
             cancelPendingSequentialPastes()
             synchronizeSequentialPasteProtection()
-            privacyHUDPresenter.showSuccess(localization.format(
+            let queuedItemCount = sequentialPasteCoordinator.session?.totalCount ?? 0
+            privacyHUDPresenter.showSuccess(localizedMessage: { [localization] in localization.format(
                 "hud.queue.created",
                 defaultValue: "Queue ready · %lld items",
-                sequentialPasteCoordinator.session?.totalCount ?? 0
-            ))
+                queuedItemCount
+            ) })
             showSequentialPasteHUD()
             return true
         } catch ClipboardSequentialQueueError.activeQueueExists {
-            privacyHUDPresenter.showFailure(localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
                 "hud.queue.active",
                 defaultValue: "Finish or cancel the current queue before creating another one"
-            ))
+            ) })
         } catch ClipboardSequentialQueueError.exceedsMaximumItemCount {
-            privacyHUDPresenter.showFailure(localization.format(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.format(
                 "hud.queue.tooMany",
                 defaultValue: "A queue can contain up to %lld items",
                 ClipboardSequentialPasteSession.maximumItemCount
-            ))
+            ) })
         } catch ClipboardSequentialQueueError.exceedsMaximumPayloadByteCount {
-            privacyHUDPresenter.showFailure(localization.format(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.format(
                 "hud.queue.tooLarge",
                 defaultValue: "A queue can contain up to %lld MB of clipboard data",
                 ClipboardSequentialPasteSession.maximumPayloadByteCount / 1_024 / 1_024
-            ))
+            ) })
         } catch is CancellationError {
             return false
         } catch {
-            let message = itemIDs.isEmpty
-                ? localization.string(
+            privacyHUDPresenter.showFailure(localizedMessage: { [localization] in
+                itemIDs.isEmpty ? localization.string(
                     "hud.queue.empty",
                     defaultValue: "Select at least one item for the queue"
                 )
@@ -2582,7 +2584,7 @@ final class ClipboardHistoryPlugin:
                     "hud.sequentialPaste.unavailable",
                     defaultValue: "This queued item is no longer available"
                 )
-            privacyHUDPresenter.showFailure(message)
+            })
         }
         return false
     }
@@ -2593,10 +2595,10 @@ final class ClipboardHistoryPlugin:
     }
 
     private func showSequentialPersistenceFailure() {
-        privacyHUDPresenter.showFailure(localization.string(
+        privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
             "hud.sequentialPaste.persistenceFailed",
             defaultValue: "The paste queue couldn’t be saved. Try again."
-        ))
+        ) })
     }
 
     private func showSequentialPasteHUD() {
@@ -2789,7 +2791,7 @@ final class ClipboardHistoryPlugin:
         let preview = normalizedTitle.isEmpty
             ? localization.string("quickPaste.historyItem", defaultValue: "History item")
             : normalizedTitle
-        return "\(String(preview.prefix(60))) · \(item.capturedAt.formatted(date: .abbreviated, time: .standard))"
+        return "\(String(preview.prefix(60))) · \(item.capturedAt.formatted(Date.FormatStyle(date: .abbreviated, time: .standard).locale(PluginRuntimeLocalization.locale)))"
     }
 
     private static func localizedContentKindTitle(
@@ -2885,10 +2887,10 @@ final class ClipboardHistoryPlugin:
     }
 
     private func showClipboardUnavailableHUD() {
-        privacyHUDPresenter.showFailure(localization.string(
+        privacyHUDPresenter.showFailure(localizedMessage: { [localization] in localization.string(
             "hud.clipboardUnavailable",
             defaultValue: "剪贴板历史尚未准备好"
-        ))
+        ) })
     }
 
     private func collectionActionBlockingMessage() -> String? {

@@ -26,6 +26,7 @@ final class LaunchpadFolderRenameController {
 /// the dismiss observers need no new exemptions. Mirrors the `LaunchpadSearchField` bridge:
 /// Coordinator + `doCommandBySelector` + `hasMarkedText()` for IME safety.
 struct LaunchpadFolderRenameField: NSViewRepresentable {
+    @Environment(\.layoutDirection) private var layoutDirection
     var folderID: String
     var name: String
     var placeholder: String
@@ -100,6 +101,8 @@ struct LaunchpadFolderRenameField: NSViewRepresentable {
         // the field's `.center`, so the empty-title prompt rendered left. An attributed string
         // with a centered paragraph style honors the alignment.
         field.placeholderAttributedString = Self.centeredPlaceholder(placeholder, font: field.font)
+        field.cell?.baseWritingDirection = .natural
+        configureDirectionAndAccessibility(field)
         field.editGate = { [weak coordinator = context.coordinator] in
             coordinator?.parent.editGate() ?? true
         }
@@ -126,10 +129,11 @@ struct LaunchpadFolderRenameField: NSViewRepresentable {
         if field.textColor != titleColor {
             field.textColor = titleColor
         }
-        if field.font != titleFont {
+        if field.font != titleFont || field.placeholderAttributedString?.string != placeholder {
             field.font = titleFont
             field.placeholderAttributedString = Self.centeredPlaceholder(placeholder, font: field.font)
         }
+        configureDirectionAndAccessibility(field)
         if coordinator.folderID != folderID {
             // The panel stayed mounted across a close→reopen of a different folder (the 0.34s
             // unmount grace): any leftover session belongs to the OLD folder — `closeFolder`
@@ -143,6 +147,16 @@ struct LaunchpadFolderRenameField: NSViewRepresentable {
         if let request = focusRequestID, request == folderID {
             coordinator.requestProgrammaticFocus()
         }
+    }
+
+    private func configureDirectionAndAccessibility(_ field: LaunchpadRenameTextField) {
+        let direction: NSUserInterfaceLayoutDirection = layoutDirection == .rightToLeft
+            ? .rightToLeft : .leftToRight
+        if field.userInterfaceLayoutDirection != direction {
+            field.userInterfaceLayoutDirection = direction
+            field.cell?.userInterfaceLayoutDirection = direction
+        }
+        field.setAccessibilityLabel(placeholder)
     }
 
     /// Unmount backstop, SECOND line of defence: an unresolved session commits so no typed

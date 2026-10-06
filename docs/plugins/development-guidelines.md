@@ -20,6 +20,14 @@ Record newly introduced public APIs and their first compatible host in `scripts/
 
 Localize panel, settings, permission, error, and metadata text. Plugin string catalogs belong in `Plugins/<PluginName>/Resources`; use the plugin resource bundle. Source manifests declare localized product fields through `productStrings` references and place screenshots in `MarketplaceAssets/`. See [product metadata](plugin-catalog.md#product-and-capability-metadata); do not hand-edit generated package manifests or add a parallel marketplace manifest.
 
+Every lookup needs an English resource so the shared fallback never exposes Chinese defaults or key identifiers in other languages. Keep every catalog key translated in all 11 supported languages. Run `make validate-localization` after changing copy or catalogs; `make script-tests` includes it. The check validates recognized source lookups, Marketplace enum labels, translation state, supported-language completeness, and printf argument types. A missing translation fails validation; `python3 scripts/audit-localization.py --require-complete --json` lists every finding. Computed keys and new wrapper methods still need review.
+
+Use `PluginRuntimeLocalization.locale` for user-facing numbers, percentages, byte counts, dates, durations, and lists. Keep protocol timestamps, exported filenames, identifiers, paths, vendor field names, and user-authored content stable. Retained presentation must respond to language changes through `PluginRuntimeLocalizationRefreshing` without restarting collectors or rescanning data. Preserve the underlying values and selection. Review long translations, Arabic directionality, accessibility text, and native dialogs on the affected surfaces.
+
+Custom SwiftUI sheets must explicitly forward their presenter's `locale` and `layoutDirection` environments to the sheet content. On macOS, automatic sheet inheritance can leave Arabic content laid out left to right. Use semantic forward/backward symbols for UI navigation while preserving physical left/right directions in input bindings. Keep manifest action symbols aligned with their runtime definitions and regenerate website data after changes.
+
+Independent AppKit hosting views and controllers must observe the runtime locale and forward both environments to their SwiftUI roots. Refresh localized native window labels and cached previews without recreating editing or selection state. Keep physical grids, pointer coordinates, and menu-bar item ordering stable; apply the language direction to their semantic text and controls.
+
 ## Widgets
 
 A widget is a reusable presentation of plugin data. It can have no placements, one placement, or multiple independent copies.

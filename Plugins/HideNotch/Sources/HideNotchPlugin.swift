@@ -43,7 +43,16 @@ final class HideNotchPlugin: MacToolsPlugin, PluginActionProviding {
         static let toggle = "toggle"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "hide-notch",
+            title: localization.string("metadata.title", defaultValue: "隐藏刘海"),
+            iconName: "rectangle.topthird.inset.filled",
+            iconTint: Color(nsColor: .labelColor),
+            order: 40,
+            defaultDescription: localization.string("metadata.description", defaultValue: "自动遮挡刘海屏顶部区域")
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -64,17 +73,10 @@ final class HideNotchPlugin: MacToolsPlugin, PluginActionProviding {
     ) {
         let localization = localization ?? PluginLocalization(bundle: context.resourceBundle)
         self.localization = localization
-        self.metadata = PluginMetadata(
-            id: "hide-notch",
-            title: localization.string("metadata.title", defaultValue: "隐藏刘海"),
-            iconName: "rectangle.topthird.inset.filled",
-            iconTint: Color(nsColor: .labelColor),
-            order: 40,
-            defaultDescription: localization.string("metadata.description", defaultValue: "自动遮挡刘海屏顶部区域")
-        )
         self.controller = controller ?? HideNotchController(
             maskManager: HideNotchDesktopMaskManager(localization: localization),
-            context: context
+            context: context,
+            localization: localization
         )
         self.controller.onStateChange = { [weak self] in
             self?.onStateChange?()

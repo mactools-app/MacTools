@@ -286,7 +286,7 @@ struct ActivityBarComponentView: View {
                         presentation.expandedAppName = nil
                     }
                 } label: {
-                    Image(systemName: "chevron.left")
+                    Image(systemName: "chevron.backward")
                         .font(.system(size: 11, weight: .semibold))
                         .foregroundStyle(canGoBack ? theme.text.secondary : theme.text.disabled)
                         .frame(width: 22, height: 22)
@@ -306,7 +306,7 @@ struct ActivityBarComponentView: View {
                         presentation.expandedAppName = nil
                     }
                 } label: {
-                    Image(systemName: "chevron.right")
+                    Image(systemName: "chevron.forward")
                         .font(.system(size: 11, weight: .semibold))
                         .foregroundStyle(isViewingToday ? theme.text.disabled : theme.text.secondary)
                         .frame(width: 22, height: 22)
@@ -616,10 +616,9 @@ struct ActivityBarComponentView: View {
                 }
             } label: {
                 HStack(spacing: 6) {
-                    Image(systemName: "chevron.right")
+                    Image(systemName: isExpanded ? "chevron.down" : "chevron.forward")
                         .font(.system(size: 8, weight: .bold))
                         .foregroundStyle(theme.text.secondary)
-                        .rotationEffect(.degrees(isExpanded ? 90 : 0))
 
                     Text(name)
                         .font(.body)
@@ -682,10 +681,9 @@ struct ActivityBarComponentView: View {
                     Text(localization.string("component.trends.title", defaultValue: "Trends"))
                         .font(PluginTypography.sectionTitle.font)
 
-                    Image(systemName: "chevron.right")
+                    Image(systemName: statsExpanded ? "chevron.down" : "chevron.forward")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(theme.text.secondary)
-                        .rotationEffect(.degrees(statsExpanded ? 90 : 0))
                 }
                 .contentShape(Rectangle())
             }

@@ -141,7 +141,19 @@ final class DisplayBrightnessPlugin:
         static let shortcutGroupID = "display-brightness.shortcuts"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "display-brightness",
+            title: localization.string("metadata.title", defaultValue: "显示器亮度"),
+            iconName: "sun.max",
+            iconTint: Color(nsColor: .systemYellow),
+            order: 20,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "快速调节每个显示器的亮度"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .disclosure,
@@ -187,17 +199,6 @@ final class DisplayBrightnessPlugin:
             storage: UserDefaultsPluginStorage(pluginID: "display-brightness")
         )
         self.mouseDisplayIDProvider = mouseDisplayIDProvider
-        self.metadata = PluginMetadata(
-            id: "display-brightness",
-            title: localization.string("metadata.title", defaultValue: "显示器亮度"),
-            iconName: "sun.max",
-            iconTint: Color(nsColor: .systemYellow),
-            order: 20,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "快速调节每个显示器的亮度"
-            )
-        )
         self.controller.onStateChange = { [weak self] in
             self?.onStateChange?()
         }

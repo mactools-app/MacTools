@@ -54,8 +54,24 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
     private enum ActionID {
         static let empty = "empty"
     }
+    private enum TrashOperationError: Error {
+        case countUnavailable
+        case emptyFailed
+    }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "empty-trash",
+            title: localization.string("metadata.title", defaultValue: "清空废纸篓"),
+            iconName: "trash",
+            iconTint: Color(nsColor: .systemGray),
+            order: 93,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "清空废纸篓中的所有项目"
+            )
+        )
+    }
 
     let rowDescriptor: PluginPanelRowDescriptor
 
@@ -70,7 +86,18 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "cc.ggbond.mactools", category: "EmptyTrashPlugin")
     private var itemCount: Int = 0
     private var isEmptying = false
-    private var lastErrorMessage: String?
+    private var lastError: Error?
+    private var lastErrorMessage: String? {
+        guard let lastError else { return nil }
+        switch lastError {
+        case TrashOperationError.countUnavailable:
+            return localization.string("error.countFailed", defaultValue: "无法读取废纸篓，请检查“自动化”权限。")
+        case TrashOperationError.emptyFailed:
+            return localization.string("error.emptyFailed", defaultValue: "清空废纸篓失败，请检查“自动操作”权限")
+        default:
+            return lastError.localizedDescription
+        }
+    }
     private var visiblePanelItems: Set<String> = []
     private var countRefreshTask: Task<Void, Never>?
 
@@ -82,25 +109,10 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
     ) {
         self.localization = localization
         self.countItems = countItems
-        let errorMessage = localization.string(
-            "error.emptyFailed",
-            defaultValue: "清空废纸篓失败，请检查“自动操作”权限"
-        )
         self.emptyItems = emptyItems ?? {
-            try await EmptyTrashPlugin.emptyTrashViaAppleScript(errorMessage: errorMessage)
+            try await EmptyTrashPlugin.emptyTrashViaAppleScript()
         }
         self.countRefreshDelay = countRefreshDelay
-        self.metadata = PluginMetadata(
-            id: "empty-trash",
-            title: localization.string("metadata.title", defaultValue: "清空废纸篓"),
-            iconName: "trash",
-            iconTint: Color(nsColor: .systemGray),
-            order: 93,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "清空废纸篓中的所有项目"
-            )
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .keepPresented,
@@ -256,7 +268,7 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
             do {
                 let count = try await self.countItems()
                 guard !Task.isCancelled else { return }
-                self.lastErrorMessage = nil
+                self.lastError = nil
                 if self.itemCount != count {
                     self.itemCount = count
                     self.onStateChange?()
@@ -264,7 +276,7 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
             } catch {
                 guard !Task.isCancelled else { return }
                 self.itemCount = 0
-                self.lastErrorMessage = error.localizedDescription
+                self.lastError = error
                 self.onStateChange?()
             }
             self.countRefreshTask = nil
@@ -293,7 +305,7 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
     private func emptyTrash() {
         guard !isEmptying, itemCount > 0 else { return }
         isEmptying = true
-        lastErrorMessage = nil
+        lastError = nil
         onStateChange?()
 
         Task {
@@ -307,25 +319,17 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
         let script = "tell application \"Finder\" to count items of trash"
         return try await Task.detached(priority: .userInitiated) {
             guard let output = runOsascriptStandalone(script), let count = Int(output) else {
-                throw NSError(
-                    domain: "EmptyTrashPlugin",
-                    code: 2,
-                    userInfo: [NSLocalizedDescriptionKey: "无法读取废纸篓，请检查“自动化”权限。"]
-                )
+                throw TrashOperationError.countUnavailable
             }
             return count
         }.value
     }
 
-    private static func emptyTrashViaAppleScript(errorMessage: String) async throws {
+    private static func emptyTrashViaAppleScript() async throws {
         let script = "tell application \"Finder\" to empty trash"
         try await Task.detached(priority: .userInitiated) {
              if runOsascriptStandalone(script) == nil {
-                throw NSError(
-                    domain: "EmptyTrashPlugin",
-                    code: 1,
-                    userInfo: [NSLocalizedDescriptionKey: errorMessage]
-                )
+                throw TrashOperationError.emptyFailed
             }
         }.value
     }
@@ -339,12 +343,12 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
         do {
             count = try await countItems()
             itemCount = count
-            lastErrorMessage = nil
+            lastError = nil
         } catch {
             itemCount = 0
-            lastErrorMessage = error.localizedDescription
+            lastError = error
             onStateChange?()
-            return .failed(message: error.localizedDescription)
+            return .failed(message: lastErrorMessage ?? error.localizedDescription)
         }
         guard count > 0 else {
             onStateChange?()
@@ -355,7 +359,7 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
         }
 
         isEmptying = true
-        lastErrorMessage = nil
+        lastError = nil
         onStateChange?()
         return await finishEmptying()
     }
@@ -375,11 +379,11 @@ final class EmptyTrashPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
             return .succeeded()
         } catch {
             isEmptying = false
-            lastErrorMessage = error.localizedDescription
+            lastError = error
             onStateChange?()
             scheduleCountRefreshIfVisible()
             logger.error("Empty trash failed: \(error)")
-            return .failed(message: error.localizedDescription)
+            return .failed(message: lastErrorMessage ?? error.localizedDescription)
         }
     }
 }

@@ -56,7 +56,19 @@ final class CalendarPlugin: MacToolsPlugin {
         static let alternateCalendar = "alternate-calendar"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "calendar",
+            title: localization.string("metadata.title", defaultValue: "日历"),
+            iconName: "calendar",
+            iconTint: Color(nsColor: .systemIndigo),
+            order: 15,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "查看日期、节假日和系统日程"
+            )
+        )
+    }
 
     var descriptor: PluginPanelWidgetDescriptor {
         PluginPanelWidgetDescriptor(
@@ -107,17 +119,6 @@ final class CalendarPlugin: MacToolsPlugin {
             showsRecentAgenda: self.settingsStore.showsRecentAgenda,
             alternateCalendar: self.settingsStore.alternateCalendar,
             calendarProvider: { CalendarComponentCalendars.gregorian() }
-        )
-        self.metadata = PluginMetadata(
-            id: "calendar",
-            title: localization.string("metadata.title", defaultValue: "日历"),
-            iconName: "calendar",
-            iconTint: Color(nsColor: .systemIndigo),
-            order: 15,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "查看日期、节假日和系统日程"
-            )
         )
         self.viewModel.onStateChange = { [weak self] in self?.onStateChange?() }
     }

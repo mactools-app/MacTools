@@ -26,7 +26,19 @@ private enum RightClickPermissionID {
 
 @MainActor
 final class RightClickPlugin: MacToolsPlugin {
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "right-click",
+            title: localization.string("metadata.title", defaultValue: "右键工具"),
+            iconName: "contextualmenu.and.cursorarrow",
+            iconTint: Color(nsColor: .systemTeal),
+            order: 74,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "在 Finder 右键菜单中快速新建文件/文件夹、复制路径、在终端打开、用应用打开"
+            )
+        )
+    }
 
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
@@ -41,17 +53,6 @@ final class RightClickPlugin: MacToolsPlugin {
 
     init(localization: PluginLocalization = PluginLocalization(bundle: .main)) {
         self.localization = localization
-        self.metadata = PluginMetadata(
-            id: "right-click",
-            title: localization.string("metadata.title", defaultValue: "右键工具"),
-            iconName: "contextualmenu.and.cursorarrow",
-            iconTint: Color(nsColor: .systemTeal),
-            order: 74,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "在 Finder 右键菜单中快速新建文件/文件夹、复制路径、在终端打开、用应用打开"
-            )
-        )
     }
 
     func activate(context _: PluginRuntimeContext) {

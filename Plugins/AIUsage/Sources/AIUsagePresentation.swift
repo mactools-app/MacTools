@@ -33,11 +33,11 @@ struct AIUsageStrings {
 
     func windowTitle(_ window: AIUsageWindow) -> String {
         if let duration = window.duration, duration > 0 {
-            if duration == 604_800 { return text("window.weekly", "每周剩余") }
+            if duration == 604_800 { return text("window.weekly", "周剩余额度") }
             let hours = duration / 3600
-            return localization.format("window.hours", defaultValue: "%@ 小时剩余", hours.formatted(.number.precision(.fractionLength(0...1))))
+            return localization.format("window.hours", defaultValue: "剩余额度（%@ 小时周期）", hours.formatted(.number.precision(.fractionLength(0...1)).locale(PluginRuntimeLocalization.locale)))
         }
-        return window.id == "weekly" ? text("window.weekly", "每周剩余") : text("window.primary", "剩余额度")
+        return window.id == "weekly" ? text("window.weekly", "周剩余额度") : text("window.primary", "剩余额度")
     }
 
     func reset(_ date: Date?, now: Date, compact: Bool = false) -> String {
@@ -68,9 +68,9 @@ struct AIUsageStrings {
         case (.weekly, .steady): text("pace.steady", "周用量平稳")
         case (.weekly, .ahead): text("pace.ahead", "周用量偏快")
         case (.weekly, .exhausted): text("pace.exhausted", "周额度用尽")
-        case (.fiveHour, .steady): text("pace.fiveHour.steady", "5 小时平稳")
-        case (.fiveHour, .ahead): text("pace.fiveHour.ahead", "5 小时偏快")
-        case (.fiveHour, .exhausted): text("pace.fiveHour.exhausted", "5 小时用尽")
+        case (.fiveHour, .steady): text("pace.fiveHour.steady", "5 小时额度消耗平稳")
+        case (.fiveHour, .ahead): text("pace.fiveHour.ahead", "5 小时额度消耗偏快")
+        case (.fiveHour, .exhausted): text("pace.fiveHour.exhausted", "5 小时额度用尽")
         }
     }
 
@@ -92,7 +92,7 @@ struct AIUsageStrings {
     }
 
     static func percent(_ value: Double) -> String {
-        value.formatted(.number.precision(.fractionLength(0))) + "%"
+        value.formatted(.percent.scale(1).precision(.fractionLength(0)).locale(PluginRuntimeLocalization.locale))
     }
 }
 

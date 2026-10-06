@@ -57,7 +57,19 @@ final class WindowLayoutsPlugin: MacToolsPlugin, AccessibilityPermissionRefreshi
         let systemImage: String
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "window-layouts",
+            title: localization.string("metadata.title", defaultValue: "窗口布局"),
+            iconName: "rectangle.3.group",
+            iconTint: Color(nsColor: .systemTeal),
+            order: 65,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "排列聚焦窗口并创建自定义布局"
+            )
+        )
+    }
     var onStateChange: (() -> Void)?
     var onActionSafetyStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
@@ -175,17 +187,6 @@ final class WindowLayoutsPlugin: MacToolsPlugin, AccessibilityPermissionRefreshi
                 fullScreenWriter: frameAdapter
             )
         }
-        self.metadata = PluginMetadata(
-            id: "window-layouts",
-            title: localization.string("metadata.title", defaultValue: "窗口布局"),
-            iconName: "rectangle.3.group",
-            iconTint: Color(nsColor: .systemTeal),
-            order: 65,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "排列聚焦窗口并创建自定义布局"
-            )
-        )
         self.store.onMutation = { [weak self] in
             self?.customCommandSettingsRevision &+= 1
             self?.onStateChange?()
@@ -226,7 +227,7 @@ final class WindowLayoutsPlugin: MacToolsPlugin, AccessibilityPermissionRefreshi
             title: localizedKey("settings.shortcuts.title", "窗口布局快捷键"),
             description: localizedKey(
                 "settings.shortcuts.description",
-                "可使用预设，也可逐项录制自己的全局快捷键。"
+                "使用预设后，可单独修改任意全局快捷键。"
             ),
             actionIDs: Set(WindowLayoutOperation.allCases.map(\.rawValue) + store.customCommands.map(\.actionID))
         )
@@ -657,7 +658,7 @@ final class WindowLayoutsPlugin: MacToolsPlugin, AccessibilityPermissionRefreshi
         }
         return localizedKey(
             "settings.modifierDrag.footer",
-            "按住精确组合并移动指针，即可拖移指针下方最上层窗口；无需点击。"
+            "仅按住所选组合键并移动指针，即可拖移指针下方最上层窗口；无需点击。"
         )
     }
 

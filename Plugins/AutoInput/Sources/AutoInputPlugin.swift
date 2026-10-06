@@ -60,7 +60,19 @@ final class AutoInputPlugin: MacToolsPlugin, PluginApplicationActivityStateHandl
         static let inputSource = "inputSourceID"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "auto-input",
+            title: localization.string("metadata.title", defaultValue: "自动切换输入法"),
+            iconName: "keyboard",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 66,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "按应用记住并自动切换输入法"
+            )
+        )
+    }
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
         menuActionBehavior: .keepPresented
@@ -100,17 +112,6 @@ final class AutoInputPlugin: MacToolsPlugin, PluginApplicationActivityStateHandl
         self.localization = localization
         self.store = store
         self.controller = controller
-        self.metadata = PluginMetadata(
-            id: "auto-input",
-            title: localization.string("metadata.title", defaultValue: "自动切换输入法"),
-            iconName: "keyboard",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 66,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "按应用记住并自动切换输入法"
-            )
-        )
         controller.onStateChange = { [weak self] in
             self?.onStateChange?()
         }

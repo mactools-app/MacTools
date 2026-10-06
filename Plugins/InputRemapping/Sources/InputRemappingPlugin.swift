@@ -247,7 +247,34 @@ final class InputRemappingPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
 
     private var isAccessibilityGranted: Bool
     private var inputMonitoringState: InputRemappingInputMonitoringStatus
-    private var errorMessage: String?
+    private enum RuntimeError {
+        case accessibilityRequired
+        case inputMonitoringRequired
+        case tapUnavailable
+    }
+
+    private var runtimeError: RuntimeError?
+
+    private var errorMessage: String? {
+        guard let runtimeError else { return nil }
+        switch runtimeError {
+        case .accessibilityRequired:
+            return localization.string(
+                "error.accessibilityRequired",
+                defaultValue: "请先授予辅助功能权限以启用规则。"
+            )
+        case .inputMonitoringRequired:
+            return localization.string(
+                "error.inputMonitoringRequired",
+                defaultValue: "请先授予输入监控权限以启用规则。"
+            )
+        case .tapUnavailable:
+            return localization.string(
+                "error.tapUnavailable",
+                defaultValue: "无法启动输入监听，请检查权限后重试。"
+            )
+        }
+    }
     private var applicationActivationObserver: NSObjectProtocol?
     private var ownedTrackpadGestures: Set<TrackpadGesture> = []
 
@@ -545,17 +572,14 @@ final class InputRemappingPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
             if !tap.isCaptureSequenceActive {
                 tap.stop()
             }
-            errorMessage = nil
+            runtimeError = nil
             onStateChange?()
             return
         }
 
         guard isAccessibilityGranted else {
             tap.stop()
-            errorMessage = localization.string(
-                "error.accessibilityRequired",
-                defaultValue: "请先授予辅助功能权限以启用规则。"
-            )
+            runtimeError = .accessibilityRequired
             onStateChange?()
             return
         }
@@ -564,28 +588,22 @@ final class InputRemappingPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
             if !tap.isCaptureSequenceActive {
                 tap.stop()
             }
-            errorMessage = nil
+            runtimeError = nil
             onStateChange?()
             return
         }
 
         guard isInputMonitoringGranted else {
             tap.stop()
-            errorMessage = localization.string(
-                "error.inputMonitoringRequired",
-                defaultValue: "请先授予输入监控权限以启用规则。"
-            )
+            runtimeError = .inputMonitoringRequired
             onStateChange?()
             return
         }
 
         if tap.start() {
-            errorMessage = nil
+            runtimeError = nil
         } else {
-            errorMessage = localization.string(
-                "error.tapUnavailable",
-                defaultValue: "无法启动输入监听，请检查权限后重试。"
-            )
+            runtimeError = .tapUnavailable
         }
         onStateChange?()
     }
@@ -940,7 +958,7 @@ private struct InputRemappingRuleEditor: View {
     }
 
     private var flowArrow: some View {
-        Image(systemName: "arrow.right")
+        Image(systemName: "arrow.forward")
             .font(.title3)
             .foregroundStyle(.secondary)
             .frame(width: 16)

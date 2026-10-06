@@ -97,8 +97,10 @@ final class StorageExplorerPresentationTests: XCTestCase {
             snapshot.apply([StorageItem(name: "\(i)", path: path, url: URL(fileURLWithPath: path),
                 isDirectory: false, size: 10, parentPath: "/fixture")])
         }
+        let groupName = UUID().uuidString
         let result = StorageExplorerPresentation.make(snapshot: snapshot, directory: "/fixture", mode: .folders,
-            metric: .logical, query: "", sort: .size, ascending: false)
+            metric: .logical, query: "", sort: .size, ascending: false, otherName: groupName)
+        XCTAssertEqual(result.chart.last?.name, groupName)
         XCTAssertEqual(result.chart.count, 161)
         XCTAssertEqual(result.chart.reduce(0) { $0 + $1.bytes }, 1_620)
         XCTAssertEqual(result.chart.last?.id, "group:other")

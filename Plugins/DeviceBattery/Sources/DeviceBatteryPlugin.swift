@@ -48,7 +48,19 @@ final class DeviceBatteryPlugin: MacToolsPlugin, PluginApplicationActivityStateH
         static let inputMonitoring = "input-monitoring"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "device-battery",
+            title: localization.string("metadata.title", defaultValue: "设备电量"),
+            iconName: "battery.75percent",
+            iconTint: Color(nsColor: .systemGreen),
+            order: 20,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "查看 Mac、Apple 移动设备、蓝牙外设和雷柏鼠标电量"
+            )
+        )
+    }
 
     var descriptor: PluginPanelWidgetDescriptor {
         PluginPanelWidgetDescriptor(span: componentSpan)
@@ -113,17 +125,6 @@ final class DeviceBatteryPlugin: MacToolsPlugin, PluginApplicationActivityStateH
         self.localization = localization
         self.inputMonitoringAuthorizationStatus = inputMonitoringAuthorizationStatus
         self.lowBatteryNotificationController = DeviceBatteryLowBatteryNotificationController(notifier: lowBatteryNotifier)
-        self.metadata = PluginMetadata(
-            id: "device-battery",
-            title: localization.string("metadata.title", defaultValue: "设备电量"),
-            iconName: "battery.75percent",
-            iconTint: Color(nsColor: .systemGreen),
-            order: 20,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "查看 Mac、Apple 移动设备、蓝牙外设和雷柏鼠标电量"
-            )
-        )
         viewModel.setLowBatteryMonitoringEnabled(store.lowBatteryNotificationEnabled)
         viewModel.onSnapshotChange = { [weak self] in
             self?.handleSnapshotChange()

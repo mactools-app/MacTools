@@ -112,7 +112,19 @@ final class SystemMutePlugin: MacToolsPlugin, PluginActionProviding {
         case muteFailed
         case unmuteFailed
     }
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "system-mute",
+            title: localization.string("metadata.title", defaultValue: "系统静音"),
+            iconName: "speaker.slash",
+            iconTint: Color(nsColor: .systemOrange),
+            order: 48,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "快速静音或恢复系统音频输出"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -149,17 +161,6 @@ final class SystemMutePlugin: MacToolsPlugin, PluginActionProviding {
     ) {
         self.localization = localization
         self.controller = controller
-        self.metadata = PluginMetadata(
-            id: "system-mute",
-            title: localization.string("metadata.title", defaultValue: "系统静音"),
-            iconName: "speaker.slash",
-            iconTint: Color(nsColor: .systemOrange),
-            order: 48,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "快速静音或恢复系统音频输出"
-            )
-        )
         self.isMuted = controller.readMuteState()
     }
 

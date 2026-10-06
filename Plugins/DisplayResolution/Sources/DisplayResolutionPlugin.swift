@@ -68,7 +68,19 @@ final class DisplayResolutionPlugin: MacToolsPlugin, DisplayTopologyRefreshing, 
         static let refreshRate = "refresh-rate"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "display-resolution",
+            title: localization.string("metadata.title", defaultValue: "显示器分辨率"),
+            iconName: "display",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 30,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "查看并切换每个显示器的分辨率"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .disclosure,
@@ -81,7 +93,15 @@ final class DisplayResolutionPlugin: MacToolsPlugin, DisplayTopologyRefreshing, 
 
     private var isExpanded = false
     private var selectedDisplayID: CGDirectDisplayID?
-    private var lastErrorMessage: String?
+    private var lastError: DisplayResolutionError?
+    private var lastErrorMessage: String? {
+        guard let lastError else { return nil }
+        return localization.format(
+            "error.applyFailedFormat",
+            defaultValue: "切换失败：%@",
+            lastError.localizedDescription(localization: localization)
+        )
+    }
     private let controller: DisplayResolutionControlling
     private let systemSettingsLauncher: DisplaySystemSettingsLauncher
     private let displayIdentifier: (DisplayInfo) -> String?
@@ -101,17 +121,6 @@ final class DisplayResolutionPlugin: MacToolsPlugin, DisplayTopologyRefreshing, 
         self.controller = controller
         self.systemSettingsLauncher = systemSettingsLauncher
         self.displayIdentifier = displayIdentifier
-        self.metadata = PluginMetadata(
-            id: "display-resolution",
-            title: localization.string("metadata.title", defaultValue: "显示器分辨率"),
-            iconName: "display",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 30,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "查看并切换每个显示器的分辨率"
-            )
-        )
         refreshSnapshot()
     }
 
@@ -251,7 +260,7 @@ final class DisplayResolutionPlugin: MacToolsPlugin, DisplayTopologyRefreshing, 
             if !value {
                 selectedDisplayID = nil
             }
-            lastErrorMessage = nil
+            lastError = nil
             onStateChange?()
         case let .setNavigationSelection(controlID, optionID):
             guard
@@ -263,7 +272,7 @@ final class DisplayResolutionPlugin: MacToolsPlugin, DisplayTopologyRefreshing, 
 
             let displayID = CGDirectDisplayID(rawDisplayID)
             selectedDisplayID = displayID
-            lastErrorMessage = nil
+            lastError = nil
             onStateChange?()
         case let .clearNavigationSelection(controlID):
             guard controlID == ControlID.displayNavigation else {
@@ -271,7 +280,7 @@ final class DisplayResolutionPlugin: MacToolsPlugin, DisplayTopologyRefreshing, 
             }
 
             selectedDisplayID = nil
-            lastErrorMessage = nil
+            lastError = nil
             onStateChange?()
         case let .setSelection(controlID, optionID):
             guard let displayID = Self.parseDisplayID(from: controlID), let modeId = Int32(optionID) else {
@@ -298,7 +307,7 @@ final class DisplayResolutionPlugin: MacToolsPlugin, DisplayTopologyRefreshing, 
             switch controller.applyResolution(target, for: displayID) {
             case .success:
                 refreshSnapshot()
-                lastErrorMessage = nil
+                lastError = nil
                 logger.info("applied \(target.width)×\(target.height) on display \(displayID)")
                 onStateChange?()
             case .failure(let error):
@@ -341,7 +350,7 @@ final class DisplayResolutionPlugin: MacToolsPlugin, DisplayTopologyRefreshing, 
         switch result {
         case .success:
             refreshSnapshot()
-            lastErrorMessage = nil
+            lastError = nil
             onStateChange?()
             return ActionExecutionHandle { .succeeded() }
         case let .failure(error):
@@ -498,11 +507,7 @@ final class DisplayResolutionPlugin: MacToolsPlugin, DisplayTopologyRefreshing, 
         logger.error(
             "apply failed display=\(displayID) modeId=\(modeId) reason=\(error.localizedDescription, privacy: .public)"
         )
-        lastErrorMessage = localization.format(
-            "error.applyFailedFormat",
-            defaultValue: "切换失败：%@",
-            error.localizedDescription(localization: localization)
-        )
+        lastError = error
         onStateChange?()
     }
 

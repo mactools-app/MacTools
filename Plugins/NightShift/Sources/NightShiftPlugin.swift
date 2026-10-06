@@ -46,7 +46,16 @@ final class NightShiftPlugin: MacToolsPlugin, PluginActionProviding {
     private enum ErrorState {
         case toggleFailed
     }
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "night-shift",
+            title: localization.string("metadata.title", defaultValue: "夜览"),
+            iconName: "lamp.floor",
+            iconTint: Color(nsColor: .systemOrange),
+            order: 35,
+            defaultDescription: localization.string("metadata.description", defaultValue: "降低蓝光，使屏幕颜色更暖")
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -78,14 +87,6 @@ final class NightShiftPlugin: MacToolsPlugin, PluginActionProviding {
     ) {
         self.localization = localization
         self.controller = controller
-        self.metadata = PluginMetadata(
-            id: "night-shift",
-            title: localization.string("metadata.title", defaultValue: "夜览"),
-            iconName: "lamp.floor",
-            iconTint: Color(nsColor: .systemOrange),
-            order: 35,
-            defaultDescription: localization.string("metadata.description", defaultValue: "降低蓝光，使屏幕颜色更暖")
-        )
         self.isEnabled = controller.getStatus()
     }
 

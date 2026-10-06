@@ -86,7 +86,19 @@ final class StageManagerPlugin: MacToolsPlugin, PluginActionProviding {
         static let toggle = "toggle"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "stage-manager",
+            title: localization.string("metadata.title", defaultValue: "台前调度"),
+            iconName: "sidebar.squares.leading",
+            iconTint: Color(nsColor: .systemTeal),
+            order: 48,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "开启台前调度，集中显示当前窗口并把其他窗口收纳到侧边"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -113,17 +125,6 @@ final class StageManagerPlugin: MacToolsPlugin, PluginActionProviding {
         self.localization = localization
         self.commandRunner = commandRunner ?? DefaultsStageManagerCommandRunner(localization: localization)
         self.stateReader = stateReader
-        self.metadata = PluginMetadata(
-            id: "stage-manager",
-            title: localization.string("metadata.title", defaultValue: "台前调度"),
-            iconName: "sidebar.squares.leading",
-            iconTint: Color(nsColor: .systemTeal),
-            order: 48,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "开启台前调度，集中显示当前窗口并把其他窗口收纳到侧边"
-            )
-        )
         self.isStageManagerEnabled = stateReader()
     }
 

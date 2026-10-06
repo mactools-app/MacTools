@@ -51,7 +51,16 @@ final class TranslatorPlugin:
         case error(String)
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: TranslatorConstants.pluginID,
+            title: localization.string("metadata.title", defaultValue: "翻译"),
+            iconName: "text.bubble",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 57,
+            defaultDescription: localization.string("metadata.description", defaultValue: "划词与截图快捷键翻译")
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -107,14 +116,6 @@ final class TranslatorPlugin:
     ) {
         let localization = localization ?? PluginLocalization(bundle: context.resourceBundle)
         self.localization = localization
-        self.metadata = PluginMetadata(
-            id: TranslatorConstants.pluginID,
-            title: localization.string("metadata.title", defaultValue: "翻译"),
-            iconName: "text.bubble",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 57,
-            defaultDescription: localization.string("metadata.description", defaultValue: "划词与截图快捷键翻译")
-        )
         self.storage = context.storage
         self.accessibilityTrustProvider = accessibilityTrustProvider
         self.accessibilityTrustRequester = accessibilityTrustRequester
@@ -397,7 +398,7 @@ final class TranslatorPlugin:
                     ? nil
                     : localization.string(
                         "permission.screenRecording.footnote",
-                        defaultValue: "前往系统设置 → 隐私与安全性 → 屏幕录制，授权 MacTools。"
+                        defaultValue: "请在系统设置 → 隐私与安全性 → 录屏与系统录音（或录屏）中授权 MacTools。"
                     )
             )
         default:

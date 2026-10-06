@@ -5679,6 +5679,24 @@
             "state": "translated",
             "value": "正在掃描包與更新..."
           }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pakete und Updates werden gescannt..."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "패키지 및 업데이트 검색 중..."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сканирование пакетов и обновлений..."
+          }
         }
       }
     },
@@ -9236,7 +9254,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cleanup Cache"
+            "value": "Clean Up Cache"
           }
         },
         "es": {
@@ -9279,6 +9297,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "清理快取"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cache bereinigen"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "캐시 정리"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очистить кэш"
           }
         }
       }
@@ -9416,6 +9452,24 @@
             "state": "translated",
             "value": "檢查更新"
           }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach Updates suchen"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "업데이트 확인"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверить наличие обновлений"
+          }
         }
       }
     },
@@ -9474,6 +9528,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在掃描..."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird durchsucht..."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스캔 중..."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сканирование..."
           }
         }
       }
@@ -9534,6 +9606,24 @@
             "state": "translated",
             "value": "取消"
           }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbrechen"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "취소"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отмена"
+          }
         }
       }
     },
@@ -9592,6 +9682,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "一鍵升級"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle aktualisieren"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "모두 업그레이드"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновить все"
           }
         }
       }
@@ -9806,6 +9914,24 @@
             "state": "translated",
             "value": "Homebrew 未安裝"
           }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew nicht installiert"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew가 설치되지 않았습니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew не установлен"
+          }
         }
       }
     },
@@ -9865,6 +9991,24 @@
             "state": "translated",
             "value": "正在掃描..."
           }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird durchsucht..."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스캔 중..."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сканирование..."
+          }
         }
       }
     },
@@ -9916,13 +10060,31 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "一切最新"
+            "value": "所有包均为最新版本"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "一切最新"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf dem neuesten Stand"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최신"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Актуально"
           }
         }
       }
@@ -9939,7 +10101,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "%d updates available"
+            "value": "Updates available: %d"
           }
         },
         "es": {
@@ -9982,6 +10144,178 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d 個包可升級"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verfügbare Updates: %d"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "업데이트 %d개 사용 가능"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доступные обновления: %d"
+          }
+        }
+      }
+    },
+    "detail.diagnostics.pathAppleSiliconFormat": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Silicon Mac: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Silicon Mac：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Silicon Mac：%@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac con Apple Silicon: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac avec puce Apple : %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac с Apple Silicon: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac com Apple Silicon: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac mit Apple Silicon: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple シリコン搭載 Mac：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Silicon Mac: %@"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac بمعالج Apple Silicon: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Silicon Mac: %@"
+          }
+        }
+      }
+    },
+    "detail.diagnostics.pathIntelFormat": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intel Mac: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intel Mac：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intel Mac：%@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac con Intel: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac avec processeur Intel : %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac с Intel: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac com Intel: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac mit Intel-Prozessor: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intel 搭載 Mac：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intel Mac: %@"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac بمعالج Intel: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intel Mac: %@"
           }
         }
       }

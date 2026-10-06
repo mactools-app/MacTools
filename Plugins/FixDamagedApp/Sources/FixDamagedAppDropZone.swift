@@ -78,10 +78,14 @@ final class DropZoneViewModel: ObservableObject {
 
 struct FixDropZoneView: View {
     @ObservedObject var viewModel: DropZoneViewModel
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
     let localization: PluginLocalization
+    let onLocaleChange: () -> Void
     @State private var isTargeted = false
 
     var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
         ZStack {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .strokeBorder(
@@ -98,6 +102,12 @@ struct FixDropZoneView: View {
             handleDrop(providers: providers)
         }
         .animation(.easeInOut(duration: 0.15), value: isTargeted)
+        .environment(\.locale, locale)
+        .environment(
+            \.layoutDirection,
+            locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight
+        )
+        .onChange(of: runtimeLocale.revision, initial: true) { _, _ in onLocaleChange() }
     }
 
     @ViewBuilder
@@ -223,7 +233,12 @@ final class FixDamagedAppDropZonePanel: NSPanel {
         // The SwiftUI layer draws only the border and content over the transparent effect view.
         let hostingView = NSHostingView(rootView: FixDropZoneView(
             viewModel: viewModel,
-            localization: localization
+            localization: localization,
+            onLocaleChange: { [weak self] in
+                guard let self else { return }
+                self.title = localization.string("metadata.title", defaultValue: "修复损坏应用")
+                self.setAccessibilityLabel(self.title)
+            }
         ))
         hostingView.frame = effectView.bounds
         hostingView.autoresizingMask = [.width, .height]

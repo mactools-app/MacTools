@@ -1,0 +1,98 @@
+{
+  "sourceCommit": "c6e077e179a9613545f6556491403084df295515",
+  "sourceFingerprint": "64b7319896170260060a0f7070480c09f8d1e0c9f84a1991b3f489935032df37",
+  "macOS": "27.0.1",
+  "fixtureBundleIdentifier": "com.mactools.localization-evidence.c6e077e1",
+  "fixtureSigning": "Local ad hoc host and locally built Appearance/SystemStatus bundles",
+  "preferencesAndSupportData": "Separate fixture store; regular app unchanged",
+  "captureMethod": "Native CUA window snapshots. JPEG bytes preserved. The MP4 encodes 78 sequential live snapshots with their original elapsed timing and has no audio.",
+  "recordingDurationSeconds": 10.16,
+  "recordingDimensions": [
+    1040,
+    720
+  ],
+  "recordingActions": [
+    {
+      "atMs": 802,
+      "action": "Open language picker"
+    },
+    {
+      "atMs": 2461,
+      "action": "Switch Arabic to English"
+    },
+    {
+      "atMs": 4627,
+      "action": "Command K"
+    },
+    {
+      "atMs": 5598,
+      "action": "Type permissions"
+    },
+    {
+      "atMs": 6827,
+      "action": "Down"
+    },
+    {
+      "atMs": 7850,
+      "action": "Up"
+    },
+    {
+      "atMs": 8945,
+      "action": "Return"
+    }
+  ],
+  "checks": [
+    "Arabic dark General and theme-sheet RTL layout",
+    "One Dark selected and applied to Arabic feature panel",
+    "Live Arabic to English switch with mirrored sidebar and updated app-owned copy",
+    "Command-K search, Down/Up selection, Return navigation to Permissions",
+    "Turkish General and System Status settings rendering",
+    "Return to English and close only the isolated fixture"
+  ],
+  "artifacts": [
+    {
+      "file": "arabic-dark-general.jpg",
+      "bytes": 82174,
+      "sha256": "3afc2843b5bf1baca644f50b843f229a3365ce8c26f9ed16c721164b207525e6"
+    },
+    {
+      "file": "arabic-dark-theme-picker.jpg",
+      "bytes": 75010,
+      "sha256": "8d2005097b23e96d1230c6c17b09fc28945726f962a678713ab3bce7abdf143b"
+    },
+    {
+      "file": "arabic-dark-custom-theme-picker.jpg",
+      "bytes": 74436,
+      "sha256": "2818ebc48bb3e6e6bac43f1b99c7ac81b6b5e062ed1f003d317325c7ece3a593"
+    },
+    {
+      "file": "arabic-custom-one-dark-panel.jpg",
+      "bytes": 12440,
+      "sha256": "096ea8ab47013b33a34eb7d21e73b5e59a46254fa97b3cdd443096a2858e4602"
+    },
+    {
+      "file": "english-light-general.jpg",
+      "bytes": 90482,
+      "sha256": "f62b0363dbe37862d46804c8dc5f7cae9df97ce81c43922302bbefa012842e3b"
+    },
+    {
+      "file": "turkish-light-general.jpg",
+      "bytes": 95265,
+      "sha256": "2ae6f90c4b1e2f605570dd1c0cc16a79893d0c30f760b31dcd09588b376ab7fa"
+    },
+    {
+      "file": "turkish-light-system-status-settings.jpg",
+      "bytes": 70298,
+      "sha256": "2772fe228026464a55a25df39a162fa8858892ce5f76299e45caacbb89592785"
+    },
+    {
+      "file": "arabic-english-keyboard-navigation.mp4",
+      "bytes": 244093,
+      "sha256": "25964d2fe499f596a8c000b49b3022ef4110f96ab24f86330e5b935e554f190d"
+    }
+  ],
+  "limits": [
+    "Representative UI checks, not every plugin screen or macOS version",
+    "No permission grants, cleanup, restart, Finder activation, Siri invocation, VoiceOver speech, account operations, or release signing in this session"
+  ]
+}

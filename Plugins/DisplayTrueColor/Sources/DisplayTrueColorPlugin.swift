@@ -46,7 +46,19 @@ final class DisplayTrueColorPlugin: MacToolsPlugin, PluginActionProviding {
         static let toggle = "toggle"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "display-true-color",
+            title: localization.string("metadata.title", defaultValue: "原彩显示"),
+            iconName: "circle.righthalf.filled",
+            iconTint: Color(nsColor: .systemCyan),
+            order: 25,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "自动调节显示器颜色以适应环境光"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -69,17 +81,6 @@ final class DisplayTrueColorPlugin: MacToolsPlugin, PluginActionProviding {
     ) {
         self.localization = localization
         self.client = client
-        self.metadata = PluginMetadata(
-            id: "display-true-color",
-            title: localization.string("metadata.title", defaultValue: "原彩显示"),
-            iconName: "circle.righthalf.filled",
-            iconTint: Color(nsColor: .systemCyan),
-            order: 25,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "自动调节显示器颜色以适应环境光"
-            )
-        )
         isSupported = client.isSupported
         isTrueColorEnabled = isSupported ? (client.isEnabled ?? false) : false
     }

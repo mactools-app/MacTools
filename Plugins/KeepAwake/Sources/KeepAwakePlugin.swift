@@ -148,7 +148,19 @@ final class KeepAwakePlugin:
         static let fiveHours = DurationPreset.fiveHours.rawValue
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "keep-awake",
+            title: localization.string("metadata.title", defaultValue: "阻止休眠"),
+            iconName: "moon",
+            iconTint: Color(nsColor: .systemOrange),
+            order: 50,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "保持 Mac 唤醒；可选保持屏幕常亮或让屏幕工具继续工作。MacBook 合盖运行要求连接电源"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -218,17 +230,6 @@ final class KeepAwakePlugin:
         let preferenceLoadResult = Self.loadPreferences(from: context.storage)
         self.preferences = preferenceLoadResult.preferences
         self.preservesFuturePreferencePayload = preferenceLoadResult.preservesFuturePayload
-        self.metadata = PluginMetadata(
-            id: "keep-awake",
-            title: localization.string("metadata.title", defaultValue: "阻止休眠"),
-            iconName: "moon",
-            iconTint: Color(nsColor: .systemOrange),
-            order: 50,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "保持 Mac 唤醒；可选保持屏幕常亮或让屏幕工具继续工作。MacBook 合盖运行要求连接电源"
-            )
-        )
 
         resolvedPowerSourceMonitor.onChange = { [weak self] state in
             self?.handlePowerSourceChange(state)
@@ -394,7 +395,7 @@ final class KeepAwakePlugin:
                 ),
                 description: localization.string(
                     "settings.mode.search.description",
-                    defaultValue: "选择阻止休眠运行时保持可用的内容。"
+                    defaultValue: "选择“阻止休眠”运行期间要保持可用的功能。"
                 ),
                 keywords: [
                     localization.string(

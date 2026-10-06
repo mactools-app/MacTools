@@ -350,15 +350,24 @@ private final class PanelComponentLibraryPreviewCache {
     }
 
     var snapshots: [String: Snapshot] = [:]
+    private var localeRevision: Int?
+
+    func prepare(for revision: Int) {
+        guard localeRevision != revision else { return }
+        snapshots.removeAll()
+        localeRevision = revision
+    }
 }
 
 private struct PanelComponentLibraryPreview: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
     let id: String
     let size: CGSize
     let cache: PanelComponentLibraryPreviewCache
     let onSizeChange: (CGSize) -> Void
     let makeContent: (@escaping (CGFloat) -> Void) -> AnyView?
     @State private var snapshot: PanelComponentLibraryPreviewCache.Snapshot?
+    @State private var snapshotRevision: Int?
     @Environment(\.menuBarPanelTheme) private var theme
     @Environment(\.colorScheme) private var colorScheme
 
@@ -371,57 +380,66 @@ private struct PanelComponentLibraryPreview: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .onAppear {
-            guard snapshot == nil else { return }
-            if let cached = cache.snapshots[id] {
-                snapshot = cached
-                return
-            }
-            defer { cache.snapshots[id] = snapshot }
-            var measuredHeight: CGFloat?
-            guard let content = makeContent({ height in
-                let metrics = PluginPanelWidgetLayoutMetrics.default
-                guard height.isFinite, height > 0,
-                      let span = Int(exactly: ceil(height / metrics.cellHeight)) else { return }
-                measuredHeight = metrics.itemHeight(forSpanHeight: span)
-            }) else { snapshot = .unavailable; return }
-            // A static bitmap excludes plugin controls from keyboard focus and ongoing preview updates.
-            @MainActor
-            func rootView(_ size: CGSize) -> AnyView {
-                AnyView(content
-                    .environment(\.menuBarPanelTheme, theme)
-                    .environment(\.pluginComponentTheme, theme.componentTheme)
-                    .tint(theme.accent)
-                    .environment(\.colorScheme, colorScheme)
-                    .environment(\.locale, PluginRuntimeLocalization.locale)
-                    .frame(width: size.width, height: size.height))
-            }
-            var renderSize = size
-            let hosting = NSHostingView(rootView: rootView(renderSize))
-            let window = NSWindow(contentRect: CGRect(origin: .zero, size: size),
-                                  styleMask: .borderless, backing: .buffered, defer: false)
-            window.isReleasedWhenClosed = false
-            window.backgroundColor = .clear
-            window.isOpaque = false
-            window.contentView = hosting
-            defer { window.close() }
+        .onAppear(perform: refreshSnapshot)
+        .onChange(of: runtimeLocale.revision) { _, _ in refreshSnapshot() }
+    }
+
+    @MainActor
+    private func refreshSnapshot() {
+        let revision = runtimeLocale.revision
+        guard snapshotRevision != revision || snapshot == nil else { return }
+        cache.prepare(for: revision)
+        if let cached = cache.snapshots[id] {
+            snapshot = cached
+            snapshotRevision = revision
+            return
+        }
+        defer {
+            cache.snapshots[id] = snapshot
+            snapshotRevision = revision
+        }
+        var measuredHeight: CGFloat?
+        guard let content = makeContent({ height in
+            let metrics = PluginPanelWidgetLayoutMetrics.default
+            guard height.isFinite, height > 0,
+                  let span = Int(exactly: ceil(height / metrics.cellHeight)) else { return }
+            measuredHeight = metrics.itemHeight(forSpanHeight: span)
+        }) else { snapshot = .unavailable; return }
+        // A static bitmap excludes plugin controls from keyboard focus and ongoing preview updates.
+        @MainActor
+        func rootView(_ size: CGSize) -> AnyView {
+            AnyView(RuntimeLocalizedContent(content: content)
+                .environment(\.menuBarPanelTheme, theme)
+                .environment(\.pluginComponentTheme, theme.componentTheme)
+                .tint(theme.accent)
+                .environment(\.colorScheme, colorScheme)
+                .frame(width: size.width, height: size.height))
+        }
+        var renderSize = size
+        let hosting = NSHostingView(rootView: rootView(renderSize))
+        let window = NSWindow(contentRect: CGRect(origin: .zero, size: size),
+                              styleMask: .borderless, backing: .buffered, defer: false)
+        window.isReleasedWhenClosed = false
+        window.backgroundColor = .clear
+        window.isOpaque = false
+        window.contentView = hosting
+        defer { window.close() }
+        hosting.layoutSubtreeIfNeeded()
+        // Preview sizing never changes a live placement or refreshes the plugin.
+        if let measuredHeight, measuredHeight != renderSize.height {
+            renderSize.height = measuredHeight
+            hosting.rootView = rootView(renderSize)
+            window.setContentSize(renderSize)
             hosting.layoutSubtreeIfNeeded()
-            // Preview sizing never changes a live placement or refreshes the plugin.
-            if let measuredHeight, measuredHeight != renderSize.height {
-                renderSize.height = measuredHeight
-                hosting.rootView = rootView(renderSize)
-                window.setContentSize(renderSize)
-                hosting.layoutSubtreeIfNeeded()
-            }
-            if let bitmap = hosting.bitmapImageRepForCachingDisplay(in: hosting.bounds) {
-                hosting.cacheDisplay(in: hosting.bounds, to: bitmap)
-                let result = NSImage(size: renderSize)
-                result.addRepresentation(bitmap)
-                snapshot = .image(result)
-                if renderSize != size { onSizeChange(renderSize) }
-            } else {
-                snapshot = .unavailable
-            }
+        }
+        if let bitmap = hosting.bitmapImageRepForCachingDisplay(in: hosting.bounds) {
+            hosting.cacheDisplay(in: hosting.bounds, to: bitmap)
+            let result = NSImage(size: renderSize)
+            result.addRepresentation(bitmap)
+            snapshot = .image(result)
+            if renderSize != size { onSizeChange(renderSize) }
+        } else {
+            snapshot = .unavailable
         }
     }
 }

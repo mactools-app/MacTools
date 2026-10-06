@@ -47,7 +47,19 @@ final class AutoHideMenuBarPlugin: MacToolsPlugin, PluginActionProviding, Plugin
     private enum PermissionID {
         static let automation = "automation"
     }
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "auto-hide-menu-bar",
+            title: localization.string("metadata.title", defaultValue: "自动隐藏菜单栏"),
+            iconName: "menubar.rectangle",
+            iconTint: Color(nsColor: .systemIndigo),
+            order: 42,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "自动隐藏菜单栏，提供更完整的屏幕显示空间"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -71,17 +83,6 @@ final class AutoHideMenuBarPlugin: MacToolsPlugin, PluginActionProviding, Plugin
     ) {
         self.localization = localization
         self.controller = controller ?? MenuBarAutoHideController(localization: localization)
-        self.metadata = PluginMetadata(
-            id: "auto-hide-menu-bar",
-            title: localization.string("metadata.title", defaultValue: "自动隐藏菜单栏"),
-            iconName: "menubar.rectangle",
-            iconTint: Color(nsColor: .systemIndigo),
-            order: 42,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "自动隐藏菜单栏，提供更完整的屏幕显示空间"
-            )
-        )
         self.mode = (try? self.controller.read()) ?? .never
     }
 

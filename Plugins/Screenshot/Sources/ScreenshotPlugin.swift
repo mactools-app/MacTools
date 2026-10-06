@@ -37,7 +37,16 @@ final class ScreenshotPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
         static let folder = "save-folder"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: ID.plugin,
+            title: environment.string("metadata.title", "截图"),
+            iconName: "camera.viewfinder",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 105,
+            defaultDescription: environment.string("metadata.summary", "截图、标注、提取文字与录屏")
+        )
+    }
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
     var shortcutBindingResolver: ((String) -> ShortcutBinding?)?
@@ -70,14 +79,6 @@ final class ScreenshotPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
             Self.chooseFolder(folder, environment: environment)
         }
         self.isGranted = screenAccess()
-        metadata = PluginMetadata(
-            id: ID.plugin,
-            title: environment.string("metadata.title", "截图"),
-            iconName: "camera.viewfinder",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 105,
-            defaultDescription: environment.string("metadata.summary", "截图、标注、提取文字与录屏")
-        )
         coordinator.onStateChange = { [weak self] in self?.onStateChange?() }
         coordinator.onError = { [weak self] message in
             self?.lastError = message
@@ -112,7 +113,7 @@ final class ScreenshotPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
         [PluginPermissionRequirement(
             id: ID.permission,
             kind: .screenRecording,
-            title: environment.string("permission.screenRecording.title", "屏幕录制权限"),
+            title: environment.string("permission.screenRecording.title", "录屏权限"),
             description: environment.string("permission.screenRecording.description", "用于截取屏幕内容和录屏，图像与识别结果仅在本机处理。")
         )]
     }
@@ -312,7 +313,7 @@ final class ScreenshotPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
     private var canFinishSession: Bool { coordinator.isRecording || coordinator.isScrolling }
 
     private var permissionGuidance: String {
-        environment.string("permission.screenRecording.guidance", "请在系统设置 → 隐私与安全性 → 屏幕录制中授权 MacTools。")
+        environment.string("permission.screenRecording.guidance", "请在系统设置 → 隐私与安全性 → 录屏与系统录音（或录屏）中授权 MacTools。")
     }
 
     private var panelSubtitle: String {

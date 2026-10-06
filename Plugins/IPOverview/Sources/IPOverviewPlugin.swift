@@ -45,7 +45,19 @@ final class IPOverviewPlugin:
         static let copyPublicIPv4 = "ip-overview-copy-public-ipv4"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "ip-overview",
+            title: localization.string("metadata.title", defaultValue: "IP 检测"),
+            iconName: "network",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 12,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "查看公网 IP、本地地址和归属地"
+            )
+        )
+    }
 
     let rowDescriptor: PluginPanelRowDescriptor
 
@@ -64,17 +76,6 @@ final class IPOverviewPlugin:
     ) {
         self.localization = localization
         self.viewModel = viewModel ?? IPOverviewViewModel(storage: context.storage, localization: localization)
-        self.metadata = PluginMetadata(
-            id: "ip-overview",
-            title: localization.string("metadata.title", defaultValue: "IP 检测"),
-            iconName: "network",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 12,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "查看公网 IP、本地地址和归属地"
-            )
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,

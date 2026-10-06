@@ -56,7 +56,16 @@ final class ZshConfigPlugin: MacToolsPlugin, PluginSettingsPresenting {
 
     // MARK: Metadata
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "zsh-config",
+            title: localization.string("metadata.title", defaultValue: "zsh 配置"),
+            iconName: "curlybraces",
+            iconTint: Color(nsColor: .systemGreen),
+            order: 72,
+            defaultDescription: localization.string("metadata.description", defaultValue: "快速编辑 zsh 配置文件")
+        )
+    }
 
     let rowDescriptor: PluginPanelRowDescriptor
 
@@ -82,14 +91,6 @@ final class ZshConfigPlugin: MacToolsPlugin, PluginSettingsPresenting {
         let localization = PluginLocalization(bundle: context.resourceBundle)
         self.localization = localization
         self.store = ZshConfigStore(localization: localization)
-        self.metadata = PluginMetadata(
-            id: "zsh-config",
-            title: localization.string("metadata.title", defaultValue: "zsh 配置"),
-            iconName: "curlybraces",
-            iconTint: Color(nsColor: .systemGreen),
-            order: 72,
-            defaultDescription: localization.string("metadata.description", defaultValue: "快速编辑 zsh 配置文件")
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,

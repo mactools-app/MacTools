@@ -84,7 +84,19 @@ final class SidecarPlugin: MacToolsPlugin, PluginPortablePreferencesProviding, P
         ]
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "sidecar",
+            title: localization.string("metadata.title", defaultValue: "Sidecar"),
+            iconName: "display",
+            iconTint: Color(nsColor: .systemIndigo),
+            order: 31,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "连接附近可用的 Sidecar 显示器作为扩展显示器"
+            )
+        )
+    }
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .disclosure,
         menuActionBehavior: .keepPresented
@@ -158,17 +170,6 @@ final class SidecarPlugin: MacToolsPlugin, PluginPortablePreferencesProviding, P
         self.initialDeviceRefreshDelayNanoseconds = initialDeviceRefreshDelayNanoseconds
         self.deviceRefreshIntervalNanoseconds = deviceRefreshIntervalNanoseconds
         self.presentationPreparation = presentationPreparation
-        metadata = PluginMetadata(
-            id: "sidecar",
-            title: localization.string("metadata.title", defaultValue: "Sidecar"),
-            iconName: "display",
-            iconTint: Color(nsColor: .systemIndigo),
-            order: 31,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "连接附近可用的 Sidecar 显示器作为扩展显示器"
-            )
-        )
         service.onDevicesChanged = { [weak self] in
             guard self?.isActive == true else { return }
             self?.refreshDevices(notify: true)

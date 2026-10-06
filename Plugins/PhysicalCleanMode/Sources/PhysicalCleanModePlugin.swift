@@ -61,7 +61,19 @@ final class PhysicalCleanModePlugin: MacToolsPlugin, AccessibilityPermissionRefr
         static let exitPhysicalCleanMode = "physical-clean-mode.exit"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "physical-clean-mode",
+            title: localization.string("metadata.title", defaultValue: "清洁模式"),
+            iconName: "sparkles",
+            iconTint: Color(nsColor: .systemCyan),
+            order: 100,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "屏幕全黑并临时禁用键盘输入"
+            )
+        )
+    }
 
     let rowDescriptor: PluginPanelRowDescriptor
 
@@ -92,17 +104,6 @@ final class PhysicalCleanModePlugin: MacToolsPlugin, AccessibilityPermissionRefr
         self.storage = userDefaults.map {
             UserDefaultsPluginStorage(pluginID: context.pluginID, userDefaults: $0)
         } ?? context.storage
-        self.metadata = PluginMetadata(
-            id: "physical-clean-mode",
-            title: localization.string("metadata.title", defaultValue: "清洁模式"),
-            iconName: "sparkles",
-            iconTint: Color(nsColor: .systemCyan),
-            order: 100,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "屏幕全黑并临时禁用键盘输入"
-            )
-        )
         self.isAccessibilityGranted = accessibilityReader()
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,

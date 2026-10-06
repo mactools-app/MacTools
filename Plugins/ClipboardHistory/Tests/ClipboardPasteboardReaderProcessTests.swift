@@ -33,6 +33,7 @@ final class ClipboardPasteboardReaderProcessTests: XCTestCase {
         XCTAssertEqual(launchCount, 1)
     }
 
+    @MainActor
     func testPlainTextRequestRejectsSensitiveProducerTypesAndRecovers() async throws {
         let helperURL = try XCTUnwrap(Self.helperURL)
         let pasteboard = NSPasteboard.withUniqueName()
@@ -48,13 +49,18 @@ final class ClipboardPasteboardReaderProcessTests: XCTestCase {
         )
         defer { Task { await reader.stop() } }
 
-        let sensitiveResponse = try await reader.read(request(for: pasteboard, kind: .plainText))
+        let sensitiveResponse = try await readPublishedRevision(
+            request(for: pasteboard, kind: .plainText),
+            from: pasteboard, using: reader, expectedStatus: .unsafe
+        )
         XCTAssertEqual(sensitiveResponse.status, .unsafe)
         XCTAssertNil(plainText(in: sensitiveResponse))
 
         pasteboard.clearContents()
         XCTAssertTrue(pasteboard.setString("public", forType: .string))
-        let recovered = try await reader.read(request(for: pasteboard, kind: .plainText))
+        let recovered = try await readPublishedRevision(
+            request(for: pasteboard, kind: .plainText), from: pasteboard, using: reader
+        )
         XCTAssertEqual(plainText(in: recovered), "public")
     }
 

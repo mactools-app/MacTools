@@ -72,7 +72,19 @@ final class SystemSoftRestartPlugin:
         static let restart = "restart-user-services"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: Self.pluginID,
+            title: localization.string("metadata.title", defaultValue: "系统软重启"),
+            iconName: "arrow.clockwise.circle.fill",
+            iconTint: Color(nsColor: .systemOrange),
+            order: 98,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "重启 macOS 用户服务，尝试恢复输入法、音频、AirDrop 等运行时异常"
+            )
+        )
+    }
     let rowDescriptor: PluginPanelRowDescriptor
 
     var anchorRectProvider: (() -> NSRect?)?
@@ -106,17 +118,6 @@ final class SystemSoftRestartPlugin:
                 excludingProcessIdentifier: ProcessInfo.processInfo.processIdentifier
             )
         }
-        self.metadata = PluginMetadata(
-            id: Self.pluginID,
-            title: localization.string("metadata.title", defaultValue: "系统软重启"),
-            iconName: "arrow.clockwise.circle.fill",
-            iconTint: Color(nsColor: .systemOrange),
-            order: 98,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "重启 macOS 用户服务，尝试恢复输入法、音频、AirDrop 等运行时异常"
-            )
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,

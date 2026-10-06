@@ -6140,7 +6140,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Girdi İzleme"
+            "value": "Giriş İzleme"
           }
         },
         "zh-Hans": {
@@ -6292,7 +6292,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Girdi İzleme bölümünden MacTools'a izin verin. Durum güncellenmezse MacTools'u yeniden açın."
+            "value": "Sistem Ayarları → Gizlilik ve Güvenlik → Giriş İzleme bölümünden MacTools'a izin verin. Durum güncellenmezse MacTools'u yeniden açın."
           }
         },
         "zh-Hans": {
@@ -6444,7 +6444,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Trackpad Hareketleri özelliği için Girdi İzleme izni gerekiyor."
+            "value": "Trackpad Hareketleri özelliği için Giriş İzleme izni gerekiyor."
           }
         },
         "zh-Hans": {
@@ -6846,7 +6846,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "إضافة لفتة"
+            "value": "إضافة إيماءة"
           }
         },
         "de": {
@@ -7378,7 +7378,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "إيماءات الاختبار"
+            "value": "اختبار الإيماءات"
           }
         },
         "de": {
@@ -7834,7 +7834,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "لفتة"
+            "value": "إيماءة"
           }
         },
         "de": {
@@ -13525,6 +13525,83 @@
           "stringUnit": {
             "state": "translated",
             "value": "刪除映射"
+          }
+        }
+      }
+    },
+    "settings.mapping.usedByAnotherPlugin": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Used by another plugin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已被其他插件使用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已被其他外掛使用"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usado por otro plugin"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisé par un autre plugin"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Используется другим плагином"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usado por outro plugin"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Von einem anderen Plugin verwendet"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "別のプラグインが使用中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다른 플러그인에서 사용 중"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تستخدمه إضافة أخرى"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başka bir eklenti tarafından kullanılıyor"
           }
         }
       }
