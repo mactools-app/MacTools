@@ -273,9 +273,6 @@ public struct SystemDataScanner: SystemDataScanning {
     private struct WalkOutcome {
         let bytes: Int64
         let failedRoot: Bool
-        /// True when any subtree open was denied by policy (EPERM), which
-        /// makes the total incomplete and untrustworthy.
-        let permissionDenied: Bool
     }
 
     private static func measurePath(
@@ -286,11 +283,10 @@ public struct SystemDataScanner: SystemDataScanning {
         guard let resolved = resolvePath(path) else { return .absent }
         do {
             let outcome = try walk(root: resolved, excluding: excluding, state: state)
-            // A policy denial (for example TCC blocking an app container's
-            // data) makes any total untrustworthy, so the whole item reports
-            // unreadable instead of a silently partial size.
-            if outcome.permissionDenied || outcome.failedRoot { return .unreadable }
-            return .measured(bytes: outcome.bytes)
+            // `walk` invalidates the item only when the root itself cannot be
+            // opened or every direct subdirectory is policy-blocked; see
+            // `shouldReportUnreadable(policyDeniedChildren:readableChildren:)`.
+            return outcome.failedRoot ? .unreadable : .measured(bytes: outcome.bytes)
         } catch {
             // Only cancellation escapes `walk`; let it abort the whole scan.
             state.cancel()
@@ -299,13 +295,27 @@ public struct SystemDataScanner: SystemDataScanning {
     }
 
     /// POSIX permission denials (EPERM from TCC or similar policy) differ from
-    /// ordinary EACCES/ENOENT races: only EPERM invalidates the measurement.
+    /// ordinary EACCES/ENOENT races.
     static func isPermissionDenied(_ error: Error) -> Bool {
         if let posix = error as? POSIXError {
             return posix.code == .EPERM
         }
         let ns = error as NSError
         return ns.domain == NSPOSIXErrorDomain && ns.code == Int(EPERM)
+    }
+
+    /// Policy-blocked direct children (EPERM from TCC at depth 1) invalidate
+    /// the whole measurement only when not a single direct subdirectory could
+    /// be read: then the location's payload — an app container's `Data`, a
+    /// fully TCC-protected folder — is entirely hidden, and any total would
+    /// be a lie. Trees with at least one readable subdirectory keep measuring
+    /// what they can open; deeper denials and ordinary EACCES/ENOENT races
+    /// only skip their own subtree.
+    static func shouldReportUnreadable(
+        policyDeniedChildren: Int,
+        readableChildren: Int
+    ) -> Bool {
+        policyDeniedChildren > 0 && readableChildren == 0
     }
 
     /// Measures one directory tree with a single allocation accounting pass.
@@ -318,23 +328,23 @@ public struct SystemDataScanner: SystemDataScanning {
     ) throws -> WalkOutcome {
         var status = stat()
         guard lstat(root, &status) == 0 else {
-            return WalkOutcome(bytes: 0, failedRoot: true, permissionDenied: false)
+            return WalkOutcome(bytes: 0, failedRoot: true)
         }
         guard (status.st_mode & S_IFMT) == S_IFDIR else {
             let bytes = max(Int64(status.st_blocks) * 512, 0)
             state.note(directories: 0, bytes: bytes)
-            return WalkOutcome(bytes: bytes, failedRoot: false, permissionDenied: false)
+            return WalkOutcome(bytes: bytes, failedRoot: false)
         }
 
         var bytes = max(Int64(status.st_blocks) * 512, 0)
         state.note(directories: 0, bytes: bytes)
 
-        var stack = [root]
+        var stack: [(directory: String, depth: Int)] = [(root, 0)]
         var countedHardLinks: Set<HardLinkKey> = []
-        var isRootDirectory = true
-        var hitPermissionDenied = false
+        var policyDeniedChildren = 0
+        var readableChildren = 0
 
-        while let directory = stack.popLast() {
+        while let (directory, depth) = stack.popLast() {
             if state.isCancelled { throw CancellationError() }
 
             let listing: FileSystemDirectoryListing
@@ -343,23 +353,21 @@ public struct SystemDataScanner: SystemDataScanning {
             } catch is CancellationError {
                 throw CancellationError()
             } catch {
-                if isPermissionDenied(error) {
-                    hitPermissionDenied = true
+                if depth == 0 {
+                    // The location itself cannot be opened at all.
+                    return WalkOutcome(bytes: 0, failedRoot: true)
                 }
-                if isRootDirectory {
-                    return WalkOutcome(
-                        bytes: 0,
-                        failedRoot: true,
-                        permissionDenied: hitPermissionDenied
-                    )
+                if depth == 1, isPermissionDenied(error) {
+                    policyDeniedChildren += 1
                 }
                 // A single unreadable subdirectory makes that subtree partial,
-                // never a failure of the whole item.
+                // never a failure of the whole item. Whether the item as a
+                // whole is untrustworthy is decided after the walk from the
+                // policy-denial and readable-child counts.
                 state.note(directories: 0, bytes: 0, unreadableDirectories: 1)
-                isRootDirectory = false
                 continue
             }
-            isRootDirectory = false
+            if depth == 1 { readableChildren += 1 }
             state.note(directories: 1, bytes: 0)
 
             var directoryBytes: Int64 = 0
@@ -370,7 +378,7 @@ public struct SystemDataScanner: SystemDataScanning {
                 switch entry.fileType {
                 case .directory:
                     directoryBytes += entry.allocatedSize ?? 0
-                    stack.append(directory + "/" + name)
+                    stack.append((directory + "/" + name, depth + 1))
                 case .regularFile:
                     if let linkCount = entry.linkCount, linkCount > 1,
                        let devid = entry.devid, let fileID = entry.fileID {
@@ -385,7 +393,16 @@ public struct SystemDataScanner: SystemDataScanning {
             bytes += directoryBytes
             state.note(directories: 0, bytes: directoryBytes)
         }
-        return WalkOutcome(bytes: bytes, failedRoot: false, permissionDenied: hitPermissionDenied)
+        if shouldReportUnreadable(
+            policyDeniedChildren: policyDeniedChildren,
+            readableChildren: readableChildren
+        ) {
+            // Every direct subdirectory is policy-blocked: the location's
+            // payload is hidden, so report the item unreadable instead of a
+            // silently partial size.
+            return WalkOutcome(bytes: 0, failedRoot: true)
+        }
+        return WalkOutcome(bytes: bytes, failedRoot: false)
     }
 
     private static func measureChildren(
@@ -436,7 +453,7 @@ public struct SystemDataScanner: SystemDataScanning {
                         name: name,
                         path: childPath,
                         bytes: outcome.bytes,
-                        isUnreadable: outcome.failedRoot || outcome.permissionDenied,
+                        isUnreadable: outcome.failedRoot,
                         displayName: Self.resolvedAppName(forDirectoryName: name)
                     )
                 )

@@ -126,11 +126,31 @@ final class SystemDataPluginTests: XCTestCase {
     }
 
     func testPermissionDeniedDetectsPolicyDenialsOnly() {
-        // TCC-style EPERM invalidates a measurement; ordinary races do not.
+        // TCC-style EPERM differs from ordinary races and permission bits.
         XCTAssertTrue(SystemDataScanner.isPermissionDenied(POSIXError(.EPERM)))
         XCTAssertFalse(SystemDataScanner.isPermissionDenied(POSIXError(.EACCES)))
         XCTAssertFalse(SystemDataScanner.isPermissionDenied(POSIXError(.ENOENT)))
         XCTAssertFalse(SystemDataScanner.isPermissionDenied(POSIXError(.ELOOP)))
+    }
+
+    func testUnreadableRuleSparesDeeperDenialsAndPermissionRaces() {
+        // WeChat-style: the location's only subdirectory is policy-blocked,
+        // so any total would hide the payload — report unreadable.
+        XCTAssertTrue(
+            SystemDataScanner.shouldReportUnreadable(policyDeniedChildren: 1, readableChildren: 0)
+        )
+        // /Library/Caches-style: some direct children are TCC-blocked but
+        // others open — keep measuring the readable portion.
+        XCTAssertFalse(
+            SystemDataScanner.shouldReportUnreadable(policyDeniedChildren: 3, readableChildren: 2)
+        )
+        // No policy denials at all (deeper EPERM, EACCES, races) → measure.
+        XCTAssertFalse(
+            SystemDataScanner.shouldReportUnreadable(policyDeniedChildren: 0, readableChildren: 0)
+        )
+        XCTAssertFalse(
+            SystemDataScanner.shouldReportUnreadable(policyDeniedChildren: 0, readableChildren: 5)
+        )
     }
 
     // MARK: - Full Disk Access card
