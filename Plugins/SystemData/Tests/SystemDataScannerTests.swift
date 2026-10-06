@@ -23,6 +23,7 @@ final class SystemDataScannerTests: XCTestCase {
     override func tearDownWithError() throws {
         // Restore restricted fixtures before removal so cleanup can descend.
         _ = chmod(homeDirectory.appendingPathComponent("unreadable").path, 0o755)
+        _ = chmod(homeDirectory.appendingPathComponent("blocked").path, 0o755)
         try? FileManager.default.removeItem(at: homeDirectory)
         try super.tearDownWithError()
     }
@@ -118,6 +119,41 @@ final class SystemDataScannerTests: XCTestCase {
 
         XCTAssertEqual(result.results.first { $0.itemID == "missing" }?.status, .absent)
         XCTAssertEqual(result.results.first { $0.itemID == "unreadable" }?.status, .unreadable)
+    }
+
+    func testBlockedAncestorReportsUnreadableNotAbsent() async throws {
+        // The child exists, but a denied ancestor makes it unreachable: that
+        // must read as unreadable rather than silently disappearing as absent.
+        let blocked = homeDirectory.appendingPathComponent("blocked")
+        let child = blocked.appendingPathComponent("child")
+        try FileManager.default.createDirectory(at: child, withIntermediateDirectories: true)
+        try write(Data(repeating: 0x41, count: 4096), to: child.appendingPathComponent("secret.bin"))
+        XCTAssertEqual(chmod(blocked.path, 0o000), 0)
+
+        let catalog = [
+            SystemDataGroupDefinition(
+                id: "g",
+                label: .literal("G"),
+                systemImage: "folder",
+                items: [
+                    SystemDataItemDefinition(
+                        id: "under-blocked-ancestor",
+                        label: .literal("Child"),
+                        path: child.path,
+                        badge: .review,
+                        kind: .path()
+                    ),
+                ]
+            ),
+        ]
+
+        let scanner = makeScanner(catalog: catalog)
+        let result = try await scanner.scan { _ in }
+
+        XCTAssertEqual(
+            result.results.first { $0.itemID == "under-blocked-ancestor" }?.status,
+            .unreadable
+        )
     }
 
     // MARK: - Children probe

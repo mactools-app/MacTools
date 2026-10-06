@@ -124,6 +124,9 @@ public enum SystemDataPresentation {
         }
 
         let ordered = result.children.sorted { lhs, rhs in
+            // Surface policy-blocked entries first so the size-based cap can
+            // never fold them into a fake "measured zero" remainder row.
+            if lhs.isUnreadable != rhs.isUnreadable { return lhs.isUnreadable }
             if lhs.bytes != rhs.bytes { return lhs.bytes > rhs.bytes }
             return lhs.id < rhs.id
         }
@@ -141,8 +144,9 @@ public enum SystemDataPresentation {
                 status: child.isUnreadable ? .unreadable : .measured(bytes: child.bytes)
             )
         }
-        if !remainder.isEmpty {
-            let remainingBytes = remainder.reduce(Int64(0)) { $0 + $1.bytes }
+        let readableRemainder = remainder.filter { !$0.isUnreadable }
+        if !readableRemainder.isEmpty {
+            let remainingBytes = readableRemainder.reduce(Int64(0)) { $0 + $1.bytes }
             items.append(
                 SystemDataItem(
                     id: definition.id + ".remaining",
@@ -150,6 +154,20 @@ public enum SystemDataPresentation {
                     path: definition.path,
                     badge: definition.badge,
                     status: .measured(bytes: remainingBytes)
+                )
+            )
+        }
+        if remainder.contains(where: \.isUnreadable) {
+            // Blocked entries keep an explicit unreadable row instead of being
+            // reported as successfully measured zero bytes. Unreadable-first
+            // ordering keeps this path reachable only past the cap.
+            items.append(
+                SystemDataItem(
+                    id: definition.id + ".remainingUnreadable",
+                    label: .localized(key: "item.unreadableRemaining", fallback: "其余无法读取项"),
+                    path: definition.path,
+                    badge: definition.badge,
+                    status: .unreadable
                 )
             )
         }

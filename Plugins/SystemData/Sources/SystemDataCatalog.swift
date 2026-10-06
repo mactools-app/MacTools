@@ -326,8 +326,10 @@ public enum SystemDataCatalog {
                     label: .localized(key: "group.appdata", fallback: "应用数据"),
                     path: "~/Library/Application Support",
                     badge: .review,
-                    // MobileSync is claimed by the backups group.
-                    kind: .children(excluding: ["MobileSync"])
+                    // Claimed by other items so each path is counted once:
+                    // MobileSync by the backups group, the Apple container by
+                    // the containers group.
+                    kind: .children(excluding: ["MobileSync", "com.apple.container"])
                 ),
             ]
         ),
@@ -396,7 +398,8 @@ public enum SystemDataCatalog {
                     id: "trash.home",
                     label: .localized(key: "item.trash.home", fallback: "废纸篓"),
                     path: "~/.Trash",
-                    badge: .safe,
+                    // Trash contents may not be recoverable once removed.
+                    badge: .review,
                     kind: .path()
                 ),
                 SystemDataItemDefinition(

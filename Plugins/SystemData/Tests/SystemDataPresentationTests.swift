@@ -180,6 +180,109 @@ final class SystemDataPresentationTests: XCTestCase {
         XCTAssertEqual(groups.first?.bytes, totalBytes)
     }
 
+    func testUnreadableChildrenStayVisiblePastTheCap() throws {
+        let definition = SystemDataGroupDefinition(
+            id: "g",
+            label: .literal("G"),
+            systemImage: "folder",
+            items: [
+                SystemDataItemDefinition(
+                    id: "parent",
+                    label: .literal("Parent"),
+                    path: "/tmp/parent",
+                    badge: .review,
+                    kind: .children()
+                ),
+            ]
+        )
+        let readableCount = SystemDataPresentation.maximumChildrenPerGroup
+        var children = (0..<readableCount).map { index in
+            SystemDataChildMeasurement(
+                id: "parent.child.\(index)",
+                name: "child-\(index)",
+                path: "/tmp/parent/child-\(index)",
+                bytes: Int64(readableCount - index)
+            )
+        }
+        let blocked = (0..<3).map { index in
+            SystemDataChildMeasurement(
+                id: "parent.blocked.\(index)",
+                name: "blocked-\(index)",
+                path: "/tmp/parent/blocked-\(index)",
+                bytes: 0,
+                isUnreadable: true
+            )
+        }
+        children.append(contentsOf: blocked)
+        let result = SystemDataJobResult(
+            itemID: "parent",
+            status: .measured(bytes: children.reduce(0) { $0 + $1.bytes }),
+            children: children
+        )
+
+        let groups = SystemDataPresentation.makeGroups(definitions: [definition], results: [result])
+        let items = try XCTUnwrap(groups.first?.items)
+
+        // Blocked children surface ahead of the size cap instead of being
+        // folded into a measured-zero remainder row.
+        for child in blocked {
+            let item = try XCTUnwrap(items.first { $0.id == child.id })
+            XCTAssertEqual(item.status, .unreadable)
+        }
+        // The remainder only holds readable children and measures them.
+        let remaining = try XCTUnwrap(items.first { $0.id == "parent.remaining" })
+        XCTAssertEqual(remaining.status, .measured(bytes: 6))
+        XCTAssertNil(items.first { $0.id == "parent.remainingUnreadable" })
+        // Group totals still add up to the whole probe result.
+        XCTAssertEqual(groups.first?.bytes, children.reduce(0) { $0 + $1.bytes })
+    }
+
+    func testRemainderKeepsExplicitUnreadableRowPastTheCap() throws {
+        let definition = SystemDataGroupDefinition(
+            id: "g",
+            label: .literal("G"),
+            systemImage: "folder",
+            items: [
+                SystemDataItemDefinition(
+                    id: "parent",
+                    label: .literal("Parent"),
+                    path: "/tmp/parent",
+                    badge: .review,
+                    kind: .children()
+                ),
+            ]
+        )
+        let count = SystemDataPresentation.maximumChildrenPerGroup + 5
+        let children = (0..<count).map { index in
+            SystemDataChildMeasurement(
+                id: "parent.blocked.\(index)",
+                name: "blocked-\(index)",
+                path: "/tmp/parent/blocked-\(index)",
+                bytes: 0,
+                isUnreadable: true
+            )
+        }
+        let result = SystemDataJobResult(
+            itemID: "parent",
+            status: .measured(bytes: 0),
+            children: children
+        )
+
+        let groups = SystemDataPresentation.makeGroups(definitions: [definition], results: [result])
+        let items = try XCTUnwrap(groups.first?.items)
+
+        // No fake measured row: the aggregate reports unreadable explicitly.
+        XCTAssertNil(items.first { $0.id == "parent.remaining" })
+        let aggregate = try XCTUnwrap(items.first { $0.id == "parent.remainingUnreadable" })
+        XCTAssertEqual(aggregate.status, .unreadable)
+        XCTAssertEqual(
+            aggregate.label,
+            .localized(key: "item.unreadableRemaining", fallback: "其余无法读取项")
+        )
+        // Unreadable rows never fabricate bytes for the group total.
+        XCTAssertEqual(groups.first?.bytes, 0)
+    }
+
     func testGroupBadgeUsesStrongestItemBadge() {
         let definitions = SystemDataTestFixtures.definitions
         let groups = SystemDataPresentation.makeGroups(
@@ -271,6 +374,23 @@ final class SystemDataPresentationTests: XCTestCase {
         XCTAssertEqual(
             uv?.pathResolver,
             .toolOutput(executable: "uv", arguments: ["cache", "dir"])
+        )
+    }
+
+    func testAppDataExcludesDirectoriesClaimedByOtherItems() throws {
+        let items = SystemDataCatalog.groups.flatMap(\.items)
+        let appData = try XCTUnwrap(items.first { $0.id == "appdata.root" })
+        // MobileSync is claimed by the backups group and the Apple container
+        // by the containers group; scanning either again would double-count
+        // its bytes inside Application Support.
+        XCTAssertEqual(
+            appData.kind,
+            .children(excluding: ["MobileSync", "com.apple.container"])
+        )
+        let appleContainer = try XCTUnwrap(items.first { $0.id == "docker.applecontainer" })
+        XCTAssertEqual(
+            appleContainer.path,
+            "~/Library/Application Support/com.apple.container"
         )
     }
 

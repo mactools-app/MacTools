@@ -280,7 +280,17 @@ public struct SystemDataScanner: SystemDataScanning {
         excluding: Set<String>,
         state: ScanState
     ) -> SystemDataItemStatus {
-        guard let resolved = resolvePath(path) else { return .absent }
+        let resolved: String
+        switch resolvePath(path) {
+        case .missing:
+            return .absent
+        case .inaccessible:
+            // A denied ancestor leaves an existing entry: report it honestly
+            // as unreadable instead of hiding it as absent.
+            return .unreadable
+        case let .resolved(value):
+            resolved = value
+        }
         do {
             let outcome = try walk(root: resolved, excluding: excluding, state: state)
             // `walk` invalidates the item only when the root itself cannot be
@@ -411,7 +421,15 @@ public struct SystemDataScanner: SystemDataScanning {
         excluding: Set<String>,
         state: ScanState
     ) throws -> (status: SystemDataItemStatus, children: [SystemDataChildMeasurement]) {
-        guard let resolved = resolvePath(parentPath) else { return (.absent, []) }
+        let resolved: String
+        switch resolvePath(parentPath) {
+        case .missing:
+            return (.absent, [])
+        case .inaccessible:
+            return (.unreadable, [])
+        case let .resolved(value):
+            resolved = value
+        }
 
         var parentStatus = stat()
         guard lstat(resolved, &parentStatus) == 0 else { return (.absent, []) }
@@ -527,14 +545,24 @@ public struct SystemDataScanner: SystemDataScanning {
         let fileID: UInt64
     }
 
+    private enum PathProbe {
+        case resolved(String)
+        case missing
+        case inaccessible
+    }
+
     /// Resolves symlinks and physical-path aliases so the directory reader's
-    /// `O_NOFOLLOW_ANY` open succeeds. Returns nil when the path does not exist.
-    private static func resolvePath(_ path: String) -> String? {
+    /// `O_NOFOLLOW_ANY` open succeeds. A denied ancestor (EACCES/EPERM) leaves
+    /// an existing entry that must report unreadable; only missing-path
+    /// failures report absence.
+    private static func resolvePath(_ path: String) -> PathProbe {
         var probe = stat()
-        guard lstat(path, &probe) == 0 else { return nil }
-        guard let resolved = realpath(path, nil) else { return path }
+        if lstat(path, &probe) != 0 {
+            return errno == EACCES || errno == EPERM ? .inaccessible : .missing
+        }
+        guard let resolved = realpath(path, nil) else { return .resolved(path) }
         defer { free(resolved) }
-        return String(cString: resolved)
+        return .resolved(String(cString: resolved))
     }
 
     private static func volumeInfo(home: String) -> (available: Int64?, capacity: Int64?) {
