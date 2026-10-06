@@ -77,35 +77,6 @@ public struct SystemDataGroupDefinition: Equatable, Identifiable, Sendable {
 public enum SystemDataCatalog {
     public static let groups: [SystemDataGroupDefinition] = [
         SystemDataGroupDefinition(
-            id: "trash",
-            label: .localized(key: "group.trash", fallback: "废纸篓"),
-            systemImage: "trash",
-            items: [
-                SystemDataItemDefinition(
-                    id: "trash.home",
-                    label: .localized(key: "item.trash.home", fallback: "废纸篓"),
-                    path: "~/.Trash",
-                    badge: .safe,
-                    kind: .path()
-                ),
-            ]
-        ),
-        SystemDataGroupDefinition(
-            id: "caches",
-            label: .localized(key: "group.caches", fallback: "用户缓存"),
-            systemImage: "archivebox",
-            items: [
-                SystemDataItemDefinition(
-                    id: "caches.user",
-                    label: .localized(key: "item.caches.user", fallback: "用户缓存"),
-                    path: "~/Library/Caches",
-                    // Claimed by the package-manager group so each cache is counted once.
-                    badge: .safe,
-                    kind: .path(excluding: ["Homebrew", "Yarn", "pnpm", "pip", "CocoaPods"])
-                ),
-            ]
-        ),
-        SystemDataGroupDefinition(
             id: "logs",
             label: .localized(key: "group.logs", fallback: "日志与诊断"),
             systemImage: "doc.text",
@@ -121,20 +92,6 @@ public enum SystemDataCatalog {
                     id: "logs.system",
                     label: .localized(key: "item.logs.system", fallback: "系统与应用日志"),
                     path: "/Library/Logs",
-                    badge: .safe,
-                    kind: .path()
-                ),
-            ]
-        ),
-        SystemDataGroupDefinition(
-            id: "temporary",
-            label: .localized(key: "group.temporary", fallback: "临时数据"),
-            systemImage: "clock",
-            items: [
-                SystemDataItemDefinition(
-                    id: "temporary.varfolders",
-                    label: .localized(key: "item.temporary.varfolders", fallback: "系统临时目录"),
-                    path: "/private/var/folders",
                     badge: .safe,
                     kind: .path()
                 ),
@@ -178,62 +135,6 @@ public enum SystemDataCatalog {
                     label: .localized(key: "item.xcode.simulatorCaches", fallback: "模拟器缓存"),
                     path: "~/Library/Developer/CoreSimulator/Caches",
                     badge: .safe,
-                    kind: .path()
-                ),
-            ]
-        ),
-        SystemDataGroupDefinition(
-            id: "packages",
-            label: .localized(key: "group.packages", fallback: "包管理器缓存"),
-            systemImage: "shippingbox",
-            items: [
-                SystemDataItemDefinition(
-                    id: "packages.homebrew",
-                    label: .localized(key: "item.packages.homebrew", fallback: "Homebrew"),
-                    path: "~/Library/Caches/Homebrew",
-                    badge: .safe,
-                    kind: .path()
-                ),
-                SystemDataItemDefinition(
-                    id: "packages.npm",
-                    label: .literal("npm"),
-                    path: "~/.npm/_cacache",
-                    badge: .safe,
-                    kind: .path()
-                ),
-                SystemDataItemDefinition(
-                    id: "packages.yarn",
-                    label: .literal("Yarn"),
-                    path: "~/Library/Caches/Yarn",
-                    badge: .safe,
-                    kind: .path()
-                ),
-                SystemDataItemDefinition(
-                    id: "packages.pnpm",
-                    label: .literal("pnpm"),
-                    path: "~/Library/Caches/pnpm",
-                    badge: .safe,
-                    kind: .path()
-                ),
-                SystemDataItemDefinition(
-                    id: "packages.pip",
-                    label: .literal("pip"),
-                    path: "~/Library/Caches/pip",
-                    badge: .safe,
-                    kind: .path()
-                ),
-                SystemDataItemDefinition(
-                    id: "packages.cocoapods",
-                    label: .literal("CocoaPods"),
-                    path: "~/Library/Caches/CocoaPods",
-                    badge: .safe,
-                    kind: .path()
-                ),
-                SystemDataItemDefinition(
-                    id: "packages.cargo",
-                    label: .literal("Cargo"),
-                    path: "~/.cargo/registry",
-                    badge: .review,
                     kind: .path()
                 ),
             ]
@@ -286,6 +187,55 @@ public enum SystemDataCatalog {
                     badge: .review,
                     kind: .path(),
                     pathResolver: .toolOutput(executable: "uv", arguments: ["cache", "dir"])
+                ),
+                SystemDataItemDefinition(
+                    id: "packages.homebrew",
+                    label: .localized(key: "item.packages.homebrew", fallback: "Homebrew"),
+                    path: "~/Library/Caches/Homebrew",
+                    badge: .safe,
+                    kind: .path()
+                ),
+                SystemDataItemDefinition(
+                    id: "packages.npm",
+                    label: .literal("npm"),
+                    path: "~/.npm/_cacache",
+                    badge: .safe,
+                    kind: .path()
+                ),
+                SystemDataItemDefinition(
+                    id: "packages.yarn",
+                    label: .literal("Yarn"),
+                    path: "~/Library/Caches/Yarn",
+                    badge: .safe,
+                    kind: .path()
+                ),
+                SystemDataItemDefinition(
+                    id: "packages.pnpm",
+                    label: .literal("pnpm"),
+                    path: "~/Library/Caches/pnpm",
+                    badge: .safe,
+                    kind: .path()
+                ),
+                SystemDataItemDefinition(
+                    id: "packages.pip",
+                    label: .literal("pip"),
+                    path: "~/Library/Caches/pip",
+                    badge: .safe,
+                    kind: .path()
+                ),
+                SystemDataItemDefinition(
+                    id: "packages.cocoapods",
+                    label: .literal("CocoaPods"),
+                    path: "~/Library/Caches/CocoaPods",
+                    badge: .safe,
+                    kind: .path()
+                ),
+                SystemDataItemDefinition(
+                    id: "packages.cargo",
+                    label: .literal("Cargo"),
+                    path: "~/.cargo/registry",
+                    badge: .review,
+                    kind: .path()
                 ),
             ]
         ),
@@ -440,6 +390,28 @@ public enum SystemDataCatalog {
                     label: .localized(key: "item.system.commandLineTools", fallback: "命令行工具"),
                     path: "/Library/Developer/CommandLineTools",
                     badge: .review,
+                    kind: .path()
+                ),
+                SystemDataItemDefinition(
+                    id: "trash.home",
+                    label: .localized(key: "item.trash.home", fallback: "废纸篓"),
+                    path: "~/.Trash",
+                    badge: .safe,
+                    kind: .path()
+                ),
+                SystemDataItemDefinition(
+                    id: "caches.user",
+                    label: .localized(key: "item.caches.user", fallback: "用户缓存"),
+                    path: "~/Library/Caches",
+                    // Claimed by the package-manager items so each cache is counted once.
+                    badge: .safe,
+                    kind: .path(excluding: ["Homebrew", "Yarn", "pnpm", "pip", "CocoaPods"])
+                ),
+                SystemDataItemDefinition(
+                    id: "temporary.varfolders",
+                    label: .localized(key: "item.temporary.varfolders", fallback: "系统临时目录"),
+                    path: "/private/var/folders",
+                    badge: .safe,
                     kind: .path()
                 ),
             ]

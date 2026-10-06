@@ -253,7 +253,8 @@ final class SystemDataPresentationTests: XCTestCase {
                 )
             }
         }
-        XCTAssertGreaterThanOrEqual(SystemDataCatalog.groups.count, 10)
+        // trash, caches, temporary, and packages merged into system/developer.
+        XCTAssertGreaterThanOrEqual(SystemDataCatalog.groups.count, 9)
     }
 
     func testDynamicPathItemsDeclareTheirTools() {

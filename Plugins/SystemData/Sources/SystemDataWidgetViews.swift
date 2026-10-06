@@ -157,20 +157,27 @@ struct SystemDataWidgetView: View {
             return localization.string("panel.subtitle.failed", defaultValue: "扫描失败")
         case .completed:
             guard let summary = controller.summary else { return "" }
-            let updated = summary.scannedAt.formatted(.relative(presentation: .named))
-            guard let available = summary.availableBytes else {
-                return localization.format(
-                    "widget.caption.updated",
-                    defaultValue: "更新于 %@",
-                    updated
-                )
+            var segments: [String] = []
+            if let available = summary.availableBytes {
+                segments.append(localization.format(
+                    "widget.caption.available",
+                    defaultValue: "可用 %@",
+                    SystemDataFormatting.bytes(available)
+                ))
             }
-            return localization.format(
-                "widget.caption.summary",
-                defaultValue: "可用 %@ · %@",
-                SystemDataFormatting.bytes(available),
-                updated
-            )
+            if let capacity = summary.capacityBytes {
+                segments.append(localization.format(
+                    "widget.caption.capacity",
+                    defaultValue: "容量 %@",
+                    SystemDataFormatting.bytes(capacity)
+                ))
+            }
+            segments.append(localization.format(
+                "widget.caption.updated",
+                defaultValue: "更新于 %@",
+                summary.scannedAt.formatted(.relative(presentation: .named))
+            ))
+            return segments.joined(separator: " · ")
         }
     }
 
@@ -276,18 +283,28 @@ struct SystemDataWidgetDetailView: View {
     }
 
     private func summaryLine(_ summary: SystemDataScanSummary) -> String {
-        let total = localization.format(
-            "widget.detail.total",
-            defaultValue: "合计 %@",
-            SystemDataFormatting.bytes(summary.totalBytes)
-        )
-        guard let available = summary.availableBytes else { return total }
-        let free = localization.format(
-            "widget.detail.free",
-            defaultValue: "可用 %@",
-            SystemDataFormatting.bytes(available)
-        )
-        return total + " · " + free
+        var segments = [
+            localization.format(
+                "widget.detail.total",
+                defaultValue: "合计 %@",
+                SystemDataFormatting.bytes(summary.totalBytes)
+            ),
+        ]
+        if let available = summary.availableBytes {
+            segments.append(localization.format(
+                "widget.detail.free",
+                defaultValue: "可用 %@",
+                SystemDataFormatting.bytes(available)
+            ))
+        }
+        if let capacity = summary.capacityBytes {
+            segments.append(localization.format(
+                "widget.detail.capacity",
+                defaultValue: "容量 %@",
+                SystemDataFormatting.bytes(capacity)
+            ))
+        }
+        return segments.joined(separator: " · ")
     }
 
     private var emptyStateText: String {

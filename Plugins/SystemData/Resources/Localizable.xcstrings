@@ -97,22 +97,6 @@
         }
       }
     },
-    "group.caches": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "User Caches"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "用户缓存"
-          }
-        }
-      }
-    },
     "group.developer": {
       "localizations": {
         "en": {
@@ -177,22 +161,6 @@
         }
       }
     },
-    "group.packages": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Package Manager Caches"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "包管理器缓存"
-          }
-        }
-      }
-    },
     "group.system": {
       "localizations": {
         "en": {
@@ -205,38 +173,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "系统"
-          }
-        }
-      }
-    },
-    "group.temporary": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Temporary Data"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "临时数据"
-          }
-        }
-      }
-    },
-    "group.trash": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Trash"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "废纸篓"
           }
         }
       }
@@ -301,6 +237,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "用户缓存"
+          }
+        }
+      }
+    },
+    "item.copyPath": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy Path"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制路径"
           }
         }
       }
@@ -929,6 +881,38 @@
         }
       }
     },
+    "settings.collapseAll": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapse All"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "折叠所有"
+          }
+        }
+      }
+    },
+    "settings.expandAll": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expand All"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "展开所有"
+          }
+        }
+      }
+    },
     "settings.group.empty": {
       "localizations": {
         "en": {
@@ -1185,6 +1169,38 @@
         }
       }
     },
+    "widget.caption.available": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ free"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可用 %@"
+          }
+        }
+      }
+    },
+    "widget.caption.capacity": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ capacity"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "容量 %@"
+          }
+        }
+      }
+    },
     "widget.caption.idle": {
       "localizations": {
         "en": {
@@ -1201,22 +1217,6 @@
         }
       }
     },
-    "widget.caption.summary": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ free · %@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "可用 %@ · %@"
-          }
-        }
-      }
-    },
     "widget.caption.updated": {
       "localizations": {
         "en": {
@@ -1229,6 +1229,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "更新于 %@"
+          }
+        }
+      }
+    },
+    "widget.detail.capacity": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ capacity"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "容量 %@"
           }
         }
       }

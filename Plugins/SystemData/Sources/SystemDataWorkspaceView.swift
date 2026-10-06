@@ -2,11 +2,12 @@ import AppKit
 import MacToolsPluginKit
 import SwiftUI
 
-/// Full inventory workspace: status row, summary card, one card per group with
-/// per-item sizes, safety badges, and Finder reveal buttons.
+/// Full inventory workspace: status row, summary card, collapsible group cards
+/// with per-item sizes, safety badges, and Finder reveal / copy-path buttons.
 ///
 /// Read-only by design: the workspace never deletes anything, so every button
-/// here only starts a scan, cancels it, or reveals an existing location.
+/// here only starts a scan, cancels it, reveals an existing location, or
+/// copies its path.
 struct SystemDataWorkspaceView: View {
     @ObservedObject var controller: SystemDataController
     @ObservedObject var preferences: SystemDataDisplayPreferences
@@ -14,11 +15,17 @@ struct SystemDataWorkspaceView: View {
 
     private let homeDirectory = FileManager.default.homeDirectoryForCurrentUser.path
 
+    /// Collapsed group ids; empty means every group starts expanded.
+    @State private var collapsedGroupIDs: Set<String> = []
+
     var body: some View {
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
             statusRow
             showAllToggle
             summaryCard
+            if !visibleGroups.isEmpty {
+                groupControls
+            }
             ForEach(visibleGroups) { group in
                 groupCard(group)
             }
@@ -223,7 +230,42 @@ struct SystemDataWorkspaceView: View {
 
     private func groupCard(_ group: SystemDataGroup) -> some View {
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
+            groupHeader(group)
+
+            if !collapsedGroupIDs.contains(group.id) {
+                groupBar(group)
+
+                VStack(spacing: 0) {
+                    ForEach(Array(group.items.enumerated()), id: \.element.id) { index, item in
+                        if index > 0 {
+                            Divider()
+                        }
+                        itemRow(item)
+                    }
+                }
+            }
+        }
+        .padding(PluginSettingsTheme.Spacing.cardContent)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .pluginSettingsCardBackground(.standard)
+    }
+
+    private func groupHeader(_ group: SystemDataGroup) -> some View {
+        let isCollapsed = collapsedGroupIDs.contains(group.id)
+        return Button {
+            withAnimation(.default) {
+                if isCollapsed {
+                    collapsedGroupIDs.remove(group.id)
+                } else {
+                    collapsedGroupIDs.insert(group.id)
+                }
+            }
+        } label: {
             HStack(spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+                Image(systemName: "chevron.right")
+                    .font(PluginSettingsTheme.Typography.rowDescription)
+                    .foregroundStyle(.secondary)
+                    .rotationEffect(.degrees(isCollapsed ? 0 : 90))
                 Label {
                     Text(group.label.resolve(localization))
                         .font(PluginSettingsTheme.Typography.sectionTitle)
@@ -240,21 +282,9 @@ struct SystemDataWorkspaceView: View {
                     .foregroundStyle(.secondary)
                     .frame(minWidth: 72, alignment: .trailing)
             }
-
-            groupBar(group)
-
-            VStack(spacing: 0) {
-                ForEach(Array(group.items.enumerated()), id: \.element.id) { index, item in
-                    if index > 0 {
-                        Divider()
-                    }
-                    itemRow(item)
-                }
-            }
+            .contentShape(Rectangle())
         }
-        .padding(PluginSettingsTheme.Spacing.cardContent)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .pluginSettingsCardBackground(.standard)
+        .buttonStyle(.plain)
     }
 
     private func groupBar(_ group: SystemDataGroup) -> some View {
@@ -274,6 +304,41 @@ struct SystemDataWorkspaceView: View {
     private func fraction(of group: SystemDataGroup) -> Double {
         guard let total = controller.summary?.totalBytes, total > 0 else { return 0 }
         return min(1, max(0, Double(group.bytes) / Double(total)))
+    }
+
+    // MARK: - Group controls
+
+    private var groupControls: some View {
+        HStack(spacing: PluginSettingsTheme.Spacing.controlCluster) {
+            Spacer(minLength: 0)
+            Button {
+                withAnimation(.default) {
+                    collapsedGroupIDs.formUnion(visibleGroups.map(\.id))
+                }
+            } label: {
+                Label(
+                    localization.string("settings.collapseAll", defaultValue: "折叠所有"),
+                    systemImage: "rectangle.compress.vertical"
+                )
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+            .disabled(visibleGroups.allSatisfy { collapsedGroupIDs.contains($0.id) })
+
+            Button {
+                withAnimation(.default) {
+                    collapsedGroupIDs.removeAll()
+                }
+            } label: {
+                Label(
+                    localization.string("settings.expandAll", defaultValue: "展开所有"),
+                    systemImage: "rectangle.expand.vertical"
+                )
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+            .disabled(collapsedGroupIDs.isEmpty)
+        }
     }
 
     // MARK: - Item row
@@ -301,6 +366,7 @@ struct SystemDataWorkspaceView: View {
                 .frame(minWidth: 76, alignment: .trailing)
 
             revealButton(for: item)
+            copyButton(for: item)
         }
         .padding(.vertical, PluginSettingsTheme.Spacing.rowVertical)
     }
@@ -340,6 +406,20 @@ struct SystemDataWorkspaceView: View {
         .accessibilityLabel(localization.string("item.reveal", defaultValue: "在 Finder 中显示"))
     }
 
+    @ViewBuilder
+    private func copyButton(for item: SystemDataItem) -> some View {
+        let expanded = SystemDataCatalog.expand(path: item.path, home: homeDirectory)
+        Button {
+            Self.copyPath(expanded)
+        } label: {
+            Image(systemName: "doc.on.doc")
+        }
+        .buttonStyle(.bordered)
+        .controlSize(.small)
+        .help(localization.string("item.copyPath", defaultValue: "复制路径"))
+        .accessibilityLabel(localization.string("item.copyPath", defaultValue: "复制路径"))
+    }
+
     // MARK: - Note
 
     private var scopeNote: some View {
@@ -349,7 +429,7 @@ struct SystemDataWorkspaceView: View {
             .fixedSize(horizontal: false, vertical: true)
     }
 
-    // MARK: - Reveal helpers
+    // MARK: - Row action helpers
 
     static func pathExists(_ path: String) -> Bool {
         guard path.hasPrefix("/") else { return false }
@@ -360,5 +440,14 @@ struct SystemDataWorkspaceView: View {
     static func reveal(path: String) {
         guard pathExists(path) else { return }
         NSWorkspace.shared.activateFileViewerSelecting([URL(fileURLWithPath: path)])
+    }
+
+    /// Copies the expanded location to the general pasteboard; non-absolute
+    /// paths are never written so the clipboard cannot hold template junk.
+    static func copyPath(_ path: String) {
+        guard path.hasPrefix("/") else { return }
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(path, forType: .string)
     }
 }
