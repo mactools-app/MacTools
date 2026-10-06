@@ -104,7 +104,16 @@ public final class SystemDataPlugin: MacToolsPlugin, PluginSettingsPresenting {
     )
 
     private var widgetDescriptor: PluginPanelWidgetDescriptor {
-        PluginPanelWidgetDescriptor(span: .twoByOne)
+        // The host grid allocates `height * 8pt`; size the span from the card's
+        // intrinsic content height so the card is neither clipped nor padded.
+        PluginPanelWidgetDescriptor(
+            span: PluginPanelWidgetSpan(
+                width: 4,
+                height: PluginPanelWidgetLayoutMetrics.default.heightSpan(
+                    fittingContentHeight: SystemDataWidgetLayout.cardContentHeight
+                )
+            )!
+        )
     }
 
     private var rowState: PluginPanelRowState {

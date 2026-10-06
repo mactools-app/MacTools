@@ -55,7 +55,16 @@ final class SystemDataPluginTests: XCTestCase {
         guard case let .widget(widget) = try XCTUnwrap(items.last?.content) else {
             return XCTFail("expected a widget item")
         }
-        XCTAssertEqual(widget.descriptor.span, .twoByOne)
+        XCTAssertEqual(widget.descriptor.span.width, 4)
+        // The allocated cell must cover the card content without leaving a
+        // full extra grid unit of empty space.
+        let metrics = PluginPanelWidgetLayoutMetrics.default
+        let allocated = metrics.itemHeight(forSpanHeight: widget.descriptor.span.height)
+        XCTAssertGreaterThanOrEqual(allocated, SystemDataWidgetLayout.cardContentHeight)
+        XCTAssertLessThan(
+            allocated,
+            SystemDataWidgetLayout.cardContentHeight + metrics.cellHeight
+        )
         XCTAssertNotNil(widget.makeDetail)
     }
 

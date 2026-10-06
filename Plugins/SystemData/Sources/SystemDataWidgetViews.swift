@@ -43,6 +43,31 @@ struct SystemDataBadgeLabel: View {
     }
 }
 
+// MARK: - Widget card layout
+
+/// Card metrics shared by the widget body and its span calculation, so the
+/// descriptor's allocated height matches the intrinsic three-line layout.
+/// The host grid is `PluginPanelWidgetLayoutMetrics.default` (8pt per span
+/// unit); line heights mirror `PluginTypography`'s AppKit metrics.
+enum SystemDataWidgetLayout {
+    static let cardPadding: CGFloat = 10
+    static let cardSpacing: CGFloat = 5
+    /// Chevron button frame sets the header line height.
+    static let headerHeight: CGFloat = 16
+    /// `PluginTypography.prominentMetric` (largeTitle) line height.
+    static let metricLineHeight: CGFloat = 32
+    /// `PluginTypography.caption` line height.
+    static let captionLineHeight: CGFloat = 13
+
+    static var cardContentHeight: CGFloat {
+        cardPadding * 2
+            + headerHeight
+            + metricLineHeight
+            + captionLineHeight
+            + cardSpacing * 2
+    }
+}
+
 // MARK: - Widget card content
 
 /// Self-contained card body: title line, headline metric, one caption line.
@@ -55,7 +80,7 @@ struct SystemDataWidgetView: View {
     @Environment(\.pluginComponentTheme) private var theme
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: SystemDataWidgetLayout.cardSpacing) {
             header
             PluginMetricValue(
                 metric.value,
@@ -71,8 +96,9 @@ struct SystemDataWidgetView: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.75)
         }
-        .padding(10)
+        .padding(SystemDataWidgetLayout.cardPadding)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(PluginComponentCardBackground())
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilitySummary)
     }
