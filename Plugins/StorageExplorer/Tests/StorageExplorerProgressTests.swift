@@ -215,7 +215,7 @@ final class StorageExplorerProgressTests: XCTestCase {
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             for file in 0..<3 {
                 try Data(repeating: 1, count: (file + 1) * 16_384)
-                    .write(to: folder.appendingPathComponent("file-\(file).bin"))
+                    .write(to: folder.appendingPathComponent("file-\(file) café %.bin"))
             }
         }
         let snapshot = try await StorageExplorerScanner(
@@ -228,8 +228,16 @@ final class StorageExplorerProgressTests: XCTestCase {
         XCTAssertTrue(snapshot.fileTypeTotals.isEmpty)
         XCTAssertTrue(snapshot.fileTypeTotalsByDirectory.isEmpty)
         XCTAssertLessThanOrEqual(snapshot.items.values.filter { !$0.isDirectory }.count, 5)
+        let restored = try PropertyListDecoder().decode(
+            StorageExplorerSnapshot.self, from: PropertyListEncoder().encode(snapshot)
+        )
         for directory in 0..<3 {
-            XCTAssertNotNil(snapshot.items[root.appendingPathComponent("folder-\(directory)/file-2.bin").path])
+            let url = root.appendingPathComponent("folder-\(directory)/file-2 café %.bin")
+            let item = try XCTUnwrap(restored.items[url.path])
+            XCTAssertEqual(item.url, url)
+            XCTAssertEqual(item.fileExtension, "bin")
+            XCTAssertEqual(item.observedFileSize, 3 * 16_384)
+            XCTAssertNotNil(item.fileIdentity)
         }
     }
 }

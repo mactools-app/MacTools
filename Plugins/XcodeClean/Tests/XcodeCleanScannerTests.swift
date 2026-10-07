@@ -66,6 +66,46 @@ final class XcodeCleanScannerTests: XCTestCase {
         XCTAssertEqual(result.cleanableCandidates.count, 0)
     }
 
+    func testSizingPreservesPackageBoundariesAndDoesNotFollowSymlinks() throws {
+        let temp = try makeTempDirectory()
+        defer { try? FileManager.default.removeItem(at: temp) }
+        let root = temp.appendingPathComponent("Build")
+        let package = root.appendingPathComponent("Sample.app")
+        let nested = root.appendingPathComponent("Objects/café %")
+        try FileManager.default.createDirectory(at: package, withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: nested, withIntermediateDirectories: true)
+        let file = nested.appendingPathComponent("object.o")
+        try Data(repeating: 1, count: 17).write(to: file)
+        try FileManager.default.linkItem(at: file, to: root.appendingPathComponent("alias.o"))
+        try Data(repeating: 1, count: 101).write(to: package.appendingPathComponent("payload"))
+        let outside = temp.appendingPathComponent("Outside")
+        try FileManager.default.createDirectory(at: outside, withIntermediateDirectories: true)
+        try Data(repeating: 1, count: 997).write(to: outside.appendingPathComponent("payload"))
+        try FileManager.default.createSymbolicLink(at: root.appendingPathComponent("external"), withDestinationURL: outside)
+        try FileManager.default.createSymbolicLink(at: root.appendingPathComponent("file-link"), withDestinationURL: file)
+
+        let fileSystem = LocalXcodeCleanFileSystem()
+        // Foundation counts each hard-link path, skips child packages, and visits a package root.
+        XCTAssertEqual(try fileSystem.sizeOfItem(at: root.path), 34)
+        XCTAssertEqual(try fileSystem.sizeOfItem(at: package.path), 101)
+        XCTAssertEqual(try fileSystem.sizeOfItem(at: file.path), 17)
+        let rootLink = temp.appendingPathComponent("root-link")
+        try FileManager.default.createSymbolicLink(at: rootLink, withDestinationURL: root)
+        XCTAssertEqual(try fileSystem.sizeOfItem(at: rootLink.path), 0)
+        XCTAssertEqual(try fileSystem.sizeOfItem(at: rootLink.path + "/"), 0)
+    }
+
+    func testCancelledSizingThrows() async throws {
+        let temp = try makeTempDirectory()
+        defer { try? FileManager.default.removeItem(at: temp) }
+        let task = Task {
+            withUnsafeCurrentTask { $0?.cancel() }
+            return try LocalXcodeCleanFileSystem().sizeOfItem(at: temp.path)
+        }
+        do { _ = try await task.value; XCTFail("Cancelled directory sizing must stop") }
+        catch { XCTAssertTrue(error is CancellationError) }
+    }
+
     func testSkipsCategoriesNotInRequest() async throws {
         let temp = try makeTempDirectory()
         defer { try? FileManager.default.removeItem(at: temp) }

@@ -129,6 +129,21 @@ final class DiskCleanPurgeScannerTests: XCTestCase {
         XCTAssertTrue(report.items.isEmpty)
     }
 
+    func testMetadataFailureKeepsDiscoveredItemsButMarksScanIncomplete() throws {
+        let root = try temporaryDirectory.makeDirectory("root")
+        try temporaryDirectory.makeFile("root/package.json", bytes: 10)
+        try temporaryDirectory.makeDirectory("root/node_modules")
+        let factory = ScriptedPurgeSourceFactory(scripts: [[[
+            .resolved(entry(name: "node_modules", type: .directory, devid: try deviceID(of: root.path), fileID: 77)),
+            .unresolved(code: EIO)
+        ]]])
+
+        let report = DiskCleanPurgeDiscovery(sourceFactory: factory).discover(root: root.path)
+
+        XCTAssertEqual(report.items.map(\.path), [path("root/node_modules")])
+        XCTAssertEqual(report.status, .traversed(completeness: .partial(reasons: [.walkError])))
+    }
+
     // MARK: - Repository attribution
 
     /// Worktree/submodule `.git` is a file, not a directory, and still counts as a repository.

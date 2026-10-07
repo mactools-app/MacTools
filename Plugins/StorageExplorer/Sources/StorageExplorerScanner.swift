@@ -70,36 +70,22 @@ public final class StorageExplorerScanner: StorageExplorerScanning, @unchecked S
                         DispatchQueue.concurrentPerform(iterations: workerCount) { _ in
                             while let job = state.next() {
                                 do {
-                                    let listing: FileSystemDirectoryListing
+                                    let consume: (FileSystemDirectoryListing) -> Void = { listing in
+                                        let entries = listing.entries.compactMap {
+                                            StorageExplorerScannedEntry(metadata: $0, parentPath: job.path)
+                                        }
+                                        state.consume(job: job, listing: listing, entries: entries)
+                                    }
                                     let cached: Bool
                                     if let directoryReader {
-                                        listing = try directoryReader(job.path)
+                                        consume(try directoryReader(job.path))
                                         cached = false
                                     } else {
-                                        (listing, cached) = try cache.read(path: job.path, cancelled: { cancellation.isCancelled })
+                                        cached = try cache.readBatches(
+                                            path: job.path, cancelled: { cancellation.isCancelled }, consume: consume
+                                        )
                                     }
-                                    let parentURL = URL(fileURLWithPath: job.path, isDirectory: true)
-                                    let entries = listing.entries.compactMap { entry -> StorageExplorerScannedEntry? in
-                                        guard let bytes = entry.nameBytes,
-                                              let name = String(bytes: bytes.dropLast().map { UInt8(bitPattern: $0) }, encoding: .utf8),
-                                              name != ".", name != "..", !name.contains("/") else { return nil }
-                                        let url = parentURL.appendingPathComponent(name)
-                                        let directory = entry.fileType == .directory
-                                        let dataless = (entry.flags ?? 0) & UInt32(SF_DATALESS) != 0
-                                        let package = directory && !dataless && Self.isPackageDirectory(name: name)
-                                        var item = StorageItem(name: name, path: url.path, url: url, isDirectory: directory,
-                                            isPackage: package, isSymlink: entry.fileType == .symlink,
-                                            size: directory ? 0 : max(entry.dataLength ?? 0, 0),
-                                            allocatedSize: directory ? 0 : max(entry.allocatedSize ?? 0, 0),
-                                            modificationDate: entry.modificationDate, parentPath: job.path,
-                                            fileIdentity: ScanWork.identity(for: entry),
-                                            observedFileSize: directory ? 0 : max(entry.dataLength ?? 0, 0),
-                                            hardLinkCount: directory ? 1 : (entry.linkCount ?? 1))
-                                        item.isCloudPlaceholder = dataless
-                                        item.isIncomplete = directory
-                                        return StorageExplorerScannedEntry(item: item, metadata: entry)
-                                    }
-                                    state.finish(job: job, listing: listing, entries: entries, cached: cached)
+                                    state.finish(cached: cached)
                                 } catch is CancellationError {
                                     state.finishCancelled()
                                 } catch {
@@ -119,7 +105,7 @@ public final class StorageExplorerScanner: StorageExplorerScanning, @unchecked S
     /// filesystem metadata request for every directory. Missing an unusual package extension is
     /// safe: it only exposes more hierarchy instead of hiding ordinary folders from the scan.
     fileprivate static func isPackageDirectory(name: String) -> Bool {
-        let pathExtension = URL(fileURLWithPath: name).pathExtension.lowercased()
+        let pathExtension = (name as NSString).pathExtension.lowercased()
         return packageDirectoryExtensions.contains(pathExtension)
     }
 
@@ -133,8 +119,49 @@ public final class StorageExplorerScanner: StorageExplorerScanning, @unchecked S
 }
 
 private struct StorageExplorerScannedEntry {
-    var item: StorageItem
     let metadata: FileSystemBulkAttributeEntry
+    let name: String
+    let path: String
+    let parentPath: String
+    let isDirectory: Bool
+    let isCloudPlaceholder: Bool
+    let isPackage: Bool
+    var size: Int64
+    var allocatedSize: Int64
+    var skippedCount = 0
+
+    init?(metadata: FileSystemBulkAttributeEntry, parentPath: String) {
+        guard let bytes = metadata.nameBytes,
+              let name = bytes.withUnsafeBytes({ String(bytes: $0.dropLast(), encoding: .utf8) }),
+              name != ".", name != "..", !name.contains("/") else { return nil }
+        self.metadata = metadata
+        self.name = name
+        self.parentPath = parentPath
+        self.path = parentPath == "/" ? "/" + name : parentPath + "/" + name
+        self.isDirectory = metadata.fileType == .directory
+        self.isCloudPlaceholder = (metadata.flags ?? 0) & UInt32(SF_DATALESS) != 0
+        self.isPackage = isDirectory && !isCloudPlaceholder && StorageExplorerScanner.isPackageDirectory(name: name)
+        self.size = isDirectory ? 0 : max(metadata.dataLength ?? 0, 0)
+        self.allocatedSize = isDirectory ? 0 : max(metadata.allocatedSize ?? 0, 0)
+    }
+
+    var fileExtension: String { (name as NSString).pathExtension.lowercased() }
+
+    /// Foundation URLs are needed only for published or retained rows, not every scanned file.
+    func makeItem() -> StorageItem {
+        var item = StorageItem(
+            name: name, path: path, url: URL(fileURLWithPath: path, isDirectory: isDirectory), isDirectory: isDirectory,
+            isPackage: isPackage, isSymlink: metadata.fileType == .symlink,
+            size: size, allocatedSize: allocatedSize, modificationDate: metadata.modificationDate,
+            parentPath: parentPath, fileIdentity: ScanWork.identity(for: metadata),
+            observedFileSize: isDirectory ? 0 : max(metadata.dataLength ?? 0, 0),
+            hardLinkCount: isDirectory ? 1 : (metadata.linkCount ?? 1)
+        )
+        item.isCloudPlaceholder = isCloudPlaceholder
+        item.isIncomplete = isDirectory
+        item.skippedCount = skippedCount
+        return item
+    }
 }
 
 private final class StorageExplorerCancellation: @unchecked Sendable {
@@ -171,31 +198,46 @@ private final class StorageExplorerDirectoryCache: @unchecked Sendable {
         }
     }
 
-    func read(path: String, cancelled: () -> Bool) throws -> (FileSystemDirectoryListing, Bool) {
+    func readBatches(
+        path: String,
+        cancelled: () -> Bool,
+        consume: (FileSystemDirectoryListing) -> Void
+    ) throws -> Bool {
         let (hit, version): (FileSystemDirectoryListing?, Int) = lock.withLock {
             let entry = entries[path]
             return (entry.flatMap { Date().timeIntervalSince($0.date) < 30 ? $0.listing : nil }, epoch)
         }
         if cancelled() { throw CancellationError() }
-        if let hit { return (hit, true) }
-        let listing = try FileSystemDirectoryReader.read(path: path, cancelled: cancelled)
+        if let hit { consume(hit); return true }
+        var retained: FileSystemDirectoryListing? = FileSystemDirectoryListing()
+        try FileSystemDirectoryReader.readBatches(path: path, cancelled: cancelled) { batch in
+            if let count = retained?.entries.count {
+                if count + batch.entries.count <= 10_000 {
+                    retained?.entries.append(contentsOf: batch.entries)
+                    retained?.skippedCount += batch.skippedCount
+                } else {
+                    retained = nil
+                }
+            }
+            consume(batch)
+        }
         lock.withLock {
             guard epoch == version else { return }
             count -= entries.removeValue(forKey: path)?.listing.entries.count ?? 0
-            if count + listing.entries.count > 10_000 { entries.removeAll(); count = 0 }
-            if listing.entries.count <= 10_000 {
+            if let listing = retained {
+                if count + listing.entries.count > 10_000 { entries.removeAll(); count = 0 }
                 entries[path] = Entry(listing: listing, date: Date())
                 count += listing.entries.count
             }
         }
-        return (listing, false)
+        return false
     }
 }
 
 private final class ScanWork: @unchecked Sendable {
     struct Job { let path: String; let packageOwner: String? }
     struct HardLinkCandidate {
-        let item: StorageItem
+        let entry: StorageExplorerScannedEntry
         let accountingOwner: String
         let fileTypeParent: String?
     }
@@ -215,7 +257,7 @@ private final class ScanWork: @unchecked Sendable {
     private let publishesItems: Bool
     private let collectsFileTypeTotals: Bool
     private let retainedFiles: StorageExplorerLargestFileHeap
-    private var largestFileByDirectory: [String: StorageItem] = [:]
+    private var largestFileByDirectory: [String: StorageExplorerScannedEntry] = [:]
     private var directFileTypeTotals: [String: [String: StorageExplorerSizeTotals]] = [:]
 
     init(rootURL: URL, cancellation: StorageExplorerCancellation,
@@ -291,17 +333,14 @@ private final class ScanWork: @unchecked Sendable {
         workCondition.unlock()
     }
 
-    func finish(
+    func consume(
         job: Job,
         listing: FileSystemDirectoryListing,
-        entries: [StorageExplorerScannedEntry],
-        cached: Bool
+        entries: [StorageExplorerScannedEntry]
     ) {
-        let discoveredJobs = entries.compactMap { scannedEntry -> Job? in
-            let item = scannedEntry.item
-            let entry = scannedEntry.metadata
-            guard item.isDirectory, !item.isCloudPlaceholder, entry.devid == device else { return nil }
-            return Job(path: item.path, packageOwner: job.packageOwner ?? (item.isPackage ? item.path : nil))
+        let discoveredJobs = entries.compactMap { entry -> Job? in
+            guard entry.isDirectory, !entry.isCloudPlaceholder, entry.metadata.devid == device else { return nil }
+            return Job(path: entry.path, packageOwner: job.packageOwner ?? (entry.isPackage ? entry.path : nil))
         }
 
         stateLock.lock()
@@ -310,45 +349,43 @@ private final class ScanWork: @unchecked Sendable {
         var allocated: Int64 = 0
         var skipped = listing.skippedCount + listing.entries.count - entries.count
         var retainedDirectorySkips = 0
-        for scannedEntry in entries {
-            var item = scannedEntry.item
+        for var scannedEntry in entries {
             let entry = scannedEntry.metadata
             var defersHardLinkAccounting = false
-            if !item.isDirectory, (entry.linkCount ?? 1) > 1,
+            if !scannedEntry.isDirectory, (entry.linkCount ?? 1) > 1,
                let device = entry.devid, let inode = entry.fileID {
                 let key = StorageFileInode(device: dev_t(truncatingIfNeeded: device), inode: ino_t(inode))
                 // Directory workers finish in nondeterministic order. Defer the one charged
                 // hard-link path until all candidates are known, then choose it by path.
                 let candidate = HardLinkCandidate(
-                    item: item,
+                    entry: scannedEntry,
                     accountingOwner: owner,
                     fileTypeParent: job.packageOwner == nil ? job.path : nil
                 )
-                if hardLinkCandidates[key].map({ candidate.item.path < $0.item.path }) ?? true {
+                if hardLinkCandidates[key].map({ candidate.entry.path < $0.entry.path }) ?? true {
                     hardLinkCandidates[key] = candidate
                 }
-                item.size = 0
-                item.allocatedSize = 0
+                scannedEntry.size = 0
+                scannedEntry.allocatedSize = 0
                 defersHardLinkAccounting = true
             }
-            if item.isDirectory {
-                if item.isCloudPlaceholder || entry.devid != device {
-                    item.skippedCount = 1
+            if scannedEntry.isDirectory {
+                if scannedEntry.isCloudPlaceholder || entry.devid != device {
+                    scannedEntry.skippedCount = 1
                     skipped += 1
                     if job.packageOwner == nil { retainedDirectorySkips += 1 }
                 }
             }
-            bytes += item.size
-            allocated += item.allocatedSize
-            if job.packageOwner == nil, item.isDirectory {
-                snapshot.apply([item])
-                changed.insert(item.path)
+            bytes += scannedEntry.size
+            allocated += scannedEntry.allocatedSize
+            if job.packageOwner == nil, scannedEntry.isDirectory {
+                snapshot.apply([scannedEntry.makeItem()])
+                changed.insert(scannedEntry.path)
             } else if job.packageOwner == nil {
-                recordFile(item, parentPath: job.path, retain: !defersHardLinkAccounting)
+                recordFile(scannedEntry, parentPath: job.path, retain: !defersHardLinkAccounting)
             }
         }
-        if job.packageOwner == nil { snapshot.items[job.path]?.childCount = entries.count }
-        else { snapshot.items[owner]?.childCount += entries.count }
+        snapshot.items[owner]?.childCount += entries.count
         // Retained directories contribute their skips when folded into ancestors at completion.
         // Package contents have no retained nodes, so their skips belong directly to the owner.
         addDirectTotals(to: owner, bytes: bytes, allocated: allocated, count: entries.count,
@@ -358,12 +395,21 @@ private final class ScanWork: @unchecked Sendable {
         progress.allocatedBytesScanned += allocated
         progress.skippedCount += skipped
         progress.currentPath = job.path
-        progress.cachedDirectories += cached ? 1 : 0
         publish()
         stateLock.unlock()
 
         workCondition.lock()
         jobs.append(contentsOf: discoveredJobs)
+        workCondition.broadcast()
+        workCondition.unlock()
+    }
+
+    func finish(cached: Bool) {
+        stateLock.lock()
+        progress.cachedDirectories += cached ? 1 : 0
+        publish()
+        stateLock.unlock()
+        workCondition.lock()
         active -= 1
         workCondition.broadcast()
         workCondition.unlock()
@@ -395,8 +441,8 @@ private final class ScanWork: @unchecked Sendable {
         try applyDeterministicHardLinkAccounting()
         if !publishesItems {
             let retained = retainedFiles.items + Array(largestFileByDirectory.values)
-            let unique = Dictionary(grouping: retained, by: \StorageItem.path).compactMap(\.value.first)
-            snapshot.apply(unique)
+            let unique = Dictionary(grouping: retained, by: \StorageExplorerScannedEntry.path).compactMap(\.value.first)
+            snapshot.apply(unique.map { $0.makeItem() })
         }
         // Each directory records only the entries read directly from it while scanning. Folding
         // completed directories into their parents once avoids walking every ancestor while the
@@ -450,8 +496,8 @@ private final class ScanWork: @unchecked Sendable {
                 try checkCancellation()
                 publish()
             }
-            let logical = canonical.item.size
-            let allocated = canonical.item.allocatedSize
+            let logical = canonical.entry.size
+            let allocated = canonical.entry.allocatedSize
             addDirectTotals(
                 to: canonical.accountingOwner,
                 bytes: logical,
@@ -464,38 +510,40 @@ private final class ScanWork: @unchecked Sendable {
 
             if let parentPath = canonical.fileTypeParent {
                 if collectsFileTypeTotals {
-                    let kind = canonical.item.fileExtension.isEmpty ? "—" : canonical.item.fileExtension
+                    let kind = canonical.entry.fileExtension.isEmpty ? "—" : canonical.entry.fileExtension
                     var totals = directFileTypeTotals[parentPath, default: [:]][kind, default: StorageExplorerSizeTotals()]
                     totals.size += logical
                     totals.allocatedSize += allocated
                     directFileTypeTotals[parentPath, default: [:]][kind] = totals
                 }
                 if publishesItems {
-                    snapshot.items[canonical.item.path] = canonical.item
-                    changed.insert(canonical.item.path)
+                    snapshot.items[canonical.entry.path] = canonical.entry.makeItem()
+                    changed.insert(canonical.entry.path)
                 } else {
-                    retainedFiles.insert(canonical.item)
+                    retainedFiles.insert(canonical.entry)
                     if let existing = largestFileByDirectory[parentPath] {
-                        if retainedFiles.value(of: canonical.item) > retainedFiles.value(of: existing) {
-                            largestFileByDirectory[parentPath] = canonical.item
+                        if retainedFiles.value(of: canonical.entry) > retainedFiles.value(of: existing) {
+                            largestFileByDirectory[parentPath] = canonical.entry
                         }
                     } else {
-                        largestFileByDirectory[parentPath] = canonical.item
+                        largestFileByDirectory[parentPath] = canonical.entry
                     }
                 }
             }
         }
     }
 
-    private func recordFile(_ item: StorageItem, parentPath: String, retain: Bool = true) {
+    private func recordFile(_ item: StorageExplorerScannedEntry, parentPath: String, retain: Bool = true) {
         if collectsFileTypeTotals {
             let kind = item.isPackage ? "package" : (item.fileExtension.isEmpty ? "—" : item.fileExtension)
             var totals = directFileTypeTotals[parentPath, default: [:]][kind, default: StorageExplorerSizeTotals()]
-            totals.add(item)
+            totals.size += item.size
+            totals.allocatedSize += item.allocatedSize
+            totals.count += 1
             directFileTypeTotals[parentPath, default: [:]][kind] = totals
         }
         if publishesItems {
-            snapshot.apply([item])
+            snapshot.apply([item.makeItem()])
             changed.insert(item.path)
         } else if retain {
             retainedFiles.insert(item)
@@ -541,13 +589,13 @@ private final class ScanWork: @unchecked Sendable {
 
 private final class StorageExplorerLargestFileHeap {
     private let limit: Int
-    private var heap: [StorageItem] = []
+    private var heap: [StorageExplorerScannedEntry] = []
 
     init(limit: Int) { self.limit = limit }
-    var items: [StorageItem] { heap }
-    func value(of item: StorageItem) -> Int64 { max(item.size, item.allocatedSize) }
+    var items: [StorageExplorerScannedEntry] { heap }
+    func value(of item: StorageExplorerScannedEntry) -> Int64 { max(item.size, item.allocatedSize) }
 
-    func insert(_ item: StorageItem) {
+    func insert(_ item: StorageExplorerScannedEntry) {
         if heap.count < limit {
             heap.append(item)
             siftUp(from: heap.count - 1)

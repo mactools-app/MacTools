@@ -1,0 +1,8 @@
+core:
+  dependencies:
+    - target: MacToolsFileSystem
+      link: false
+bundle:
+  dependencies:
+    - target: MacToolsFileSystem
+      link: true

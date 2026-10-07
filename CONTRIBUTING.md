@@ -71,7 +71,7 @@ Follow the [plugin development standards](docs/plugins/development-guidelines.md
 - **Keep background work economical.** Use cached snapshots, event-driven updates, bounded asynchronous work, and visibility-aware presentation. Preserve intentional monitoring while hidden; stop owned work on deactivation. See [performance requirements](docs/plugins/development-guidelines.md#performance-and-energy).
 - **Preserve user control.** Handle denied permissions, cancellation, unsupported hardware, and system changes. Keep existing confirmations, recovery paths, and destructive-operation safeguards.
 
-Shared filesystem metadata code lives in `Sources/MacToolsFileSystem`. Disk Clean and Storage Explorer link this static module into their bundles; their core targets use it as a build dependency. Keep cleanup policy in the owning plugin and run both plugins' filesystem tests after changing the shared parser.
+Shared filesystem metadata code lives in `Sources/MacToolsFileSystem`. Disk Clean, Storage Explorer, and Xcode Clean link this static module into their bundles; their core targets use it as a build dependency. Use `FileSystemDirectoryReader.readBatches` to bound enumeration memory for wide folders. Keep cleanup policy in the owning plugin and run the affected plugins' filesystem tests after changing the shared reader or parser.
 
 ## Validation
 

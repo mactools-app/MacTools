@@ -189,7 +189,7 @@ struct DiskCleanPurgeScanResult: Equatable, Sendable {
 /// Developer-artifact discovery walk (design §10.1). **Blocking**; called by `DiskCleanPurgeScanner`
 /// on a background queue.
 ///
-/// Uses fd-relative `readdir` (reuses SlowWalker's entry source) rather than `FileManager.enumerator`:
+/// Uses fd-relative bulk metadata with a `readdir` fallback rather than `FileManager.enumerator`:
 /// the latter has no no-follow or device constraints and will follow symlinks out of the scan root
 /// and silently cross mount points. This is discovery only and deletes nothing, but produced paths
 /// go straight to removal primitives, so they must be trustworthy physical paths.
@@ -208,7 +208,7 @@ struct DiskCleanPurgeDiscovery: Sendable {
     init(
         maximumDepth: Int = defaultMaximumDepth,
         opener: DiskCleanRootOpener = DiskCleanRootOpener(),
-        sourceFactory: any DiskCleanDirectoryEntrySourceFactory = DiskCleanDirectoryStreamEntrySourceFactory()
+        sourceFactory: any DiskCleanDirectoryEntrySourceFactory = DiskCleanDiscoveryEntrySourceFactory()
     ) {
         self.maximumDepth = max(maximumDepth, 1)
         self.opener = opener
