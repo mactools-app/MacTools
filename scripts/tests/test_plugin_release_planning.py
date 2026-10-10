@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import importlib.util
 import contextlib
+import functools
+import importlib.util
 import io
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -25,6 +27,86 @@ RELEASE_SPEC.loader.exec_module(release)
 
 
 class InteractiveReleasePlanningTests(unittest.TestCase):
+    def test_plugin_release_keeps_committed_website_versions_current(self) -> None:
+        for dry_run, invalid_manifest in ((False, False), (True, False), (False, True)):
+            with (
+                self.subTest(dry_run=dry_run, invalid_manifest=invalid_manifest),
+                tempfile.TemporaryDirectory() as directory,
+            ):
+                root = Path(directory)
+                source = root / "Plugins"
+                manifest_path = source / "AutoHideDock/plugin.json"
+                manifest_path.parent.mkdir(parents=True)
+                manifest = json.loads(
+                    (SCRIPTS_DIR.parent / "Plugins/AutoHideDock/plugin.json").read_text()
+                )
+                manifest["version"] = "1.0.0"
+                manifest_path.write_text(json.dumps(manifest))
+                baseline = root / "docs/plugins/v7/catalog.json"
+                baseline.parent.mkdir(parents=True)
+                baseline.write_text(json.dumps({"pluginKitVersion": 7, "plugins": [manifest]}))
+                plugin_scripts = root / "scripts/plugins"
+                plugin_scripts.mkdir(parents=True)
+                for name in ("generate_website_plugin_data.py", "plugin_source_manifest.py"):
+                    shutil.copy2(SCRIPTS_DIR / "plugins" / name, plugin_scripts / name)
+
+                def command(*args: str) -> str:
+                    return subprocess.run(
+                        args, cwd=root, check=True, capture_output=True, text=True,
+                    ).stdout.strip()
+
+                command(sys.executable, "scripts/plugins/generate_website_plugin_data.py")
+                (root / "site/public/generated/plugin-assets").mkdir(parents=True)
+                command("git", "init", "-q")
+                command("git", "config", "user.name", "Test")
+                command("git", "config", "user.email", "test@example.invalid")
+                command("git", "add", ".")
+                command("git", "commit", "-qm", "baseline")
+                before_commit = command("git", "rev-parse", "HEAD")
+                website_path = root / "site/src/generated/plugins.json"
+                before_website = website_path.read_bytes()
+                if invalid_manifest:
+                    manifest["presentation"]["screenshots"] = "invalid"
+                    manifest_path.write_text(json.dumps(manifest))
+
+                args = mock.Mock(
+                    plugin_mode="all", plugin=[], version="1.0.1", level="patch",
+                    remote="origin", branch="main", dry_run=dry_run, skip_check=True, yes=True,
+                )
+                with (
+                    mock.patch.object(release, "ROOT_DIR", root),
+                    mock.patch.object(release, "PLUGIN_SOURCE_DIR", source),
+                    mock.patch.object(release, "run", functools.partial(release.run, cwd=root)),
+                    mock.patch.object(release, "latest_tag_version", return_value="1.0.0"),
+                    mock.patch.object(release, "check_tag_available"),
+                    mock.patch.object(release, "confirm"),
+                    mock.patch.object(release, "sync_branch_after_confirm"),
+                    mock.patch.object(release, "validate_changelog"),
+                    mock.patch.object(release, "changelog_status_label", return_value="pending"),
+                    mock.patch.object(release, "prepare_changelog", return_value=[]),
+                    mock.patch.object(release, "push_branch_and_tag") as publish,
+                    contextlib.redirect_stdout(io.StringIO()),
+                ):
+                    if invalid_manifest:
+                        with self.assertRaises(release.ReleaseError):
+                            release.release_plugin(args)
+                        publish.assert_not_called()
+                    else:
+                        release.release_plugin(args)
+                        publish.assert_called_once_with("origin", "main", "plugins-1.0.1", dry_run)
+
+                if dry_run or invalid_manifest:
+                    self.assertEqual(command("git", "rev-parse", "HEAD"), before_commit)
+                    self.assertEqual(website_path.read_bytes(), before_website)
+                    if dry_run:
+                        self.assertEqual(json.loads(manifest_path.read_text())["version"], "1.0.0")
+                else:
+                    committed = json.loads(command("git", "show", "HEAD:site/src/generated/plugins.json"))
+                    self.assertEqual(committed["plugins"][0]["version"], "1.0.1")
+                    self.assertEqual(json.loads(manifest_path.read_text())["version"], "1.0.1")
+                    self.assertEqual(command("git", "status", "--porcelain"), "")
+                    command(sys.executable, "scripts/plugins/generate_website_plugin_data.py", "--check")
+
     def test_plugin_kit6_migration_leaves_package_bumps_to_release(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
