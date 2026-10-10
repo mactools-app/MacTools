@@ -141,8 +141,8 @@ A row detail slider may carry one trailing icon button. Set `actionIconSystemNam
 on the `.slider` control, with `actionTitle` as its tooltip and accessibility label,
 and handle `.invokeAction(controlID:)` for the slider's control ID. The button stays
 active when the slider is disabled, so omit the icon while the action is unavailable.
-Older hosts ignore the icon; raise `minHostVersion` when the action has no other
-entry point.
+Slider icon buttons require host 2.0.1. Older hosts ignore the icon; set
+`minHostVersion` to at least 2.0.1 when the action has no other entry point.
 
 ## Panel layout and editing
 

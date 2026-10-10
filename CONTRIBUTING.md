@@ -66,7 +66,7 @@ Follow the [plugin development standards](docs/plugins/development-guidelines.md
 
 - **Respect the host contract.** Implement `MacToolsPlugin`, publish stable `panelItems`, and keep manifest capabilities, action policies, permissions, and minimum-host requirements consistent with runtime behavior. Reuse host actions and shortcuts.
 - **Match native macOS.** Prefer system controls, semantic fonts and colors, and native keyboard, focus, and accessibility behavior. Keep equivalent controls consistent across settings, menu-bar panels, widgets, and floating windows, with density appropriate to each surface. Follow the [shared UI rules](docs/plugins/development-guidelines.md#visual-and-interaction-design), reuse host renderers and shared themes, and extend shared components when needed. Localize user-facing copy and verify long labels.
-- **Reuse typography roles.** Follow the [typography contract](docs/plugins/typography.md) for titles, supporting text, numbers, and AppKit text measurement. `PluginTypography` and `PluginMetricValue` require host 2.0.0; declare that minimum when consuming these new APIs.
+- **Reuse typography roles.** Follow the [typography contract](docs/plugins/typography.md) for titles, supporting text, numbers, and AppKit text measurement. `PluginTypography` and `PluginMetricValue` require host 2.0.1; declare that minimum when consuming these new APIs.
 - **Build reusable widgets.** Support zero or multiple placements, isolated previews, view recycling, and independent per-placement presentation state. See [panel items](docs/plugins/panel-items.md).
 - **Keep background work economical.** Use cached snapshots, event-driven updates, bounded asynchronous work, and visibility-aware presentation. Preserve intentional monitoring while hidden; stop owned work on deactivation. See [performance requirements](docs/plugins/development-guidelines.md#performance-and-energy).
 - **Preserve user control.** Handle denied permissions, cancellation, unsupported hardware, and system changes. Keep existing confirmations, recovery paths, and destructive-operation safeguards.
@@ -101,7 +101,7 @@ For copy and catalog changes, run `make validate-localization` to check English 
 | Changelog fragments | `make validate-changelog` before committing or pushing. |
 | Documentation only | Check changed links, examples, formatting, and rendered layout; no app build is needed. |
 
-Plugins using `PluginFloatingPanelSurface`, `PluginFloatingPanelShape`, or `PluginFloatingPanelAppearance` require MacTools 2.0.0 or later. Keep menu-bar themes separate from this system-managed floating-panel preference.
+Plugins using `PluginFloatingPanelSurface`, `PluginFloatingPanelShape`, or `PluginFloatingPanelAppearance` require MacTools 2.0.1 or later. Keep menu-bar themes separate from this system-managed floating-panel preference.
 
 ## Submit a pull request
 

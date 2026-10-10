@@ -57,7 +57,7 @@
     "summary": "@summary"
   },
   "version": "2.0.0",
-  "minHostVersion": "2.0.0",
+  "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "QuitApps.bundle",
   "factoryClass": "QuitAppsPlugin.QuitAppsPluginFactory",

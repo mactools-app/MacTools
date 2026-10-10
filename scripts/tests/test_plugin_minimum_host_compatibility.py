@@ -20,8 +20,8 @@ PLUGIN_INTERFACES = REPO_ROOT / "Sources/MacToolsPluginKit/PluginInterfaces.swif
 PLUGIN_SETTINGS_MODELS = REPO_ROOT / "Sources/MacToolsPluginKit/PluginSettingsModels.swift"
 APP_VERSION_CONFIG = REPO_ROOT / "Configs/AppVersion.xcconfig"
 NEW_API_MINIMUM_HOSTS = {
-    "PluginTypography": "2.0.0",
-    "PluginMetricValue": "2.0.0",
+    "PluginTypography": "2.0.1",
+    "PluginMetricValue": "2.0.1",
     "PluginPanelWidgetGrid": "1.3.1",
     "PluginPanelIconControl": "1.3.1",
     "iconWidget": "1.3.1",
@@ -168,9 +168,9 @@ NEW_API_MINIMUM_HOSTS = {
     "PluginPaletteSearchBar": "1.3.0",
     "PluginPaletteSearchToolbar": "1.3.0",
     "PluginPaletteSurface": "1.3.0",
-    "PluginFloatingPanelAppearance": "2.0.0",
-    "PluginFloatingPanelShape": "2.0.0",
-    "PluginFloatingPanelSurface": "2.0.0",
+    "PluginFloatingPanelAppearance": "2.0.1",
+    "PluginFloatingPanelShape": "2.0.1",
+    "PluginFloatingPanelSurface": "2.0.1",
     "PluginPaletteSelectableRowModifier": "1.3.0",
     "pluginPaletteSelectableRow": "1.3.0",
     "PluginPaletteToolbarControlStyle": "1.3.0",

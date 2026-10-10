@@ -140,7 +140,11 @@ final class PluginCatalogManagerTests: XCTestCase {
     }
 
     func testNewerHostEntryStaysVisibleButCannotInstallOrAutomaticallyUpdate() async throws {
-        let store = makeStore()
+        let store = PluginPackageStore(
+            rootDirectory: temporaryRoot,
+            userDefaults: defaults,
+            hostVersion: "2.0.0"
+        )
         _ = try store.installPackage(from: makePackage(
             id: "com.example.installed",
             version: "1.0.0"
@@ -158,12 +162,12 @@ final class PluginCatalogManagerTests: XCTestCase {
             makeCatalogEntry(
                 id: "com.example.installed",
                 version: "2.0.0",
-                minimumHostVersion: "2.0.0"
+                minimumHostVersion: "2.0.1"
             ),
             makeCatalogEntry(
                 id: "com.example.future",
                 version: "1.0.0",
-                minimumHostVersion: "2.0.0"
+                minimumHostVersion: "2.0.1"
             ),
         ])
         let manager = PluginCatalogManager(
@@ -186,10 +190,14 @@ final class PluginCatalogManagerTests: XCTestCase {
             XCTFail("Expected the future-host package to be rejected")
         } catch let error as PluginPackageManifestError {
             XCTAssertEqual(error, .incompatibleHostVersion(
-                required: "2.0.0",
-                current: "1.0.0"
+                required: "2.0.1",
+                current: "2.0.0"
             ))
         }
+
+        let installed = try XCTUnwrap(store.installedRecords().first)
+        XCTAssertEqual(installed.manifest.version, "1.0.0")
+        XCTAssertEqual(installed.state, .installed)
     }
 
     func testMissingApplicationBlocksCatalogInstallBeforeResolvingAndRecheckEnablesIt() async throws {

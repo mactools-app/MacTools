@@ -3,16 +3,19 @@ import XCTest
 
 final class PluginPackageManifestTests: XCTestCase {
     func testManifestValidationAcceptsCurrentPackageFormat() throws {
-        let manifest = PluginPackageManifest(
-            id: "com.example.demo",
-            displayName: "Demo",
-            version: "1.0.0",
-            minHostVersion: "0.15.0",
-            bundleRelativePath: "Demo.bundle",
-            capabilities: .init(panelItems: [.row])
-        )
+        for minimumHostVersion in ["2.0.0", "2.0.1"] {
+            let manifest = PluginPackageManifest(
+                id: "com.example.demo",
+                displayName: "Demo",
+                version: "1.0.0",
+                minHostVersion: minimumHostVersion,
+                pluginKitVersion: 7,
+                bundleRelativePath: "Demo.bundle",
+                capabilities: .init(panelItems: [.row])
+            )
 
-        XCTAssertNoThrow(try PluginPackageManifestLoader.validate(manifest, hostVersion: "0.16.0"))
+            XCTAssertNoThrow(try PluginPackageManifestLoader.validate(manifest, hostVersion: "2.0.1"))
+        }
     }
 
     func testManifestValidationRejectsPreviousPluginKitVersion() {
