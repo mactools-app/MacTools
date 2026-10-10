@@ -49,6 +49,8 @@ class InteractiveReleasePlanningTests(unittest.TestCase):
                 plugin_scripts.mkdir(parents=True)
                 for name in ("generate_website_plugin_data.py", "plugin_source_manifest.py"):
                     shutil.copy2(SCRIPTS_DIR / "plugins" / name, plugin_scripts / name)
+                # Match the repository when CI and the helper use different Python versions.
+                (root / ".gitignore").write_text("__pycache__/\n")
 
                 def command(*args: str) -> str:
                     return subprocess.run(
