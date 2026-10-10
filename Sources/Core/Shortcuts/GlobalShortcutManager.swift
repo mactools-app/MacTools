@@ -49,40 +49,9 @@ final class SystemCarbonHotKeyRegistrar: CarbonHotKeyRegistering {
 }
 
 enum MacToolsReservedShortcutBindings {
-    private static let settingsNavigationBindings: Set<ShortcutBinding> = {
-        var bindings = [
-            kVK_UpArrow,
-            kVK_DownArrow
-        ].reduce(into: Set<ShortcutBinding>()) { bindings, keyCode in
-            bindings.insert(
-                ShortcutBinding(
-                    keyCode: UInt16(keyCode),
-                    modifiers: [.control, .command]
-                )
-            )
-        }
-
-        for keyCode in [
-            kVK_ANSI_1,
-            kVK_ANSI_2,
-            kVK_ANSI_3,
-            kVK_ANSI_4,
-            kVK_ANSI_5,
-            kVK_ANSI_6,
-            kVK_ANSI_7,
-            kVK_ANSI_8,
-            kVK_ANSI_9
-        ] {
-            bindings.insert(
-                ShortcutBinding(
-                    keyCode: UInt16(keyCode),
-                    modifiers: .command
-                )
-            )
-        }
-
-        return bindings
-    }()
+    private static let settingsNavigationBindings = Set([kVK_UpArrow, kVK_DownArrow].map {
+        ShortcutBinding(keyCode: UInt16($0), modifiers: [.control, .command])
+    })
 
     static func requiresConflictWarning(for binding: ShortcutBinding) -> Bool {
         !settingsNavigationBindings.contains(binding)
