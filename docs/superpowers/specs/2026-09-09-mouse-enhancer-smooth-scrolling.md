@@ -39,10 +39,10 @@ Direction reversal and the remote-control bypass from #406 keep working: reversa
 
 New `MouseScrollSmoother` inside the MouseEnhancer plugin, driven by the existing tap session:
 
-1. **Capture** — the tap callback classifies the event as today. Mouse-classified discrete/phaseless wheel events with smoothing enabled are swallowed (return `nil`) after the session records a posting template: a copy of the event plus `eventTargetUnixProcessID`.
+1. **Capture** — the scroll tap runs at the annotated-session stage, where application routing information is available. Mouse-classified wheel events are swallowed (return `nil`) only after the engine copies the event, validates `eventTargetUnixProcessID`, and successfully starts its frame driver. Failure preserves the ordinary reversal/step/gain path.
 2. **Accumulate** — apply reverse/step/gain to the tick, then add to the per-axis buffer; direction reversal resets the opposite axis and restarts the animation. Trackpad-classified, remote-smoothed, and synthetic (self-posted) events pass through untouched.
 3. **Emit** — a CVDisplayLink frame loop uses elapsed-time exponential decay per axis. Rounded cumulative positions preserve fractional movement across frames; zero-motion frames are skipped. Pixel, line, and fixed-point fields follow native pixel-event conversion. A serial `userInteractive` queue posts via `CGEventPostToPid`, preserving queued movement through natural completion before a zero-delta terminal event.
-4. **Recover** — the session's existing wake/secure-input recovery tears the engine down with the taps; the buffer resets so wake never resumes a stale glide.
+4. **Recover** — the session's existing wake/secure-input recovery tears the engine down with the taps; the buffer resets so wake never resumes a stale glide. A watchdog also invalidates a driver silent for more than 0.5 seconds. Wheel events pass through during a 0.5-second retry interval; the next eligible tick recreates the driver. Frame processing and driver lifecycle changes share a serial queue, while the display callback only enqueues work there.
 
 The accumulator, decay math, and buffer/reset semantics are pure value types, unit-testable without a display link. The display-link poster is a thin shell around them.
 
@@ -50,8 +50,8 @@ The accumulator, decay math, and buffer/reset semantics are pure value types, un
 
 - **Continuous-event compatibility** — some apps (games, CAD, remote clients) mishandle synthetic continuous events. The feature defaults off, applies only to mouse wheel events, and the remote-control bypass keeps remote sessions native. A per-app bypass list can follow if reports arrive.
 - **Feedback loops** — self-posted events carry an `eventSourceUserData` marker and are ignored by the tap; posting goes directly to the target PID instead of the tap chain.
-- **Stale queued frames** — generation invalidation cancels frames on reset or disable, and templates expire after five seconds. Target transitions do not currently reset the accumulator.
-- **Zombie/mis-locked display links** — Mos-style health checks are deferred; elapsed-time decay already accounts for different frame rates.
+- **Stale queued frames** — generation invalidation cancels frames on reset, disable, driver failure, or an in-flight target transition, and templates expire after five seconds. A target transition starts a new accumulator so pending motion cannot transfer to another application.
+- **Zombie/mis-locked display links** — a monotonic-clock watchdog restores ordinary scrolling and recreates stalled links. Refresh-rate rebinding remains deferred; elapsed-time decay accounts for different frame rates.
 - **Latency perception** — frames emit once accumulated movement rounds to a whole pixel; fractional movement is retained for subsequent frames.
 
 ## Testing
