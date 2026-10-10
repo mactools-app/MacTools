@@ -3,4 +3,4 @@ release: plugin
 type: fixed
 ---
 
-Calendar dates stay centered beneath compact corner badges, with full lunar labels available on hover. System Status network and disk cards fit the widget panel.
+Calendar dates stay centered beneath corner badges, with full lunar labels on hover. System Status network and disk cards fit within the panel.

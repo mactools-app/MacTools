@@ -2,4 +2,5 @@
 release: plugin
 type: added
 ---
-System Status offers an estimated memory pressure percentage with native chart colors and neutral badge text. Switch between usage and pressure in Memory settings; charts show history and statistics.
+
+System Status adds an estimated memory pressure percentage with history and statistics. Choose memory usage or pressure in settings.

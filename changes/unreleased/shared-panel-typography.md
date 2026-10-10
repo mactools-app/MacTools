@@ -3,4 +3,4 @@ release: app
 type: changed
 ---
 
-Settings and menu panels share native text styles. Compact icon widgets use smaller labels, and action buttons accommodate longer translations.
+Settings and menu-bar panels use consistent native text styles, compact widget labels, and action buttons that fit longer translations.
