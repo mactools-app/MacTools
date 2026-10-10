@@ -7,6 +7,27 @@ All notable changes to this project are documented here. The format follows
 Pending release notes live in `changes/unreleased/*.md` and are compiled during
 the app and plugin release processes.
 
+## [v2.0.1] - 2026-10-10
+
+### Added
+
+- Choose whether floating panels follow macOS transparency or use a solid background, with Reduce Transparency always taking precedence.
+- Menu-bar panel sliders support inline action buttons, including display power controls.
+- Added Turkish as an app language: the language picker now includes Türkçe, and app, plugin, and Finder Sync surfaces are fully localized in Turkish.
+
+### Changed
+
+- The menu bar icon now shows a red dot when an app update is available. Panels show plugin update and loading progress instead of an empty state after launch.
+- Settings and menu-bar panels use consistent native text styles, compact widget labels, and action buttons that fit longer translations.
+
+### Fixed
+
+- Command-1 through Command-9 can be assigned to actions; unassigned keys retain their default navigation behavior.
+- Complete translations for app settings and controls in all supported languages. Improve live language switching, Arabic layouts, appearance controls, and Marketplace privacy and action risk labels.
+- Marketplace plugin rows now show the complete keyboard focus outline, including during installation.
+- Widgets align consistently at the top across panels, layout editing, and previews, reducing extra space below the toolbar.
+- Plugin settings sliders now persist keyboard and assistive-technology adjustments without repeating committed actions when values refresh externally.
+
 ## [plugins-2.0.1] - 2026-10-10
 
 ### Added
