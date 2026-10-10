@@ -126,9 +126,12 @@ details that appear only after enabling, or controls whose primary action change
 during a session. Keep Awake, IP Overview, Siri, and Screenshot remain row-only
 until their additional actions or multi-state interactions have a dedicated design.
 
-The shared renderer owns symbol size, centered icon frames, and spacing. Prefer the
-plugin's existing SF Symbol and a localized name for tooltips and accessibility;
-do not add per-plugin padding or symbol offsets.
+The shared renderer owns symbol size, icon frames, and spacing. Symbols remain
+centered inside their icon surfaces; the icon-and-title group aligns to the top
+of the full-height hit target, with unused height below it. This alignment is the
+same at every panel position, in layout editing, and in library previews. Prefer
+the plugin's existing SF Symbol and a localized name for tooltips and
+accessibility; do not add per-plugin padding or symbol offsets.
 For foreground data refresh, attach visibility callbacks to both definitions and
 track the set of visible item IDs in the plugin. Start shared work when the first
 item appears and stop it only when the last item disappears; widget previews must

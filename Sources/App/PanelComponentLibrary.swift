@@ -413,7 +413,7 @@ private struct PanelComponentLibraryPreview: View {
                 .environment(\.pluginComponentTheme, theme.componentTheme)
                 .tint(theme.accent)
                 .environment(\.colorScheme, colorScheme)
-                .frame(width: size.width, height: size.height))
+                .frame(width: size.width, height: size.height, alignment: .topLeading))
         }
         var renderSize = size
         let hosting = NSHostingView(rootView: rootView(renderSize))

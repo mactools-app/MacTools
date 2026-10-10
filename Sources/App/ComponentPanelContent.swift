@@ -408,7 +408,7 @@ private struct ComponentCardContainer: View {
                 Color.clear
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .clipped()
         .disabled(!item.isEnabled)
         .opacity(item.isEnabled ? 1 : 0.55)

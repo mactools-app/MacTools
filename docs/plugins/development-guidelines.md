@@ -69,6 +69,13 @@ Before implementing a UI change, identify the surface below and inspect a compar
 | Custom settings content | `PluginSettingsTheme.Typography` and `.Spacing`, `PluginSettingsItem`, and `.pluginSettingsCardBackground(.standard/.recessed)`. |
 | Floating palettes | `PluginPaletteSurface`, the [shared palette appearance](palette-appearance.md), and the [global presentation contract](global-panel-presentation.md). Keep app activation separate from keyboard focus. |
 
+The panel host owns outer insets and gaps between widgets. Widget surfaces align
+to the top of their allocated bounds in normal panels, layout editing, and library
+previews; unused height stays below the surface. Preserve padding and alignment
+inside a card background, and keep the full allocated interaction area. Widgets
+must not add outer padding to separate themselves from neighboring items or vary
+their internal layout according to their position in the panel.
+
 The host owns page titles, descriptions, permission cards, shortcuts, search, validation, and the surrounding background. Do not duplicate page chrome or draw another outer card inside a grouped Form. Plugins must not depend on `Sources/App/SettingsStyle.swift` or copy private host styles.
 
 Keep native forms and custom workspaces as separate containers with shared surface roles:

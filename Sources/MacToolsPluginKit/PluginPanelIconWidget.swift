@@ -105,7 +105,7 @@ struct PluginPanelIconWidget: View {
                     .frame(height: Layout.titleHeight)
             }
             .frame(maxWidth: .infinity)
-            .frame(height: Self.height)
+            .frame(height: Self.height, alignment: .top)
             .contentShape(RoundedRectangle(cornerRadius: PluginPanelWidgetLayoutMetrics.cardCornerRadius))
         }
         .buttonStyle(PluginPanelIconButtonStyle())
