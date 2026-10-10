@@ -61,7 +61,7 @@
     "action.reset-today.title": "@localizable.panel.action.resetToday",
     "action.reset-today.description": "@localizable.panel.action.resetToday"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "ActivityBar.bundle",

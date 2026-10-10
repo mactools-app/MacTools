@@ -62,7 +62,7 @@
     "action.screenshot-translation.title": "@localizable.shortcut.screenshotTranslation.title",
     "action.screenshot-translation.description": "@localizable.shortcut.screenshotTranslation.description"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "Translator.bundle",

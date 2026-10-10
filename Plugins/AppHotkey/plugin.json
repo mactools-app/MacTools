@@ -59,7 +59,7 @@
     "action.launch.description": "@localizable.action.launch.description",
     "action.launch.parameter-summary": "@localizable.action.launch.app"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "1.3.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "AppHotkey.bundle",

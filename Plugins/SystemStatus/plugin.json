@@ -98,7 +98,7 @@
       "zh-Hant": "設定會保留到外掛資料被移除。效能歷史僅保留 24 小時，最多 8,640 個樣本。"
     }
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "SystemStatus.bundle",

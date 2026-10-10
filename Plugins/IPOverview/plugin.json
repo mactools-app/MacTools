@@ -166,7 +166,7 @@
       "zh-Hant": "偵測公網 IP 需要網路連線。"
     }
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "IPOverview.bundle",

@@ -52,7 +52,7 @@
       "summary": "區域和視窗截圖、標註、文字與 QR 碼辨識、釘選圖片、捲動截圖和螢幕錄製。"
     }
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "Screenshot.bundle",

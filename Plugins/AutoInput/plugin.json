@@ -66,7 +66,7 @@
     "action.select-input-source.description": "@localizable.action.selectSource.description",
     "action.select-input-source.parameter-summary": "@localizable.action.selectSource.parameterTitle"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "AutoInput.bundle",

@@ -70,7 +70,7 @@
       "zh-Hant": "會儲存 Shell 檔案內容，並為每個編輯過的 Shell 檔案保留一個 .bak 備份。再次儲存該檔案時會取代它的備份；這些備份會保留到你手動刪除為止。"
     }
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "ZshConfig.bundle",

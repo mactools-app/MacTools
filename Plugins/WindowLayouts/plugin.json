@@ -141,7 +141,7 @@
     "action.custom-command.description": "@localizable.action.custom.description",
     "action.custom-command.parameter-summary": "@localizable.settings.custom.name"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "WindowLayouts.bundle",

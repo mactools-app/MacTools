@@ -70,7 +70,7 @@
       "zh-Hant": "首次上傳前，請填寫帳戶 ID、儲存貯體、存取金鑰，並將密鑰安全地存入鑰匙圈。"
     }
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "CloudflareR2.bundle",
