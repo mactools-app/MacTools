@@ -226,6 +226,8 @@ Nightly isolates app, catalog, helper, credential, hook, and CLI identities. See
 
 ## Release Flow
 
+Use the repository's [release preflight skill](../../.agents/skills/mactools-release-preflight/SKILL.md) to consolidate pending notes and review compatibility and package selection before execution. Its report distinguishes continued use of installed plugins from compatible first-install/reinstall downloads, and actual package changes from shared-code rebuild rules.
+
 Recommended production flow is an incremental batch plugin release:
 
 1. Run `make release`.

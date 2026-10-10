@@ -1,0 +1,4 @@
+interface:
+  display_name: "MacTools Release Preflight"
+  short_description: "Consolidate release notes and audit plugin compatibility"
+  default_prompt: "Use $mactools-release-preflight to prepare the next MacTools release: consolidate unreleased changelogs, then report compatibility, release scope, and remaining prerequisites."
