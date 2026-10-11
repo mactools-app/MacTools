@@ -268,7 +268,7 @@ struct SettingsHistoryNavigationControls: View {
     }
 }
 
-private struct PermissionSettingsRow: View {
+struct PermissionSettingsRow: View {
     let card: PluginPermissionCard
     let statusColor: Color
     let onAction: () -> Void
@@ -5322,7 +5322,7 @@ private struct PluginShortcutRowsContent: View {
     }
 }
 
-private func statusColor(for tone: PluginStatusTone) -> Color {
+func statusColor(for tone: PluginStatusTone) -> Color {
     switch tone {
     case .neutral:
         return .secondary

@@ -484,6 +484,7 @@ final class PluginHost: ObservableObject {
     @Published private(set) var actionRegistryIssues: [ActionRegistryIssue] = []
     @Published private(set) var shortcutBindingRevision: UInt64 = 0
     @Published private(set) var pluginManagementItems: [PluginManagementItem] = []
+    @Published private(set) var pluginMarketplaceOperations: [String: PluginMarketplaceOperation] = [:]
     @Published private(set) var pluginCatalogStatus: PluginCatalogStatus = .unavailable
     @Published private(set) var automaticPluginUpdateStatus: PluginAutomaticUpdateStatus = .idle
     @Published private(set) var hasActivePlugin = false
@@ -2118,6 +2119,20 @@ final class PluginHost: ObservableObject {
         pluginSettingsItems.contains(where: { $0.id == pluginID })
     }
 
+    func marketplaceSetupPresentation(pluginID: String) -> MarketplacePluginSetupPresentation? {
+        guard let item = pluginManagementItems.first(where: { $0.id == pluginID }) else {
+            return nil
+        }
+        return MarketplacePluginSetupPresentation(
+            item: item,
+            missingPermissionCards: pluginSettingsItems.first(where: { $0.pluginID == pluginID })?
+                .missingPermissionCards ?? [],
+            runtimeIsolationFailure: isolatedPluginFailures[pluginID],
+            isRuntimeLoaded: corePlugin(for: pluginID) != nil,
+            hasSettings: hasPluginSettings(pluginID: pluginID)
+        )
+    }
+
     func hasMarketplaceDetail(target: MarketplacePluginDetailTarget) -> Bool {
         guard let item = pluginManagementItems.first(where: { $0.id == target.pluginID }) else {
             return false
@@ -2507,21 +2522,42 @@ final class PluginHost: ObservableObject {
     }
 
     func installPluginFromCatalog(pluginID: String) async throws {
-        guard let pluginCatalogManager else {
-            return
-        }
-
-        try await pluginCatalogManager.installPlugin(id: pluginID)
-        syncPluginManagementState()
+        try await performMarketplaceOperation(pluginID: pluginID, kind: .install)
     }
 
     func updatePluginFromCatalog(pluginID: String) async throws {
-        guard let pluginCatalogManager else {
-            return
-        }
+        try await performMarketplaceOperation(pluginID: pluginID, kind: .update)
+    }
 
-        try await pluginCatalogManager.updatePlugin(id: pluginID)
-        syncPluginManagementState()
+    private func performMarketplaceOperation(
+        pluginID: String,
+        kind: PluginMarketplaceOperation.Kind
+    ) async throws {
+        guard pluginMarketplaceOperations[pluginID]?.isActive != true else {
+            throw PluginMarketplaceOperationError.operationInProgress
+        }
+        pluginMarketplaceOperations[pluginID] = .init(kind: kind, phase: .running)
+        do {
+            guard let pluginCatalogManager else {
+                throw PluginMarketplaceOperationError.catalogUnavailable
+            }
+            switch kind {
+            case .install:
+                try await pluginCatalogManager.installPlugin(id: pluginID)
+            case .update:
+                try await pluginCatalogManager.updatePlugin(id: pluginID)
+            }
+            syncPluginManagementState()
+            if dynamicPluginManager?.isInstalledPlugin(pluginID) == true {
+                pluginMarketplaceOperations[pluginID] = .init(kind: kind, phase: .completed)
+            } else {
+                pluginMarketplaceOperations.removeValue(forKey: pluginID)
+            }
+        } catch {
+            syncPluginManagementState()
+            pluginMarketplaceOperations[pluginID] = .init(kind: kind, phase: .failed(error.localizedDescription))
+            throw error
+        }
     }
 
     func updateAvailablePluginsFromCatalog(
@@ -2540,18 +2576,27 @@ final class PluginHost: ObservableObject {
 
     func installPluginPackage(from sourceURL: URL) throws {
         try dynamicPluginManager?.installPluginPackage(from: sourceURL)
+        clearTerminalMarketplaceFeedback(forPackageAt: sourceURL)
         pluginCatalogManager?.rebuildManagementItems()
         syncPluginManagementState()
     }
 
     func updatePluginPackage(from sourceURL: URL) throws {
         try dynamicPluginManager?.updatePluginPackage(from: sourceURL)
+        clearTerminalMarketplaceFeedback(forPackageAt: sourceURL)
         pluginCatalogManager?.rebuildManagementItems()
         syncPluginManagementState()
     }
 
+    private func clearTerminalMarketplaceFeedback(forPackageAt sourceURL: URL) {
+        guard let id = try? PluginPackageManifestLoader.load(from: sourceURL).id,
+              pluginMarketplaceOperations[id]?.isActive == false else { return }
+        pluginMarketplaceOperations.removeValue(forKey: id)
+    }
+
     func uninstallDynamicPlugin(pluginID: String, removeData: Bool = false) throws {
         try dynamicPluginManager?.uninstallPlugin(pluginID: pluginID, removeData: removeData)
+        pluginMarketplaceOperations.removeValue(forKey: pluginID)
         pluginOrderingStore.removePlugin(pluginID)
         menuBarPanelStore.removePlugin(id: pluginID)
         shortcutStore.removeCustomizations(forPluginID: pluginID)
@@ -3204,10 +3249,17 @@ final class PluginHost: ObservableObject {
 
     private func syncPluginManagementState(installedMetadata: InstalledPluginMetadata? = nil) {
         let metadata = installedMetadata ?? dynamicPluginManager?.installedMetadata()
+        let nextManifests = metadata?.manifestsByID ?? [:]
+        // A successful mutation through another surface supersedes old terminal feedback.
+        for (id, operation) in pluginMarketplaceOperations where !operation.isActive {
+            if dynamicPluginManifestsByID[id]?.version != nextManifests[id]?.version {
+                pluginMarketplaceOperations.removeValue(forKey: id)
+            }
+        }
         dynamicPluginCapabilitiesByID = metadata?.capabilitiesByID ?? [:]
         dynamicPluginCategoriesByID = metadata?.categoriesByID ?? [:]
         dynamicPluginReleaseChannelsByID = metadata?.releaseChannelsByID ?? [:]
-        dynamicPluginManifestsByID = metadata?.manifestsByID ?? [:]
+        dynamicPluginManifestsByID = nextManifests
         dynamicPluginInstalledAtByID = metadata?.installedAtByID ?? [:]
         pluginManagementItems = dynamicPluginManager?.pluginManagementItems ?? []
         pluginCatalogStatus = pluginCatalogManager?.status ?? .unavailable

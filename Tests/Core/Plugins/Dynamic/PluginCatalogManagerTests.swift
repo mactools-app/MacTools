@@ -674,6 +674,129 @@ final class PluginCatalogManagerTests: XCTestCase {
         XCTAssertTrue(store.installedRecords().isEmpty)
     }
 
+    func testHostInstallKeepsFeedbackPerPluginAndSeparatesCompletionFromLoadFailure() async throws {
+        let pluginID = "com.example.demo"
+        let store = makeStore()
+        let packageURL = try makePackage(id: pluginID)
+        let dynamicManager = DynamicPluginManager(
+            packageStore: store,
+            pluginLoader: StubDynamicPluginLoader { records in
+                records.map {
+                    DynamicPluginLoadResult(record: $0, plugins: [], errorMessage: "Cannot load plugin")
+                }
+            }
+        )
+        let snapshot = makeCatalogSnapshot(entries: [makeCatalogEntry(id: pluginID, version: "1.0.0")])
+        let resolver = SuspendedPluginPackageResolver()
+        let manager = PluginCatalogManager(
+            catalogProvider: StubPluginCatalogProvider(snapshot: snapshot),
+            packageResolver: resolver,
+            dynamicPluginManager: dynamicManager,
+            source: .production(snapshot.sourceURL)
+        )
+        let host = makeFeedbackHost(dynamicManager: dynamicManager, catalogManager: manager)
+        defer { host.deactivateAllPlugins() }
+        await host.refreshPluginCatalog()
+
+        let install = Task { try await host.installPluginFromCatalog(pluginID: pluginID) }
+        await resolver.waitUntilRequested()
+        XCTAssertEqual(host.pluginMarketplaceOperations[pluginID], .init(kind: .install, phase: .running))
+        XCTAssertNil(host.pluginMarketplaceOperations["other"])
+        do {
+            try await host.installPluginFromCatalog(pluginID: pluginID)
+            XCTFail("A second installation must not start while the first is resolving")
+        } catch {
+            guard case PluginMarketplaceOperationError.operationInProgress = error else {
+                resolver.resume(returning: packageURL)
+                _ = try? await install.value
+                throw error
+            }
+        }
+        resolver.resume(returning: packageURL)
+        try await install.value
+
+        XCTAssertTrue(dynamicManager.isInstalledPlugin(pluginID))
+        XCTAssertEqual(host.pluginMarketplaceOperations[pluginID], .init(kind: .install, phase: .completed))
+        let setup = try XCTUnwrap(host.marketplaceSetupPresentation(pluginID: pluginID))
+        XCTAssertEqual(setup.issues.map(\.kind), [.loadFailure])
+        XCTAssertEqual(setup.issues.first?.detail, "Cannot load plugin")
+
+        do {
+            try await host.installPluginFromCatalog(pluginID: "missing")
+            XCTFail("An unknown plugin must fail installation")
+        } catch {
+            XCTAssertEqual(host.pluginMarketplaceOperations["missing"]?.phase, .failed(error.localizedDescription))
+        }
+        XCTAssertEqual(host.pluginMarketplaceOperations[pluginID]?.phase, .completed)
+    }
+
+    func testHostWithoutCatalogReportsFailureForInstallAndUpdate() async throws {
+        let host = makeFeedbackHost()
+        defer { host.deactivateAllPlugins() }
+
+        for kind in [PluginMarketplaceOperation.Kind.install, .update] {
+            do {
+                switch kind {
+                case .install: try await host.installPluginFromCatalog(pluginID: "example")
+                case .update: try await host.updatePluginFromCatalog(pluginID: "example")
+                }
+                XCTFail("No catalog manager must not report success")
+            } catch {
+                guard case PluginMarketplaceOperationError.catalogUnavailable = error else { throw error }
+                XCTAssertEqual(host.pluginMarketplaceOperations["example"],
+                               .init(kind: kind, phase: .failed(error.localizedDescription)))
+            }
+        }
+    }
+
+    func testSuccessfulBulkUpdateClearsEarlierPerPluginFailure() async throws {
+        let pluginID = "com.example.demo"
+        let store = makeStore()
+        _ = try store.installPackage(from: makePackage(id: pluginID, version: "1.0.0"))
+        let updatePackageURL = try makePackage(id: pluginID, version: "2.0.0")
+        let dynamicManager = DynamicPluginManager(
+            packageStore: store,
+            pluginLoader: StubDynamicPluginLoader { _ in [] }
+        )
+        dynamicManager.prepareInstalledPluginsWithoutLoading()
+        let snapshot = makeCatalogSnapshot(entries: [makeCatalogEntry(id: pluginID, version: "2.0.0")])
+        let manager = PluginCatalogManager(
+            catalogProvider: StubPluginCatalogProvider(snapshot: snapshot),
+            packageResolver: FailFirstPluginPackageResolver(packageURL: updatePackageURL),
+            dynamicPluginManager: dynamicManager,
+            source: .production(snapshot.sourceURL)
+        )
+        let host = makeFeedbackHost(dynamicManager: dynamicManager, catalogManager: manager)
+        defer { host.deactivateAllPlugins() }
+        await host.refreshPluginCatalog()
+
+        do {
+            try await host.updatePluginFromCatalog(pluginID: pluginID)
+            XCTFail("The first package resolution must fail")
+        } catch {
+            XCTAssertEqual(host.pluginMarketplaceOperations[pluginID]?.phase, .failed(error.localizedDescription))
+        }
+        XCTAssertEqual(dynamicManager.installedPackageVersionsByID()[pluginID], "1.0.0")
+
+        try await host.updateAvailablePluginsFromCatalog()
+
+        XCTAssertEqual(dynamicManager.installedPackageVersionsByID()[pluginID], "2.0.0")
+        XCTAssertNil(host.pluginMarketplaceOperations[pluginID])
+    }
+
+    private func makeFeedbackHost(
+        dynamicManager: DynamicPluginManager? = nil,
+        catalogManager: PluginCatalogManager? = nil
+    ) -> PluginHost {
+        PluginHost(
+            plugins: [], dynamicPluginManager: dynamicManager, pluginCatalogManager: catalogManager,
+            shortcutStore: ShortcutStore(userDefaults: defaults),
+            pluginOrderingStore: PluginOrderingStore(userDefaults: defaults),
+            preferencesBackupStore: PreferencesBackupStore(userDefaults: defaults),
+            globalShortcutManager: GlobalShortcutManager(), loadDynamicPluginsOnInit: false
+        )
+    }
+
     private func makeStore() -> PluginPackageStore {
         PluginPackageStore(
             rootDirectory: temporaryRoot,
@@ -804,6 +927,24 @@ private struct StubPluginPackageResolver: PluginPackageResolving {
         }
 
         return url
+    }
+}
+
+@MainActor
+private final class FailFirstPluginPackageResolver: PluginPackageResolving {
+    private let packageURL: URL
+    private var shouldFail = true
+
+    init(packageURL: URL) {
+        self.packageURL = packageURL
+    }
+
+    func resolvePackage(for entry: PluginCatalogEntry) async throws -> URL {
+        if shouldFail {
+            shouldFail = false
+            throw URLError(.notConnectedToInternet)
+        }
+        return packageURL
     }
 }
 

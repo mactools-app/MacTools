@@ -1,0 +1,173 @@
+{
+  "issue": "https://github.com/mactools-app/MacTools/issues/471",
+  "captured_at_utc": "2026-10-11T00:01:34.332739+00:00",
+  "before_baseline_commit": "5c3b4ad6f64aca8f3bf32f65d5ab7ecd68ccb54a",
+  "before_view": "Unmodified git show origin/main:Sources/App/MarketplacePluginDetailView.swift",
+  "after_view": "Unmodified final merged working-tree Sources/App/MarketplacePluginDetailView.swift",
+  "capture_method": "Native macOS SwiftUI/AppKit rendering in isolated NSHostingView inside a temporary fixture NSWindow. Save bitmapImageRepForCachingDisplay/cacheDisplay as PNG. No generative imaging, compositing, retouching, cropping, or resized deliverables.",
+  "native_rendering_environment": {
+    "macOS": "27.2 (26B5101f)",
+    "architecture": "arm64",
+    "swift": "Apple Swift 6.4",
+    "appearance": "Aqua/light",
+    "locale": "en",
+    "content_width_pt": 900,
+    "content_height_pt": 760,
+    "pixel_scale": 2,
+    "framework": "/Users/yihong/.codex/worktrees/c755/MacTools/build/DerivedDataTests/Build/Products/Debug/MacToolsPluginKit.framework/Versions/A/MacToolsPluginKit",
+    "framework_sha256": "49020c69232cfb279a06713749b80e51e64f8088f55d97839b8b157ea12dd819"
+  },
+  "catalog_fixture": {
+    "source": "Plugins/TrackpadGestures/plugin.json",
+    "version": "2.0.1",
+    "projection": "scripts/plugins/plugin_source_manifest.py expand_localized_references",
+    "resolved_fixture_sha256": "8fa27f69f165ded1738574b0033d625cd1b2d43c9a2fb5deda992283f1e98a66",
+    "permission_copy_source": "Plugins/TrackpadGestures/Resources/Localizable.xcstrings English strings",
+    "permission_copy_sha256": "c4553c024952b3cfe0a7bf14406720cbb221ae53094af0c394e1f2116c3d921e"
+  },
+  "localization": "Both before and after use identical English Plugins.strings generated from the final localization catalog. The before view does not consume the added operation/setup-status keys. PluginRuntimeLocalization.source.setPreference(\"en\") changes only the process locale snapshot; no preferences are saved.",
+  "localization_resource_sha256": "7f1a74d3d9aaabc28eeb9a394dcd43227811b47b4a730358ac4f094b2f6908be",
+  "shared_production_source": [
+    {
+      "source": "Sources/App/AppL10n.swift",
+      "extraction": "whole file",
+      "captured_source_sha256": "7218d099f5582395c564f6e7ae43293c2abc155e527c68555a2deb2d6551707a"
+    },
+    {
+      "source": "Sources/Core/Plugins/Dynamic/PluginProductMetadata.swift",
+      "extraction": "whole file",
+      "captured_source_sha256": "398945dbf20b7b617eafc8ac42c145177df3e80a0825349535e43ccd4cbda812"
+    },
+    {
+      "source": "Sources/Core/Plugins/Dynamic/DynamicPluginManager.swift",
+      "extraction": "PluginManagementItem struct only",
+      "captured_source_sha256": "04b082e7a7def80fef62e3480b9314be3070346b26755c79fd827b4c10298986"
+    },
+    {
+      "source": "Sources/App/SettingsView.swift",
+      "extraction": "PermissionSettingsRow and statusColor only",
+      "captured_source_sha256": "8ddcd0c7175791153076a1aadd2b0b46e87116de63b1081467d418570ed9d25a"
+    },
+    {
+      "source": "Sources/App/SettingsNavigationCoordinator.swift",
+      "extraction": "MarketplacePluginDetailTarget and MarketplacePluginActionHighlight only",
+      "captured_source_sha256": "3bbd668b78682b32d2184e33ed3d59f252b1ff58d307493656401155eae3aa88"
+    },
+    {
+      "source": "Sources/App/MarketplacePluginSetupPresentation.swift",
+      "extraction": "whole file",
+      "captured_source_sha256": "6a20bdc2e567e4e64ea6d464dbf44649d2781ebe6a9e486b527b6095ead89b5a"
+    },
+    {
+      "source": "Sources/Core/Plugins/PluginMarketplaceOperation.swift",
+      "extraction": "whole file",
+      "captured_source_sha256": "55b78205e2166e10bd5c9003e0b87d4893fd3612489f433effdb57f2cc33dad4"
+    },
+    {
+      "source": "Sources/Core/Plugins/PluginCategory.swift",
+      "extraction": "PluginCategory enum only",
+      "captured_source_sha256": "8b00a13896b6ea83c42f13c1458b8be8ad5e9bbc67de988ba04a47b93081b472"
+    },
+    {
+      "source": "Sources/App/MarketplacePluginDetailCopy.swift",
+      "extraction": "whole file (baseline matches current)",
+      "captured_source_sha256": "f3f767832d2f87ffacf298a1fa4aefcee31aab8372bd0b1f78dfafdc8f3fc865"
+    }
+  ],
+  "fixture_scenarios": {
+    "installing": {
+      "management_state": "available",
+      "package_url": null,
+      "runtime_loaded": false,
+      "settings_available": false,
+      "operation_kind": "install",
+      "operation_phase": "running",
+      "interaction": "Deliver NSEvent mouse down/up to fixture window Install button; require didStartInstall == true before saving. Original before view sets its own activeOperation @State. After view reads host operation snapshot. Fixture async operation suspends and never downloads a package."
+    },
+    "setup-needed": {
+      "management_state": "installed",
+      "package_url": "/tmp/issue471-fixture/TrackpadGestures.mactoolsplugin (synthetic path; never read or written)",
+      "runtime_loaded": true,
+      "settings_available": true,
+      "operation_kind": "install",
+      "operation_phase": "completed",
+      "missing_permissions": [
+        "accessibility",
+        "inputMonitoring"
+      ],
+      "interaction": "Deterministic installed/loaded fixture, with both permissions marked ungranted. Permission cards use actual TrackpadGestures English requirement descriptions/footnotes and host icon/button conventions. No repair buttons invoked."
+    }
+  },
+  "fixture_substitutes": [
+    "PluginHost with deterministic management, operation, runtime, settings, and permission snapshots",
+    "SettingsNavigationCoordinator with inert navigation callbacks",
+    "Minimal PluginPackageManifest nested type substitutes required by PluginManagementItem; these fields are unused by rendering",
+    "permissionGuidanceSourceFrame inert substitute, unused because repair buttons are not pressed"
+  ],
+  "suppressed_external_effects": [
+    "No real plugin installation or download",
+    "No TCC permission checks or permission prompts",
+    "No plugin action execution",
+    "No System Settings opening",
+    "No real MacTools app launch or app preference writes",
+    "No global input events: installation clicks are delivered directly into the fixture window"
+  ],
+  "limitations": [
+    "These are genuine native renderings of the exact detail view with deterministic fixture data, not screenshots of a real completed catalog download or the whole Settings window.",
+    "Fixture lifecycle/navigation/permission callbacks do not validate the actual host side effects.",
+    "Captures cover light appearance in English on macOS 27.2; keyboard navigation, VoiceOver, hardware permissions, macOS 14 appearance, and Search routing are not established by these PNGs."
+  ],
+  "generation_commands": [
+    "python3 /tmp/mactools-471-screenshots/harness/prepare.py",
+    "For each phase: xcrun swiftc -swift-version 6 -module-cache-path /tmp/mactools-471-screenshots/harness/module-cache -target arm64-apple-macos14.0 -F build/DerivedDataTests/Build/Products/Debug -framework MacToolsPluginKit -Xlinker -rpath -Xlinker <repo>/build/DerivedDataTests/Build/Products/Debug <harness>/{BeforeView|AfterView}.swift <harness>/{FixtureSupport,ManagementItem,ProductMetadata,AppL10n,Targets,PermissionRow,SetupPresentation,MarketplaceOperation,Category,DetailCopy,CaptureMain}.swift -o <harness>/{before|after}.app/Contents/MacOS/capture",
+    "For each phase and scenario: /tmp/mactools-471-screenshots/harness/{before|after}.app/Contents/MacOS/capture {installing|setup-needed} /tmp/mactools-471-screenshots/{before|after}-{installing|setup-needed}.png"
+  ],
+  "temporary_harness_source_archive": "/tmp/mactools-471-screenshots/capture-harness-source.zip",
+  "images": [
+    {
+      "file": "before-installing.png",
+      "bytes": 184544,
+      "sha256": "8cf4d1121f7beb86eae7bb4598b544e2db57e23f5a947ed3de872f993bb4a2b8",
+      "width_px": 1800,
+      "height_px": 1520,
+      "phase": "before",
+      "scenario": "installing",
+      "rendered_view_source_sha256": "8347190161b2f86ccbf3acd788f84b928c29cb64134fdc1086c3067297be3c79",
+      "executable_sha256": "c311542761c4113eb0f75a8829f8521fcdac4b069f76412503f46d6d9d4a49c7"
+    },
+    {
+      "file": "before-setup-needed.png",
+      "bytes": 189957,
+      "sha256": "5a15dc57650689d73296d4fbd79aae7d644a4318d34ea0147c603a61b338c3f6",
+      "width_px": 1800,
+      "height_px": 1520,
+      "phase": "before",
+      "scenario": "setup-needed",
+      "rendered_view_source_sha256": "8347190161b2f86ccbf3acd788f84b928c29cb64134fdc1086c3067297be3c79",
+      "executable_sha256": "c311542761c4113eb0f75a8829f8521fcdac4b069f76412503f46d6d9d4a49c7"
+    },
+    {
+      "file": "after-installing.png",
+      "bytes": 178112,
+      "sha256": "6aca49f2c00a338631df82719ea82ee7b8105779b0a0c2cce6181e3d57846346",
+      "width_px": 1800,
+      "height_px": 1520,
+      "phase": "after",
+      "scenario": "installing",
+      "rendered_view_source_sha256": "f71cd281e41a9af2371f25b273b520084b55b3a9b597cdae78158d68182a8972",
+      "executable_sha256": "079030c4bc4cbac13634959e7652d87b622fbd8fc37c67b77b566655b6ce83f8"
+    },
+    {
+      "file": "after-setup-needed.png",
+      "bytes": 223212,
+      "sha256": "71398b1aff7e0761e42e880625b70d35ca906869b6d2552396def96a7c195ef9",
+      "width_px": 1800,
+      "height_px": 1520,
+      "phase": "after",
+      "scenario": "setup-needed",
+      "rendered_view_source_sha256": "f71cd281e41a9af2371f25b273b520084b55b3a9b597cdae78158d68182a8972",
+      "executable_sha256": "079030c4bc4cbac13634959e7652d87b622fbd8fc37c67b77b566655b6ce83f8"
+    }
+  ],
+  "committed_harness_source_archive": "capture-harness-source.zip"
+}
