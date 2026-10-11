@@ -84,6 +84,13 @@ final class DockLockPluginTests: XCTestCase {
         XCTAssertNil(result)
     }
 
+    func testMissingDockOrientationDefaultsToBottomAndInvalidValuesFailClosed() {
+        XCTAssertTrue(DockLockDockOrientation.isBottom(preferenceValue: nil))
+        XCTAssertFalse(DockLockDockOrientation.isBottom(preferenceValue: 1))
+        XCTAssertFalse(DockLockDockOrientation.isBottom(preferenceValue: "left"))
+        XCTAssertTrue(DockLockDockOrientation.isBottom(preferenceValue: "bottom"))
+    }
+
     func testActivationStartsMonitorWhenPermissionIsGranted() {
         let monitor = MockDockLockMonitor()
         let context = makeContext(isEnabled: true)
