@@ -1,0 +1,35 @@
+---
+import LocalizedText from "./LocalizedText.astro";
+import type { SearchAction } from "@/lib/plugin-search";
+
+const { actions } = Astro.props as { actions: SearchAction[] };
+---
+
+{actions.length ? <section class="market-search-actions" data-search-actions hidden aria-label="匹配的操作" data-aria-label-zh="匹配的操作" data-aria-label-en="Matching actions">
+  <div data-search-primary>
+    {actions.map((action) => <div
+      class="market-search-action"
+      data-search-action
+      data-action-id={action.id}
+      data-title-terms={action.titleTerms}
+      data-keyword-terms={action.keywordTerms}
+      data-description-terms={action.descriptionTerms}
+      data-title-zh={action.title.zh}
+      data-title-en={action.title.en}
+      hidden
+    >
+      <div class="market-search-action-heading">
+        <a href={action.route}><LocalizedText {...action.title} /></a>
+        <small>{action.providerID}</small>
+      </div>
+      {action.description.zh || action.description.en ? <p><LocalizedText {...action.description} /></p> : null}
+    </div>)}
+  </div>
+  <details data-search-more hidden>
+    <summary>
+      <span data-i18n-zh>显示另外 <span data-more-count>0</span> 个匹配操作</span>
+      <span data-i18n-en>Show <span data-more-count>0</span> more matching actions</span>
+    </summary>
+    <div data-search-overflow></div>
+  </details>
+</section> : null}

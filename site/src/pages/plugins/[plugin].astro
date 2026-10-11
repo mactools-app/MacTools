@@ -23,7 +23,7 @@ const product = plugin.product as {
     supportURL?: string;
   };
   discovery?: { useCases?: Array<{ id: string; title: Record<string, string> }> };
-  requirements?: { permissionIDs?: string[]; hardware?: string[]; architectures?: string[]; minimumMacOSVersion?: string; setupComplexity?: string; requiresRelaunch?: boolean };
+  requirements?: { applications?: Array<{ name: string; bundleID: string }>; executables?: string[]; permissionIDs?: string[]; hardware?: string[]; architectures?: string[]; minimumMacOSVersion?: string; setupComplexity?: string; requiresRelaunch?: boolean };
   privacy?: { dataObserved?: string[]; dataPersisted?: string[]; networkUse?: string; telemetry?: string; retention?: { policy?: string } };
   relationships?: { relatedPluginIDs?: string[] };
   setup?: { steps?: Array<{ id: string; title: Record<string, string>; description: Record<string, string> }>; optionalSurfaces?: string[] };
@@ -95,10 +95,12 @@ const relatedPluginNames = new Map(catalog.plugins.map((item) => [item.id, local
       {requirements.minimumMacOSVersion ? <><dt>macOS</dt><dd>{requirements.minimumMacOSVersion} <LocalizedText {...ui("或更高版本", "or later")} /></dd></> : null}
       {requirements.architectures?.length ? <><dt><LocalizedText {...ui("架构", "Architecture")} /></dt><dd>{requirements.architectures.join(", ")}</dd></> : null}
       {requirements.hardware?.length ? <><dt><LocalizedText {...ui("硬件", "Hardware")} /></dt><dd><LocalizedText {...localizedTokenList(requirements.hardware)} /></dd></> : null}
+      {requirements.applications?.length ? <><dt><LocalizedText {...ui("所需应用", "Required applications")} /></dt><dd data-prerequisite="applications"><ul class="plugin-prerequisite-list">{requirements.applications.map((application) => <li>{application.name} <code>{application.bundleID}</code></li>)}</ul></dd></> : null}
+      {requirements.executables?.length ? <><dt><LocalizedText {...ui("所需命令", "Required executables")} /></dt><dd data-prerequisite="executables"><ul class="plugin-prerequisite-list">{requirements.executables.map((executable) => <li><code>{executable}</code></li>)}</ul></dd></> : null}
       {requirements.permissionIDs?.length ? <><dt><LocalizedText {...ui("权限", "Permissions")} /></dt><dd><LocalizedText {...localizedTokenList(requirements.permissionIDs)} /></dd></> : null}
       {requirements.setupComplexity ? <><dt><LocalizedText {...ui("设置", "Setup")} /></dt><dd><LocalizedText {...localizedToken(requirements.setupComplexity)} /></dd></> : null}
       <dt><LocalizedText {...ui("重启", "Restart")} /></dt><dd><LocalizedText {...ui(requirements.requiresRelaunch ? "安装后需要重启" : "无需重启", requirements.requiresRelaunch ? "Required after installation" : "Not required")} /></dd>
-    </dl></section> : null}
+    </dl>{requirements.applications?.length || requirements.executables?.length ? <p class="plugin-detail-muted"><LocalizedText {...ui("以上依赖由插件声明，此页面不会检查你的 Mac。", "These dependencies are declared by the plugin; this page does not check your Mac.")} /></p> : null}</section> : null}
     {setupSteps.length ? <section class="plugin-detail-section"><h2><LocalizedText {...ui("开始使用", "Get started")} /></h2><ol class="plugin-setup-list">{setupSteps.map((step) => <li><strong><LocalizedText {...localized(step.title)} /></strong><span><LocalizedText {...localized(step.description)} /></span></li>)}</ol>{product?.setup?.optionalSurfaces?.length ? <p class="plugin-detail-muted"><LocalizedText {...ui("也可在以下位置使用：", "Also available in: ")} /><LocalizedText {...localizedTokenList(product.setup.optionalSurfaces)} /></p> : null}</section> : null}
     {privacy ? <section class="plugin-detail-section"><h2><LocalizedText {...ui("隐私", "Privacy")} /></h2><dl class="plugin-metadata-grid">
       <dt><LocalizedText {...ui("观察的数据", "Data observed")} /></dt><dd>{privacy.dataObserved?.length ? <LocalizedText {...localizedTokenList(privacy.dataObserved)} /> : <LocalizedText {...ui("未列出", "None listed")} />}</dd>
