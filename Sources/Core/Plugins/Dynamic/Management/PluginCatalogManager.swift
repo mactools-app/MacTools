@@ -648,7 +648,7 @@ final class PluginCatalogManager {
         let installedDestinationVersion = installedVersions[rule.destinationPluginID]
         let destinationNeedsInstall = installedDestinationVersion == nil
         let destinationNeedsUpdate = installedDestinationVersion.map {
-            !PluginVersionComparator.isVersion($0, atLeast: rule.minimumDestinationVersion)
+            !extractionDestinationVersionIsCompatible($0)
         } ?? false
         let destinationEntry: PluginCatalogEntry?
         if destinationNeedsInstall || destinationNeedsUpdate {
@@ -719,12 +719,20 @@ final class PluginCatalogManager {
             return false
         }
         let destinationIsCompatible = installedVersions[rule.destinationPluginID].map {
-            PluginVersionComparator.isVersion($0, atLeast: rule.minimumDestinationVersion)
+            extractionDestinationVersionIsCompatible($0)
         } ?? false
         return !destinationIsCompatible && !PluginVersionComparator.isVersion(
             sourceVersion,
             atLeast: rule.sourceRetirementVersion
         )
+    }
+
+    private func extractionDestinationVersionIsCompatible(_ version: String) -> Bool {
+        let rule = PluginExtractionMigrationPolicy.mouseEnhancerMiddleClick
+        return PluginVersionComparator.isVersion(version, atLeast: rule.minimumDestinationVersion)
+            && PluginPackageManifestLoader.pluginVersionFailure(
+                id: rule.destinationPluginID, version: version, hostVersion: dynamicPluginManager.hostVersion
+            ) == nil
     }
 
     private func persistExtractionMigrationCompletion(
@@ -859,7 +867,7 @@ final class PluginCatalogManager {
         }
 
         let destinationIsCompatible = installedVersions[rule.destinationPluginID].map {
-            PluginVersionComparator.isVersion($0, atLeast: rule.minimumDestinationVersion)
+            extractionDestinationVersionIsCompatible($0)
         } ?? false
         guard !destinationIsCompatible else { return false }
         guard let destinationEntry = usableCatalogEntry(id: rule.destinationPluginID) else {

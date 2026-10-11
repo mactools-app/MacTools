@@ -45,6 +45,8 @@ MacTools 2.0.2 and later require Trackpad Gestures and Middle Click packages 2.0
 
 This feature needs no new permission or entitlement: it reads the same private contact stream, without posting input events. Gesture plugins retain their own existing permissions. There are no signing or security-setting changes.
 
+Interrupted Mouse Enhancer gesture migrations update Trackpad Gestures to a host-compatible package before activation. If that update is unavailable, the old source and migration state remain intact until a compatible package becomes available.
+
 ## Private API compatibility
 
 The host dynamically loads `/System/Library/PrivateFrameworks/MultitouchSupport.framework/MultitouchSupport`, preserving the existing `MTTouch` C layout and callback/unregister ownership. It copies contacts, including pressure, before the callback returns. `MTDeviceIsBuiltIn`, `MTDeviceSupportsForce`, and identity/service lookups are optional, checked symbols. Missing required listening symbols disable listening. macOS updates can change this undocumented interface or its pressure behavior.
