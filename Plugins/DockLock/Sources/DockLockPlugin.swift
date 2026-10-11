@@ -70,6 +70,9 @@ enum DockLockCursorBoundary {
 
 enum DockLockDockOrientation {
     static func isBottom(preferenceValue: Any?) -> Bool {
+        guard let preferenceValue else {
+            return true
+        }
         guard let orientation = preferenceValue as? String else {
             return false
         }
