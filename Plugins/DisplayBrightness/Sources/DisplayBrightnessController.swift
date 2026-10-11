@@ -45,6 +45,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         var scheduledFlush: DispatchWorkItem?
         var pendingReadbackAfterWrite = false
         var lastWriteError: String?
+        var hasBrightnessValue = false
+        var readID: UInt64?
     }
 
     private enum RetiredWriteResolution {
@@ -67,6 +69,9 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
     private let minimumWriteInterval: TimeInterval
     private let writeTimeout: Duration
     private let writeGate = BrightnessWriteGate()
+    private let readQueue = DispatchQueue(label: "cc.ggbond.mactools.brightness.read", qos: .userInitiated)
+    private var readWorkItems: [CGDirectDisplayID: DispatchWorkItem] = [:]
+    private var nextReadID: UInt64 = 0
 
     private var managedDisplays: [CGDirectDisplayID: ManagedDisplay] = [:]
     private var displayOrder: [CGDirectDisplayID] = []
@@ -76,10 +81,21 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
     private var writeTimeoutTasks: [UInt64: Task<Void, Never>] = [:]
     private var waiterDisplayIDs: [UInt64: CGDirectDisplayID] = [:]
     private var retiredInFlightWrites: [UInt64: RetiredInFlightWrite] = [:]
+    private var replacedBackendsAwaitingWrites: [UInt64: [any DisplayBrightnessBackend]] = [:]
     private var invalidatedInFlightWriteIDs: Set<UInt64> = []
     private var terminateObserver: NSObjectProtocol?
 
     var pendingWriteTimeoutCount: Int { writeTimeoutTasks.count }
+
+    #if DEBUG
+    func waitForScheduledReadsForTests() async {
+        await withCheckedContinuation { continuation in
+            readQueue.async {
+                Task { @MainActor in continuation.resume() }
+            }
+        }
+    }
+    #endif
 
     init(
         displayProvider: DisplayProviding = SystemDisplayService(),
@@ -115,7 +131,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             uniqueKeysWithValues: managedDisplays.map { ($0.key, $0.value.backend) }
         )
         let nextBackends = backendBuilder.backends(for: displays, previous: previousBackends)
-        let nextDisplayIDs = Set(displays.map(\.id))
+        let nextDisplayIDs = Set(displays.map(\.id)).intersection(nextBackends.keys)
 
         cleanupDisconnectedDisplays(keeping: nextDisplayIDs)
 
@@ -128,20 +144,35 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             }
 
             let previous = managedDisplays[display.id]
-            let brightness = resolvedBrightness(for: display, backend: backend, previous: previous)
+            let canReuseReading = previous.map {
+                ObjectIdentifier($0.backend) == ObjectIdentifier(backend)
+            } ?? false
+            if !canReuseReading {
+                readWorkItems.removeValue(forKey: display.id)?.cancel()
+                if let previous {
+                    if let writeID = previous.inFlightWriteID {
+                        replacedBackendsAwaitingWrites[writeID, default: []].append(previous.backend)
+                    } else {
+                        previous.backend.cleanup()
+                    }
+                }
+            }
+            let brightness = previous?.currentBrightness ?? 1
 
             nextManagedDisplays[display.id] = ManagedDisplay(
                 display: display,
                 backend: backend,
                 currentBrightness: previous?.pendingBrightness ?? brightness,
-                lastCommittedBrightness: brightness,
+                lastCommittedBrightness: previous?.lastCommittedBrightness ?? brightness,
                 pendingBrightness: previous?.pendingBrightness,
                 pendingWriteID: previous?.pendingWriteID,
                 writeInFlight: previous?.writeInFlight ?? false,
                 inFlightWriteID: previous?.inFlightWriteID,
                 scheduledFlush: previous?.scheduledFlush,
                 pendingReadbackAfterWrite: previous?.pendingReadbackAfterWrite ?? false,
-                lastWriteError: previous?.lastWriteError
+                lastWriteError: previous?.lastWriteError,
+                hasBrightnessValue: canReuseReading && previous?.hasBrightnessValue == true,
+                readID: canReuseReading ? previous?.readID : nil
             )
             nextDisplayOrder.append(display.id)
         }
@@ -152,6 +183,10 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         if !nextManagedDisplays.isEmpty {
             lastErrorMessage = nil
         }
+        for displayID in displayOrder {
+            scheduleRead(for: displayID)
+        }
+        onStateChange?()
     }
 
     func snapshot() -> DisplayBrightnessSnapshot {
@@ -163,7 +198,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             return DisplayBrightnessDisplay(
                 display: managedDisplay.display,
                 brightness: managedDisplay.currentBrightness,
-                isPendingWrite: managedDisplay.pendingBrightness != nil || managedDisplay.writeInFlight
+                isPendingWrite: managedDisplay.pendingBrightness != nil || managedDisplay.writeInFlight,
+                isReady: managedDisplay.hasBrightnessValue
             )
         }
 
@@ -223,6 +259,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
     }
 
     func cancelOutstandingWrites() {
+        cancelReads()
         for (_, managedDisplay) in Array(managedDisplays) {
             managedDisplay.scheduledFlush?.cancel()
             if let writeID = managedDisplay.pendingWriteID {
@@ -267,6 +304,13 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             return
         }
 
+        guard managedDisplay.hasBrightnessValue else {
+            resolveWrite(writeID, with: .failed(message: PluginKitLocalization.actionUnavailable))
+            return
+        }
+        readWorkItems.removeValue(forKey: displayID)?.cancel()
+        managedDisplay.readID = nil
+
         if let supersededWriteID = managedDisplay.pendingWriteID {
             resolveWrite(
                 supersededWriteID,
@@ -290,22 +334,65 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         onStateChange?()
     }
 
-    private func resolvedBrightness(
-        for display: DisplayInfo,
-        backend: any DisplayBrightnessBackend,
-        previous: ManagedDisplay?
-    ) -> Double {
-        do {
-            return Self.clamp(try backend.readBrightness())
-        } catch {
-            if let previous {
-                return previous.currentBrightness
-            }
+    private func scheduleRead(for displayID: CGDirectDisplayID) {
+        guard var managedDisplay = managedDisplays[displayID],
+              managedDisplay.readID == nil,
+              managedDisplay.pendingBrightness == nil,
+              !managedDisplay.writeInFlight else { return }
 
-            logger.error(
-                "failed to read brightness for \(display.name, privacy: .public): \(error.localizedDescription, privacy: .public)"
-            )
-            return 1
+        nextReadID &+= 1
+        let readID = nextReadID
+        managedDisplay.readID = readID
+        managedDisplays[displayID] = managedDisplay
+        let backend = managedDisplay.backend
+
+        // Shade reads only cached state and may touch AppKit overlay geometry.
+        if backend.kind == .shade {
+            finishRead(for: displayID, readID: readID, result: Result { try backend.readBrightness() })
+            return
+        }
+        let workItem = Self.makeReadWorkItem(
+            controllerRef: WeakBrightnessControllerRef(self),
+            backend: backend,
+            displayID: displayID,
+            readID: readID
+        )
+        readWorkItems[displayID] = workItem
+        readQueue.async(execute: workItem)
+    }
+
+    private func finishRead(for displayID: CGDirectDisplayID, readID: UInt64, result: Result<Double, Error>) {
+        guard var managedDisplay = managedDisplays[displayID],
+              managedDisplay.readID == readID else { return }
+        readWorkItems.removeValue(forKey: displayID)
+        managedDisplay.readID = nil
+        switch result {
+        case .success(let value):
+            let brightness = Self.clamp(value)
+            managedDisplay.currentBrightness = brightness
+            managedDisplay.lastCommittedBrightness = brightness
+            managedDisplay.hasBrightnessValue = true
+        case .failure(let error):
+            if !managedDisplay.hasBrightnessValue,
+               let fallback = fallbackBackend(for: displayID, failedBackend: managedDisplay.backend) {
+                managedDisplay.backend.cleanup()
+                managedDisplay.backend = fallback
+                managedDisplays[displayID] = managedDisplay
+                scheduleRead(for: displayID)
+                return
+            }
+            logger.error("failed to read brightness for \(managedDisplay.display.name, privacy: .public): \(error.localizedDescription, privacy: .public)")
+            lastErrorMessage = localizedDescription(for: error)
+        }
+        managedDisplays[displayID] = managedDisplay
+        onStateChange?()
+    }
+
+    private func cancelReads() {
+        for workItem in readWorkItems.values { workItem.cancel() }
+        readWorkItems.removeAll()
+        for displayID in Array(managedDisplays.keys) {
+            managedDisplays[displayID]?.readID = nil
         }
     }
 
@@ -375,6 +462,10 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         displayName: String,
         result: Result<Void, Error>
     ) {
+        let replacedBackends = replacedBackendsAwaitingWrites.removeValue(forKey: writeID) ?? []
+        for backend in replacedBackends {
+            backend.cleanup()
+        }
         if let retired = retiredInFlightWrites.removeValue(forKey: writeID) {
             retired.backend.cleanup()
             switch retired.resolution {
@@ -416,6 +507,24 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             onStateChange?()
             if managedDisplay.pendingBrightness != nil {
                 scheduleWrite(for: displayID, delay: 0)
+            } else if !managedDisplay.hasBrightnessValue {
+                scheduleRead(for: displayID)
+            }
+            return
+        }
+
+        if !replacedBackends.isEmpty {
+            // Finish the old target's outcome without retrying it through a replacement backend.
+            if managedDisplay.pendingBrightness == nil {
+                managedDisplay.currentBrightness = managedDisplay.lastCommittedBrightness
+            }
+            managedDisplays[displayID] = managedDisplay
+            resolveWrite(writeID, with: writeResult(from: result))
+            onStateChange?()
+            if managedDisplay.pendingBrightness != nil {
+                scheduleWrite(for: displayID, delay: 0)
+            } else {
+                scheduleRead(for: displayID)
             }
             return
         }
@@ -480,6 +589,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
 
         if managedDisplay.pendingBrightness != nil {
             scheduleWrite(for: displayID, delay: 0)
+        } else if !managedDisplay.hasBrightnessValue {
+            scheduleRead(for: displayID)
         }
     }
 
@@ -511,6 +622,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
 
     private func cleanupDisconnectedDisplays(keeping displayIDs: Set<CGDirectDisplayID>) {
         for (displayID, managedDisplay) in managedDisplays where !displayIDs.contains(displayID) {
+            readWorkItems.removeValue(forKey: displayID)?.cancel()
             managedDisplay.scheduledFlush?.cancel()
             failOutstandingWrites(for: displayID, managedDisplay: managedDisplay)
             if let writeID = managedDisplay.inFlightWriteID {
@@ -526,6 +638,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
     }
 
     private func cleanupAll() {
+        cancelReads()
         for (_, managedDisplay) in managedDisplays {
             managedDisplay.scheduledFlush?.cancel()
             managedDisplay.backend.cleanup()
@@ -533,6 +646,10 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         for (_, retiredWrite) in retiredInFlightWrites {
             retiredWrite.backend.cleanup()
         }
+        for backends in replacedBackendsAwaitingWrites.values {
+            for backend in backends { backend.cleanup() }
+        }
+        replacedBackendsAwaitingWrites.removeAll()
         retiredInFlightWrites.removeAll()
         invalidatedInFlightWriteIDs.removeAll()
         for writeID in Array(writeWaiters.keys) {
@@ -659,6 +776,20 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         DispatchWorkItem {
             Task { @MainActor in
                 controllerRef.value?.beginWriteIfNeeded(for: displayID)
+            }
+        }
+    }
+
+    nonisolated private static func makeReadWorkItem(
+        controllerRef: WeakBrightnessControllerRef,
+        backend: any DisplayBrightnessBackend,
+        displayID: CGDirectDisplayID,
+        readID: UInt64
+    ) -> DispatchWorkItem {
+        DispatchWorkItem {
+            let result = Result { try backend.readBrightness() }
+            Task { @MainActor in
+                controllerRef.value?.finishRead(for: displayID, readID: readID, result: result)
             }
         }
     }

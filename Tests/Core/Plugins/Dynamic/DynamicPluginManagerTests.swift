@@ -47,6 +47,27 @@ final class DynamicPluginManagerTests: XCTestCase {
         XCTAssertTrue(plugin.deactivationReasons.isEmpty)
     }
 
+    func testLoadingMetadataReflectsPackageChangesBetweenOperations() throws {
+        let store = makeStore()
+        let plugin = MockDynamicPlugin(id: "com.example.demo")
+        let loader = StubDynamicPluginLoader { records in
+            records.map { DynamicPluginLoadResult(record: $0, plugins: [plugin], errorMessage: nil) }
+        }
+        let manager = DynamicPluginManager(packageStore: store, pluginLoader: loader)
+        XCTAssertTrue(manager.prepareInstalledPluginsWithoutLoading().manifestsByID.isEmpty)
+
+        _ = try store.installPackage(from: makePackage(id: plugin.metadata.id))
+        let loaded = manager.loadInstalledPluginsAndMetadata()
+        XCTAssertEqual(loaded.plugins.map(\.metadata.id), [plugin.metadata.id])
+        XCTAssertEqual(Set(loaded.metadata.manifestsByID.keys), [plugin.metadata.id])
+
+        try store.uninstall(pluginID: plugin.metadata.id, removeData: false)
+        let removed = manager.loadInstalledPluginsAndMetadata()
+        XCTAssertTrue(removed.plugins.isEmpty)
+        XCTAssertTrue(removed.metadata.manifestsByID.isEmpty)
+        XCTAssertFalse(plugin.deactivationReasons.isEmpty)
+    }
+
     func testHostLanguageChangeReprojectsManagementMetadataWithoutReloadingPlugins() throws {
         let original = UserDefaults.standard.string(
             forKey: PluginRuntimeLocalization.preferenceUserDefaultsKey

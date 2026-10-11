@@ -242,6 +242,10 @@ final class DynamicPluginManager: ObservableObject {
     }
 
     func loadInstalledPlugins() -> [any MacToolsPlugin] {
+        loadInstalledPluginsAndMetadata().plugins
+    }
+
+    func loadInstalledPluginsAndMetadata() -> (plugins: [any MacToolsPlugin], metadata: InstalledPluginMetadata) {
         let records = packageStore.installedRecords()
         deactivateMissingPlugins(records: records)
 
@@ -321,7 +325,7 @@ final class DynamicPluginManager: ObservableObject {
             }
         )
         rebuildManagementItems(results: results, catalogSnapshot: catalogSnapshot)
-        return activePlugins(from: records)
+        return (activePlugins(from: records), InstalledPluginMetadata(records: records))
     }
 
     private func resultsByFallingBackToLegacyExtractionSourceIfNeeded(
@@ -399,7 +403,8 @@ final class DynamicPluginManager: ObservableObject {
         return results
     }
 
-    func prepareInstalledPluginsWithoutLoading() {
+    @discardableResult
+    func prepareInstalledPluginsWithoutLoading() -> InstalledPluginMetadata {
         let records = packageStore.installedRecords()
         deactivateMissingPlugins(records: records)
         latestLoadErrorsByID = [:]
@@ -411,6 +416,7 @@ final class DynamicPluginManager: ObservableObject {
             )
         }
         rebuildManagementItems(results: results, catalogSnapshot: catalogSnapshot)
+        return InstalledPluginMetadata(records: records)
     }
 
     func reloadInstalledPlugins() {

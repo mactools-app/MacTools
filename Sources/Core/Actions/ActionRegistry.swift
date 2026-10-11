@@ -90,9 +90,27 @@ final class ActionRegistry: ObservableObject {
     private var definitions: [ActionKey: ActionDefinition] = [:]
     private var catalogByReference: [ActionReference: ActionCatalogEntry] = [:]
     private var nextGeneration: UInt64 = 1
+    private var synchronizedRegistrations: [ActionProviderRegistration] = []
 
     @discardableResult
     func synchronize(_ registrations: [ActionProviderRegistration]) -> [ActionRegistryIssue] {
+        if issues.isEmpty,
+           registrations.count == synchronizedRegistrations.count,
+           zip(registrations, synchronizedRegistrations).allSatisfy({ current, previous in
+               current.providerID == previous.providerID
+                   && current.identity == previous.identity
+                   && current.definitions == previous.definitions
+                   && current.catalogEntries == previous.catalogEntries
+           }) {
+            // Keep live callbacks current without repeating validation and index construction.
+            for registration in registrations {
+                if let previous = providers[registration.providerID] {
+                    providers[registration.providerID] = ProviderState(registration: registration, generation: previous.generation)
+                }
+            }
+            return issues
+        }
+        synchronizedRegistrations = registrations
         let previousDefinitions = definitions
         let previousCatalogEntries = catalogEntries
         var nextProviders: [String: ProviderState] = [:]

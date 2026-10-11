@@ -15,6 +15,31 @@ final class PluginHostComponentSupportTests: XCTestCase {
         super.tearDown()
     }
 
+    func testGestureClaimChangesUpdateAnotherPluginsSettingsGuidance() async throws {
+        let owner = GestureConflictTestPlugin(id: "gesture-owner")
+        let consumer = GestureConflictTestPlugin(id: "gesture-consumer")
+        let host = makeHost(plugins: [owner, consumer])
+        func guidanceError() throws -> String? {
+            let section = try XCTUnwrap(host.pluginSettingsItems.first { $0.id == consumer.metadata.id }?.sections.first)
+            guard case .rows(let rows) = section.content else { throw NSError(domain: "Unexpected section", code: 1) }
+            return try XCTUnwrap(rows.first).error
+        }
+        XCTAssertTrue(consumer.canHandleGesture)
+        XCTAssertNil(try guidanceError())
+
+        owner.ownsClaim = true
+        owner.onStateChange?()
+        await host.waitForScheduledPluginStateRebuildForTests()
+        XCTAssertFalse(consumer.canHandleGesture)
+        XCTAssertNotNil(try guidanceError())
+
+        owner.ownsClaim = false
+        owner.onStateChange?()
+        await host.waitForScheduledPluginStateRebuildForTests()
+        XCTAssertTrue(consumer.canHandleGesture)
+        XCTAssertNil(try guidanceError())
+    }
+
     func testDynamicPhaseShortcutDefaultCannotBypassExistingShortcutConflict() async {
         let initial = ShortcutBinding(keyCode: 48, modifiers: [.option])
         let occupied = ShortcutBinding(keyCode: 18, modifiers: [.command, .option])
@@ -1048,5 +1073,28 @@ private final class PhaseShortcutTestPlugin: MacToolsPlugin, PluginShortcutEvent
     func handleShortcutEvent(id: String, phase: PluginShortcutEventPhase) {}
     func shortcutBindingDidChange(id: String, binding: ShortcutBinding?) {
         latestBinding = binding; notifications += 1
+    }
+}
+
+@MainActor
+private final class GestureConflictTestPlugin: MacToolsPlugin, PluginInputGestureClaimProviding, PluginInputGestureConflictConsuming {
+    let metadata: PluginMetadata
+    var onStateChange: (() -> Void)?
+    var requestPermissionGuidance: ((String) -> Void)?
+    var shortcutBindingResolver: ((String) -> ShortcutBinding?)?
+    var ownsClaim = false
+    private var conflicts: [PluginInputGestureConflict] = []
+    init(id: String) {
+        metadata = PluginMetadata(id: id, title: id, iconName: "hand.point.up", iconTint: .blue, order: 0, defaultDescription: "")
+    }
+    var canHandleGesture: Bool { conflicts.isEmpty }
+    var activeInputGestureClaims: [PluginInputGestureClaim] {
+        ownsClaim ? [PluginInputGestureClaim(id: "finger-tap", title: "Finger tap")] : []
+    }
+    func inputGestureConflictsDidChange(_ conflicts: [PluginInputGestureConflict]) { self.conflicts = conflicts }
+    var settingsPage: PluginSettingsPage? {
+        .form(sections: [PluginSettingsSection(id: "gesture", rows: [
+            PluginSettingsRow(id: "enabled", title: "Enabled", error: conflicts.first?.ownerPluginTitle, control: .toggle(isOn: canHandleGesture))
+        ])])
     }
 }

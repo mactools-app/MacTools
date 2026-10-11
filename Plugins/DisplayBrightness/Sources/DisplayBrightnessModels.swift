@@ -13,6 +13,7 @@ struct DisplayBrightnessDisplay: Identifiable, Equatable {
     let display: DisplayInfo
     let brightness: Double
     let isPendingWrite: Bool
+    var isReady: Bool = true
 
     var id: CGDirectDisplayID { display.id }
 }

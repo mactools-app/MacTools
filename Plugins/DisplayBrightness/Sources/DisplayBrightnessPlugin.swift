@@ -360,12 +360,13 @@ final class DisplayBrightnessPlugin:
 
     func actionAvailability(for reference: ActionReference) -> ActionAvailability {
         if Self.shortcutDirection(for: reference.key.actionID) != nil {
-            return controller.snapshot().displays.isEmpty
+            let snapshot = controller.snapshot()
+            return shortcutTargetDisplayIDs(in: snapshot).isEmpty
                 ? .unavailable(
-                    localization.string(
+                    snapshot.displays.isEmpty ? localization.string(
                         "action.unavailable.noDisplays",
                         defaultValue: "未检测到可调节亮度的显示器。"
-                    )
+                    ) : readingBrightnessTitle
                 )
                 : .available
         }
@@ -595,7 +596,7 @@ final class DisplayBrightnessPlugin:
 
     private func subtitle(for displays: [DisplayBrightnessDisplay]) -> String {
         if displays.count == 1, let display = displays.first {
-            return "\(display.display.name) \(Self.percentText(for: display.brightness))"
+            return "\(display.display.name) \(display.isReady ? Self.percentText(for: display.brightness) : readingBrightnessTitle)"
         }
 
         return localization.format("panel.subtitle.displayCountFormat", defaultValue: "%d 个显示器", displays.count)
@@ -608,8 +609,9 @@ final class DisplayBrightnessPlugin:
                 id: display.id,
                 name: display.display.name,
                 brightness: display.brightness,
-                isAdjustable: true,
-                disableEntry: switchableEntry(for: display.id, in: disableSnapshot)
+                isAdjustable: display.isReady,
+                disableEntry: switchableEntry(for: display.id, in: disableSnapshot),
+                isReading: !display.isReady
             )
         }
 
@@ -666,6 +668,7 @@ final class DisplayBrightnessPlugin:
         let isAdjustable: Bool
         /// Present when the trailing power button can switch this display off or back on.
         let disableEntry: DisplayDisableEntry?
+        var isReading: Bool = false
     }
 
     private func brightnessControl(for row: BrightnessRow) -> PluginPanelControl {
@@ -673,6 +676,8 @@ final class DisplayBrightnessPlugin:
         let valueLabel: String?
         if isOff {
             valueLabel = localization.string("displayDisable.status.off", defaultValue: "已关闭")
+        } else if row.isReading {
+            valueLabel = readingBrightnessTitle
         } else {
             valueLabel = row.isAdjustable ? Self.percentText(for: row.brightness) : nil
         }
@@ -895,21 +900,27 @@ final class DisplayBrightnessPlugin:
     }
 
     private func shortcutTargetDisplayIDs(in snapshot: DisplayBrightnessSnapshot) -> [CGDirectDisplayID] {
+        let displays = snapshot.displays.filter(\.isReady)
         switch shortcutPreferences.targetMode {
         case .followsMouse:
             if let mouseDisplayID = mouseDisplayIDProvider(),
-               snapshot.displays.contains(where: { $0.id == mouseDisplayID }) {
-                return [mouseDisplayID]
+               let mouseDisplay = snapshot.displays.first(where: { $0.id == mouseDisplayID }) {
+                return mouseDisplay.isReady ? [mouseDisplayID] : []
             }
 
             if let mainDisplay = snapshot.displays.first(where: { $0.display.isMain }) {
-                return [mainDisplay.id]
+                return mainDisplay.isReady ? [mainDisplay.id] : []
             }
 
-            return snapshot.displays.first.map { [$0.id] } ?? []
+            return snapshot.displays.first.flatMap { $0.isReady ? [$0.id] : nil } ?? []
         case .allDisplays:
-            return snapshot.displays.map(\.id)
+            guard displays.count == snapshot.displays.count else { return [] }
+            return displays.map(\.id)
         }
+    }
+
+    private var readingBrightnessTitle: String {
+        localization.string("panel.status.readingBrightness", defaultValue: "正在读取…")
     }
 
     private static var initialHoldDelay: TimeInterval {

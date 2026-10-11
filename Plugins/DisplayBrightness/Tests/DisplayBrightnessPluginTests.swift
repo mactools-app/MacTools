@@ -6,6 +6,27 @@ import MacToolsPluginKit
 
 @MainActor
 final class DisplayBrightnessPluginTests: XCTestCase {
+    func testPendingMouseDisplayDoesNotRedirectShortcutToAnotherDisplay() {
+        let controller = MockDisplayBrightnessController()
+        var pending = makeBrightnessDisplay(id: 9, name: "Pending Display", brightness: 1)
+        pending.isReady = false
+        controller.snapshotValue = DisplayBrightnessSnapshot(
+            displays: [makeBrightnessDisplay(id: 7, name: "Ready Display", brightness: 0.5), pending], errorMessage: nil
+        )
+        let preferences = DisplayBrightnessShortcutPreferences(storage: DisplayBrightnessMemoryStorage())
+        preferences.targetMode = .followsMouse
+        let plugin = DisplayBrightnessPlugin(
+            controller: controller, shortcutPreferences: preferences, mouseDisplayIDProvider: { 9 }
+        )
+        plugin.handleShortcutEvent(id: "display-brightness.increase", phase: .pressed)
+        XCTAssertTrue(controller.brightnessWrites.isEmpty)
+        preferences.targetMode = .allDisplays
+        plugin.handleShortcutEvent(id: "display-brightness.increase", phase: .pressed)
+        XCTAssertTrue(controller.brightnessWrites.isEmpty)
+        let reference = plugin.actionCatalogEntries.first { $0.reference.key.actionID == "display-brightness.increase" }!.reference
+        XCTAssertFalse(plugin.actionAvailability(for: reference).isAvailable)
+    }
+
 
     func testDiscreteBrightnessActionUsesConfiguredTargetAndCommits() async throws {
         let controller = MockDisplayBrightnessController()

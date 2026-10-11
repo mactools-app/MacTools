@@ -92,10 +92,38 @@ enum MenuBarIconProcessing {
         let supportsTemplateRendering: Bool
     }
 
+    struct PreparedCGFrames: Sendable {
+        let images: [CGImage]
+        let supportsTemplateRendering: Bool
+
+        func makeImages() -> PreparedFrames {
+            PreparedFrames(
+                images: images.map { NSImage(cgImage: $0, size: NSSize(width: CGFloat($0.width) / 2, height: standardIconPointSize)) },
+                supportsTemplateRendering: supportsTemplateRendering
+            )
+        }
+    }
+
     static func prepareFrames(from images: [NSImage]) -> PreparedFrames {
         let sources = images.compactMap { image -> CGImage? in
             cgImage(from: image)
         }
+        let prepared = prepareCGFrames(from: sources)
+        return PreparedFrames(
+            images: prepared.images.map { NSImage(cgImage: $0, size: NSSize(width: CGFloat($0.width) / 2, height: standardIconPointSize)) },
+            supportsTemplateRendering: sources.count == images.count && prepared.supportsTemplateRendering
+        )
+    }
+
+    static func prepareFrames(at urls: [URL]) -> PreparedCGFrames {
+        let sources = urls.compactMap { url -> CGImage? in
+            guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
+            return CGImageSourceCreateImageAtIndex(source, 0, nil)
+        }
+        return prepareCGFrames(from: sources)
+    }
+
+    private static func prepareCGFrames(from sources: [CGImage]) -> PreparedCGFrames {
         let analyses = sources.map { analyzeAlpha(in: $0) }
         let sharedVisibleBounds = analyses
             .compactMap { $0?.visibleBounds }
@@ -104,19 +132,18 @@ enum MenuBarIconProcessing {
             }
 
         let frames = sources.compactMap { source in
-            renderedImage(from: source, visibleBounds: sharedVisibleBounds)
+            renderedCGImage(from: source, visibleBounds: sharedVisibleBounds)
         }
         // Inspect source pixels before normalization adds its own transparent padding.
         // Blank animation frames are valid, but at least one frame must be visible.
         let supportsTemplateRendering = !frames.isEmpty
-            && sources.count == images.count
             && frames.count == sources.count
             && analyses.allSatisfy { $0?.hasTransparency == true }
             && analyses.contains { $0?.visibleBounds != nil }
-        return PreparedFrames(images: frames, supportsTemplateRendering: supportsTemplateRendering)
+        return PreparedCGFrames(images: frames, supportsTemplateRendering: supportsTemplateRendering)
     }
 
-    private static func renderedImage(from source: CGImage, visibleBounds: CGRect?) -> NSImage? {
+    private static func renderedCGImage(from source: CGImage, visibleBounds: CGRect?) -> CGImage? {
 
         let pointSize = standardIconPointSize
         let scaleFactor: CGFloat = 2
@@ -171,19 +198,7 @@ enum MenuBarIconProcessing {
 
         context.draw(visibleSource, in: CGRect(origin: origin, size: drawSize))
 
-        guard let rendered = context.makeImage() else {
-            return nil
-        }
-
-        let output = NSImage(
-            cgImage: rendered,
-            size: NSSize(
-                width: CGFloat(canvasWidthPixels) / scaleFactor,
-                height: pointSize
-            )
-        )
-        output.size = NSSize(width: CGFloat(canvasWidthPixels) / scaleFactor, height: pointSize)
-        return output
+        return context.makeImage()
     }
 
     private struct AlphaAnalysis {
@@ -513,6 +528,15 @@ final class MenuBarIconSettings: ObservableObject {
     private var imagePayloadCache: [MenuBarIconAppearance: MenuBarIconImagePayload] = [:]
     private var renderedFramesCache: [RenderedFramesCacheKey: MenuBarIconProcessing.PreparedFrames] = [:]
     private var remoteFramesCache: [RemoteFramesCacheKey: [NSImage]] = [:]
+    private var framePreparationTask: Task<Void, Never>?
+    private var framePreparationRevision: UInt64 = 0
+    #if DEBUG
+    private var submittedFramePreparations: [Task<Void, Never>] = []
+    func waitForFramePreparationForTests() async {
+        for task in submittedFramePreparations { await task.value }
+        submittedFramePreparations.removeAll()
+    }
+    #endif
 
     init(
         userDefaults: UserDefaults = .standard,
@@ -791,13 +815,10 @@ final class MenuBarIconSettings: ObservableObject {
             return cachedImages
         }
 
-        let sourceImages = selection.frameFileNames.compactMap { fileName in
-            let url = localIconsDirectory.appendingPathComponent(fileName)
-            return NSImage(contentsOf: url)
+        prepareFrames(at: selection.frameFileNames.map { localIconsDirectory.appendingPathComponent($0) }) { [weak self] frames in
+            self?.renderedFramesCache[cacheKey] = frames
         }
-        let preparedFrames = MenuBarIconProcessing.prepareFrames(from: sourceImages)
-        renderedFramesCache[cacheKey] = preparedFrames
-        return preparedFrames
+        return MenuBarIconProcessing.PreparedFrames(images: [], supportsTemplateRendering: false)
     }
 
     private func renderedImages(for selection: MenuBarIconRemoteAssetSelection) -> [NSImage] {
@@ -810,13 +831,28 @@ final class MenuBarIconSettings: ObservableObject {
             return cachedImages
         }
 
-        let sourceImages = remoteAssetStore.frameURLs(for: selection).compactMap { url in
-            NSImage(contentsOf: url)
+        prepareFrames(at: remoteAssetStore.frameURLs(for: selection)) { [weak self] frames in
+            self?.remoteFramesCache[cacheKey] = frames.images
         }
-        let images = MenuBarIconProcessing.renderedImages(from: sourceImages)
+        return []
+    }
 
-        remoteFramesCache[cacheKey] = images
-        return images
+    private func prepareFrames(at urls: [URL], completion: @escaping (MenuBarIconProcessing.PreparedFrames) -> Void) {
+        guard framePreparationTask == nil else { return }
+        let revision = framePreparationRevision
+        framePreparationTask = Task { @MainActor [weak self] in
+            let prepared = await Task.detached(priority: .utility) {
+                MenuBarIconProcessing.prepareFrames(at: urls)
+            }.value
+            guard !Task.isCancelled, let self, self.framePreparationRevision == revision else { return }
+            completion(prepared.makeImages())
+            self.framePreparationTask = nil
+            self.invalidateSelectedIconCaches()
+            self.settingsRevision += 1
+        }
+        #if DEBUG
+        if let framePreparationTask { submittedFramePreparations.append(framePreparationTask) }
+        #endif
     }
 
     private func clearRemoteAssetSelection() {
@@ -918,6 +954,9 @@ final class MenuBarIconSettings: ObservableObject {
     }
 
     private func invalidateAllIconCaches() {
+        framePreparationRevision &+= 1
+        framePreparationTask?.cancel()
+        framePreparationTask = nil
         invalidateSelectedIconCaches()
         renderedFramesCache.removeAll()
         remoteFramesCache.removeAll()

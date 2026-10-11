@@ -54,17 +54,10 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
 
         self.resolveArm64Services = resolveArm64Services
         self.appleFactory = appleFactory ?? { display in
-            let backend = AppleNativeBrightnessBackend(
+            AppleNativeBrightnessBackend(
                 display: display,
                 bridge: displayServicesBridge
             )
-
-            do {
-                _ = try backend.readBrightness()
-                return backend
-            } catch {
-                return nil
-            }
         }
         self.ddcFactory = ddcFactory ?? { display, matchedService in
             if let transport = Arm64DDCTransport(display: display, service: nil) {
@@ -98,6 +91,13 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
         var result: [CGDirectDisplayID: any DisplayBrightnessBackend] = [:]
 
         for display in displays {
+            // Keep an established fallback until the display's identity or capabilities change.
+            if let backend = previous[display.id], hasSameControlIdentity(backend.display, display),
+               backendCandidates(for: display).contains(BackendCandidate(kind: backend.kind)) {
+                backend.display = display
+                result[display.id] = backend
+                continue
+            }
             for candidate in backendCandidates(for: display) {
                 guard let backend = makeBackend(
                     candidate,
@@ -143,6 +143,13 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
         }
 
         return nil
+    }
+
+    private func hasSameControlIdentity(_ lhs: DisplayInfo, _ rhs: DisplayInfo) -> Bool {
+        lhs.id == rhs.id && lhs.isBuiltin == rhs.isBuiltin
+            && lhs.vendorNumber == rhs.vendorNumber && lhs.modelNumber == rhs.modelNumber
+            && lhs.serialNumber == rhs.serialNumber
+            && lhs.supportsAppleNativeBrightness == rhs.supportsAppleNativeBrightness
     }
 
     private func backendCandidates(for display: DisplayInfo) -> [BackendCandidate] {
@@ -317,7 +324,7 @@ final class DDCBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendable 
     }
 
     private let transport: any DDCBrightnessTransport
-    private var maximumValue: UInt16
+    private var maximumValue: UInt16?
 
     init?(display: DisplayInfo, transport: any DDCBrightnessTransport) {
         guard !display.isBuiltin else {
@@ -326,21 +333,30 @@ final class DDCBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendable 
 
         self._display = display
         self.transport = transport
-        self.maximumValue = (try? transport.readBrightness().maximum).flatMap(Self.validMaximum) ?? 100
+        // The controller reads the hardware asynchronously before enabling controls.
+        self.maximumValue = nil
     }
 
     func readBrightness() throws -> Double {
         let brightness = try transport.readBrightness()
         return lock.withLock {
-            maximumValue = Self.validMaximum(brightness.maximum) ?? maximumValue
-            return maximumValue == 0 ? 1 : Double(brightness.current) / Double(maximumValue)
+            let maximum = Self.validMaximum(brightness.maximum) ?? maximumValue ?? 100
+            maximumValue = maximum
+            return Double(brightness.current) / Double(maximum)
         }
     }
 
     func writeBrightness(_ value: Double) throws {
+        // A write fallback can reach DDC before the controller's first read.
+        // This runs on the write worker and preserves the monitor's native range.
+        if lock.withLock({ maximumValue == nil }) {
+            _ = try? readBrightness()
+        }
         let clampedValue = max(0, min(value, 1))
         let rawValue = lock.withLock {
-            UInt16((Double(maximumValue) * clampedValue).rounded())
+            let maximum = maximumValue ?? 100
+            maximumValue = maximum
+            return UInt16((Double(maximum) * clampedValue).rounded())
         }
         try transport.writeBrightness(rawValue)
     }
