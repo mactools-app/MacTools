@@ -127,6 +127,73 @@ final class MacToolsSearchTests: XCTestCase {
         XCTAssertTrue(discovery.contains { $0.id == "plugin.marketplace.\(item.id)" })
     }
 
+    func testExecutableTitleMatchesOutrankMarketplaceCapabilitiesAcrossProviders() {
+        let fixtures = [
+            (query: "Increase", prefix: "Increase volume", contains: "Display brightness increase"),
+            (query: "增加", prefix: "增加音量", contains: "显示器亮度增加")
+        ]
+
+        for fixture in fixtures {
+            let item = marketplaceDiscoveryItem(
+                staticActionTitle: fixture.query,
+                dynamicTemplateTitle: fixture.query
+            )
+            let commands = [fixture.prefix, fixture.contains].enumerated().map { index, title in
+                searchResult(
+                    id: "installed-command-\(index)", kind: .command, title: title,
+                    action: .executeAction(ActionReference(key: ActionKey(
+                        providerID: "installed-provider", actionID: "increase-\(index)"
+                    )))
+                )
+            }
+            let executableKeys = Set(commands.compactMap { result -> ActionKey? in
+                guard case let .executeAction(reference) = result.action else { return nil }
+                return reference.key
+            })
+            let discovery = MacToolsSearchIndexBuilder.marketplaceDiscoveryResults(
+                for: item, excludingActionKeys: executableKeys
+            )
+            let discoveryOnlyResults = MacToolsSearchIndex(items: discovery).results(matching: fixture.query)
+            let results = MacToolsSearchIndex(items: discovery + commands).results(matching: fixture.query)
+
+            XCTAssertTrue(discoveryOnlyResults.contains {
+                $0.id == "plugin.marketplace-action.\(item.id).catalog-provider.cleanup"
+            }, fixture.query)
+            XCTAssertTrue(discoveryOnlyResults.contains {
+                $0.id == "plugin.marketplace-template.\(item.id).catalog-provider.profiles"
+            }, fixture.query)
+            XCTAssertEqual(Array(results.prefix(2)).map(\.action), commands.map(\.action), fixture.query)
+            XCTAssertEqual(
+                Set(results.map(\.id)),
+                Set((commands + discoveryOnlyResults).map(\.id)),
+                fixture.query
+            )
+        }
+    }
+
+    func testExactNavigationAndMarketplacePluginNamesRetainTitleRanking() {
+        let query = "Increase"
+        let item = marketplaceDiscoveryItem(
+            title: query, staticActionTitle: query, dynamicTemplateTitle: query
+        )
+        let navigation = searchResult(id: "ordinary-navigation", kind: .navigation, title: query)
+        let command = searchResult(
+            id: "installed-command", kind: .command, title: "Increase volume",
+            action: .executeAction(ActionReference(key: ActionKey(
+                providerID: "installed-provider", actionID: "increase-volume"
+            )))
+        )
+        let discovery = MacToolsSearchIndexBuilder.marketplaceDiscoveryResults(for: item)
+        let results = MacToolsSearchIndex(items: discovery + [command, navigation]).results(matching: query)
+
+        XCTAssertEqual(
+            Set(results.prefix(2).map(\.id)),
+            [navigation.id, "plugin.marketplace.\(item.id)"]
+        )
+        XCTAssertEqual(results.dropFirst(2).first?.action, command.action)
+        XCTAssertEqual(Set(results.map(\.id)), Set((discovery + [command, navigation]).map(\.id)))
+    }
+
     func testCommandResultsCarryCanonicalActionReferences() throws {
         let plugin = SearchableTestPlugin()
         let host = makePluginHostForTests(plugins: [plugin])
@@ -348,9 +415,13 @@ final class MacToolsSearchTests: XCTestCase {
         XCTAssertFalse(host.performAppCommand(.toggleDashboard))
     }
 
-    private func marketplaceDiscoveryItem() -> PluginManagementItem {
+    private func marketplaceDiscoveryItem(
+        title: String = "Catalog Tool",
+        staticActionTitle: String = "Temporary cleanup",
+        dynamicTemplateTitle: String = "Saved profiles"
+    ) -> PluginManagementItem {
         PluginManagementItem(
-            id: "catalog-tool", title: "Catalog Tool", summary: "Available capabilities",
+            id: "catalog-tool", title: title, summary: "Available capabilities",
             version: "1.0.0", state: .available, packageURL: nil,
             requiresRestartToFullyUnload: false, releaseNotesURL: nil,
             productMetadata: PluginProductMetadata(
@@ -358,7 +429,7 @@ final class MacToolsSearchTests: XCTestCase {
                 actions: .init(providers: [.init(
                     id: "catalog-provider", kind: "native",
                     staticActions: [.init(
-                        id: "cleanup", title: .init(["en": "Temporary cleanup"]),
+                        id: "cleanup", title: .init(["en": staticActionTitle]),
                         description: .init(["en": "Remove temporary files"]),
                         keywords: ["cache"], systemImage: "trash", parameters: [],
                         parameterSummary: nil, permissionIDs: [], risk: "confirmation-required",
@@ -366,7 +437,7 @@ final class MacToolsSearchTests: XCTestCase {
                         externalInvocation: "disabled"
                     )],
                     dynamicTemplates: [.init(
-                        id: "profiles", title: .init(["en": "Saved profiles"]),
+                        id: "profiles", title: .init(["en": dynamicTemplateTitle]),
                         description: .init(["en": "Choose a saved profile"]),
                         entrySource: "local-profiles", keywords: ["preset"], parameters: [],
                         parameterSummary: .init(["en": "Profile name"]),
@@ -383,17 +454,19 @@ final class MacToolsSearchTests: XCTestCase {
 
     private func searchResult(
         id: String,
-        kind: MacToolsSearchResultKind
+        kind: MacToolsSearchResultKind,
+        title: String? = nil,
+        action: MacToolsSearchAction = .navigate(destination: .general, target: nil)
     ) -> MacToolsSearchResult {
         MacToolsSearchResult(
             id: id,
             kind: kind,
-            title: id,
+            title: title ?? id,
             subtitle: "",
             detail: "",
             keywords: [],
             systemImage: "magnifyingglass",
-            action: .navigate(destination: .general, target: nil),
+            action: action,
             confirmation: nil,
             suggestionPriority: nil
         )

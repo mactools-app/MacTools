@@ -43,6 +43,11 @@ enum MacToolsSearchAction: Hashable {
     case appHostCommand(expectedDefinition: AppHostCommandDefinition)
 }
 
+enum MacToolsSearchResultRole: Hashable {
+    case standard
+    case marketplaceCapability
+}
+
 struct MacToolsSearchResult: Identifiable, Hashable {
     let id: String
     let kind: MacToolsSearchResultKind
@@ -54,6 +59,7 @@ struct MacToolsSearchResult: Identifiable, Hashable {
     let action: MacToolsSearchAction
     let confirmation: MacToolsCommandConfirmation?
     let suggestionPriority: Int?
+    var role: MacToolsSearchResultRole = .standard
 
     var accessibilityLabel: String {
         [title, subtitle, kind.title].filter { !$0.isEmpty }.joined(separator: ", ")
@@ -201,6 +207,12 @@ struct MacToolsSearchIndex {
         query: String,
         tokens: [String]
     ) -> MatchTier {
+        if item.result.role == .marketplaceCapability,
+           item.normalizedTitle.contains(query)
+            || tokens.allSatisfy(item.normalizedTitle.contains) {
+            // Informational capabilities must not outrank ordinary title matches.
+            return .keyword
+        }
         if item.normalizedTitle == query {
             return .exactTitle
         }
@@ -719,7 +731,8 @@ enum MacToolsSearchIndexBuilder {
                         target: nil
                     ),
                     confirmation: nil,
-                    suggestionPriority: nil
+                    suggestionPriority: nil,
+                    role: .marketplaceCapability
                 ))
             }
             for template in provider.dynamicTemplates {
@@ -737,7 +750,8 @@ enum MacToolsSearchIndexBuilder {
                     systemImage: "sparkles",
                     action: .navigate(destination: detailDestination, target: nil),
                     confirmation: nil,
-                    suggestionPriority: nil
+                    suggestionPriority: nil,
+                    role: .marketplaceCapability
                 ))
             }
         }
