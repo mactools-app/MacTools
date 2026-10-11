@@ -784,6 +784,62 @@ final class PluginCatalogManagerTests: XCTestCase {
         XCTAssertNil(host.pluginMarketplaceOperations[pluginID])
     }
 
+    func testBulkUpdateRejectsPendingDetailUpdateAndAllowsRetryAfterFailure() async throws {
+        let pluginID = "com.example.demo"
+        let store = makeStore()
+        _ = try store.installPackage(from: makePackage(id: pluginID, version: "1.0.0"))
+        let updatePackageURL = try makePackage(id: pluginID, version: "2.0.0")
+        let dynamicManager = DynamicPluginManager(
+            packageStore: store,
+            pluginLoader: StubDynamicPluginLoader { _ in [] }
+        )
+        let snapshot = makeCatalogSnapshot(entries: [makeCatalogEntry(id: pluginID, version: "2.0.0")])
+        let resolver = SuspendedPluginPackageResolver(subsequentPackageURL: updatePackageURL)
+        let manager = PluginCatalogManager(
+            catalogProvider: StubPluginCatalogProvider(snapshot: snapshot),
+            packageResolver: resolver,
+            dynamicPluginManager: dynamicManager,
+            source: .production(snapshot.sourceURL)
+        )
+        let host = makeFeedbackHost(dynamicManager: dynamicManager, catalogManager: manager)
+        defer { host.deactivateAllPlugins() }
+        let marketplace = PluginMarketplacePresentationModel(host: host)
+        await host.refreshPluginCatalog()
+
+        let detailUpdate = Task { try await host.updatePluginFromCatalog(pluginID: pluginID) }
+        await resolver.waitUntilRequested()
+        XCTAssertTrue(marketplace.hasActiveMarketplaceOperation)
+        do {
+            try await host.updateAvailablePluginsFromCatalog()
+            XCTFail("Update All must reject an update already running in a plugin detail")
+        } catch {
+            guard case PluginMarketplaceOperationError.operationInProgress = error else {
+                resolver.resume(throwing: URLError(.cancelled))
+                _ = try? await detailUpdate.value
+                throw error
+            }
+        }
+        XCTAssertEqual(dynamicManager.installedPackageVersionsByID()[pluginID], "1.0.0")
+        XCTAssertEqual(host.pluginMarketplaceOperations[pluginID], .init(kind: .update, phase: .running))
+        XCTAssertTrue(marketplace.hasActiveMarketplaceOperation)
+
+        resolver.resume(throwing: URLError(.timedOut))
+        do {
+            try await detailUpdate.value
+            XCTFail("The detail update must report its download timeout")
+        } catch {
+            XCTAssertEqual((error as? URLError)?.code, .timedOut)
+            XCTAssertEqual(host.pluginMarketplaceOperations[pluginID]?.phase, .failed(error.localizedDescription))
+        }
+        XCTAssertFalse(marketplace.hasActiveMarketplaceOperation)
+
+        try await host.updateAvailablePluginsFromCatalog()
+
+        XCTAssertEqual(dynamicManager.installedPackageVersionsByID()[pluginID], "2.0.0")
+        XCTAssertNil(host.pluginMarketplaceOperations[pluginID])
+        XCTAssertFalse(marketplace.hasActiveMarketplaceOperation)
+    }
+
     func testSupersededUpdateFailureKeepsReinstallationFeedbackAndDuplicateProtection() async throws {
         try await assertReinstallationKeepsFeedbackAfterSupersededUpdate(failsResolution: true)
     }
@@ -1074,14 +1130,23 @@ private final class FailFirstPluginPackageResolver: PluginPackageResolving {
 
 @MainActor
 private final class SuspendedPluginPackageResolver: PluginPackageResolving {
+    private let subsequentPackageURL: URL?
     private var resolutionContinuations: [Int: CheckedContinuation<URL, Error>] = [:]
     private var requestContinuations: [Int: CheckedContinuation<Void, Never>] = [:]
     private var requestCount = 0
+
+    init(subsequentPackageURL: URL? = nil) {
+        self.subsequentPackageURL = subsequentPackageURL
+    }
 
     func resolvePackage(for entry: PluginCatalogEntry) async throws -> URL {
         requestCount += 1
         let requestNumber = requestCount
         requestContinuations.removeValue(forKey: requestNumber)?.resume()
+
+        if requestNumber > 1, let subsequentPackageURL {
+            return subsequentPackageURL
+        }
 
         return try await withCheckedThrowingContinuation { continuation in
             resolutionContinuations[requestNumber] = continuation

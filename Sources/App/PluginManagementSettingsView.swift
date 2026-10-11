@@ -348,6 +348,7 @@ struct PluginManagementSettingsView: View {
                     || !hasAvailablePluginUpdates
                     || presentation.catalogStatus.isRefreshing
                     || presentation.automaticUpdateStatus.isActive
+                    || presentation.hasActiveMarketplaceOperation
             )
         }
 
@@ -417,7 +418,8 @@ struct PluginManagementSettingsView: View {
 
     private func runBulkUpdate() {
         guard activeOperationID == nil,
-              !presentation.automaticUpdateStatus.isActive
+              !presentation.automaticUpdateStatus.isActive,
+              !presentation.hasActiveMarketplaceOperation
         else {
             return
         }

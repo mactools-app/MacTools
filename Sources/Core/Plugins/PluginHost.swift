@@ -2577,6 +2577,9 @@ final class PluginHost: ObservableObject {
     func updateAvailablePluginsFromCatalog(
         progress: ((PluginCatalogUpdateProgress) -> Void)? = nil
     ) async throws {
+        guard !pluginMarketplaceOperations.values.contains(where: \.isActive) else {
+            throw PluginMarketplaceOperationError.operationInProgress
+        }
         guard let pluginCatalogManager else {
             return
         }
