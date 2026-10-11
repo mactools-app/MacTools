@@ -17,24 +17,25 @@ final class ShortcutAssignmentServiceTests: XCTestCase {
         super.tearDown()
     }
 
-    func testAssignmentPersistsAndRegistersThroughInjectedCarbonRegistrar() throws {
+    func testCommandNumberAssignmentPersistsRegistersAndClears() throws {
         let harness = try makeHarness()
         let reference = harness.references[0]
+        let binding = ShortcutBinding(keyCode: UInt16(kVK_ANSI_1), modifiers: .command)
 
         XCTAssertEqual(
-            harness.service.assign(harness.bindings[0], to: reference),
+            harness.service.assign(binding, to: reference),
             .success
         )
 
         let item = try XCTUnwrap(harness.service.settingsItems.first)
         XCTAssertEqual(item.assignment.reference, reference)
         XCTAssertEqual(item.state, .registered)
-        XCTAssertEqual(harness.registrar.registeredBindings, [harness.bindings[0]])
+        XCTAssertEqual(harness.registrar.registeredBindings, [binding])
         XCTAssertEqual(
             harness.service.reference(
                 forShortcutID: try XCTUnwrap(
                     harness.manager.debugRegistrationsForTests.first {
-                        $0.binding == harness.bindings[0]
+                        $0.binding == binding
                     }?.shortcutID
                 )
             ),
@@ -43,6 +44,14 @@ final class ShortcutAssignmentServiceTests: XCTestCase {
 
         let reloadedStore = ActionShortcutAssignmentStore(defaults: harness.defaults)
         XCTAssertEqual(reloadedStore.assignments(), harness.service.assignments)
+
+        let restored = try makeHarness(defaults: harness.defaults)
+        XCTAssertEqual(restored.registrar.registeredBindings, [binding])
+        XCTAssertEqual(restored.service.settingsItems.map(\.state), [.registered])
+        XCTAssertEqual(restored.service.clear(reference), .success)
+        XCTAssertTrue(reloadedStore.assignments().isEmpty)
+        XCTAssertTrue(restored.manager.registrationStatuses.isEmpty)
+        XCTAssertEqual(restored.registrar.unregisteredCount, 1)
     }
 
     func testCorruptAssignmentPayloadRejectsOrdinaryMutationWithoutOverwritingBytes() throws {
@@ -93,17 +102,18 @@ final class ShortcutAssignmentServiceTests: XCTestCase {
         let harness = try makeHarness()
         let first = harness.references[0]
         let second = harness.references[1]
-        XCTAssertEqual(harness.service.assign(harness.bindings[0], to: first), .success)
+        let binding = ShortcutBinding(keyCode: UInt16(kVK_ANSI_9), modifiers: .command)
+        XCTAssertEqual(harness.service.assign(binding, to: first), .success)
 
         XCTAssertEqual(
-            harness.service.assign(harness.bindings[0], to: second),
+            harness.service.assign(binding, to: second),
             .failure(.conflict(ownerDescription: "操作 1"))
         )
         XCTAssertEqual(harness.service.assignments.map(\.reference), [first])
 
         XCTAssertEqual(
             harness.service.assign(
-                harness.bindings[0],
+                binding,
                 to: second,
                 replacingConflictingActionAssignments: true
             ),
@@ -127,6 +137,15 @@ final class ShortcutAssignmentServiceTests: XCTestCase {
             ),
             .failure(.conflict(ownerDescription: "亮度连续调节"))
         )
+        XCTAssertEqual(harness.service.assignments.map(\.reference), [second])
+
+        for keyCode in [kVK_UpArrow, kVK_DownArrow] {
+            let navigationBinding = ShortcutBinding(keyCode: UInt16(keyCode), modifiers: [.control, .command])
+            XCTAssertEqual(
+                harness.service.assign(navigationBinding, to: first),
+                .failure(.invalidBinding(.duplicate(ownerDescription: AppMetadata.appName)))
+            )
+        }
         XCTAssertEqual(harness.service.assignments.map(\.reference), [second])
     }
 

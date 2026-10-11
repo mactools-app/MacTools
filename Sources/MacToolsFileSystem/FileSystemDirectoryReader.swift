@@ -14,6 +14,30 @@ public struct FileSystemDirectoryListing: Sendable {
 /// Metadata-only directory reads. No file payload is opened, and symbolic links are never followed.
 public enum FileSystemDirectoryReader {
     public static func read(path: String, cancelled: () -> Bool) throws -> FileSystemDirectoryListing {
+        var result = FileSystemDirectoryListing()
+        do {
+            try readBatches(path: path, cancelled: cancelled) { batch in
+                result.entries.append(contentsOf: batch.entries)
+                result.skippedCount += batch.skippedCount
+            }
+        } catch let error as POSIXError where supportsFallback(error.code.rawValue) {
+            // This collecting API can discard an earlier partial bulk read before restarting.
+            result = FileSystemDirectoryListing()
+            try fallback(path: path, cancelled: cancelled) { batch in
+                result.entries.append(contentsOf: batch.entries)
+                result.skippedCount += batch.skippedCount
+            }
+        }
+        return result
+    }
+
+    /// Delivers bounded metadata batches without retaining a whole directory. Previously
+    /// delivered batches remain valid if a later read fails; callers must mark the scan incomplete.
+    public static func readBatches(
+        path: String,
+        cancelled: () -> Bool,
+        consume: (FileSystemDirectoryListing) throws -> Void
+    ) throws {
         let fd = open(path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW_ANY | O_NONBLOCK)
         guard fd >= 0 else { throw POSIXError(POSIXErrorCode(rawValue: errno) ?? .EIO) }
         defer { close(fd) }
@@ -21,21 +45,23 @@ public enum FileSystemDirectoryReader {
         let capacity = 64 * 1024
         let buffer = UnsafeMutableRawPointer.allocate(byteCount: capacity, alignment: 8)
         defer { buffer.deallocate() }
-        var result = FileSystemDirectoryListing()
+        var deliveredBatch = false
         while true {
             if cancelled() { throw CancellationError() }
             let count = getattrlistbulk(fd, &attributes, buffer, capacity, 0)
             if count < 0 {
-                // Restart enumeration when bulk attributes are unsupported; never append duplicate entries.
-                if errno == ENOTSUP || errno == EINVAL || errno == ENOSYS {
-                    return try fallback(path: path, cancelled: cancelled)
+                // Restart only before delivery: a streamed consumer cannot roll back prior batches.
+                if !deliveredBatch, supportsFallback(errno) {
+                    return try fallback(path: path, cancelled: cancelled, consume: consume)
                 }
                 throw POSIXError(POSIXErrorCode(rawValue: errno) ?? .EIO)
             }
-            if count == 0 { return result }
+            if count == 0 { return }
             let parsed = FileSystemBulkAttributeParser.parse(
                 buffer: UnsafeRawBufferPointer(start: buffer, count: capacity), entryCount: Int(count)
             )
+            var result = FileSystemDirectoryListing()
+            result.entries.reserveCapacity(parsed.entries.count)
             if parsed.isTruncated { result.skippedCount += 1 }
             for var entry in parsed.entries {
                 guard let name = entry.nameBytes else { result.skippedCount += 1; continue }
@@ -49,10 +75,20 @@ public enum FileSystemDirectoryReader {
                 }
                 result.entries.append(entry)
             }
+            deliveredBatch = true
+            try consume(result)
         }
     }
 
-    private static func fallback(path: String, cancelled: () -> Bool) throws -> FileSystemDirectoryListing {
+    private static func supportsFallback(_ code: Int32) -> Bool {
+        code == ENOTSUP || code == EINVAL || code == ENOSYS
+    }
+
+    private static func fallback(
+        path: String,
+        cancelled: () -> Bool,
+        consume: (FileSystemDirectoryListing) throws -> Void
+    ) throws {
         let fd = open(path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW_ANY | O_NONBLOCK)
         guard fd >= 0 else { throw POSIXError(POSIXErrorCode(rawValue: errno) ?? .EIO) }
         guard let directory = fdopendir(fd) else {
@@ -66,7 +102,8 @@ public enum FileSystemDirectoryReader {
             errno = 0
             guard let pointer = readdir(directory) else {
                 if errno != 0 { throw POSIXError(POSIXErrorCode(rawValue: errno) ?? .EIO) }
-                return result
+                if !result.entries.isEmpty || result.skippedCount > 0 { try consume(result) }
+                return
             }
             let name: [CChar] = withUnsafeBytes(of: pointer.pointee.d_name) { bytes in
                 Array(bytes.prefix { $0 != 0 }.map { CChar(bitPattern: $0) }) + [0]
@@ -74,6 +111,10 @@ public enum FileSystemDirectoryReader {
             if name == [46, 0] || name == [46, 46, 0] { continue }
             if let entry = statEntry(name: name, fd: fd) { result.entries.append(entry) }
             else { result.skippedCount += 1 }
+            if result.entries.count + result.skippedCount >= 256 {
+                try consume(result)
+                result = FileSystemDirectoryListing()
+            }
         }
     }
 

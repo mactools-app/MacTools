@@ -39,6 +39,10 @@
       "displayName": "Скрыть вырез",
       "summary": "Автоматически закрывать верхнюю область на дисплеях с вырезом."
     },
+    "tr": {
+      "displayName": "Çentiği Gizle",
+      "summary": "Çentikli ekranlarda üstteki çentik bölgesini otomatik olarak kapatın."
+    },
     "zh-Hans": {
       "displayName": "隐藏刘海",
       "summary": "自动遮挡刘海屏顶部区域"
@@ -57,7 +61,7 @@
     "action.set-enabled.description": "@standardAction.set-enabled.description",
     "action.set-enabled.parameter-summary": "@standardAction.set-enabled.description"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "1.3.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "HideNotch.bundle",
@@ -122,6 +126,9 @@
       ],
       "ru": [
         "Скрыть вырез"
+      ],
+      "tr": [
+        "Çentiği Gizle"
       ],
       "zh-Hans": [
         "隐藏刘海"

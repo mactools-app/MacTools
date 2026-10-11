@@ -36,7 +36,19 @@ final class SystemPowerPlugin:
         static let automation = "automation"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: Self.pluginID,
+            title: localization.string("metadata.title", defaultValue: "电源操作"),
+            iconName: "power",
+            iconTint: Color(nsColor: .systemRed),
+            order: 99,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "让 Mac 睡眠、退出登录、重新启动或关机"
+            )
+        )
+    }
     let rowDescriptor: PluginPanelRowDescriptor
 
     var onStateChange: (() -> Void)?
@@ -66,17 +78,6 @@ final class SystemPowerPlugin:
         self.localization = localization
         self.presentationPreparation = presentationPreparation
         self.performOperation = performOperation
-        self.metadata = PluginMetadata(
-            id: Self.pluginID,
-            title: localization.string("metadata.title", defaultValue: "电源操作"),
-            iconName: "power",
-            iconTint: Color(nsColor: .systemRed),
-            order: 99,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "让 Mac 睡眠、退出登录、重新启动或关机"
-            )
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .disclosure,
             menuActionBehavior: .keepPresented

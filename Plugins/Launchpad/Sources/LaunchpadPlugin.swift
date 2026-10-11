@@ -55,7 +55,19 @@ final class LaunchpadPlugin:
         static let toggle = "launchpad.toggle"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "launchpad",
+            title: localization.string("metadata.title", defaultValue: "启动台"),
+            iconName: "square.grid.3x3.fill",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 12,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "唤出应用网格，搜索并启动"
+            )
+        )
+    }
 
     let rowDescriptor: PluginPanelRowDescriptor
 
@@ -80,17 +92,6 @@ final class LaunchpadPlugin:
         localization: PluginLocalization = PluginLocalization(bundle: .main)
     ) {
         self.localization = localization
-        self.metadata = PluginMetadata(
-            id: "launchpad",
-            title: localization.string("metadata.title", defaultValue: "启动台"),
-            iconName: "square.grid.3x3.fill",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 12,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "唤出应用网格，搜索并启动"
-            )
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,

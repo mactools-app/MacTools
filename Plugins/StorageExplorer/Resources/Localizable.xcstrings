@@ -4,225 +4,1079 @@
     "storageExplorer.cachedPreviewReviewUnavailable": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "هذه معاينة من الفحص السابق. انتظر اكتمال التحديث قبل إضافة عناصر للمراجعة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Dies ist eine Vorschau des vorherigen Scans. Warte, bis die Aktualisierung abgeschlossen ist, bevor du Objekte zur Prüfung hinzufügst." } },
-        "en": { "stringUnit": { "state": "translated", "value": "This is a previous scan preview. Wait for the refresh to finish before adding items to review." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Esta es una vista previa del análisis anterior. Espera a que termine la actualización antes de añadir elementos a la revisión." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ceci est un aperçu de l’analyse précédente. Attendez la fin de l’actualisation avant d’ajouter des éléments à la vérification." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "これは前回のスキャンのプレビューです。更新が完了してからレビューに追加してください。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이전 스캔 미리보기입니다. 새로 고침이 끝난 후 검토에 추가하십시오." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Esta é uma pré-visualização da análise anterior. Aguarde a atualização terminar antes de adicionar itens à revisão." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Это предварительный результат предыдущего сканирования. Дождитесь завершения обновления, прежде чем добавлять объекты на проверку." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "这是上次扫描的预览。请等待刷新完成后再加入审阅。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "這是上次掃描的預覽。請等待重新整理完成後再加入審閱。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذه معاينة من الفحص السابق. انتظر اكتمال التحديث قبل إضافة عناصر للمراجعة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dies ist eine Vorschau des vorherigen Scans. Warte, bis die Aktualisierung abgeschlossen ist, bevor du Objekte zur Prüfung hinzufügst."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This is a previous scan preview. Wait for the refresh to finish before adding items to review."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta es una vista previa del análisis anterior. Espera a que termine la actualización antes de añadir elementos a la revisión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ceci est un aperçu de l’analyse précédente. Attendez la fin de l’actualisation avant d’ajouter des éléments à la vérification."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "これは前回のスキャンのプレビューです。更新が完了してからレビューに追加してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이전 스캔 미리보기입니다. 새로 고침이 끝난 후 검토에 추가하십시오."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta é uma pré-visualização da análise anterior. Aguarde a atualização terminar antes de adicionar itens à revisão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Это предварительный результат предыдущего сканирования. Дождитесь завершения обновления, прежде чем добавлять объекты на проверку."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu, önceki taramanın önizlemesidir. Öğeleri incelemeye eklemeden önce yenilemenin tamamlanmasını bekleyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这是上次扫描的预览。请等待刷新完成后再加入审阅。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這是上次掃描的預覽。請等待重新整理完成後再加入審閱。"
+          }
+        }
       }
     },
     "storageExplorer.previousScanAgeFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "الفحص السابق: %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Vorheriger Scan: %@" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Previous scan: %@" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Análisis anterior: %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Analyse précédente : %@" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "前回のスキャン：%@" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이전 스캔: %@" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Análise anterior: %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Предыдущее сканирование: %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "上次扫描：%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "上次掃描：%@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفحص السابق: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorheriger Scan: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous scan: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Análisis anterior: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analyse précédente : %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前回のスキャン：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이전 스캔: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Análise anterior: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предыдущее сканирование: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki tarama: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次扫描：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次掃描：%@"
+          }
+        }
       }
     },
     "storageExplorer.reviewSelected": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تمت إضافته إلى المراجعة بالفعل." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Bereits zur Prüfung hinzugefügt." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Already added to review." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Ya se ha añadido a la revisión." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Déjà ajouté à la vérification." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "すでにレビューに追加されています。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이미 검토에 추가되었습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Já foi adicionado à revisão." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Уже добавлено на проверку." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "已加入审阅。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "已加入審閱。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمت إضافته إلى المراجعة بالفعل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereits zur Prüfung hinzugefügt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Already added to review."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ya se ha añadido a la revisión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déjà ajouté à la vérification."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "すでにレビューに追加されています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이미 검토에 추가되었습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Já foi adicionado à revisão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уже добавлено на проверку."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zaten incelemeye eklenmiş."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已加入审阅。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已加入審閱。"
+          }
+        }
       }
     },
     "storageExplorer.reviewIncludedByParentFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "مضمّن بالفعل في المراجعة ضمن «%@»." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Bereits über „%@“ in der Prüfung enthalten." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Already included in review with “%@”." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Ya está incluido en la revisión con «%@»." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Déjà inclus dans la vérification avec «%@»." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "「%@」と一緒にレビューへ追加済みです。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이미 “%@”와 함께 검토에 포함되어 있습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Já está incluído na revisão com “%@”." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Уже добавлено на проверку вместе с «%@»." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "已随“%@”加入审阅。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "已隨「%@」加入審閱。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مضمّن بالفعل في المراجعة ضمن «%@»."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereits über „%@“ in der Prüfung enthalten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Already included in review with “%@”."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ya está incluido en la revisión con «%@»."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déjà inclus dans la vérification avec «%@»."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「%@」と一緒にレビューへ追加済みです。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이미 “%@”와 함께 검토에 포함되어 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Já está incluído na revisão com “%@”."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уже добавлено на проверку вместе с «%@»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” ile birlikte zaten incelemeye eklenmiş."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已随“%@”加入审阅。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已隨「%@」加入審閱。"
+          }
+        }
       }
     },
     "storageExplorer.reviewIncompleteFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر فحص %d من العناصر. الحجم المعروض هو الحد الأدنى، وقد تختلف المساحة الفعلية المستردة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "%d Objekte konnten nicht gescannt werden. Die angezeigte Größe ist ein Mindestwert; der tatsächlich frei werdende Speicher kann abweichen." } },
-        "en": { "stringUnit": { "state": "translated", "value": "%d items could not be scanned. The shown size is a minimum; actual recovered space may differ." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudieron analizar %d elementos. El tamaño mostrado es un mínimo; el espacio recuperado real puede variar." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "%d éléments n’ont pas pu être analysés. La taille affichée est un minimum ; l’espace réellement récupéré peut varier." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%d項目をスキャンできませんでした。表示サイズは最小値で、実際に解放される容量は異なる場合があります。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%d개 항목을 스캔할 수 없습니다. 표시된 크기는 최솟값이며 실제 확보 공간은 다를 수 있습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível analisar %d itens. O tamanho apresentado é um mínimo; o espaço efetivamente recuperado pode variar." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось просканировать объектов: %d. Показанный размер является минимальным; фактически освобождённое место может отличаться." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "有 %d 个内容未能扫描。显示大小为最低估计，实际释放空间可能不同。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "有 %d 個內容未能掃描。顯示的大小是最低估計，實際釋放空間可能不同。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر فحص %d من العناصر. الحجم المعروض هو الحد الأدنى، وقد تختلف المساحة الفعلية المستردة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d Objekte konnten nicht gescannt werden. Die angezeigte Größe ist ein Mindestwert; der tatsächlich frei werdende Speicher kann abweichen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d items could not be scanned. The shown size is a minimum; actual recovered space may differ."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron analizar %d elementos. El tamaño mostrado es un mínimo; el espacio recuperado real puede variar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d éléments n’ont pas pu être analysés. La taille affichée est un minimum ; l’espace réellement récupéré peut varier."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d項目をスキャンできませんでした。表示サイズは最小値で、実際に解放される容量は異なる場合があります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d개 항목을 스캔할 수 없습니다. 표시된 크기는 최솟값이며 실제 확보 공간은 다를 수 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível analisar %d itens. O tamanho apresentado é um mínimo; o espaço efetivamente recuperado pode variar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось просканировать объектов: %d. Показанный размер является минимальным; фактически освобождённое место может отличаться."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d öğe taranamadı. Gösterilen boyut en düşük değerdir; gerçekten kazanılacak alan farklı olabilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有 %d 个内容未能扫描。显示大小为最低估计，实际释放空间可能不同。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有 %d 個內容未能掃描。顯示的大小是最低估計，實際釋放空間可能不同。"
+          }
+        }
       }
     },
     "storageExplorer.reviewScanRoot": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "لا يمكن إضافة مجلد الفحص الحالي نفسه إلى المراجعة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Der aktuell gescannte Ordner selbst kann nicht zur Prüfung hinzugefügt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The active scan folder itself cannot be added to review." } },
-        "es": { "stringUnit": { "state": "translated", "value": "La carpeta que se está analizando no se puede añadir a la revisión." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Le dossier actuellement analysé ne peut pas lui-même être ajouté à la vérification." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "現在スキャン中のフォルダ自体はレビューに追加できません。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "현재 스캔 폴더 자체는 검토에 추가할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "A própria pasta em análise não pode ser adicionada à revisão." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Саму сканируемую папку нельзя добавить на проверку." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "当前扫描文件夹本身不能加入审阅。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "目前掃描的檔案夾本身無法加入審閱。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يمكن إضافة مجلد الفحص الحالي نفسه إلى المراجعة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der aktuell gescannte Ordner selbst kann nicht zur Prüfung hinzugefügt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The active scan folder itself cannot be added to review."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La carpeta que se está analizando no se puede añadir a la revisión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le dossier actuellement analysé ne peut pas lui-même être ajouté à la vérification."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在スキャン中のフォルダ自体はレビューに追加できません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "현재 스캔 폴더 자체는 검토에 추가할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A própria pasta em análise não pode ser adicionada à revisão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Саму сканируемую папку нельзя добавить на проверку."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin tarama klasörünün kendisi incelemeye eklenemez."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前扫描文件夹本身不能加入审阅。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目前掃描的檔案夾本身無法加入審閱。"
+          }
+        }
       }
     },
     "storageExplorer.reviewProtected": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "هذا الموقع محمي ولا يمكن نقله إلى سلة المهملات." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Dieser Speicherort ist geschützt und kann nicht in den Papierkorb bewegt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "This location is protected and cannot be moved to Trash." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Esta ubicación está protegida y no se puede mover a la Papelera." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Cet emplacement est protégé et ne peut pas être placé dans la corbeille." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "この場所は保護されているため、ゴミ箱に移動できません。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이 위치는 보호되어 있어 휴지통으로 이동할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Esta localização está protegida e não pode ser movida para o Lixo." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Это расположение защищено, и его нельзя переместить в Корзину." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "此位置受保护，不能移至废纸篓。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "此位置受到保護，無法移到垃圾桶。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا الموقع محمي ولا يمكن نقله إلى سلة المهملات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Speicherort ist geschützt und kann nicht in den Papierkorb bewegt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This location is protected and cannot be moved to Trash."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta ubicación está protegida y no se puede mover a la Papelera."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cet emplacement est protégé et ne peut pas être placé dans la corbeille."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この場所は保護されているため、ゴミ箱に移動できません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 위치는 보호되어 있어 휴지통으로 이동할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta localização está protegida e não pode ser movida para o Lixo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Это расположение защищено, и его нельзя переместить в Корзину."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu konum korumalıdır ve çöpe taşınamaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此位置受保护，不能移至废纸篓。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此位置受到保護，無法移到垃圾桶。"
+          }
+        }
       }
     },
     "storageExplorer.updatingTreemap": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "جارٍ تحديث خريطة المساحة…" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Speicherkarte wird aktualisiert…" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Updating space map…" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Actualizando el mapa de espacio…" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Mise à jour de la carte d’espace…" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "スペースマップを更新中…" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "공간 맵 업데이트 중…" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "A atualizar o mapa de espaço…" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Обновление карты пространства…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在更新空间图…" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "正在更新空間圖…" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ تحديث خريطة المساحة…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speicherkarte wird aktualisiert…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updating space map…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualizando el mapa de espacio…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mise à jour de la carte d’espace…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スペースマップを更新中…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "공간 맵 업데이트 중…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A atualizar o mapa de espaço…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновление карты пространства…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alan haritası güncelleniyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在更新空间图…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在更新空間圖…"
+          }
+        }
       }
     },
     "storageExplorer.refreshing": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "جارٍ تحديث نتائج الفحص…" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Scanergebnisse werden aktualisiert…" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Refreshing scan results…" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Actualizando los resultados…" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Actualisation des résultats…" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "スキャン結果を更新中…" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "스캔 결과 새로 고치는 중…" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "A atualizar os resultados…" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Обновление результатов сканирования…" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在刷新扫描结果…" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "正在重新整理掃描結果…" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ تحديث نتائج الفحص…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scanergebnisse werden aktualisiert…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refreshing scan results…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualizando los resultados…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualisation des résultats…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スキャン結果を更新中…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스캔 결과 새로 고치는 중…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A atualizar os resultados…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновление результатов сканирования…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama sonuçları yenileniyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在刷新扫描结果…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在重新整理掃描結果…"
+          }
+        }
       }
     },
     "storageExplorer.scanAgeFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تم الفحص %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Gescannt %@" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Scanned %@" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Analizado %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Analysé %@" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%@にスキャン" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%@에 스캔함" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Analisado %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Сканирование: %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "扫描时间：%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "掃描時間：%@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم الفحص %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gescannt %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scanned %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analizado %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analysé %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@にスキャン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@에 스캔함"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analisado %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сканирование: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarandı: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扫描时间：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "掃描時間：%@"
+          }
+        }
       }
     },
     "storageExplorer.reviewEmptyHelp": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "أضف عنصرًا للمراجعة أولاً." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Fügen Sie zuerst ein Objekt zur Prüfung hinzu." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Add an item for review first." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Añade primero un elemento para revisarlo." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ajoutez d’abord un élément à vérifier." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "先に項目をレビューに追加してください。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "먼저 검토할 항목을 추가하십시오." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Adicione primeiro um item para revisão." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Сначала добавьте объект на проверку." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "先将项目加入审阅。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "請先將項目加入檢閱。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف عنصرًا للمراجعة أولاً."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fügen Sie zuerst ein Objekt zur Prüfung hinzu."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add an item for review first."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añade primero un elemento para revisarlo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajoutez d’abord un élément à vérifier."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "先に項目をレビューに追加してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "먼저 검토할 항목을 추가하십시오."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicione primeiro um item para revisão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сначала добавьте объект на проверку."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce incelemeye bir öğe ekleyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "先将项目加入审阅。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請先將項目加入檢閱。"
+          }
+        }
       }
     },
     "storageExplorer.reviewScanningHelp": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "يمكنك المراجعة بعد اكتمال الفحص." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Nach Abschluss des Scans können Sie die Auswahl prüfen." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Review is available when the scan finishes." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Podrás revisar cuando termine el análisis." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "La vérification sera disponible une fois l’analyse terminée." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "スキャンが完了するとレビューできます。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "스캔이 완료되면 검토할 수 있습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Pode rever quando a análise terminar." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Проверка будет доступна после завершения сканирования." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "扫描完成后可以审阅。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "掃描完成後即可檢閱。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يمكنك المراجعة بعد اكتمال الفحص."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach Abschluss des Scans können Sie die Auswahl prüfen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review is available when the scan finishes."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Podrás revisar cuando termine el análisis."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La vérification sera disponible une fois l’analyse terminée."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スキャンが完了するとレビューできます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스캔이 완료되면 검토할 수 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pode rever quando a análise terminar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверка будет доступна после завершения сканирования."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarama tamamlandığında inceleme yapabilirsiniz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扫描完成后可以审阅。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "掃描完成後即可檢閱。"
+          }
+        }
       }
     },
     "storageExplorer.reviewExecutingHelp": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "جارٍ نقل العناصر المحددة إلى سلة المهملات." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die ausgewählten Objekte werden in den Papierkorb bewegt." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The selected items are being moved to Trash." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Los elementos seleccionados se están moviendo a la Papelera." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Les éléments sélectionnés sont déplacés vers la corbeille." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "選択した項目をゴミ箱に移動しています。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "선택한 항목을 휴지통으로 이동하고 있습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Os itens selecionados estão a ser movidos para o Lixo." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Выбранные объекты перемещаются в Корзину." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "正在将所选项目移至废纸篓。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "正在將所選項目移到垃圾桶。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ نقل العناصر المحددة إلى سلة المهملات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die ausgewählten Objekte werden in den Papierkorb bewegt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The selected items are being moved to Trash."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los elementos seleccionados se están moviendo a la Papelera."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les éléments sélectionnés sont déplacés vers la corbeille."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択した項目をゴミ箱に移動しています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선택한 항목을 휴지통으로 이동하고 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os itens selecionados estão a ser movidos para o Lixo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбранные объекты перемещаются в Корзину."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili öğeler çöpe taşınıyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在将所选项目移至废纸篓。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在將所選項目移到垃圾桶。"
+          }
+        }
       }
     },
     "storageExplorer.reviewReadyHelp": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تحقق من العناصر المحددة قبل نقلها إلى سلة المهملات." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Prüfen Sie die Auswahl, bevor sie in den Papierkorb bewegt wird." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Inspect the selected items before moving them to Trash." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Comprueba los elementos antes de moverlos a la Papelera." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Vérifiez les éléments avant de les placer dans la corbeille." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ゴミ箱に移動する前に選択項目を確認します。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "휴지통으로 이동하기 전에 선택한 항목을 확인합니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Verifique os itens antes de os mover para o Lixo." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Проверьте выбранные объекты перед перемещением в Корзину." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "检查所选项目，然后移至废纸篓。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "檢查所選項目，然後移到垃圾桶。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحقق من العناصر المحددة قبل نقلها إلى سلة المهملات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prüfen Sie die Auswahl, bevor sie in den Papierkorb bewegt wird."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspect the selected items before moving them to Trash."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprueba los elementos antes de moverlos a la Papelera."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifiez les éléments avant de les placer dans la corbeille."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ゴミ箱に移動する前に選択項目を確認します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "휴지통으로 이동하기 전에 선택한 항목을 확인합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifique os itens antes de os mover para o Lixo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверьте выбранные объекты перед перемещением в Корзину."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili öğeleri çöpe taşımadan önce inceleyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查所选项目，然后移至废纸篓。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢查所選項目，然後移到垃圾桶。"
+          }
+        }
       }
     },
     "metadata.title": {
@@ -280,6 +1134,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Анализатор диска"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Depolama Gezgini"
           }
         },
         "zh-Hans": {
@@ -353,6 +1213,12 @@
             "value": "Наглядный анализ использования диска с иерархической навигацией, поиск больших файлов и перемещение в корзину после проверки."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiyerarşik gezinmeyle disk kullanımını görsel olarak analiz edin, büyük dosyaları bulun ve inceledikten sonra çöpe taşıyın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -422,6 +1288,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выбрать папку..."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasör Seç..."
           }
         },
         "zh-Hans": {
@@ -495,6 +1367,12 @@
             "value": "На уровень выше"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir Düzey Yukarı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -564,6 +1442,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Домашняя папка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kişisel Klasör"
           }
         },
         "zh-Hans": {
@@ -637,6 +1521,12 @@
             "value": "Сканировать"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tara"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -706,6 +1596,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Повторить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden Tara"
           }
         },
         "zh-Hans": {
@@ -779,6 +1675,12 @@
             "value": "Отмена"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -848,6 +1750,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Подготовка результатов…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonuçlar hazırlanıyor…"
           }
         },
         "zh-Hans": {
@@ -921,6 +1829,12 @@
             "value": "Сканирование…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taranıyor…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -938,28 +1852,22 @@
     "storageExplorer.filesScannedFormat": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "已扫描 %d 个项目"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已掃描 %d 個項目"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d items scanned"
+            "value": "تم فحص %d عناصر"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "%d Objekte gescannt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d items scanned"
           }
         },
         "es": {
@@ -998,10 +1906,22 @@
             "value": "Просканировано: %d"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تم فحص %d عناصر"
+            "value": "%d öğe tarandı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已扫描 %d 个项目"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已掃描 %d 個項目"
           }
         }
       }
@@ -1061,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Переместить в корзину"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çöpe Taşı"
           }
         },
         "zh-Hans": {
@@ -1134,6 +2060,12 @@
             "value": "Подтверждение перемещения в корзину"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çöpe Taşımayı Onayla"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1203,6 +2135,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выбранные элементы будут перемещены в корзину macOS. При необходимости их можно восстановить."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili öğeler macOS çöp kutusuna taşınacak. Gerekirse bunları çöp kutusundan geri yükleyebilirsiniz."
           }
         },
         "zh-Hans": {
@@ -1276,6 +2214,12 @@
             "value": "Показать в Finder"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder'da Göster"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1345,6 +2289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите папку для анализа"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analize başlamak için bir klasör seçin"
           }
         },
         "zh-Hans": {
@@ -1418,6 +2368,12 @@
             "value": "Просканируйте любую папку или домашний каталог для анализа диска."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alan kullanımını görsel olarak görmek için herhangi bir klasörü veya kişisel klasörünüzü tarayın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1489,6 +2445,12 @@
             "value": "Этот блок объединяет несколько небольших объектов и не может быть добавлен на проверку как один объект."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu, birden fazla küçük öğenin birleşimidir ve tek öğe olarak incelemeye eklenemez."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1506,28 +2468,22 @@
     "storageExplorer.other": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "其他"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Other"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "其他"
+            "value": "أخرى"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Andere"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other"
           }
         },
         "es": {
@@ -1566,10 +2522,22 @@
             "value": "Другие"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "أخرى"
+            "value": "Diğer"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他"
           }
         }
       }
@@ -1577,28 +2545,22 @@
     "storageExplorer.noSizedItems": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "尚无可显示的大小"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No measured sizes yet"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "尚無可顯示的大小"
+            "value": "لم تُقَس الأحجام بعد"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Noch keine Größen ermittelt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No measured sizes yet"
           }
         },
         "es": {
@@ -1637,10 +2599,22 @@
             "value": "Размеры ещё не измерены"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "لم تُقَس الأحجام بعد"
+            "value": "Henüz ölçülen boyut yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚无可显示的大小"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚無可顯示的大小"
           }
         }
       }
@@ -1648,28 +2622,22 @@
     "storageExplorer.limitedRows": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "显示前 %d 项，共 %d 项；搜索可缩小范围。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Showing %d of %d items. Search to narrow the results."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "顯示前 %d 項，共 %d 項；搜尋可縮小範圍。"
+            "value": "عرض %d من %d عناصر. ابحث لتضييق النتائج."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "%d von %d Objekten angezeigt. Suche eingrenzen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Showing %d of %d items. Search to narrow the results."
           }
         },
         "es": {
@@ -1708,10 +2676,22 @@
             "value": "Показано %d из %d объектов. Уточните поиск."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "عرض %d من %d عناصر. ابحث لتضييق النتائج."
+            "value": "%d / %d öğe gösteriliyor. Sonuçları daraltmak için arama yapın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示前 %d 项，共 %d 项；搜索可缩小范围。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示前 %d 項，共 %d 項；搜尋可縮小範圍。"
           }
         }
       }
@@ -1719,28 +2699,22 @@
     "storageExplorer.exploreDescription": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "查看空间分布、查找大文件，审阅后移至废纸篓。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Explore disk usage, find large files, and review items before moving them to Trash."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "查看空間分布、尋找大檔案，審閱後移至垃圾桶。"
+            "value": "استكشف استخدام القرص واعثر على الملفات الكبيرة وراجعها قبل نقلها إلى سلة المهملات."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Speicherbelegung erkunden, große Dateien finden und vor dem Verschieben in den Papierkorb prüfen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explore disk usage, find large files, and review items before moving them to Trash."
           }
         },
         "es": {
@@ -1779,10 +2753,22 @@
             "value": "Изучайте использование диска, находите большие файлы и проверяйте их перед перемещением в корзину."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "استكشف استخدام القرص واعثر على الملفات الكبيرة وراجعها قبل نقلها إلى سلة المهملات."
+            "value": "Disk kullanımını keşfedin, büyük dosyaları bulun ve öğeleri çöpe taşımadan önce inceleyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看空间分布、查找大文件，审阅后移至废纸篓。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看空間分布、尋找大檔案，審閱後移至垃圾桶。"
           }
         }
       }
@@ -1790,28 +2776,22 @@
     "storageExplorer.refresh": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "刷新"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Refresh"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "重新整理"
+            "value": "تحديث"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Aktualisieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refresh"
           }
         },
         "es": {
@@ -1850,10 +2830,22 @@
             "value": "Обновить"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تحديث"
+            "value": "Yenile"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刷新"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新整理"
           }
         }
       }
@@ -1861,28 +2853,22 @@
     "storageExplorer.viewMode": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "视图"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "View"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "檢視"
+            "value": "العرض"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Ansicht"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View"
           }
         },
         "es": {
@@ -1921,10 +2907,22 @@
             "value": "Вид"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "العرض"
+            "value": "Görünüm"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "视图"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢視"
           }
         }
       }
@@ -1932,28 +2930,22 @@
     "storageExplorer.folders": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "文件夹"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Folders"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "檔案夾"
+            "value": "المجلدات"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Ordner"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folders"
           }
         },
         "es": {
@@ -1992,10 +2984,22 @@
             "value": "Папки"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "المجلدات"
+            "value": "Klasörler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文件夹"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檔案夾"
           }
         }
       }
@@ -2003,28 +3007,22 @@
     "storageExplorer.largestFiles": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "大文件"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Largest files"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "大型檔案"
+            "value": "الملفات الكبيرة"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Große Dateien"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Largest files"
           }
         },
         "es": {
@@ -2063,10 +3061,22 @@
             "value": "Большие файлы"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الملفات الكبيرة"
+            "value": "En büyük dosyalar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大文件"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大型檔案"
           }
         }
       }
@@ -2074,28 +3084,22 @@
     "storageExplorer.fileTypes": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "文件类型"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "File types"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "檔案類型"
+            "value": "أنواع الملفات"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Dateitypen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File types"
           }
         },
         "es": {
@@ -2134,10 +3138,22 @@
             "value": "Типы файлов"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "أنواع الملفات"
+            "value": "Dosya türleri"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文件类型"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檔案類型"
           }
         }
       }
@@ -2145,28 +3161,22 @@
     "storageExplorer.sizeMetric": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "大小"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Size"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "大小"
+            "value": "الحجم"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Größe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Size"
           }
         },
         "es": {
@@ -2205,10 +3215,22 @@
             "value": "Размер"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الحجم"
+            "value": "Boyut"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大小"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大小"
           }
         }
       }
@@ -2216,28 +3238,22 @@
     "storageExplorer.logicalSize": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "文件大小"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "File size"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "檔案大小"
+            "value": "حجم الملف"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Dateigröße"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File size"
           }
         },
         "es": {
@@ -2276,10 +3292,22 @@
             "value": "Размер файла"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "حجم الملف"
+            "value": "Dosya boyutu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文件大小"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檔案大小"
           }
         }
       }
@@ -2287,28 +3315,22 @@
     "storageExplorer.allocatedSize": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "占用空间"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Size on disk"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "佔用空間"
+            "value": "الحجم على القرص"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Größe auf Datenträger"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Size on disk"
           }
         },
         "es": {
@@ -2347,10 +3369,22 @@
             "value": "Размер на диске"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الحجم على القرص"
+            "value": "Diskteki boyut"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "占用空间"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "佔用空間"
           }
         }
       }
@@ -2358,28 +3392,22 @@
     "storageExplorer.search": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "搜索…"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Search…"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "搜尋…"
+            "value": "بحث…"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Suchen…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search…"
           }
         },
         "es": {
@@ -2418,10 +3446,22 @@
             "value": "Поиск…"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "بحث…"
+            "value": "Ara…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜尋…"
           }
         }
       }
@@ -2429,28 +3469,22 @@
     "storageExplorer.kind": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "类型"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kind"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "類型"
+            "value": "النوع"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Art"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kind"
           }
         },
         "es": {
@@ -2489,10 +3523,22 @@
             "value": "Тип"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "النوع"
+            "value": "Tür"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "类型"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "類型"
           }
         }
       }
@@ -2500,28 +3546,22 @@
     "storageExplorer.modified": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "修改日期"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modified"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "修改日期"
+            "value": "تاريخ التعديل"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Geändert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modified"
           }
         },
         "es": {
@@ -2560,10 +3600,22 @@
             "value": "Изменён"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تاريخ التعديل"
+            "value": "Değiştirme Tarihi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修改日期"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修改日期"
           }
         }
       }
@@ -2571,28 +3623,22 @@
     "storageExplorer.openFolder": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "打开文件夹"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Open folder"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "打開檔案夾"
+            "value": "فتح المجلد"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Ordner öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open folder"
           }
         },
         "es": {
@@ -2631,10 +3677,22 @@
             "value": "Открыть папку"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "فتح المجلد"
+            "value": "Klasörü Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开文件夹"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打開檔案夾"
           }
         }
       }
@@ -2642,28 +3700,22 @@
     "storageExplorer.addToReview": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "加入审阅"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add to review"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "加入審閱"
+            "value": "إضافة للمراجعة"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Zur Prüfung hinzufügen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add to review"
           }
         },
         "es": {
@@ -2702,10 +3754,22 @@
             "value": "Добавить к проверке"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "إضافة للمراجعة"
+            "value": "İncelemeye Ekle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入审阅"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入審閱"
           }
         }
       }
@@ -2713,28 +3777,22 @@
     "storageExplorer.removeFromReview": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "移出审阅"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Remove from review"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "移出審閱"
+            "value": "إزالة من المراجعة"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Aus Prüfung entfernen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove from review"
           }
         },
         "es": {
@@ -2773,10 +3831,22 @@
             "value": "Убрать из проверки"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "إزالة من المراجعة"
+            "value": "İncelemeden Çıkar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移出审阅"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移出審閱"
           }
         }
       }
@@ -2784,28 +3854,22 @@
     "storageExplorer.results": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "扫描结果"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Scan results"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "掃描結果"
+            "value": "نتائج الفحص"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Scanergebnisse"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan results"
           }
         },
         "es": {
@@ -2844,10 +3908,22 @@
             "value": "Результаты сканирования"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "نتائج الفحص"
+            "value": "Tarama Sonuçları"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扫描结果"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "掃描結果"
           }
         }
       }
@@ -2855,25 +3931,19 @@
     "storageExplorer.details": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "详细信息"
+            "value": "التفاصيل"
           }
         },
-        "en": {
+        "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Details"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "詳細資訊"
-          }
-        },
-        "de": {
+        "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Details"
@@ -2915,10 +3985,22 @@
             "value": "Сведения"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "التفاصيل"
+            "value": "Ayrıntılar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "详细信息"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "詳細資訊"
           }
         }
       }
@@ -2926,28 +4008,22 @@
     "storageExplorer.accessDenied": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "无访问权限"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Access denied"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無存取權限"
+            "value": "الوصول مرفوض"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Zugriff verweigert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access denied"
           }
         },
         "es": {
@@ -2986,10 +4062,22 @@
             "value": "Нет доступа"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الوصول مرفوض"
+            "value": "Erişim reddedildi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无访问权限"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無存取權限"
           }
         }
       }
@@ -2997,28 +4085,22 @@
     "storageExplorer.cloudPlaceholder": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "仅在云端"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cloud only"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "僅在雲端"
+            "value": "في السحابة فقط"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Nur in der Cloud"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud only"
           }
         },
         "es": {
@@ -3057,10 +4139,22 @@
             "value": "Только в облаке"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "في السحابة فقط"
+            "value": "Yalnızca Bulutta"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅在云端"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "僅在雲端"
           }
         }
       }
@@ -3068,28 +4162,22 @@
     "storageExplorer.incomplete": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "大小尚不完整"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Size is incomplete"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "大小尚不完整"
+            "value": "الحجم غير مكتمل"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Größe unvollständig"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Size is incomplete"
           }
         },
         "es": {
@@ -3128,10 +4216,22 @@
             "value": "Размер неполный"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الحجم غير مكتمل"
+            "value": "Boyut eksik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大小尚不完整"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大小尚不完整"
           }
         }
       }
@@ -3139,28 +4239,22 @@
     "storageExplorer.spaceNote": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "占用空间不等于可释放空间；共享数据和废纸篓会影响实际可用容量。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Size on disk is not recoverable space. Shared data and Trash affect available capacity."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "佔用空間不等於可釋放空間；共用資料和垃圾桶會影響實際可用容量。"
+            "value": "الحجم على القرص لا يساوي المساحة القابلة للاسترداد. تؤثر البيانات المشتركة وسلة المهملات في السعة المتاحة."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Belegter Speicher ist nicht freigebbarer Speicher. Geteilte Daten und der Papierkorb beeinflussen die verfügbare Kapazität."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Size on disk is not recoverable space. Shared data and Trash affect available capacity."
           }
         },
         "es": {
@@ -3199,10 +4293,22 @@
             "value": "Размер на диске не равен освобождаемому месту. Общие данные и корзина влияют на доступную ёмкость."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الحجم على القرص لا يساوي المساحة القابلة للاسترداد. تؤثر البيانات المشتركة وسلة المهملات في السعة المتاحة."
+            "value": "Diskteki boyut kazanılacak alan anlamına gelmez. Paylaşılan veriler ve çöp kutusu, kullanılabilir kapasiteyi etkiler."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "占用空间不等于可释放空间；共享数据和废纸篓会影响实际可用容量。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "佔用空間不等於可釋放空間；共用資料和垃圾桶會影響實際可用容量。"
           }
         }
       }
@@ -3210,28 +4316,22 @@
     "storageExplorer.selectToInspect": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择图块或列表项目以查看详情。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select a tile or list item to inspect it."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選擇圖塊或列表項目以查看詳情。"
+            "value": "حدد مستطيلاً أو عنصراً من القائمة لعرض التفاصيل."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Kachel oder Listeneintrag für Details auswählen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a tile or list item to inspect it."
           }
         },
         "es": {
@@ -3270,10 +4370,22 @@
             "value": "Выберите блок или объект в списке для просмотра сведений."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "حدد مستطيلاً أو عنصراً من القائمة لعرض التفاصيل."
+            "value": "İncelemek için bir kutucuk veya liste öğesi seçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择图块或列表项目以查看详情。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇圖塊或列表項目以查看詳情。"
           }
         }
       }
@@ -3281,28 +4393,22 @@
     "storageExplorer.selectVisible": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择列表项目"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select listed items"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選擇列表項目"
+            "value": "تحديد عناصر القائمة"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Angezeigte Objekte auswählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select listed items"
           }
         },
         "es": {
@@ -3341,10 +4447,22 @@
             "value": "Выбрать объекты списка"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تحديد عناصر القائمة"
+            "value": "Listedeki Öğeleri Seç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择列表项目"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇列表項目"
           }
         }
       }
@@ -3352,28 +4470,22 @@
     "storageExplorer.review": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "审阅…"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Review…"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "審閱…"
+            "value": "مراجعة…"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Prüfen…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review…"
           }
         },
         "es": {
@@ -3412,10 +4524,22 @@
             "value": "Проверить…"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "مراجعة…"
+            "value": "İncele…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "审阅…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "審閱…"
           }
         }
       }
@@ -3423,28 +4547,22 @@
     "storageExplorer.skippedCount": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "跳过 %d 项"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Skipped %d items"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "略過 %d 項"
+            "value": "تم تخطي %d عناصر"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "%d Objekte übersprungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skipped %d items"
           }
         },
         "es": {
@@ -3483,10 +4601,22 @@
             "value": "Пропущено объектов: %d"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تم تخطي %d عناصر"
+            "value": "%d öğe atlandı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跳过 %d 项"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "略過 %d 項"
           }
         }
       }
@@ -3494,28 +4624,22 @@
     "storageExplorer.selectedItemsFormat": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "已选 %d 个项目（共 %@）"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已選 %d 個項目（共 %@）"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d selected (%@)"
+            "value": "تم تحديد %d (%@)"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "%d ausgewählt (%@)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d selected (%@)"
           }
         },
         "es": {
@@ -3554,10 +4678,22 @@
             "value": "Выбрано: %d (%@)"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تم تحديد %d (%@)"
+            "value": "%d seçili (%@)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已选 %d 个项目（共 %@）"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已選 %d 個項目（共 %@）"
           }
         }
       }
@@ -3565,28 +4701,22 @@
     "storageExplorer.sizeColumn": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "大小"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "大小"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Size"
+            "value": "الحجم"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Größe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Size"
           }
         },
         "es": {
@@ -3625,10 +4755,22 @@
             "value": "Размер"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الحجم"
+            "value": "Boyut"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大小"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大小"
           }
         }
       }
@@ -3636,25 +4778,19 @@
     "storageExplorer.nameColumn": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "名称"
+            "value": "الاسم"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "名稱"
-          }
-        },
-        "en": {
+        "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Name"
           }
         },
-        "de": {
+        "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Name"
@@ -3696,10 +4832,22 @@
             "value": "Имя"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الاسم"
+            "value": "Ad"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名称"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名稱"
           }
         }
       }
@@ -3707,28 +4855,22 @@
     "storageExplorer.clearSelection": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "取消选择"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "取消選擇"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear selection"
+            "value": "إلغاء التحديد"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Auswahl aufheben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear selection"
           }
         },
         "es": {
@@ -3767,10 +4909,22 @@
             "value": "Снять выделение"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "إلغاء التحديد"
+            "value": "Seçimi Temizle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消选择"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消選擇"
           }
         }
       }
@@ -3778,28 +4932,22 @@
     "storageExplorer.proportionColumn": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "占比"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "佔比"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Share"
+            "value": "النسبة"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Anteil"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share"
           }
         },
         "es": {
@@ -3838,10 +4986,22 @@
             "value": "Доля"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "النسبة"
+            "value": "Pay"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "占比"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "佔比"
           }
         }
       }
@@ -3849,28 +5009,22 @@
     "storageExplorer.movedToTrash": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "已移至废纸篓"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已移至垃圾桶"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Moved to Trash"
+            "value": "تم النقل إلى سلة المهملات"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "In den Papierkorb bewegt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moved to Trash"
           }
         },
         "es": {
@@ -3909,10 +5063,22 @@
             "value": "Перемещено в корзину"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تم النقل إلى سلة المهملات"
+            "value": "Çöpe Taşındı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已移至废纸篓"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已移至垃圾桶"
           }
         }
       }
@@ -3920,28 +5086,22 @@
     "storageExplorer.trashOperationFailed": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "无法将所选项目移至废纸篓。请检查所选项目后重试。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無法將所選項目移至垃圾桶。請檢查所選項目後再試一次。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The selected items could not be moved to Trash. Review them and try again."
+            "value": "تعذر نقل العناصر المحددة إلى سلة المهملات. راجعها وحاول مرة أخرى."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Die ausgewählten Objekte konnten nicht in den Papierkorb bewegt werden. Prüfen Sie sie und versuchen Sie es erneut."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The selected items could not be moved to Trash. Review them and try again."
           }
         },
         "es": {
@@ -3980,10 +5140,22 @@
             "value": "Не удалось переместить выбранные объекты в корзину. Проверьте их и повторите попытку."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تعذر نقل العناصر المحددة إلى سلة المهملات. راجعها وحاول مرة أخرى."
+            "value": "Seçili öğeler çöpe taşınamadı. Bunları inceleyip yeniden deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法将所选项目移至废纸篓。请检查所选项目后重试。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法將所選項目移至垃圾桶。請檢查所選項目後再試一次。"
           }
         }
       }
@@ -3991,28 +5163,22 @@
     "storageExplorer.trashPartialFailure": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "%d 个项目未能移至废纸篓：%@"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d 個項目未能移至垃圾桶：%@"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d items could not be moved to Trash: %@"
+            "value": "تعذر نقل %d من العناصر إلى سلة المهملات: %@"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "%d Objekte konnten nicht in den Papierkorb bewegt werden: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d items could not be moved to Trash: %@"
           }
         },
         "es": {
@@ -4051,10 +5217,22 @@
             "value": "Не удалось переместить в корзину объектов: %d — %@"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تعذر نقل %d من العناصر إلى سلة المهملات: %@"
+            "value": "%d öğe çöpe taşınamadı: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 个项目未能移至废纸篓：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 個項目未能移至垃圾桶：%@"
           }
         }
       }
@@ -4062,28 +5240,22 @@
     "storageExplorer.applicationsAndPackages": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "应用与软件包"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "應用程式與套件"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apps and packages"
+            "value": "التطبيقات والحزم"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Apps und Pakete"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps and packages"
           }
         },
         "es": {
@@ -4122,10 +5294,22 @@
             "value": "Приложения и пакеты"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "التطبيقات والحزم"
+            "value": "Uygulamalar ve paketler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用与软件包"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "應用程式與套件"
           }
         }
       }
@@ -4133,28 +5317,22 @@
     "storageExplorer.browseItems": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "浏览项目"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "瀏覽項目"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Browse items"
+            "value": "تصفح العناصر"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Objekte durchsuchen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browse items"
           }
         },
         "es": {
@@ -4193,10 +5371,22 @@
             "value": "Просмотр объектов"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تصفح العناصر"
+            "value": "Öğelere Göz At"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浏览项目"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "瀏覽項目"
           }
         }
       }
@@ -4204,28 +5394,22 @@
     "storageExplorer.openPath": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "打开 %@"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開啟 %@"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Open %@"
+            "value": "فتح %@"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open %@"
           }
         },
         "es": {
@@ -4264,10 +5448,22 @@
             "value": "Открыть %@"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "فتح %@"
+            "value": "%@ Öğesini Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开 %@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟 %@"
           }
         }
       }
@@ -4275,28 +5471,22 @@
     "storageExplorer.dropToReview": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "拖到这里以加入审阅"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "拖到這裡以加入審閱"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Drop here to add for review"
+            "value": "أفلت هنا للإضافة إلى المراجعة"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Zum Prüfen hier ablegen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drop here to add for review"
           }
         },
         "es": {
@@ -4335,10 +5525,22 @@
             "value": "Перетащите сюда для проверки"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "أفلت هنا للإضافة إلى المراجعة"
+            "value": "İncelemeye eklemek için buraya bırakın"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖到这里以加入审阅"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖到這裡以加入審閱"
           }
         }
       }
@@ -4346,28 +5548,22 @@
     "storageExplorer.dropToReviewDescription": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "也可以点按项目旁的加号。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "也可以按一下項目旁的加號。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "You can also click the plus button beside an item."
+            "value": "يمكنك أيضًا النقر على زر الإضافة بجانب العنصر."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Sie können auch auf das Plus neben einem Objekt klicken."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can also click the plus button beside an item."
           }
         },
         "es": {
@@ -4406,10 +5602,22 @@
             "value": "Также можно нажать кнопку плюса рядом с объектом."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "يمكنك أيضًا النقر على زر الإضافة بجانب العنصر."
+            "value": "Ayrıca bir öğenin yanındaki artı düğmesine tıklayabilirsiniz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "也可以点按项目旁的加号。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "也可以按一下項目旁的加號。"
           }
         }
       }
@@ -4417,28 +5625,22 @@
     "storageExplorer.skippedDetailsHelp": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "显示跳过项目的说明"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "顯示略過項目的說明"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show details about skipped items"
+            "value": "إظهار تفاصيل العناصر التي تم تخطيها"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Details zu übersprungenen Objekten anzeigen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show details about skipped items"
           }
         },
         "es": {
@@ -4477,10 +5679,22 @@
             "value": "Показать сведения о пропущенных объектах"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "إظهار تفاصيل العناصر التي تم تخطيها"
+            "value": "Atlanan öğelerin ayrıntılarını gösterir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示跳过项目的说明"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示略過項目的說明"
           }
         }
       }
@@ -4488,28 +5702,22 @@
     "storageExplorer.skippedDetailsTitle": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "未扫描的项目"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未掃描的項目"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Items not scanned"
+            "value": "عناصر لم يتم فحصها"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Nicht gescannte Objekte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Items not scanned"
           }
         },
         "es": {
@@ -4548,10 +5756,22 @@
             "value": "Не просканированные объекты"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "عناصر لم يتم فحصها"
+            "value": "Taranmayan Öğeler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未扫描的项目"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未掃描的項目"
           }
         }
       }
@@ -4559,28 +5779,22 @@
     "storageExplorer.skippedDetailsMessage": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "%d 个项目因权限、云端占位文件或文件系统边界而被跳过。显示的总大小可能偏低。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d 個項目因權限、雲端預留檔案或檔案系統邊界而被略過。顯示的總大小可能偏低。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d items were skipped because of permissions, cloud placeholders, or file-system boundaries. The displayed total may be low."
+            "value": "تم تخطي %d من العناصر بسبب الأذونات أو العناصر النائبة السحابية أو حدود نظام الملفات. قد يكون الإجمالي المعروض أقل من الحجم الفعلي."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "%d Objekte wurden wegen Berechtigungen, Cloud-Platzhaltern oder Dateisystemgrenzen übersprungen. Die angezeigte Gesamtgröße kann zu niedrig sein."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d items were skipped because of permissions, cloud placeholders, or file-system boundaries. The displayed total may be low."
           }
         },
         "es": {
@@ -4619,10 +5833,22 @@
             "value": "Пропущено объектов: %d. Причина: разрешения, облачные заполнители или границы файловой системы. Показанный итог может быть занижен."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تم تخطي %d من العناصر بسبب الأذونات أو العناصر النائبة السحابية أو حدود نظام الملفات. قد يكون الإجمالي المعروض أقل من الحجم الفعلي."
+            "value": "İzinler, bulut yer tutucuları veya dosya sistemi sınırları nedeniyle %d öğe atlandı. Görüntülenen toplam düşük olabilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 个项目因权限、云端占位文件或文件系统边界而被跳过。显示的总大小可能偏低。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d 個項目因權限、雲端預留檔案或檔案系統邊界而被略過。顯示的總大小可能偏低。"
           }
         }
       }
@@ -4630,28 +5856,22 @@
     "storageExplorer.folderChangedNotice": {
       "extractionState": "manual",
       "localizations": {
-        "en": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "The folder changed after the scan. Refresh before moving changed folders to Trash."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "扫描后文件夹发生了变化；移动已变化的文件夹前需要刷新。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "掃描後檔案夾發生了變更；將已變更的檔案夾移到垃圾桶前需要重新整理。"
+            "value": "تغير المجلد بعد الفحص. حدّث النتائج قبل نقل المجلدات المتغيرة إلى سلة المهملات."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Der Ordner wurde nach dem Scan geändert. Aktualisieren Sie, bevor Sie geänderte Ordner in den Papierkorb bewegen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The folder changed after the scan. Refresh before moving changed folders to Trash."
           }
         },
         "es": {
@@ -4690,10 +5910,22 @@
             "value": "Папка изменилась после сканирования. Обновите данные перед перемещением изменённых папок в Корзину."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تغير المجلد بعد الفحص. حدّث النتائج قبل نقل المجلدات المتغيرة إلى سلة المهملات."
+            "value": "Klasör, taramadan sonra değişti. Değişen klasörleri çöpe taşımadan önce yenileyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扫描后文件夹发生了变化；移动已变化的文件夹前需要刷新。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "掃描後檔案夾發生了變更；將已變更的檔案夾移到垃圾桶前需要重新整理。"
           }
         }
       }
@@ -4701,28 +5933,22 @@
     "storageExplorer.symlinkReviewUnsupported": {
       "extractionState": "manual",
       "localizations": {
-        "en": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "Symbolic links cannot be added to review. Manage the link itself in Finder."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "符号链接不能加入审阅；请在访达中管理链接本身。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "符號連結無法加入審閱；請在 Finder 中管理連結本身。"
+            "value": "لا يمكن إضافة الروابط الرمزية إلى المراجعة. أدِر الرابط نفسه في Finder."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Symbolische Links können nicht zur Prüfung hinzugefügt werden. Verwalten Sie den Link im Finder."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symbolic links cannot be added to review. Manage the link itself in Finder."
           }
         },
         "es": {
@@ -4761,10 +5987,22 @@
             "value": "Символические ссылки нельзя добавить на проверку. Управляйте самой ссылкой в Finder."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "لا يمكن إضافة الروابط الرمزية إلى المراجعة. أدِر الرابط نفسه في Finder."
+            "value": "Sembolik bağlantılar incelemeye eklenemez. Bağlantının kendisini Finder'da yönetin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "符号链接不能加入审阅；请在访达中管理链接本身。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "符號連結無法加入審閱；請在 Finder 中管理連結本身。"
           }
         }
       }
@@ -4772,33 +6010,155 @@
     "storageExplorer.elapsedSecondsFormat": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "%.1f ث" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%.1f s" } },
-        "en": { "stringUnit": { "state": "translated", "value": "%.1f s" } },
-        "es": { "stringUnit": { "state": "translated", "value": "%.1f s" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "%.1f s" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%.1f秒" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%.1f초" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "%.1f s" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "%.1f с" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "%.1f 秒" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "%.1f 秒" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f ث"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f s"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f s"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f s"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f s"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f秒"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f초"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f s"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f с"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f sn"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f 秒"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.1f 秒"
+          }
+        }
       }
     },
     "storageExplorer.reviewUnavailable": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "لا يمكن إضافة هذا العنصر إلى المراجعة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Dieses Objekt kann nicht zur Prüfung hinzugefügt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "This item cannot be added to review." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Este elemento no se puede añadir a la revisión." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Cet élément ne peut pas être ajouté à la vérification." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "この項目はレビューに追加できません。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이 항목은 검토에 추가할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Este elemento não pode ser adicionado à revisão." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Этот объект нельзя добавить на проверку." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "此项目不能加入审阅。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "此項目無法加入檢閱。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يمكن إضافة هذا العنصر إلى المراجعة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieses Objekt kann nicht zur Prüfung hinzugefügt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This item cannot be added to review."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este elemento no se puede añadir a la revisión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cet élément ne peut pas être ajouté à la vérification."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この項目はレビューに追加できません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 항목은 검토에 추가할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este elemento não pode ser adicionado à revisão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Этот объект нельзя добавить на проверку."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu öğe incelemeye eklenemez."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此项目不能加入审阅。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此項目無法加入檢閱。"
+          }
+        }
       }
     },
     "storageExplorer.preview": {
@@ -4858,6 +6218,12 @@
             "value": "Предпросмотр"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önizleme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4875,28 +6241,22 @@
     "storageExplorer.hardLinkNotice": {
       "extractionState": "manual",
       "localizations": {
-        "en": {
+        "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "This file has %d hard links. Space is released only after the final link is removed."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "此文件有 %d 个硬链接；移除最后一个链接后才会释放空间。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "此檔案有 %d 個硬連結；移除最後一個連結後才會釋放空間。"
+            "value": "لهذا الملف %d من الروابط الثابتة. لا تتحرر المساحة إلا بعد إزالة الرابط الأخير."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Diese Datei hat %d feste Links. Speicherplatz wird erst nach Entfernen des letzten Links freigegeben."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This file has %d hard links. Space is released only after the final link is removed."
           }
         },
         "es": {
@@ -4935,10 +6295,22 @@
             "value": "У этого файла %d жёстких ссылок. Место освободится только после удаления последней ссылки."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "لهذا الملف %d من الروابط الثابتة. لا تتحرر المساحة إلا بعد إزالة الرابط الأخير."
+            "value": "Bu dosyanın %d sabit bağlantısı var. Alan, yalnızca son bağlantı kaldırıldığında serbest kalır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此文件有 %d 个硬链接；移除最后一个链接后才会释放空间。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此檔案有 %d 個硬連結；移除最後一個連結後才會釋放空間。"
           }
         }
       }

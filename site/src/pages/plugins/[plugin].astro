@@ -48,9 +48,11 @@ const requirements = product?.requirements;
 const privacy = product?.privacy;
 const setupSteps = product?.setup?.steps ?? [];
 const relatedPluginIDs = product?.relationships?.relatedPluginIDs ?? [];
+const catalog = await loadPluginCatalog();
+const relatedPluginNames = new Map(catalog.plugins.map((item) => [item.id, localizedPluginText(item)]));
 ---
 
-<BaseLayout title={`${text.en.displayName} · MacTools`} description={text.en.summary} keywords={product?.discovery?.useCases?.map((item) => item.title.en ?? "") ?? []} page="plugins">
+<BaseLayout title={{ zh: `${text.zh.displayName} · MacTools`, en: `${text.en.displayName} · MacTools` }} description={{ zh: text.zh.summary, en: text.en.summary }} keywords={{ zh: product?.discovery?.useCases?.map((item) => localized(item.title).zh) ?? [], en: product?.discovery?.useCases?.map((item) => localized(item.title).en) ?? [] }} page="plugins">
   <SiteNav />
   <main class="plugin-detail-page">
     <section class="plugin-detail-hero" aria-labelledby="plugin-title">
@@ -92,7 +94,7 @@ const relatedPluginIDs = product?.relationships?.relatedPluginIDs ?? [];
     {requirements ? <section class="plugin-detail-section"><h2><LocalizedText {...ui("要求", "Requirements")} /></h2><dl class="plugin-metadata-grid">
       {requirements.minimumMacOSVersion ? <><dt>macOS</dt><dd>{requirements.minimumMacOSVersion} <LocalizedText {...ui("或更高版本", "or later")} /></dd></> : null}
       {requirements.architectures?.length ? <><dt><LocalizedText {...ui("架构", "Architecture")} /></dt><dd>{requirements.architectures.join(", ")}</dd></> : null}
-      {requirements.hardware?.length ? <><dt><LocalizedText {...ui("硬件", "Hardware")} /></dt><dd>{requirements.hardware.join(", ")}</dd></> : null}
+      {requirements.hardware?.length ? <><dt><LocalizedText {...ui("硬件", "Hardware")} /></dt><dd><LocalizedText {...localizedTokenList(requirements.hardware)} /></dd></> : null}
       {requirements.applications?.length ? <><dt><LocalizedText {...ui("所需应用", "Required applications")} /></dt><dd data-prerequisite="applications"><ul class="plugin-prerequisite-list">{requirements.applications.map((application) => <li>{application.name} <code>{application.bundleID}</code></li>)}</ul></dd></> : null}
       {requirements.executables?.length ? <><dt><LocalizedText {...ui("所需命令", "Required executables")} /></dt><dd data-prerequisite="executables"><ul class="plugin-prerequisite-list">{requirements.executables.map((executable) => <li><code>{executable}</code></li>)}</ul></dd></> : null}
       {requirements.permissionIDs?.length ? <><dt><LocalizedText {...ui("权限", "Permissions")} /></dt><dd><LocalizedText {...localizedTokenList(requirements.permissionIDs)} /></dd></> : null}
@@ -101,13 +103,13 @@ const relatedPluginIDs = product?.relationships?.relatedPluginIDs ?? [];
     </dl>{requirements.applications?.length || requirements.executables?.length ? <p class="plugin-detail-muted"><LocalizedText {...ui("以上依赖由插件声明，此页面不会检查你的 Mac。", "These dependencies are declared by the plugin; this page does not check your Mac.")} /></p> : null}</section> : null}
     {setupSteps.length ? <section class="plugin-detail-section"><h2><LocalizedText {...ui("开始使用", "Get started")} /></h2><ol class="plugin-setup-list">{setupSteps.map((step) => <li><strong><LocalizedText {...localized(step.title)} /></strong><span><LocalizedText {...localized(step.description)} /></span></li>)}</ol>{product?.setup?.optionalSurfaces?.length ? <p class="plugin-detail-muted"><LocalizedText {...ui("也可在以下位置使用：", "Also available in: ")} /><LocalizedText {...localizedTokenList(product.setup.optionalSurfaces)} /></p> : null}</section> : null}
     {privacy ? <section class="plugin-detail-section"><h2><LocalizedText {...ui("隐私", "Privacy")} /></h2><dl class="plugin-metadata-grid">
-      <dt><LocalizedText {...ui("观察的数据", "Data observed")} /></dt><dd>{privacy.dataObserved?.join(", ") || <LocalizedText {...ui("未列出", "None listed")} />}</dd>
-      <dt><LocalizedText {...ui("存储的数据", "Data stored")} /></dt><dd>{privacy.dataPersisted?.join(", ") || <LocalizedText {...ui("未列出", "None listed")} />}</dd>
+      <dt><LocalizedText {...ui("观察的数据", "Data observed")} /></dt><dd>{privacy.dataObserved?.length ? <LocalizedText {...localizedTokenList(privacy.dataObserved)} /> : <LocalizedText {...ui("未列出", "None listed")} />}</dd>
+      <dt><LocalizedText {...ui("存储的数据", "Data stored")} /></dt><dd>{privacy.dataPersisted?.length ? <LocalizedText {...localizedTokenList(privacy.dataPersisted)} /> : <LocalizedText {...ui("未列出", "None listed")} />}</dd>
       <dt><LocalizedText {...ui("网络", "Network")} /></dt><dd>{privacy.networkUse ? <LocalizedText {...localizedToken(privacy.networkUse)} /> : <LocalizedText {...ui("未列出", "None listed")} />}</dd>
       <dt><LocalizedText {...ui("遥测", "Telemetry")} /></dt><dd>{privacy.telemetry ? <LocalizedText {...localizedToken(privacy.telemetry)} /> : <LocalizedText {...ui("未列出", "None listed")} />}</dd>
       {privacy.retention?.policy ? <><dt><LocalizedText {...ui("保留", "Retention")} /></dt><dd><LocalizedText {...localizedToken(privacy.retention.policy)} /></dd></> : null}
     </dl></section> : null}
-    {relatedPluginIDs.length ? <section class="plugin-detail-section"><h2><LocalizedText {...ui("相关插件", "Related plugins")} /></h2><div class="plugin-related-links">{relatedPluginIDs.map((id) => <a href={`/plugins/${id}`}>{id}</a>)}</div></section> : null}
+    {relatedPluginIDs.length ? <section class="plugin-detail-section"><h2><LocalizedText {...ui("相关插件", "Related plugins")} /></h2><div class="plugin-related-links">{relatedPluginIDs.map((id) => <a href={`/plugins/${id}`}><LocalizedText zh={relatedPluginNames.get(id)?.zh.displayName ?? id} en={relatedPluginNames.get(id)?.en.displayName ?? id} /></a>)}</div></section> : null}
   </main>
   <SiteFooter />
 </BaseLayout>

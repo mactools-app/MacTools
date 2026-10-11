@@ -13,13 +13,13 @@ const items = [
 ] as const;
 ---
 
-<header class="site-nav" aria-label="站点导航">
+<header class="site-nav" aria-label="站点导航" data-aria-label-zh="站点导航" data-aria-label-en="Site navigation">
   <a class="brand" href={withBase("/")}>
     <img src={withBase("/assets/logo-mactools-rounded.png")} width="32" height="32" alt="" />
     <span>MacTools</span>
   </a>
 
-  <nav class="primary-nav" aria-label="主要页面">
+  <nav class="primary-nav" aria-label="主要页面" data-aria-label-zh="主要页面" data-aria-label-en="Main pages">
     {items.map((item) => (
       <a href={item.href} aria-current={active === item.key ? "page" : undefined}>
         <span data-i18n-zh>{item.label}</span>
@@ -34,12 +34,12 @@ const items = [
         <path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.09.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.19-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.71 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0 1 12 7c.85 0 1.7.12 2.5.34 1.9-1.33 2.74-1.05 2.74-1.05.55 1.4.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.95.68 1.92 0 1.38-.01 2.49-.01 2.83 0 .27.18.59.69.49A10.1 10.1 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z" />
       </svg>
     </a>
-    <button class="icon-button" type="button" data-language-toggle aria-label="Switch language">
+    <button class="icon-button" type="button" data-language-toggle aria-label="切换语言" data-aria-label-zh="切换语言" data-aria-label-en="Switch language">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.9 9h-3.03a15.8 15.8 0 0 0-1.08-5.03A8.03 8.03 0 0 1 18.9 11ZM12 4.05c.78 1.12 1.58 3.26 1.76 6.95H10.24C10.42 7.31 11.22 5.17 12 4.05ZM4.1 13h3.03c.14 1.92.52 3.66 1.08 5.03A8.03 8.03 0 0 1 4.1 13Zm3.03-2H4.1a8.03 8.03 0 0 1 4.11-5.03A15.8 15.8 0 0 0 7.13 11ZM12 19.95c-.78-1.12-1.58-3.26-1.76-6.95h3.52c-.18 3.69-.98 5.83-1.76 6.95Zm3.79-1.92c.56-1.37.94-3.11 1.08-5.03h3.03a8.03 8.03 0 0 1-4.11 5.03Z" />
       </svg>
     </button>
-    <button class="icon-button theme-button" type="button" data-theme-toggle aria-label="Toggle color scheme">
+    <button class="icon-button theme-button" type="button" data-theme-toggle aria-label="切换外观" data-aria-label-zh="切换外观" data-aria-label-en="Toggle color scheme">
       <svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0 4a1 1 0 0 0 1-1v-1.2a1 1 0 1 0-2 0V21a1 1 0 0 0 1 1Zm0-18.8a1 1 0 0 0 1-1V1a1 1 0 1 0-2 0v1.2a1 1 0 0 0 1 1ZM3 13h1.2a1 1 0 1 0 0-2H3a1 1 0 1 0 0 2Zm16.8 0H21a1 1 0 1 0 0-2h-1.2a1 1 0 1 0 0 2ZM5.64 19.78l.85-.85a1 1 0 0 0-1.42-1.42l-.85.85a1 1 0 1 0 1.42 1.42ZM18.93 6.49l.85-.85a1 1 0 1 0-1.42-1.42l-.85.85a1 1 0 0 0 1.42 1.42Zm0 11.02a1 1 0 0 0-1.42 1.42l.85.85a1 1 0 0 0 1.42-1.42l-.85-.85ZM5.64 4.22a1 1 0 0 0-1.42 1.42l.85.85A1 1 0 1 0 6.49 5.07l-.85-.85Z" />
       </svg>

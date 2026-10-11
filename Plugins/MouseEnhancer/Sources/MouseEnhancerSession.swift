@@ -114,12 +114,12 @@ final class MouseEnhancerSession: MouseEnhancerSessionManaging, @unchecked Senda
         )
     }
 
-    init(configuration: MouseEnhancerConfiguration = .default) {
+    init(configuration: MouseEnhancerConfiguration = .default, smoother: MouseScrollSmoother? = nil) {
         self.processor = MouseScrollEventProcessor(configuration: configuration)
-        self.smoother = MouseScrollSmoother(
+        self.smoother = smoother ?? MouseScrollSmoother(
             defaultDuration: configuration.mouseScrollDuration
         )
-        smoother.updateConfiguration(
+        self.smoother.updateConfiguration(
             isEnabled: configuration.smoothScrollingEnabled,
             duration: configuration.mouseScrollDuration
         )
@@ -201,7 +201,8 @@ final class MouseEnhancerSession: MouseEnhancerSessionManaging, @unchecked Senda
         let context = CallbackContext(owner: self)
         let callbackPointer = Unmanaged.passRetained(context).toOpaque()
         guard let tap = CGEvent.tapCreate(
-            tap: .cgSessionEventTap,
+            // Smoothing posts to the original target PID, which is annotated at this stage.
+            tap: .cgAnnotatedSessionEventTap,
             place: .tailAppendEventTap,
             options: .defaultTap,
             eventsOfInterest: mask,
@@ -417,7 +418,7 @@ final class MouseEnhancerSession: MouseEnhancerSessionManaging, @unchecked Senda
 
     /// Scroll-wheel tap processing on the main run loop. Returns nil when the
     /// smooth scrolling engine absorbs the event for re-emission.
-    private func handleScrollEvent(_ event: CGEvent) -> CGEvent? {
+    func handleScrollEvent(_ event: CGEvent) -> CGEvent? {
         guard event.getIntegerValueField(.eventSourceUserData) != MouseScrollSmoother.syntheticEventMarker else {
             return event
         }

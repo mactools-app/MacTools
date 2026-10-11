@@ -42,7 +42,19 @@ final class LaunchControlPlugin:
         static let openManager = "launch-control-open-manager"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "launch-control",
+            title: localization.string("metadata.title", defaultValue: "启动项"),
+            iconName: "powerplug",
+            iconTint: Color(nsColor: .systemOrange),
+            order: 95,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "查看和管理 launchctl 启动项"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .disclosure,
@@ -67,17 +79,6 @@ final class LaunchControlPlugin:
         let localization = localization ?? PluginLocalization(bundle: context.resourceBundle)
         self.localization = localization
         self.controller = controller ?? LaunchControlController(context: context, localization: localization)
-        self.metadata = PluginMetadata(
-            id: "launch-control",
-            title: localization.string("metadata.title", defaultValue: "启动项"),
-            iconName: "powerplug",
-            iconTint: Color(nsColor: .systemOrange),
-            order: 95,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "查看和管理 launchctl 启动项"
-            )
-        )
         self.controller.onStateChange = { [weak self] in
             self?.onStateChange?()
         }

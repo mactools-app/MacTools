@@ -58,6 +58,12 @@
             "value": "Отключить Night Shift"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Night Shift'i Kapat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -129,6 +135,12 @@
             "value": "Включить Night Shift"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Night Shift'i Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -195,6 +207,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Night Shift"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Night Shift"
@@ -271,6 +289,12 @@
             "value": "Уменьшите количество синего света и сделайте цвета дисплея теплее."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mavi ışığı azaltır ve ekran renklerini daha sıcak yapar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -340,6 +364,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
           }
         },
         "zh-Hans": {
@@ -413,6 +443,12 @@
             "value": "Выкл."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -482,6 +518,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось переключить Night Shift."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Night Shift açılıp kapatılamadı."
           }
         },
         "zh-Hans": {

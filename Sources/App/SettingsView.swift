@@ -18,6 +18,15 @@ private enum SettingsSplitViewLayout {
     static let sidebarIdealWidth: CGFloat = 232
     static let sidebarMaxWidth: CGFloat = 280
     static let detailMinWidth: CGFloat = 560
+    static let navigationChromeWidth: CGFloat = 104
+}
+
+private struct SettingsSidebarWidthPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat { SettingsSplitViewLayout.sidebarIdealWidth }
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
 }
 
 private func settingsNavigationTitle(
@@ -60,6 +69,7 @@ struct SettingsView: View {
     let appearanceUserDefaults: UserDefaults
     let commandPaletteRecentStore: CommandPaletteRecentStore
     @StateObject private var uninstallConfirmationSession = PluginUninstallConfirmationSession()
+    @State private var sidebarColumnWidth = SettingsSplitViewLayout.sidebarIdealWidth
 
     var body: some View {
         // Recreate native AppKit-backed controls when the shared locale changes.
@@ -76,11 +86,6 @@ struct SettingsView: View {
         let orderedSidebarDestinations = SettingsNavigationDestination.settingsSidebarOrder(
             configurationIDs: orderedConfigurationIDs
         )
-        let detailTitle = settingsNavigationTitle(
-            for: navigationCoordinator.destination,
-            configurationItems: presentation.configurationItems
-        )
-
         return NavigationSplitView {
             SettingsSidebarColumn {
                 SettingsSidebar(
@@ -107,6 +112,14 @@ struct SettingsView: View {
                 ideal: SettingsSplitViewLayout.sidebarIdealWidth,
                 max: SettingsSplitViewLayout.sidebarMaxWidth
             )
+            .background {
+                GeometryReader { geometry in
+                    Color.clear.preference(
+                        key: SettingsSidebarWidthPreferenceKey.self,
+                        value: geometry.size.width
+                    )
+                }
+            }
         } detail: {
             SettingsDetailColumn {
                 SettingsDetailPane(
@@ -138,8 +151,9 @@ struct SettingsView: View {
 
                     ToolbarItem(placement: .navigation) {
                         SettingsDetailToolbarTitle(
-                            title: detailTitle,
-                            isHidden: navigationCoordinator.isUnifiedSearchPresented
+                            coordinator: navigationCoordinator,
+                            presentation: presentation,
+                            sidebarColumnWidth: $sidebarColumnWidth
                         )
                     }
                     .sharedBackgroundVisibility(.hidden)
@@ -150,14 +164,18 @@ struct SettingsView: View {
 
                     ToolbarItem(placement: .navigation) {
                         SettingsDetailToolbarTitle(
-                            title: detailTitle,
-                            isHidden: navigationCoordinator.isUnifiedSearchPresented
+                            coordinator: navigationCoordinator,
+                            presentation: presentation,
+                            sidebarColumnWidth: $sidebarColumnWidth
                         )
                     }
                 }
             }
         }
         .navigationSplitViewStyle(.balanced)
+        .onPreferenceChange(SettingsSidebarWidthPreferenceKey.self) { width in
+            sidebarColumnWidth = width
+        }
         .onChange(of: presentation.configurationItems.map(\.id)) {
             navigationCoordinator.reconcileCurrentDestinationAvailability()
         }
@@ -1140,6 +1158,8 @@ private struct PendingPreferencesImport: Identifiable {
 }
 
 private struct PreferencesBackupSettingsRow: View {
+    @Environment(\.locale) private var locale
+    @Environment(\.layoutDirection) private var layoutDirection
     private enum ManualBackupFeedback {
         case created
         case unchanged
@@ -1308,6 +1328,8 @@ private struct PreferencesBackupSettingsRow: View {
                     )
                 }
             )
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, layoutDirection)
         }
         .sheet(isPresented: $isChoosingExport) {
             PreferencesExportSelectionSheet(
@@ -1320,6 +1342,8 @@ private struct PreferencesBackupSettingsRow: View {
                     savePreferences(selection: exportSelection)
                 }
             )
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, layoutDirection)
         }
         .alert(
             AppL10n.preferencesBackup("preferencesBackup.alert.title", defaultValue: "偏好设置备份"),
@@ -1642,13 +1666,13 @@ private struct CloudPreferencesSyncSettingsRow: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(AppL10n.preferencesBackup(
                         "preferencesBackup.cloudSync.title",
-                        defaultValue: "云同步偏好设置"
+                        defaultValue: "偏好设置云同步"
                     ))
                     .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
 
                     Text(AppL10n.preferencesBackup(
                         "preferencesBackup.cloudSync.description",
-                        defaultValue: "通过所选的云盘或共享文件夹同步可移植的应用与插件设置；不会同步权限、缓存、凭证或其他私密数据。"
+                        defaultValue: "通过所选的云盘或共享文件夹，同步可在其他 Mac 上使用的应用与插件设置。系统权限、缓存和钥匙串项目不会同步。选择将脚本文本纳入备份后，这些文本也会同步，且可能包含敏感信息。"
                     ))
                     .font(PluginSettingsTheme.Typography.rowDescription)
                     .foregroundStyle(.secondary)
@@ -1670,7 +1694,7 @@ private struct CloudPreferencesSyncSettingsRow: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(AppL10n.preferencesBackup(
                         "preferencesBackup.cloudSync.enabled",
-                        defaultValue: "启用云同步偏好设置"
+                        defaultValue: "启用偏好设置云同步"
                     ))
                     .font(PluginSettingsTheme.Typography.rowTitle)
 
@@ -1796,7 +1820,7 @@ private struct CloudPreferencesSyncSettingsRow: View {
         }
         .frame(maxWidth: .infinity, minHeight: GeneralSettingsCardLayout.minRowHeight, alignment: .leading)
         .alert(
-            AppL10n.preferencesBackup("preferencesBackup.cloudSync.title", defaultValue: "云同步偏好设置"),
+            AppL10n.preferencesBackup("preferencesBackup.cloudSync.title", defaultValue: "偏好设置云同步"),
             isPresented: Binding(
                 get: { alertMessage != nil },
                 set: { if !$0 { alertMessage = nil } }
@@ -2578,41 +2602,64 @@ private struct AppearanceSettingsRow: View {
     @Binding var selectionRawValue: String
 
     var body: some View {
-        HStack(spacing: GeneralSettingsCardLayout.headerSpacing) {
-            ZStack {
-                RoundedRectangle(cornerRadius: GeneralSettingsCardLayout.iconCornerRadius, style: .continuous)
-                    .fill(Color.accentColor.opacity(0.12))
-
-                Image(systemName: "circle.lefthalf.filled")
-                    .font(PluginSettingsTheme.Typography.pageDescription.weight(.semibold))
-                    .foregroundStyle(Color.accentColor)
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: GeneralSettingsCardLayout.headerSpacing) {
+                icon
+                summary.frame(minWidth: 220, idealWidth: 280, maxWidth: .infinity)
+                appearancePicker
             }
-            .frame(width: GeneralSettingsCardLayout.iconSize, height: GeneralSettingsCardLayout.iconSize)
 
-            VStack(alignment: .leading, spacing: 3) {
-                Text(AppL10n.settings("appearance.title", defaultValue: "应用外观"))
-                    .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
-
-                Text(AppL10n.settings("appearance.description", defaultValue: "自动跟随系统，也可以固定为深色或浅色。"))
-                    .font(PluginSettingsTheme.Typography.rowDescription)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            Picker(AppL10n.settings("appearance.picker", defaultValue: "外观"), selection: $selectionRawValue) {
-                ForEach(AppAppearancePreference.allCases) { preference in
-                    Text(preference.title)
-                        .tag(preference.rawValue)
+            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+                HStack(spacing: GeneralSettingsCardLayout.headerSpacing) {
+                    icon
+                    summary
                 }
+
+                appearancePicker
+                    .frame(maxWidth: .infinity, alignment: .trailing)
             }
-            .pickerStyle(.segmented)
-            .labelsHidden()
         }
         .frame(maxWidth: .infinity, minHeight: GeneralSettingsCardLayout.minRowHeight, alignment: .leading)
         .padding(.horizontal, GeneralSettingsCardLayout.horizontalPadding)
         .padding(.vertical, GeneralSettingsCardLayout.verticalPadding)
         .help(AppL10n.settings("appearance.help", defaultValue: "设置应用外观"))
+    }
+
+    private var icon: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: GeneralSettingsCardLayout.iconCornerRadius, style: .continuous)
+                .fill(Color.accentColor.opacity(0.12))
+
+            Image(systemName: "circle.lefthalf.filled")
+                .font(PluginSettingsTheme.Typography.pageDescription.weight(.semibold))
+                .foregroundStyle(Color.accentColor)
+        }
+        .frame(width: GeneralSettingsCardLayout.iconSize, height: GeneralSettingsCardLayout.iconSize)
+    }
+
+    private var summary: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(AppL10n.settings("appearance.title", defaultValue: "应用外观"))
+                .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
+
+            Text(AppL10n.settings("appearance.description", defaultValue: "自动跟随系统，也可以固定为深色或浅色。"))
+                .font(PluginSettingsTheme.Typography.rowDescription)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var appearancePicker: some View {
+        Picker(AppL10n.settings("appearance.picker", defaultValue: "外观"), selection: $selectionRawValue) {
+            ForEach(AppAppearancePreference.allCases) { preference in
+                Text(preference.title)
+                    .tag(preference.rawValue)
+            }
+        }
+        .pickerStyle(.segmented)
+        .labelsHidden()
+        .fixedSize(horizontal: true, vertical: false)
     }
 }
 
@@ -2624,56 +2671,22 @@ private struct FloatingPanelAppearanceSettingsRow: View {
     }
 
     var body: some View {
-        HStack(spacing: GeneralSettingsCardLayout.headerSpacing) {
-            ZStack {
-                RoundedRectangle(
-                    cornerRadius: GeneralSettingsCardLayout.iconCornerRadius,
-                    style: .continuous
-                )
-                .fill(Color.accentColor.opacity(0.12))
-
-                Image(systemName: "rectangle.on.rectangle")
-                    .font(PluginSettingsTheme.Typography.pageDescription.weight(.semibold))
-                    .foregroundStyle(Color.accentColor)
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: GeneralSettingsCardLayout.headerSpacing) {
+                icon
+                summary.frame(minWidth: 220, idealWidth: 280, maxWidth: .infinity)
+                appearanceControls
             }
-            .frame(
-                width: GeneralSettingsCardLayout.iconSize,
-                height: GeneralSettingsCardLayout.iconSize
-            )
 
-            VStack(alignment: .leading, spacing: 3) {
-                Text(AppL10n.settings(
-                    "floatingPanelAppearance.title",
-                    defaultValue: "浮动面板外观"
-                ))
-                .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
-
-                Text(AppL10n.settings(
-                    "floatingPanelAppearance.description",
-                    defaultValue: "跟随 macOS 的透明效果，或使用不透明的实色背景；减少透明度始终使用实色。"
-                ))
-                .font(PluginSettingsTheme.Typography.rowDescription)
-                .foregroundStyle(.secondary)
-                .lineLimit(2)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            FloatingPanelAppearancePreview(appearance: selection)
-
-            Picker(
-                AppL10n.settings(
-                    "floatingPanelAppearance.picker",
-                    defaultValue: "浮动面板外观"
-                ),
-                selection: $selectionRawValue
-            ) {
-                ForEach(PluginFloatingPanelAppearance.allCases) { preference in
-                    Text(preference.title).tag(preference.rawValue)
+            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+                HStack(spacing: GeneralSettingsCardLayout.headerSpacing) {
+                    icon
+                    summary
                 }
+
+                appearanceControls
+                    .frame(maxWidth: .infinity, alignment: .trailing)
             }
-            .pickerStyle(.segmented)
-            .labelsHidden()
-            .frame(width: 190)
         }
         .frame(
             maxWidth: .infinity,
@@ -2686,6 +2699,74 @@ private struct FloatingPanelAppearanceSettingsRow: View {
             "floatingPanelAppearance.help",
             defaultValue: "设置浮动面板和提示的背景外观"
         ))
+    }
+
+    private var icon: some View {
+        ZStack {
+            RoundedRectangle(
+                cornerRadius: GeneralSettingsCardLayout.iconCornerRadius,
+                style: .continuous
+            )
+            .fill(Color.accentColor.opacity(0.12))
+
+            Image(systemName: "rectangle.on.rectangle")
+                .font(PluginSettingsTheme.Typography.pageDescription.weight(.semibold))
+                .foregroundStyle(Color.accentColor)
+        }
+        .frame(
+            width: GeneralSettingsCardLayout.iconSize,
+            height: GeneralSettingsCardLayout.iconSize
+        )
+    }
+
+    private var summary: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(AppL10n.settings(
+                "floatingPanelAppearance.title",
+                defaultValue: "浮动面板外观"
+            ))
+            .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
+
+            Text(AppL10n.settings(
+                "floatingPanelAppearance.description",
+                defaultValue: "跟随 macOS 的透明效果，或使用不透明的实色背景；启用“降低透明度”时始终使用实色。"
+            ))
+            .font(PluginSettingsTheme.Typography.rowDescription)
+            .foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var appearanceControls: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: GeneralSettingsCardLayout.headerSpacing) {
+                FloatingPanelAppearancePreview(appearance: selection)
+                appearancePicker
+            }
+
+            VStack(alignment: .trailing, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+                FloatingPanelAppearancePreview(appearance: selection)
+                appearancePicker
+            }
+        }
+    }
+
+    private var appearancePicker: some View {
+        Picker(
+            AppL10n.settings(
+                "floatingPanelAppearance.picker",
+                defaultValue: "浮动面板外观"
+            ),
+            selection: $selectionRawValue
+        ) {
+            ForEach(PluginFloatingPanelAppearance.allCases) { preference in
+                Text(preference.title).tag(preference.rawValue)
+            }
+        }
+        .pickerStyle(.segmented)
+        .labelsHidden()
+        .fixedSize(horizontal: true, vertical: false)
     }
 }
 
@@ -3417,7 +3498,7 @@ private struct SettingsSidebar: View {
 
                 Image(systemName: isExpanded
                     ? "chevron.down"
-                    : "chevron.right")
+                    : "chevron.forward")
                     .font(.caption2.weight(.semibold))
                 Text(title)
                     .fontWeight(containsSelection ? .semibold : .regular)
@@ -3716,15 +3797,33 @@ private struct SettingsWindowTopSafeAreaReader: NSViewRepresentable {
 }
 
 private struct SettingsDetailToolbarTitle: View {
-    let title: String
-    let isHidden: Bool
+    @Environment(\.layoutDirection) private var layoutDirection
+    @ObservedObject var coordinator: SettingsNavigationCoordinator
+    @ObservedObject var presentation: SettingsNavigationPresentationModel
+    @Binding var sidebarColumnWidth: CGFloat
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
 
     var body: some View {
+        // Native toolbar content can outlive the enclosing split-view update.
+        let _ = runtimeLocale.revision
+        let title = settingsNavigationTitle(
+            for: coordinator.destination,
+            configurationItems: presentation.configurationItems
+        )
+        let isHidden = coordinator.isUnifiedSearchPresented
+        // RTL navigation items occupy the sidebar's narrower toolbar region.
+        let columnWidth = layoutDirection == .rightToLeft
+            ? sidebarColumnWidth
+            : SettingsSplitViewLayout.detailMinWidth
+        let maximumWidth = max(40, columnWidth - SettingsSplitViewLayout.navigationChromeWidth)
+
         Text(title)
             .font(.headline)
             .lineLimit(1)
             .truncationMode(.tail)
+            .frame(maxWidth: maximumWidth, alignment: .leading)
             .opacity(isHidden ? 0 : 1)
+            .help(title)
             .accessibilityHidden(isHidden)
             .accessibilityIdentifier("mactools.settings.detail-title")
     }
@@ -4225,6 +4324,7 @@ private struct PluginFormPage: View {
 
 private struct SettingsFullWidthDisclosure<Label: View, Content: View>: View {
     @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
+    @Environment(\.layoutDirection) private var layoutDirection
     @Binding var isExpanded: Bool
     private let label: Label
     private let content: Content
@@ -4253,10 +4353,12 @@ private struct SettingsFullWidthDisclosure<Label: View, Content: View>: View {
                 HStack(spacing: PluginSettingsTheme.Spacing.rowContentControl) {
                     label
                     Spacer(minLength: PluginSettingsTheme.Spacing.rowContentControl)
-                    Image(systemName: "chevron.right")
+                    Image(systemName: "chevron.forward")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.tertiary)
-                        .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                        .rotationEffect(.degrees(isExpanded
+                            ? (layoutDirection == .rightToLeft ? -90 : 90)
+                            : 0))
                 }
                 .frame(maxWidth: .infinity, minHeight: 36, alignment: .leading)
                 .contentShape(Rectangle())

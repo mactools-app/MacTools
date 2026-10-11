@@ -58,6 +58,12 @@
             "value": "Просматривайте и редактируйте файлы zsh в приложении, быстро вставляя типовые фрагменты."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "zsh yapılandırma dosyalarını uygulama içinde görüntüleyin ve düzenleyin; sık kullanılan parçaları hızlıca ekleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Создать файл"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Oluştur"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Открыть в системном редакторе"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem Düzenleyicide Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть файл в текстовом редакторе по умолчанию"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu dosyayı varsayılan metin düzenleyicide açar."
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Сохранить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydet"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перед записью создается резервная копия %@.bak"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yazmadan önce %@.bak olarak yedeklenir."
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Сохранить*"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydet*"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сохранено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedildi"
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Файл пуст. Введите текст здесь или откройте быструю вставку для типовых настроек."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya boş. Buraya yazın veya sık kullanılan ayarlar için Hızlı Ekle sekmesine geçin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Показать время загрузки и рекомендации"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleme zamanını ve önerilen kullanımı gösterir."
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Файл не найден"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya bulunamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "назад"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "önce"
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "Для чего"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanım Amacı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -979,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Загрузка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleme Zamanı"
           }
         },
         "zh-Hans": {
@@ -1052,6 +1136,12 @@
             "value": "Файлы настроек"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapılandırma Dosyaları"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1121,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нажмите «Создать файл», чтобы создать %@ в домашней папке с поясняющими комментариями."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Oluştür'e tıklayarak %@ dosyasını açıklama yorumlarıyla birlikte kişisel klasörünüzde oluşturun."
           }
         },
         "zh-Hans": {
@@ -1194,6 +1290,12 @@
             "value": "Домашняя папка недоступна для записи, поэтому файл нельзя создать. Проверьте права доступа к диску."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kişisel klasörünüz yazılabilir olmadığından bu dosya oluşturulamıyor. Disk izinlerini denetleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1263,6 +1365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Файл не существует"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya mevcut değil"
           }
         },
         "zh-Hans": {
@@ -1336,6 +1444,12 @@
             "value": "Вставить в конец"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sona Ekle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1405,6 +1519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перейти в редактор"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzenleyiciye Geç"
           }
         },
         "zh-Hans": {
@@ -1478,6 +1598,12 @@
             "value": "Вставить в %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Dosyasına Ekle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1547,6 +1673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Только чтение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salt Okunur"
           }
         },
         "zh-Hans": {
@@ -1620,6 +1752,12 @@
             "value": "Запустите это, чтобы применить изменения без перезапуска Terminal."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminal'i yeniden başlatmadan değişiklikleri uygulamak için bunu çalıştırın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1689,6 +1827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сохранено (резервная копия %@.bak)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedildi (%@.bak olarak yedeklendi)"
           }
         },
         "zh-Hans": {
@@ -1762,6 +1906,12 @@
             "value": "Изменить"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzenle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1831,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Быстрая вставка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hızlı Ekle"
           }
         },
         "zh-Hans": {
@@ -1904,6 +2060,12 @@
             "value": "Приветствия, автозапуск tmux и похожие действия при входе"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşılama iletileri, tmux otomatik başlatma ve benzeri oturum açma eylemleri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1973,6 +2135,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выполняется после завершения инициализации login shell"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum açma Shell'i tam olarak başlatıldıktan sonra çalışır"
           }
         },
         "zh-Hans": {
@@ -2046,6 +2214,12 @@
             "value": "При входе, после .zshrc"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum açıldığında, .zshrc'den sonra"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2115,6 +2289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очистка временных файлов или запись журналов сеанса"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçici dosyaları temizleme veya oturum günlüklerini kaydetme"
           }
         },
         "zh-Hans": {
@@ -2188,6 +2368,12 @@
             "value": "Скрипт очистки при выходе из login shell"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum açma Shell'i kapanırken çalışan temizleme betiği"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2257,6 +2443,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "При выходе из login shell (`exit` или закрытие Terminal)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum açma Shell'i kapanırken (`exit` veya Terminal kapatılırken)"
           }
         },
         "zh-Hans": {
@@ -2330,6 +2522,12 @@
             "value": "Настройка среды Homebrew и однократные скрипты входа"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew ortamı kurulumu ve tek seferlik oturum açma betikleri"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2399,6 +2597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Инициализация login shell до .zshrc"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum açma Shell'i başlatma; .zshrc'den önce"
           }
         },
         "zh-Hans": {
@@ -2472,6 +2676,12 @@
             "value": "При входе (SSH, вход в macOS и т. п.), до .zshrc"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum açıldığında (SSH, macOS oturum açma vb.), .zshrc'den önce"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2541,6 +2751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "EDITOR, LANG и переменные, нужные всем дочерним процессам"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EDITOR, LANG ve tüm alt süreçlerin gerektirdiği değişkenler"
           }
         },
         "zh-Hans": {
@@ -2614,6 +2830,12 @@
             "value": "Переменные среды для всех оболочек; загружается первым"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her Shell için ortam değişkenleri; ilk olarak yüklenir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2683,6 +2905,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "При каждом запуске zsh, включая скрипты и неинтерактивные оболочки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "zsh her başlatıldığında (betikler ve etkileşimli olmayan Shell'ler dahil)"
           }
         },
         "zh-Hans": {
@@ -2756,6 +2984,12 @@
             "value": "Алиасы, функции, темы (Oh My Zsh / Starship) и PATH"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takma adlar, işlevler, temalar (Oh My Zsh / Starship) ve PATH"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2825,6 +3059,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройки интерактивной оболочки: алиасы, функции, приглашения и др."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkileşimli Shell yapılandırması: takma adlar, işlevler, komut istemleri ve daha fazlası"
           }
         },
         "zh-Hans": {
@@ -2898,6 +3138,12 @@
             "value": "При каждом открытии нового окна или вкладки Terminal"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni bir Terminal penceresi veya sekmesi her açıldığında"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2967,6 +3213,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Быстрое редактирование файлов zsh"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "zsh yapılandırma dosyalarını hızla düzenleyin"
           }
         },
         "zh-Hans": {
@@ -3040,6 +3292,12 @@
             "value": "Настройки zsh"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "zsh Yapılandırması"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3109,6 +3367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Изменить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzenle"
           }
         },
         "zh-Hans": {
@@ -3182,6 +3446,12 @@
             "value": "Файлы настроек не найдены. Создайте их в настройках."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapılandırma dosyası bulunamadı. Oluşturmak için ayarları açın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3251,6 +3521,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Создать сокращение для команды"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir komut için kısayol oluşturur"
           }
         },
         "zh-Hans": {
@@ -3324,6 +3600,12 @@
             "value": "имя=команда, напр. gs=git status"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ad=komut, örn. gs=git status"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3393,6 +3675,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Алиас"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takma Ad"
           }
         },
         "zh-Hans": {
@@ -3466,6 +3754,12 @@
             "value": "Запустить команду инициализации eval для инструмента"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir aracın eval başlatma komutunu çalıştırır"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3535,6 +3829,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "команда инструмента, напр. $(brew shellenv)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "araç komutu, örn. $(brew shellenv)"
           }
         },
         "zh-Hans": {
@@ -3608,6 +3908,12 @@
             "value": "Инициализация инструмента"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aracı Başlat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3677,6 +3983,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Задать или переопределить переменную среды"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir ortam değişkeni ayarlar veya üzerine yazar"
           }
         },
         "zh-Hans": {
@@ -3750,6 +4062,12 @@
             "value": "имя=значение, напр. EDITOR=nvim"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ad=değer, örn. EDITOR=nvim"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3819,6 +4137,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Переменная среды"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ortam Değişkeni"
           }
         },
         "zh-Hans": {
@@ -3892,6 +4216,12 @@
             "value": "Добавьте тело функции здесь"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşlev gövdesini buraya ekleyin"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -3961,6 +4291,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Определить повторно используемую функцию shell"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden kullanılabilir bir Shell işlevi tanımlar"
           }
         },
         "zh-Hans": {
@@ -4034,6 +4370,12 @@
             "value": "имя функции, напр. mkcd"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "işlev adı, örn. mkcd"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4103,6 +4445,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Функция"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşlev"
           }
         },
         "zh-Hans": {
@@ -4176,6 +4524,12 @@
             "value": "Добавить каталог в $PATH"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir dizini $PATH sonuna ekler"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4245,6 +4599,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "путь к каталогу, напр. /opt/homebrew/bin"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "dizin yolu, örn. /opt/homebrew/bin"
           }
         },
         "zh-Hans": {
@@ -4318,6 +4678,12 @@
             "value": "Каталог PATH"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PATH Dizini"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4387,6 +4753,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Запустить другой скрипт в текущей оболочке"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başka bir betiği geçerli Shell'de çalıştırır"
           }
         },
         "zh-Hans": {
@@ -4460,6 +4832,12 @@
             "value": "путь к файлу, напр. ~/.config/secrets.sh"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "dosya yolu, örn. ~/.config/secrets.sh"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4529,6 +4907,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Загрузить файл"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Yükle"
           }
         },
         "zh-Hans": {
@@ -4602,6 +4986,12 @@
             "value": "Не удалось создать: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oluşturulamadı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4671,6 +5061,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ошибка чтения: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okunamadı: %@"
           }
         },
         "zh-Hans": {
@@ -4744,6 +5140,12 @@
             "value": "Не удалось сохранить: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedilemedi: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4813,6 +5215,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Создано MacTools: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools tarafından %@ tarihinde oluşturuldu"
           }
         },
         "zh-Hans": {
@@ -4886,6 +5294,12 @@
             "value": "Рекомендуется для: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önerilen kullanım: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -4955,6 +5369,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "После сохранения выполните %@ в Terminal, чтобы сразу применить изменения (только .zshrc)."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydettikten sonra değişikliklerin hemen uygulanması için %@ komutunu Terminal'de çalıştırın (yalnızca .zshrc)."
           }
         },
         "zh-Hans": {
@@ -5028,6 +5448,12 @@
             "value": "Описание: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açıklama: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5097,6 +5523,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Загрузка: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleme zamanı: %@"
           }
         },
         "zh-Hans": {
@@ -5170,6 +5602,12 @@
             "value": "Для загрузки конфигурации из Терминала требуется управление Терминалом."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yapılandırmayı Terminal'den yüklemek, Terminal'i denetlemeyi gerektirir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5239,6 +5677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "При первой загрузке конфигурации из Терминала macOS запросит доступ к автоматизации."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS, yapılandırma Terminal'den ilk kez yüklendiğinde Otomasyon erişimi isteyecek."
           }
         },
         "zh-Hans": {
@@ -5312,6 +5756,12 @@
             "value": "Автоматизация"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5327,74 +5777,80 @@
       }
     },
     "permission.automation.status": {
-        "localizations": {
-            "ar": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "تأكيد عند الاستخدام"
-                }
-            },
-            "de": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Bestätigung bei Verwendung"
-                }
-            },
-            "en": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirm on Use"
-                }
-            },
-            "es": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmar al usar"
-                }
-            },
-            "fr": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmation à l’utilisation"
-                }
-            },
-            "ja": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "使用時に確認"
-                }
-            },
-            "ko": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "사용 시 확인"
-                }
-            },
-            "pt": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Confirmar ao usar"
-                }
-            },
-            "ru": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Подтверждение при использовании"
-                }
-            },
-            "zh-Hans": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "按需确认"
-                }
-            },
-            "zh-Hant": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "按需確認"
-                }
-            }
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأكيد عند الاستخدام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestätigung bei Verwendung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm on Use"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar al usar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmation à l’utilisation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用時に確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사용 시 확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar ao usar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтверждение при использовании"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanımda Onaylanır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需确认"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按需確認"
+          }
         }
+      }
     }
   },
   "version": "1.0"

@@ -37,7 +37,19 @@ final class SavedScriptsPlugin:
         static let runPrefix = "run."
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "saved-scripts",
+            title: localization.string("metadata.title", defaultValue: "已存脚本"),
+            iconName: "terminal.fill",
+            iconTint: Color(nsColor: .systemIndigo),
+            order: 73,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "保存并运行 AppleScript 和 Shell 脚本"
+            )
+        )
+    }
     let rowDescriptor: PluginPanelRowDescriptor
     let store: SavedScriptsStore
     let executionStore = SavedScriptsExecutionStore()
@@ -86,17 +98,6 @@ final class SavedScriptsPlugin:
             temporaryDirectory: context.temporaryDirectory ?? FileManager.default.temporaryDirectory
         )
         self.indicatorNow = indicatorNow
-        self.metadata = PluginMetadata(
-            id: "saved-scripts",
-            title: localization.string("metadata.title", defaultValue: "已存脚本"),
-            iconName: "terminal.fill",
-            iconTint: Color(nsColor: .systemIndigo),
-            order: 73,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "保存并运行 AppleScript 和 Shell 脚本"
-            )
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .disclosure,
             menuActionBehavior: .keepPresented

@@ -123,6 +123,85 @@ final class PluginHostComponentSupportTests: XCTestCase {
         XCTAssertTrue(plugin.handledPermissionIDs.isEmpty)
     }
 
+    func testLanguageSwitchRefreshesPluginMetadataAndPreservesCustomSettingsIntroductions() throws {
+        let originalPreference = UserDefaults.standard.string(
+            forKey: PluginRuntimeLocalization.preferenceUserDefaultsKey
+        )
+        defer { PluginRuntimeLocalization.source.setPreference(originalPreference) }
+        PluginRuntimeLocalization.source.setPreference("en")
+
+        let inherited = MockComponentPanelPlugin(
+            id: "inherited",
+            permissionRequirements: [.init(
+                id: "accessibility",
+                kind: .accessibility,
+                title: "Permission",
+                description: "Permission description"
+            )],
+            settingsPage: .form(description: "Component inherited", sections: [])
+        )
+        let custom = MockComponentPanelPlugin(
+            id: "custom",
+            settingsPage: .form(description: "Custom settings introduction", sections: [])
+        )
+        let rootDirectory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("PluginHostSettingsLocalizationTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: rootDirectory) }
+        let store = PluginPackageStore(
+            rootDirectory: rootDirectory,
+            userDefaults: UserDefaults(suiteName: suiteName)!,
+            hostVersion: "1.0.0"
+        )
+        let localizedMetadata = [
+            "en": PluginLocalizedMetadata(displayName: "English plugin name", summary: "English metadata introduction"),
+            "ar": PluginLocalizedMetadata(displayName: "Arabic plugin name", summary: "Arabic metadata introduction")
+        ]
+        for plugin in [inherited, custom] {
+            _ = installTestPluginPackage(
+                id: plugin.metadata.id,
+                bundleName: "\(plugin.metadata.id).bundle",
+                capabilities: .init(panelItems: [.widget], settings: .form),
+                localizedMetadata: localizedMetadata,
+                store: store
+            )
+        }
+        let pluginsByID = [inherited.metadata.id: inherited, custom.metadata.id: custom]
+        let manager = DynamicPluginManager(
+            packageStore: store,
+            pluginLoader: StubDynamicPluginLoader { records in
+                records.map { record in
+                    DynamicPluginLoadResult(
+                        record: record,
+                        plugins: [pluginsByID[record.manifest.id]!],
+                        errorMessage: nil
+                    )
+                }
+            }
+        )
+        let host = makeHost(plugins: [], dynamicPluginManager: manager)
+
+        for (language, expectedIntroduction) in [
+            ("en", "English metadata introduction"),
+            ("ar", "Arabic metadata introduction"),
+            ("en", "English metadata introduction")
+        ] {
+            PluginRuntimeLocalization.source.setPreference(language)
+            host.refreshLocalization()
+            XCTAssertEqual(
+                host.pluginSettingsItems.first { $0.pluginID == "inherited" }?.description,
+                expectedIntroduction
+            )
+            XCTAssertEqual(
+                host.pluginSettingsItems.first { $0.pluginID == "custom" }?.description,
+                "Custom settings introduction"
+            )
+            XCTAssertEqual(
+                host.permissionCoordinator.items.first?.affectedFeatures.first?.pluginTitle,
+                localizedMetadata[language]?.displayName
+            )
+        }
+    }
+
     func testPermissionRefreshAddsSettingsGuidanceAfterRevocation() throws {
         let plugin = MockComponentPanelPlugin(
             id: "component",

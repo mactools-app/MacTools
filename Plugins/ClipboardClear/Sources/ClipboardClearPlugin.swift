@@ -51,17 +51,8 @@ final class ClipboardClearPlugin: MacToolsPlugin, PluginActionProviding {
     private let localization: PluginLocalization
     private var canClearClipboard = false
 
-    let metadata: PluginMetadata
-
-    let rowDescriptor: PluginPanelRowDescriptor
-
-    init(
-        pasteboard: NSPasteboard = .general,
-        localization: PluginLocalization = PluginLocalization(bundle: .main)
-    ) {
-        self.pasteboard = pasteboard
-        self.localization = localization
-        self.metadata = PluginMetadata(
+    var metadata: PluginMetadata {
+        PluginMetadata(
             id: ClipboardClearPlugin.pluginID,
             title: localization.string("metadata.title", defaultValue: "清空剪贴板"),
             iconName: "trash",
@@ -72,6 +63,16 @@ final class ClipboardClearPlugin: MacToolsPlugin, PluginActionProviding {
                 defaultValue: "一键清空当前剪贴板内容"
             )
         )
+    }
+
+    let rowDescriptor: PluginPanelRowDescriptor
+
+    init(
+        pasteboard: NSPasteboard = .general,
+        localization: PluginLocalization = PluginLocalization(bundle: .main)
+    ) {
+        self.pasteboard = pasteboard
+        self.localization = localization
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,

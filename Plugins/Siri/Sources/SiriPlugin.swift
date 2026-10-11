@@ -28,7 +28,10 @@ final class SiriPlugin: MacToolsPlugin, PluginActionProviding, PluginActionInput
         static let permission = "accessibility"
         static let ask = ActionKey(providerID: "siri", actionID: "ask-new-conversation")
     }
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(id: "siri", title: "Siri", iconName: "sparkles", iconTint: .purple,
+                                  order: 101, defaultDescription: localization.string("metadata.description", defaultValue: "从命令面板向 Siri 发送消息"))
+    }
     var rowDescriptor: PluginPanelRowDescriptor {
         let title = controller.isBusy ? text("取消") : text("询问 Siri")
         return PluginPanelRowDescriptor(controlStyle: .button, menuActionBehavior: .keepPresented,
@@ -48,8 +51,6 @@ final class SiriPlugin: MacToolsPlugin, PluginActionProviding, PluginActionInput
     init(context: PluginRuntimeContext = PluginRuntimeContext(pluginID: "siri"), client: (any SiriClient)? = nil) {
         let localization = PluginLocalization(bundle: context.resourceBundle)
         self.localization = localization
-        metadata = PluginMetadata(id: "siri", title: "Siri", iconName: "sparkles", iconTint: .purple,
-                                  order: 101, defaultDescription: localization.string("metadata.description", defaultValue: "从命令面板向 Siri 发送消息"))
         controller = SiriController(client: client ?? SiriAccessibilityClient())
         controller.onChange = { [weak self] in self?.onStateChange?() }
         refresh()

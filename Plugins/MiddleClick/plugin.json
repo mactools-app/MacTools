@@ -39,6 +39,10 @@
       "displayName": "Средний щелчок",
       "summary": "Преобразуйте касания трекпада в средние щелчки."
     },
+    "tr": {
+      "displayName": "Orta Tıklama",
+      "summary": "Trackpad dokunuşlarını orta tıklamaya dönüştürün."
+    },
     "zh-Hans": {
       "displayName": "模拟鼠标中键",
       "summary": "触控板轻点 → 模拟鼠标中键"
@@ -54,7 +58,7 @@
     "setup.requirements.title": "@standardSetup.requirements.title",
     "setup.requirements.description": "@standardSetup.requirements.description"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "1.3.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "MiddleClick.bundle",
@@ -118,6 +122,9 @@
       ],
       "ru": [
         "Средний щелчок"
+      ],
+      "tr": [
+        "Orta Tıklama"
       ],
       "zh-Hans": [
         "模拟鼠标中键"

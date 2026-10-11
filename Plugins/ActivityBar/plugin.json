@@ -39,6 +39,10 @@
       "displayName": "Статистика активности",
       "summary": "Отслеживайте ввод данных, время использования приложений на переднем плане и активность ИИ-кодирования."
     },
+    "tr": {
+      "displayName": "Etkinlik İstatistikleri",
+      "summary": "Girdi etkinliğini, ön plandaki uygulama kullanım süresini ve yapay zekâ ile kodlama etkinliğini izleyin."
+    },
     "zh-Hans": {
       "displayName": "活动统计",
       "summary": "统计输入、前台应用使用时长和 AI 编程活动"
@@ -57,8 +61,8 @@
     "action.reset-today.title": "@localizable.panel.action.resetToday",
     "action.reset-today.description": "@localizable.panel.action.resetToday"
   },
-  "version": "2.0.0",
-  "minHostVersion": "2.0.0",
+  "version": "2.0.1",
+  "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "ActivityBar.bundle",
   "factoryClass": "ActivityBarPlugin.ActivityBarPluginFactory",
@@ -125,6 +129,9 @@
       ],
       "ru": [
         "Статистика активности"
+      ],
+      "tr": [
+        "Etkinlik İstatistikleri"
       ],
       "zh-Hans": [
         "活动统计"

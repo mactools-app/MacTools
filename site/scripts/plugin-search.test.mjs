@@ -100,7 +100,7 @@ function runCatalog() {
   const code = ts.transpileModule(readFileSync(resolve(site, 'src/scripts/plugin-settings.ts'), 'utf8'), {
     compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS },
   }).outputText;
-  runInNewContext(code, { module, exports: module.exports, require: () => ({ actionMatchRank, normalizeSearch }),
+  runInNewContext(code, { module, exports: module.exports, require: specifier => loadSource(resolve(site, 'src/scripts', `${specifier}.ts`)),
     document: { documentElement: root, querySelector: () => settings }, window: { addEventListener() {}, matchMedia: () => ({ matches: false }) },
     MutationObserver: class { constructor(callback) { languageChanged = callback; } observe() {} }, Intl, location: { hash: '' },
   });

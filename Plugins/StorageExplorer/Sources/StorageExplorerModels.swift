@@ -112,7 +112,7 @@ public struct StorageItem: Identifiable, Sendable, Equatable, Codable {
     }
 
     public var formattedSize: String {
-        ByteCountFormatter.string(fromByteCount: size, countStyle: .file)
+        StorageExplorerFormatting.bytes(size)
     }
 
     public var isHardLinked: Bool { hardLinkCount > 1 }

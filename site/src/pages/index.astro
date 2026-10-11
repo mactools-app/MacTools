@@ -7,8 +7,8 @@ import SearchIntent from "@/components/SearchIntent.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import appRelease from "../../../docs/app-release.json";
 
-const pageTitle = "MacTools | 免费开源的原生 macOS 菜单栏工具集";
-const pageDescription = "MacTools 是免费开源的原生 macOS 菜单栏工具集，集中管理显示器、清理、休眠、启动台、系统状态、电池、风扇和插件市场。";
+const pageTitle = { zh: "MacTools | 免费开源的原生 macOS 菜单栏工具集", en: "MacTools | Free, open-source native macOS menu bar tools" };
+const pageDescription = { zh: "MacTools 是免费开源的原生 macOS 菜单栏工具集，集中管理显示器、清理、休眠、启动台、系统状态、电池、风扇和插件市场。", en: "MacTools is a free, open-source native macOS menu bar toolkit for display controls, cleanup, sleep, Launchpad, system status, batteries, fans, and plugins." };
 const homeKeywords = [
   "MacTools",
   "macOS menu bar tools",
@@ -35,7 +35,7 @@ const homeKeywords = [
 ];
 const siteURL = Astro.site?.href ?? "https://mactools.ggbond.app/";
 const downloadURL = appRelease.downloadURL;
-const structuredData = [
+const structuredDataFor = (language: "zh" | "en") => [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -52,8 +52,15 @@ const structuredData = [
       price: "0",
       priceCurrency: "USD",
     },
-    description: pageDescription,
-    featureList: [
+    description: pageDescription[language],
+    inLanguage: language === "zh" ? "zh-CN" : "en",
+    featureList: language === "zh" ? [
+      "显示器亮度和分辨率控制",
+      "菜单栏和桌面控制",
+      "磁盘清理和 Xcode 清理",
+      "系统状态、设备电量、风扇控制和电池充电上限",
+      "插件目录和可配置快捷键",
+    ] : [
       "Display brightness and resolution controls",
       "Menu bar and desktop controls",
       "Disk cleanup and Xcode cleanup",
@@ -66,7 +73,7 @@ const structuredData = [
     "@type": "WebSite",
     name: "MacTools",
     url: siteURL,
-    inLanguage: ["zh-CN", "en"],
+    inLanguage: language === "zh" ? "zh-CN" : "en",
   },
 ];
 ---
@@ -74,9 +81,9 @@ const structuredData = [
 <BaseLayout
   title={pageTitle}
   description={pageDescription}
-  keywords={homeKeywords}
-  image="/assets/screenshots/readme-hero-en-dark.png"
-  structuredData={structuredData}
+  keywords={{ zh: ["MacTools", "macOS 菜单栏工具", "Mac 菜单栏应用", "原生 macOS 工具", "开源 macOS 应用", "免费 macOS 工具", "One Switch 替代", "AnySwitch 替代", "OnlySwitch 替代", "显示器亮度", "DDC/CI", "显示器分辨率", "夜览", "原彩显示", "阻止休眠", "磁盘清理", "Xcode 清理", "启动台替代", "系统状态", "设备电量", "风扇控制", "电池充电上限"], en: homeKeywords }}
+  image={{ zh: "/assets/screenshots/readme-hero-zh-dark.png", en: "/assets/screenshots/readme-hero-en-dark.png" }}
+  structuredData={{ zh: structuredDataFor("zh"), en: structuredDataFor("en") }}
   page="home"
 >
   <SiteNav active="home" />

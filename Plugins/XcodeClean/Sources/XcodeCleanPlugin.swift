@@ -125,7 +125,19 @@ final class XcodeCleanPlugin:
         static let stop = "xcode-clean-stop"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "xcode-clean",
+            title: localization.string("metadata.title", defaultValue: "Xcode 清理"),
+            iconName: "hammer",
+            iconTint: Color(nsColor: .systemBlue),
+            order: 91,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "分类清理 Xcode DerivedData、设备支持、归档与缓存"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .disclosure,
@@ -154,17 +166,6 @@ final class XcodeCleanPlugin:
         self.runningMonitor = runningMonitor
         self.localization = localization
         self.confirmationPresenter = confirmationPresenter ?? XcodeCleanConfirmWindowPresenter(localization: localization)
-        self.metadata = PluginMetadata(
-            id: "xcode-clean",
-            title: localization.string("metadata.title", defaultValue: "Xcode 清理"),
-            iconName: "hammer",
-            iconTint: Color(nsColor: .systemBlue),
-            order: 91,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "分类清理 Xcode DerivedData、设备支持、归档与缓存"
-            )
-        )
 
         self.controller.onStateChange = { [weak self] in
             self?.onStateChange?()

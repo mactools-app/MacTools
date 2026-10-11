@@ -103,6 +103,8 @@ private struct ActionGridKeyboardMoveModifier: ViewModifier {
 struct ActionGridSettingsView: View {
     let plugin: ActionGridPlugin
     @ObservedObject var store: ActionGridStore
+    @Environment(\.layoutDirection) private var layoutDirection
+    @Environment(\.locale) private var locale
     @State private var confirmingReset = false
     @State private var folderPath: [UUID] = []
     @State private var editorRequest: ActionGridEditorRequest?
@@ -131,24 +133,28 @@ struct ActionGridSettingsView: View {
             Text(plugin.localized("这会替换当前条目，并使用一组安全的建议操作。"))
         }
         .sheet(item: $editorRequest, onDismiss: { editorRequest = nil }) { request in
-            switch request {
-            case let .action(actionRequest):
-                ActionGridActionEditorSheet(
-                    plugin: plugin,
-                    store: store,
-                    folderID: currentFolderID,
-                    request: actionRequest,
-                    onDismiss: dismissEditor
-                )
-            case let .folder(folderRequest):
-                ActionGridFolderEditorSheet(
-                    plugin: plugin,
-                    store: store,
-                    folderID: currentFolderID,
-                    request: folderRequest,
-                    onDismiss: dismissEditor
-                )
+            Group {
+                switch request {
+                case let .action(actionRequest):
+                    ActionGridActionEditorSheet(
+                        plugin: plugin,
+                        store: store,
+                        folderID: currentFolderID,
+                        request: actionRequest,
+                        onDismiss: dismissEditor
+                    )
+                case let .folder(folderRequest):
+                    ActionGridFolderEditorSheet(
+                        plugin: plugin,
+                        store: store,
+                        folderID: currentFolderID,
+                        request: folderRequest,
+                        onDismiss: dismissEditor
+                    )
+                }
             }
+            .environment(\.layoutDirection, layoutDirection)
+            .environment(\.locale, locale)
         }
         .onChange(of: folderPath) { _, _ in
             dropTargetSlot = nil

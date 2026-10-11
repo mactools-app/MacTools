@@ -39,6 +39,10 @@
       "displayName": "Исправить повреждённые приложения",
       "summary": "Удалите атрибуты карантина, чтобы устранить предупреждения поврежденных или ненадежных приложений."
     },
+    "tr": {
+      "displayName": "Hasarlı Uygulamaları Onarma",
+      "summary": "Hasarlı veya güvenilmeyen uygulama uyarılarını gidermek için karantina özniteliklerini kaldırın."
+    },
     "zh-Hans": {
       "displayName": "修复损坏应用",
       "summary": "移除隔离属性，解决「已损坏」或「不受信任」提示"
@@ -52,7 +56,7 @@
     "display-name": "@displayName",
     "summary": "@summary"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "1.3.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "FixDamagedApp.bundle",
@@ -119,6 +123,9 @@
       ],
       "ru": [
         "Исправить повреждённые приложения"
+      ],
+      "tr": [
+        "Hasarlı Uygulamaları Onarma"
       ],
       "zh-Hans": [
         "修复损坏应用"

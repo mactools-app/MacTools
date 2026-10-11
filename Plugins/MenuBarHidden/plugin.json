@@ -39,6 +39,10 @@
       "displayName": "Скрыть значки строки меню",
       "summary": "Скрыть значки строки меню, упорядочить их путем перетаскивания и открыть скрытые значки на панели."
     },
+    "tr": {
+      "displayName": "Menü Çubuğu Simgelerini Gizleme",
+      "summary": "Menü çubuğu simgelerini gizleyin, sürükleyerek düzenleyin ve gizli simgeleri bir panelden açın."
+    },
     "zh-Hans": {
       "displayName": "隐藏菜单栏图标",
       "summary": "菜单栏图标隐藏功能的设置与弹窗界面"
@@ -48,7 +52,7 @@
       "summary": "選單列圖標隱藏功能的設定與彈窗界面"
     }
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "1.3.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "MenuBarHidden.bundle",
@@ -123,6 +127,9 @@
       ],
       "ru": [
         "Скрыть значки строки меню"
+      ],
+      "tr": [
+        "Menü Çubuğu Simgelerini Gizleme"
       ],
       "zh-Hans": [
         "隐藏菜单栏图标"

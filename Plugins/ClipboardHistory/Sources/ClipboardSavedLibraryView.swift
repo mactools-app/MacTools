@@ -41,6 +41,8 @@ struct ClipboardSnippetKeywordNotice: View {
 }
 
 struct ClipboardSnippetEditorSheet: View {
+    @Environment(\.locale) private var locale
+    @Environment(\.layoutDirection) private var layoutDirection
     let initialDraft: ClipboardSnippetDraft
     @ObservedObject var settings: ClipboardHistorySettingsStore
     let errorMessage: String?
@@ -110,6 +112,8 @@ struct ClipboardSnippetEditorSheet: View {
                         onInsert: insertVariable,
                         maximumExpandedTextByteCount: settings.maximumExpandedTextByteCount
                     )
+                    .environment(\.locale, locale)
+                    .environment(\.layoutDirection, layoutDirection)
                 }
             }
 

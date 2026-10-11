@@ -39,6 +39,10 @@
       "displayName": "Буфер обмена",
       "summary": "Ищите в истории и управляйте повторно используемыми фрагментами и сохранёнными элементами."
     },
+    "tr": {
+      "displayName": "Pano",
+      "summary": "Pano geçmişinde arama yapın, yeniden kullanılabilir parçacıkları ve kayıtlı öğeleri yönetin."
+    },
     "zh-Hans": {
       "displayName": "剪贴板",
       "summary": "搜索历史记录并管理可重复使用的片段和已存项目。"
@@ -48,8 +52,8 @@
       "summary": "搜尋記錄並管理可重複使用的片段和已儲存項目。"
     }
   },
-  "version": "2.0.0",
-  "minHostVersion": "2.0.0",
+  "version": "2.0.1",
+  "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "ClipboardHistory.bundle",
   "factoryClass": "ClipboardHistoryPlugin.ClipboardHistoryPluginFactory",
@@ -149,6 +153,9 @@
       ],
       "ru": [
         "История буфера обмена"
+      ],
+      "tr": [
+        "Pano"
       ],
       "zh-Hans": [
         "剪贴板历史"
@@ -272,7 +279,7 @@
               "clipboard",
               "queue"
             ],
-            "systemImage": "chevron.left",
+            "systemImage": "chevron.backward",
             "parameters": [],
             "permissionIDs": [],
             "risk": "safe",

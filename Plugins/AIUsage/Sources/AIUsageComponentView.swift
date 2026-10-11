@@ -131,7 +131,7 @@ struct AIUsageComponentView: View {
 
     private func percentage(_ window: AIUsageWindow, provider: AIUsageProvider, stale: Bool, primary: Bool) -> some View {
         PluginMetricValue(
-            window.remainingPercent.formatted(.number.precision(.fractionLength(0))),
+            window.remainingPercent.formatted(.number.precision(.fractionLength(0)).locale(PluginRuntimeLocalization.locale)),
             unit: "%",
             isProminent: primary,
             unitColor: theme.text.secondary
@@ -170,6 +170,6 @@ struct AIUsageComponentView: View {
     }
 
     private func resetHelp(_ window: AIUsageWindow) -> String {
-        window.resetsAt?.formatted(date: .complete, time: .shortened) ?? strings.text("reset.unknown", "重置时间未知")
+        window.resetsAt?.formatted(Date.FormatStyle(date: .complete, time: .shortened).locale(PluginRuntimeLocalization.locale)) ?? strings.text("reset.unknown", "重置时间未知")
     }
 }

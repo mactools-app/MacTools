@@ -55,7 +55,16 @@ final class FanControlPlugin: MacToolsPlugin, PluginActionProviding, PluginPorta
 
     // MARK: Metadata
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "fan-control",
+            title: localization.string("metadata.title", defaultValue: "风扇控制"),
+            iconName: "fan",
+            iconTint: Color(nsColor: .systemCyan),
+            order: 45,
+            defaultDescription: localization.string("metadata.description", defaultValue: "管理风扇转速预设")
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .disclosure,
@@ -85,7 +94,38 @@ final class FanControlPlugin: MacToolsPlugin, PluginActionProviding, PluginPorta
     private var isExpanded = false
     private var isPrimaryPanelVisible = false
     private var fanSnapshot = FanSnapshot.empty
-    private var lastErrorMessage: String?
+    private enum RetainedError {
+        case applyFailed(FanWriteError?, rollbackFailed: Bool)
+        case persistenceFailed(rollbackFailed: Bool)
+    }
+
+    private var lastError: RetainedError?
+    private var lastErrorMessage: String? {
+        switch lastError {
+        case .applyFailed(let error, let rollbackFailed):
+            let message = error?.localizedDescription(localization: localization)
+                ?? PluginKitLocalization.actionUnavailable
+            return rollbackFailed
+                ? localization.format(
+                    "error.action.rollbackFailed",
+                    defaultValue: "%@；恢复先前风扇策略失败。",
+                    message
+                )
+                : message
+        case .persistenceFailed(let rollbackFailed):
+            return rollbackFailed
+                ? localization.string(
+                    "error.action.persistenceRollbackFailed",
+                    defaultValue: "无法保存风扇预设，且恢复先前风扇策略失败。"
+                )
+                : localization.string(
+                    "error.action.persistenceFailed",
+                    defaultValue: "无法保存风扇预设。"
+                )
+        case nil:
+            return nil
+        }
+    }
     private var lastApplyError: FanWriteError?
     private var requiresAutoRestore = false
     private var isActivated = false
@@ -112,14 +152,6 @@ final class FanControlPlugin: MacToolsPlugin, PluginActionProviding, PluginPorta
         )
         self.monitoringActiveInterval = monitoringActiveInterval
         self.monitoringIdleInterval = monitoringIdleInterval
-        self.metadata = PluginMetadata(
-            id: "fan-control",
-            title: localization.string("metadata.title", defaultValue: "风扇控制"),
-            iconName: "fan",
-            iconTint: Color(nsColor: .systemCyan),
-            order: 45,
-            defaultDescription: localization.string("metadata.description", defaultValue: "管理风扇转速预设")
-        )
         presetStore.onCatalogChange = { [weak self] in
             self?.onStateChange?()
             self?.persistentPreferencesChanges.didPersist()
@@ -292,7 +324,7 @@ final class FanControlPlugin: MacToolsPlugin, PluginActionProviding, PluginPorta
         case let .setDisclosureExpanded(expanded):
             guard isExpanded != expanded else { return }
             isExpanded = expanded
-            if !expanded { lastErrorMessage = nil }
+            if !expanded { lastError = nil }
             restartMonitoringIfRunning()
             onStateChange?()
 
@@ -336,36 +368,22 @@ final class FanControlPlugin: MacToolsPlugin, PluginActionProviding, PluginPorta
     private func applyPresetFromAction(_ preset: FanPreset) -> ActionExecutionResult {
         let previousPreset = presetStore.activePreset
         guard apply(preset: preset) else {
-            let targetError = lastErrorMessage ?? PluginKitLocalization.actionUnavailable
+            let targetError = lastApplyError
             let rollbackSucceeded = lastApplyError?.mayHaveChangedFanState != true
                 || apply(preset: previousPreset)
-            lastErrorMessage = rollbackSucceeded
-                ? targetError
-                : localization.format(
-                    "error.action.rollbackFailed",
-                    defaultValue: "%@；恢复先前风扇策略失败。",
-                    targetError
-                )
-            onStateChange?()
-            let failureMessage = lastErrorMessage ?? targetError
-            return .failed(message: failureMessage)
-        }
-        guard presetStore.setActivePreset(id: preset.id) else {
-            let rollbackSucceeded = apply(preset: previousPreset)
-            lastErrorMessage = rollbackSucceeded
-                ? localization.string(
-                    "error.action.persistenceFailed",
-                    defaultValue: "无法保存风扇预设。"
-                )
-                : localization.string(
-                    "error.action.persistenceRollbackFailed",
-                    defaultValue: "无法保存风扇预设，且恢复先前风扇策略失败。"
-                )
+            lastError = .applyFailed(targetError, rollbackFailed: !rollbackSucceeded)
             onStateChange?()
             let failureMessage = lastErrorMessage ?? PluginKitLocalization.actionUnavailable
             return .failed(message: failureMessage)
         }
-        lastErrorMessage = nil
+        guard presetStore.setActivePreset(id: preset.id) else {
+            let rollbackSucceeded = apply(preset: previousPreset)
+            lastError = .persistenceFailed(rollbackFailed: !rollbackSucceeded)
+            onStateChange?()
+            let failureMessage = lastErrorMessage ?? PluginKitLocalization.actionUnavailable
+            return .failed(message: failureMessage)
+        }
+        lastError = nil
         onStateChange?()
         return .succeeded()
     }
@@ -381,34 +399,20 @@ final class FanControlPlugin: MacToolsPlugin, PluginActionProviding, PluginPorta
             min(FanRPMLimits.absoluteMax, rpm)
         ))
         guard apply(preset: targetPreset) else {
-            let targetError = lastErrorMessage ?? PluginKitLocalization.actionUnavailable
+            let targetError = lastApplyError
             let rollbackSucceeded = lastApplyError?.mayHaveChangedFanState != true
                 || apply(preset: previousPreset)
-            lastErrorMessage = rollbackSucceeded
-                ? targetError
-                : localization.format(
-                    "error.action.rollbackFailed",
-                    defaultValue: "%@；恢复先前风扇策略失败。",
-                    targetError
-                )
+            lastError = .applyFailed(targetError, rollbackFailed: !rollbackSucceeded)
             onStateChange?()
             return
         }
         guard presetStore.updateCustomPresetRPM(id: id, rpm: rpm) else {
             let rollbackSucceeded = apply(preset: previousPreset)
-            lastErrorMessage = rollbackSucceeded
-                ? localization.string(
-                    "error.action.persistenceFailed",
-                    defaultValue: "无法保存风扇预设。"
-                )
-                : localization.string(
-                    "error.action.persistenceRollbackFailed",
-                    defaultValue: "无法保存风扇预设，且恢复先前风扇策略失败。"
-                )
+            lastError = .persistenceFailed(rollbackFailed: !rollbackSucceeded)
             onStateChange?()
             return
         }
-        lastErrorMessage = nil
+        lastError = nil
         onStateChange?()
     }
 
@@ -446,39 +450,27 @@ final class FanControlPlugin: MacToolsPlugin, PluginActionProviding, PluginPorta
             let idToDelete = presetStore.activePresetID
             guard !presetStore.activePreset.isBuiltIn else { return }
             guard let previousPreferences = presetStore.makePortablePreferencesBackup() else {
-                lastErrorMessage = localization.string(
-                    "error.action.persistenceFailed",
-                    defaultValue: "无法保存风扇预设。"
-                )
+                lastError = .persistenceFailed(rollbackFailed: false)
                 onStateChange?()
                 return
             }
             let previousPreset = presetStore.activePreset
             guard presetStore.deleteCustomPreset(id: idToDelete) else {
-                lastErrorMessage = localization.string(
-                    "error.action.persistenceFailed",
-                    defaultValue: "无法保存风扇预设。"
-                )
+                lastError = .persistenceFailed(rollbackFailed: false)
                 onStateChange?()
                 return
             }
             guard applyActivePreset() else {
-                let targetError = lastErrorMessage ?? PluginKitLocalization.actionUnavailable
+                let targetError = lastApplyError
                 let preferencesRestored = presetStore.restorePortablePreferences(
                     from: previousPreferences
                 )
                 let hardwareRestored = preferencesRestored && apply(preset: previousPreset)
-                lastErrorMessage = hardwareRestored
-                    ? targetError
-                    : localization.format(
-                        "error.action.rollbackFailed",
-                        defaultValue: "%@；恢复先前风扇策略失败。",
-                        targetError
-                    )
+                lastError = .applyFailed(targetError, rollbackFailed: !hardwareRestored)
                 onStateChange?()
                 return
             }
-            lastErrorMessage = nil
+            lastError = nil
             onStateChange?()
 
         default:
@@ -498,10 +490,10 @@ final class FanControlPlugin: MacToolsPlugin, PluginActionProviding, PluginPorta
         lastApplyError = result
         updateAutoRestoreRequirement(afterApplying: preset.strategy, result: result)
         if let err = result {
-            lastErrorMessage = err.localizedDescription(localization: localization)
+            lastError = .applyFailed(err, rollbackFailed: false)
             FanControlLog.plugin.error("Apply preset failed: \(err.localizedDescription, privacy: .public)")
         } else {
-            lastErrorMessage = nil
+            lastError = nil
         }
         onStateChange?()
         return result == nil
@@ -515,14 +507,14 @@ final class FanControlPlugin: MacToolsPlugin, PluginActionProviding, PluginPorta
         guard isActivated else { return true }
         guard !applyActivePreset() else { return true }
 
-        let importedPresetError = lastErrorMessage
+        let importedPresetError = lastError
         guard presetStore.restorePortablePreferences(from: previousPreferences) else {
             FanControlLog.plugin.error("Failed to roll back fan preferences after restore failure")
             return false
         }
         let didRestoreHardware = applyActivePreset()
         if didRestoreHardware {
-            lastErrorMessage = importedPresetError
+            lastError = importedPresetError
             onStateChange?()
         } else {
             FanControlLog.plugin.error("Failed to restore prior fan strategy after restore failure")

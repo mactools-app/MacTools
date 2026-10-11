@@ -817,13 +817,16 @@ const fallbackSections = (name: LocalizedText): SettingSection[] => [
   },
 ];
 
-const pageTitle = "MacTools 插件与设置 | macOS 菜单栏工具";
-const pageDescription = `在仿 macOS 设置窗口中浏览 ${plugins.length} 个 MacTools 插件，搜索分类，并交互预览窗口切换、风扇、系统状态、启动台、电池等插件设置。`;
-const structuredData = {
+const pageTitle = t("MacTools 插件与设置 | macOS 菜单栏工具", "MacTools Plugins and Settings | macOS menu bar tools");
+const pageDescription = t(`在仿 macOS 设置窗口中浏览 ${plugins.length} 个 MacTools 插件，搜索分类，并交互预览窗口切换、风扇、系统状态、启动台、电池等插件设置。`,
+  `Browse ${plugins.length} MacTools plugins in a macOS-style settings window, search by category, and preview settings for windows, fans, system status, Launchpad, batteries, and more.`
+);
+const structuredDataFor = (language: "zh" | "en") => ({
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  name: pageTitle,
-  description: pageDescription,
+  name: pageTitle[language],
+  description: pageDescription[language],
+  inLanguage: language === "zh" ? "zh-CN" : "en",
   url: new URL(Astro.url.pathname, Astro.site).href,
   mainEntity: {
     "@type": "ItemList",
@@ -833,19 +836,19 @@ const structuredData = {
       return {
         "@type": "ListItem",
         position: index + 1,
-        name: text.en.displayName || text.zh.displayName,
-        description: text.en.summary || text.zh.summary,
+        name: text[language].displayName,
+        description: text[language].summary,
       };
     }),
   },
-};
+});
 ---
 
 <BaseLayout
   title={pageTitle}
   description={pageDescription}
-  image="/assets/screenshots/settings-plugins-zh-dark.png"
-  structuredData={structuredData}
+  image={{ zh: "/assets/screenshots/settings-plugins-zh-dark.png", en: "/assets/screenshots/settings-plugins-en-dark.png" }}
+  structuredData={{ zh: structuredDataFor("zh"), en: structuredDataFor("en") }}
   page="plugins"
 >
   <SiteNav active="plugins" />

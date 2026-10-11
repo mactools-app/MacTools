@@ -52,7 +52,19 @@ final class FixDamagedAppPlugin: MacToolsPlugin, DropZoneAnchorProviding, Plugin
 
     // MARK: Metadata
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "fix-damaged-app",
+            title: localization.string("metadata.title", defaultValue: "修复损坏应用"),
+            iconName: "wrench.and.screwdriver.fill",
+            iconTint: Color(nsColor: .systemOrange),
+            order: 94,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "移除隔离属性，解决「已损坏」或「不受信任」提示"
+            )
+        )
+    }
 
     // MARK: State
 
@@ -139,17 +151,6 @@ final class FixDamagedAppPlugin: MacToolsPlugin, DropZoneAnchorProviding, Plugin
             try await runQuarantineRemoval(appPath: appPath, localization: localization)
         }
         self.storage = context.storage
-        self.metadata = PluginMetadata(
-            id: "fix-damaged-app",
-            title: localization.string("metadata.title", defaultValue: "修复损坏应用"),
-            iconName: "wrench.and.screwdriver.fill",
-            iconTint: Color(nsColor: .systemOrange),
-            order: 94,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "移除隔离属性，解决「已损坏」或「不受信任」提示"
-            )
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,

@@ -39,6 +39,10 @@
       "displayName": "Расположение окон",
       "summary": "Перемещайте активное окно и изменяйте его размер."
     },
+    "tr": {
+      "displayName": "Pencere Düzenleri",
+      "summary": "Odaktaki pencereyi taşıyın ve yeniden boyutlandırın."
+    },
     "zh-Hans": {
       "displayName": "窗口布局",
       "summary": "移动聚焦窗口并调整其大小"
@@ -137,8 +141,8 @@
     "action.custom-command.description": "@localizable.action.custom.description",
     "action.custom-command.parameter-summary": "@localizable.settings.custom.name"
   },
-  "version": "2.0.0",
-  "minHostVersion": "2.0.0",
+  "version": "2.0.1",
+  "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "WindowLayouts.bundle",
   "factoryClass": "WindowLayoutsPlugin.WindowLayoutsPluginFactory",
@@ -201,6 +205,9 @@
       ],
       "ru": [
         "Расположение окон"
+      ],
+      "tr": [
+        "Pencere Düzenleri"
       ],
       "zh-Hans": [
         "窗口布局"

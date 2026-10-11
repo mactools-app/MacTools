@@ -18,6 +18,7 @@ private struct SidecarShortcutConflictWarning: Identifiable {
 
 struct SidecarSettingsView: View {
     @ObservedObject var store: SidecarPreferencesStore
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
     let liveDevices: [SidecarDevice]
     let localization: PluginLocalization
     let settingsContext: PluginSettingsContext
@@ -45,7 +46,14 @@ struct SidecarSettingsView: View {
     }
 
     var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
         savedDevicesSection
+            .environment(\.locale, locale)
+            .environment(
+                \.layoutDirection,
+                locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight
+            )
     }
 
     private var savedDevicesSection: some View {
@@ -402,7 +410,23 @@ private final class SidecarDeviceSettingsCellView: NSTableCellView {
     }
 
     func configure(rootView: AnyView) {
-        hostedView.rootView = rootView
+        hostedView.rootView = AnyView(SidecarDeviceSettingsCellRootView(content: rootView))
+    }
+}
+
+private struct SidecarDeviceSettingsCellRootView: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
+    let content: AnyView
+
+    var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
+        content
+            .environment(\.locale, locale)
+            .environment(
+                \.layoutDirection,
+                locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight
+            )
     }
 }
 
@@ -429,6 +453,7 @@ private extension NSView {
 }
 
 private struct SidecarDeviceSettingsRow: View {
+    @Environment(\.locale) private var locale
     let preference: SidecarDevicePreference
     let state: SidecarDeviceSettingsState
     let localization: PluginLocalization
@@ -439,6 +464,7 @@ private struct SidecarDeviceSettingsRow: View {
     @State private var pendingShortcutConflictWarning: SidecarShortcutConflictWarning?
 
     var body: some View {
+        let _ = locale
         VStack(alignment: .leading, spacing: 0) {
             connectionLine
             innerDivider

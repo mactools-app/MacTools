@@ -58,6 +58,12 @@
             "value": "Значок строки меню приложения должен оставаться в видимой части."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulamanın kendi menü çubuğu simgesi görünür bölümde kalmalıdır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "MacTools Значок нельзя скрыть"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools Simgesi Gizlenemez"
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "macOS не позволяет перемещать «%@»."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS, \"%@\" öğesinin taşınmasına izin vermiyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Значок строки меню нельзя переместить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğu Simgesi Taşınamaz"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "%d скрытые значки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d gizli simge"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d скрытый значок"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d gizli simge"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "Нет скрытых значков"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizli simge yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно создать событие мыши."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fare olayı oluşturulamadı."
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Разрешение на доступ не предоставлено."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni verilmedi."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -695,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Целевой процесс %d завершился."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hedef işlem %d sona erdi."
           }
         },
         "zh-Hans": {
@@ -768,6 +828,12 @@
             "value": "Скрыть значки строки меню, упорядочить их путем перетаскивания и открыть скрытые значки на панели."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü çubuğu simgelerini gizleyin, sürükleyerek düzenleyin ve gizli simgeleri bir panelden açın."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -837,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скрыть значки строки меню"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğu Simgelerini Gizle"
           }
         },
         "zh-Hans": {
@@ -910,6 +982,12 @@
             "value": "Выкл."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -979,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
           }
         },
         "zh-Hans": {
@@ -1052,6 +1136,12 @@
             "value": "Использует события мыши для перетаскивания значков в строке меню и открытия скрытых значков на панели."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü çubuğu simgelerini sürüklemek ve gizli simgeleri panelden açmak için fare olaylarını kullanır."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1121,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Переключатель скрытия по-прежнему работает, но перетаскивание и открытие скрытых значков недоступны."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizleme anahtarı yine de çalışır, ancak sürükleme ve gizli simgeleri açma kullanılamaz."
           }
         },
         "zh-Hans": {
@@ -1194,6 +1290,12 @@
             "value": "Доступность"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1263,6 +1365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Фиксирует реальный внешний вид значков строки меню для просмотра и нажатия на панели."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü çubuğu simgelerinin gerçek görünümünü panelde görüntülemek ve tıklamak için yakalar."
           }
         },
         "zh-Hans": {
@@ -1336,6 +1444,12 @@
             "value": "Переключатель скрытия по-прежнему работает, но полоса макета и панель скрытых значков недоступны."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizleme anahtarı yine de çalışır, ancak düzen şeridi ve gizli simgeler paneli kullanılamaz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1405,6 +1519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Запись экрана"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Kaydı"
           }
         },
         "zh-Hans": {
@@ -1478,6 +1598,12 @@
             "value": "Нет скрытых значков в строке меню"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizli menü çubuğu simgesi yok"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1547,6 +1673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скрытые значки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizli Simgeler"
           }
         },
         "zh-Hans": {
@@ -1620,6 +1752,12 @@
             "value": "Всегда скрыт"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her Zaman Gizli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1689,6 +1827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скрыт"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizli"
           }
         },
         "zh-Hans": {
@@ -1762,6 +1906,12 @@
             "value": "Видимый"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünür"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1831,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Позволяет значкам оставаться скрытыми, даже если переключатель скрытия выключен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simgelerin, gizleme anahtarı kapalı olsa bile gizli kalmasını sağlar."
           }
         },
         "zh-Hans": {
@@ -1904,6 +2060,12 @@
             "value": "Всегда скрывать"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her Zaman Gizle"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1973,6 +2135,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Поведение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Davranış"
           }
         },
         "zh-Hans": {
@@ -2046,6 +2214,12 @@
             "value": "Если этот параметр включен, разделитель справа от элементов статуса скрывает все значки слева от него."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinleştirildiğinde, durum öğelerinin sağındaki ayırıcı, solundaki tüm simgeleri gizler."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2115,6 +2289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скрыть значки строки меню"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğu Simgelerini Gizle"
           }
         },
         "zh-Hans": {
@@ -2188,6 +2368,12 @@
             "value": "Требуется разрешение"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin Gerekli"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2257,6 +2443,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перетащите сюда значки строки меню"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü çubuğu simgelerini buraya sürükleyin"
           }
         },
         "zh-Hans": {
@@ -2330,6 +2522,12 @@
             "value": "Макет строки меню"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğu Düzeni"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2401,6 +2599,12 @@
             "value": "Показывает скрытые значки в панели меню, вызываемой левой кнопкой мыши."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizli simgeleri sol tıklama menü panelinde gösterir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2470,6 +2674,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Показать скрытые значки на панели"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizli Simgeleri Panelde Göster"
           }
         },
         "zh-Hans": {

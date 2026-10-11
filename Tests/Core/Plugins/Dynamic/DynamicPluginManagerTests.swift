@@ -47,6 +47,53 @@ final class DynamicPluginManagerTests: XCTestCase {
         XCTAssertTrue(plugin.deactivationReasons.isEmpty)
     }
 
+    func testHostLanguageChangeReprojectsManagementMetadataWithoutReloadingPlugins() throws {
+        let original = UserDefaults.standard.string(
+            forKey: PluginRuntimeLocalization.preferenceUserDefaultsKey
+        )
+        defer { PluginRuntimeLocalization.source.setPreference(original) }
+        PluginRuntimeLocalization.source.setPreference("en")
+        let sourceURL = try makePackage(
+            id: "com.example.localized",
+            localizedMetadata: [
+                "en": PluginLocalizedMetadata(displayName: "English title", summary: "English summary"),
+                "ar": PluginLocalizedMetadata(displayName: "عنوان عربي", summary: "ملخص عربي"),
+            ]
+        )
+        let store = makeStore()
+        _ = try store.installPackage(from: sourceURL)
+        let plugin = MockDynamicPlugin(id: "com.example.localized")
+        let loader = StubDynamicPluginLoader { records in
+            records.map { DynamicPluginLoadResult(record: $0, plugins: [plugin], errorMessage: nil) }
+        }
+        let manager = DynamicPluginManager(packageStore: store, pluginLoader: loader)
+        let host = makePluginHostForTests(
+            plugins: [],
+            suiteName: suiteName + ".HostLocalization",
+            dynamicPluginManager: manager
+        )
+        let originalItem = try XCTUnwrap(host.pluginManagementItems.first)
+        XCTAssertEqual(originalItem.title, "English title")
+        let activations = plugin.activationContexts.count
+        let loadBatches = loader.receivedRecordIDBatches
+
+        PluginRuntimeLocalization.source.setPreference("ar")
+        host.refreshLocalization()
+        let arabicItem = try XCTUnwrap(host.pluginManagementItems.first)
+        XCTAssertEqual(arabicItem.title, "عنوان عربي")
+        XCTAssertEqual(arabicItem.summary, "ملخص عربي")
+        XCTAssertEqual(arabicItem.id, originalItem.id)
+        XCTAssertEqual(arabicItem.state, originalItem.state)
+        XCTAssertEqual(arabicItem.packageURL, originalItem.packageURL)
+        XCTAssertEqual(loader.receivedRecordIDBatches, loadBatches)
+        XCTAssertEqual(plugin.activationContexts.count, activations)
+        XCTAssertTrue(plugin.deactivationReasons.isEmpty)
+
+        PluginRuntimeLocalization.source.setPreference("en")
+        host.refreshLocalization()
+        XCTAssertEqual(host.pluginManagementItems.first?.title, "English title")
+    }
+
     func testFutureHostCatalogEntryIsVisibleButCannotBeInstalled() throws {
         let store = makeStore()
         let manager = DynamicPluginManager(
@@ -420,7 +467,8 @@ final class DynamicPluginManagerTests: XCTestCase {
         pluginKitVersion: Int = PluginPackageManifestLoader.supportedPluginKitVersion,
         minHostVersion: String = "0.1.0",
         releaseChannel: String? = nil,
-        uninstallDataPolicy: PluginPackageManifest.UninstallDataPolicy? = nil
+        uninstallDataPolicy: PluginPackageManifest.UninstallDataPolicy? = nil,
+        localizedMetadata: [String: PluginLocalizedMetadata]? = nil
     ) throws -> URL {
         let packageURL = temporaryRoot
             .appendingPathComponent("Source", isDirectory: true)
@@ -438,6 +486,7 @@ final class DynamicPluginManagerTests: XCTestCase {
             pluginKitVersion: pluginKitVersion,
             bundleRelativePath: bundleRelativePath,
             releaseChannel: releaseChannel,
+            localizedMetadata: localizedMetadata,
             uninstallDataPolicy: uninstallDataPolicy
         )
         let data = try JSONEncoder().encode(manifest)

@@ -29,7 +29,7 @@ final class ClipboardSequentialPasteHUDController {
 
     private let localization: PluginLocalization
     private var panel: ClipboardSequentialPasteHUDPanel?
-    private var hostingView: NSHostingView<ClipboardSequentialPasteHUDView>?
+    private var hostingView: NSHostingView<ClipboardSequentialPasteHUDRootView>?
     private var dismissTask: Task<Void, Never>?
     private var presentationGeneration: UInt64 = 0
 
@@ -79,7 +79,8 @@ final class ClipboardSequentialPasteHUDController {
     }
 
     private func updateHostedContent(_ content: ClipboardSequentialPasteHUDContent) {
-        let view = ClipboardSequentialPasteHUDView(
+        refreshPanelLocalization()
+        let hud = ClipboardSequentialPasteHUDView(
             content: content,
             localization: localization,
             onPasteNext: { [weak self] in self?.onPasteNext?() },
@@ -92,6 +93,10 @@ final class ClipboardSequentialPasteHUDController {
                 self?.onClose?()
             }
         )
+        let view = ClipboardSequentialPasteHUDRootView(
+            hud: hud,
+            onLocaleChange: { [weak self] in self?.refreshPanelLocalization() }
+        )
         if let hostingView {
             hostingView.rootView = view
         } else {
@@ -99,6 +104,12 @@ final class ClipboardSequentialPasteHUDController {
             self.hostingView = hostingView
             panel?.contentView = hostingView
         }
+    }
+
+    private func refreshPanelLocalization() {
+        guard let panel else { return }
+        panel.title = localization.string("hud.queue.explicit", defaultValue: "Paste Queue")
+        panel.setAccessibilityLabel(panel.title)
     }
 
     func showCompletion(
@@ -186,8 +197,32 @@ final class ClipboardSequentialPasteHUDPanel: NSPanel {
     override var canBecomeMain: Bool { false }
 }
 
+private struct ClipboardSequentialPasteHUDRootView: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
+    let hud: ClipboardSequentialPasteHUDView
+    let onLocaleChange: () -> Void
+
+    init(hud: ClipboardSequentialPasteHUDView, onLocaleChange: @escaping () -> Void) {
+        self.hud = hud
+        self.onLocaleChange = onLocaleChange
+    }
+
+    var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
+        hud
+            .environment(\.locale, locale)
+            .environment(
+                \.layoutDirection,
+                locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight
+            )
+            .onChange(of: runtimeLocale.revision) { _, _ in onLocaleChange() }
+    }
+}
+
 struct ClipboardSequentialPasteHUDView: View {
     @Environment(\.accessibilityReduceTransparency) private var reducesTransparency
+    @Environment(\.locale) private var locale
     let content: ClipboardSequentialPasteHUDContent
     let localization: PluginLocalization
     let onPasteNext: () -> Void
@@ -198,6 +233,8 @@ struct ClipboardSequentialPasteHUDView: View {
     let onClose: () -> Void
 
     var body: some View {
+        // Refresh runtime copy when the inherited locale changes without resetting preview state.
+        let _ = locale
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 8) {
                 Label(
@@ -256,7 +293,7 @@ struct ClipboardSequentialPasteHUDView: View {
             if !content.isComplete {
                 HStack(spacing: 8) {
                     hudButton(
-                        "arrow.left",
+                        "arrow.backward",
                         help: localization.string("hud.queue.previous", defaultValue: "Previous"),
                         action: onPrevious
                     )
@@ -268,7 +305,7 @@ struct ClipboardSequentialPasteHUDView: View {
                     Button(action: onPasteNext) {
                         Label(
                             localization.string("hud.queue.pasteNext", defaultValue: "Paste Next"),
-                            systemImage: "arrow.right"
+                            systemImage: "arrow.forward"
                         )
                     }
                     .buttonStyle(.borderedProminent)

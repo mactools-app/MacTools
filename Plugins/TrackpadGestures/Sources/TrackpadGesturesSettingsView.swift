@@ -89,6 +89,8 @@ struct TrackpadGesturesSettingsView: View {
     @ObservedObject var store: TrackpadGestureStore
     @ObservedObject var testingModel: TrackpadGestureTestingModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.layoutDirection) private var layoutDirection
+    @Environment(\.locale) private var locale
     let localization: PluginLocalization
     let actionHostContext: TrackpadActionHostContext?
     let isGestureOwned: (TrackpadGesture) -> Bool
@@ -156,6 +158,8 @@ struct TrackpadGesturesSettingsView: View {
                     }
                 }
             )
+            .environment(\.layoutDirection, layoutDirection)
+            .environment(\.locale, locale)
         }
         .onChange(of: store.testRecognitionSequence) { _, _ in
             guard let gesture = store.lastTestGesture else { return }
@@ -1475,7 +1479,7 @@ private struct TrackpadGestureEditor: View {
 
                     editorSection(
                         title: localization.string("editor.action.title", defaultValue: "操作"),
-                        icon: "arrow.right.circle"
+                        icon: "arrow.forward.circle"
                     ) {
                         TrackpadUnifiedActionPickerControl(
                             localization: localization,

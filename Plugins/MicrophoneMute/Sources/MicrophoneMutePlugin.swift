@@ -113,7 +113,19 @@ final class MicrophoneMutePlugin: MacToolsPlugin, PluginActionProviding {
         case unmuteFailed
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "microphone-mute",
+            title: localization.string("metadata.title", defaultValue: "麦克风静音"),
+            iconName: "mic.slash",
+            iconTint: Color(nsColor: .systemRed),
+            order: 47,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "快速静音或恢复默认麦克风输入"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -150,17 +162,6 @@ final class MicrophoneMutePlugin: MacToolsPlugin, PluginActionProviding {
     ) {
         self.localization = localization
         self.controller = controller
-        self.metadata = PluginMetadata(
-            id: "microphone-mute",
-            title: localization.string("metadata.title", defaultValue: "麦克风静音"),
-            iconName: "mic.slash",
-            iconTint: Color(nsColor: .systemRed),
-            order: 47,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "快速静音或恢复默认麦克风输入"
-            )
-        )
         self.isMuted = controller.readMuteState()
     }
 

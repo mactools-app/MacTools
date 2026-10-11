@@ -51,7 +51,16 @@ final class EjectDiskPlugin: MacToolsPlugin, PluginActionProviding {
         static let ejectAll = "eject-all"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "eject-disk",
+            title: localization.string("metadata.title", defaultValue: "推出磁盘"),
+            iconName: "eject",
+            iconTint: Color(nsColor: .systemGray),
+            order: 92,
+            defaultDescription: localization.string("metadata.description", defaultValue: "推出所有可移动磁盘")
+        )
+    }
 
     let rowDescriptor: PluginPanelRowDescriptor
 
@@ -78,14 +87,6 @@ final class EjectDiskPlugin: MacToolsPlugin, PluginActionProviding {
         self.localization = localization
         self.discoverVolumes = discoverVolumes
         self.ejectVolume = ejectVolume
-        self.metadata = PluginMetadata(
-            id: "eject-disk",
-            title: localization.string("metadata.title", defaultValue: "推出磁盘"),
-            iconName: "eject",
-            iconTint: Color(nsColor: .systemGray),
-            order: 92,
-            defaultDescription: localization.string("metadata.description", defaultValue: "推出所有可移动磁盘")
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .keepPresented,

@@ -47,7 +47,19 @@ final class AppearancePlugin: MacToolsPlugin, PluginActionProviding, PluginActio
     private enum PermissionID {
         static let automation = "automation"
     }
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "appearance",
+            title: localization.string("metadata.title", defaultValue: "深色模式"),
+            iconName: "circle.lefthalf.filled",
+            iconTint: Color(nsColor: .systemIndigo),
+            order: 30,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "切换系统亮色与深色外观"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .switch,
@@ -69,17 +81,6 @@ final class AppearancePlugin: MacToolsPlugin, PluginActionProviding, PluginActio
          appearanceController: (any SystemAppearanceControlling)? = nil) {
         self.localization = localization
         self.appearanceController = appearanceController ?? SystemAppearanceController()
-        self.metadata = PluginMetadata(
-            id: "appearance",
-            title: localization.string("metadata.title", defaultValue: "深色模式"),
-            iconName: "circle.lefthalf.filled",
-            iconTint: Color(nsColor: .systemIndigo),
-            order: 30,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "切换系统亮色与深色外观"
-            )
-        )
         isDarkMode = Self.readSystemDarkMode()
         appearanceSnapshot = try? self.appearanceController.read()
         if let appearanceSnapshot { isDarkMode = appearanceSnapshot.isDark }

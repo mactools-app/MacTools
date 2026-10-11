@@ -89,7 +89,7 @@ Switching between grid and list keeps the selected window and visible shortcut n
 
 The selected window stays fully visible when the chooser opens, resizes, or changes layout. Grid results scroll with a mouse or trackpad. Previews support pinch zoom in every chooser mode, including while Tab changes the selected window. Choosing a minimized window restores it before switching. Helper-rendered apps participate in recent-use ordering, while inactive titleless surfaces stay out of the chooser.
 
-Editing a direct shortcut highlights its key and shows a concise prompt beside Direct Keys, with Cancel at the far right. Recording instructions and feedback are available in all 11 supported languages.
+Editing a direct shortcut highlights its key and shows a concise prompt beside Direct Keys, with Cancel at the far right. Recording instructions and feedback are available in all 12 supported languages.
 
 <p align="center"><a href="docs/assets/screenshots/readme/search-en-dark.png"><img src="docs/assets/screenshots/readme/search-en-dark.png" width="640" alt="Command Palette searching window actions, settings, and plugins in English"></a></p>
 
@@ -103,7 +103,7 @@ Editing a direct shortcut highlights its key and shows a concise prompt beside D
 | Displays & appearance | Adjust brightness and resolution, connect Sidecar, toggle True Tone and Night Shift, hide the notch, and organize menu bar icons and the Dock. |
 | Audio & power | Control system, microphone, app, and display volume; keep the Mac awake; manage fans and charging limits; lock, sleep, or shut down. |
 | Monitoring & calendar | Follow system performance, device batteries, activity statistics, AI usage, and network status, or combine battery, Wi-Fi, and volume into one resizable menu bar icon with the battery percentage, status colors, detailed network states, and a Bluetooth audio mark. Check your calendar and upcoming events. |
-| Cleanup & maintenance | Explore disk usage visually, review large files and folders before moving them to Trash, clean disk and Xcode files, manage Homebrew and login items, eject disks, empty Trash, quit apps, repair quarantined apps, soft-restart macOS, and use physical Clean Mode. |
+| Cleanup & maintenance | Explore disk usage visually, review large files and folders before moving them to Trash, see where storage goes across caches, developer tools, app data, and IM chat tools, clean disk and Xcode files, manage Homebrew and login items, eject disks, empty Trash, quit apps, repair quarantined apps, soft-restart macOS, and use physical Clean Mode. |
 | Utilities & configuration | Translate selected text, run editable AI prompt templates on selected text, upload to Cloudflare R2, edit zsh files, open Siri, and save reusable Mac Settings profiles. |
 
 Clipboard History moves reused items to the front when you copy or paste them from the plugin, including item shortcuts and snippets. Browsing leaves the order unchanged, and sequential paste queues keep their established order. History expires after the configured period of inactivity, measured from its latest use or capture. Count and storage limits apply separately; Saved items and snippets remain available.
@@ -122,7 +122,7 @@ Screenshots work on macOS 14+; region recording and per-app volume require macOS
 
 Screenshot selection remains available on each display after switching desktops or entering and leaving full-screen apps.
 
-**Take your setup with you:** export and import preferences, keep local backups, or sync supported settings through a cloud or shared folder. The app supports **11 languages** and follows your system language by default.
+**Take your setup with you:** export and import preferences, keep local backups, or sync supported settings through a cloud or shared folder. The app supports **12 languages** and follows your system language by default.
 
 ## `mactools` in your terminal
 

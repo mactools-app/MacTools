@@ -67,7 +67,19 @@ final class ActivityBarPlugin: MacToolsPlugin, PluginActionProviding, PluginActi
         static let openInputMonitoring = "open-input-monitoring"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: ActivityBarController.pluginID,
+            title: localization.string("metadata.title", defaultValue: "活动统计"),
+            iconName: "chart.bar.xaxis",
+            iconTint: Color(nsColor: .systemGreen),
+            order: 18,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "统计输入、前台应用使用时长和 AI 编程活动"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .disclosure,
@@ -104,17 +116,6 @@ final class ActivityBarPlugin: MacToolsPlugin, PluginActionProviding, PluginActi
         localization: PluginLocalization = PluginLocalization(bundle: .main)
     ) {
         self.localization = localization
-        self.metadata = PluginMetadata(
-            id: ActivityBarController.pluginID,
-            title: localization.string("metadata.title", defaultValue: "活动统计"),
-            iconName: "chart.bar.xaxis",
-            iconTint: Color(nsColor: .systemGreen),
-            order: 18,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "统计输入、前台应用使用时长和 AI 编程活动"
-            )
-        )
         self.controller = controller ?? ActivityBarController(context: context, localization: localization)
         self.controller.onStatisticsChange = { [weak self] in
             guard let self, !self.visiblePanelItemIDs.isEmpty else { return }

@@ -39,7 +39,16 @@ final class DisplaySleepPlugin:
         ]
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "display-sleep",
+            title: localization.string("metadata.title", defaultValue: "显示器休眠"),
+            iconName: "display",
+            iconTint: Color(nsColor: .systemIndigo),
+            order: 97,
+            defaultDescription: localization.string("metadata.description", defaultValue: "立即让显示器休眠")
+        )
+    }
 
     let rowDescriptor: PluginPanelRowDescriptor
 
@@ -67,14 +76,6 @@ final class DisplaySleepPlugin:
         self.localization = localization
         self.presentationPreparation = presentationPreparation
         self.displaySleepRequest = displaySleepRequest
-        self.metadata = PluginMetadata(
-            id: "display-sleep",
-            title: localization.string("metadata.title", defaultValue: "显示器休眠"),
-            iconName: "display",
-            iconTint: Color(nsColor: .systemIndigo),
-            order: 97,
-            defaultDescription: localization.string("metadata.description", defaultValue: "立即让显示器休眠")
-        )
         self.rowDescriptor = PluginPanelRowDescriptor(
             controlStyle: .button,
             menuActionBehavior: .dismissBeforeHandling,

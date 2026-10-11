@@ -4,33 +4,155 @@
     "action.disable.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إيقاف True Tone" } },
-        "de": { "stringUnit": { "state": "translated", "value": "True Tone deaktivieren" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Turn Off True Tone" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Desactivar True Tone" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Désactiver True Tone" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "True Toneをオフ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "True Tone 끄기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Desativar True Tone" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Выключить True Tone" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "关闭原彩显示" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "關閉原彩顯示" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف True Tone"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Tone deaktivieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn Off True Tone"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desactivar True Tone"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Désactiver True Tone"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Toneをオフ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Tone 끄기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desativar True Tone"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выключить True Tone"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Tone'u Kapat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭原彩显示"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關閉原彩顯示"
+          }
+        }
       }
     },
     "action.enable.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تشغيل True Tone" } },
-        "de": { "stringUnit": { "state": "translated", "value": "True Tone aktivieren" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Turn On True Tone" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Activar True Tone" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Activer True Tone" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "True Toneをオン" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "True Tone 켜기" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Ativar True Tone" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Включить True Tone" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "开启原彩显示" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "開啟原彩顯示" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل True Tone"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Tone aktivieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn On True Tone"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activar True Tone"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activer True Tone"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Toneをオン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Tone 켜기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativar True Tone"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включить True Tone"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Tone'u Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启原彩显示"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟原彩顯示"
+          }
+        }
       }
     },
     "metadata.title": {
@@ -85,6 +207,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Tone"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "True Tone"
@@ -161,6 +289,12 @@
             "value": "Автоматически адаптировать цвет дисплея к окружающему освещению."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran rengini ortam ışığına göre otomatik uyarlar."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -230,6 +364,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
           }
         },
         "zh-Hans": {
@@ -303,6 +443,12 @@
             "value": "Выкл."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -372,6 +518,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не поддерживается"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenmiyor"
           }
         },
         "zh-Hans": {

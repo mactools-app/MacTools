@@ -651,6 +651,7 @@ enum DeviceBatteryFormatter {
             return localization.string("time.notUpdated", defaultValue: "未更新")
         }
 
+        timeFormatter.locale = PluginRuntimeLocalization.locale
         return timeFormatter.string(from: date)
     }
 

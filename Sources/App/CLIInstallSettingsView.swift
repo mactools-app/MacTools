@@ -3,6 +3,8 @@ import MacToolsPluginKit
 import SwiftUI
 
 struct CLIInstallSettingsView: View {
+    @Environment(\.locale) private var locale
+    @Environment(\.layoutDirection) private var layoutDirection
     @ObservedObject private var installer: CLIInstallController
     @State private var showingConfirmation = false
     @State private var enableIntegration = true
@@ -36,7 +38,11 @@ struct CLIInstallSettingsView: View {
             installer.start()
             service.refresh()
         }
-        .sheet(isPresented: $showingConfirmation) { confirmation }
+        .sheet(isPresented: $showingConfirmation) {
+            confirmation
+                .environment(\.locale, locale)
+                .environment(\.layoutDirection, layoutDirection)
+        }
     }
 
     private var header: some View {

@@ -883,6 +883,27 @@ def run_plugin_generate_check(skip_check: bool, dry_run: bool) -> None:
     run(["make", "generate"], dry_run=dry_run, mutates=True)
 
 
+def prepare_plugin_website_data(dry_run: bool) -> list[Path]:
+    info("Regenerating website plugin data for the release")
+    run(
+        ["python3", "scripts/plugins/generate_website_plugin_data.py"],
+        cwd=ROOT_DIR,
+        dry_run=dry_run,
+        mutates=True,
+    )
+    paths = [
+        ROOT_DIR / "site/src/generated/plugins.json",
+        ROOT_DIR / "site/src/generated/actions.json",
+    ]
+    assets = ROOT_DIR / "site/public/generated/plugin-assets"
+    if assets.exists() and (
+        any(assets.iterdir())
+        or git(["ls-files", "--", "site/public/generated/plugin-assets"])
+    ):
+        paths.append(assets)
+    return paths
+
+
 def run_plugin_plan_check(mode: str, selection: list[str], skip_check: bool, dry_run: bool) -> None:
     if skip_check:
         return
@@ -1199,11 +1220,16 @@ def release_plugin(args: argparse.Namespace) -> None:
         analysis = analyze_plugins(mode, selection)
         plugins_to_bump = refresh_plugins(plugins_to_bump)
 
+    website_paths = prepare_plugin_website_data(args.dry_run)
     run_plugin_generate_check(args.skip_check, args.dry_run)
     run_plugin_plan_check(mode, selection, args.skip_check, args.dry_run)
     changelog_paths = prepare_changelog("plugin", tag, args.dry_run)
     changed_manifests = [plugin.manifest_path for plugin in plugins_to_bump]
-    made_commit = commit_if_needed([*changed_manifests, *changelog_paths], f"chore: release {tag}", args.dry_run)
+    made_commit = commit_if_needed(
+        [*changed_manifests, *website_paths, *changelog_paths],
+        f"chore: release {tag}",
+        args.dry_run,
+    )
     if not made_commit and not args.dry_run:
         head = git(["rev-parse", "--short", "HEAD"])
         info(f"No version bump commit needed; tagging current HEAD {head}.")

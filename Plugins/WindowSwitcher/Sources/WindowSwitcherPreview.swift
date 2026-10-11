@@ -15,6 +15,24 @@ struct WindowSwitcherPreviewCandidate {
 @MainActor
 final class WindowSwitcherPreview {
     var onChange: ((NSImage?, String?) -> Void)?
+    enum Status: Equatable {
+        case unavailable, permissionRequired, failed
+
+        func message(using localization: PluginLocalization) -> String {
+            switch self {
+            case .unavailable:
+                localization.string("preview.unavailable", defaultValue: "此窗口暂时无法预览。")
+            case .permissionRequired:
+                localization.string("preview.permission", defaultValue: "预览需要录屏权限；仍可按标题切换。")
+            case .failed:
+                localization.string("preview.failed", defaultValue: "无法读取预览；仍可按标题切换。")
+            }
+        }
+    }
+    private(set) var currentImage: NSImage?
+    private(set) var status: Status?
+    var statusMessage: String? { status?.message(using: localization) }
+
     private struct CacheKey: Hashable {
         var id: String
         var pid: pid_t
@@ -91,20 +109,20 @@ final class WindowSwitcherPreview {
         debounceTask?.cancel(); debounceTask = nil
         pendingWatchdog?.cancel(); pendingWatchdog = nil
         selectedKey = nil; selectedEntry = nil; detailRequested = false
-        onChange?(nil, nil)
+        publish(nil)
     }
 
     func select(_ entry: WindowSwitcherAppEntry?) {
         guard let entry, entry.isWindowEntry, (!entry.metadataUnavailable || entry.windowNumber != nil) else {
             cancel()
-            onChange?(nil, localization.string("preview.unavailable", defaultValue: "此窗口暂时无法预览。"))
+            publish(nil, status: .unavailable)
             return
         }
         guard hasPermission() else {
             cache.removeAll()
             systemCapture.invalidate()
             cancel()
-            onChange?(nil, localization.string("preview.permission", defaultValue: "预览需要屏幕录制权限；仍可按标题切换。"))
+            publish(nil, status: .permissionRequired)
             return
         }
         let key = CacheKey(entry)
@@ -127,11 +145,11 @@ final class WindowSwitcherPreview {
             WindowSwitcherPinchDiagnostics.record("preview cache hit generation=\(generation)")
             cached.usedAt = now
             cache[key] = cached
-            onChange?(cached.image, nil)
+            publish(cached.image)
             if now.timeIntervalSince(cached.capturedAt) < 2 { pending = nil; return }
         } else {
             WindowSwitcherPinchDiagnostics.record("preview cache miss generation=\(generation)")
-            onChange?(nil, captureTimedOut ? unavailableMessage : nil)
+            publish(nil, status: captureTimedOut ? .unavailable : nil)
         }
         debouncePendingCapture()
     }
@@ -159,7 +177,7 @@ final class WindowSwitcherPreview {
                   let request = self.pending, !request.detail,
                   let key = self.selectedKey, self.cache[key] == nil else { return }
             self.pendingWatchdog = nil
-            self.onChange?(nil, self.unavailableMessage)
+            self.publish(nil, status: .unavailable)
         }
     }
 
@@ -177,8 +195,10 @@ final class WindowSwitcherPreview {
         startNext()
     }
 
-    private var unavailableMessage: String {
-        localization.string("preview.unavailable", defaultValue: "此窗口暂时无法预览。")
+    private func publish(_ image: NSImage?, status: Status? = nil) {
+        currentImage = image
+        self.status = status
+        onChange?(image, statusMessage)
     }
 
     private func startNext() {
@@ -195,7 +215,7 @@ final class WindowSwitcherPreview {
             self.captureTimedOut = true
             if token == self.generation, !request.detail,
                let selectedKey = self.selectedKey, self.cache[selectedKey] == nil {
-                self.onChange?(nil, self.unavailableMessage)
+                self.publish(nil, status: .unavailable)
             }
         }
         // Capture the operation, never the owner, across a potentially suspended
@@ -211,7 +231,7 @@ final class WindowSwitcherPreview {
                 } catch {
                     guard let owner = self, owner.canCapture(token) else { break }
                     if !request.detail, attempt == 2, owner.cache[CacheKey(entry)] == nil {
-                        owner.onChange?(nil, owner.localization.string("preview.failed", defaultValue: "无法读取预览；仍可按标题切换。"))
+                        owner.publish(nil, status: .failed)
                     }
                 }
                 if attempt < 2 { try? await Task.sleep(for: .milliseconds(200)) }
@@ -229,7 +249,7 @@ final class WindowSwitcherPreview {
         guard token == generation else { return true }
         guard hasPermission() else {
             cache.removeAll(); systemCapture.invalidate()
-            onChange?(nil, localization.string("preview.permission", defaultValue: "预览需要屏幕录制权限；仍可按标题切换。"))
+            publish(nil, status: .permissionRequired)
             return true
         }
         guard !captureTimedOut else { return true }
@@ -241,10 +261,10 @@ final class WindowSwitcherPreview {
                 cache.removeValue(forKey: oldest)
             }
             scheduleExpiry()
-            onChange?(image, nil)
+            publish(image)
             return true
         }
-        if !detail, attempt == 2, cache[CacheKey(entry)] == nil { onChange?(nil, unavailableMessage) }
+        if !detail, attempt == 2, cache[CacheKey(entry)] == nil { publish(nil, status: .unavailable) }
         return false
     }
 

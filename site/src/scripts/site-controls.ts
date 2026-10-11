@@ -1,12 +1,6 @@
+import { applyLanguage, clearLocalizedText, initializePreferences, resolveLanguage, setLocalizedText } from "./site-language";
+
 const root = document.documentElement;
-// Browser storage can be unavailable; controls should still work for this page.
-const readPreference = (key: string): string | null => {
-  try {
-    return localStorage.getItem(key);
-  } catch {
-    return null;
-  }
-};
 const writePreference = (key: string, value: string) => {
   try {
     localStorage.setItem(key, value);
@@ -14,45 +8,25 @@ const writePreference = (key: string, value: string) => {
     // The visible preference is already applied; persistence is optional.
   }
 };
-const storedTheme = readPreference("mactools-theme");
-const storedLang = readPreference("mactools-lang");
-const applyLanguage = (lang: "zh" | "en") => {
-  root.dataset.lang = lang;
-  root.lang = lang === "zh" ? "zh-CN" : "en";
-};
-
-const syncLocalizedAttributes = () => {
-  const language = root.dataset.lang === "en" ? "en" : "zh";
-  document.querySelectorAll<HTMLElement>("[data-aria-label-zh][data-aria-label-en]").forEach((element) => {
-    element.setAttribute("aria-label", language === "en" ? element.dataset.ariaLabelEn ?? "" : element.dataset.ariaLabelZh ?? "");
-  });
-};
-
-if (storedTheme === "dark" || storedTheme === "light") {
-  root.dataset.theme = storedTheme;
-} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-  root.dataset.theme = "dark";
-}
-
-if (storedLang === "zh" || storedLang === "en") {
-  applyLanguage(storedLang);
-} else {
-  const browserLanguages = navigator.languages?.length ? navigator.languages : [navigator.language];
-  const prefersChinese = browserLanguages.some((language) => language.toLowerCase().startsWith("zh"));
-  applyLanguage(prefersChinese ? "zh" : "en");
-}
-
-syncLocalizedAttributes();
-new MutationObserver(syncLocalizedAttributes).observe(root, { attributes: true, attributeFilter: ["data-lang"] });
+initializePreferences(resolveLanguage, applyLanguage);
+// A cached document does not rerun its scripts when Back or Forward restores it.
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) initializePreferences(resolveLanguage, applyLanguage);
+});
+new MutationObserver(() => applyLanguage(root.dataset.lang === "en" ? "en" : "zh")).observe(root, {
+  attributes: true,
+  attributeFilter: ["data-lang"],
+});
 
 document.querySelectorAll<HTMLElement>("[data-copy]").forEach((button) => {
   const initialMarkup = button.innerHTML;
   let resetTimer: number | undefined;
 
-  const showCopyStatus = (message: string) => {
+  const showCopyStatus = (zh: string, en: string) => {
     window.clearTimeout(resetTimer);
-    button.textContent = message;
+    setLocalizedText(button, zh, en);
     resetTimer = window.setTimeout(() => {
+      clearLocalizedText(button);
       button.innerHTML = initialMarkup;
     }, 1600);
   };
@@ -63,9 +37,9 @@ document.querySelectorAll<HTMLElement>("[data-copy]").forEach((button) => {
 
     try {
       await navigator.clipboard.writeText(value);
-      showCopyStatus(root.dataset.lang === "en" ? "Copied" : "已复制");
+      showCopyStatus("已复制", "Copied");
     } catch {
-      showCopyStatus(root.dataset.lang === "en" ? "Failed" : "失败");
+      showCopyStatus("失败", "Failed");
     }
   });
 });

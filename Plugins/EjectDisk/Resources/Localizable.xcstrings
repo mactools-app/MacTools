@@ -58,6 +58,12 @@
             "value": "Извлечь диски"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diskleri Çıkar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -127,6 +133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Извлечь все съемные диски."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm çıkarılabilir diskleri çıkarır."
           }
         },
         "zh-Hans": {
@@ -200,6 +212,12 @@
             "value": "Извлечь"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -269,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Извлечение…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkarılıyor…"
           }
         },
         "zh-Hans": {
@@ -342,6 +366,12 @@
             "value": "Поиск дисков..."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diskler algılanıyor..."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -411,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет съемных дисков"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkarılabilir disk yok"
           }
         },
         "zh-Hans": {
@@ -484,6 +520,12 @@
             "value": "%d съемные диски"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d çıkarılabilir disk"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -553,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Каталог /Volumes недоступен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "/Volumes klasörü kullanılamıyor."
           }
         },
         "zh-Hans": {
@@ -626,6 +674,12 @@
             "value": "Извлекаемые диски не найдены."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkarılabilir disk bulunamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -697,6 +751,12 @@
             "value": "Извлечено %d дисков. %d не удалось: \n%@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d disk çıkarıldı. %d tanesi başarısız oldu:\n%@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -766,6 +826,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось извлечь."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkarma başarısız oldu."
           }
         },
         "zh-Hans": {

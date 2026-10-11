@@ -190,9 +190,8 @@ struct XcodeCleanExecutionResult: Equatable, Sendable {
 
 enum XcodeCleanByteFormatter {
     static func string(fromByteCount bytes: Int64) -> String {
-        let formatter = ByteCountFormatter()
-        formatter.countStyle = .file
-        formatter.allowsNonnumericFormatting = false
-        return formatter.string(fromByteCount: max(bytes, 0))
+        max(bytes, 0).formatted(
+            ByteCountFormatStyle(style: .file, spellsOutZero: false).locale(PluginRuntimeLocalization.locale)
+        )
     }
 }

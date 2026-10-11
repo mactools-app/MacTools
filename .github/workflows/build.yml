@@ -85,6 +85,9 @@ jobs:
       - name: Validate pending changelog fragments
         run: make validate-changelog
 
+      - name: Validate localization contracts and coverage
+        run: make validate-localization
+
       - name: Resolve Swift packages
         run: |
           set -euo pipefail

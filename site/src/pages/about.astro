@@ -49,8 +49,8 @@ const poemLines = [
   },
 ];
 
-const pageTitle = "关于 MacTools | 免费开源 macOS 菜单栏工具";
-const pageDescription = "了解 MacTools 项目故事：一个免费、开源、原生、安静的 macOS 菜单栏工具箱，适合显示器控制、桌面工具、清理维护和插件扩展。";
+const pageTitle = { zh: "关于 MacTools | 免费开源 macOS 菜单栏工具", en: "About MacTools | Free, open-source macOS menu bar tools" };
+const pageDescription = { zh: "了解 MacTools 项目故事：一个免费、开源、原生、安静的 macOS 菜单栏工具箱，适合显示器控制、桌面工具、清理维护和插件扩展。", en: "Discover the story of MacTools: a free, open-source, native macOS menu bar toolbox for display controls, desktop tools, cleanup, maintenance, and plugins." };
 const aboutKeywords = [
   "MacTools about",
   "open source macOS app",
@@ -61,11 +61,12 @@ const aboutKeywords = [
   "One Switch alternative",
   "AnySwitch alternative",
 ];
-const structuredData = {
+const structuredDataFor = (language: "zh" | "en") => ({
   "@context": "https://schema.org",
   "@type": "AboutPage",
-  name: pageTitle,
-  description: pageDescription,
+  name: pageTitle[language],
+  description: pageDescription[language],
+  inLanguage: language === "zh" ? "zh-CN" : "en",
   url: new URL(Astro.url.pathname, Astro.site).href,
   about: {
     "@type": "SoftwareApplication",
@@ -74,21 +75,21 @@ const structuredData = {
     operatingSystem: "macOS 14.0 or later",
     codeRepository: "https://github.com/ggbond268/MacTools",
   },
-};
+});
 ---
 
 <BaseLayout
   title={pageTitle}
   description={pageDescription}
-  keywords={aboutKeywords}
-  structuredData={structuredData}
+  keywords={{ zh: ["关于 MacTools", "开源 macOS 应用", "免费 macOS 菜单栏应用", "原生 macOS 工具", "SwiftUI AppKit macOS 应用", "macOS 菜单栏工具箱", "One Switch 替代", "AnySwitch 替代"], en: aboutKeywords }}
+  structuredData={{ zh: structuredDataFor("zh"), en: structuredDataFor("en") }}
   page="about"
 >
   <SiteNav active="about" />
   <main class="about-page">
-    <section class="about-cinematic" aria-label="MacTools 百宝箱故事">
+    <section class="about-cinematic" aria-label="MacTools 百宝箱故事" data-aria-label-zh="MacTools 百宝箱故事" data-aria-label-en="The MacTools toolbox story">
       <div class="star-field" aria-hidden="true"></div>
-      <button class="skip-animation" type="button">SKIP</button>
+      <button class="skip-animation" type="button"><span data-i18n-zh>跳过</span><span data-i18n-en>Skip</span></button>
 
       <section class="intro copy-zh" lang="zh-CN" aria-label="故事开场">
         很久很久以前，在一个遥远的<br />星系……
@@ -136,7 +137,7 @@ const structuredData = {
     </section>
 
     <div class="about-reading">
-      <article class="source-story" aria-label="MacTools 故事">
+      <article class="source-story" aria-label="MacTools 故事" data-aria-label-zh="MacTools 故事" data-aria-label-en="MacTools story">
         <header class="story-heading">
           <p class="eyebrow">
             <span data-i18n-zh>关于 MacTools</span>

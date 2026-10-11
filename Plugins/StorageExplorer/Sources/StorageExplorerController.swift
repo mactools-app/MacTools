@@ -48,7 +48,28 @@ public final class StorageExplorerController: ObservableObject {
     public let status = StorageExplorerScanStatus()
     public let scanner: any StorageExplorerScanning
     public let safetyPolicy: StorageExplorerSafetyPolicy
-    public let copy: StorageExplorerControllerCopy
+    public private(set) var copy: StorageExplorerControllerCopy
+    private enum TrashFailure {
+        case operation
+        case partial(count: Int, names: [String])
+    }
+    private var trashFailure: TrashFailure?
+    private var isShowingTrashFailure = false
+    private var trashFailureMessage: String? {
+        switch trashFailure {
+        case .operation:
+            return copy.trashOperationFailed
+        case let .partial(count, names):
+            let formatter = ListFormatter()
+            formatter.locale = PluginRuntimeLocalization.locale
+            return String(
+                format: copy.trashPartialFailure, locale: PluginRuntimeLocalization.locale,
+                count, formatter.string(from: names) ?? names.joined(separator: ", ")
+            )
+        case nil:
+            return nil
+        }
+    }
     public let snapshotCache: (any StorageExplorerSnapshotCaching)?
 
     private(set) var snapshot = StorageExplorerSnapshot(rootPath: "")
@@ -62,6 +83,7 @@ public final class StorageExplorerController: ObservableObject {
     private var cacheInvalidationTask: Task<Void, Never>?
     private var cachedPreviewTask: Task<Void, Never>?
     private var cacheSaveTask: Task<Void, Never>?
+    private var snapshotCacheRootPath: String?
     private var pendingPresentationReadyRevision: Int?
 
     public init(scanner: any StorageExplorerScanning = StorageExplorerScanner(publishesItems: false),
@@ -110,6 +132,8 @@ public final class StorageExplorerController: ObservableObject {
         isConfirmingTrash = false
         lastErrorMessage = nil
         lastSuccessMessage = nil
+        trashFailure = nil
+        isShowingTrashFailure = false
         isUpdatingPresentation = false
         pendingPresentationReadyRevision = nil
         if !sameRoot { scanCompletedAt = nil }
@@ -163,15 +187,11 @@ public final class StorageExplorerController: ObservableObject {
                 self.cachedPreviewDate = nil
                 self.basket = Set(restoringBasket.filter { result.items[$0] != nil })
                 self.reviewItems = self.basket.sorted().compactMap { result.items[$0] }
-                self.lastErrorMessage = completionError
+                self.isShowingTrashFailure = self.trashFailure != nil
+                self.lastErrorMessage = self.trashFailureMessage ?? completionError
                 self.rebuildNavigation()
                 self.refreshPresentation()
-                self.cacheSaveTask?.cancel()
-                if let cache = self.snapshotCache {
-                    self.cacheSaveTask = Task {
-                        await cache.save(snapshot: result, completedAt: completedAt, rootPath: url.path)
-                    }
-                }
+                self.saveSnapshotToCache(result, completedAt: completedAt, rootPath: url.path)
             } catch {
                 guard let self, self.generation == id else { return }
                 if error is CancellationError { self.scanState = .cancelled }
@@ -202,6 +222,18 @@ public final class StorageExplorerController: ObservableObject {
             self.selectedPath = nil
             self.rebuildNavigation()
             self.refreshPresentation()
+        }
+    }
+
+    private func saveSnapshotToCache(_ snapshot: StorageExplorerSnapshot, completedAt: Date, rootPath: String) {
+        guard let snapshotCache else { return }
+        snapshotCacheRootPath = rootPath
+        let previous = cacheSaveTask
+        cacheSaveTask = Task {
+            // Serialize saves so an older scan cannot overwrite a snapshot adjusted after Trash.
+            if let previous { await previous.value }
+            guard !Task.isCancelled else { return }
+            await snapshotCache.save(snapshot: snapshot, completedAt: completedAt, rootPath: rootPath)
         }
     }
 
@@ -278,6 +310,13 @@ public final class StorageExplorerController: ObservableObject {
         refreshPresentation()
     }
 
+    func refreshLocalization(copy: StorageExplorerControllerCopy) {
+        self.copy = copy
+        if isShowingTrashFailure { lastErrorMessage = trashFailureMessage }
+        if lastSuccessMessage != nil { lastSuccessMessage = copy.movedToTrash }
+        rebuildRetainedPresentation()
+    }
+
     private func refreshPresentation() {
         presentationRevision += 1
         schedulePresentation()
@@ -299,10 +338,11 @@ public final class StorageExplorerController: ObservableObject {
             let snapshot = self.snapshot, directory = self.currentPath ?? snapshot.rootPath
             let mode = self.mode, metric = self.metric, query = self.searchQuery, sort = self.sort, ascending = self.ascending
             let basket = self.basket, otherName = self.copy.otherName
+            let locale = PluginRuntimeLocalization.locale
             let result = await Task.detached(priority: .userInitiated) {
                 StorageExplorerPresentation.make(snapshot: snapshot, directory: directory, mode: mode,
                     metric: metric, query: query, sort: sort, ascending: ascending,
-                    excluding: basket, otherName: otherName)
+                    excluding: basket, otherName: otherName, locale: locale)
             }.value
             self.presentationTask = nil
             if revision == self.presentationRevision && generation == self.generation
@@ -416,6 +456,10 @@ public final class StorageExplorerController: ObservableObject {
         let attemptedItems = reviewItems
         let root = snapshot.rootPath
         isExecutingTrash = true
+        lastErrorMessage = nil
+        lastSuccessMessage = nil
+        trashFailure = nil
+        isShowingTrashFailure = false
         do {
             let result = try await safetyPolicy.recycleItems(
                 attemptedItems,
@@ -424,30 +468,48 @@ public final class StorageExplorerController: ObservableObject {
             )
             let movedPaths = Set(result.moved.keys.map { $0.standardizedFileURL.path })
             let failedItems = attemptedItems.filter { !movedPaths.contains($0.url.standardizedFileURL.path) }
+            if !movedPaths.isEmpty {
+                let previousSnapshot = snapshot
+                let adjusted = await Task.detached(priority: .userInitiated) {
+                    var snapshot = previousSnapshot
+                    snapshot.removeSubtrees(at: movedPaths)
+                    return snapshot
+                }.value
+                // Navigation can change while Trash runs. Return to the closest surviving folder.
+                var path = currentPath
+                while let current = path, adjusted.items[current] == nil {
+                    path = previousSnapshot.items[current]?.parentPath
+                }
+                snapshot = adjusted
+                currentPath = path ?? root
+                if let selectedPath, adjusted.items[selectedPath] == nil { self.selectedPath = nil }
+                status.progress = adjusted.progress
+                rebuildNavigation()
+                if let completedAt = scanCompletedAt, let rootPath = snapshotCacheRootPath {
+                    saveSnapshotToCache(adjusted, completedAt: completedAt, rootPath: rootPath)
+                }
+            }
+            basket = Set(failedItems.map(\.path))
+            reviewItems = failedItems
             isExecutingTrash = false
             isConfirmingTrash = false
-            let message: String?
             if failedItems.isEmpty {
-                message = nil
+                lastSuccessMessage = copy.movedToTrash
             } else {
-                let names = failedItems.prefix(3).map(\.name).joined(separator: ", ")
-                message = String(format: copy.trashPartialFailure, failedItems.count, names)
+                trashFailure = .partial(count: failedItems.count, names: failedItems.prefix(3).map(\.name))
+                isShowingTrashFailure = true
+                lastErrorMessage = trashFailureMessage
             }
-            // Recompute accounting, including surviving hard links; never infer freed space from the basket.
-            startScan(
-                at: URL(fileURLWithPath: root),
-                restoringBasket: Set(failedItems.map(\.path)),
-                completionError: message
-            )
-            if failedItems.isEmpty { lastSuccessMessage = copy.movedToTrash }
+            rebuildRetainedPresentation()
         } catch {
             isExecutingTrash = false
             isConfirmingTrash = false
-            startScan(
-                at: URL(fileURLWithPath: root),
-                restoringBasket: Set(attemptedItems.map(\.path)),
-                completionError: copy.trashOperationFailed
-            )
+            basket = Set(attemptedItems.map(\.path))
+            reviewItems = attemptedItems
+            trashFailure = .operation
+            isShowingTrashFailure = true
+            lastErrorMessage = trashFailureMessage
+            rebuildRetainedPresentation()
         }
     }
 

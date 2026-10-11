@@ -4,81 +4,386 @@
     "action.parameter.height": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "الارتفاع" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Höhe" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Height" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Alto" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Hauteur" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "高さ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "높이" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Altura" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Высота" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "高度" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "高度" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الارتفاع"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Höhe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Height"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hauteur"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "高さ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "높이"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Altura"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Высота"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükseklik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "高度"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "高度"
+          }
+        }
       }
     },
     "action.parameter.pixelHeight": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "الارتفاع بالبكسل" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Pixelhöhe" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Pixel Height" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Alto en píxeles" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Hauteur en pixels" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ピクセル高さ" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "픽셀 높이" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Altura em pixels" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Высота в пикселях" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "像素高度" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "像素高度" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الارتفاع بالبكسل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pixelhöhe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pixel Height"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alto en píxeles"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hauteur en pixels"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ピクセル高さ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "픽셀 높이"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Altura em pixels"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Высота в пикселях"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Piksel Yüksekliği"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "像素高度"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "像素高度"
+          }
+        }
       }
     },
     "action.parameter.pixelWidth": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "العرض بالبكسل" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Pixelbreite" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Pixel Width" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Ancho en píxeles" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Largeur en pixels" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ピクセル幅" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "픽셀 너비" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Largura em pixels" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Ширина в пикселях" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "像素宽度" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "像素寬度" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العرض بالبكسل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pixelbreite"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pixel Width"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ancho en píxeles"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Largeur en pixels"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ピクセル幅"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "픽셀 너비"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Largura em pixels"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ширина в пикселях"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Piksel Genişliği"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "像素宽度"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "像素寬度"
+          }
+        }
       }
     },
     "action.parameter.refreshRate": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "معدل التحديث" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Bildwiederholrate" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Refresh Rate" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Frecuencia de actualización" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Fréquence de rafraîchissement" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "リフレッシュレート" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "새로 고침 빈도" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Taxa de atualização" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Частота обновления" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "刷新率" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "更新率" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معدل التحديث"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bildwiederholrate"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refresh Rate"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frecuencia de actualización"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fréquence de rafraîchissement"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "リフレッシュレート"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "새로 고침 빈도"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taxa de atualização"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Частота обновления"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yenileme Hızı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刷新率"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更新率"
+          }
+        }
       }
     },
     "action.parameter.width": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "العرض" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Breite" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Width" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Ancho" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Largeur" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "幅" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "너비" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Largura" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Ширина" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "宽度" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "寬度" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العرض"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Breite"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Width"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ancho"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Largeur"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "幅"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "너비"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Largura"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ширина"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genişlik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "宽度"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "寬度"
+          }
+        }
       }
     },
     "metadata.title": {
@@ -136,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Разрешение экрана"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Çözünürlüğü"
           }
         },
         "zh-Hans": {
@@ -209,6 +520,12 @@
             "value": "Просмотр и переключение разрешения для каждого дисплея."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her ekranın çözünürlüğünü görüntüleyin ve değiştirin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -278,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Доступные дисплеи не обнаружены"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılabilir ekran algılanmadı"
           }
         },
         "zh-Hans": {
@@ -351,6 +674,12 @@
             "value": "Доступные разрешения не обнаружены"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılabilir çözünürlük algılanmadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -420,6 +749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Основной дисплей"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana Ekran"
           }
         },
         "zh-Hans": {
@@ -493,6 +828,12 @@
             "value": "Отображается %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d ekran"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -562,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Неизвестно"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilinmiyor"
           }
         },
         "zh-Hans": {
@@ -635,6 +982,12 @@
             "value": "Открыть настройки дисплея"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Ayarlarını Aç"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -704,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": " (Родной)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " (Doğal)"
           }
         },
         "zh-Hans": {
@@ -777,6 +1136,12 @@
             "value": " (по умолчанию)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " (Varsayılan)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -846,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Дисплей отключился."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranın bağlantısı kesildi."
           }
         },
         "zh-Hans": {
@@ -919,6 +1290,12 @@
             "value": "Режим разрешения больше недоступен."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çözünürlük modu artık kullanılamıyor."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -988,6 +1365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно начать настройку дисплея."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran yapılandırması başlatılamadı."
           }
         },
         "zh-Hans": {
@@ -1061,6 +1444,12 @@
             "value": "Невозможно настроить режим отображения."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran modu yapılandırılamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1132,6 +1521,12 @@
             "value": "Невозможно применить конфигурацию дисплея."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran yapılandırması uygulanamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1201,6 +1596,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось переключиться: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçiş başarısız: %@"
           }
         },
         "zh-Hans": {

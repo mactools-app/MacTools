@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import MacToolsPluginKit
 import SwiftUI
 
@@ -24,11 +25,15 @@ final class AIAssistantPanelController: AIAssistantPanelControlling {
     private var lastFrame: NSRect?
     private let model = AIAssistantPanelModel()
     private let localization: PluginLocalization
+    private var localeSubscription: AnyCancellable?
 
     var onAction: ((AIAssistantPanelAction) -> Void)?
 
     init(localization: PluginLocalization = PluginLocalization(bundle: .main)) {
         self.localization = localization
+        localeSubscription = PluginRuntimeLocalization.source.$revision.dropFirst().sink { [weak self] _ in
+            DispatchQueue.main.async { [weak self] in self?.refreshPanelLocalization() }
+        }
     }
 
     var isVisible: Bool {
@@ -39,6 +44,7 @@ final class AIAssistantPanelController: AIAssistantPanelControlling {
         model.snapshot = snapshot
         let panel = panelWindow ?? makePanel()
         panelWindow = panel
+        refreshPanelLocalization()
 
         // Only position and focus a panel that is newly presented. Reapplying
         // the frame on every state update would snap the panel back to its old
@@ -108,6 +114,12 @@ final class AIAssistantPanelController: AIAssistantPanelControlling {
         let initialFrame = lastFrame ?? defaultFrame(for: panel)
         panel.setFrame(clampedFrame(for: initialFrame, panel: panel), display: true)
         return panel
+    }
+
+    private func refreshPanelLocalization() {
+        guard let panelWindow else { return }
+        panelWindow.title = localization.string("metadata.title", defaultValue: "AI 助手")
+        panelWindow.setAccessibilityTitle(panelWindow.title)
     }
 
     private func defaultFrame(for panel: NSPanel) -> NSRect {

@@ -18,7 +18,17 @@ The current API is **PluginKit 7**, with a minimum host of **MacTools 1.3.1** fo
 
 Record newly introduced public APIs and their first compatible host in `scripts/tests/test_plugin_minimum_host_compatibility.py`, including optional protocols. When consuming an already listed API, align `plugin.json.minHostVersion`; no duplicate inventory entry is needed. Run `make ci` for shared API/ABI changes; it includes script tests and the frozen v7 binary-client checks. A plugin newly consuming a public API runs `make script-tests`. Preserve historical signed catalogs. Release tooling owns ordinary package-version bumps.
 
+Use the first released host that contains an API as its minimum version, checking the latest app tag rather than assuming the current source version has shipped it. Additive APIs can retain the existing PluginKit ABI version; raise only their consumers' `minHostVersion` so older hosts skip incompatible updates and keep installed plugins. When targeting an unreleased host, predeclare its `MARKETING_VERSION` in `Configs/AppVersion.xcconfig` so compatibility checks can validate the new minimum; release tooling still owns the build number.
+
 Localize panel, settings, permission, error, and metadata text. Plugin string catalogs belong in `Plugins/<PluginName>/Resources`; use the plugin resource bundle. Source manifests declare localized product fields through `productStrings` references and place screenshots in `MarketplaceAssets/`. See [product metadata](plugin-catalog.md#product-and-capability-metadata); do not hand-edit generated package manifests or add a parallel marketplace manifest.
+
+Every lookup needs an English resource so the shared fallback never exposes Chinese defaults or key identifiers in other languages. Keep every catalog key translated in all 11 supported languages. Run `make validate-localization` after changing copy or catalogs; `make script-tests` includes it. The check validates recognized source lookups, Marketplace enum labels, translation state, supported-language completeness, and printf argument types. A missing translation fails validation; `python3 scripts/audit-localization.py --require-complete --json` lists every finding. Computed keys and new wrapper methods still need review.
+
+Use `PluginRuntimeLocalization.locale` for user-facing numbers, percentages, byte counts, dates, durations, and lists. Keep protocol timestamps, exported filenames, identifiers, paths, vendor field names, and user-authored content stable. Retained presentation must respond to language changes through `PluginRuntimeLocalizationRefreshing` without restarting collectors or rescanning data. Preserve the underlying values and selection. Review long translations, Arabic directionality, accessibility text, and native dialogs on the affected surfaces.
+
+Custom SwiftUI sheets must explicitly forward their presenter's `locale` and `layoutDirection` environments to the sheet content. On macOS, automatic sheet inheritance can leave Arabic content laid out left to right. Use semantic forward/backward symbols for UI navigation while preserving physical left/right directions in input bindings. Keep manifest action symbols aligned with their runtime definitions and regenerate website data after changes.
+
+Independent AppKit hosting views and controllers must observe the runtime locale and forward both environments to their SwiftUI roots. Refresh localized native window labels and cached previews without recreating editing or selection state. Keep physical grids, pointer coordinates, and menu-bar item ordering stable; apply the language direction to their semantic text and controls.
 
 ## Widgets
 
@@ -61,6 +71,13 @@ Before implementing a UI change, identify the surface below and inspect a compar
 | Custom settings content | `PluginSettingsTheme.Typography` and `.Spacing`, `PluginSettingsItem`, and `.pluginSettingsCardBackground(.standard/.recessed)`. |
 | Floating palettes | `PluginPaletteSurface`, the [shared palette appearance](palette-appearance.md), and the [global presentation contract](global-panel-presentation.md). Keep app activation separate from keyboard focus. |
 
+The panel host owns outer insets and gaps between widgets. Widget surfaces align
+to the top of their allocated bounds in normal panels, layout editing, and library
+previews; unused height stays below the surface. Preserve padding and alignment
+inside a card background, and keep the full allocated interaction area. Widgets
+must not add outer padding to separate themselves from neighboring items or vary
+their internal layout according to their position in the panel.
+
 The host owns page titles, descriptions, permission cards, shortcuts, search, validation, and the surrounding background. Do not duplicate page chrome or draw another outer card inside a grouped Form. Plugins must not depend on `Sources/App/SettingsStyle.swift` or copy private host styles.
 
 Keep native forms and custom workspaces as separate containers with shared surface roles:
@@ -84,6 +101,7 @@ Separate **collection**, **presentation**, and **host metadata updates**. Low en
 
 - Prefer system notifications and shared observers over repeated polling. When polling is necessary, use the slowest interval that meets the feature's freshness needs, allow timer tolerance where appropriate, and avoid separate timers for each widget copy.
 - Keep UI and state publication on the main actor; move expensive I/O, scans, subprocess work, and system queries to appropriate queues or actors while respecting each API's threading requirements. Declaring a method `async` alone does not move it off the main actor. Return bounded snapshots; coalesce requests, prevent overlapping refreshes, and bound caches, histories, queues, retries, and subprocess lifetimes.
+- For filesystem scans, use the shared `MacToolsFileSystem` metadata reader and consume `readBatches` without retaining every entry in a wide folder. Preserve cancellation and package, symlink, and cleanup-policy boundaries. Previously delivered batches remain partial if a later read fails; never report them as a complete scan.
 - Use `onStateChange?()` for state the host must rebuild. High-frequency events update their business snapshot and publish throttled presentation changes; configuration, permissions, availability, and errors still need timely host updates.
 - Use `PluginObservedContent` for frequently changing `ObservableObject` presentation. Do not add another `@ObservedObject` subscription to the same model underneath it. Hidden presentation can disconnect while collectors and independent menu-bar/settings consumers continue. Reopening must immediately read current data.
 - Pause presentation-only refreshes and animations when hidden. Retain explicitly enabled background tracking and its persistence guarantees. Do not make a panel opening or `refreshAll()` the only way to notice external state changes.

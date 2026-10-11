@@ -86,7 +86,19 @@ final class DiskCleanPlugin: MacToolsPlugin, PluginSettingsPresenting, PluginAct
         static let openDetails = "disk-clean-open-details"
     }
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "disk-clean",
+            title: localization.string("metadata.title", defaultValue: "磁盘清理"),
+            iconName: "internaldrive",
+            iconTint: Color(nsColor: .systemGreen),
+            order: 90,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "扫描系统缓存、开发产物与残留安装包，默认移到废纸篓，执行前校验路径安全"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .disclosure,
@@ -138,17 +150,6 @@ final class DiskCleanPlugin: MacToolsPlugin, PluginSettingsPresenting, PluginAct
         self.auditLog = auditLog ?? DiskCleanAuditLog(directory: storageDirectory)
         self.cleanupReadiness = cleanupReadiness
         self.reconciler = reconciler
-        self.metadata = PluginMetadata(
-            id: "disk-clean",
-            title: localization.string("metadata.title", defaultValue: "磁盘清理"),
-            iconName: "internaldrive",
-            iconTint: Color(nsColor: .systemGreen),
-            order: 90,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "扫描系统缓存、开发产物与残留安装包，默认移到废纸篓，执行前校验路径安全"
-            )
-        )
         self.controller.onStateChange = { [weak self] in
             self?.onStateChange?()
         }
@@ -560,8 +561,6 @@ final class DiskCleanPlugin: MacToolsPlugin, PluginSettingsPresenting, PluginAct
     }
 
     private func byteText(_ bytes: Int64) -> String {
-        let formatter = ByteCountFormatter()
-        formatter.countStyle = .file
-        return formatter.string(fromByteCount: bytes)
+        bytes.formatted(.byteCount(style: .file).locale(PluginRuntimeLocalization.locale))
     }
 }

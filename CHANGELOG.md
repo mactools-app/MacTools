@@ -7,6 +7,62 @@ All notable changes to this project are documented here. The format follows
 Pending release notes live in `changes/unreleased/*.md` and are compiled during
 the app and plugin release processes.
 
+## [v2.0.1] - 2026-10-10
+
+### Added
+
+- Choose whether floating panels follow macOS transparency or use a solid background, with Reduce Transparency always taking precedence.
+- Menu-bar panel sliders support inline action buttons, including display power controls.
+- Added Turkish as an app language: the language picker now includes Türkçe, and app, plugin, and Finder Sync surfaces are fully localized in Turkish.
+
+### Changed
+
+- The menu bar icon now shows a red dot when an app update is available. Panels show plugin update and loading progress instead of an empty state after launch.
+- Settings and menu-bar panels use consistent native text styles, compact widget labels, and action buttons that fit longer translations.
+
+### Fixed
+
+- Command-1 through Command-9 can be assigned to actions; unassigned keys retain their default navigation behavior.
+- Complete translations for app settings and controls in all supported languages. Improve live language switching, Arabic layouts, appearance controls, and Marketplace privacy and action risk labels.
+- Marketplace plugin rows now show the complete keyboard focus outline, including during installation.
+- Widgets align consistently at the top across panels, layout editing, and previews, reducing extra space below the toolbar.
+- Plugin settings sliders now persist keyboard and assistive-technology adjustments without repeating committed actions when values refresh externally.
+
+## [plugins-2.0.1] - 2026-10-10
+
+### Added
+
+- AI Assistant captures selected text more reliably and no longer overwrites content you copied afterwards. The panel adds hide, stop, and discard controls plus manual text entry, and no longer logs provider error text.
+- Display Brightness can turn off individual displays while keeping at least one on. Disabled displays turn back on when MacTools quits or the remaining displays disconnect.
+- Duo Status adds icon sizes, battery percentage, optional color policies, four network glyphs, volume dots or a bar, and a Bluetooth mark. Existing battery colors remain the default.
+- System Data measures system storage across caches, logs, developer artifacts, package managers, models, and backups, with a safety hint per category. Collapsible groups, Finder reveal, and copy path; nothing is deleted.
+- System Status adds an estimated memory pressure percentage with history and statistics. Choose memory usage or pressure in settings.
+
+### Changed
+
+- AI Assistant shortcuts now prefer directly readable selected text, then use an unchanged clipboard when clipboard input is enabled. Simulated-copy text still requires confirmation.
+- Speed up searches for leftover installers and developer build artifacts in folders with many files.
+- Window Layouts, Auto Input, and Clipboard feedback panels now share the app's floating-panel appearance.
+- Plugin widgets and windows use consistent text, clearer hover details, and native confirmation buttons.
+- Speed up Storage Explorer and Xcode Clean scans of folders with many files, and reduce Storage Explorer memory use in wide folders.
+- System Status simplifies chart controls and offers process limits of 3 (default), 5, 10, 15, or 20. Menu-bar values can be selected independently, including duplicates.
+
+### Fixed
+
+- AI Assistant releases paused shortcuts, keeps prompt edits private until saved, and remembers an empty prompt list. Simulated copy now requires opt-in because its contents may enter Clipboard History.
+- AI Assistant preserves clipboard changes and keeps hidden panels hidden. Selection shortcuts retain the original app and require confirmation before sending simulated-copy text to AI.
+- Custom OpenAI-compatible endpoints now require a complete IPv4 address before private-network checks apply.
+- Clipboard History pastes links copied from another device into text fields and preserves URL format where supported. Plain-text actions also accept URL-only clipboard content.
+- Calendar dates stay centered beneath corner badges, with full lunar labels on hover. System Status network and disk cards fit within the panel.
+- Complete plugin translations and improve Arabic controls, numbers, and dates. Plugin names, retained errors, upload windows, and screenshot tips now follow language changes without restarting operations.
+- Mouse Enhancer preserves normal wheel scrolling if smooth scrolling fails to start or stops responding.
+- Plugin updates that need MacTools 2.0.1 are limited to compatible hosts, so older apps keep their installed versions.
+- Closing a screenshot or recording selection restores the normal cursor.
+- Storage Explorer updates the current view and scan warnings after moving items to Trash without rescanning. Failed items stay selected for retry, and scans start only when requested.
+- System Status improves hardware readings and chart history accuracy, including peaks, gaps, and averages. Process lists group by app, report physical memory use, and refresh more promptly.
+- System Status panels reopen with cached readings and show metrics before process scans finish. Menu-bar popovers keep a consistent background and stay aligned as values change.
+- Window Switcher keeps selections visible, restores minimized windows, and scrolls grids. Search Select shares Cycle's toolbar; preview pinch follows Tab changes and helper app activity is tracked.
+
 ## [v2.0.0] - 2026-09-22
 
 ### Added

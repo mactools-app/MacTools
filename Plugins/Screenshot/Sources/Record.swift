@@ -121,7 +121,7 @@ final class Recorder: NSObject, SCRecordingOutputDelegate {
         case .waiting:
             let stopped = session?.isStopped == true
             panel.update(environment.string(stopped ? "record.savingSlowly" : "capture.stoppingSlowly",
-                                            stopped ? "正在保存，请稍候…" : "正在等待系统停止…"),
+                                            stopped ? "正在保存，请稍候…" : "正在等待屏幕采集停止…"),
                          primaryEnabled: session?.canRetryStop == true)
         case .finished: break
         }

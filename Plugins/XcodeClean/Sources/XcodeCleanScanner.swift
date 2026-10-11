@@ -1,5 +1,6 @@
 import Darwin
 import Foundation
+import MacToolsFileSystem
 import MacToolsPluginKit
 
 typealias XcodeCleanScanProgressHandler = @Sendable (XcodeCleanScanLogMessage) async -> Void
@@ -52,22 +53,47 @@ struct LocalXcodeCleanFileSystem: XcodeCleanFileSystemProviding, @unchecked Send
             return Int64((attributes[.size] as? NSNumber)?.int64Value ?? 0)
         }
 
+        var directoryPath = path
+        while directoryPath.count > 1 && directoryPath.hasSuffix("/") { directoryPath.removeLast() }
+        var rootStatus = stat()
+        guard lstat(directoryPath, &rootStatus) == 0,
+              rootStatus.st_mode & S_IFMT == S_IFDIR,
+              rootStatus.st_flags & UInt32(SF_DATALESS) == 0 else { return 0 }
+        // Resolve system path aliases once, after rejecting a symlink at the scan root.
+        // The reader also refuses symlinks during traversal.
+        guard let resolved = realpath(directoryPath, nil) else { return 0 }
+        let root = String(cString: resolved)
+        free(resolved)
+        var status = stat()
+        guard lstat(root, &status) == 0, status.st_flags & UInt32(SF_DATALESS) == 0 else { return 0 }
         var total: Int64 = 0
-        let url = URL(fileURLWithPath: path)
-        guard let enumerator = fileManager.enumerator(
-            at: url,
-            includingPropertiesForKeys: [.isDirectoryKey, .isSymbolicLinkKey, .fileSizeKey],
-            options: [.skipsPackageDescendants]
-        ) else {
-            return 0
-        }
-
-        for case let fileURL as URL in enumerator {
-            let values = try? fileURL.resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey, .fileSizeKey])
-            if values?.isDirectory == true || values?.isSymbolicLink == true {
+        var directories = [root]
+        while let directory = directories.popLast() {
+            try Task.checkCancellation()
+            do {
+                try FileSystemDirectoryReader.readBatches(path: directory, cancelled: { Task.isCancelled }) { batch in
+                    for entry in batch.entries {
+                        if entry.fileType == .symlink { continue }
+                        if entry.fileType == .directory {
+                            guard (entry.flags ?? 0) & UInt32(SF_DATALESS) == 0,
+                                  let bytes = entry.nameBytes,
+                                  let name = bytes.withUnsafeBytes({ String(bytes: $0.dropLast(), encoding: .utf8) }),
+                                  name != ".", name != "..", !name.contains("/") else { continue }
+                            let child = directory == "/" ? "/" + name : directory + "/" + name
+                            // Preserve Foundation's package boundary, querying only directories.
+                            let values = try? URL(fileURLWithPath: child, isDirectory: true).resourceValues(forKeys: [.isPackageKey])
+                            if values?.isPackage != true { directories.append(child) }
+                        } else {
+                            total += max(entry.dataLength ?? 0, 0)
+                        }
+                    }
+                }
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch {
+                // Like FileManager's enumerator, retain readable content when a child fails.
                 continue
             }
-            total += Int64(values?.fileSize ?? 0)
         }
         return total
     }
@@ -202,6 +228,7 @@ struct XcodeCleanScanner: XcodeCleanScanning {
                         try Task.checkCancellation()
                         let safety = safetyStatus(for: path)
                         let size = safety.isCleanable ? ((try? fileSystem.sizeOfItem(at: path)) ?? 0) : 0
+                        try Task.checkCancellation()
                         let candidate = XcodeCleanCandidate(
                             id: "\(rule.id)::\(path)",
                             category: category,

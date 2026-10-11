@@ -7,13 +7,13 @@ enum RecognitionKind: Sendable {
     @MainActor
     func title(in environment: ScreenshotEnvironment) -> String {
         self == .text ? environment.string("overlay.recognition.text", "提取文字")
-            : environment.string("overlay.recognition.barcode", "识别二维码")
+            : environment.string("overlay.recognition.barcode", "识别二维码与条形码")
     }
 
     @MainActor
     func unit(in environment: ScreenshotEnvironment) -> String {
         self == .text ? environment.string("overlay.recognition.lines", "行")
-            : environment.string("overlay.recognition.items", "个")
+            : environment.string("overlay.recognition.items", "个条码")
     }
 }
 

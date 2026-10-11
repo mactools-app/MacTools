@@ -39,6 +39,10 @@
       "displayName": "Извлечь диски",
       "summary": "Извлечь все съемные диски."
     },
+    "tr": {
+      "displayName": "Disk Çıkarma",
+      "summary": "Tüm çıkarılabilir diskleri çıkarın."
+    },
     "zh-Hans": {
       "displayName": "推出磁盘",
       "summary": "推出所有可移动磁盘"
@@ -52,7 +56,7 @@
     "display-name": "@displayName",
     "summary": "@summary"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "1.3.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "EjectDisk.bundle",
@@ -118,6 +122,9 @@
       ],
       "ru": [
         "Извлечь диски"
+      ],
+      "tr": [
+        "Disk Çıkarma"
       ],
       "zh-Hans": [
         "推出磁盘"

@@ -121,7 +121,9 @@ final class DiskCleanInstallerScannerTests: XCTestCase {
         let scanner = DiskCleanInstallerScanner(
             downloadsPath: downloads,
             staleAge: DiskCleanInstallerScanner.defaultStaleAge,
-            sourceFactory: ThrowingInstallerSourceFactory(code: EIO),
+            sourceFactory: DiskCleanDiscoveryEntrySourceFactory(
+                bulkSourceFactory: ScriptedInstallerSourceFactory(code: EIO)
+            ),
             now: { observationDate }
         )
 
@@ -140,7 +142,9 @@ final class DiskCleanInstallerScannerTests: XCTestCase {
         let scanner = DiskCleanInstallerScanner(
             downloadsPath: downloads,
             staleAge: DiskCleanInstallerScanner.defaultStaleAge,
-            sourceFactory: ThrowingInstallerSourceFactory(code: EACCES),
+            sourceFactory: DiskCleanDiscoveryEntrySourceFactory(
+                bulkSourceFactory: ScriptedInstallerSourceFactory(code: EACCES)
+            ),
             now: { observationDate }
         )
 
@@ -150,6 +154,32 @@ final class DiskCleanInstallerScannerTests: XCTestCase {
             return XCTFail("expected denied, got \(outcome)")
         }
         XCTAssertEqual(path, downloads)
+    }
+
+    func testUnresolvedMetadataDoesNotBecomeASuccessfulScan() {
+        let downloads = temporaryDirectory.resolve("Downloads").path
+        let scanner = DiskCleanInstallerScanner(
+            downloadsPath: downloads,
+            sourceFactory: ScriptedInstallerSourceFactory(batch: [.unresolved(code: EIO)])
+        )
+
+        XCTAssertEqual(scanner.scan(), .unavailable(path: downloads, reason: .walkError))
+    }
+
+    func testRejectsInstallerWhenCurrentMetadataIsASymlink() throws {
+        try makeDownload("real.dmg", bytes: 8, ageDays: 100)
+        try temporaryDirectory.makeSymlink("Downloads/alias.dmg", destination: "real.dmg")
+        // A bulk observation can precede replacement of the entry by a symbolic link.
+        let staleEntry = DiskCleanResolvedEntry(
+            nameBytes: Array("alias.dmg".utf8).map { CChar(bitPattern: $0) } + [0],
+            fileType: .regularFile, devid: 0, fileID: 0, linkCount: 1, dataLength: 8
+        )
+        let scanner = DiskCleanInstallerScanner(
+            downloadsPath: temporaryDirectory.resolve("Downloads").path,
+            sourceFactory: ScriptedInstallerSourceFactory(batch: [.resolved(staleEntry)])
+        )
+
+        XCTAssertEqual(scanner.scan(), .scanned(candidates: []))
     }
 
     // MARK: - Fixtures
@@ -190,27 +220,34 @@ final class DiskCleanInstallerScannerTests: XCTestCase {
     }
 }
 
-/// Source factory that owns the fd and fails the first `nextBatch`, simulating mid-stream readdir error.
-private struct ThrowingInstallerSourceFactory: DiskCleanDirectoryEntrySourceFactory {
-    let code: Int32
+private struct ScriptedInstallerSourceFactory: DiskCleanDirectoryEntrySourceFactory {
+    var code: Int32? = nil
+    var batch: [DiskCleanWalkEntry]? = nil
 
     func makeSource(fileDescriptor: Int32) throws -> any DiskCleanDirectoryEntrySource {
-        ThrowingInstallerSource(fileDescriptor: fileDescriptor, code: code)
+        ScriptedInstallerSource(fileDescriptor: fileDescriptor, code: code, batch: batch)
     }
 }
 
-private final class ThrowingInstallerSource: DiskCleanDirectoryEntrySource {
+private final class ScriptedInstallerSource: DiskCleanDirectoryEntrySource {
     let directoryFileDescriptor: Int32
-    private let code: Int32
+    private let code: Int32?
+    private var batch: [DiskCleanWalkEntry]?
     private var isClosed = false
 
-    init(fileDescriptor: Int32, code: Int32) {
+    init(fileDescriptor: Int32, code: Int32?, batch: [DiskCleanWalkEntry]?) {
         self.directoryFileDescriptor = fileDescriptor
         self.code = code
+        self.batch = batch
     }
 
     func nextBatch() throws -> [DiskCleanWalkEntry]? {
-        throw DiskCleanPOSIXError(code: code)
+        if let batch {
+            self.batch = nil
+            return batch
+        }
+        if let code { throw DiskCleanPOSIXError(code: code) }
+        return nil
     }
 
     func close() {

@@ -1,8 +1,6 @@
 import AppKit
 @preconcurrency import CoreGraphics
-import CoreVideo
 import Foundation
-import MacToolsPluginKit
 import OSLog
 
 /// Pure scroll-glide state: accumulates wheel tick targets and emits
@@ -98,21 +96,24 @@ final class MouseScrollGlideTemplateStore: @unchecked Sendable {
         self.timeToLive = timeToLive
     }
 
-    func capture(event: CGEvent) {
-        let pid = pid_t(event.getIntegerValueField(.eventTargetUnixProcessID))
+    @discardableResult
+    func capture(event: CGEvent, now: TimeInterval = ProcessInfo.processInfo.systemUptime) -> Bool {
+        guard let pid = pid_t(exactly: event.getIntegerValueField(.eventTargetUnixProcessID)),
+              pid > 0, let copy = event.copy() else { return false }
         let isChromium = chromiumTarget(for: pid)
         let sourcePixelsPerLine = CGEventSource(event: event)?.pixelsPerLine ?? 10
 
         lock.lock()
         defer { lock.unlock() }
-        template = event.copy()
+        template = copy
         targetProcessID = pid
         isChromiumTarget = isChromium
         pixelsPerLine = sourcePixelsPerLine.isFinite && sourcePixelsPerLine > 0 ? sourcePixelsPerLine : 10
-        createdAt = CFAbsoluteTimeGetCurrent()
+        createdAt = now
+        return true
     }
 
-    func makeSnapshot(now: TimeInterval = CFAbsoluteTimeGetCurrent()) -> Snapshot? {
+    func makeSnapshot(now: TimeInterval = ProcessInfo.processInfo.systemUptime) -> Snapshot? {
         lock.lock()
         defer { lock.unlock() }
         guard let template,
@@ -127,8 +128,14 @@ final class MouseScrollGlideTemplateStore: @unchecked Sendable {
             isChromiumTarget: isChromiumTarget,
             pixelsPerLine: pixelsPerLine,
             generation: generation,
-            createdAt: now
+            createdAt: createdAt
         )
+    }
+
+    func isCurrent(_ snapshot: Snapshot, now: TimeInterval) -> Bool {
+        lock.withLock {
+            snapshot.generation == generation && now - snapshot.createdAt <= timeToLive
+        }
     }
 
     /// Bumps the generation so frames already queued for the previous glide are dropped.
@@ -136,6 +143,8 @@ final class MouseScrollGlideTemplateStore: @unchecked Sendable {
         lock.lock()
         defer { lock.unlock() }
         generation &+= 1
+        template = nil
+        targetProcessID = 0
     }
 
     private func chromiumTarget(for pid: pid_t) -> Bool {
@@ -167,194 +176,179 @@ final class MouseScrollGlideTemplateStore: @unchecked Sendable {
 final class MouseScrollSmoother: @unchecked Sendable {
     static let syntheticEventMarker: Int64 = 0x4D61_6354_6F6F_6C53 // "MacToolS"
 
-    private let lock = NSLock()
+    private enum Timing {
+        static let stalledFrameTimeout: TimeInterval = 0.5
+        static let retryDelay: TimeInterval = 0.5
+    }
+
+    // The tap synchronously decides whether to swallow an event. Frames and
+    // lifecycle changes share this queue, never the display link's callback thread.
+    private let queue = DispatchQueue(label: "mactools.mouse-enhancer.smoother", qos: .userInteractive)
+    private let queueKey = DispatchSpecificKey<Bool>()
     private let templates = MouseScrollGlideTemplateStore()
-    private let postQueue = DispatchQueue(label: "mactools.mouse-enhancer.smoother.post", qos: .userInteractive)
+    private let frameDriver: any MouseScrollFrameDriving
+    private let postQueue: DispatchQueue
+    private let clock: @Sendable () -> TimeInterval
+    private let postEvent: @Sendable (CGEvent, pid_t) -> Void
     private var accumulator = MouseScrollGlideAccumulator()
     private var isEnabled = false
     private var duration: TimeInterval
-    private var displayLink: CVDisplayLink?
-    private var linkCallbackPointer: UnsafeMutableRawPointer?
-    private var lastFrameTime: TimeInterval = 0
+    private var isRunning = false
+    private var frameGeneration: UInt64 = 0
+    private var targetProcessID: Int64 = 0
+    private var startedAt: TimeInterval = 0
+    private var lastFrameTime: TimeInterval?
+    private var retryAfter: TimeInterval = 0
+    private var watchdog: DispatchSourceTimer?
 
     private let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier ?? "cc.ggbond.mactools",
         category: "MouseScrollSmoother"
     )
 
-    init(defaultDuration: TimeInterval) {
-        self.duration = defaultDuration
+    init(
+        defaultDuration: TimeInterval,
+        frameDriver: any MouseScrollFrameDriving = MouseScrollFrameDriver(),
+        postQueue: DispatchQueue = DispatchQueue(label: "mactools.mouse-enhancer.smoother.post", qos: .userInteractive),
+        clock: @escaping @Sendable () -> TimeInterval = { ProcessInfo.processInfo.systemUptime },
+        postEvent: @escaping @Sendable (CGEvent, pid_t) -> Void = { $0.postToPid($1) }
+    ) {
+        duration = defaultDuration
+        self.frameDriver = frameDriver
+        self.postQueue = postQueue
+        self.clock = clock
+        self.postEvent = postEvent
+        queue.setSpecific(key: queueKey, value: true)
     }
 
-    deinit {
-        if let link = displayLink {
-            CVDisplayLinkStop(link)
-        }
-        if let linkCallbackPointer {
-            Unmanaged<PluginCallbackContext<MouseScrollSmoother>>
-                .fromOpaque(linkCallbackPointer)
-                .release()
-        }
-    }
+    deinit { withState { cancelGlide() } }
 
-    /// Called from the event tap on the main run loop. Returns true when the
-    /// event is absorbed and re-emitted; the caller must then swallow it.
+    /// Only swallow input after both its destination and frame driver are ready.
+    /// Returning false leaves reversal and tuning to the ordinary event path.
     func ingest(event: CGEvent, tickY: Double, tickX: Double) -> Bool {
-        lock.lock()
-        guard isEnabled else {
-            lock.unlock()
-            return false
+        withState {
+            guard isEnabled, tickY.isFinite, tickX.isFinite, tickY != 0 || tickX != 0 else { return false }
+            let now = clock()
+            guard !recoverStalledDriver(now: now), now >= retryAfter else { return false }
+
+            let pid = event.getIntegerValueField(.eventTargetUnixProcessID)
+            if isRunning, pid != targetProcessID { cancelGlide() }
+            guard templates.capture(event: event, now: now) else {
+                cancelGlide()
+                return false
+            }
+
+            if !isRunning {
+                frameGeneration &+= 1
+                let generation = frameGeneration
+                let frameWork: @Sendable () -> Void = { [weak self] in self?.frame(generation: generation) }
+                // Do not retain/release the smoother on the real-time thread:
+                // its final release could otherwise stop the link from within its callback.
+                guard frameDriver.start(frame: { [queue] in
+                    queue.async(execute: frameWork)
+                }) else {
+                    cancelGlide()
+                    retryAfter = now + Timing.retryDelay
+                    logger.error("smooth scrolling frame driver failed; passing through wheel events")
+                    return false
+                }
+                isRunning = true
+                startedAt = now
+                lastFrameTime = nil
+                startWatchdog()
+            }
+            targetProcessID = pid
+            accumulator.add(tickY: tickY, tickX: tickX)
+            return true
         }
-
-        if tickY == 0 && tickX == 0 {
-            lock.unlock()
-            return false
-        }
-
-        accumulator.add(tickY: tickY, tickX: tickX)
-        lock.unlock()
-
-        templates.capture(event: event)
-        startDisplayLinkIfNeeded()
-        return true
     }
 
     func updateConfiguration(isEnabled: Bool, duration: TimeInterval) {
-        lock.lock()
-        self.duration = duration
-
-        guard isEnabled != self.isEnabled else {
-            lock.unlock()
-            return
-        }
-
-        self.isEnabled = isEnabled
-        if isEnabled {
-            lock.unlock()
-        } else {
-            accumulator.reset()
-            lastFrameTime = 0
-            lock.unlock()
-            templates.invalidate()
-            stopDisplayLink()
+        withState {
+            self.duration = duration
+            guard isEnabled != self.isEnabled else { return }
+            self.isEnabled = isEnabled
+            cancelGlide()
+            retryAfter = 0
         }
     }
 
-    /// Drops any in-flight glide; called from session recovery and teardown so a
-    /// stale glide never survives wake, secure input, or tap restarts.
+    /// Wake, display changes, permission loss, and teardown invalidate all queued
+    /// output and recreate the display link before accepting another glide.
     func reset() {
-        lock.lock()
+        withState {
+            cancelGlide()
+            retryAfter = 0
+        }
+    }
+
+    private func withState<Result>(_ body: () -> Result) -> Result {
+        if DispatchQueue.getSpecific(key: queueKey) == true { return body() }
+        return queue.sync(execute: body)
+    }
+
+    private func cancelGlide() {
+        isRunning = false
+        frameGeneration &+= 1
         accumulator.reset()
-        lastFrameTime = 0
-        lock.unlock()
+        targetProcessID = 0
+        lastFrameTime = nil
         templates.invalidate()
-        stopDisplayLink()
+        watchdog?.cancel()
+        watchdog = nil
+        frameDriver.invalidate()
     }
 
-    private func startDisplayLinkIfNeeded() {
-        lock.lock()
-        defer { lock.unlock() }
-
-        if displayLink == nil {
-            var link: CVDisplayLink?
-            guard CVDisplayLinkCreateWithActiveCGDisplays(&link) == kCVReturnSuccess, let link else {
-                logger.error("failed to create display link for smooth scrolling")
-                return
-            }
-
-            let context = PluginCallbackContext(owner: self)
-            let pointer = Unmanaged.passRetained(context).toOpaque()
-            let callback: CVDisplayLinkOutputCallback = { _, _, _, _, _, userInfo in
-                guard let userInfo else { return kCVReturnSuccess }
-                let callbackContext = Unmanaged<PluginCallbackContext<MouseScrollSmoother>>
-                    .fromOpaque(userInfo)
-                    .takeUnretainedValue()
-                _ = callbackContext.withOwner { $0.frame() }
-                return kCVReturnSuccess
-            }
-
-            guard CVDisplayLinkSetOutputCallback(link, callback, pointer) == kCVReturnSuccess else {
-                Unmanaged<PluginCallbackContext<MouseScrollSmoother>>.fromOpaque(pointer).release()
-                logger.error("failed to install display link callback")
-                return
-            }
-
-            displayLink = link
-            linkCallbackPointer = pointer
+    private func startWatchdog() {
+        let timer = DispatchSource.makeTimerSource(queue: queue)
+        timer.schedule(deadline: .now() + .milliseconds(250), repeating: .milliseconds(250))
+        timer.setEventHandler { [weak self] in
+            guard let self else { return }
+            _ = self.recoverStalledDriver(now: self.clock())
         }
-
-        // ponytail: no zombie-link health check; a silent link recovers on the
-        // next wheel tick, add a Mos-style keeper timer if stalls are reported.
-        if let displayLink, !CVDisplayLinkIsRunning(displayLink) {
-            lastFrameTime = 0
-            CVDisplayLinkStart(displayLink)
-        }
+        watchdog = timer
+        timer.resume()
     }
 
-    private func stopDisplayLink() {
-        lock.lock()
-        defer { lock.unlock() }
-        if let displayLink {
-            CVDisplayLinkStop(displayLink)
-        }
-        lastFrameTime = 0
+    @discardableResult
+    private func recoverStalledDriver(now: TimeInterval) -> Bool {
+        guard isRunning, now - (lastFrameTime ?? startedAt) > Timing.stalledFrameTimeout else { return false }
+        cancelGlide()
+        retryAfter = now + Timing.retryDelay
+        logger.error("smooth scrolling frame driver stalled; passing through wheel events until retry")
+        return true
     }
 
-    private func frame() {
-        let now = CFAbsoluteTimeGetCurrent()
-        lock.lock()
-        let framePeriod = lastFrameTime > 0 ? min(max(now - lastFrameTime, 0), 1) : (1.0 / 60.0)
+    private func frame(generation: UInt64) {
+        guard isRunning, generation == frameGeneration else { return }
+        let now = clock()
+        let framePeriod = lastFrameTime.map { min(max(now - $0, 0), 1) } ?? (1.0 / 60.0)
         lastFrameTime = now
-
-        let glideDuration = duration
-        let deltas = accumulator.advance(framePeriod: framePeriod, duration: glideDuration)
+        let deltas = accumulator.advance(framePeriod: framePeriod, duration: duration)
         let drained = accumulator.isDrained
 
-        var frameSnapshot: MouseScrollGlideTemplateStore.Snapshot?
-        var terminalSnapshot: MouseScrollGlideTemplateStore.Snapshot?
-        if deltas.y != 0 || deltas.x != 0 {
-            frameSnapshot = templates.makeSnapshot(now: now)
+        if deltas.y != 0 || deltas.x != 0, let snapshot = templates.makeSnapshot(now: now) {
+            post(snapshot, deltaY: deltas.y, deltaX: deltas.x)
         }
         if drained {
-            // Natural completion keeps queued displacement valid. The serial
-            // posting queue delivers the final pixels before the zero event.
-            terminalSnapshot = templates.makeSnapshot(now: now)
-        }
-
-        if drained {
-            accumulator.reset()
-            lastFrameTime = 0
-            if let displayLink {
-                CVDisplayLinkStop(displayLink)
+            // Natural completion preserves queued displacement, unlike reset.
+            if let snapshot = templates.makeSnapshot(now: now) {
+                post(snapshot, deltaY: 0, deltaX: 0)
             }
-        }
-        lock.unlock()
-
-        if let frameSnapshot {
-            post(frameSnapshot, deltaY: deltas.y, deltaX: deltas.x)
-        }
-        if let terminalSnapshot {
-            post(terminalSnapshot, deltaY: 0, deltaX: 0)
+            isRunning = false
+            accumulator.reset()
+            lastFrameTime = nil
+            watchdog?.cancel()
+            watchdog = nil
+            frameDriver.stop()
         }
     }
 
     private func post(_ snapshot: MouseScrollGlideTemplateStore.Snapshot, deltaY: Double, deltaX: Double) {
-        let generation = snapshot.generation
-        let createdAt = snapshot.createdAt
-        let timeToLive = 5.0
-        nonisolated(unsafe) let event = snapshot.event
-        let targetProcessID = snapshot.targetProcessID
-
-        postQueue.async { [templates] in
-            // A newer generation (config change or reset) or an expired
-            // template cancels this frame; posting it would scroll a stale target.
-            guard templates.makeSnapshot(now: createdAt)?.generation == generation,
-                  CFAbsoluteTimeGetCurrent() - createdAt <= timeToLive else {
-                return
-            }
-
-            event.applySmoothScrollDeltas(deltaY: deltaY, deltaX: deltaX, pixelsPerLine: snapshot.pixelsPerLine)
-            event.postToPid(targetProcessID)
+        postQueue.async { [templates, clock, postEvent] in
+            guard templates.isCurrent(snapshot, now: clock()) else { return }
+            snapshot.event.applySmoothScrollDeltas(deltaY: deltaY, deltaX: deltaX, pixelsPerLine: snapshot.pixelsPerLine)
+            postEvent(snapshot.event, snapshot.targetProcessID)
         }
     }
 }

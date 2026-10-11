@@ -86,6 +86,7 @@ private struct WorkflowKeyboardBoundaryMoveModifier: ViewModifier {
 
 struct AutomationSettingsView: View {
     @Environment(\.layoutDirection) private var layoutDirection
+    @Environment(\.locale) private var locale
     @ObservedObject private var pluginHost: PluginHost
     @ObservedObject private var automation: AutomationController
     @ObservedObject private var navigationCoordinator: SettingsNavigationCoordinator
@@ -152,6 +153,8 @@ struct AutomationSettingsView: View {
                     workflow: workflow,
                     onRun: { _ = automation.startWorkflow(id: workflow.id) }
                 )
+                .environment(\.locale, locale)
+                .environment(\.layoutDirection, layoutDirection)
             }
         }
         .alert(item: $pendingDeleteWorkflow) { workflow in
@@ -1953,7 +1956,7 @@ private struct WorkflowRunPreviewSheet: View {
                 }
                 if step.delaySeconds > 0 {
                     Label(
-                        FeatureL10n.format("运行前等待 %@ 秒", step.delaySeconds.formatted()),
+                        FeatureL10n.format("运行前等待 %@ 秒", step.delaySeconds.formatted(.number.locale(PluginRuntimeLocalization.locale))),
                         systemImage: "clock"
                     )
                     .font(PluginSettingsTheme.Typography.rowDescription)
@@ -2082,6 +2085,7 @@ enum WorkflowRunPresentation {
         let seconds = max(0, finishedAt.timeIntervalSince(run.startedAt))
         return Duration.seconds(seconds).formatted(
             .units(allowed: [.minutes, .seconds], width: .abbreviated, maximumUnitCount: 2)
+                .locale(PluginRuntimeLocalization.locale)
         )
     }
 

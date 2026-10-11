@@ -221,7 +221,10 @@ private final class WindowSwitcherScopePickerModel: ObservableObject {
 
 private struct WindowSwitcherScopePicker: View {
     @ObservedObject var model: WindowSwitcherScopePickerModel
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
     var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
         HStack(spacing: 0) {
             ForEach(0..<model.count, id: \.self) { index in
                 Button { model.onSelection?(index) } label: {
@@ -246,5 +249,10 @@ private struct WindowSwitcherScopePicker: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .frame(height: 24)
         .accessibilityIdentifier("window-switcher-scope-picker")
+        .environment(\.locale, locale)
+        .environment(
+            \.layoutDirection,
+            locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight
+        )
     }
 }

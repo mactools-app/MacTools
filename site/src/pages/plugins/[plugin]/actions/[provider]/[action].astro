@@ -20,7 +20,7 @@ const localized = (value: Record<string, string>) => ({
 const ui = (zh: string, en: string) => ({ zh, en });
 ---
 
-<BaseLayout title={`${entry.action.title.en ?? entry.action.id} · MacTools`} description={entry.action.description.en ?? ""} page="plugins">
+<BaseLayout title={{ zh: `${localized(entry.action.title).zh} · MacTools`, en: `${localized(entry.action.title).en} · MacTools` }} description={localized(entry.action.description)} page="plugins">
   <SiteNav />
   <main class="plugin-detail-page">
     <section class="plugin-detail-hero plugin-action-hero" aria-labelledby="action-title">

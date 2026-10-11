@@ -3,24 +3,24 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import SiteNav from "@/components/SiteNav.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 
-const pageTitle = "隐私政策 | MacTools";
-const pageDescription = "MacTools 隐私政策：了解这款本地优先、开源的 macOS 工具如何处理本地数据、系统权限和按需联网功能。";
-const structuredData = {
+const pageTitle = { zh: "隐私政策 | MacTools", en: "Privacy Policy | MacTools" };
+const pageDescription = { zh: "MacTools 隐私政策：了解这款本地优先、开源的 macOS 工具如何处理本地数据、系统权限和按需联网功能。", en: "MacTools privacy policy: how this local-first, open-source macOS toolkit handles local data, system permissions, and network-dependent features." };
+const structuredDataFor = (language: "zh" | "en") => ({
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: pageTitle,
-  description: pageDescription,
+  name: pageTitle[language],
+  description: pageDescription[language],
+  inLanguage: language === "zh" ? "zh-CN" : "en",
   url: new URL(Astro.url.pathname, Astro.site).href,
   dateModified: "2026-08-25",
-  inLanguage: ["zh-CN", "en"],
-};
+});
 ---
 
 <BaseLayout
   title={pageTitle}
   description={pageDescription}
-  keywords={["MacTools privacy", "macOS privacy", "local-first app", "开源 macOS 隐私"]}
-  structuredData={structuredData}
+  keywords={{ zh: ["MacTools 隐私", "macOS 隐私", "本地优先应用", "开源 macOS 隐私"], en: ["MacTools privacy", "macOS privacy", "local-first app", "open-source macOS privacy"] }}
+  structuredData={{ zh: structuredDataFor("zh"), en: structuredDataFor("en") }}
   page="privacy"
 >
   <SiteNav active="privacy" />
@@ -45,7 +45,7 @@ const structuredData = {
         </p>
       </header>
 
-      <div class="privacy-summary" aria-label="隐私摘要">
+      <div class="privacy-summary" aria-label="隐私摘要" data-aria-label-zh="隐私摘要" data-aria-label-en="Privacy summary">
         <div>
           <strong><span data-i18n-zh>无需账户</span><span data-i18n-en>No account</span></strong>
           <span><span data-i18n-zh>没有注册、用户画像或广告标识符。</span><span data-i18n-en>No registration, user profile, or advertising identifier.</span></span>

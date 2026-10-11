@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import MacToolsPluginKit
 
 enum R2UploadNameGenerator {
@@ -51,10 +52,16 @@ final class R2UploadProgressPresenter: NSObject, R2UploadProgressPresenting {
     private var conflictContinuation: CheckedContinuation<R2UploadConflictResolution, Never>?
     private var cancellationHandler: (@MainActor () -> Void)?
     private var originalFileName = ""
+    private var currentProgress = 0.0
+    private var localeSubscription: AnyCancellable?
+    private var refreshContentLocalization: (@MainActor () -> Void)?
 
     init(localization: PluginLocalization = PluginLocalization(bundle: .main)) {
         self.localization = localization
         super.init()
+        localeSubscription = PluginRuntimeLocalization.source.$revision.dropFirst().sink { [weak self] _ in
+            DispatchQueue.main.async { [weak self] in self?.refreshPanelLocalization() }
+        }
     }
 
     func requestObjectName(fileName: String) async -> String? {
@@ -105,8 +112,9 @@ final class R2UploadProgressPresenter: NSObject, R2UploadProgressPresenting {
 
     func update(progress: Double) {
         let clamped = min(1, max(0, progress))
+        currentProgress = clamped
         progressIndicator?.doubleValue = clamped * 100
-        percentageLabel?.stringValue = "\(Int(clamped * 100))%"
+        refreshPercentage()
     }
 
     func dismiss() {
@@ -122,6 +130,19 @@ final class R2UploadProgressPresenter: NSObject, R2UploadProgressPresenting {
         cancelButton = nil
         cancellationHandler = nil
         originalFileName = ""
+        currentProgress = 0
+        refreshContentLocalization = nil
+    }
+
+    private func refreshPanelLocalization() {
+        panel?.title = localization.string("metadata.title", defaultValue: "Cloudflare R2 上传")
+        refreshContentLocalization?()
+    }
+
+    private func refreshPercentage() {
+        percentageLabel?.stringValue = (floor(currentProgress * 100) / 100).formatted(
+            .percent.precision(.fractionLength(0)).locale(PluginRuntimeLocalization.locale)
+        )
     }
 
     private func resolvePendingNaming(returning value: String?) {
@@ -254,6 +275,20 @@ final class R2UploadProgressPresenter: NSObject, R2UploadProgressPresenting {
 
         self.nameField = nameField
         self.validationLabel = validationLabel
+        refreshContentLocalization = { [weak self] in
+            guard let self else { return }
+            promptLabel.stringValue = localization.string("upload.naming.fileName", defaultValue: "文件名")
+            nameField.placeholderString = localization.string("upload.naming.placeholder", defaultValue: "输入上传后的文件名")
+            let randomLabel = localization.string("upload.naming.random.accessibility", defaultValue: "生成随机文件名")
+            randomButton.image = NSImage(systemSymbolName: "dice", accessibilityDescription: randomLabel)
+            randomButton.setAccessibilityLabel(randomLabel)
+            randomButton.toolTip = localization.string("upload.naming.random.help", defaultValue: "生成随机 UUID 文件名（保留扩展名）")
+            cancelButton.title = localization.string("common.cancel", defaultValue: "取消")
+            uploadButton.title = localization.string("upload.naming.start", defaultValue: "开始上传")
+            if !validationLabel.stringValue.isEmpty {
+                validationLabel.stringValue = localization.string("upload.naming.validation", defaultValue: "请输入不包含 / 的有效文件名。")
+            }
+        }
         return contentView
     }
 
@@ -312,6 +347,13 @@ final class R2UploadProgressPresenter: NSObject, R2UploadProgressPresenting {
         self.progressIndicator = progressIndicator
         self.percentageLabel = percentageLabel
         self.cancelButton = cancelButton
+        currentProgress = 0
+        refreshPercentage()
+        refreshContentLocalization = { [weak self] in
+            guard let self else { return }
+            cancelButton.title = localization.string("common.cancelUpload", defaultValue: "取消上传")
+            refreshPercentage()
+        }
         return contentView
     }
 
@@ -386,6 +428,14 @@ final class R2UploadProgressPresenter: NSObject, R2UploadProgressPresenting {
             cancelButton.trailingAnchor.constraint(equalTo: renameButton.leadingAnchor, constant: -8),
             cancelButton.centerYAnchor.constraint(equalTo: overwriteButton.centerYAnchor),
         ])
+        refreshContentLocalization = { [weak self] in
+            guard let self else { return }
+            titleLabel.stringValue = localization.format("upload.conflict.title", defaultValue: "“%@” 已存在", fileName)
+            detailLabel.stringValue = localization.string("upload.conflict.detail", defaultValue: "覆盖上传会替换 R2 中的现有对象。")
+            renameButton.title = localization.string("upload.conflict.rename", defaultValue: "重新命名")
+            cancelButton.title = localization.string("common.cancel", defaultValue: "取消")
+            overwriteButton.title = localization.string("upload.conflict.overwrite", defaultValue: "覆盖上传")
+        }
         return contentView
     }
 

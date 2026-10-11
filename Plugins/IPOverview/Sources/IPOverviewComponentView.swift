@@ -83,7 +83,7 @@ struct IPOverviewComponentView: View {
                             .controlSize(.small)
                     }
 
-                    Image(systemName: "chevron.right")
+                    Image(systemName: "chevron.forward")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.secondary)
                 }
@@ -153,7 +153,7 @@ struct IPOverviewComponentView: View {
                 Button {
                     viewModel.showSummary()
                 } label: {
-                    Image(systemName: "chevron.left")
+                    Image(systemName: "chevron.backward")
                 }
                 .buttonStyle(.borderless)
                 .help(localization.string("detail.back.help", defaultValue: "返回概览"))

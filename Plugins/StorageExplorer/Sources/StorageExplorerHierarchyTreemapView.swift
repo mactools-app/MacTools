@@ -1,4 +1,5 @@
 import SwiftUI
+import MacToolsPluginKit
 
 struct StorageExplorerTreemapHoverSummary: Equatable {
     enum Tone: Equatable {
@@ -36,11 +37,11 @@ struct StorageExplorerReviewEligibilityCopy {
         case .selected:
             selected
         case let .includedBySelectedParent(name):
-            String(format: includedByParentFormat, name)
+            String(format: includedByParentFormat, locale: PluginRuntimeLocalization.locale, name)
         case .busy:
             busy
         case let .incomplete(skippedCount):
-            String(format: incompleteFormat, skippedCount)
+            String(format: incompleteFormat, locale: PluginRuntimeLocalization.locale, skippedCount)
         case .symlink:
             symlink
         case .aggregate:
@@ -89,6 +90,7 @@ struct StorageExplorerHierarchyTreemapView: View {
     let revealInFinder: (StorageItem) -> Void
     let layoutReady: (Int) -> Void
 
+    @Environment(\.locale) private var locale
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var rectangles: [StorageExplorerHierarchyRect] = []
     @State private var previousRectangles: [StorageExplorerHierarchyRect] = []
@@ -228,7 +230,7 @@ struct StorageExplorerHierarchyTreemapView: View {
             }
             .modifier(StorageExplorerTreemapAccessibilityModifier(
                 label: entry.node.item.name,
-                value: ByteCountFormatter.string(fromByteCount: entry.node.bytes, countStyle: .file),
+                value: StorageExplorerFormatting.bytes(entry.node.bytes),
                 hint: helpText(for: entry.node) + helpSuffix(for: entry.node),
                 enabled: !entry.node.isAggregate,
                 reviewAvailable: eligibility.canToggle,
@@ -261,7 +263,8 @@ struct StorageExplorerHierarchyTreemapView: View {
         hoveredSummary = nil
         let nextRectangles = StorageExplorerHierarchyRectLayout.make(
             nodes: nodes,
-            in: CGRect(origin: .zero, size: size)
+            in: CGRect(origin: .zero, size: size),
+            locale: locale
         )
         let contentChanged = !rectangles.isEmpty && previousLayoutRevision != revision
         previousLayoutRevision = revision
@@ -289,7 +292,7 @@ struct StorageExplorerHierarchyTreemapView: View {
     }
 
     private func helpText(for node: StorageExplorerHierarchyNode) -> String {
-        let size = ByteCountFormatter.string(fromByteCount: node.bytes, countStyle: .file)
+        let size = StorageExplorerFormatting.bytes(node.bytes)
         return node.isAggregate ? "\(node.item.name) · \(size)" : "\(node.item.name) · \(size)\n\(node.item.path)"
     }
 
@@ -313,7 +316,7 @@ struct StorageExplorerHierarchyTreemapView: View {
               rectangles.indices.contains(hoveredIndex)
         else { return nil }
         let entry = rectangles[hoveredIndex]
-        let size = ByteCountFormatter.string(fromByteCount: entry.node.bytes, countStyle: .file)
+        let size = StorageExplorerFormatting.bytes(entry.node.bytes)
         if entry.node.isAggregate {
             return StorageExplorerTreemapHoverSummary(
                 title: "\(entry.node.item.name) · \(size)",
@@ -840,7 +843,7 @@ private struct StorageExplorerDragPreview: View {
             Image(systemName: item.iconSystemName)
             VStack(alignment: .leading, spacing: 2) {
                 Text(item.name).lineLimit(1)
-                Text(ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file))
+                Text(StorageExplorerFormatting.bytes(bytes))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

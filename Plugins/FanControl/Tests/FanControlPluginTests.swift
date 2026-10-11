@@ -25,14 +25,28 @@ final class FanControlPluginTests: XCTestCase {
         XCTAssertEqual(writer.appliedStrategy, .fixed(rpm: 4000))
     }
 
-    func testWriteErrorAppearsAndCollapseClearsIt() {
+    func testWriteErrorAppearsAndCollapseClearsIt() throws {
+        let original = UserDefaults.standard.string(
+            forKey: PluginRuntimeLocalization.preferenceUserDefaultsKey
+        )
+        defer { PluginRuntimeLocalization.source.setPreference(original) }
+        let resource = try makeLocalizationBundle()
+        defer { try? FileManager.default.removeItem(at: resource.directory) }
+        PluginRuntimeLocalization.source.setPreference("en")
         let writer = MockSMCWriter()
-        writer.writeError = .writeFailed("硬件写入失败")
-        let plugin = makePlugin(writer: writer)
+        writer.queuedWriteErrors = [.writeFailed(.fullSpeedPartial), nil]
+        let plugin = makePlugin(
+            writer: writer,
+            localization: PluginLocalization(bundle: resource.bundle)
+        )
 
         plugin.handleAction(.setDisclosureExpanded(true))
         plugin.handleAction(.setSelection(controlID: "fan-preset-list", optionID: FanPresetBuiltInID.fullSpeed))
-        XCTAssertNotNil(plugin.rowState.errorMessage)
+        XCTAssertEqual(plugin.rowState.errorMessage, "English write error: English detail")
+        let strategies = writer.appliedStrategies
+        PluginRuntimeLocalization.source.setPreference("ar")
+        XCTAssertEqual(plugin.rowState.errorMessage, "خطأ الكتابة: \u{2068}تفاصيل عربية\u{2069}")
+        XCTAssertEqual(writer.appliedStrategies, strategies)
 
         plugin.handleAction(.setDisclosureExpanded(false))
         XCTAssertNil(plugin.rowState.errorMessage)
@@ -87,7 +101,7 @@ final class FanControlPluginTests: XCTestCase {
             controlID: "fan-preset-list",
             optionID: FanPresetBuiltInID.fullSpeed
         ))
-        writer.queuedWriteErrors = [.writeFailed("target failed"), nil]
+        writer.queuedWriteErrors = [.writeFailed(.systemMessage("target failed")), nil]
         let automatic = try XCTUnwrap(plugin.actionCatalogEntries.first(where: {
             $0.reference.parameters["preset"] == .string(FanPresetBuiltInID.auto)
         })?.reference)
@@ -197,7 +211,7 @@ final class FanControlPluginTests: XCTestCase {
             controlID: "fan-preset-list",
             optionID: FanPresetBuiltInID.fullSpeed
         ))
-        writer.queuedWriteErrors = [.writeFailed("restore failed"), nil]
+        writer.queuedWriteErrors = [.writeFailed(.systemMessage("restore failed")), nil]
 
         XCTAssertFalse(plugin.restorePortablePreferencesReportingResult(from: autoBackup))
         XCTAssertEqual(plugin.presetStore.activePresetID, FanPresetBuiltInID.fullSpeed)
@@ -207,12 +221,40 @@ final class FanControlPluginTests: XCTestCase {
         plugin.deactivate(reason: .hostShutdown)
     }
 
+    private func makeLocalizationBundle() throws -> (bundle: Bundle, directory: URL) {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let bundleURL = directory.appendingPathComponent("LocalizationTests.bundle", isDirectory: true)
+        for (language, values) in [
+            "en": [
+                "writeError.writeFailed": "English write error: %@",
+                "writer.error.fullSpeedPartial": "English detail",
+            ],
+            "ar": [
+                "writeError.writeFailed": "خطأ الكتابة: %@",
+                "writer.error.fullSpeedPartial": "تفاصيل عربية",
+            ],
+        ] {
+            let languageURL = bundleURL.appendingPathComponent("\(language).lproj", isDirectory: true)
+            try FileManager.default.createDirectory(at: languageURL, withIntermediateDirectories: true)
+            try values.map { "\"\($0.key)\" = \"\($0.value)\";" }
+                .joined(separator: "\n")
+                .write(
+                    to: languageURL.appendingPathComponent("Localizable.strings"),
+                    atomically: true,
+                    encoding: .utf8
+                )
+        }
+        return (try XCTUnwrap(Bundle(url: bundleURL)), directory)
+    }
+
     private func makePlugin(
         storage: FanControlMemoryStorage? = nil,
         reader: MockSMCReader? = nil,
         writer: MockSMCWriter? = nil,
         monitoringActiveInterval: Duration = .seconds(2),
-        monitoringIdleInterval: Duration = .seconds(10)
+        monitoringIdleInterval: Duration = .seconds(10),
+        localization: PluginLocalization = PluginLocalization(bundle: .main)
     ) -> FanControlPlugin {
         FanControlPlugin(
             context: PluginRuntimeContext(
@@ -221,6 +263,7 @@ final class FanControlPluginTests: XCTestCase {
             ),
             smcReader: reader ?? MockSMCReader(),
             smcWriter: writer ?? MockSMCWriter(),
+            localization: localization,
             monitoringActiveInterval: monitoringActiveInterval,
             monitoringIdleInterval: monitoringIdleInterval
         )

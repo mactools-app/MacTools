@@ -39,6 +39,10 @@
       "displayName": "Отключить микрофон",
       "summary": "Быстро отключите звук или восстановите вход микрофона по умолчанию."
     },
+    "tr": {
+      "displayName": "Mikrofon Sessize Alma",
+      "summary": "Varsayılan mikrofon girişini hızla sessize alın veya geri açın."
+    },
     "zh-Hans": {
       "displayName": "麦克风静音",
       "summary": "快速静音或恢复默认麦克风输入"
@@ -57,7 +61,7 @@
     "action.set-enabled.description": "@standardAction.set-enabled.description",
     "action.set-enabled.parameter-summary": "@standardAction.set-enabled.description"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "1.3.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "MicrophoneMute.bundle",
@@ -122,6 +126,9 @@
       ],
       "ru": [
         "Отключить микрофон"
+      ],
+      "tr": [
+        "Mikrofon Sessize Alma"
       ],
       "zh-Hans": [
         "麦克风静音"

@@ -62,7 +62,19 @@ final class BatteryChargeLimitPlugin: MacToolsPlugin, PluginActionProviding {
 
     // MARK: Metadata
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: "battery-charge-limit",
+            title: localization.string("metadata.title", defaultValue: "电池充电上限"),
+            iconName: "battery.100.bolt",
+            iconTint: Color(nsColor: .systemGreen),
+            order: 48,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "限制电池充电至指定上限"
+            )
+        )
+    }
 
     let rowDescriptor = PluginPanelRowDescriptor(
         controlStyle: .disclosure,
@@ -85,7 +97,42 @@ final class BatteryChargeLimitPlugin: MacToolsPlugin, PluginActionProviding {
     private var isExpanded = false
     private var batterySnapshot: BatterySnapshot = .empty
     private var capabilities: BatterySMCCapabilities = .none
-    private var lastErrorMessage: String?
+    private enum RetainedError {
+        case hardware(BatteryChargeWriteError, rollbackError: BatteryChargeWriteError?)
+        case persistence(
+            storageRollbackSucceeded: Bool,
+            hardwareRollbackError: BatteryChargeWriteError?
+        )
+    }
+
+    private var lastError: RetainedError?
+    private var lastErrorMessage: String? {
+        switch lastError {
+        case .hardware(let error, let rollbackError):
+            return actionFailureMessage(targetError: error, rollbackError: rollbackError)
+        case .persistence(let storageRollbackSucceeded, let hardwareRollbackError):
+            var message = localization.string(
+                "error.persistence.failed",
+                defaultValue: "无法保存电池充电设置。"
+            )
+            if !storageRollbackSucceeded {
+                message += " " + localization.string(
+                    "error.persistence.rollbackFailed",
+                    defaultValue: "恢复先前设置失败。"
+                )
+            }
+            if let hardwareRollbackError {
+                message += " " + localization.format(
+                    "error.persistence.hardwareRollbackFailed",
+                    defaultValue: "恢复先前硬件状态失败：%@",
+                    localizedDescription(for: hardwareRollbackError)
+                )
+            }
+            return message
+        case nil:
+            return nil
+        }
+    }
     private var requiresSMCCleanup = false
     private var monitoringTask: Task<Void, Never>?
     private var sleepObserver: (any NSObjectProtocol)?
@@ -100,17 +147,6 @@ final class BatteryChargeLimitPlugin: MacToolsPlugin, PluginActionProviding {
         localization: PluginLocalization = PluginLocalization(bundle: .main)
     ) {
         self.localization = localization
-        self.metadata = PluginMetadata(
-            id: "battery-charge-limit",
-            title: localization.string("metadata.title", defaultValue: "电池充电上限"),
-            iconName: "battery.100.bolt",
-            iconTint: Color(nsColor: .systemGreen),
-            order: 48,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "限制电池充电至指定上限"
-            )
-        )
         self.store = BatteryChargeLimitStore(storage: context.storage)
         self.reader = reader
         self.writer = writer ?? BatteryChargeLimitWriter(resourceBundle: context.resourceBundle)
@@ -351,7 +387,7 @@ final class BatteryChargeLimitPlugin: MacToolsPlugin, PluginActionProviding {
         switch action {
         case let .setDisclosureExpanded(expanded):
             isExpanded = expanded
-            if !expanded { lastErrorMessage = nil }
+            if !expanded { lastError = nil }
             onStateChange?()
 
         case let .setSlider(controlID, value, phase):
@@ -509,7 +545,7 @@ final class BatteryChargeLimitPlugin: MacToolsPlugin, PluginActionProviding {
             // inhibited.
             capabilities = writer.probeCapabilities()
             if !capabilities.canInhibit && writer.isHelperAvailable {
-                lastErrorMessage = localizedDescription(for: .noSupportedSMCKey)
+                lastError = .hardware(.noSupportedSMCKey, rollbackError: nil)
                 onStateChange?()
                 return false
             }
@@ -674,10 +710,10 @@ final class BatteryChargeLimitPlugin: MacToolsPlugin, PluginActionProviding {
             error = inhibitError ?? dischargeError
         }
         if let error {
-            lastErrorMessage = localizedDescription(for: error)
+            lastError = .hardware(error, rollbackError: nil)
             BatteryChargeLimitLog.plugin.error("Mode apply failed (\(reason, privacy: .public)): \(self.localizedDescription(for: error), privacy: .public)")
         } else {
-            lastErrorMessage = nil
+            lastError = nil
         }
         onStateChange?()
         return error
@@ -691,10 +727,7 @@ final class BatteryChargeLimitPlugin: MacToolsPlugin, PluginActionProviding {
         let requiresHardwareApplication = candidate.isEnabled || previous.isEnabled
         if requiresHardwareApplication, let targetError = apply(candidate, reason: reason) {
             let rollbackError = apply(previous, reason: "\(reason)-hardware-rollback")
-            lastErrorMessage = actionFailureMessage(
-                targetError: targetError,
-                rollbackError: rollbackError
-            )
+            lastError = .hardware(targetError, rollbackError: rollbackError)
             onStateChange?()
             return false
         }
@@ -710,24 +743,10 @@ final class BatteryChargeLimitPlugin: MacToolsPlugin, PluginActionProviding {
             } else {
                 storageRollbackSucceeded = true
             }
-            var message = localization.string(
-                "error.persistence.failed",
-                defaultValue: "无法保存电池充电设置。"
+            lastError = .persistence(
+                storageRollbackSucceeded: storageRollbackSucceeded,
+                hardwareRollbackError: hardwareRollbackError
             )
-            if !storageRollbackSucceeded {
-                message += " " + localization.string(
-                    "error.persistence.rollbackFailed",
-                    defaultValue: "恢复先前设置失败。"
-                )
-            }
-            if let hardwareRollbackError {
-                message += " " + localization.format(
-                    "error.persistence.hardwareRollbackFailed",
-                    defaultValue: "恢复先前硬件状态失败：%@",
-                    localizedDescription(for: hardwareRollbackError)
-                )
-            }
-            lastErrorMessage = message
             onStateChange?()
             return false
         }
@@ -737,7 +756,7 @@ final class BatteryChargeLimitPlugin: MacToolsPlugin, PluginActionProviding {
         } else {
             stopActiveMonitoring()
         }
-        lastErrorMessage = nil
+        lastError = nil
         onStateChange?()
         return true
     }

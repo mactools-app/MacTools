@@ -66,12 +66,12 @@ Follow the [plugin development standards](docs/plugins/development-guidelines.md
 
 - **Respect the host contract.** Implement `MacToolsPlugin`, publish stable `panelItems`, and keep manifest capabilities, action policies, permissions, and minimum-host requirements consistent with runtime behavior. Reuse host actions and shortcuts.
 - **Match native macOS.** Prefer system controls, semantic fonts and colors, and native keyboard, focus, and accessibility behavior. Keep equivalent controls consistent across settings, menu-bar panels, widgets, and floating windows, with density appropriate to each surface. Follow the [shared UI rules](docs/plugins/development-guidelines.md#visual-and-interaction-design), reuse host renderers and shared themes, and extend shared components when needed. Localize user-facing copy and verify long labels.
-- **Reuse typography roles.** Follow the [typography contract](docs/plugins/typography.md) for titles, supporting text, numbers, and AppKit text measurement. `PluginTypography` and `PluginMetricValue` require host 2.0.0; declare that minimum when consuming these new APIs.
+- **Reuse typography roles.** Follow the [typography contract](docs/plugins/typography.md) for titles, supporting text, numbers, and AppKit text measurement. `PluginTypography` and `PluginMetricValue` require host 2.0.1; declare that minimum when consuming these new APIs.
 - **Build reusable widgets.** Support zero or multiple placements, isolated previews, view recycling, and independent per-placement presentation state. See [panel items](docs/plugins/panel-items.md).
 - **Keep background work economical.** Use cached snapshots, event-driven updates, bounded asynchronous work, and visibility-aware presentation. Preserve intentional monitoring while hidden; stop owned work on deactivation. See [performance requirements](docs/plugins/development-guidelines.md#performance-and-energy).
 - **Preserve user control.** Handle denied permissions, cancellation, unsupported hardware, and system changes. Keep existing confirmations, recovery paths, and destructive-operation safeguards.
 
-Shared filesystem metadata code lives in `Sources/MacToolsFileSystem`. Disk Clean and Storage Explorer link this static module into their bundles; their core targets use it as a build dependency. Keep cleanup policy in the owning plugin and run both plugins' filesystem tests after changing the shared parser.
+Shared filesystem metadata code lives in `Sources/MacToolsFileSystem`. Disk Clean, Storage Explorer, and Xcode Clean link this static module into their bundles; their core targets use it as a build dependency. Use `FileSystemDirectoryReader.readBatches` to bound enumeration memory for wide folders. Keep cleanup policy in the owning plugin and run the affected plugins' filesystem tests after changing the shared reader or parser.
 
 ## Validation
 
@@ -89,6 +89,8 @@ Use `TEST_FILTER=ClassName/testMethod` for one method, or `make test` for all re
 
 Unsigned XCTest builds use `build/DerivedDataTests` by default, separate from the signed app used by `make run`. Override `TEST_DERIVED_DATA` when needed, keeping it separate from `DERIVED_DATA` to avoid leaving a test bundle inside the installed app.
 
+For copy and catalog changes, run `make validate-localization` to check English resources, complete coverage of all 11 supported languages, and translation format contracts. `make script-tests` includes this audit and fails when a translation is missing. To inspect per-key findings, run `python3 scripts/audit-localization.py --require-complete --json`. Follow the [plugin localization rules](docs/plugins/development-guidelines.md#protocols-and-ownership), and manually check language switching and affected UI layout. Action-symbol changes must keep manifests and runtime definitions consistent; verify them with `make test TEST_FILTER=PluginRuntimeActionSnapshotTests`.
+
 | Change | Verification scope |
 | --- | --- |
 | App or plugin behavior | Compile and run relevant existing tests. Add coverage only for missing core behavior or a regression; manually check hardware/system integration where needed. |
@@ -99,7 +101,7 @@ Unsigned XCTest builds use `build/DerivedDataTests` by default, separate from th
 | Changelog fragments | `make validate-changelog` before committing or pushing. |
 | Documentation only | Check changed links, examples, formatting, and rendered layout; no app build is needed. |
 
-Plugins using `PluginFloatingPanelSurface`, `PluginFloatingPanelShape`, or `PluginFloatingPanelAppearance` require MacTools 2.0.0 or later. Keep menu-bar themes separate from this system-managed floating-panel preference.
+Plugins using `PluginFloatingPanelSurface`, `PluginFloatingPanelShape`, or `PluginFloatingPanelAppearance` require MacTools 2.0.1 or later. Keep menu-bar themes separate from this system-managed floating-panel preference.
 
 ## Submit a pull request
 
@@ -124,3 +126,7 @@ Changelog fragments use `release: app` or `release: plugin` and a supported `typ
 Contributions must follow [LICENSE](LICENSE) and [LICENSING.md]. Project-authored app, CLI, PluginKit, official plugins, tooling, and documentation use **GPL-3.0-only**. Submit only material you have the right to contribute under the applicable terms. Third-party material retains its own notices; record its source, exact revision, affected products, source paths, and license text in [ThirdPartyNotices](Sources/Resources/ThirdPartyNotices/manifest.json). Plugins accepted into the official catalog must use GPLv3-compatible terms unless the licensing policy documents an exception. Icon contributions also follow the [asset catalog rules](docs/icon-gallery.md).
 
 Releases are maintainer-owned. Feature PRs should not pre-bump plugin versions, change signed catalogs, or regenerate release history. Follow the [release workflow](docs/github-actions.md), [plugin catalog](docs/plugins/plugin-catalog.md), and [CLI release gates](docs/plugins/cli-release.md) for release work.
+
+Plugin release preparation regenerates website plugin data after version bumps and includes it in the release commit, including with `--skip-check`. Keep this generated data synchronized so Pages can deploy the signed plugin catalog.
+
+For an agent-assisted readiness review, use the repository skill [`mactools-release-preflight`](.agents/skills/mactools-release-preflight/SKILL.md). It consolidates pending changelog fragments and reports PluginKit compatibility, old/new app and plugin behavior, release scope, and remaining prerequisites; other changes and release execution require separate user instructions.

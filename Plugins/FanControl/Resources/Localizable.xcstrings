@@ -4,49 +4,232 @@
     "error.action.persistenceFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر حفظ إعداد المروحة المسبق." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Lüftervoreinstellung konnte nicht gespeichert werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The fan preset could not be saved." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudo guardar el preajuste del ventilador." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible d’enregistrer le préréglage du ventilateur." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ファンプリセットを保存できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "팬 프리셋을 저장하지 못했습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível guardar a predefinição da ventoinha." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось сохранить предустановку вентилятора." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法保存风扇预设。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法儲存風扇預設。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر حفظ إعداد المروحة المسبق."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Lüftervoreinstellung konnte nicht gespeichert werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The fan preset could not be saved."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo guardar el preajuste del ventilador."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’enregistrer le préréglage du ventilateur."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ファンプリセットを保存できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "팬 프리셋을 저장하지 못했습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível guardar a predefinição da ventoinha."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить предустановку вентилятора."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fan hazır ayarı kaydedilemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法保存风扇预设。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法儲存風扇預設。"
+          }
+        }
       }
     },
     "error.action.persistenceRollbackFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر حفظ إعداد المروحة المسبق أو استعادة استراتيجية المروحة السابقة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Lüftervoreinstellung konnte nicht gespeichert und die vorherige Lüfterstrategie nicht wiederhergestellt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The fan preset could not be saved, and the previous fan strategy could not be restored." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudo guardar el preajuste ni restaurar la estrategia anterior del ventilador." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible d’enregistrer le préréglage et de restaurer la stratégie précédente du ventilateur." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "ファンプリセットを保存できず、以前のファン制御も復元できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "팬 프리셋을 저장하지 못했고 이전 팬 전략도 복원하지 못했습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível guardar a predefinição nem restaurar a estratégia anterior da ventoinha." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось сохранить предустановку и восстановить прежнюю стратегию вентилятора." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法保存风扇预设，且恢复先前风扇策略失败。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法儲存風扇預設，且無法還原先前的風扇策略。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر حفظ إعداد المروحة المسبق أو استعادة استراتيجية المروحة السابقة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Lüftervoreinstellung konnte nicht gespeichert und die vorherige Lüfterstrategie nicht wiederhergestellt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The fan preset could not be saved, and the previous fan strategy could not be restored."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo guardar el preajuste ni restaurar la estrategia anterior del ventilador."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’enregistrer le préréglage et de restaurer la stratégie précédente du ventilateur."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ファンプリセットを保存できず、以前のファン制御も復元できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "팬 프리셋을 저장하지 못했고 이전 팬 전략도 복원하지 못했습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível guardar a predefinição nem restaurar a estratégia anterior da ventoinha."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить предустановку и восстановить прежнюю стратегию вентилятора."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fan hazır ayarı kaydedilemedi ve önceki fan stratejisi geri yüklenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法保存风扇预设，且恢复先前风扇策略失败。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法儲存風扇預設，且無法還原先前的風扇策略。"
+          }
+        }
       }
     },
     "error.action.rollbackFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "%@؛ تعذرت استعادة استراتيجية المروحة السابقة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "%@; die vorherige Lüfterstrategie konnte nicht wiederhergestellt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "%@; the previous fan strategy could not be restored." } },
-        "es": { "stringUnit": { "state": "translated", "value": "%@; no se pudo restaurar la estrategia anterior del ventilador." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "%@ ; impossible de restaurer la stratégie précédente du ventilateur." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%@。以前のファン制御を復元できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%@. 이전 팬 전략을 복원하지 못했습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "%@; não foi possível restaurar a estratégia anterior da ventoinha." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "%@; не удалось восстановить прежнюю стратегию вентилятора." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "%@；恢复先前风扇策略失败。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "%@；無法還原先前的風扇策略。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@؛ تعذرت استعادة استراتيجية المروحة السابقة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; die vorherige Lüfterstrategie konnte nicht wiederhergestellt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; the previous fan strategy could not be restored."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; no se pudo restaurar la estrategia anterior del ventilador."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ; impossible de restaurer la stratégie précédente du ventilateur."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@。以前のファン制御を復元できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@. 이전 팬 전략을 복원하지 못했습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; não foi possível restaurar a estratégia anterior da ventoinha."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; не удалось восстановить прежнюю стратегию вентилятора."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; önceki fan stratejisi geri yüklenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@；恢复先前风扇策略失败。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@；無法還原先前的風扇策略。"
+          }
+        }
       }
     },
     "metadata.description": {
@@ -104,6 +287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Управление предустановками скорости вентилятора."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fan hız hazır ayarlarını yönetin."
           }
         },
         "zh-Hans": {
@@ -177,6 +366,12 @@
             "value": "Управление вентилятором"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fan Kontrolü"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -246,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалить этот пресет"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Hazır Ayarı Sil"
           }
         },
         "zh-Hans": {
@@ -319,6 +520,12 @@
             "value": "Управление пресетами…"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hazır Ayarları Yönet…"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -388,6 +595,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отсутствует компонент управления вентилятором"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fan kontrol bileşeni eksik"
           }
         },
         "zh-Hans": {
@@ -461,6 +674,12 @@
             "value": "Целевой доход на тысячу показов"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hedef RPM"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -527,6 +746,12 @@
           }
         },
         "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %@"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ · %@"
@@ -603,6 +828,12 @@
             "value": "Автоматически"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -672,6 +903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Управляется macOS"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS tarafından yönetilir"
           }
         },
         "zh-Hans": {
@@ -745,6 +982,12 @@
             "value": "Пользовательская предустановка %d"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel Hazır Ayar %d"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -814,6 +1057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Полная скорость"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam Hız"
           }
         },
         "zh-Hans": {
@@ -887,6 +1136,12 @@
             "value": "Максимальная скорость"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En yüksek hız"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -956,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "До %d об/мин"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d RPM'e kadar"
           }
         },
         "zh-Hans": {
@@ -1029,6 +1290,12 @@
             "value": "Управляется автоматически macOS"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS tarafından otomatik yönetilir"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1098,6 +1365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Встроенный"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerleşik"
           }
         },
         "zh-Hans": {
@@ -1171,6 +1444,12 @@
             "value": "Встроенные настройки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerleşik Hazır Ayarlar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1240,6 +1519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добавить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekle"
           }
         },
         "zh-Hans": {
@@ -1313,6 +1598,12 @@
             "value": "Можно создать до 100 пользовательских профилей."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En fazla 100 özel hazır ayar oluşturabilirsiniz."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1382,6 +1673,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалить этот пресет"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu hazır ayarı sil"
           }
         },
         "zh-Hans": {
@@ -1455,6 +1752,12 @@
             "value": "Нажмите «Добавить», чтобы создать собственную предустановку скорости вращения вентилятора"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel fan hızı hazır ayarı oluşturmak için Ekle'ye tıklayın"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1524,6 +1827,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Имя предустановки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hazır ayar adı"
           }
         },
         "zh-Hans": {
@@ -1597,6 +1906,12 @@
             "value": "Пользовательские настройки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel Hazır Ayarlar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1666,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось установить компонент управления вентилятором: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fan kontrol bileşeni yüklenemedi: %@"
           }
         },
         "zh-Hans": {
@@ -1739,6 +2060,12 @@
             "value": "Встроенный компонент управления вентилятором не найден. Переустановите плагин Fan Control."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerleşik fan kontrol bileşeni bulunamadı. Fan Kontrolü eklentisini yeniden yükleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1808,6 +2135,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка компонента управления вентилятором не удалась. Переустановите плагин Fan Control."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fan kontrol bileşeni doğrulanamadı. Fan Kontrolü eklentisini yeniden yükleyin."
           }
         },
         "zh-Hans": {
@@ -1881,6 +2214,12 @@
             "value": "Не удалось записать скорость вентилятора: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fan hızı yazılamadı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1950,6 +2289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось создать сценарий авторизации."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yetkilendirme betiği oluşturulamadı."
           }
         },
         "zh-Hans": {
@@ -2023,6 +2368,12 @@
             "value": "Некоторым вентиляторам не удалось установить целевую скорость"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bazı fanlarda hedef hız ayarlanamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2092,6 +2443,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Некоторые вентиляторы не смогли переключиться на полную скорость"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bazı fanlar tam hıza geçemedi"
           }
         },
         "zh-Hans": {
@@ -2165,6 +2522,12 @@
             "value": "Компонент по-прежнему не найден после установки"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bileşen yükleme sonrasında hâlâ bulunamadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2234,6 +2597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Некоторым вентиляторам не удалось восстановить автоматическое управление"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bazı fanlarda otomatik kontrol geri yüklenemedi"
           }
         },
         "zh-Hans": {

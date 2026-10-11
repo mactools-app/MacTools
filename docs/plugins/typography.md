@@ -1,6 +1,6 @@
 # Shared typography
 
-MacTools uses native macOS information roles across settings, menu panels, widgets, and utility windows. Keep fonts in PluginKit and let reusable renderers own repeated layout. The public `PluginTypography` and `PluginMetricValue` APIs require **host 2.0.0**. Their consumers must declare a compatible `minHostVersion`; older settings accessors remain available.
+MacTools uses native macOS information roles across settings, menu panels, widgets, and utility windows. Keep fonts in PluginKit and let reusable renderers own repeated layout. The public `PluginTypography` and `PluginMetricValue` APIs require **host 2.0.1**. Their consumers must declare a compatible `minHostVersion`; older settings accessors remain available.
 
 ## Roles
 

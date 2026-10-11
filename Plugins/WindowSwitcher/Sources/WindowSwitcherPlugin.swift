@@ -3,6 +3,44 @@ import Foundation
 import SwiftUI
 import MacToolsPluginKit
 
+enum WindowSwitcherDiagnostic: Equatable {
+    case actionRequested, actionUnavailable, actionFailed
+    case assignedConflict, assignedUnavailable
+    case accessibilityRevoked, accessibilityRequired, discoveryTimeout, shortcutTapUnavailable
+
+    init?(actionResult: WindowSwitcherActionResult) {
+        switch actionResult {
+        case .succeeded, .cancelled: return nil
+        case .requested: self = .actionRequested
+        case .unavailable: self = .actionUnavailable
+        case .failed: self = .actionFailed
+        }
+    }
+
+    func message(using localization: PluginLocalization) -> String {
+        switch self {
+        case .actionRequested:
+            localization.string("action.requested", defaultValue: "已发送请求；应用可能会要求保存更改。")
+        case .actionUnavailable:
+            localization.string("action.unavailable", defaultValue: "窗口已关闭或暂时无法访问，请重新选择。")
+        case .actionFailed:
+            localization.string("action.failed", defaultValue: "未能确认目标窗口，请重试或检查辅助功能权限。")
+        case .assignedConflict:
+            localization.string("chooser.assignedConflict", defaultValue: "快捷键已占用，请重新输入")
+        case .assignedUnavailable:
+            localization.string("chooser.assignedUnavailable", defaultValue: "无法修改此窗口的快捷键")
+        case .accessibilityRevoked:
+            localization.string("error.accessibilityRevoked", defaultValue: "辅助功能权限已关闭，窗口切换已暂停。")
+        case .accessibilityRequired:
+            localization.string("error.accessibilityRequired", defaultValue: "窗口切换需要辅助功能权限，请先前往设置完成授权。")
+        case .discoveryTimeout:
+            localization.string("error.discoveryTimeout", defaultValue: "尚未读取到可切换窗口，请稍后重试。")
+        case .shortcutTapUnavailable:
+            localization.string("error.shortcutTap", defaultValue: "无法监听快捷键，请检查辅助功能权限。")
+        }
+    }
+}
+
 public final class WindowSwitcherPluginFactory: NSObject, MacToolsPluginBundleFactory {
     public static func makeProvider(context: PluginRuntimeContext) throws -> any PluginProvider {
         WindowSwitcherPluginProvider(context: context)
@@ -41,7 +79,19 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
     }
 
 
-    let metadata: PluginMetadata
+    var metadata: PluginMetadata {
+        PluginMetadata(
+            id: WindowSwitcherConstants.pluginID,
+            title: localization.string("metadata.title", defaultValue: "窗口切换"),
+            iconName: "rectangle.2.swap",
+            iconTint: Color(nsColor: .systemIndigo),
+            order: 64,
+            defaultDescription: localization.string(
+                "metadata.description",
+                defaultValue: "快速切换正在运行的窗口"
+            )
+        )
+    }
 
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
@@ -69,7 +119,8 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
     private var isActive = false
     private var isRecordingShortcut = false
     private var isAccessibilityGranted: Bool
-    private var lastErrorMessage: String?
+    private var lastError: WindowSwitcherDiagnostic?
+    private var lastErrorMessage: String? { lastError?.message(using: localization) }
     private(set) var session: WindowSwitcherSession?
     private var sessionGeneration = 0
     private var invocationPID: pid_t?
@@ -99,17 +150,6 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         self.accessibilityTrusted = accessibilityTrusted
         self.requestAccessibilityTrust = requestAccessibilityTrust
         self.isAccessibilityGranted = accessibilityTrusted()
-        self.metadata = PluginMetadata(
-            id: WindowSwitcherConstants.pluginID,
-            title: localization.string("metadata.title", defaultValue: "窗口切换"),
-            iconName: "rectangle.2.swap",
-            iconTint: Color(nsColor: .systemIndigo),
-            order: 64,
-            defaultDescription: localization.string(
-                "metadata.description",
-                defaultValue: "快速切换正在运行的窗口"
-            )
-        )
 
         self.appCatalog.listingPolicy = store.configuration.listingPolicy
         self.appCatalog.onChange = { [weak self] in
@@ -331,7 +371,7 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
                     rows: [
                         PluginSettingsRow(
                             id: SettingsID.preview, title: localization.string("settings.preview.title", defaultValue: "选中窗口预览"),
-                            description: localization.string("settings.preview.description", defaultValue: "仅预览选中窗口。需在系统设置中允许屏幕录制，关闭时仍可搜索和切换。"),
+                            description: localization.string("settings.preview.description", defaultValue: "仅预览选中窗口。需在系统设置中允许录屏，不启用预览也可搜索和切换。"),
                             systemImage: "rectangle.on.rectangle",
                             control: .toggle(isOn: store.configuration.showsPreview)
                         )
@@ -352,14 +392,14 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
                         PluginSettingsRow(
                             id: SettingsID.otherDesktops,
                             title: localization.string("settings.otherDesktops.title", defaultValue: "包含其他桌面上的窗口"),
-                            description: localization.string("settings.otherDesktops.description", defaultValue: "切换时可以到达其他桌面或 Space 上的窗口。"),
+                            description: localization.string("settings.otherDesktops.description", defaultValue: "可切换到其他桌面或空间上的窗口。"),
                             systemImage: "menubar.dock.rectangle",
                             control: .toggle(isOn: store.configuration.includesOtherDesktopWindows)
                         ),
                         PluginSettingsRow(
                             id: SettingsID.fullscreenSpaces,
                             title: localization.string("settings.fullscreen.title", defaultValue: "包含全屏空间中的窗口"),
-                            description: localization.string("settings.fullscreen.description", defaultValue: "包括原生全屏 App 所在的独立 Space。"),
+                            description: localization.string("settings.fullscreen.description", defaultValue: "包括全屏 App 所在的独立空间。"),
                             systemImage: "arrow.up.left.and.arrow.down.right",
                             control: .toggle(isOn: store.configuration.includesFullscreenSpaceWindows)
                         )
@@ -562,13 +602,10 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
             shortcutTap.stop()
             appCatalog.stop()
             if store.configuration.isEnabled {
-                lastErrorMessage = localization.string(
-                    "error.accessibilityRevoked",
-                    defaultValue: "辅助功能权限已关闭，窗口切换已暂停。"
-                )
+                lastError = .accessibilityRevoked
             }
         } else if !previous && isAccessibilityGranted {
-            lastErrorMessage = nil
+            lastError = nil
             syncShortcutTap()
         }
 
@@ -612,7 +649,7 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
     private func configurationDidChange() {
         cancelSession()
         appCatalog.listingPolicy = store.configuration.listingPolicy
-        if !store.configuration.isEnabled { lastErrorMessage = nil }
+        if !store.configuration.isEnabled { lastError = nil }
         syncShortcutTap()
         onStateChange?()
     }
@@ -688,7 +725,7 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
                 try? await Task.sleep(for: self?.discoveryTimeout ?? .seconds(2))
                 guard !Task.isCancelled, let self, sessionGeneration == generation, pendingInvocation != nil else { return }
                 cancelSession()
-                lastErrorMessage = localization.string("error.discoveryTimeout", defaultValue: "尚未读取到可切换窗口，请稍后重试。")
+                lastError = .discoveryTimeout
                 onStateChange?()
             }
             return
@@ -767,19 +804,10 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
             guard intent.shouldContinue() else { return }
             let result = await appCatalog.activate(entry, intent: intent)
             guard sessionGeneration == generation, !Task.isCancelled else { return }
-            lastErrorMessage = localizedActionMessage(result)
+            lastError = WindowSwitcherDiagnostic(actionResult: result)
             // A late verification failure must not steal focus back after
             // the user has already switched. Keep the error in settings.
             onStateChange?()
-        }
-    }
-
-    private func localizedActionMessage(_ result: WindowSwitcherActionResult) -> String? {
-        switch result {
-        case .succeeded, .cancelled: nil
-        case .requested: localization.string("action.requested", defaultValue: "已发送请求；窗口可能需要确认保存。")
-        case .unavailable: localization.string("action.unavailable", defaultValue: "窗口已关闭或暂时无法访问，请重新选择。")
-        case .failed: localization.string("action.failed", defaultValue: "未能确认目标窗口，请重试或检查辅助功能权限。")
         }
     }
 
@@ -790,13 +818,13 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
             guard let self, !Task.isCancelled else { return }
             let result = await appCatalog.closeWindow(entry)
             guard generation == sessionGeneration, !Task.isCancelled else { return }
-            if let message = localizedActionMessage(result) { overlayController.showMessage(message) }
+            if let diagnostic = WindowSwitcherDiagnostic(actionResult: result) { overlayController.showMessage(diagnostic) }
         }
     }
 
     private func quit(_ entry: WindowSwitcherAppEntry) {
         let result = appCatalog.quitApplication(entry)
-        if let message = localizedActionMessage(result) { overlayController.showMessage(message) }
+        if let diagnostic = WindowSwitcherDiagnostic(actionResult: result) { overlayController.showMessage(diagnostic) }
         // Keep rows until the catalog confirms termination; save dialogs may cancel it.
     }
 
@@ -815,17 +843,14 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         guard isActive, !isRecordingShortcut else { return false }
         refreshAccessibilityPermission()
         guard isAccessibilityGranted else {
-            lastErrorMessage = localization.string(
-                "error.accessibilityRequired",
-                defaultValue: "窗口切换需要辅助功能权限，请先前往设置完成授权。"
-            )
+            lastError = .accessibilityRequired
             requestPermissionGuidance?(WindowSwitcherConstants.accessibilityPermissionID)
             onStateChange?()
             return false
         }
 
         let hadError = lastErrorMessage != nil
-        lastErrorMessage = nil
+        lastError = nil
         syncShortcutTap()
         if hadError { onStateChange?() }
         return true
@@ -839,13 +864,10 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
 
         isAccessibilityGranted = requestAccessibilityTrust(true)
         if isAccessibilityGranted {
-            lastErrorMessage = nil
+            lastError = nil
             syncShortcutTap()
         } else {
-            lastErrorMessage = localization.string(
-                "error.accessibilityRequired",
-                defaultValue: "窗口切换需要辅助功能权限，请先前往设置完成授权。"
-            )
+            lastError = .accessibilityRequired
         }
         onStateChange?()
     }
@@ -891,7 +913,7 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         if isActive && !isRecordingShortcut && store.configuration.isEnabled && isAccessibilityGranted {
             appCatalog.start()
             shortcutTap.start()
-            if !shortcutTap.isRunning { lastErrorMessage = localization.string("error.shortcutTap", defaultValue: "无法监听快捷键，请检查辅助功能权限。") }
+            if !shortcutTap.isRunning { lastError = .shortcutTapUnavailable }
         } else {
             shortcutTap.stop()
             appCatalog.stop()

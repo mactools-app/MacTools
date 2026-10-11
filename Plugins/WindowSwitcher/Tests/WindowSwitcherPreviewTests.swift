@@ -1,9 +1,52 @@
 import AppKit
+import MacToolsPluginKit
 import XCTest
 @testable import WindowSwitcherPlugin
 
 @MainActor
 final class WindowSwitcherPreviewTests: XCTestCase {
+    func testLanguageChangeRetainsCapturedPreviewAndReprojectsFailureWithoutRecapturing() async throws {
+        let originalPreference = UserDefaults.standard.string(
+            forKey: PluginRuntimeLocalization.preferenceUserDefaultsKey
+        )
+        defer { PluginRuntimeLocalization.source.setPreference(originalPreference) }
+        let resources = try makeLocalizationBundle()
+        defer { try? FileManager.default.removeItem(at: resources.directory) }
+        PluginRuntimeLocalization.source.setPreference("en")
+
+        let image = NSImage(size: NSSize(width: 3, height: 3))
+        var captures = 0
+        var publications = 0
+        let preview = WindowSwitcherPreview(
+            localization: PluginLocalization(bundle: resources.bundle),
+            hasPermission: { true }, debounceDelay: .zero,
+            capture: { _ in captures += 1; return image }
+        )
+        preview.onChange = { _, _ in publications += 1 }
+        let entry = makeEntry(number: 7)
+        preview.select(entry)
+        try await waitUntil { preview.currentImage === image }
+        let publicationsAfterCapture = publications
+
+        PluginRuntimeLocalization.source.setPreference("ar")
+        preview.select(entry)
+        XCTAssertTrue(preview.currentImage === image)
+        XCTAssertNil(preview.status)
+        XCTAssertEqual(captures, 1)
+        XCTAssertEqual(publications, publicationsAfterCapture)
+
+        preview.select(nil)
+        let failureMessage = try XCTUnwrap(preview.statusMessage)
+        let publicationsAfterFailure = publications
+        PluginRuntimeLocalization.source.setPreference("en")
+
+        XCTAssertEqual(preview.status, .unavailable)
+        XCTAssertNotEqual(preview.statusMessage, failureMessage)
+        XCTAssertNil(preview.currentImage)
+        XCTAssertEqual(captures, 1)
+        XCTAssertEqual(publications, publicationsAfterFailure)
+    }
+
     func testPreviewKeepsGestureResponderWhileNextScreenshotLoads() {
         let panel = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 500, height: 300),
             styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
@@ -155,6 +198,21 @@ final class WindowSwitcherPreviewTests: XCTestCase {
             icon: nil, windowElement: AXUIElementCreateApplication(42), isMinimized: false,
             windowNumber: number, shortcutToken: nil,
             bounds: CGRect(x: 20, y: 20, width: 800, height: 600))
+    }
+
+    private func makeLocalizationBundle() throws -> (bundle: Bundle, directory: URL) {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let bundleURL = directory.appendingPathComponent("WindowSwitcherPreviewTests.bundle", isDirectory: true)
+        for language in ["en", "ar"] {
+            let languageURL = bundleURL.appendingPathComponent("\(language).lproj", isDirectory: true)
+            try FileManager.default.createDirectory(at: languageURL, withIntermediateDirectories: true)
+            try "\"preview.unavailable\" = \"preview-unavailable-\(language)\";".write(
+                to: languageURL.appendingPathComponent("Localizable.strings"),
+                atomically: true, encoding: .utf8
+            )
+        }
+        return (try XCTUnwrap(Bundle(url: bundleURL)), directory)
     }
 
     private func waitUntil(

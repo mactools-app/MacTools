@@ -4,7 +4,7 @@ Command Palette and Clipboard History use `PluginPaletteSurface` from PluginKit.
 
 ## Ownership and rendering
 
-- `PluginFloatingPanelSurface` owns the shared floating-panel background and supports rounded rectangles and capsules. The API requires host 2.0.0. `PluginPaletteSurface` retains its existing public interface as the palette-specific wrapper. `PluginPaletteColors.selectedText` requires host 1.3.1.
+- `PluginFloatingPanelSurface` owns the shared floating-panel background and supports rounded rectangles and capsules. The API requires host 2.0.1. `PluginPaletteSurface` retains its existing public interface as the palette-specific wrapper. `PluginPaletteColors.selectedText` requires host 1.3.1.
 - On macOS 26 and later, the background bridges AppKit's `NSGlassEffectView` into SwiftUI with regular style. Hosted content remains outside the background so drag handles, native input, and view identity are preserved.
 - The host exposes Follow macOS and Solid appearances. Follow macOS leaves the native Liquid Glass appearance to AppKit; Solid uses the semantic window background. The menu-bar color-theme system remains separate.
 - Reduce Transparency always selects the opaque semantic background, regardless of the app preference. Older supported macOS versions use native material for Follow macOS. Increase Contrast strengthens palette, selected-row, control, and image-preview boundaries. Selection text preserves the system's preferred foreground when it meets 4.5:1 contrast against the opaque selection background; otherwise it uses black or white. This also protects yellow accents, selected subtitles, and shortcut labels. Colors resolve again for the current appearance.

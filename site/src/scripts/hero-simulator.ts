@@ -1,3 +1,5 @@
+import { clearLocalizedText, setLocalizedText } from "./site-language";
+
 export {};
 
 const root = document.documentElement;
@@ -279,11 +281,11 @@ document.querySelectorAll<HTMLElement>("[data-menubar-simulator]").forEach((simu
     }
   };
 
-  const showToast = (message: string) => {
+  const showToast = (zh: string, en: string) => {
     if (!toast) return;
 
     window.clearTimeout(toastTimer);
-    toast.textContent = message;
+    setLocalizedText(toast, zh, en);
     toast.classList.add("is-visible");
     toastTimer = window.setTimeout(() => {
       toast.classList.remove("is-visible");
@@ -487,7 +489,7 @@ document.querySelectorAll<HTMLElement>("[data-menubar-simulator]").forEach((simu
     if (cpuFootnote) {
       const load = (0.72 + cpu * 0.029).toFixed(2);
       const power = (1.2 + cpu * 0.067).toFixed(1);
-      cpuFootnote.textContent = localized(
+      setLocalizedText(cpuFootnote,
         `负载 ${load} · 功率 ${power} W`,
         `Load ${load} · Power ${power} W`,
       );
@@ -637,13 +639,13 @@ document.querySelectorAll<HTMLElement>("[data-menubar-simulator]").forEach((simu
           });
       }
 
-      const label = button.querySelector<HTMLElement>(
-        currentLanguage() === "en" ? "[data-i18n-en]" : "[data-i18n-zh]",
-      )?.textContent?.trim();
-      if (label) {
-        showToast(mode === "action"
-          ? localized(`${label} · 操作仅为模拟`, `${label} · action simulated`)
-          : localized(`${label} · 已选择`, `${label} · selected`));
+      const zh = button.querySelector<HTMLElement>("[data-i18n-zh]")?.textContent?.trim();
+      const en = button.querySelector<HTMLElement>("[data-i18n-en]")?.textContent?.trim();
+      if (zh && en) {
+        showToast(
+          mode === "action" ? `${zh} · 操作仅为模拟` : `${zh} · 已选择`,
+          mode === "action" ? `${en} · action simulated` : `${en} · selected`,
+        );
       }
     });
   });
@@ -677,25 +679,23 @@ document.querySelectorAll<HTMLElement>("[data-menubar-simulator]").forEach((simu
       const summary = resolutionNavigationRow?.querySelector<HTMLElement>(".sim-detail-row-copy small");
       if (resolution && summary) summary.textContent = resolution;
       if (resolution) {
-        showToast(localized(`分辨率 ${resolution} · 已选择`, `Resolution ${resolution} · selected`));
+        showToast(`分辨率 ${resolution} · 已选择`, `Resolution ${resolution} · selected`);
       }
     });
   });
 
   simulator.querySelectorAll<HTMLButtonElement>("[data-sim-action]").forEach((button) => {
     button.addEventListener("click", () => {
-      const pluginName = currentLanguage() === "en"
-        ? button.dataset.pluginNameEn ?? "Plugin"
-        : button.dataset.pluginNameZh ?? "插件";
       button.dataset.simBusy = "true";
       button.disabled = true;
-      button.textContent = localized("处理中", "Working");
+      setLocalizedText(button, "处理中", "Working");
 
       window.setTimeout(() => {
-        button.textContent = localized("完成", "Done");
-        showToast(localized(`${pluginName} · 已完成（模拟）`, `${pluginName} · completed (simulation)`));
+        setLocalizedText(button, "完成", "Done");
+        showToast(`${button.dataset.pluginNameZh ?? "插件"} · 已完成（模拟）`, `${button.dataset.pluginNameEn ?? "Plugin"} · completed (simulation)`);
 
         window.setTimeout(() => {
+          clearLocalizedText(button);
           button.dataset.simBusy = "false";
           button.disabled = false;
           updateActionLabels();

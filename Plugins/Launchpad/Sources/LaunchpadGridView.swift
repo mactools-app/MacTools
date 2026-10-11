@@ -16,6 +16,7 @@ import SwiftUI
 /// truth; the visible page is derived from it (`selectedIndex / perPage`), so keyboard
 /// navigation, page dots and drag all stay consistent.
 struct LaunchpadGridView: View {
+    @Environment(\.locale) private var locale
     @ObservedObject var catalog: LaunchpadAppCatalog
     /// Custom-order layout. Observed so a reorder / reset (which mutates `@Published layout`)
     /// re-evaluates `filtered` and re-renders — the overlay grid does NOT observe
@@ -90,6 +91,9 @@ struct LaunchpadGridView: View {
     /// Shared chrome constants (search bar, paddings, page-dot reserve) — single-sourced
     /// in `LaunchpadLayoutMath.Chrome` so the settings preview can't drift (design §1.1).
     private var chrome: LaunchpadLayoutMath.Chrome { .standard(isCompact: isCompact) }
+    private var semanticLayoutDirection: LayoutDirection {
+        locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight
+    }
 
     /// Memoized: the reconcile projection is pure in these inputs, so a body pass
     /// that changes only paging state (`pageDragTranslation`) — i.e. every frame of
@@ -350,6 +354,7 @@ struct LaunchpadGridView: View {
             onCancel: handleCancel
         )
         .frame(width: chrome.searchBarWidth, height: chrome.searchBarHeight)
+        .environment(\.layoutDirection, semanticLayoutDirection)
     }
 
     @ViewBuilder
@@ -372,6 +377,7 @@ struct LaunchpadGridView: View {
                     .font(.title3)
                     .foregroundStyle(.secondary)
             }
+            .environment(\.layoutDirection, semanticLayoutDirection)
             Spacer()
         } else {
             pagedGrid
@@ -940,6 +946,7 @@ struct LaunchpadGridView: View {
                 onFocusRequestHandled: { pendingRenameFocusID = nil }
             )
             .frame(width: min(gridW, 360), height: 26)
+            .environment(\.layoutDirection, semanticLayoutDirection)
 
             // ONE stable view identity for every folder size: an if/else here would swap SwiftUI
             // branches when the row count crosses the cap — and a mid-carry eject SHRINKS the item

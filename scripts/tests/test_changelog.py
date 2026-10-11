@@ -31,6 +31,7 @@ class ChangelogValidationCommandTests(unittest.TestCase):
                 changelog.render_release_history("# Changelog\n"), encoding="utf-8"
             )
             shutil.copy2(SCRIPT_PATH, root / "scripts" / "changelog.py")
+            shutil.copy2(SCRIPT_PATH.parent / "audit-localization.py", root / "scripts" / "audit-localization.py")
             shutil.copy2(SCRIPT_PATH.parent.parent / "Makefile", root / "Makefile")
             # The real script-tests target also verifies generated website data.
             # Give this minimal checkout a valid empty plugin projection.

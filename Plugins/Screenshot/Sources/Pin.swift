@@ -1,4 +1,6 @@
 import AppKit
+import Combine
+import MacToolsPluginKit
 
 /// A movable image window retained by the plugin environment until closed or disabled.
 @MainActor
@@ -26,6 +28,7 @@ private final class PinView: NSImageView {
     private let baseSize: NSSize
     private weak var environment: ScreenshotEnvironment?
     private var zoom: CGFloat = 1
+    private var localeSubscription: AnyCancellable?
 
     init(png: Data, size: NSSize, name: String, environment: ScreenshotEnvironment) {
         self.png = png
@@ -36,11 +39,18 @@ private final class PinView: NSImageView {
         image = NSImage(data: png)
         imageScaling = .scaleAxesIndependently
         autoresizingMask = [.width, .height]
-        toolTip = environment.string("pin.tooltip", "拖动移动 · 滚轮缩放 · 双击/Esc 关闭 · ⌘C 复制 · ⌘S 保存")
+        refreshTooltip()
+        localeSubscription = PluginRuntimeLocalization.source.$revision.dropFirst().sink { [weak self] _ in
+            DispatchQueue.main.async { [weak self] in self?.refreshTooltip() }
+        }
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) is unavailable") }
     override var acceptsFirstResponder: Bool { true }
+
+    private func refreshTooltip() {
+        toolTip = environment?.string("pin.tooltip", "拖动移动 · 滚轮缩放 · 双击/Esc 关闭 · ⌘C 复制 · ⌘S 保存")
+    }
 
     override func mouseDown(with event: NSEvent) {
         if event.clickCount == 2 { window?.close(); return }

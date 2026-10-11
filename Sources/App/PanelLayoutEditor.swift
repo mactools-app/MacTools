@@ -316,7 +316,7 @@ private struct PanelLayoutReorderItem<Content: View>: View {
             // Preserve the plugin's enabled appearance while excluding its content
             // from pointer input, keyboard focus, and accessibility actions.
             content
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
                 .compositingGroup()
                 .blur(radius: showsControls ? 2 : 0)
                 .overlay { theme.surfaces.panel.opacity(showsControls ? 0.22 : 0) }
@@ -347,7 +347,7 @@ private struct PanelLayoutReorderItem<Content: View>: View {
                         .accessibilityIdentifier("panel.layout.remove.\(id)")
 
                         MenuBarPanelMenu(makeMenu: { destinationMenu(showsHeading: true) }) {
-                            controlIcon("arrow.right.square", side: metrics.buttonSide)
+                            controlIcon("arrow.forward.square", side: metrics.buttonSide)
                         }
                         .focused($focusedControl, equals: .moveTo)
                         .help(FeatureL10n.string("移动到"))

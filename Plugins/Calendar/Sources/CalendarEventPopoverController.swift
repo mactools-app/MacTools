@@ -4,12 +4,12 @@ import MacToolsPluginKit
 
 @MainActor
 final class CalendarEventPopoverController<Content: View>: NSViewController {
-    private let hostingController: NSHostingController<Content>
+    private let hostingController: NSHostingController<CalendarEventPopoverLocalizedRoot<Content>>
     private let theme: PluginComponentTheme
     private var contentSize = NSSize.zero
 
     init(content: Content, theme: PluginComponentTheme) {
-        hostingController = NSHostingController(rootView: content)
+        hostingController = NSHostingController(rootView: CalendarEventPopoverLocalizedRoot(content: content))
         self.theme = theme
         super.init(nibName: nil, bundle: nil)
     }
@@ -53,6 +53,21 @@ final class CalendarEventPopoverController<Content: View>: NSViewController {
             width: contentSize.width + (hasInsets ? insets.left + insets.right : 26),
             height: contentSize.height + (hasInsets ? insets.top + insets.bottom : 26)
         )
+    }
+}
+
+private struct CalendarEventPopoverLocalizedRoot<Content: View>: View {
+    @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
+    let content: Content
+
+    init(content: Content) { self.content = content }
+
+    var body: some View {
+        let _ = runtimeLocale.revision
+        let locale = runtimeLocale.locale
+        content
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight)
     }
 }
 

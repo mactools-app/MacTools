@@ -3,22 +3,34 @@
   "strings": {
     "metadata.description": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حالة البطارية والشبكة ومستوى الصوت في أيقونة مستقلة أو رئيسية في شريط القوائم."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Batterie, Netzwerk und Ausgabelautstärke als separates oder primäres Menüleistensymbol."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Battery, network, and output volume status in a standalone or primary menu bar icon."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "通过独立图标或应用主图标查看电量、网络与输出音量状态"
+            "value": "Batería, red y volumen de salida en un icono independiente o principal de la barra de menús."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "透過獨立圖示或應用程式主圖示查看電量、網路與輸出音量狀態"
+            "value": "Batterie, réseau et volume de sortie dans une icône distincte ou principale de la barre des menus."
           }
         },
         "ja": {
@@ -33,24 +45,6 @@
             "value": "별도 아이콘 또는 앱 메뉴 막대 아이콘으로 배터리, 네트워크, 출력 음량 상태 확인"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Batterie, Netzwerk und Ausgabelautstärke als separates oder primäres Menüleistensymbol."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Batterie, réseau et volume de sortie dans une icône distincte ou principale de la barre des menus."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Batería, red y volumen de salida en un icono independiente o principal de la barra de menús."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -63,32 +57,56 @@
             "value": "Батарея, сеть и выходная громкость в отдельном или основном значке строки меню."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "حالة البطارية والشبكة ومستوى الصوت في أيقونة مستقلة أو رئيسية في شريط القوائم."
+            "value": "Pil, ağ ve çıkış sesi durumunu ayrı ya da ana menü çubuğu simgesinde görüntüleyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过独立图标或应用主图标查看电量、网络与输出音量状态"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "透過獨立圖示或應用程式主圖示查看電量、網路與輸出音量狀態"
           }
         }
       }
     },
     "metadata.title": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حالة Duo"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duo-Status"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Duo Status"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Duo 状态"
+            "value": "Estado Duo"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Duo 狀態"
+            "value": "État Duo"
           }
         },
         "ja": {
@@ -103,24 +121,6 @@
             "value": "Duo 상태"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Duo-Status"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "État Duo"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estado Duo"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -133,32 +133,56 @@
             "value": "Статус Duo"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "حالة Duo"
+            "value": "Duo Durumu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duo 状态"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duo 狀態"
           }
         }
       }
     },
     "settings.footer": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعرض القوس شحن البطارية، ويعرض المركز حالة الشبكة، وتعرض النقاط السفلية إشارة Wi-Fi."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Bogen zeigt den Ladestand, die Mitte den Netzwerkstatus und die Punkte unten das WLAN-Signal."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The arc shows battery, the center shows network status, and the bottom dots show Wi-Fi signal."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "圆弧显示电量，中心显示网络状态，底部圆点显示 Wi-Fi 信号。"
+            "value": "El arco muestra la batería, el centro el estado de red y los puntos inferiores la señal Wi-Fi."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "圓弧顯示電量，中央顯示網路狀態，底部圓點顯示 Wi-Fi 訊號。"
+            "value": "L’arc indique la batterie, le centre l’état du réseau et les points du bas le signal Wi-Fi."
           }
         },
         "ja": {
@@ -173,24 +197,6 @@
             "value": "호는 배터리 잔량, 중앙은 네트워크 상태, 아래쪽 점은 Wi-Fi 신호를 표시합니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Der Bogen zeigt den Ladestand, die Mitte den Netzwerkstatus und die Punkte unten das WLAN-Signal."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L’arc indique la batterie, le centre l’état du réseau et les points du bas le signal Wi-Fi."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El arco muestra la batería, el centro el estado de red y los puntos inferiores la señal Wi-Fi."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -203,32 +209,56 @@
             "value": "Дуга показывает заряд, центр — состояние сети, нижние точки — сигнал Wi-Fi."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "يعرض القوس شحن البطارية، ويعرض المركز حالة الشبكة، وتعرض النقاط السفلية إشارة Wi-Fi."
+            "value": "Yay pil durumunu, merkez ağ durumunu, alttaki noktalar ise Wi-Fi sinyalini gösterir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圆弧显示电量，中心显示网络状态，底部圆点显示 Wi-Fi 信号。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圓弧顯示電量，中央顯示網路狀態，底部圓點顯示 Wi-Fi 訊號。"
           }
         }
       }
     },
     "settings.menuBar": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شريط القوائم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menüleiste"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Menu Bar"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "菜单栏"
+            "value": "Barra de menús"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "選單列"
+            "value": "Barre des menus"
           }
         },
         "ja": {
@@ -243,24 +273,6 @@
             "value": "메뉴 막대"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Menüleiste"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Barre des menus"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Barra de menús"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -273,10 +285,22 @@
             "value": "Строка меню"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "شريط القوائم"
+            "value": "Menü Çubuğu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "菜单栏"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選單列"
           }
         }
       }
@@ -336,6 +360,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Батарея %d%%"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil %d%%"
           }
         },
         "zh-Hans": {
@@ -409,6 +439,12 @@
             "value": "Заряд батареи временно недоступен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil durumu geçici olarak kullanılamıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -478,6 +514,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Батарея %d%%, заряжается"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil %d%%, şarj oluyor"
           }
         },
         "zh-Hans": {
@@ -551,6 +593,12 @@
             "value": "Батарея %d%%, подключена к питанию"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil %d%%, güç kaynağına bağlı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -620,6 +668,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сеть подключена"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağ bağlı"
           }
         },
         "zh-Hans": {
@@ -693,6 +747,12 @@
             "value": "Ожидание подключения к сети"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağ bağlantısı bekleniyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -762,6 +822,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сеть не подключена"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağ bağlı değil"
           }
         },
         "zh-Hans": {
@@ -835,6 +901,12 @@
             "value": "Состояние сети временно недоступно"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağ durumu geçici olarak kullanılamıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -904,6 +976,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет встроенной батареи"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerleşik pil yok"
           }
         },
         "zh-Hans": {
@@ -977,6 +1055,12 @@
             "value": "Wi-Fi не подключён"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi bağlı değil"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1046,6 +1130,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сигнал Wi-Fi %d/4"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi sinyali %d/4"
           }
         },
         "zh-Hans": {
@@ -1119,6 +1209,12 @@
             "value": "Wi-Fi выключен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi kapalı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1190,6 +1286,12 @@
             "value": "Сигнал Wi-Fi временно недоступен"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi sinyali geçici olarak kullanılamıyor"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1206,22 +1308,34 @@
     },
     "settings.placement": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وضع العرض"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darstellung"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Display Mode"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "显示方式"
+            "value": "Modo de visualización"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "顯示方式"
+            "value": "Mode d’affichage"
           }
         },
         "ja": {
@@ -1236,24 +1350,6 @@
             "value": "표시 방식"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Darstellung"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mode d’affichage"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modo de visualización"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -1266,32 +1362,56 @@
             "value": "Режим отображения"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "وضع العرض"
+            "value": "Görüntüleme Modu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示方式"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示方式"
           }
         }
       }
     },
     "settings.standalone": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أيقونة مستقلة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Separates Symbol"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Separate Icon"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "独立图标"
+            "value": "Icono independiente"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "獨立圖示"
+            "value": "Icône distincte"
           }
         },
         "ja": {
@@ -1306,24 +1426,6 @@
             "value": "별도 아이콘"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Separates Symbol"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Icône distincte"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Icono independiente"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -1336,32 +1438,56 @@
             "value": "Отдельный значок"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "أيقونة مستقلة"
+            "value": "Ayrı Simge"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "独立图标"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "獨立圖示"
           }
         }
       }
     },
     "settings.primary": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استبدال أيقونة التطبيق"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Symbol ersetzen"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Replace App Icon"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "替换应用图标"
+            "value": "Sustituir icono de la app"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "取代應用程式圖示"
+            "value": "Remplacer l’icône"
           }
         },
         "ja": {
@@ -1376,24 +1502,6 @@
             "value": "앱 아이콘 대체"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "App-Symbol ersetzen"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Remplacer l’icône"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sustituir icono de la app"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -1406,32 +1514,56 @@
             "value": "Заменить значок приложения"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "استبدال أيقونة التطبيق"
+            "value": "Uygulama Simgesini Değiştir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "替换应用图标"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取代應用程式圖示"
           }
         }
       }
     },
     "settings.standaloneDescription": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض أيقونة مستقلة. مرّر المؤشر لعرض الحالة وانقر لفتح الإعدادات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Separates Symbol anzeigen. Für Status darüberfahren, für Einstellungen klicken."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Show a separate icon. Hover for status; click to open settings."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "独立显示，悬停查看状态，点击打开设置。"
+            "value": "Muestra un icono independiente. Pasa el cursor para ver el estado; haz clic para abrir los ajustes."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "獨立顯示，移至圖示查看狀態，點按開啟設定。"
+            "value": "Affiche une icône distincte. Survolez pour l’état, cliquez pour les réglages."
           }
         },
         "ja": {
@@ -1446,24 +1578,6 @@
             "value": "별도 아이콘을 표시합니다. 마우스를 올리면 상태를 보고, 클릭하면 설정을 엽니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Separates Symbol anzeigen. Für Status darüberfahren, für Einstellungen klicken."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Affiche une icône distincte. Survolez pour l’état, cliquez pour les réglages."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Muestra un icono independiente. Pasa el cursor para ver el estado; haz clic para abrir los ajustes."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -1476,32 +1590,56 @@
             "value": "Отдельный значок: наведите курсор для просмотра состояния, нажмите для настроек."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "عرض أيقونة مستقلة. مرّر المؤشر لعرض الحالة وانقر لفتح الإعدادات."
+            "value": "Ayrı bir simge gösterir. Durumu görmek için imleci simgenin üzerine getirin; ayarları açmak için tıklayın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "独立显示，悬停查看状态，点击打开设置。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "獨立顯示，移至圖示查看狀態，點按開啟設定。"
           }
         }
       }
     },
     "settings.primaryDescription": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استبدال أيقونة MacTools في شريط القوائم مع الحفاظ على سلوك النقر."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ersetzt das MacTools-Menüleistensymbol; die Klickaktionen bleiben unverändert."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Replace the MacTools menu bar icon without changing its click behavior."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "替换 MacTools 主图标，点击行为保持不变。"
+            "value": "Sustituye el icono de MacTools sin cambiar las acciones del clic."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "取代 MacTools 主圖示，點按行為保持不變。"
+            "value": "Remplace l’icône MacTools dans la barre des menus sans modifier les actions du clic."
           }
         },
         "ja": {
@@ -1516,24 +1654,6 @@
             "value": "MacTools 메뉴 막대 아이콘을 대체하며 클릭 동작은 유지합니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ersetzt das MacTools-Menüleistensymbol; die Klickaktionen bleiben unverändert."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Remplace l’icône MacTools dans la barre des menus sans modifier les actions du clic."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sustituye el icono de MacTools sin cambiar las acciones del clic."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -1546,10 +1666,22 @@
             "value": "Заменяет значок MacTools в строке меню, сохраняя действия при нажатии."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "استبدال أيقونة MacTools في شريط القوائم مع الحفاظ على سلوك النقر."
+            "value": "MacTools menü çubuğu simgesini değiştirir; tıklama davranışı aynı kalır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "替换 MacTools 主图标，点击行为保持不变。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取代 MacTools 主圖示，點按行為保持不變。"
           }
         }
       }
@@ -1557,22 +1689,34 @@
     "settings.occupiedPendingRestartFormat": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنتظر «%@» إعادة التشغيل. أعد تشغيل MacTools لتغيير إعدادات أيقونتها."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„%@“ wartet auf einen Neustart. Starte MacTools neu, um dessen Symboleinstellungen zu ändern."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "“%@” is awaiting restart. Restart MacTools to change its icon settings."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "「%@」正在等待重启。请重启 MacTools 后调整其图标设置。"
+            "value": "«%@» requiere un reinicio. Reinicia MacTools para cambiar sus ajustes de icono."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "「%@」正在等待重新啟動。請重新啟動 MacTools 後調整其圖示設定。"
+            "value": "« %@ » attend un redémarrage. Redémarrez MacTools pour modifier ses réglages d’icône."
           }
         },
         "ja": {
@@ -1587,24 +1731,6 @@
             "value": "‘%@’에서 재시작을 기다리고 있습니다. MacTools를 재시작한 후 해당 아이콘 설정을 변경하세요."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "„%@“ wartet auf einen Neustart. Starte MacTools neu, um dessen Symboleinstellungen zu ändern."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "« %@ » attend un redémarrage. Redémarrez MacTools pour modifier ses réglages d’icône."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "«%@» requiere un reinicio. Reinicia MacTools para cambiar sus ajustes de icono."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -1617,32 +1743,56 @@
             "value": "«%@» ожидает перезапуска. Перезапустите MacTools, чтобы изменить настройки его значка."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تنتظر «%@» إعادة التشغيل. أعد تشغيل MacTools لتغيير إعدادات أيقونتها."
+            "value": "“%@” yeniden başlatma bekliyor. Simge ayarlarını değiştirmek için MacTools'u yeniden başlatın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「%@」正在等待重启。请重启 MacTools 后调整其图标设置。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「%@」正在等待重新啟動。請重新啟動 MacTools 後調整其圖示設定。"
           }
         }
       }
     },
     "settings.occupiedFormat": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تستخدم «%@» أيقونة التطبيق. أوقف الاستبدال في إعداداتها أولًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„%@“ verwendet das App-Symbol. Deaktiviere zuerst die Ersetzung in dessen Einstellungen."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The app icon is used by “%@”. Turn off replacement in its settings first."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "应用图标已由「%@」使用。请先在其设置中取消替换。"
+            "value": "«%@» usa el icono de la app. Desactiva primero el reemplazo en sus ajustes."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "應用程式圖示已由「%@」使用。請先在其設定中取消取代。"
+            "value": "« %@ » utilise l’icône de l’app. Désactivez d’abord le remplacement dans ses réglages."
           }
         },
         "ja": {
@@ -1657,24 +1807,6 @@
             "value": "‘%@’에서 앱 아이콘을 사용 중입니다. 먼저 해당 설정에서 아이콘 대체를 해제하세요."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "„%@“ verwendet das App-Symbol. Deaktiviere zuerst die Ersetzung in dessen Einstellungen."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "« %@ » utilise l’icône de l’app. Désactivez d’abord le remplacement dans ses réglages."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "«%@» usa el icono de la app. Desactiva primero el reemplazo en sus ajustes."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -1687,32 +1819,56 @@
             "value": "«%@» использует значок приложения. Сначала отключите замену в его настройках."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تستخدم «%@» أيقونة التطبيق. أوقف الاستبدال في إعداداتها أولًا."
+            "value": "Uygulama simgesini “%@” kullanıyor. Önce onun ayarlarından simge değiştirmeyi kapatın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用图标已由「%@」使用。请先在其设置中取消替换。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "應用程式圖示已由「%@」使用。請先在其設定中取消取代。"
           }
         }
       }
     },
     "settings.unavailable": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتعذر تغيير وضع العرض الآن. حاول لاحقاً."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Darstellung kann gerade nicht geändert werden. Versuchen Sie es später erneut."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Cannot change the display mode right now. Try again later."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "暂时无法切换显示方式，请稍后重试。"
+            "value": "No se puede cambiar el modo ahora. Inténtalo más tarde."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "暫時無法切換顯示方式，請稍後再試。"
+            "value": "Impossible de changer le mode d’affichage pour le moment. Réessayez plus tard."
           }
         },
         "ja": {
@@ -1727,24 +1883,6 @@
             "value": "지금은 표시 방식을 변경할 수 없습니다. 잠시 후 다시 시도하세요."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die Darstellung kann gerade nicht geändert werden. Versuchen Sie es später erneut."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Impossible de changer le mode d’affichage pour le moment. Réessayez plus tard."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se puede cambiar el modo ahora. Inténtalo más tarde."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -1757,32 +1895,56 @@
             "value": "Сейчас нельзя изменить режим отображения. Повторите попытку позже."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "يتعذر تغيير وضع العرض الآن. حاول لاحقاً."
+            "value": "Görüntüleme modu şu anda değiştirilemiyor. Daha sonra yeniden deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂时无法切换显示方式，请稍后重试。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暫時無法切換顯示方式，請稍後再試。"
           }
         }
       }
     },
     "settings.invalidIcon": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأيقونة غير متاحة. تم الاحتفاظ بوضع العرض الحالي."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Symbol ist nicht verfügbar. Die bisherige Darstellung bleibt erhalten."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The icon is unavailable. The current display mode was kept."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "图标暂不可用，已保留当前显示方式。"
+            "value": "El icono no está disponible. Se ha mantenido el modo actual."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "圖示暫不可用，已保留目前顯示方式。"
+            "value": "L’icône est indisponible. Le mode d’affichage actuel est conservé."
           }
         },
         "ja": {
@@ -1797,24 +1959,6 @@
             "value": "아이콘을 사용할 수 없어 현재 표시 방식을 유지했습니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Das Symbol ist nicht verfügbar. Die bisherige Darstellung bleibt erhalten."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L’icône est indisponible. Le mode d’affichage actuel est conservé."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El icono no está disponible. Se ha mantenido el modo actual."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -1827,10 +1971,22 @@
             "value": "Значок недоступен. Текущий режим отображения сохранён."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الأيقونة غير متاحة. تم الاحتفاظ بوضع العرض الحالي."
+            "value": "Simge kullanılamıyor. Geçerli görüntüleme modu korundu."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图标暂不可用，已保留当前显示方式。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圖示暫不可用，已保留目前顯示方式。"
           }
         }
       }
@@ -1838,22 +1994,34 @@
     "status.wifiNoInternet": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi متصل، لكن لا يوجد وصول إلى الإنترنت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WLAN verbunden, aber kein Internetzugang"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Wi-Fi connected, but no internet access"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi 已连接，但无法访问互联网"
+            "value": "Wi-Fi conectado, pero sin acceso a internet"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi 已連線，但無法存取網際網路"
+            "value": "Wi-Fi connecté, mais aucun accès à Internet"
           }
         },
         "ja": {
@@ -1868,24 +2036,6 @@
             "value": "Wi-Fi는 연결되었지만 인터넷을 사용할 수 없음"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "WLAN verbunden, aber kein Internetzugang"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wi-Fi connecté, mais aucun accès à Internet"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wi-Fi conectado, pero sin acceso a internet"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -1898,10 +2048,22 @@
             "value": "Wi-Fi подключён, но нет доступа к интернету"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi متصل، لكن لا يوجد وصول إلى الإنترنت"
+            "value": "Wi-Fi bağlı ancak internet erişimi yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi 已连接，但无法访问互联网"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi 已連線，但無法存取網際網路"
           }
         }
       }
@@ -1909,22 +2071,34 @@
     "status.wifiHotspotFormat": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متصل بنقطة اتصال شخصية، الإشارة ‏%d/4"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit persönlichem Hotspot verbunden, Signal %d/4"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Connected to Personal Hotspot, signal %d/4"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "已连接个人热点，信号 %d/4"
+            "value": "Conectado a un punto de acceso personal, señal %d/4"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "已連線個人熱點，訊號 %d/4"
+            "value": "Connecté au partage de connexion, signal %d/4"
           }
         },
         "ja": {
@@ -1939,24 +2113,6 @@
             "value": "개인용 핫스팟에 연결됨, 신호 %d/4"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mit persönlichem Hotspot verbunden, Signal %d/4"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Connecté au partage de connexion, signal %d/4"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Conectado a un punto de acceso personal, señal %d/4"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -1969,10 +2125,22 @@
             "value": "Подключено к режиму модема, сигнал %d/4"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "متصل بنقطة اتصال شخصية، الإشارة ‏%d/4"
+            "value": "Kişisel erişim noktasına bağlı, sinyal %d/4"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已连接个人热点，信号 %d/4"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已連線個人熱點，訊號 %d/4"
           }
         }
       }
@@ -1980,22 +2148,34 @@
     "status.wifiTemporaryFormat": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متصل بشبكة مؤقتة، الإشارة ‏%d/4"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit temporärem Netzwerk verbunden, Signal %d/4"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Connected to a temporary network, signal %d/4"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "已连接临时网络，信号 %d/4"
+            "value": "Conectado a una red temporal, señal %d/4"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "已連線臨時網路，訊號 %d/4"
+            "value": "Connecté à un réseau temporaire, signal %d/4"
           }
         },
         "ja": {
@@ -2010,24 +2190,6 @@
             "value": "임시 네트워크에 연결됨, 신호 %d/4"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mit temporärem Netzwerk verbunden, Signal %d/4"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Connecté à un réseau temporaire, signal %d/4"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Conectado a una red temporal, señal %d/4"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2040,10 +2202,22 @@
             "value": "Подключено к временной сети, сигнал %d/4"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "متصل بشبكة مؤقتة، الإشارة ‏%d/4"
+            "value": "Geçici bir ağa bağlı, sinyal %d/4"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已连接临时网络，信号 %d/4"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已連線臨時網路，訊號 %d/4"
           }
         }
       }
@@ -2051,22 +2225,34 @@
     "status.wifiShared": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ مشاركة اتصال الإنترنت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Internetverbindung wird freigegeben"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Sharing the internet connection"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "正在共享互联网连接"
+            "value": "Compartiendo la conexión a internet"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "正在共享網際網路連線"
+            "value": "Partage de la connexion Internet en cours"
           }
         },
         "ja": {
@@ -2081,24 +2267,6 @@
             "value": "인터넷 연결을 공유하는 중"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Internetverbindung wird freigegeben"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partage de la connexion Internet en cours"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compartiendo la conexión a internet"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2111,10 +2279,22 @@
             "value": "Идёт общий доступ к интернету"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "جارٍ مشاركة اتصال الإنترنت"
+            "value": "İnternet bağlantısı paylaşılıyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在共享互联网连接"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在共享網際網路連線"
           }
         }
       }
@@ -2122,22 +2302,34 @@
     "status.volumeFormat": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستوى الصوت %d%%"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lautstärke %d%%"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Volume %d%%"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量 %d%%"
+            "value": "Volumen %d%%"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量 %d%%"
+            "value": "Volume %d%%"
           }
         },
         "ja": {
@@ -2152,24 +2344,6 @@
             "value": "음량 %d%%"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lautstärke %d%%"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volume %d%%"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volumen %d%%"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2182,10 +2356,22 @@
             "value": "Громкость %d%%"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "مستوى الصوت %d%%"
+            "value": "Ses %d%%"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量 %d%%"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量 %d%%"
           }
         }
       }
@@ -2193,22 +2379,34 @@
     "status.volumeMuted": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصوت مكتوم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ton stummgeschaltet"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Volume muted"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量已静音"
+            "value": "Volumen silenciado"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量已靜音"
+            "value": "Volume coupé"
           }
         },
         "ja": {
@@ -2223,24 +2421,6 @@
             "value": "음량 음소거됨"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ton stummgeschaltet"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volume coupé"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volumen silenciado"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2253,10 +2433,22 @@
             "value": "Звук выключен"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الصوت مكتوم"
+            "value": "Ses sessize alındı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量已静音"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量已靜音"
           }
         }
       }
@@ -2264,22 +2456,34 @@
     "status.volumeUnavailable": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستوى الصوت غير متاح مؤقتًا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lautstärke vorübergehend nicht verfügbar"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Volume temporarily unavailable"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量暂不可用"
+            "value": "Volumen no disponible temporalmente"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量暫時無法取得"
+            "value": "Volume temporairement indisponible"
           }
         },
         "ja": {
@@ -2294,24 +2498,6 @@
             "value": "음량을 일시적으로 확인할 수 없음"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lautstärke vorübergehend nicht verfügbar"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volume temporairement indisponible"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volumen no disponible temporalmente"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2324,10 +2510,22 @@
             "value": "Громкость временно недоступна"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "مستوى الصوت غير متاح مؤقتًا"
+            "value": "Ses geçici olarak kullanılamıyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量暂不可用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量暫時無法取得"
           }
         }
       }
@@ -2335,22 +2533,34 @@
     "settings.footerVolume": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعرض القوس شحن البطارية، ويعرض المركز حالة الشبكة، وتعرض النقاط السفلية مستوى الصوت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Bogen zeigt den Ladestand, die Mitte den Netzwerkstatus und die Punkte unten die Lautstärke."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The arc shows battery, the center shows network status, and the bottom dots show volume."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "圆弧显示电量，中心显示网络状态，底部圆点显示音量。"
+            "value": "El arco muestra la batería, el centro el estado de red y los puntos inferiores el volumen."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "圓弧顯示電量，中央顯示網路狀態，底部圓點顯示音量。"
+            "value": "L’arc indique la batterie, le centre l’état du réseau et les points du bas le volume."
           }
         },
         "ja": {
@@ -2365,24 +2575,6 @@
             "value": "호는 배터리 잔량, 중앙은 네트워크 상태, 아래쪽 점은 음량을 표시합니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Der Bogen zeigt den Ladestand, die Mitte den Netzwerkstatus und die Punkte unten die Lautstärke."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L’arc indique la batterie, le centre l’état du réseau et les points du bas le volume."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El arco muestra la batería, el centro el estado de red y los puntos inferiores el volumen."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2395,10 +2587,22 @@
             "value": "Дуга показывает заряд, центр — состояние сети, нижние точки — громкость."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "يعرض القوس شحن البطارية، ويعرض المركز حالة الشبكة، وتعرض النقاط السفلية مستوى الصوت."
+            "value": "Yay pil durumunu, merkez ağ durumunu, alttaki noktalar ise ses düzeyini gösterir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圆弧显示电量，中心显示网络状态，底部圆点显示音量。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圓弧顯示電量，中央顯示網路狀態，底部圓點顯示音量。"
           }
         }
       }
@@ -2406,22 +2610,34 @@
     "settings.footerVolumeBar": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعرض القوس البطارية، ويعرض المركز حالة الشبكة، ويعرض الشريط السفلي مستوى الصوت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Bogen zeigt den Ladestand, die Mitte den Netzwerkstatus und der Balken unten die Lautstärke."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The arc shows battery, the center shows network status, and the bottom bar shows volume."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "圆弧显示电量，中心显示网络状态，底部进度条显示音量。"
+            "value": "El arco muestra la batería, el centro el estado de red y la barra inferior el volumen."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "圓弧顯示電量，中央顯示網路狀態，底部進度列顯示音量。"
+            "value": "L’arc indique la batterie, le centre l’état du réseau et la barre du bas le volume."
           }
         },
         "ja": {
@@ -2436,24 +2652,6 @@
             "value": "호는 배터리 잔량, 중앙은 네트워크 상태, 아래쪽 막대는 음량을 표시합니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Der Bogen zeigt den Ladestand, die Mitte den Netzwerkstatus und der Balken unten die Lautstärke."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L’arc indique la batterie, le centre l’état du réseau et la barre du bas le volume."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El arco muestra la batería, el centro el estado de red y la barra inferior el volumen."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2466,10 +2664,22 @@
             "value": "Дуга показывает заряд, центр — состояние сети, а полоса внизу — громкость."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "يعرض القوس البطارية، ويعرض المركز حالة الشبكة، ويعرض الشريط السفلي مستوى الصوت."
+            "value": "Yay pil durumunu, merkez ağ durumunu, alttaki çubuk ise ses düzeyini gösterir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圆弧显示电量，中心显示网络状态，底部进度条显示音量。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圓弧顯示電量，中央顯示網路狀態，底部進度列顯示音量。"
           }
         }
       }
@@ -2477,22 +2687,34 @@
     "settings.appearance": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المظهر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erscheinungsbild"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Appearance"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "外观"
+            "value": "Apariencia"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "外觀"
+            "value": "Apparence"
           }
         },
         "ja": {
@@ -2507,24 +2729,6 @@
             "value": "모양"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Erscheinungsbild"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apparence"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apariencia"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2537,10 +2741,22 @@
             "value": "Оформление"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "المظهر"
+            "value": "Görünüm"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外观"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外觀"
           }
         }
       }
@@ -2548,22 +2764,34 @@
     "settings.iconSize": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حجم الأيقونة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symbolgröße"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Icon Size"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "图标大小"
+            "value": "Tamaño del icono"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "圖示大小"
+            "value": "Taille de l’icône"
           }
         },
         "ja": {
@@ -2578,24 +2806,6 @@
             "value": "아이콘 크기"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Symbolgröße"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Taille de l’icône"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tamaño del icono"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2608,10 +2818,22 @@
             "value": "Размер значка"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "حجم الأيقونة"
+            "value": "Simge Boyutu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图标大小"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圖示大小"
           }
         }
       }
@@ -2619,22 +2841,34 @@
     "settings.iconSizeDescription": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضبط الحجم الإجمالي لأيقونة شريط القوائم."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passt die Gesamtgröße des Menüleistensymbols an."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Adjust the overall size of the menu bar icon."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "调整菜单栏图标的整体尺寸。"
+            "value": "Ajusta el tamaño general del icono de la barra de menús."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "調整選單列圖示的整體尺寸。"
+            "value": "Ajuste la taille globale de l’icône de la barre des menus."
           }
         },
         "ja": {
@@ -2649,24 +2883,6 @@
             "value": "메뉴 막대 아이콘의 전체 크기를 조절합니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Passt die Gesamtgröße des Menüleistensymbols an."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajuste la taille globale de l’icône de la barre des menus."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajusta el tamaño general del icono de la barra de menús."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2679,10 +2895,22 @@
             "value": "Настройка общего размера значка в строке меню."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "اضبط الحجم الإجمالي لأيقونة شريط القوائم."
+            "value": "Menü çubuğu simgesinin genel boyutunu ayarlayın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "调整菜单栏图标的整体尺寸。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "調整選單列圖示的整體尺寸。"
           }
         }
       }
@@ -2690,22 +2918,34 @@
     "settings.iconSizeSmall": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صغيرة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klein"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Small"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "小"
+            "value": "Pequeño"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "小"
+            "value": "Petite"
           }
         },
         "ja": {
@@ -2720,24 +2960,6 @@
             "value": "작게"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Klein"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Petite"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pequeño"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2750,10 +2972,22 @@
             "value": "Маленький"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "صغيرة"
+            "value": "Küçük"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小"
           }
         }
       }
@@ -2761,22 +2995,34 @@
     "settings.iconSizeMedium": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوسطة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mittel"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Medium"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "中"
+            "value": "Mediano"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "中"
+            "value": "Moyenne"
           }
         },
         "ja": {
@@ -2791,24 +3037,6 @@
             "value": "보통"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mittel"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Moyenne"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mediano"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2821,10 +3049,22 @@
             "value": "Средний"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "متوسطة"
+            "value": "Orta"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中"
           }
         }
       }
@@ -2832,22 +3072,34 @@
     "settings.iconSizeLarge": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كبيرة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groß"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Large"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "大"
+            "value": "Grande"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "大"
+            "value": "Grande"
           }
         },
         "ja": {
@@ -2862,24 +3114,6 @@
             "value": "크게"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Groß"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Grande"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Grande"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2892,10 +3126,22 @@
             "value": "Большой"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "كبيرة"
+            "value": "Büyük"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大"
           }
         }
       }
@@ -2903,22 +3149,34 @@
     "settings.battery": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البطارية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Batterie"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Battery"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "电量"
+            "value": "Batería"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "電量"
+            "value": "Batterie"
           }
         },
         "ja": {
@@ -2933,24 +3191,6 @@
             "value": "배터리"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Batterie"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Batterie"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Batería"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -2963,10 +3203,22 @@
             "value": "Батарея"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "البطارية"
+            "value": "Pil"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "电量"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "電量"
           }
         }
       }
@@ -2974,22 +3226,34 @@
     "settings.showsPercentage": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار نسبة البطارية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Batterie in Prozent anzeigen"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Show Battery Percentage"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "显示电量百分比"
+            "value": "Mostrar porcentaje de batería"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "顯示電量百分比"
+            "value": "Afficher le pourcentage de batterie"
           }
         },
         "ja": {
@@ -3004,24 +3268,6 @@
             "value": "배터리 퍼센트 표시"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Batterie in Prozent anzeigen"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Afficher le pourcentage de batterie"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mostrar porcentaje de batería"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3034,10 +3280,22 @@
             "value": "Показывать заряд в процентах"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "إظهار نسبة البطارية"
+            "value": "Pil Yüzdesini Göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示电量百分比"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示電量百分比"
           }
         }
       }
@@ -3045,22 +3303,34 @@
     "settings.showsPercentageDescription": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعرض رقم البطارية في الفجوة أعلى الحلقة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeigt den Ladestand als Zahl in der Lücke oben im Ring."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Shows the battery number in the gap at the top of the ring."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "在圆环顶部缺口显示电量数字。"
+            "value": "Muestra el nivel de batería en el hueco superior del anillo."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "在圓環頂部缺口顯示電量數字。"
+            "value": "Affiche le niveau de batterie dans l’espace en haut de l’anneau."
           }
         },
         "ja": {
@@ -3075,24 +3345,6 @@
             "value": "링 위쪽 빈 곳에 배터리 숫자를 표시합니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zeigt den Ladestand als Zahl in der Lücke oben im Ring."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Affiche le niveau de batterie dans l’espace en haut de l’anneau."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Muestra el nivel de batería en el hueco superior del anillo."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3105,10 +3357,22 @@
             "value": "Показывает заряд числом в разрыве вверху кольца."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "يعرض رقم البطارية في الفجوة أعلى الحلقة."
+            "value": "Pil yüzdesini halkanın üstündeki boşlukta gösterir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在圆环顶部缺口显示电量数字。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在圓環頂部缺口顯示電量數字。"
           }
         }
       }
@@ -3116,22 +3380,34 @@
     "settings.percentageWhenConnected": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار النسبة عند توصيل الطاقة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prozent auch am Netzteil anzeigen"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Show Percentage When Plugged In"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "接通电源时显示百分比"
+            "value": "Mostrar porcentaje al conectar"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "接上電源時顯示百分比"
+            "value": "Afficher le pourcentage sur secteur"
           }
         },
         "ja": {
@@ -3146,24 +3422,6 @@
             "value": "전원 연결 시 퍼센트 표시"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Prozent auch am Netzteil anzeigen"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Afficher le pourcentage sur secteur"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mostrar porcentaje al conectar"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3176,10 +3434,22 @@
             "value": "Показывать проценты при питании от сети"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "إظهار النسبة عند توصيل الطاقة"
+            "value": "Güç Kaynağına Bağlıyken Yüzdeyi Göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "接通电源时显示百分比"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "接上電源時顯示百分比"
           }
         }
       }
@@ -3187,22 +3457,34 @@
     "settings.percentageWhenConnectedDescription": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عند الإيقاف، تظهر علامة الشحن فقط عند توصيل الطاقة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn aus, wird am Netzteil nur die Lademarkierung angezeigt."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "When off, only the charging mark is shown while plugged in."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "关闭后，接通电源时仅显示充电标记。"
+            "value": "Si está desactivado, solo se muestra la marca de carga al conectar."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "關閉後，接上電源時僅顯示充電標記。"
+            "value": "Si désactivé, seule la marque de charge est affichée sur secteur."
           }
         },
         "ja": {
@@ -3217,24 +3499,6 @@
             "value": "끄면 전원 연결 시 충전 표시만 나타납니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wenn aus, wird am Netzteil nur die Lademarkierung angezeigt."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Si désactivé, seule la marque de charge est affichée sur secteur."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Si está desactivado, solo se muestra la marca de carga al conectar."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3247,10 +3511,22 @@
             "value": "Если выключено, при питании от сети показывается только значок зарядки."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "عند الإيقاف، تظهر علامة الشحن فقط عند توصيل الطاقة."
+            "value": "Kapalıyken, güç kaynağına bağlıyken yalnızca şarj işareti gösterilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭后，接通电源时仅显示充电标记。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關閉後，接上電源時僅顯示充電標記。"
           }
         }
       }
@@ -3258,22 +3534,34 @@
     "settings.chargingIndicator": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار علامة الشحن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lademarkierung anzeigen"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Show Charging Mark"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "显示充电标记"
+            "value": "Mostrar marca de carga"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "顯示充電標記"
+            "value": "Afficher la marque de charge"
           }
         },
         "ja": {
@@ -3288,24 +3576,6 @@
             "value": "충전 표시"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lademarkierung anzeigen"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Afficher la marque de charge"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mostrar marca de carga"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3318,10 +3588,22 @@
             "value": "Показывать значок зарядки"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "إظهار علامة الشحن"
+            "value": "Şarj İşaretini Göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示充电标记"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示充電標記"
           }
         }
       }
@@ -3329,22 +3611,34 @@
     "settings.chargingIndicatorDescription": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعرض صاعقة أثناء الشحن أو عند توصيل الطاقة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeigt beim Laden oder am Netzteil einen Blitz."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Shows a bolt while charging or plugged in."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "充电或接通电源时显示闪电标记。"
+            "value": "Muestra un rayo mientras se carga o está conectado."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "充電或接上電源時顯示閃電標記。"
+            "value": "Affiche un éclair pendant la charge ou sur secteur."
           }
         },
         "ja": {
@@ -3359,24 +3653,6 @@
             "value": "충전 중이거나 전원 연결 시 번개 표시를 보여줍니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zeigt beim Laden oder am Netzteil einen Blitz."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Affiche un éclair pendant la charge ou sur secteur."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Muestra un rayo mientras se carga o está conectado."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3389,10 +3665,22 @@
             "value": "Показывает молнию при зарядке или питании от сети."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "يعرض صاعقة أثناء الشحن أو عند توصيل الطاقة."
+            "value": "Şarj olurken veya güç kaynağına bağlıyken bir şimşek işareti gösterir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充电或接通电源时显示闪电标记。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充電或接上電源時顯示閃電標記。"
           }
         }
       }
@@ -3400,22 +3688,34 @@
     "settings.batteryColorPolicy": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ألوان البطارية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Batteriefarben"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Battery Colors"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "电量颜色"
+            "value": "Colores de batería"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "電池顏色"
+            "value": "Couleurs de batterie"
           }
         },
         "ja": {
@@ -3430,24 +3730,6 @@
             "value": "배터리 색상"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Batteriefarben"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Couleurs de batterie"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Colores de batería"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3460,10 +3742,22 @@
             "value": "Цвета батареи"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "ألوان البطارية"
+            "value": "Pil Renkleri"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "电量颜色"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "電池顏色"
           }
         }
       }
@@ -3471,22 +3765,34 @@
     "settings.batteryColorPolicyDescription": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتفظ الوضع القياسي بالألوان الحالية، ويضيف الوضع المحسّن اللون الأصفر في نمط الطاقة المنخفضة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard behält die vorhandenen Farben; Erweitert ergibt Gelb für den Stromsparmodus."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Standard keeps the existing colors; Enhanced adds Low Power Mode yellow, and the threshold applies only to Enhanced."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "标准保留现有颜色；增强加入低电量模式黄色，阈值仅增强模式可用。"
+            "value": "Estándar mantiene los colores actuales; Mejorado añade amarillo en modo de bajo consumo."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "標準保留現有顏色；增強加入低電量模式黃色，閾值僅增強模式可用。"
+            "value": "Standard conserve les couleurs existantes ; le mode avancé ajoute le jaune en mode Économie d’énergie."
           }
         },
         "ja": {
@@ -3501,24 +3807,6 @@
             "value": "표준은 기존 색상을 유지하고, 향상은 저전력 모드에 노란색을 추가합니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Standard behält die vorhandenen Farben; Erweitert ergibt Gelb für den Stromsparmodus."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Standard conserve les couleurs existantes ; le mode avancé ajoute le jaune en mode Économie d’énergie."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estándar mantiene los colores actuales; Mejorado añade amarillo en modo de bajo consumo."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3531,10 +3819,22 @@
             "value": "Стандарт сохраняет текущие цвета; расширенный режим добавляет желтый цвет в режиме энергосбережения."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "يحتفظ الوضع القياسي بالألوان الحالية، ويضيف الوضع المحسّن اللون الأصفر في نمط الطاقة المنخفضة."
+            "value": "Standart, mevcut renkleri korur; Gelişmiş, Düşük Güç Modu sarısını ekler. Eşik yalnızca Gelişmiş için geçerlidir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标准保留现有颜色；增强加入低电量模式黄色，阈值仅增强模式可用。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "標準保留現有顏色；增強加入低電量模式黃色，閾值僅增強模式可用。"
           }
         }
       }
@@ -3542,22 +3842,34 @@
     "settings.batteryColorPolicy.legacy": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قياسي"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Standard"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "标准"
+            "value": "Estándar"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "標準"
+            "value": "Standard"
           }
         },
         "ja": {
@@ -3572,24 +3884,6 @@
             "value": "표준"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Standard"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Standard"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estándar"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3602,10 +3896,22 @@
             "value": "Стандарт"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "قياسي"
+            "value": "Standart"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标准"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "標準"
           }
         }
       }
@@ -3613,22 +3919,34 @@
     "settings.batteryColorPolicy.enhanced": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "محسّن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erweitert"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Enhanced"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "增强"
+            "value": "Mejorado"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "增強"
+            "value": "Avancé"
           }
         },
         "ja": {
@@ -3643,24 +3961,6 @@
             "value": "향상"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Erweitert"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Avancé"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mejorado"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3673,10 +3973,22 @@
             "value": "Расширенный"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "محسّن"
+            "value": "Gelişmiş"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "增强"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "增強"
           }
         }
       }
@@ -3684,22 +3996,34 @@
     "settings.batteryColorPolicy.monochrome": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أحادي اللون"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monochrom"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Monochrome"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "单色"
+            "value": "Monocromo"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "單色"
+            "value": "Monochrome"
           }
         },
         "ja": {
@@ -3714,24 +4038,6 @@
             "value": "단색"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Monochrom"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Monochrome"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Monocromo"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3744,10 +4050,22 @@
             "value": "Монохромный"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "أحادي اللون"
+            "value": "Tek Renk"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "单色"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "單色"
           }
         }
       }
@@ -3755,22 +4073,34 @@
     "settings.criticalThreshold": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حد البطارية المنخفضة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schwelle für niedrigen Ladestand"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Low Battery Threshold"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "低电量阈值"
+            "value": "Umbral de batería baja"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "低電量門檻"
+            "value": "Seuil de batterie faible"
           }
         },
         "ja": {
@@ -3785,24 +4115,6 @@
             "value": "배터리 부족 기준"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schwelle für niedrigen Ladestand"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seuil de batterie faible"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Umbral de batería baja"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3815,10 +4127,22 @@
             "value": "Порог низкого заряда"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "حد البطارية المنخفضة"
+            "value": "Düşük Pil Eşiği"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "低电量阈值"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "低電量門檻"
           }
         }
       }
@@ -3826,22 +4150,34 @@
     "settings.criticalThresholdDescription": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "في الوضع المحسّن، تستخدم الأيقونة لون التحذير تحت هذا المستوى."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Im erweiterten Modus verwendet das Symbol unter diesem Wert die Warnfarbe."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "In Enhanced mode, the icon uses the warning color below this level."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "增强模式下，电量低于此值时以警示颜色显示。"
+            "value": "En modo mejorado, el icono usa el color de aviso por debajo de este nivel."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "增強模式下，電量低於此值時以警示顏色顯示。"
+            "value": "En mode avancé, l’icône utilise la couleur d’alerte sous ce niveau."
           }
         },
         "ja": {
@@ -3856,24 +4192,6 @@
             "value": "향상 모드에서 잔량이 이 값보다 낮으면 경고 색상으로 표시합니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Im erweiterten Modus verwendet das Symbol unter diesem Wert die Warnfarbe."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "En mode avancé, l’icône utilise la couleur d’alerte sous ce niveau."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "En modo mejorado, el icono usa el color de aviso por debajo de este nivel."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3886,10 +4204,22 @@
             "value": "В расширенном режиме значок ниже этого уровня использует цвет предупреждения."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "في الوضع المحسّن، تستخدم الأيقونة لون التحذير تحت هذا المستوى."
+            "value": "Gelişmiş modda pil bu düzeyin altındayken simge uyarı rengini kullanır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "增强模式下，电量低于此值时以警示颜色显示。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "增強模式下，電量低於此值時以警示顏色顯示。"
           }
         }
       }
@@ -3897,22 +4227,34 @@
     "settings.network": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشبكة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Netzwerk"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Network"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "网络"
+            "value": "Red"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "網路"
+            "value": "Réseau"
           }
         },
         "ja": {
@@ -3927,24 +4269,6 @@
             "value": "네트워크"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Netzwerk"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Réseau"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Red"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -3957,10 +4281,22 @@
             "value": "Сеть"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "الشبكة"
+            "value": "Ağ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网络"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "網路"
           }
         }
       }
@@ -3968,22 +4304,34 @@
     "settings.networkFooter": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عند التفعيل، تُعرض أيقونة مخصصة للحالة المقابلة بدلًا من أيقونة Wi-Fi العادية."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn aktiviert, zeigt der jeweilige Zustand ein eigenes Symbol statt des normalen WLAN-Symbols."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "When on, the matching state shows a dedicated icon instead of the standard Wi-Fi icon."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "开启后，对应状态显示专用图标，而不是普通 Wi-Fi 图标。"
+            "value": "Si está activado, el estado correspondiente muestra un icono específico en lugar del icono Wi-Fi estándar."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "開啟後，對應狀態顯示專用圖示，而不是一般 Wi-Fi 圖示。"
+            "value": "Si activé, l’état correspondant affiche une icône dédiée au lieu de l’icône Wi-Fi standard."
           }
         },
         "ja": {
@@ -3998,24 +4346,6 @@
             "value": "켜면 해당 상태에서 일반 Wi-Fi 아이콘 대신 전용 아이콘이 표시됩니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wenn aktiviert, zeigt der jeweilige Zustand ein eigenes Symbol statt des normalen WLAN-Symbols."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Si activé, l’état correspondant affiche une icône dédiée au lieu de l’icône Wi-Fi standard."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Si está activado, el estado correspondiente muestra un icono específico en lugar del icono Wi-Fi estándar."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4028,10 +4358,22 @@
             "value": "Если включено, для соответствующего состояния показывается отдельный значок вместо обычного значка Wi-Fi."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "عند التفعيل، تُعرض أيقونة مخصصة للحالة المقابلة بدلًا من أيقونة Wi-Fi العادية."
+            "value": "Açıldığında, ilgili durum standart Wi-Fi simgesi yerine özel bir simge gösterir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启后，对应状态显示专用图标，而不是普通 Wi-Fi 图标。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟後，對應狀態顯示專用圖示，而不是一般 Wi-Fi 圖示。"
           }
         }
       }
@@ -4039,22 +4381,34 @@
     "settings.noInternet": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمييز «متصل بدون إنترنت»"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„Verbunden, kein Internet“ unterscheiden"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Distinguish “Connected Without Internet”"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "区分「已连接但无法上网」"
+            "value": "Distinguir «Conectado sin internet»"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "區分「已連線但無法上網」"
+            "value": "Distinguer « Connecté sans Internet »"
           }
         },
         "ja": {
@@ -4069,24 +4423,6 @@
             "value": "‘연결됨, 인터넷 없음’ 구분"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "„Verbunden, kein Internet“ unterscheiden"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distinguer « Connecté sans Internet »"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distinguir «Conectado sin internet»"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4099,10 +4435,22 @@
             "value": "Различать «Подключено без интернета»"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تمييز «متصل بدون إنترنت»"
+            "value": "“Bağlı Ama İnternet Yok” Durumunu Ayırt Et"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "区分「已连接但无法上网」"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "區分「已連線但無法上網」"
           }
         }
       }
@@ -4110,22 +4458,34 @@
     "settings.hotspot": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمييز «نقطة الاتصال الشخصية»"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„Persönlicher Hotspot“ unterscheiden"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Distinguish “Personal Hotspot”"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "区分「个人热点」"
+            "value": "Distinguir «Punto de acceso personal»"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "區分「個人熱點」"
+            "value": "Distinguer « Partage de connexion »"
           }
         },
         "ja": {
@@ -4140,24 +4500,6 @@
             "value": "‘개인용 핫스팟’ 구분"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "„Persönlicher Hotspot“ unterscheiden"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distinguer « Partage de connexion »"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distinguir «Punto de acceso personal»"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4170,10 +4512,22 @@
             "value": "Различать «Режим модема»"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تمييز «نقطة الاتصال الشخصية»"
+            "value": "“Kişisel Erişim Noktası” Durumunu Ayırt Et"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "区分「个人热点」"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "區分「個人熱點」"
           }
         }
       }
@@ -4181,22 +4535,34 @@
     "settings.temporary": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمييز «الشبكة المؤقتة»"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„Temporäres Netzwerk“ unterscheiden"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Distinguish “Temporary Network”"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "区分「临时网络」"
+            "value": "Distinguir «Red temporal»"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "區分「臨時網路」"
+            "value": "Distinguer « Réseau temporaire »"
           }
         },
         "ja": {
@@ -4211,24 +4577,6 @@
             "value": "‘임시 네트워크’ 구분"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "„Temporäres Netzwerk“ unterscheiden"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distinguer « Réseau temporaire »"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distinguir «Red temporal»"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4241,10 +4589,22 @@
             "value": "Различать «Временная сеть»"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تمييز «الشبكة المؤقتة»"
+            "value": "“Geçici Ağ” Durumunu Ayırt Et"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "区分「临时网络」"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "區分「臨時網路」"
           }
         }
       }
@@ -4252,22 +4612,34 @@
     "settings.sharing": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمييز «مشاركة الإنترنت»"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„Internetfreigabe“ unterscheiden"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Distinguish “Internet Sharing”"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "区分「互联网共享」"
+            "value": "Distinguir «Compartir Internet»"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "區分「網際網路共享」"
+            "value": "Distinguer « Partage Internet »"
           }
         },
         "ja": {
@@ -4282,24 +4654,6 @@
             "value": "‘인터넷 공유’ 구분"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "„Internetfreigabe“ unterscheiden"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distinguer « Partage Internet »"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distinguir «Compartir Internet»"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4312,10 +4666,22 @@
             "value": "Различать «Общий доступ к интернету»"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "تمييز «مشاركة الإنترنت»"
+            "value": "“İnternet Paylaşımı” Durumunu Ayırt Et"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "区分「互联网共享」"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "區分「網際網路共享」"
           }
         }
       }
@@ -4323,22 +4689,34 @@
     "settings.audio": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستوى الصوت والصوتيات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lautstärke & Audio"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Volume & Audio"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量与音频"
+            "value": "Volumen y audio"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量與音訊"
+            "value": "Volume et audio"
           }
         },
         "ja": {
@@ -4353,24 +4731,6 @@
             "value": "음량 및 오디오"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lautstärke & Audio"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volume et audio"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volumen y audio"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4383,10 +4743,22 @@
             "value": "Громкость и звук"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "مستوى الصوت والصوتيات"
+            "value": "Ses ve Ses Aygıtları"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量与音频"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量與音訊"
           }
         }
       }
@@ -4394,22 +4766,34 @@
     "settings.bottomIndicator": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المؤشر السفلي"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anzeige unten"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Bottom Indicator"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "底部指示"
+            "value": "Indicador inferior"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "底部指示"
+            "value": "Indicateur du bas"
           }
         },
         "ja": {
@@ -4424,24 +4808,6 @@
             "value": "아래쪽 표시기"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Anzeige unten"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Indicateur du bas"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Indicador inferior"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4454,10 +4820,22 @@
             "value": "Нижний индикатор"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "المؤشر السفلي"
+            "value": "Alt Gösterge"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "底部指示"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "底部指示"
           }
         }
       }
@@ -4465,22 +4843,34 @@
     "settings.bottomIndicatorDescription": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما يعرضه الجزء السفلي من الحلقة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Legt fest, was unten am Ring angezeigt wird."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Choose what the bottom of the ring shows."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择圆环底部显示的内容。"
+            "value": "Elige qué muestra la parte inferior del anillo."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "選擇圓環底部顯示的內容。"
+            "value": "Choisissez ce qu’affiche le bas de l’anneau."
           }
         },
         "ja": {
@@ -4495,24 +4885,6 @@
             "value": "링 아래쪽에 표시할 내용을 선택합니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Legt fest, was unten am Ring angezeigt wird."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choisissez ce qu’affiche le bas de l’anneau."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elige qué muestra la parte inferior del anillo."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4525,10 +4897,22 @@
             "value": "Выберите, что показывает нижняя часть кольца."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "اختر ما يعرضه الجزء السفلي من الحلقة."
+            "value": "Halkanın alt kısmının ne göstereceğini seçin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择圆环底部显示的内容。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇圓環底部顯示的內容。"
           }
         }
       }
@@ -4536,22 +4920,34 @@
     "settings.volumeStyle": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط مستوى الصوت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lautstärkestil"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Volume Style"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量样式"
+            "value": "Estilo del volumen"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量樣式"
+            "value": "Style du volume"
           }
         },
         "ja": {
@@ -4566,24 +4962,6 @@
             "value": "음량 스타일"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lautstärkestil"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Style du volume"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estilo del volumen"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4596,10 +4974,22 @@
             "value": "Стиль громкости"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "نمط مستوى الصوت"
+            "value": "Ses Stili"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量样式"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量樣式"
           }
         }
       }
@@ -4607,22 +4997,34 @@
     "settings.volumeStyleDescription": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اعرض مستوى الصوت بمستويات عبر النقاط، أو بشكل متصل عبر شريط."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lautstärke in Stufen als Punkte oder stufenlos als Balken anzeigen."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Show volume in steps with dots, or continuously with a bar."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "以圆点分档显示，或以进度条连续显示。"
+            "value": "Muestra el volumen por niveles con puntos o de forma continua con una barra."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "以圓點分段顯示，或以進度列連續顯示。"
+            "value": "Affiche le volume par paliers avec des points, ou en continu avec une barre."
           }
         },
         "ja": {
@@ -4637,24 +5039,6 @@
             "value": "점으로 단계별로 표시하거나 막대로 연속 표시합니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lautstärke in Stufen als Punkte oder stufenlos als Balken anzeigen."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Affiche le volume par paliers avec des points, ou en continu avec une barre."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Muestra el volumen por niveles con puntos o de forma continua con una barra."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4667,10 +5051,22 @@
             "value": "Показывать громкость ступенями точками или плавно полосой."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "اعرض مستوى الصوت بمستويات عبر النقاط، أو بشكل متصل عبر شريط."
+            "value": "Ses düzeyini noktalarla adım adım veya çubukla sürekli gösterin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以圆点分档显示，或以进度条连续显示。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以圓點分段顯示，或以進度列連續顯示。"
           }
         }
       }
@@ -4678,22 +5074,34 @@
     "settings.volumeStyleDots": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقاط"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punkte"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Dots"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "圆点"
+            "value": "Puntos"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "圓點"
+            "value": "Points"
           }
         },
         "ja": {
@@ -4708,24 +5116,6 @@
             "value": "점"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Punkte"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Points"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Puntos"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4738,10 +5128,22 @@
             "value": "Точки"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "نقاط"
+            "value": "Noktalar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圆点"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圓點"
           }
         }
       }
@@ -4749,22 +5151,34 @@
     "settings.volumeStyleBar": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شريط"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Balken"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Bar"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "进度条"
+            "value": "Barra"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "進度列"
+            "value": "Barre"
           }
         },
         "ja": {
@@ -4779,24 +5193,6 @@
             "value": "막대"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Balken"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Barre"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Barra"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4809,10 +5205,22 @@
             "value": "Полоса"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "شريط"
+            "value": "Çubuk"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "进度条"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "進度列"
           }
         }
       }
@@ -4820,22 +5228,34 @@
     "settings.indicatorWiFi": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إشارة Wi-Fi"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WLAN-Signal"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Wi-Fi Signal"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi 信号"
+            "value": "Señal Wi-Fi"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi 訊號"
+            "value": "Signal Wi-Fi"
           }
         },
         "ja": {
@@ -4850,24 +5270,6 @@
             "value": "Wi-Fi 신호"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "WLAN-Signal"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Signal Wi-Fi"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Señal Wi-Fi"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4880,10 +5282,22 @@
             "value": "Сигнал Wi-Fi"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "إشارة Wi-Fi"
+            "value": "Wi-Fi Sinyali"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi 信号"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi 訊號"
           }
         }
       }
@@ -4891,22 +5305,34 @@
     "settings.indicatorVolume": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستوى الصوت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lautstärke"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Volume"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量"
+            "value": "Volumen"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "音量"
+            "value": "Volume"
           }
         },
         "ja": {
@@ -4921,24 +5347,6 @@
             "value": "음량"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lautstärke"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volume"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volumen"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -4951,10 +5359,22 @@
             "value": "Громкость"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "مستوى الصوت"
+            "value": "Ses"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音量"
           }
         }
       }
@@ -4962,22 +5382,34 @@
     "settings.bluetoothGlyph": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استبدال أيقونة الشبكة عند إخراج Bluetooth"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Netzwerksymbol bei Bluetooth-Ausgabe ersetzen"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Replace Network Icon for Bluetooth Output"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "蓝牙输出时替换网络图标"
+            "value": "Reemplazar icono de red con salida Bluetooth"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "藍牙輸出時取代網路圖示"
+            "value": "Remplacer l’icône réseau en sortie Bluetooth"
           }
         },
         "ja": {
@@ -4992,24 +5424,6 @@
             "value": "블루투스 출력 시 네트워크 아이콘 대체"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Netzwerksymbol bei Bluetooth-Ausgabe ersetzen"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Remplacer l’icône réseau en sortie Bluetooth"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reemplazar icono de red con salida Bluetooth"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -5022,10 +5436,22 @@
             "value": "Заменять значок сети при выводе через Bluetooth"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "استبدال أيقونة الشبكة عند إخراج Bluetooth"
+            "value": "Bluetooth Çıkışı İçin Ağ Simgesini Değiştir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "蓝牙输出时替换网络图标"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "藍牙輸出時取代網路圖示"
           }
         }
       }
@@ -5033,22 +5459,34 @@
     "settings.bluetoothGlyphDescription": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعرض علامة Bluetooth أثناء استخدام جهاز صوت Bluetooth."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeigt eine Bluetooth-Markierung, solange ein Bluetooth-Audiogerät verwendet wird."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Shows a Bluetooth mark while a Bluetooth audio device is in use."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "使用蓝牙音频设备时显示蓝牙标记。"
+            "value": "Muestra una marca Bluetooth mientras se usa un dispositivo de audio Bluetooth."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "使用藍牙音訊裝置時顯示藍牙標記。"
+            "value": "Affiche une marque Bluetooth lorsqu’un appareil audio Bluetooth est utilisé."
           }
         },
         "ja": {
@@ -5063,24 +5501,6 @@
             "value": "블루투스 오디오 기기를 사용할 때 블루투스 표시를 보여줍니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zeigt eine Bluetooth-Markierung, solange ein Bluetooth-Audiogerät verwendet wird."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Affiche une marque Bluetooth lorsqu’un appareil audio Bluetooth est utilisé."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Muestra una marca Bluetooth mientras se usa un dispositivo de audio Bluetooth."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -5093,10 +5513,22 @@
             "value": "Показывает значок Bluetooth, пока используется аудиоустройство Bluetooth."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "يعرض علامة Bluetooth أثناء استخدام جهاز صوت Bluetooth."
+            "value": "Bir Bluetooth ses aygıtı kullanılırken Bluetooth işareti gösterir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用蓝牙音频设备时显示蓝牙标记。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用藍牙音訊裝置時顯示藍牙標記。"
           }
         }
       }
@@ -5104,22 +5536,34 @@
     "settings.networkErrorsFirst": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعطاء الأولوية لمشكلات الشبكة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Netzwerkprobleme bevorzugen"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Prioritize Network Problems"
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "网络异常优先"
+            "value": "Priorizar problemas de red"
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "網路異常優先"
+            "value": "Prioriser les problèmes réseau"
           }
         },
         "ja": {
@@ -5134,24 +5578,6 @@
             "value": "네트워크 문제 우선"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Netzwerkprobleme bevorzugen"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Prioriser les problèmes réseau"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Priorizar problemas de red"
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -5164,10 +5590,22 @@
             "value": "Приоритет проблем с сетью"
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "إعطاء الأولوية لمشكلات الشبكة"
+            "value": "Ağ Sorunlarını Öne Çıkar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网络异常优先"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "網路異常優先"
           }
         }
       }
@@ -5175,22 +5613,34 @@
     "settings.networkErrorsFirstDescription": {
       "extractionState": "manual",
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يستمر في عرض حالة الشبكة بدلًا من علامة Bluetooth عند وجود مشكلة في الشبكة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeigt bei Netzwerkproblemen weiterhin den Netzwerkstatus statt der Bluetooth-Markierung."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Keeps showing the network state instead of the Bluetooth mark when the network has a problem."
           }
         },
-        "zh-Hans": {
+        "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "网络异常时仍显示网络状态，而不是蓝牙标记。"
+            "value": "Sigue mostrando el estado de red en lugar de la marca Bluetooth cuando hay un problema de red."
           }
         },
-        "zh-Hant": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "網路異常時仍顯示網路狀態，而不是藍牙標記。"
+            "value": "Continue d’afficher l’état réseau plutôt que la marque Bluetooth en cas de problème réseau."
           }
         },
         "ja": {
@@ -5205,24 +5655,6 @@
             "value": "네트워크에 문제가 있으면 블루투스 표시 대신 네트워크 상태를 계속 표시합니다."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zeigt bei Netzwerkproblemen weiterhin den Netzwerkstatus statt der Bluetooth-Markierung."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Continue d’afficher l’état réseau plutôt que la marque Bluetooth en cas de problème réseau."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sigue mostrando el estado de red en lugar de la marca Bluetooth cuando hay un problema de red."
-          }
-        },
         "pt": {
           "stringUnit": {
             "state": "translated",
@@ -5235,10 +5667,22 @@
             "value": "При проблемах с сетью продолжает показывать состояние сети вместо значка Bluetooth."
           }
         },
-        "ar": {
+        "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "يستمر في عرض حالة الشبكة بدلًا من علامة Bluetooth عند وجود مشكلة في الشبكة."
+            "value": "Ağda bir sorun olduğunda Bluetooth işareti yerine ağ durumunu göstermeye devam eder."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网络异常时仍显示网络状态，而不是蓝牙标记。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "網路異常時仍顯示網路狀態，而不是藍牙標記。"
           }
         }
       }

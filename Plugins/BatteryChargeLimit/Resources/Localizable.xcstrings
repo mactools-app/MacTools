@@ -4,65 +4,309 @@
     "error.persistence.failed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر حفظ إعدادات شحن البطارية." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Einstellungen zum Laden der Batterie konnten nicht gesichert werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Unable to save battery charging settings." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se han podido guardar los ajustes de carga de la batería." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible d’enregistrer les réglages de charge de la batterie." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "バッテリー充電設定を保存できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "배터리 충전 설정을 저장할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível salvar os ajustes de carregamento da bateria." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось сохранить настройки зарядки аккумулятора." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "无法保存电池充电设置。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法儲存電池充電設定。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر حفظ إعدادات شحن البطارية."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Einstellungen zum Laden der Batterie konnten nicht gesichert werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to save battery charging settings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se han podido guardar los ajustes de carga de la batería."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’enregistrer les réglages de charge de la batterie."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バッテリー充電設定を保存できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배터리 충전 설정을 저장할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível salvar os ajustes de carregamento da bateria."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить настройки зарядки аккумулятора."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil şarj ayarları kaydedilemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法保存电池充电设置。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法儲存電池充電設定。"
+          }
+        }
       }
     },
     "error.persistence.rollbackFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذرت استعادة الإعدادات السابقة." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die vorherigen Einstellungen konnten nicht wiederhergestellt werden." } },
-        "en": { "stringUnit": { "state": "translated", "value": "The previous settings could not be restored." } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se han podido restaurar los ajustes anteriores." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible de restaurer les réglages précédents." } },
-        "ja": { "stringUnit": { "state": "translated", "value": "以前の設定を復元できませんでした。" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이전 설정을 복원할 수 없습니다." } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível restaurar os ajustes anteriores." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось восстановить предыдущие настройки." } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "恢复先前设置失败。" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法還原先前設定。" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذرت استعادة الإعدادات السابقة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die vorherigen Einstellungen konnten nicht wiederhergestellt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The previous settings could not be restored."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se han podido restaurar los ajustes anteriores."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de restaurer les réglages précédents."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以前の設定を復元できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이전 설정을 복원할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível restaurar os ajustes anteriores."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось восстановить предыдущие настройки."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki ayarlar geri yüklenemedi."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复先前设置失败。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法還原先前設定。"
+          }
+        }
       }
     },
     "error.persistence.hardwareRollbackFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذرت استعادة حالة الجهاز السابقة: %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Der vorherige Hardwarezustand konnte nicht wiederhergestellt werden: %@" } },
-        "en": { "stringUnit": { "state": "translated", "value": "The previous hardware state could not be restored: %@" } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se ha podido restaurar el estado anterior del hardware: %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible de restaurer l’état matériel précédent : %@" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "以前のハードウェア状態を復元できませんでした：%@" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "이전 하드웨어 상태를 복원할 수 없습니다: %@" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Não foi possível restaurar o estado anterior do hardware: %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось восстановить предыдущее состояние оборудования: %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "恢复先前硬件状态失败：%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "無法還原先前硬件狀態：%@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذرت استعادة حالة الجهاز السابقة: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der vorherige Hardwarezustand konnte nicht wiederhergestellt werden: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The previous hardware state could not be restored: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se ha podido restaurar el estado anterior del hardware: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de restaurer l’état matériel précédent : %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以前のハードウェア状態を復元できませんでした：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이전 하드웨어 상태를 복원할 수 없습니다: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível restaurar o estado anterior do hardware: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось восстановить предыдущее состояние оборудования: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki donanım durumu geri yüklenemedi: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复先前硬件状态失败：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法還原先前硬件狀態：%@"
+          }
+        }
       }
     },
     "error.action.rollbackFailed": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "%@؛ تعذرت استعادة الحالة السابقة: %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%@; der vorherige Zustand konnte nicht wiederhergestellt werden: %@" } },
-        "en": { "stringUnit": { "state": "translated", "value": "%@; the previous state could not be restored: %@" } },
-        "es": { "stringUnit": { "state": "translated", "value": "%@; no se pudo restaurar el estado anterior: %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "%@ ; impossible de restaurer l’état précédent : %@" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "%@。以前の状態を復元できませんでした：%@" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "%@. 이전 상태를 복원하지 못했습니다: %@" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "%@; não foi possível restaurar o estado anterior: %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "%@; не удалось восстановить предыдущее состояние: %@" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "%@；恢复先前状态失败：%@" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "%@；無法還原先前狀態：%@" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@؛ تعذرت استعادة الحالة السابقة: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; der vorherige Zustand konnte nicht wiederhergestellt werden: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; the previous state could not be restored: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; no se pudo restaurar el estado anterior: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ; impossible de restaurer l’état précédent : %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@。以前の状態を復元できませんでした：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@. 이전 상태를 복원하지 못했습니다: %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; não foi possível restaurar o estado anterior: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; не удалось восстановить предыдущее состояние: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@; önceki durum geri yüklenemedi: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@；恢复先前状态失败：%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@；無法還原先前狀態：%@"
+          }
+        }
       }
     },
     "error.helperInstall.authorizationScriptUnavailable": {
@@ -120,6 +364,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно создать скрипт авторизации."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yetkilendirme betiği oluşturulamadı."
           }
         },
         "zh-Hans": {
@@ -193,6 +443,12 @@
             "value": "Компонент по-прежнему не найден после установки."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bileşen yüklemeden sonra da bulunamadı."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -262,6 +518,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось установить компонент управления аккумулятором: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil denetim bileşeni yüklenemedi: %@"
           }
         },
         "zh-Hans": {
@@ -335,6 +597,12 @@
             "value": "Входящий в комплект поставки компонент управления аккумулятором не найден. Переустановите плагин ограничения заряда батареи."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulamayla gelen pil denetim bileşeni bulunamadı. Pil Şarj Sınırı eklentisini yeniden yükleyin."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -404,6 +672,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка компонента управления аккумулятором не удалась. Переустановите плагин ограничения заряда батареи."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil denetim bileşeni doğrulanamadı. Pil Şarj Sınırı eklentisini yeniden yükleyin."
           }
         },
         "zh-Hans": {
@@ -477,6 +751,12 @@
             "value": "Эта прошивка Mac не предоставляет записываемый ключ управления зарядом. Поддержка macOS в этой версии могла быть изменена."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac'in ürün yazılımı, yazılabilir bir şarj denetim anahtarı sunmuyor. macOS bu sürümde desteği değiştirmiş olabilir."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -546,6 +826,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно остановить зарядку"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj durdurulamadı"
           }
         },
         "zh-Hans": {
@@ -619,6 +905,12 @@
             "value": "Невозможно возобновить зарядку"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj devam ettirilemedi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -688,6 +980,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Невозможно переключить режим разрядки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deşarj modu değiştirilemedi"
           }
         },
         "zh-Hans": {
@@ -761,6 +1059,12 @@
             "value": "Не удалось записать состояние управления батареей: %@"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil denetim durumu yazılamadı: %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -830,6 +1134,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ограничить зарядку аккумулятора до выбранного уровня."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil şarjını seçilen düzeye kadar sınırlayın."
           }
         },
         "zh-Hans": {
@@ -903,6 +1213,12 @@
             "value": "Предел заряда аккумулятора"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil Şarj Sınırı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -972,6 +1288,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отключить ограничение заряда"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj Sınırını Devre Dışı Bırak"
           }
         },
         "zh-Hans": {
@@ -1045,6 +1367,12 @@
             "value": "Выписка в %d%%"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d%% Düzeyine Deşarj Et"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1114,6 +1442,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включить лимит заряда"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj Sınırını Etkinleştir"
           }
         },
         "zh-Hans": {
@@ -1187,6 +1521,12 @@
             "value": "Отсутствует компонент управления аккумулятором"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil denetim bileşeni eksik"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1256,6 +1596,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Настройки…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar…"
           }
         },
         "zh-Hans": {
@@ -1329,6 +1675,12 @@
             "value": "Начать зарядку"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarjı Başlat"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1398,6 +1750,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Остановить зарядку"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarjı Durdur"
           }
         },
         "zh-Hans": {
@@ -1471,6 +1829,12 @@
             "value": "Остановить разрядку"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deşarjı Durdur"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1540,6 +1904,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Лимит заряда"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj Sınırı"
           }
         },
         "zh-Hans": {
@@ -1613,6 +1983,12 @@
             "value": "Зарядка · %d%% → %d%%"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj ediliyor · %d%% → %d%%"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1682,6 +2058,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Зарядка остановлена · %d%% / %d%%"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj durduruldu · %d%% / %d%%"
           }
         },
         "zh-Hans": {
@@ -1755,6 +2137,12 @@
             "value": "Выкл. · %d%%"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı · %d%%"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1824,6 +2212,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Разрядка · %d%% → %d%%"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deşarj ediliyor · %d%% → %d%%"
           }
         },
         "zh-Hans": {
@@ -1897,6 +2291,12 @@
             "value": "Достигнут лимит · %d%% / %d%%"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sınıra ulaşıldı · %d%% / %d%%"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1968,6 +2368,12 @@
             "value": "Батарея не обнаружена"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil algılanmadı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1985,33 +2391,155 @@
     "settings.status.enabled": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "السلوك الافتراضي" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Standardverhalten" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Default Behavior" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Comportamiento predeterminado" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Comportement par défaut" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "デフォルト動作" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "기본 동작" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Comportamento padrão" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Поведение по умолчанию" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "默认行为" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "預設行為" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السلوك الافتراضي"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standardverhalten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default Behavior"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comportamiento predeterminado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comportement par défaut"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "デフォルト動作"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기본 동작"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comportamento padrão"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поведение по умолчанию"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varsayılan Davranış"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "默认行为"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "預設行為"
+          }
+        }
       }
     },
     "settings.status.limited": {
       "extractionState": "manual",
       "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "دعم محدود" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Eingeschränkte Unterstützung" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Limited Support" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Compatibilidad limitada" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Prise en charge limitée" } },
-        "ja": { "stringUnit": { "state": "translated", "value": "一部対応" } },
-        "ko": { "stringUnit": { "state": "translated", "value": "제한적 지원" } },
-        "pt": { "stringUnit": { "state": "translated", "value": "Suporte limitado" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Ограниченная поддержка" } },
-        "zh-Hans": { "stringUnit": { "state": "translated", "value": "有限支持" } },
-        "zh-Hant": { "stringUnit": { "state": "translated", "value": "有限支援" } }
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دعم محدود"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingeschränkte Unterstützung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limited Support"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compatibilidad limitada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prise en charge limitée"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一部対応"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "제한적 지원"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suporte limitado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ограниченная поддержка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sınırlı Destek"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有限支持"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有限支援"
+          }
+        }
       }
     },
     "settings.behavior.noAutoResume.description": {
@@ -2069,6 +2597,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Когда уровень заряда батареи упадет ниже предела, зарядка не возобновится автоматически. Нажмите «Начать зарядку» в строке меню, если хотите продолжить. Это отличается от оптимизированной зарядки аккумулятора macOS, которая поддерживает подзарядку на пределе."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil düzeyi sınırın altına düştüğünde şarj otomatik olarak devam etmez. Devam etmek istediğinizde menü çubuğundan “Şarjı Başlat” seçeneğini tıklayın. Bu davranış, sınırın yakınında mikro şarja devam eden macOS'un Optimize Edilmiş Pil Şarjı özelliğinden farklıdır."
           }
         },
         "zh-Hans": {
@@ -2142,6 +2676,12 @@
             "value": "Не возобновлять автоматически"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik Devam Etme"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2211,6 +2751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Поведение зарядки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj Davranışı"
           }
         },
         "zh-Hans": {
@@ -2284,6 +2830,12 @@
             "value": "Метод контроля заряда"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj Denetim Yöntemi"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2353,6 +2905,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Принудительный разряд"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zorla Deşarj"
           }
         },
         "zh-Hans": {
@@ -2426,6 +2984,12 @@
             "value": "Поддерживается (SMC)"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Destekleniyor (SMC)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2495,6 +3059,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Этот Mac поддерживает только BCLM. Когда уровень заряда батареи опускается ниже предела, система все равно может зарядить ее до предела. Поведение «не возобновлять автоматически» не может быть гарантировано на компьютерах Intel Mac."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac yalnızca BCLM destekler. Pil düzeyi sınırın altına düştüğünde sistem yine de pili sınıra kadar şarj edebilir. “Otomatik devam etme” davranışı Intel Mac'lerde garanti edilemez."
           }
         },
         "zh-Hans": {
@@ -2568,6 +3138,12 @@
             "value": "Ограничение Intel Mac"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intel Mac Sınırlaması"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2637,6 +3213,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не обнаружен доступный ключ управления зарядкой SMC"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılabilir SMC şarj denetim anahtarı algılanmadı"
           }
         },
         "zh-Hans": {
@@ -2710,6 +3292,12 @@
             "value": "Аппаратная совместимость"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Donanım Uyumluluğu"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2779,6 +3367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "На этом уровне зарядка автоматически прекращается."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj, bu düzeyde otomatik olarak durur."
           }
         },
         "zh-Hans": {
@@ -2852,6 +3446,12 @@
             "value": "Целевой уровень"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hedef Düzey"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2923,6 +3523,12 @@
             "value": "Лимит заряда"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj Sınırı"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2938,74 +3544,80 @@
       }
     },
     "action.manifest.discharge.title": {
-        "localizations": {
-            "ar": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "تفريغ البطارية إلى حد الشحن"
-                }
-            },
-            "de": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Bis zur Ladegrenze entladen"
-                }
-            },
-            "en": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Discharge to Charge Limit"
-                }
-            },
-            "es": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Descargar hasta el límite de carga"
-                }
-            },
-            "fr": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Décharger jusqu’à la limite de charge"
-                }
-            },
-            "ja": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "充電上限まで放電"
-                }
-            },
-            "ko": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "충전 한도까지 방전"
-                }
-            },
-            "pt": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Descarregar até ao limite de carga"
-                }
-            },
-            "ru": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "Разрядить до предела зарядки"
-                }
-            },
-            "zh-Hans": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "放电至充电上限"
-                }
-            },
-            "zh-Hant": {
-                "stringUnit": {
-                    "state": "translated",
-                    "value": "放電至充電上限"
-                }
-            }
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تفريغ البطارية إلى حد الشحن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bis zur Ladegrenze entladen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discharge to Charge Limit"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descargar hasta el límite de carga"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Décharger jusqu’à la limite de charge"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充電上限まで放電"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "충전 한도까지 방전"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descarregar até ao limite de carga"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрядить до предела зарядки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj Sınırına Deşarj Et"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放电至充电上限"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放電至充電上限"
+          }
         }
+      }
     }
   },
   "version": "1.0"

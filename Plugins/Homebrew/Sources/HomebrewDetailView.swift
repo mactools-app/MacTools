@@ -735,10 +735,16 @@ struct HomebrewDetailView: View {
                 Text(localization.string("detail.diagnostics.pathHelpTitle", defaultValue: "常见安装位置"))
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
-                Text("Apple Silicon Mac: /opt/homebrew/bin/brew")
+                Text(localization.format(
+                    "detail.diagnostics.pathAppleSiliconFormat",
+                    defaultValue: "Apple Silicon Mac：%@", "/opt/homebrew/bin/brew"
+                ))
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                Text("Intel Mac: /usr/local/bin/brew")
+                Text(localization.format(
+                    "detail.diagnostics.pathIntelFormat",
+                    defaultValue: "Intel Mac：%@", "/usr/local/bin/brew"
+                ))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

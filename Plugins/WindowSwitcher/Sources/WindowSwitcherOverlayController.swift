@@ -1,5 +1,6 @@
 import AppKit
 import Carbon.HIToolbox
+import Combine
 import MacToolsPluginKit
 
 @MainActor
@@ -166,9 +167,12 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
     private var showsPreview = false
     nonisolated(unsafe) private var screenObserver: NSObjectProtocol?
     private var updatingViewport = false
-    private var actionMessage: String?
+    private var actionDiagnostic: WindowSwitcherDiagnostic?
+    private var actionMessage: String? { actionDiagnostic?.message(using: localization) }
     private var renderedSession: WindowSwitcherSession?
     private var searchHeldModifiers: NSEvent.ModifierFlags = []
+    private var localizationSubscription: AnyCancellable?
+    private var needsLocalizationRefresh = false
 
     init(localization: PluginLocalization = PluginLocalization(bundle: .main), preview: WindowSwitcherPreview? = nil,
          focus: WindowSwitcherChooserFocus? = nil) {
@@ -209,9 +213,16 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
                 self.layoutPanel(preservePosition: true); self.render(forceRevealSelection: true)
             }
         }
+        localizationSubscription = PluginRuntimeLocalization.source.$revision
+            .dropFirst()
+            .sink { [weak self] _ in
+                DispatchQueue.main.async { [weak self] in self?.refreshLocalization() }
+            }
+        refreshLocalization()
     }
 
     isolated deinit {
+        localizationSubscription?.cancel()
         if let screenObserver { NotificationCenter.default.removeObserver(screenObserver) }
         scrollObservers.forEach(NotificationCenter.default.removeObserver)
         if let localPinchMonitor { NSEvent.removeMonitor(localPinchMonitor) }
@@ -250,7 +261,7 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
         searchSurface.isFocused = false
         configureSearchPresentation(inline: true)
         if configuredMode == .searchSelect { expandInlineSearch(animated: false) }
-        actionMessage = nil
+        actionDiagnostic = nil
         previewedEntry = nil; previewedPermission = nil
         render()
         layoutPanel()
@@ -364,11 +375,11 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
         globalPinchMonitor = nil
     }
 
-    func showMessage(_ message: String) {
-        actionMessage = message
+    func showMessage(_ diagnostic: WindowSwitcherDiagnostic) {
+        actionDiagnostic = diagnostic
         updateModeIndicator()
         updateShortcutBadges()
-        footer.stringValue = "⚠︎ " + message
+        footer.stringValue = "⚠︎ " + diagnostic.message(using: localization)
         footer.isHidden = recordingEntryID != nil
     }
 
@@ -377,7 +388,7 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
     }
 
     @objc private func cancelShortcutRecording() {
-        recordingEntryID = nil; actionMessage = nil; render()
+        recordingEntryID = nil; actionDiagnostic = nil; render()
         panel.makeFirstResponder(usesList ? table : cards)
     }
 
@@ -796,7 +807,7 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
         previewImage.prefersGestureFocus = configuredMode == .directCycle
         session.normalizeSelection()
         self.session = session
-        actionMessage = nil
+        actionDiagnostic = nil
         onSessionChange?(session)
         render()
     }
@@ -811,6 +822,17 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
     }
 
     private func localizeControls() {
+        panel.title = localization.string("chooser.title", defaultValue: "窗口切换")
+        panel.setAccessibilityLabel(panel.title)
+        dragHandle.toolTip = localization.string("chooser.dragHandle", defaultValue: "拖移以移动")
+        dragHandle.setAccessibilityLabel(dragHandle.toolTip)
+        search.placeholderString = localization.string("chooser.search", defaultValue: "搜索窗口标题或应用")
+        search.setAccessibilityLabel(search.placeholderString)
+        clearSearchButton.toolTip = localization.string("chooser.clearSearch", defaultValue: "清除搜索")
+        clearSearchButton.setAccessibilityLabel(clearSearchButton.toolTip)
+        display.setAccessibilityLabel(localization.string("chooser.displayFilter", defaultValue: "显示器筛选"))
+        more.setAccessibilityLabel(localization.string("chooser.more", defaultValue: "更多选项"))
+        table.setAccessibilityLabel(localization.string("chooser.list", defaultValue: "窗口列表"))
         layoutPicker.setToolTip(localization.string("chooser.cards", defaultValue: "卡片视图") + " · ⌘⌥1", forSegment: 0)
         layoutPicker.setToolTip(localization.string("chooser.list", defaultValue: "窗口列表") + " · ⌘⌥2", forSegment: 1)
         layoutPicker.setAccessibilityLabel(localization.string("chooser.layout", defaultValue: "窗口视图"))
@@ -920,11 +942,63 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
         }
     }
 
+    private func refreshLocalization() {
+        guard !isPresentingMenu else {
+            needsLocalizationRefresh = true
+            return
+        }
+        needsLocalizationRefresh = false
+        let direction: NSUserInterfaceLayoutDirection =
+            PluginRuntimeLocalization.locale.language.characterDirection == .rightToLeft
+                ? .rightToLeft : .leftToRight
+        if search.userInterfaceLayoutDirection != direction {
+            search.userInterfaceLayoutDirection = direction
+            search.cell?.userInterfaceLayoutDirection = direction
+        }
+        search.alignment = .natural
+        if !previewLabel.isHidden {
+            // Update retained feedback without touching the image, zoom, or active capture.
+            previewLabel.stringValue = preview.statusMessage
+                ?? localization.string("preview.loading", defaultValue: "正在加载预览…")
+        }
+        if session == nil {
+            localizeControls()
+        } else {
+            // An unchanged session does not reload cells or reveal a different window.
+            render()
+            refreshVisibleEntryLabels()
+        }
+    }
+
+    private func refreshVisibleEntryLabels() {
+        if usesList {
+            for row in 0..<min(rows.count, table.numberOfRows) {
+                guard let cell = table.view(atColumn: 0, row: row, makeIfNecessary: false) as? NSStackView,
+                      let labels = cell.arrangedSubviews.compactMap({ $0 as? NSStackView }).first,
+                      let title = labels.arrangedSubviews.first as? NSTextField,
+                      let subtitle = labels.arrangedSubviews.last as? NSTextField else { continue }
+                configureListLabels(title: title, subtitle: subtitle, entry: rows[row])
+            }
+        } else {
+            for item in cards.visibleItems() {
+                guard let card = item as? WindowSwitcherCardItem,
+                      let path = cards.indexPath(for: item), rows.indices.contains(path.item) else { continue }
+                let entry = rows[path.item]
+                card.configure(
+                    icon: entry.icon,
+                    title: highlighted(Self.gridTitle(entry.localizedGridTitle(using: localization),
+                        appName: entry.appName, query: session?.query ?? ""), query: session?.query ?? ""),
+                    appName: entry.appName
+                )
+            }
+        }
+    }
+
     private func render(forceRevealSelection: Bool = false) {
         guard var session else { return }
         if let recordingEntryID, !session.entries.contains(where: { $0.id == recordingEntryID }) || !session.usesDirectKeys {
             self.recordingEntryID = nil
-            actionMessage = nil
+            actionDiagnostic = nil
         }
         localizeControls()
         updateModeIndicator()
@@ -1072,7 +1146,7 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
     func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
         guard !updating, let index = indexPaths.first?.item, rows.indices.contains(index), var session else { return }
         session.selectedID = rows[index].id
-        self.session = session; actionMessage = nil
+        self.session = session; actionDiagnostic = nil
         onSessionChange?(session); render()
     }
 
@@ -1085,19 +1159,11 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
         icon.imageScaling = .scaleProportionallyUpOrDown
         icon.widthAnchor.constraint(equalToConstant: 28).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        let displayName = entry.localizedDisplayName(using: localization)
-        let title = NSTextField(labelWithString: displayName)
+        let title = NSTextField(labelWithString: "")
         title.font = PluginTypography.body.nsFont; title.lineBreakMode = .byTruncatingMiddle
-        title.attributedStringValue = highlighted(displayName, query: session?.query ?? "")
-        let parts = [displayName.caseInsensitiveCompare(entry.appName) == .orderedSame ? nil : entry.appName, entry.displayNameContext,
-                     entry.isMinimized ? localization.string("window.minimized", defaultValue: "已最小化") : nil,
-                     entry.isOnOtherDesktop ? localization.string("window.otherDesktop", defaultValue: "其他桌面") : nil,
-                     entry.isOnFullscreenSpace ? localization.string("window.fullscreen", defaultValue: "全屏") : nil,
-                     entry.isHidden ? localization.string("window.hidden", defaultValue: "已隐藏") : nil,
-                     entry.metadataUnavailable ? localization.string("window.unavailable", defaultValue: "暂时无法更新") : nil, entry.isWindowEntry ? nil : localization.string("window.none", defaultValue: "无可用窗口")]
-        let subtitle = NSTextField(labelWithString: parts.compactMap { $0 }.joined(separator: " · "))
+        let subtitle = NSTextField(labelWithString: "")
         subtitle.font = PluginTypography.detail.nsFont; subtitle.textColor = .secondaryLabelColor; subtitle.lineBreakMode = .byTruncatingTail
-        subtitle.attributedStringValue = highlighted(subtitle.stringValue, query: session?.query ?? "")
+        configureListLabels(title: title, subtitle: subtitle, entry: entry)
         let labels = NSStackView(views: [title, subtitle])
         labels.orientation = .vertical; labels.alignment = .leading; labels.spacing = 3
         let badge = WindowSwitcherShortcutBadge(title: "", target: self, action: #selector(editListShortcut(_:)))
@@ -1118,6 +1184,19 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
         cell.orientation = .horizontal; cell.spacing = 10
         cell.edgeInsets = NSEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
         return cell
+    }
+
+    private func configureListLabels(title: NSTextField, subtitle: NSTextField, entry: WindowSwitcherAppEntry) {
+        let displayName = entry.localizedDisplayName(using: localization)
+        title.attributedStringValue = highlighted(displayName, query: session?.query ?? "")
+        let parts = [displayName.caseInsensitiveCompare(entry.appName) == .orderedSame ? nil : entry.appName, entry.displayNameContext,
+                     entry.isMinimized ? localization.string("window.minimized", defaultValue: "已最小化") : nil,
+                     entry.isOnOtherDesktop ? localization.string("window.otherDesktop", defaultValue: "其他桌面") : nil,
+                     entry.isOnFullscreenSpace ? localization.string("window.fullscreen", defaultValue: "全屏") : nil,
+                     entry.isHidden ? localization.string("window.hidden", defaultValue: "已隐藏") : nil,
+                     entry.metadataUnavailable ? localization.string("window.unavailable", defaultValue: "窗口信息暂不可用") : nil,
+                     entry.isWindowEntry ? nil : localization.string("window.none", defaultValue: "无可用窗口")]
+        subtitle.attributedStringValue = highlighted(parts.compactMap { $0 }.joined(separator: " · "), query: session?.query ?? "")
     }
 
     static func matchRanges(in text: String, query: String) -> [NSRange] {
@@ -1147,7 +1226,7 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
         guard !updating, rows.indices.contains(table.selectedRow), var session else { return }
         session.selectedID = rows[table.selectedRow].id
         self.session = session
-        actionMessage = nil
+        actionDiagnostic = nil
         onSessionChange?(session)
         render()
     }
@@ -1281,7 +1360,7 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
         beginSearch()
         guard var session else { return }
         session.query = query; session.normalizeSelection()
-        self.session = session; actionMessage = nil
+        self.session = session; actionDiagnostic = nil
         onSessionChange?(session); render()
     }
     func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
@@ -1402,7 +1481,7 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
     private func beginShortcutRecording(_ id: String) {
         guard session?.usesDirectKeys == true, session?.entries.contains(where: { $0.id == id }) == true else { return }
         recordingEntryID = id
-        actionMessage = nil
+        actionDiagnostic = nil
         session?.selectedID = id
         if let session { onSessionChange?(session) }
         render()
@@ -1424,14 +1503,14 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
         guard clear || token != nil else { NSSound.beep(); return true }
         switch onShortcutChange?(entry, clear ? nil : token) ?? .unavailable {
         case .updated(let entries):
-            recordingEntryID = nil; actionMessage = nil
+            recordingEntryID = nil; actionDiagnostic = nil
             session?.entries = entries
             onSessionChange?(session!); renderedSession = nil; render()
         case .conflict:
-            showMessage(localization.string("chooser.assignedConflict", defaultValue: "快捷键已占用，请重新输入"))
+            showMessage(.assignedConflict)
         case .unavailable:
             recordingEntryID = nil
-            showMessage(localization.string("chooser.assignedUnavailable", defaultValue: "无法修改此窗口的快捷键"))
+            showMessage(.assignedUnavailable)
         }
         return true
     }
@@ -1555,7 +1634,7 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
 
     private func move(_ delta: Int) {
         guard var session else { return }
-        session.advance(delta); self.session = session; actionMessage = nil
+        session.advance(delta); self.session = session; actionDiagnostic = nil
         noteCyclingInput()
         onSessionChange?(session); render()
     }
@@ -1677,7 +1756,9 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
         // Let a chosen menu action run before dismissing a released cycling session.
         Task { @MainActor [weak self] in
             await Task.yield()
-            guard let self, self.menuGeneration == generation, self.session != nil else { return }
+            guard let self, self.menuGeneration == generation else { return }
+            if self.needsLocalizationRefresh { self.refreshLocalization() }
+            guard self.session != nil else { return }
             if (shouldDismissReleasedCycle && self.session?.isPersistent == false) || !self.panel.isKeyWindow {
                 self.onCancel?()
             }
@@ -1702,13 +1783,13 @@ final class WindowSwitcherOverlayController: NSObject, NSWindowDelegate, NSTable
         guard scope.selectedSegment != 1 || session.canSwitchCurrentApplication(session.scopeTargetPID) else { render(); return }
         session.scope = scope.selectedSegment == 1 ? session.scopeTargetPID.map(WindowSwitcherSession.Scope.currentApplication) ?? .all : .all
         session.normalizeSelection(); self.session = session
-        actionMessage = nil; onSessionChange?(session); render()
+        actionDiagnostic = nil; onSessionChange?(session); render()
     }
     @objc private func displayChanged() {
         guard var session else { return }
         session.display = (display.selectedItem?.representedObject as? NSNumber)?.uint32Value
         session.normalizeSelection(); self.session = session
-        actionMessage = nil; onSessionChange?(session); render()
+        actionDiagnostic = nil; onSessionChange?(session); render()
     }
     @objc private func togglePreviewFromMenu() {
         previewButton.state = showsPreview ? .off : .on

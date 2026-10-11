@@ -39,6 +39,10 @@
       "displayName": "Жесты трекпада",
       "summary": "Назначайте жестам трекпада действия MacTools, сочетания клавиш или средний щелчок."
     },
+    "tr": {
+      "displayName": "Trackpad Hareketleri",
+      "summary": "Trackpad hareketlerini MacTools eylemlerine, kısayollara veya orta tıklamaya eşleyin."
+    },
     "zh-Hans": {
       "displayName": "触控板手势",
       "summary": "将自定义触控板手势映射为 MacTools 操作、快捷键或中键点击"
@@ -54,7 +58,7 @@
     "setup.requirements.title": "@standardSetup.requirements.title",
     "setup.requirements.description": "@standardSetup.requirements.description"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minHostVersion": "1.3.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "TrackpadGestures.bundle",
@@ -122,6 +126,9 @@
       ],
       "ru": [
         "Жесты трекпада"
+      ],
+      "tr": [
+        "Trackpad Hareketleri"
       ],
       "zh-Hans": [
         "触控板手势"

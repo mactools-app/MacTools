@@ -1,40 +1,42 @@
 ---
 import "../styles/global.css";
+import type { LocalizedText } from "../lib/plugin-presentation";
+import { applyLanguage, initializePreferences, resolveLanguage } from "../scripts/site-language";
 
+type StructuredData = Record<string, unknown> | Record<string, unknown>[];
 type Props = {
-  title?: string;
-  description?: string;
-  keywords?: string[];
-  lang?: "zh" | "en";
+  title: LocalizedText;
+  description: LocalizedText;
+  keywords?: { zh: string[]; en: string[] };
   page?: "home" | "plugins" | "about" | "privacy";
-  image?: string;
-  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  image?: LocalizedText;
+  structuredData?: { zh: StructuredData; en: StructuredData };
 };
 
 const {
-  title = "MacTools",
-  description = "MacTools 是一组原生 macOS 菜单栏工具，把高频系统操作收进一个轻量、可扩展的入口。",
-  keywords = [],
-  lang = "zh",
+  title,
+  description,
+  keywords = { zh: [], en: [] },
   page = "home",
-  image = "/assets/logo-mactools-rounded.png",
-  structuredData = [],
+  image = { zh: "/assets/logo-mactools-rounded.png", en: "/assets/logo-mactools-rounded.png" },
+  structuredData,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const previewImage = new URL(image, Astro.site);
-const locale = lang === "zh" ? "zh_CN" : "en_US";
-const keywordContent = keywords.length > 0 ? [...new Set(keywords)].join(", ") : undefined;
-const structuredDataItems = Array.isArray(structuredData) ? structuredData : [structuredData];
+const previewImage = { zh: new URL(image.zh, Astro.site).href, en: new URL(image.en, Astro.site).href };
+const keywordContent = { zh: [...new Set(keywords.zh)].join(", "), en: [...new Set(keywords.en)].join(", ") };
+const json = (value: StructuredData) => JSON.stringify(value).replace(/</g, "\\u003c");
+// Use the same preference and language logic for the head and interactive controls.
+const preferenceBootstrap = `(${initializePreferences.toString()})(${resolveLanguage.toString()}, ${applyLanguage.toString()});`;
 ---
 
 <!doctype html>
-<html lang={lang === "zh" ? "zh-CN" : "en"} data-theme="light" data-lang={lang}>
+<html lang="zh-CN" data-theme="light" data-lang="zh">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    {keywordContent ? <meta name="keywords" content={keywordContent} /> : null}
+    <meta name="description" content={description.zh} data-content-zh={description.zh} data-content-en={description.en} />
+    {keywordContent.zh || keywordContent.en ? <meta name="keywords" content={keywordContent.zh} data-content-zh={keywordContent.zh} data-content-en={keywordContent.en} /> : null}
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="application-name" content="MacTools" />
     <meta name="apple-mobile-web-app-title" content="MacTools" />
@@ -42,51 +44,19 @@ const structuredDataItems = Array.isArray(structuredData) ? structuredData : [st
     <link rel="canonical" href={canonical} />
     <meta property="og:site_name" content="MacTools" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={title.zh} data-content-zh={title.zh} data-content-en={title.en} />
+    <meta property="og:description" content={description.zh} data-content-zh={description.zh} data-content-en={description.en} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={previewImage} />
-    <meta property="og:locale" content={locale} />
+    <meta property="og:image" content={previewImage.zh} data-content-zh={previewImage.zh} data-content-en={previewImage.en} />
+    <meta property="og:locale" content="zh_CN" data-content-zh="zh_CN" data-content-en="en_US" />
+    <meta property="og:locale:alternate" content="en_US" data-content-zh="en_US" data-content-en="zh_CN" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={previewImage} />
-    <title>{title}</title>
-    {structuredDataItems.map((item) => (
-      <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />
-    ))}
-    <script is:inline>
-      (() => {
-        const root = document.documentElement;
-
-        try {
-          const storedTheme = localStorage.getItem("mactools-theme");
-          const storedLang = localStorage.getItem("mactools-lang");
-
-          if (storedTheme === "dark" || storedTheme === "light") {
-            root.dataset.theme = storedTheme;
-          } else {
-            root.dataset.theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-          }
-
-          const applyLanguage = (lang) => {
-            root.dataset.lang = lang;
-            root.lang = lang === "zh" ? "zh-CN" : "en";
-          };
-
-          if (storedLang === "zh" || storedLang === "en") {
-            applyLanguage(storedLang);
-          } else {
-            const browserLanguages = navigator.languages?.length ? navigator.languages : [navigator.language];
-            const prefersChinese = browserLanguages.some((language) => language.toLowerCase().startsWith("zh"));
-            applyLanguage(prefersChinese ? "zh" : "en");
-          }
-        } catch {
-          root.dataset.theme = root.dataset.theme || "light";
-          root.dataset.lang = root.dataset.lang || "zh";
-        }
-      })();
-    </script>
+    <meta name="twitter:title" content={title.zh} data-content-zh={title.zh} data-content-en={title.en} />
+    <meta name="twitter:description" content={description.zh} data-content-zh={description.zh} data-content-en={description.en} />
+    <meta name="twitter:image" content={previewImage.zh} data-content-zh={previewImage.zh} data-content-en={previewImage.en} />
+    <title data-text-zh={title.zh} data-text-en={title.en}>{title.zh}</title>
+    {structuredData ? <script is:inline type="application/ld+json" data-text-zh={json(structuredData.zh)} data-text-en={json(structuredData.en)} set:html={json(structuredData.zh)} /> : null}
+    <script is:inline data-site-preferences set:html={preferenceBootstrap} />
   </head>
   <body data-page={page}>
     <slot />

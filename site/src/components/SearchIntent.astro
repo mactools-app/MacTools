@@ -1,4 +1,5 @@
 ---
+import LocalizedText from "./LocalizedText.astro";
 const base = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
@@ -9,35 +10,35 @@ const featureGroups = [
     title: "菜单栏和桌面",
     titleEn: "Menu bar and desktop",
     items: [
-      "Auto Hide Menu Bar",
-      "Auto Hide Dock",
-      "Stage Manager",
-      "Hide Notch",
-      "Launchpad",
+      { zh: "自动隐藏菜单栏", en: "Auto Hide Menu Bar" },
+      { zh: "自动隐藏程序坞", en: "Auto Hide Dock" },
+      { zh: "台前调度", en: "Stage Manager" },
+      { zh: "隐藏刘海", en: "Hide Notch" },
+      { zh: "启动台", en: "Launchpad" },
     ],
   },
   {
     title: "显示器和系统开关",
     titleEn: "Display and system toggles",
     items: [
-      "Display Brightness",
-      "DDC/CI",
-      "Display Resolution",
-      "True Tone",
-      "Night Shift",
-      "Prevent Sleep",
+      { zh: "显示器亮度", en: "Display Brightness" },
+      { zh: "DDC/CI", en: "DDC/CI" },
+      { zh: "显示器分辨率", en: "Display Resolution" },
+      { zh: "原彩显示", en: "True Tone" },
+      { zh: "夜览", en: "Night Shift" },
+      { zh: "阻止休眠", en: "Prevent Sleep" },
     ],
   },
   {
     title: "维护和状态",
     titleEn: "Maintenance and status",
     items: [
-      "Disk Cleanup",
-      "Xcode Cleanup",
-      "System Status",
-      "Device Battery",
-      "Fan Control",
-      "Battery Charge Limit",
+      { zh: "磁盘清理", en: "Disk Cleanup" },
+      { zh: "Xcode 清理", en: "Xcode Cleanup" },
+      { zh: "系统状态", en: "System Status" },
+      { zh: "设备电量", en: "Device Battery" },
+      { zh: "风扇控制", en: "Fan Control" },
+      { zh: "电池充电上限", en: "Battery Charge Limit" },
     ],
   },
 ] as const;
@@ -71,7 +72,7 @@ const featureGroups = [
       </a>
     </article>
 
-    <div class="intent-keywords" aria-label="MacTools 功能关键词">
+    <div class="intent-keywords" aria-label="MacTools 功能关键词" data-aria-label-zh="MacTools 功能关键词" data-aria-label-en="MacTools feature keywords">
       {featureGroups.map((group) => (
         <article>
           <h3>
@@ -80,7 +81,7 @@ const featureGroups = [
           </h3>
           <div>
             {group.items.map((item) => (
-              <span>{item}</span>
+              <span><LocalizedText {...item} /></span>
             ))}
           </div>
         </article>

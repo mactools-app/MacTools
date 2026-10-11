@@ -144,7 +144,7 @@ struct MarketplacePluginDetailView: View {
                         .font(PluginSettingsTheme.Typography.pageDescription)
                         .foregroundStyle(.secondary)
                 }
-                Text([presentation.item.version, presentation.item.releaseChannel, presentation.item.category]
+                Text([presentation.item.version, presentation.item.releaseChannel, categoryDisplayName(presentation.item.category)]
                     .compactMap { $0 }
                     .joined(separator: " · "))
                     .font(PluginSettingsTheme.Typography.statusBadge)
@@ -155,6 +155,12 @@ struct MarketplacePluginDetailView: View {
         }
         .padding(PluginSettingsTheme.Spacing.cardContent)
         .pluginSettingsCardBackground(.standard)
+    }
+
+    private func categoryDisplayName(_ rawValue: String?) -> String? {
+        guard let rawValue else { return nil }
+        return PluginCategory(rawValue: rawValue.trimmingCharacters(in: .whitespacesAndNewlines).lowercased())?
+            .displayName ?? rawValue
     }
 
     @ViewBuilder
@@ -265,7 +271,9 @@ struct MarketplacePluginDetailView: View {
             Text(action.description.localizedValue() ?? "")
                 .font(PluginSettingsTheme.Typography.rowDescription)
                 .foregroundStyle(.secondary)
-            Text(([action.risk] + action.surfaces + action.permissionIDs).joined(separator: " · "))
+            Text(([MarketplacePluginDetailCopy.value(action.risk, group: "risk")]
+                + action.surfaces.map { MarketplacePluginDetailCopy.value($0, group: "surface") }
+                + action.permissionIDs.map { MarketplacePluginDetailCopy.value($0, group: "permission") }).joined(separator: " · "))
                 .font(PluginSettingsTheme.Typography.statusBadge)
                 .foregroundStyle(.secondary)
         }
@@ -285,11 +293,11 @@ struct MarketplacePluginDetailView: View {
             detailSection("plugin.marketplace.detail.requirements", defaultValue: "要求", systemImage: "checklist") {
                 metadataLines([
                     requirements.minimumMacOSVersion.map { "macOS \($0)" },
-                    requirements.architectures.isEmpty ? nil : requirements.architectures.joined(separator: ", "),
-                    requirements.hardware.isEmpty ? nil : requirements.hardware.joined(separator: ", "),
-                    requirements.applications.isEmpty ? nil : requirements.applications.map(\.name).joined(separator: ", "),
-                    requirements.executables.isEmpty ? nil : requirements.executables.joined(separator: ", "),
-                    requirements.permissionIDs.isEmpty ? nil : requirements.permissionIDs.joined(separator: ", "),
+                    requirements.architectures.isEmpty ? nil : FeatureL10n.joined(requirements.architectures),
+                    requirements.hardware.isEmpty ? nil : MarketplacePluginDetailCopy.list(requirements.hardware, labels: true),
+                    requirements.applications.isEmpty ? nil : FeatureL10n.joined(requirements.applications.map(\.name)),
+                    requirements.executables.isEmpty ? nil : FeatureL10n.joined(requirements.executables),
+                    requirements.permissionIDs.isEmpty ? nil : MarketplacePluginDetailCopy.list(requirements.permissionIDs, group: "permission"),
                     requirements.requiresRelaunch ? AppL10n.plugins("plugin.status.restartRequired", defaultValue: "需重启") : nil
                 ])
             }
@@ -301,11 +309,26 @@ struct MarketplacePluginDetailView: View {
         if let privacy = presentation.metadata?.privacy {
             detailSection("plugin.marketplace.detail.privacy", defaultValue: "隐私与安全", systemImage: "hand.raised") {
                 metadataLines([
-                    privacy.dataObserved.isEmpty ? nil : privacy.dataObserved.joined(separator: ", "),
-                    privacy.dataPersisted.isEmpty ? nil : privacy.dataPersisted.joined(separator: ", "),
-                    privacy.networkDomains.isEmpty ? privacy.networkUse : privacy.networkDomains.joined(separator: ", "),
-                    privacy.telemetry,
-                    privacy.retention.description?.localizedValue() ?? privacy.retention.policy
+                    AppL10n.pluginsFormat(
+                        "plugin.marketplace.data.observedFormat", defaultValue: "访问的数据：%@",
+                        privacy.dataObserved.isEmpty
+                            ? AppL10n.plugins("plugin.marketplace.data.none", defaultValue: "无")
+                            : MarketplacePluginDetailCopy.list(privacy.dataObserved, labels: true)
+                    ),
+                    AppL10n.pluginsFormat(
+                        "plugin.marketplace.data.persistedFormat", defaultValue: "保存的数据：%@",
+                        privacy.dataPersisted.isEmpty
+                            ? AppL10n.plugins("plugin.marketplace.data.none", defaultValue: "无")
+                            : MarketplacePluginDetailCopy.list(privacy.dataPersisted, labels: true)
+                    ),
+                    MarketplacePluginDetailCopy.value(privacy.networkUse, group: "network"),
+                    privacy.networkDomains.isEmpty ? nil : AppL10n.pluginsFormat(
+                        "plugin.marketplace.network.domainsFormat", defaultValue: "网络域名：%@",
+                        FeatureL10n.joined(privacy.networkDomains)
+                    ),
+                    MarketplacePluginDetailCopy.value(privacy.telemetry, group: "data.telemetry"),
+                    privacy.retention.description?.localizedValue()
+                        ?? MarketplacePluginDetailCopy.value(privacy.retention.policy, group: "retention")
                 ])
             }
         }
@@ -330,8 +353,8 @@ struct MarketplacePluginDetailView: View {
         if !presentation.relatedPluginIDs.isEmpty {
             detailSection("plugin.marketplace.detail.related", defaultValue: "相关插件", systemImage: "square.stack.3d.up") {
                 ForEach(presentation.relatedPluginIDs, id: \.self) { pluginID in
-                    if pluginHost.pluginManagementItems.contains(where: { $0.id == pluginID }) {
-                        Button(pluginID) { navigationCoordinator.navigate(to: .marketplaceDetail(.init(pluginID: pluginID))) }
+                    if let related = pluginHost.pluginManagementItems.first(where: { $0.id == pluginID }) {
+                        Button(related.title) { navigationCoordinator.navigate(to: .marketplaceDetail(.init(pluginID: pluginID))) }
                             .buttonStyle(.link)
                     } else {
                         Text(pluginID).foregroundStyle(.secondary)
@@ -349,10 +372,10 @@ struct MarketplacePluginDetailView: View {
                 if let metadata {
                     Text([metadata.publisher, metadata.license].filter { !$0.isEmpty }.joined(separator: " · "))
                         .font(PluginSettingsTheme.Typography.rowDescription)
-                    if let documentationURL = metadata.documentationURL { Link("Documentation", destination: documentationURL) }
-                    if let supportURL = metadata.supportURL { Link("Support", destination: supportURL) }
+                    if let documentationURL = metadata.documentationURL { Link(AppL10n.plugins("plugin.marketplace.detail.documentation", defaultValue: "文档"), destination: documentationURL) }
+                    if let supportURL = metadata.supportURL { Link(AppL10n.plugins("plugin.marketplace.detail.support", defaultValue: "支持"), destination: supportURL) }
                 }
-                if let releaseNotesURL = presentation.item.releaseNotesURL { Link("Release Notes", destination: releaseNotesURL) }
+                if let releaseNotesURL = presentation.item.releaseNotesURL { Link(AppL10n.plugins("plugin.marketplace.detail.releaseNotes", defaultValue: "发行说明"), destination: releaseNotesURL) }
             }
         }
     }

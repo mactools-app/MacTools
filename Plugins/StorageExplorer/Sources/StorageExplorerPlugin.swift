@@ -19,21 +19,7 @@ private struct StorageExplorerPluginProvider: PluginProvider {
                 publishesItems: false,
                 collectsFileTypeTotals: false
             ),
-            copy: StorageExplorerControllerCopy(
-                movedToTrash: localization.string(
-                    "storageExplorer.movedToTrash",
-                    defaultValue: "已移至废纸篓"
-                ),
-                trashOperationFailed: localization.string(
-                    "storageExplorer.trashOperationFailed",
-                    defaultValue: "无法将所选项目移至废纸篓。请刷新后重试。"
-                ),
-                trashPartialFailure: localization.string(
-                    "storageExplorer.trashPartialFailure",
-                    defaultValue: "%d 个项目未能移至废纸篓：%@"
-                ),
-                otherName: localization.string("storageExplorer.other", defaultValue: "其他")
-            ),
+            copy: StorageExplorerControllerCopy.localized(using: localization),
             snapshotCache: StorageExplorerSnapshotCache()
         )
         return [
@@ -46,8 +32,7 @@ private struct StorageExplorerPluginProvider: PluginProvider {
 }
 
 @MainActor
-public final class StorageExplorerPlugin: MacToolsPlugin, PluginSettingsPresenting {
-    public let metadata: PluginMetadata
+public final class StorageExplorerPlugin: MacToolsPlugin, PluginSettingsPresenting, PluginRuntimeLocalizationRefreshing {
     public let controller: StorageExplorerController
     public let localization: PluginLocalization
 
@@ -62,7 +47,10 @@ public final class StorageExplorerPlugin: MacToolsPlugin, PluginSettingsPresenti
     ) {
         self.controller = controller
         self.localization = localization
-        self.metadata = PluginMetadata(
+    }
+
+    public var metadata: PluginMetadata {
+        PluginMetadata(
             id: "com.mactools.plugin.storage-explorer",
             title: localization.string("metadata.title", defaultValue: "存储空间分析"),
             iconName: "internaldrive",
@@ -70,6 +58,11 @@ public final class StorageExplorerPlugin: MacToolsPlugin, PluginSettingsPresenti
             order: 55,
             defaultDescription: localization.string("metadata.description", defaultValue: "以层级视图直观分析磁盘占用，找出大文件，在审阅确认后移至废纸篓")
         )
+    }
+
+    public func refreshLocalization() {
+        controller.refreshLocalization(copy: .localized(using: localization))
+        onStateChange?()
     }
 
     public var settingsPage: PluginSettingsPage? {
@@ -84,5 +77,22 @@ public final class StorageExplorerPlugin: MacToolsPlugin, PluginSettingsPresenti
                 )
             }
         }
+    }
+}
+
+extension StorageExplorerControllerCopy {
+    static func localized(using localization: PluginLocalization) -> Self {
+        Self(
+            movedToTrash: localization.string("storageExplorer.movedToTrash", defaultValue: "已移至废纸篓"),
+            trashOperationFailed: localization.string(
+                "storageExplorer.trashOperationFailed",
+                defaultValue: "无法将所选项目移至废纸篓。请刷新后重试。"
+            ),
+            trashPartialFailure: localization.string(
+                "storageExplorer.trashPartialFailure",
+                defaultValue: "%d 个项目未能移至废纸篓：%@"
+            ),
+            otherName: localization.string("storageExplorer.other", defaultValue: "其他")
+        )
     }
 }

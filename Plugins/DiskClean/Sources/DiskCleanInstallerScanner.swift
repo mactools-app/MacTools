@@ -96,7 +96,7 @@ enum DiskCleanInstallerScanOutcome: Equatable, Sendable {
 /// `~/Downloads` is **top-level only, no recursion**: subdirectories are usually user-organized
 /// material, and recursing for `.dmg` would surface already-archived content.
 ///
-/// Blocking, but only one top-level `readdir` plus one `fstatat` per entry; cost scales with
+/// Blocking, but only top-level bulk metadata reads plus `fstatat` for matching installers; cost scales with
 /// entry count and never descends, so WorkerPool abandon budgets are unnecessary—that machinery
 /// is for recursive sizing that can hang forever.
 struct DiskCleanInstallerScanner: Sendable {
@@ -121,7 +121,7 @@ struct DiskCleanInstallerScanner: Sendable {
         ),
         staleAge: TimeInterval = defaultStaleAge,
         opener: DiskCleanRootOpener = DiskCleanRootOpener(),
-        sourceFactory: any DiskCleanDirectoryEntrySourceFactory = DiskCleanDirectoryStreamEntrySourceFactory(),
+        sourceFactory: any DiskCleanDirectoryEntrySourceFactory = DiskCleanDiscoveryEntrySourceFactory(),
         now: @escaping @Sendable () -> Date = { Date() }
     ) {
         self.downloadsPath = downloadsPath
@@ -173,6 +173,12 @@ struct DiskCleanInstallerScanner: Sendable {
         do {
             while let batch = try source.nextBatch() {
                 for entry in batch {
+                    if case let .unresolved(code) = entry {
+                        // A vanished entry can be skipped; other failures may hide installers
+                        // or signal a malformed bulk batch and must not look like success.
+                        if code == ENOENT { continue }
+                        throw DiskCleanPOSIXError(code: code)
+                    }
                     guard case let .resolved(resolved) = entry else { continue }
                     // Regular files only: do not follow symlinks (would delete the link, not the installer),
                     // and do not recurse into directories.
@@ -196,7 +202,7 @@ struct DiskCleanInstallerScanner: Sendable {
                 }
             }
         } catch {
-            // Never treat mid-stream readdir failure as a successful partial scan.
+            // Never treat an enumeration failure as a successful partial scan.
             let code = (error as? DiskCleanPOSIXError)?.code ?? EIO
             return code == EPERM || code == EACCES
                 ? .denied(path: directoryPath)
@@ -239,6 +245,8 @@ struct DiskCleanInstallerScanner: Sendable {
     private static func status(name: String, directoryFileDescriptor: Int32) -> stat? {
         var status = stat()
         guard fstatat(directoryFileDescriptor, name, &status, AT_SYMLINK_NOFOLLOW) == 0 else { return nil }
+        // The entry may have changed since the bulk read. Only a current regular file is an installer.
+        guard DiskCleanRootIdentity.FileType(mode: status.st_mode) == .regularFile else { return nil }
         return status
     }
 

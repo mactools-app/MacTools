@@ -2,7 +2,8 @@
 
 Captured from the local static website before and after the capability-search and
 prerequisite-disclosure change. The baseline is commit
-`d914bfbeccbd6806cd27c88a456a890cdcb6e9bd`. These captures show website navigation
+`d914bfbeccbd6806cd27c88a456a890cdcb6e9bd`; the implementation capture is commit
+`bc3792f94133af57410fc2b99ab4ee7a5de8f312`. These captures show website navigation
 and declared metadata; they do not execute MacTools actions or inspect a visitor's
 installed applications.
 
@@ -38,13 +39,12 @@ ordinary browsing.
 
 ![Search, disclosure, language switching, and clearing](search-interaction.gif)
 
-## Validation
+## Validation after integrating current main
 
 - Focused search/controller/rendered-page checks: 4 passed.
-- Website tests: 8 passed.
+- Website tests: 12 passed.
 - Generated manifest-data freshness check passed.
-- Static build: 202 pages, no errors or warnings; one existing TypeScript
-  deprecation hint in the control-test harness.
+- Static build: 203 pages, no errors, warnings, or hints.
 - Chromium and WebKit checks passed for English/Chinese task discovery, category
   filters, counts including collapsed actions, disclosure reset, clear/empty
   states, keyboard focus, action-to-plugin navigation, and prerequisite rows.
