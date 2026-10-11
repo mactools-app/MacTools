@@ -21,13 +21,13 @@ The contact indicator reports valid finger contact rather than the finger's phys
 
 ## UI preview
 
-The focused settings page shows the estimate, finger contact, and **Touch → Auto-tare → Weigh** steps, with calibration collapsed by default. The native screenshots below show a real captured estimate on a built-in Force Touch trackpad. The displayed ≈70 g reading demonstrates capture and retention; comparison against an independently known weight remains pending.
+The focused settings page shows the estimate, finger contact, and **Touch → Auto-tare → Weigh** steps, with calibration collapsed by default. These latest native screenshots show the persistent accuracy warning beside a real captured estimate and the gesture-pause notice below Start/Stop. The displayed ≈62 g reading demonstrates capture and retention on a built-in Force Touch trackpad; comparison against an independently known weight remains pending.
 
-![Trackpad Scale with a captured estimate, sampling stopped, and Auto capture enabled](images/trackpad-scale-captured.png)
+![Trackpad Scale captured estimate with the accuracy warning and Auto capture enabled](images/trackpad-scale-captured.png)
 
 Calibration contains manual **Tare / 归零** with **⌘T** and the known-weight controls. The controls are disabled in this screenshot because the captured session has stopped.
 
-![Trackpad Scale with Calibration expanded and manual Tare with the Command-T shortcut](images/trackpad-scale-calibration.jpg)
+![Trackpad Scale accuracy warning and expanded Calibration with Tare and Command-T](images/trackpad-scale-calibration.png)
 
 ## Measurement and recovery
 
