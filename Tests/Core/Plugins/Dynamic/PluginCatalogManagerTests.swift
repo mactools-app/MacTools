@@ -784,16 +784,140 @@ final class PluginCatalogManagerTests: XCTestCase {
         XCTAssertNil(host.pluginMarketplaceOperations[pluginID])
     }
 
+    func testSupersededUpdateFailureKeepsReinstallationFeedbackAndDuplicateProtection() async throws {
+        try await assertReinstallationKeepsFeedbackAfterSupersededUpdate(failsResolution: true)
+    }
+
+    func testSupersededUpdateSuccessKeepsReinstallationFeedbackAndDuplicateProtection() async throws {
+        try await assertReinstallationKeepsFeedbackAfterSupersededUpdate(failsResolution: false)
+    }
+
+    private func assertReinstallationKeepsFeedbackAfterSupersededUpdate(failsResolution: Bool) async throws {
+        let pluginID = "com.example.demo"
+        let store = makeStore()
+        _ = try store.installPackage(from: makePackage(id: pluginID, version: "1.0.0"))
+        let packageURL = try makePackage(id: pluginID, version: "2.0.0")
+        let dynamicManager = DynamicPluginManager(
+            packageStore: store,
+            pluginLoader: StubDynamicPluginLoader { _ in [] }
+        )
+        let snapshot = makeCatalogSnapshot(entries: [makeCatalogEntry(id: pluginID, version: "2.0.0")])
+        let resolver = SuspendedPluginPackageResolver()
+        let manager = PluginCatalogManager(
+            catalogProvider: StubPluginCatalogProvider(snapshot: snapshot),
+            packageResolver: resolver,
+            dynamicPluginManager: dynamicManager,
+            source: .production(snapshot.sourceURL)
+        )
+        let host = makeFeedbackHost(dynamicManager: dynamicManager, catalogManager: manager)
+        defer { host.deactivateAllPlugins() }
+        await host.refreshPluginCatalog()
+
+        let oldUpdate = Task { try await host.updatePluginFromCatalog(pluginID: pluginID) }
+        await resolver.waitUntilRequested()
+        XCTAssertEqual(host.pluginMarketplaceOperations[pluginID], .init(kind: .update, phase: .running))
+
+        try host.uninstallDynamicPlugin(pluginID: pluginID)
+        XCTAssertNil(host.pluginMarketplaceOperations[pluginID])
+        let installation = Task { try await host.installPluginFromCatalog(pluginID: pluginID) }
+        await resolver.waitUntilRequested(2)
+        XCTAssertEqual(host.pluginMarketplaceOperations[pluginID], .init(kind: .install, phase: .running))
+
+        if failsResolution {
+            resolver.resume(throwing: URLError(.notConnectedToInternet))
+            do {
+                try await oldUpdate.value
+                XCTFail("The superseded update must still report its resolution failure to its caller")
+            } catch {
+                XCTAssertEqual((error as? URLError)?.code, .notConnectedToInternet)
+            }
+        } else {
+            resolver.resume(returning: packageURL)
+            try await oldUpdate.value
+        }
+
+        XCTAssertFalse(dynamicManager.isInstalledPlugin(pluginID))
+        XCTAssertEqual(host.pluginMarketplaceOperations[pluginID], .init(kind: .install, phase: .running))
+        guard host.pluginMarketplaceOperations[pluginID]?.isActive == true else {
+            resolver.resume(returning: packageURL, requestNumber: 2)
+            _ = try? await installation.value
+            return
+        }
+        do {
+            try await host.installPluginFromCatalog(pluginID: pluginID)
+            XCTFail("A superseded update must not unlock a duplicate installation")
+        } catch {
+            guard case PluginMarketplaceOperationError.operationInProgress = error else {
+                resolver.resume(returning: packageURL, requestNumber: 2)
+                _ = try? await installation.value
+                throw error
+            }
+        }
+
+        resolver.resume(returning: packageURL, requestNumber: 2)
+        try await installation.value
+        XCTAssertEqual(dynamicManager.installedPackageVersionsByID()[pluginID], "2.0.0")
+        XCTAssertEqual(host.pluginMarketplaceOperations[pluginID], .init(kind: .install, phase: .completed))
+    }
+
+    func testStartupPreparationRejectsRecheckUntilLatestPackageIsLoaded() async throws {
+        let pluginID = "com.example.demo"
+        let store = makeStore()
+        _ = try store.installPackage(from: makePackage(id: pluginID, version: "1.0.0"))
+        let packageURL = try makePackage(id: pluginID, version: "2.0.0")
+        let dynamicManager = DynamicPluginManager(packageStore: store, pluginLoader: makeSuccessfulRuntimeLoader())
+        let snapshot = makeCatalogSnapshot(entries: [makeCatalogEntry(id: pluginID, version: "2.0.0")])
+        let resolver = SuspendedPluginPackageResolver()
+        let manager = PluginCatalogManager(
+            catalogProvider: StubPluginCatalogProvider(snapshot: snapshot),
+            packageResolver: resolver,
+            dynamicPluginManager: dynamicManager,
+            source: .production(snapshot.sourceURL)
+        )
+        let host = makeFeedbackHost(
+            dynamicManager: dynamicManager, catalogManager: manager, loadDynamicPluginsOnInit: false
+        )
+        defer { host.deactivateAllPlugins() }
+
+        XCTAssertTrue(host.isPreparingPlugins)
+        XCTAssertTrue(try XCTUnwrap(host.marketplaceSetupPresentation(pluginID: pluginID)).issues.isEmpty)
+        host.recheckPluginRequirements()
+        XCTAssertFalse(dynamicManager.isPluginLoaded(pluginID))
+
+        let preparation = Task { await host.automaticUpdateInstalledPluginsBeforeLoading() }
+        await resolver.waitUntilRequested()
+        XCTAssertTrue(try XCTUnwrap(host.marketplaceSetupPresentation(pluginID: pluginID)).issues.isEmpty)
+        host.recheckPluginRequirements()
+        XCTAssertFalse(dynamicManager.isPluginLoaded(pluginID))
+        XCTAssertEqual(dynamicManager.installedPackageVersionsByID()[pluginID], "1.0.0")
+
+        resolver.resume(returning: packageURL)
+        let succeeded = await preparation.value
+        XCTAssertTrue(succeeded)
+        XCTAssertFalse(host.isPreparingPlugins)
+        XCTAssertTrue(dynamicManager.isPluginLoaded(pluginID))
+        XCTAssertEqual(dynamicManager.installedPackageVersionsByID()[pluginID], "2.0.0")
+        let item = try XCTUnwrap(host.pluginManagementItems.first { $0.id == pluginID })
+        XCTAssertEqual(item.state, .installed)
+        XCTAssertFalse(item.requiresRestartToFullyUnload)
+
+        let addedPluginID = "com.example.other"
+        _ = try store.installPackage(from: makePackage(id: addedPluginID))
+        host.recheckPluginRequirements()
+        XCTAssertTrue(dynamicManager.isPluginLoaded(addedPluginID), "Recheck must remain available after preparation")
+    }
+
     private func makeFeedbackHost(
         dynamicManager: DynamicPluginManager? = nil,
-        catalogManager: PluginCatalogManager? = nil
+        catalogManager: PluginCatalogManager? = nil,
+        loadDynamicPluginsOnInit: Bool = true
     ) -> PluginHost {
         PluginHost(
             plugins: [], dynamicPluginManager: dynamicManager, pluginCatalogManager: catalogManager,
             shortcutStore: ShortcutStore(userDefaults: defaults),
             pluginOrderingStore: PluginOrderingStore(userDefaults: defaults),
             preferencesBackupStore: PreferencesBackupStore(userDefaults: defaults),
-            globalShortcutManager: GlobalShortcutManager(), loadDynamicPluginsOnInit: false
+            globalShortcutManager: GlobalShortcutManager(), loadDynamicPluginsOnInit: loadDynamicPluginsOnInit
         )
     }
 
@@ -950,33 +1074,36 @@ private final class FailFirstPluginPackageResolver: PluginPackageResolving {
 
 @MainActor
 private final class SuspendedPluginPackageResolver: PluginPackageResolving {
-    private var resolutionContinuation: CheckedContinuation<URL, Error>?
-    private var requestContinuation: CheckedContinuation<Void, Never>?
-    private var wasRequested = false
+    private var resolutionContinuations: [Int: CheckedContinuation<URL, Error>] = [:]
+    private var requestContinuations: [Int: CheckedContinuation<Void, Never>] = [:]
+    private var requestCount = 0
 
     func resolvePackage(for entry: PluginCatalogEntry) async throws -> URL {
-        wasRequested = true
-        requestContinuation?.resume()
-        requestContinuation = nil
+        requestCount += 1
+        let requestNumber = requestCount
+        requestContinuations.removeValue(forKey: requestNumber)?.resume()
 
         return try await withCheckedThrowingContinuation { continuation in
-            resolutionContinuation = continuation
+            resolutionContinuations[requestNumber] = continuation
         }
     }
 
-    func waitUntilRequested() async {
-        guard !wasRequested else {
+    func waitUntilRequested(_ requestNumber: Int = 1) async {
+        guard requestCount < requestNumber else {
             return
         }
 
         await withCheckedContinuation { continuation in
-            requestContinuation = continuation
+            requestContinuations[requestNumber] = continuation
         }
     }
 
-    func resume(returning url: URL) {
-        resolutionContinuation?.resume(returning: url)
-        resolutionContinuation = nil
+    func resume(returning url: URL, requestNumber: Int = 1) {
+        resolutionContinuations.removeValue(forKey: requestNumber)?.resume(returning: url)
+    }
+
+    func resume(throwing error: Error, requestNumber: Int = 1) {
+        resolutionContinuations.removeValue(forKey: requestNumber)?.resume(throwing: error)
     }
 }
 

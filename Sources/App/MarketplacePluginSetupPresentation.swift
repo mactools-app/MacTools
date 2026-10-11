@@ -41,8 +41,13 @@ struct MarketplacePluginSetupPresentation {
         missingPermissionCards: [PluginPermissionCard],
         runtimeIsolationFailure: String? = nil,
         isRuntimeLoaded: Bool,
+        isPreparingRuntime: Bool = false,
         hasSettings: Bool
     ) {
+        guard !isPreparingRuntime else {
+            issues = []
+            return
+        }
         let isInstalled = item.packageURL != nil
         let settingsAction = isInstalled && hasSettings ? Action(
             title: AppL10n.plugins("plugin.marketplace.openSettings", defaultValue: "打开设置"),

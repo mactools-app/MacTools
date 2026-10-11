@@ -485,6 +485,7 @@ final class PluginHost: ObservableObject {
     @Published private(set) var shortcutBindingRevision: UInt64 = 0
     @Published private(set) var pluginManagementItems: [PluginManagementItem] = []
     @Published private(set) var pluginMarketplaceOperations: [String: PluginMarketplaceOperation] = [:]
+    private var marketplaceOperationAttemptsByPluginID: [String: UUID] = [:]
     @Published private(set) var pluginCatalogStatus: PluginCatalogStatus = .unavailable
     @Published private(set) var automaticPluginUpdateStatus: PluginAutomaticUpdateStatus = .idle
     @Published private(set) var hasActivePlugin = false
@@ -2129,6 +2130,7 @@ final class PluginHost: ObservableObject {
                 .missingPermissionCards ?? [],
             runtimeIsolationFailure: isolatedPluginFailures[pluginID],
             isRuntimeLoaded: corePlugin(for: pluginID) != nil,
+            isPreparingRuntime: isPreparingPlugins,
             hasSettings: hasPluginSettings(pluginID: pluginID)
         )
     }
@@ -2389,6 +2391,8 @@ final class PluginHost: ObservableObject {
     }
 
     func recheckPluginRequirements() {
+        // Startup updates must replace packages before loading installed native bundles.
+        guard !isPreparingPlugins else { return }
         dynamicPluginManager?.reloadInstalledPlugins()
         syncPluginManagementState()
     }
@@ -2536,7 +2540,14 @@ final class PluginHost: ObservableObject {
         guard pluginMarketplaceOperations[pluginID]?.isActive != true else {
             throw PluginMarketplaceOperationError.operationInProgress
         }
+        let attemptID = UUID()
+        marketplaceOperationAttemptsByPluginID[pluginID] = attemptID
         pluginMarketplaceOperations[pluginID] = .init(kind: kind, phase: .running)
+        defer {
+            if marketplaceOperationAttemptsByPluginID[pluginID] == attemptID {
+                marketplaceOperationAttemptsByPluginID.removeValue(forKey: pluginID)
+            }
+        }
         do {
             guard let pluginCatalogManager else {
                 throw PluginMarketplaceOperationError.catalogUnavailable
@@ -2548,6 +2559,7 @@ final class PluginHost: ObservableObject {
                 try await pluginCatalogManager.updatePlugin(id: pluginID)
             }
             syncPluginManagementState()
+            guard marketplaceOperationAttemptsByPluginID[pluginID] == attemptID else { return }
             if dynamicPluginManager?.isInstalledPlugin(pluginID) == true {
                 pluginMarketplaceOperations[pluginID] = .init(kind: kind, phase: .completed)
             } else {
@@ -2555,7 +2567,9 @@ final class PluginHost: ObservableObject {
             }
         } catch {
             syncPluginManagementState()
-            pluginMarketplaceOperations[pluginID] = .init(kind: kind, phase: .failed(error.localizedDescription))
+            if marketplaceOperationAttemptsByPluginID[pluginID] == attemptID {
+                pluginMarketplaceOperations[pluginID] = .init(kind: kind, phase: .failed(error.localizedDescription))
+            }
             throw error
         }
     }
@@ -2596,6 +2610,7 @@ final class PluginHost: ObservableObject {
 
     func uninstallDynamicPlugin(pluginID: String, removeData: Bool = false) throws {
         try dynamicPluginManager?.uninstallPlugin(pluginID: pluginID, removeData: removeData)
+        marketplaceOperationAttemptsByPluginID.removeValue(forKey: pluginID)
         pluginMarketplaceOperations.removeValue(forKey: pluginID)
         pluginOrderingStore.removePlugin(pluginID)
         menuBarPanelStore.removePlugin(id: pluginID)

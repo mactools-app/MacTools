@@ -18,6 +18,12 @@ final class MarketplacePluginSetupPresentationTests: XCTestCase {
         XCTAssertEqual(presentation.issues.first?.action?.intent, .recheckRequirements)
     }
 
+    func testPreparingRuntimeDoesNotOfferRepairForExpectedUnloadedPackage() {
+        let presentation = makePresentation(isRuntimeLoaded: false, isPreparingRuntime: true)
+
+        XCTAssertTrue(presentation.issues.isEmpty)
+    }
+
     func testMissingPermissionsKeepExistingCardAndExplicitRepairIdentity() throws {
         let card = makeCard(pluginID: "example", permissionID: "accessibility")
         let unrelatedCard = makeCard(pluginID: "other", permissionID: "calendar")
@@ -69,6 +75,7 @@ final class MarketplacePluginSetupPresentationTests: XCTestCase {
         state: PluginManagementItem.State = .installed,
         packageInstalled: Bool = true,
         isRuntimeLoaded: Bool = true,
+        isPreparingRuntime: Bool = false,
         isolationFailure: String? = nil,
         hasSettings: Bool = true,
         cards: [PluginPermissionCard] = []
@@ -80,7 +87,8 @@ final class MarketplacePluginSetupPresentationTests: XCTestCase {
                 requiresRestartToFullyUnload: false, releaseNotesURL: nil
             ),
             missingPermissionCards: cards, runtimeIsolationFailure: isolationFailure,
-            isRuntimeLoaded: isRuntimeLoaded, hasSettings: hasSettings
+            isRuntimeLoaded: isRuntimeLoaded, isPreparingRuntime: isPreparingRuntime,
+            hasSettings: hasSettings
         )
     }
 

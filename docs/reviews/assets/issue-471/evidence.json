@@ -2,8 +2,10 @@
   "issue": "https://github.com/mactools-app/MacTools/issues/471",
   "captured_at_utc": "2026-10-11T00:01:34.332739+00:00",
   "before_baseline_commit": "5c3b4ad6f64aca8f3bf32f65d5ab7ecd68ccb54a",
+  "after_implementation_commit": "3b0cfdf0e865bccb3f0d9457e778c39492c1bf37",
   "before_view": "Unmodified git show origin/main:Sources/App/MarketplacePluginDetailView.swift",
-  "after_view": "Unmodified final merged working-tree Sources/App/MarketplacePluginDetailView.swift",
+  "after_view": "Unmodified Sources/App/MarketplacePluginDetailView.swift at the original implementation commit 3b0cfdf0e865bccb3f0d9457e778c39492c1bf37",
+  "snapshot_scope": "The PNGs, capture source archive, and recorded source/fixture hashes are frozen to the original capture revisions. Later operation-lifetime and startup-state fixes preserve the pictured normal progress and installed/loaded permission states but were not rerendered or verified by these images. The recorded hashes do not identify the later patched sources.",
   "capture_method": "Native macOS SwiftUI/AppKit rendering in isolated NSHostingView inside a temporary fixture NSWindow. Save bitmapImageRepForCachingDisplay/cacheDisplay as PNG. No generative imaging, compositing, retouching, cropping, or resized deliverables.",
   "native_rendering_environment": {
     "macOS": "27.2 (26B5101f)",
@@ -25,7 +27,7 @@
     "permission_copy_source": "Plugins/TrackpadGestures/Resources/Localizable.xcstrings English strings",
     "permission_copy_sha256": "c4553c024952b3cfe0a7bf14406720cbb221ae53094af0c394e1f2116c3d921e"
   },
-  "localization": "Both before and after use identical English Plugins.strings generated from the final localization catalog. The before view does not consume the added operation/setup-status keys. PluginRuntimeLocalization.source.setPreference(\"en\") changes only the process locale snapshot; no preferences are saved.",
+  "localization": "Both before and after use identical English Plugins.strings generated from the original implementation's localization catalog at 3b0cfdf0e865bccb3f0d9457e778c39492c1bf37. The before view does not consume the added operation/setup-status keys. PluginRuntimeLocalization.source.setPreference(\"en\") changes only the process locale snapshot; no preferences are saved.",
   "localization_resource_sha256": "7f1a74d3d9aaabc28eeb9a394dcd43227811b47b4a730358ac4f094b2f6908be",
   "shared_production_source": [
     {
@@ -114,6 +116,7 @@
   ],
   "limitations": [
     "These are genuine native renderings of the exact detail view with deterministic fixture data, not screenshots of a real completed catalog download or the whole Settings window.",
+    "After captures reflect the original implementation at 3b0cfdf0e865bccb3f0d9457e778c39492c1bf37. They do not establish the behavior of later operation-lifetime or startup-state fixes.",
     "Fixture lifecycle/navigation/permission callbacks do not validate the actual host side effects.",
     "Captures cover light appearance in English on macOS 27.2; keyboard navigation, VoiceOver, hardware permissions, macOS 14 appearance, and Search routing are not established by these PNGs."
   ],

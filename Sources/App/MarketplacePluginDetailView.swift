@@ -52,6 +52,8 @@ struct MarketplacePluginDetailView: View {
 
     private var activeOperation: Bool { operation?.isActive == true }
 
+    private var controlsDisabled: Bool { activeOperation || pluginHost.isPreparingPlugins }
+
     private var presentation: MarketplacePluginDetailPresentation? {
         MarketplacePluginDetailPresentation(
             item: pluginHost.pluginManagementItems.first { $0.id == target.pluginID },
@@ -177,11 +179,11 @@ struct MarketplacePluginDetailView: View {
             if item.canInstall {
                 Button(AppL10n.plugins("plugin.marketplace.install", defaultValue: "安装")) { install(item) }
                     .buttonStyle(.borderedProminent)
-                    .disabled(activeOperation)
+                    .disabled(controlsDisabled)
             } else if item.canUpdate {
                 Button(AppL10n.plugins("plugin.marketplace.update", defaultValue: "更新")) { update(item) }
                     .buttonStyle(.borderedProminent)
-                    .disabled(activeOperation)
+                    .disabled(controlsDisabled)
             } else if case let .incompatible(reason) = item.state {
                 if item.packageURL == nil {
                     Button(AppL10n.plugins("plugin.marketplace.install", defaultValue: "安装")) {}
@@ -194,14 +196,14 @@ struct MarketplacePluginDetailView: View {
                     pluginHost.presentPluginSettings(pluginID: item.id)
                 }
                 .buttonStyle(.borderedProminent)
-                .disabled(activeOperation)
+                .disabled(controlsDisabled)
             }
             if item.canUninstall {
                 Button(AppL10n.plugins("plugin.marketplace.uninstall", defaultValue: "卸载"), role: .destructive) {
                     showUninstallConfirmation = true
                 }
                 .buttonStyle(.bordered)
-                .disabled(activeOperation)
+                .disabled(controlsDisabled)
             }
             if item.requiresRestartToFullyUnload {
                 Text(AppL10n.plugins("plugin.status.restartRequired", defaultValue: "需重启"))
@@ -229,7 +231,7 @@ struct MarketplacePluginDetailView: View {
                                 if let action = issue.action { performSetupAction(action.intent) }
                             }
                         )
-                        .disabled(activeOperation)
+                        .disabled(controlsDisabled)
                     } else {
                         HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
                             VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
@@ -246,7 +248,7 @@ struct MarketplacePluginDetailView: View {
                             if let action = issue.action {
                                 Button(action.title) { performSetupAction(action.intent) }
                                     .buttonStyle(.bordered)
-                                    .disabled(activeOperation)
+                                    .disabled(controlsDisabled)
                             }
                         }
                         .padding(.vertical, PluginSettingsTheme.Spacing.rowVertical)
@@ -515,7 +517,7 @@ struct MarketplacePluginDetailView: View {
     }
 
     private func uninstall() {
-        guard !activeOperation else { return }
+        guard !controlsDisabled else { return }
         do {
             try pluginHost.uninstallDynamicPlugin(pluginID: target.pluginID)
         } catch {
@@ -524,7 +526,7 @@ struct MarketplacePluginDetailView: View {
     }
 
     private func runOperation(_ operation: @escaping () async throws -> Void) {
-        guard !activeOperation else { return }
+        guard !controlsDisabled else { return }
         Task {
             // The host retains progress and errors for the original plugin after navigation.
             _ = try? await operation()
