@@ -43,6 +43,7 @@ final class PluginMarketplacePresentationModel: ObservableObject {
     @Published private(set) var configurationPluginIDs: Set<String> = []
     @Published private(set) var catalogStatus: PluginCatalogStatus = .unavailable
     @Published private(set) var automaticUpdateStatus: PluginAutomaticUpdateStatus = .idle
+    @Published private(set) var hasActiveMarketplaceOperation = false
     private var subscriptions: Set<AnyCancellable> = []
 
     init(host: PluginHost) {
@@ -62,6 +63,11 @@ final class PluginMarketplacePresentationModel: ObservableObject {
         host.$automaticPluginUpdateStatus
             .removeDuplicates()
             .sink { [weak self] in self?.automaticUpdateStatus = $0 }
+            .store(in: &subscriptions)
+        host.$pluginMarketplaceOperations
+            .map { $0.values.contains(where: \.isActive) }
+            .removeDuplicates()
+            .sink { [weak self] in self?.hasActiveMarketplaceOperation = $0 }
             .store(in: &subscriptions)
     }
 }

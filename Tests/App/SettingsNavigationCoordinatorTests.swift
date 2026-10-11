@@ -157,4 +157,35 @@ final class SettingsNavigationCoordinatorTests: XCTestCase {
         XCTAssertNil(coordinator.searchRevealRequest)
     }
 
+    func testMarketplaceDetailSearchPreservesHighlightAndRejectsStaleDestination() {
+        let target = MarketplacePluginDetailTarget(
+            pluginID: "catalog-tool", providerID: "catalog-provider", actionID: "cleanup"
+        )
+        let destination = SettingsNavigationDestination.marketplaceDetail(target)
+        var isAvailable = true
+        let coordinator = SettingsNavigationCoordinator(
+            isMarketplaceDetailAvailable: { isAvailable && $0 == target }
+        )
+        coordinator.presentUnifiedSearch(origin: .keyboard)
+
+        XCTAssertTrue(coordinator.navigateFromSearch(to: destination, target: nil))
+        XCTAssertFalse(coordinator.isUnifiedSearchPresented)
+        XCTAssertEqual(coordinator.destination, destination)
+        XCTAssertEqual(coordinator.destination.sidebarDestination, .plugins(.marketplace))
+        XCTAssertNil(coordinator.searchRevealRequest)
+        coordinator.goBack()
+        XCTAssertEqual(coordinator.destination, .general)
+        coordinator.goForward()
+        XCTAssertEqual(coordinator.destination, destination)
+
+        coordinator.goBack()
+        isAvailable = false
+        coordinator.goForward()
+        XCTAssertEqual(coordinator.destination, .general)
+        coordinator.presentUnifiedSearch(origin: .keyboard)
+        XCTAssertFalse(coordinator.navigateFromSearch(to: destination, target: nil))
+        XCTAssertTrue(coordinator.isUnifiedSearchPresented)
+        XCTAssertEqual(coordinator.destination, .general)
+    }
+
 }

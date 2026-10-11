@@ -8,7 +8,7 @@ import XCTest
 @MainActor
 final class MacToolsSearchTests: XCTestCase {
 
-    func testIndexIncludesNavigationDeclarativeSettingsCustomSettingsAndCommands() throws {
+    func testIndexPreservesInstalledSettingsAndCommandsWithoutCatalog() throws {
         let plugin = SearchableTestPlugin()
         let host = makePluginHostForTests(plugins: [plugin, SurfaceOnlySearchTestPlugin()])
         let appCommand = appHostCommandDefinition(
@@ -20,9 +20,14 @@ final class MacToolsSearchTests: XCTestCase {
             appHostCommandDefinitions: [appCommand]
         )
 
-        XCTAssertTrue(index.items.contains {
-            $0.kind == .navigation && $0.title == plugin.metadata.title
+        XCTAssertTrue(host.pluginManagementItems.isEmpty)
+        let configuration = try XCTUnwrap(index.items.first {
+            $0.id == "plugin.configuration.\(plugin.metadata.id)"
         })
+        XCTAssertEqual(
+            configuration.action,
+            .navigate(destination: .plugins(.configuration(plugin.metadata.id)), target: nil)
+        )
         XCTAssertTrue(index.items.contains {
             $0.kind == .setting && $0.title == "自动切换"
         })
@@ -65,6 +70,61 @@ final class MacToolsSearchTests: XCTestCase {
         XCTAssertTrue(index.items.contains {
             $0.id == "general-setting.preferencesBackup" && $0.kind == .setting
         })
+    }
+
+    func testMarketplaceDiscoveryOpensDetailAndHighlightsOnlyStaticActions() throws {
+        let item = marketplaceDiscoveryItem()
+        let results = MacToolsSearchIndexBuilder.marketplaceDiscoveryResults(for: item)
+        let index = MacToolsSearchIndex(items: results)
+        let detail = SettingsNavigationDestination.marketplaceDetail(
+            MarketplacePluginDetailTarget(pluginID: item.id)
+        )
+
+        XCTAssertEqual(
+            results.first(where: { $0.id == "plugin.marketplace.\(item.id)" })?.action,
+            .navigate(destination: detail, target: nil)
+        )
+        let staticAction = try XCTUnwrap(index.results(matching: "temporary cleanup").first)
+        XCTAssertEqual(
+            staticAction.action,
+            .navigate(
+                destination: .marketplaceDetail(MarketplacePluginDetailTarget(
+                    pluginID: item.id, providerID: "catalog-provider", actionID: "cleanup"
+                )),
+                target: nil
+            )
+        )
+        let dynamicTemplate = try XCTUnwrap(index.results(matching: "saved profiles").first)
+        XCTAssertEqual(dynamicTemplate.action, .navigate(destination: detail, target: nil))
+        XCTAssertTrue(results.allSatisfy { result in
+            guard case .navigate = result.action else { return false }
+            return result.kind == .navigation && result.confirmation == nil
+        })
+    }
+
+    func testExecutableActionsSuppressOnlyMatchingCapabilityDiscovery() {
+        let item = marketplaceDiscoveryItem()
+        let reference = ActionReference(key: ActionKey(providerID: "catalog-provider", actionID: "cleanup"))
+        let command = MacToolsSearchResult(
+            id: "cleanup-command", kind: .command, title: "Temporary cleanup", subtitle: item.title,
+            detail: "", keywords: [], systemImage: "trash", action: .executeAction(reference),
+            confirmation: nil, suggestionPriority: nil
+        )
+        let discovery = MacToolsSearchIndexBuilder.marketplaceDiscoveryResults(
+            for: item, excludingActionKeys: [reference.key]
+        )
+        let index = MacToolsSearchIndex(items: [command] + discovery)
+
+        XCTAssertEqual(index.results(matching: "temporary cleanup").first?.action, .executeAction(reference))
+        XCTAssertFalse(discovery.contains {
+            guard case let .navigate(.marketplaceDetail(target), _) = $0.action else { return false }
+            return target.actionHighlight != nil
+        })
+        XCTAssertEqual(
+            index.results(matching: "saved profiles").first?.action,
+            .navigate(destination: .marketplaceDetail(.init(pluginID: item.id)), target: nil)
+        )
+        XCTAssertTrue(discovery.contains { $0.id == "plugin.marketplace.\(item.id)" })
     }
 
     func testCommandResultsCarryCanonicalActionReferences() throws {
@@ -286,6 +346,39 @@ final class MacToolsSearchTests: XCTestCase {
         let host = makePluginHostForTests(plugins: [])
 
         XCTAssertFalse(host.performAppCommand(.toggleDashboard))
+    }
+
+    private func marketplaceDiscoveryItem() -> PluginManagementItem {
+        PluginManagementItem(
+            id: "catalog-tool", title: "Catalog Tool", summary: "Available capabilities",
+            version: "1.0.0", state: .available, packageURL: nil,
+            requiresRestartToFullyUnload: false, releaseNotesURL: nil,
+            productMetadata: PluginProductMetadata(
+                presentation: nil, discovery: nil, requirements: nil, privacy: nil,
+                actions: .init(providers: [.init(
+                    id: "catalog-provider", kind: "native",
+                    staticActions: [.init(
+                        id: "cleanup", title: .init(["en": "Temporary cleanup"]),
+                        description: .init(["en": "Remove temporary files"]),
+                        keywords: ["cache"], systemImage: "trash", parameters: [],
+                        parameterSummary: nil, permissionIDs: [], risk: "confirmation-required",
+                        surfaces: ["unified-search"], automaticEligible: false,
+                        externalInvocation: "disabled"
+                    )],
+                    dynamicTemplates: [.init(
+                        id: "profiles", title: .init(["en": "Saved profiles"]),
+                        description: .init(["en": "Choose a saved profile"]),
+                        entrySource: "local-profiles", keywords: ["preset"], parameters: [],
+                        parameterSummary: .init(["en": "Profile name"]),
+                        localOnlyIdentity: true, riskVariesByEntry: nil,
+                        automaticEligibilityVariesByEntry: nil, permissionIDs: [],
+                        risk: "normal", surfaces: ["unified-search"], automaticEligible: false,
+                        externalInvocation: "disabled"
+                    )]
+                )]),
+                setup: nil, relationships: nil
+            )
+        )
     }
 
     private func searchResult(

@@ -1,9 +1,7 @@
 import SwiftUI
 import MacToolsPluginKit
 
-/// Catalog-only Marketplace detail presentation. Runtime enrichment deliberately
-/// remains outside this foundation so an uninstalled plugin is never treated as
-/// an executable action provider.
+/// Catalog-backed content stays informational; setup guidance uses host snapshots.
 struct MarketplacePluginDetailPresentation: Equatable {
     let item: PluginManagementItem
     let highlightedAction: MarketplacePluginActionHighlight?
@@ -44,10 +42,17 @@ struct MarketplacePluginDetailView: View {
     @ObservedObject var navigationCoordinator: SettingsNavigationCoordinator
     let target: MarketplacePluginDetailTarget
 
-    @State private var activeOperation = false
     @State private var errorMessage: String?
     @State private var showUninstallConfirmation = false
     @AccessibilityFocusState private var highlightedActionID: String?
+
+    private var operation: PluginMarketplaceOperation? {
+        pluginHost.pluginMarketplaceOperations[target.pluginID]
+    }
+
+    private var activeOperation: Bool { operation?.isActive == true }
+
+    private var controlsDisabled: Bool { activeOperation || pluginHost.isPreparingPlugins }
 
     private var presentation: MarketplacePluginDetailPresentation? {
         MarketplacePluginDetailPresentation(
@@ -100,6 +105,10 @@ struct MarketplacePluginDetailView: View {
         .onChange(of: pluginHost.pluginManagementItems) {
             navigationCoordinator.reconcileCurrentDestinationAvailability()
         }
+        .onChange(of: target.pluginID) {
+            errorMessage = nil
+            showUninstallConfirmation = false
+        }
     }
 
     private func detail(_ presentation: MarketplacePluginDetailPresentation) -> some View {
@@ -107,6 +116,7 @@ struct MarketplacePluginDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
                     header(presentation)
+                    setupStatus()
                     overview(presentation)
                     actions(presentation)
                     requirements(presentation)
@@ -169,44 +179,136 @@ struct MarketplacePluginDetailView: View {
             if item.canInstall {
                 Button(AppL10n.plugins("plugin.marketplace.install", defaultValue: "安装")) { install(item) }
                     .buttonStyle(.borderedProminent)
-                    .disabled(activeOperation)
+                    .disabled(controlsDisabled)
             } else if item.canUpdate {
                 Button(AppL10n.plugins("plugin.marketplace.update", defaultValue: "更新")) { update(item) }
                     .buttonStyle(.borderedProminent)
-                    .disabled(activeOperation)
+                    .disabled(controlsDisabled)
             } else if case let .incompatible(reason) = item.state {
-                Text(reason)
-                    .font(PluginSettingsTheme.Typography.rowDescription)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .frame(maxWidth: 320, alignment: .trailing)
-                    .accessibilityIdentifier("mactools.marketplace.requirement-failure")
                 if item.packageURL == nil {
                     Button(AppL10n.plugins("plugin.marketplace.install", defaultValue: "安装")) {}
                         .buttonStyle(.borderedProminent).disabled(true)
+                        .help(reason)
                 }
-                Button(AppL10n.plugins("plugin.requirement.recheck", defaultValue: "重新检查")) {
-                    pluginHost.recheckPluginRequirements()
-                }
-                .buttonStyle(.bordered).disabled(activeOperation)
-            } else if pluginHost.hasPluginSettings(pluginID: item.id) {
+            }
+            if pluginHost.hasPluginSettings(pluginID: item.id) {
                 Button(AppL10n.plugins("plugin.marketplace.openSettings", defaultValue: "打开设置")) {
                     pluginHost.presentPluginSettings(pluginID: item.id)
                 }
                 .buttonStyle(.borderedProminent)
+                .disabled(controlsDisabled)
             }
             if item.canUninstall {
                 Button(AppL10n.plugins("plugin.marketplace.uninstall", defaultValue: "卸载"), role: .destructive) {
                     showUninstallConfirmation = true
                 }
                 .buttonStyle(.bordered)
-                .disabled(activeOperation)
+                .disabled(controlsDisabled)
             }
             if item.requiresRestartToFullyUnload {
                 Text(AppL10n.plugins("plugin.status.restartRequired", defaultValue: "需重启"))
                     .font(PluginSettingsTheme.Typography.statusBadge)
                     .foregroundStyle(.orange)
             }
+        }
+        .controlSize(.small)
+    }
+
+    @ViewBuilder
+    private func setupStatus() -> some View {
+        if let setup = pluginHost.marketplaceSetupPresentation(pluginID: target.pluginID),
+           operation != nil || !setup.issues.isEmpty {
+            detailSection("plugin.marketplace.detail.setupStatus", defaultValue: "设置与状态", systemImage: "checklist") {
+                if let operation {
+                    operationFeedback(operation)
+                }
+                ForEach(setup.issues) { issue in
+                    if let card = issue.permissionCard {
+                        PermissionSettingsRow(
+                            card: card,
+                            statusColor: statusColor(for: card.statusTone),
+                            onAction: {
+                                if let action = issue.action { performSetupAction(action.intent) }
+                            }
+                        )
+                        .disabled(controlsDisabled)
+                    } else {
+                        HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+                            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+                                Label(issue.title, systemImage: issue.systemImage)
+                                    .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
+                                    .foregroundStyle(.orange)
+                                Text(issue.detail)
+                                    .font(PluginSettingsTheme.Typography.rowDescription)
+                                    .foregroundStyle(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .textSelection(.enabled)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            if let action = issue.action {
+                                Button(action.title) { performSetupAction(action.intent) }
+                                    .buttonStyle(.bordered)
+                                    .disabled(controlsDisabled)
+                            }
+                        }
+                        .padding(.vertical, PluginSettingsTheme.Spacing.rowVertical)
+                        .accessibilityIdentifier(issue.kind == .incompatible
+                            ? "mactools.marketplace.requirement-failure" : issue.id)
+                    }
+                }
+            }
+            .controlSize(.small)
+            .accessibilityIdentifier("mactools.marketplace.detail.setup-status")
+        }
+    }
+
+    @ViewBuilder
+    private func operationFeedback(_ operation: PluginMarketplaceOperation) -> some View {
+        switch operation.phase {
+        case .running:
+            HStack(spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+                ProgressView().controlSize(.small)
+                Text(operation.kind == .install
+                     ? AppL10n.plugins("plugin.marketplace.detail.installing", defaultValue: "正在安装…")
+                     : AppL10n.plugins("plugin.marketplace.detail.updating", defaultValue: "正在更新…"))
+            }
+            .font(PluginSettingsTheme.Typography.rowTitle)
+        case .completed:
+            Label(operation.kind == .install
+                  ? AppL10n.plugins("plugin.marketplace.detail.installed", defaultValue: "插件已安装")
+                  : AppL10n.plugins("plugin.marketplace.detail.updated", defaultValue: "插件已更新"),
+                  systemImage: "checkmark.circle")
+                .font(PluginSettingsTheme.Typography.rowTitle)
+        case let .failed(message):
+            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+                Label(AppL10n.plugins("plugin.marketplace.operationFailed.title", defaultValue: "插件操作失败"),
+                      systemImage: "exclamationmark.triangle")
+                    .foregroundStyle(.orange)
+                    .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
+                Text(message)
+                    .font(PluginSettingsTheme.Typography.rowDescription)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .textSelection(.enabled)
+            }
+        }
+    }
+
+    private func performSetupAction(_ intent: MarketplacePluginSetupPresentation.Intent) {
+        switch intent {
+        case let .permission(pluginID, permissionID):
+            pluginHost.performPermissionAction(
+                pluginID: pluginID,
+                permissionID: permissionID,
+                sourceFrame: permissionGuidanceSourceFrame(
+                    eventType: NSApp.currentEvent?.type,
+                    mouseLocation: NSEvent.mouseLocation
+                )
+            )
+        case .recheckRequirements:
+            pluginHost.recheckPluginRequirements()
+        case let .openSettings(pluginID):
+            pluginHost.presentPluginSettings(pluginID: pluginID)
         }
     }
 
@@ -415,7 +517,7 @@ struct MarketplacePluginDetailView: View {
     }
 
     private func uninstall() {
-        guard !activeOperation else { return }
+        guard !controlsDisabled else { return }
         do {
             try pluginHost.uninstallDynamicPlugin(pluginID: target.pluginID)
         } catch {
@@ -424,11 +526,10 @@ struct MarketplacePluginDetailView: View {
     }
 
     private func runOperation(_ operation: @escaping () async throws -> Void) {
-        guard !activeOperation else { return }
-        activeOperation = true
+        guard !controlsDisabled else { return }
         Task {
-            do { try await operation() } catch { errorMessage = error.localizedDescription }
-            activeOperation = false
+            // The host retains progress and errors for the original plugin after navigation.
+            _ = try? await operation()
         }
     }
 
