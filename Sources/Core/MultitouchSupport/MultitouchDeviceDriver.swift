@@ -571,7 +571,8 @@ final class MultitouchDeviceDriver: MultitouchFrameListening, @unchecked Sendabl
                     isBuiltIn: entry.descriptor.isBuiltIn,
                     transport: entry.descriptor.transport,
                     supportsForce: entry.descriptor.supportsForce,
-                    hasPersistentIdentity: false
+                    hasPersistentIdentity: entry.descriptor.hasPersistentIdentity
+                        && deviceID == entry.descriptor.deviceID
                 )
             )
         }

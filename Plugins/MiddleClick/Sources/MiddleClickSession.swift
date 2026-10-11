@@ -76,7 +76,21 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
     // MARK: - Infrastructure
 
     var inputService: (any TrackpadInputService)?
-    private var subscriptionID: UUID?
+    private lazy var inputSubscription: MiddleClickInputSubscription = {
+        let pipeline = tapPipeline
+        return MiddleClickInputSubscription { event in
+            switch event {
+            case .interrupted:
+                pipeline.reset()
+            case let .frame(frame):
+                let snapshot = MiddleClickContactFrame(deviceID: frame.deviceID,
+                    timestamp: frame.timestamp, contacts: frame.contacts.map {
+                        MiddleClickContactSnapshot(identifier: $0.identifier, x: $0.x, y: $0.y)
+                    })
+                if pipeline.process(snapshot) { MiddleClickEventPoster.postClick() }
+            }
+        }
+    }()
     private var eventTap: CFMachPort?
     private var eventTapSource: CFRunLoopSource?
     private var eventTapCallbackPointer: UnsafeMutableRawPointer?
@@ -242,25 +256,12 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
     }
 
     private func startTouchListeners() {
-        guard subscriptionID == nil else { return }
-        let pipeline = tapPipeline
-        subscriptionID = inputService?.subscribe(purpose: .gestures) { event in
-            switch event {
-            case .interrupted:
-                pipeline.reset()
-            case let .frame(frame):
-                let snapshot = MiddleClickContactFrame(deviceID: frame.deviceID,
-                    timestamp: frame.timestamp, contacts: frame.contacts.map {
-                        MiddleClickContactSnapshot(identifier: $0.identifier, x: $0.x, y: $0.y)
-                    })
-                if pipeline.process(snapshot) { MiddleClickEventPoster.postClick() }
-            }
-        }
+        guard let inputService else { return }
+        inputSubscription.start(service: inputService)
     }
 
     private func stopTouchListeners() {
-        if let subscriptionID { inputService?.unsubscribe(subscriptionID) }
-        subscriptionID = nil
+        inputSubscription.stop()
         tapPipeline.reset()
     }
 
