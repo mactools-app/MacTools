@@ -18,5 +18,11 @@ stale output.
 
 Navigation controls are loaded by `BaseLayout` on every page. Existing settings
 preview models remain in use, with generic controls only for plugins without a
-model. `npm test` checks control behavior (including unavailable storage), shared
-scripts on the built pages, and the Fan Control preset and slider preview.
+model. Catalog search consumes discovery metadata and static action descriptors
+from those generated files. Action matches are grouped under their owning plugin;
+dynamic providers remain templates on plugin pages. Plugin pages disclose declared
+application and executable prerequisites without checking the visitor's Mac.
+
+`npm test` checks search and control behavior (including unavailable storage),
+generated action destinations and prerequisites, shared scripts on the built pages,
+and the Fan Control preset and slider preview.

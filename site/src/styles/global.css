@@ -3154,6 +3154,13 @@ button.sim-feature-row {
   display: none;
 }
 
+.market-search-actions[hidden],
+.market-search-action[hidden],
+[data-search-more][hidden],
+[data-action-result-summary][hidden] {
+  display: none;
+}
+
 .marketplace-panel {
   height: 100%;
   min-height: 0;
@@ -3397,6 +3404,60 @@ button.sim-feature-row {
 .market-plugin-links a:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.market-search-actions {
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 4px;
+}
+
+.market-search-action {
+  padding: 8px 0;
+}
+
+.market-search-action-heading {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.market-search-action-heading a {
+  color: var(--settings-accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.market-search-action-heading a:hover {
+  text-decoration: underline;
+}
+
+.market-search-action-heading small {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.market-search-action p {
+  white-space: normal;
+}
+
+.market-search-actions summary {
+  cursor: pointer;
+  color: var(--settings-accent);
+  font-size: 12px;
+  padding: 6px 0;
+}
+
+.plugin-prerequisite-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.plugin-prerequisite-list code {
+  font-size: inherit;
 }
 
 .market-plugin-actions {

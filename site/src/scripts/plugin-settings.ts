@@ -1,3 +1,5 @@
+import { actionMatchRank, normalizeSearch } from "../lib/plugin-search";
+
 const settingsWindow = document.querySelector<HTMLElement>("[data-settings-window]");
 
 if (settingsWindow) {
@@ -11,7 +13,19 @@ if (settingsWindow) {
   const marketList = settingsWindow.querySelector<HTMLElement>(".market-list");
   const resultCounts = [...settingsWindow.querySelectorAll<HTMLElement>("[data-result-count]")];
   const marketEmpty = settingsWindow.querySelector<HTMLElement>("[data-market-empty]");
+  const actionCounts = [...settingsWindow.querySelectorAll<HTMLElement>("[data-action-result-count]")];
+  const actionSummary = settingsWindow.querySelector<HTMLElement>("[data-action-result-summary]");
+  const searchGroups = pluginRows.map((row) => ({
+    row,
+    region: row.querySelector<HTMLElement>("[data-search-actions]"),
+    primary: row.querySelector<HTMLElement>("[data-search-primary]"),
+    overflow: row.querySelector<HTMLElement>("[data-search-overflow]"),
+    more: row.querySelector<HTMLDetailsElement>("[data-search-more]"),
+    actions: [...row.querySelectorAll<HTMLElement>("[data-search-action]")],
+  }));
   let activeFilter = "all";
+  let previousQuery = "";
+  let previousFilter = "all";
 
   const sortMarketRows = () => {
     if (!marketList) return;
@@ -67,6 +81,7 @@ if (settingsWindow) {
     });
     sortMarketRows();
     sortPluginSettingsTabs();
+    applyMarketFilter();
   };
 
   const showPanel = (id: string, updateHash = true) => {
@@ -102,21 +117,56 @@ if (settingsWindow) {
   }
 
   const applyMarketFilter = () => {
-    const query = marketSearch?.value.trim().toLocaleLowerCase() ?? "";
+    const query = normalizeSearch(marketSearch?.value ?? "");
+    const resetExpansion = query !== previousQuery || activeFilter !== previousFilter;
+    const language = root.dataset.lang === "en" ? "en" : "zh";
+    const collator = new Intl.Collator(language === "en" ? "en" : "zh-CN", { numeric: true, sensitivity: "base" });
     let visibleCount = 0;
+    let actionCount = 0;
 
-    for (const row of pluginRows) {
+    for (const { row, region, primary, overflow, more, actions } of searchGroups) {
       const matchesCategory = activeFilter === "all" || row.dataset.category === activeFilter;
       const matchesSearch = !query || (row.dataset.search ?? "").includes(query);
-      const isVisible = matchesCategory && matchesSearch;
+      const ranked = actions.map((action) => ({
+        action,
+        rank: actionMatchRank({
+          titleTerms: action.dataset.titleTerms ?? "",
+          keywordTerms: action.dataset.keywordTerms ?? "",
+          descriptionTerms: action.dataset.descriptionTerms ?? "",
+        }, query),
+      }));
+      const matching = ranked.filter(({ rank }) => rank > 0).sort((left, right) =>
+        right.rank - left.rank
+        || collator.compare(left.action.dataset[language === "en" ? "titleEn" : "titleZh"] ?? "", right.action.dataset[language === "en" ? "titleEn" : "titleZh"] ?? "")
+        || collator.compare(left.action.dataset.actionId ?? "", right.action.dataset.actionId ?? ""),
+      );
+      const isVisible = matchesCategory && (matchesSearch || matching.length > 0);
       row.hidden = !isVisible;
       if (isVisible) visibleCount += 1;
+      if (isVisible) actionCount += matching.length;
+
+      for (const { action, rank } of ranked) action.hidden = !isVisible || rank === 0;
+      if (region) region.hidden = !isVisible || matching.length === 0;
+      if (more) {
+        if (resetExpansion || !query) more.open = false;
+        more.hidden = !isVisible || matching.length <= 3;
+        more.querySelectorAll<HTMLElement>("[data-more-count]").forEach((count) => {
+          count.textContent = String(Math.max(0, matching.length - 3));
+        });
+      }
+      for (const [index, { action }] of matching.entries()) {
+        (index < 3 ? primary : overflow)?.append(action);
+      }
     }
 
     for (const count of resultCounts) {
       count.textContent = String(visibleCount);
     }
+    for (const count of actionCounts) count.textContent = String(actionCount);
+    if (actionSummary) actionSummary.hidden = !query;
     if (marketEmpty) marketEmpty.hidden = visibleCount !== 0;
+    previousQuery = query;
+    previousFilter = activeFilter;
   };
 
   for (const button of filterButtons) {

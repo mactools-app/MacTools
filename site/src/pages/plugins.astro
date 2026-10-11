@@ -2,6 +2,9 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import SiteNav from "@/components/SiteNav.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
+import PluginSearchActions from "@/components/PluginSearchActions.astro";
+import actionData from "@/generated/actions.json";
+import { buildPluginSearch } from "@/lib/plugin-search";
 import {
   categoryLabel,
   hasPluginSettings,
@@ -779,6 +782,7 @@ void iconByPlugin;
 void settingsModels;
 
 const catalog = await loadPluginCatalog();
+const pluginSearch = buildPluginSearch(catalog.plugins, actionData.actions);
 const plugins = [...catalog.plugins].sort((a, b) =>
   localizedPluginText(a).zh.displayName.localeCompare(localizedPluginText(b).zh.displayName, "zh-CN")
 );
@@ -941,15 +945,15 @@ const structuredData = {
               <label class="market-search">
                 <img src={symbol("magnifyingglass")} alt="" />
                 <span class="sr-only">
-                  <span data-i18n-zh>搜索插件</span>
-                  <span data-i18n-en>Search plugins</span>
+                  <span data-i18n-zh>搜索插件与操作</span>
+                  <span data-i18n-en>Search plugins and actions</span>
                 </span>
                 <input
                   type="search"
                   data-market-search
-                  placeholder="搜索插件名称或简介"
-                  data-placeholder-zh="搜索插件名称或简介"
-                  data-placeholder-en="Search plugin name or summary"
+                  placeholder="搜索插件、操作或用途"
+                  data-placeholder-zh="搜索插件、操作或用途"
+                  data-placeholder-en="Search plugins, actions, or tasks"
                 />
               </label>
 
@@ -978,6 +982,10 @@ const structuredData = {
               <p class="market-result-summary" aria-live="polite">
                 <span data-i18n-zh>显示 <strong data-result-count>{plugins.length}</strong> 个插件</span>
                 <span data-i18n-en><strong data-result-count>{plugins.length}</strong> plugins</span>
+                <span data-action-result-summary hidden>
+                  <span data-i18n-zh> · <strong data-action-result-count>0</strong> 个匹配操作</span>
+                  <span data-i18n-en> · <strong data-action-result-count>0</strong> matching actions</span>
+                </span>
               </p>
 
               <div class="market-list">
@@ -990,18 +998,13 @@ const structuredData = {
                     : plugin.capabilities.componentPanel
                       ? t("仪表盘组件", "Dashboard widget")
                       : t("快捷操作", "Quick action");
-                  const searchValue = [
-                    text.zh.displayName,
-                    text.zh.summary,
-                    text.en.displayName,
-                    text.en.summary,
-                  ].join(" ").toLocaleLowerCase();
+                  const search = pluginSearch.get(plugin.id)!;
                   return (
                     <article
                       class="market-plugin-row"
                       data-market-plugin
                       data-category={category}
-                      data-search={searchValue}
+                      data-search={search.terms}
                       data-plugin-name-zh={text.zh.displayName}
                       data-plugin-name-en={text.en.displayName}
                       data-plugin-id={plugin.id}
@@ -1033,6 +1036,7 @@ const structuredData = {
                             <span data-i18n-en>Open in MacTools</span>
                           </a>
                         </div>
+                        <PluginSearchActions actions={search.actions} />
                       </div>
                       <div class="market-plugin-actions">
                         <button type="button" class="market-plugin-action" data-plugin-action>
@@ -1052,8 +1056,8 @@ const structuredData = {
                 <div class="market-empty" data-market-empty hidden>
                   <img src={symbol("magnifyingglass")} alt="" />
                   <h3>
-                    <span data-i18n-zh>未找到匹配的插件</span>
-                    <span data-i18n-en>No matching plugins</span>
+                    <span data-i18n-zh>未找到匹配的插件或操作</span>
+                    <span data-i18n-en>No matching plugins or actions</span>
                   </h3>
                   <p>
                     <span data-i18n-zh>尝试调整关键字或切换分类。</span>
