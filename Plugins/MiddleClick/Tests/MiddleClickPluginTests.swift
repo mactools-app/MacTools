@@ -30,6 +30,7 @@ private final class MockMiddleClickSession: MiddleClickSessionManaging {
     private(set) var assignedFingerCounts: [Int] = []
     private(set) var activateCallCount = 0
     private(set) var deactivateCallCount = 0
+    private(set) var inputIsPaused = false
 
     func activate() {
         activateCallCount += 1
@@ -38,6 +39,8 @@ private final class MockMiddleClickSession: MiddleClickSessionManaging {
     func deactivate() {
         deactivateCallCount += 1
     }
+
+    func setInputPaused(_ isPaused: Bool) { inputIsPaused = isPaused }
 }
 
 @MainActor
@@ -108,6 +111,52 @@ final class MiddleClickPluginTests: XCTestCase {
         )
     }
 
+    func testWeighingDrainsHeldNativeClickBeforeStoppingEventTap() async {
+        let buttons: [(MiddleClickNativeButton, MiddleClickNativeButton)] = [(.left, .right), (.right, .left)]
+        for (button, otherButton) in buttons {
+            let pipeline = MiddleClickTapPipeline(fingerCount: 3)
+            var eventTapIsRunning = false
+            var didStop = false
+            let stopped = expectation(description: "Owned native release drains the paused event tap")
+            let session = MiddleClickSession(tapPipeline: pipeline,
+                eventTapStart: { eventTapIsRunning = true },
+                eventTapStop: {
+                    eventTapIsRunning = false
+                    if !didStop { didStop = true; stopped.fulfill() }
+                }, observesSystemEvents: false)
+            let storage = MiddleClickMemoryStorage()
+            storage.values["middle-click.enabled"] = true
+            let plugin = makePlugin(storage: storage, session: session)
+            plugin.activate(context: PluginRuntimeContext(pluginID: "middle-click"))
+            XCTAssertFalse(pipeline.process(frame(at: 1, contacts: [contact(1), contact(2), contact(3)])))
+            XCTAssertEqual(session.handleNativeMouseEvent(.down(button)), .rewriteAsMiddle)
+
+            plugin.trackpadInputPauseDidChange(true)
+            XCTAssertTrue(eventTapIsRunning)
+            XCTAssertFalse(pipeline.process(frame(at: 1.1, contacts: [])))
+            XCTAssertEqual(session.handleNativeMouseEvent(.down(otherButton)), .passThrough)
+            XCTAssertEqual(session.handleNativeMouseEvent(.up(otherButton)), .passThrough)
+            if button == .right {
+                plugin.handleSettingsAction(.setSelection(controlID: "finger-count", optionID: "4"))
+                plugin.trackpadInputPauseDidChange(false)
+                plugin.trackpadInputPauseDidChange(true)
+            }
+            XCTAssertTrue(pipeline.hasPendingNativeUp)
+            XCTAssertEqual(session.handleNativeMouseEvent(.up(button)), .rewriteAsMiddle)
+            await fulfillment(of: [stopped], timeout: 2)
+            XCTAssertFalse(eventTapIsRunning)
+            XCTAssertFalse(pipeline.hasPendingNativeUp)
+
+            plugin.trackpadInputPauseDidChange(false)
+            XCTAssertTrue(eventTapIsRunning)
+            let contacts = (1...plugin.store.requiredFingerCount).map { contact($0) }
+            XCTAssertFalse(pipeline.process(frame(at: 2, contacts: contacts)))
+            XCTAssertTrue(pipeline.process(frame(at: 2.1, contacts: [])))
+            XCTAssertTrue(plugin.store.isEnabled)
+            plugin.deactivate(reason: .updating)
+        }
+    }
+
     func testActivateRestoresEnabledSessionAndFingerCount() {
         let storage = MiddleClickMemoryStorage()
         storage.values["middle-click.enabled"] = true
@@ -129,12 +178,12 @@ final class MiddleClickPluginTests: XCTestCase {
         let plugin = makePlugin(storage: storage, session: session)
         plugin.activate(context: PluginRuntimeContext(pluginID: "middle-click"))
         plugin.trackpadInputPauseDidChange(true)
-        XCTAssertEqual(session.deactivateCallCount, 1)
+        XCTAssertTrue(session.inputIsPaused)
         XCTAssertTrue(plugin.store.isEnabled)
         plugin.refresh()
         XCTAssertEqual(session.activateCallCount, 1)
         plugin.trackpadInputPauseDidChange(false)
-        XCTAssertEqual(session.activateCallCount, 2)
+        XCTAssertFalse(session.inputIsPaused)
         XCTAssertEqual(storage.values["middle-click.enabled"] as? Bool, true)
     }
 
@@ -285,7 +334,7 @@ final class MiddleClickPluginTests: XCTestCase {
 
     private func makePlugin(
         storage: MiddleClickMemoryStorage? = nil,
-        session: MockMiddleClickSession? = nil,
+        session: (any MiddleClickSessionManaging)? = nil,
         localization: PluginLocalization = PluginLocalization(bundle: .main),
         accessibilityTrusted: Bool = true,
         requestAccessibilityTrust: Bool = true,

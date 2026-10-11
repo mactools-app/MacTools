@@ -30,6 +30,11 @@ struct TrackpadScaleView: View {
             }
             Divider()
             controls
+            Label(localized("inputSharing.notice", "称重时暂停「中键点击」和「触控板手势」。记录或停止后，抬起全部手指即可恢复。"),
+                  systemImage: "info.circle")
+                .font(PluginSettingsTheme.Typography.rowDescription)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
             Divider()
             ViewThatFits(in: .horizontal) {
                 HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.section) {
@@ -244,6 +249,7 @@ struct TrackpadScaleView: View {
         case .stopped: return localized("status.removeObject", "请先移开物件。")
         case .noContact where needsRestart: return localized("status.restart", "请移开物件，再点按“重新开始”。")
         case .measuring: return localized("status.keepFinger", "保持手指位置和力度不变。")
+        case .interrupted: return localized("status.recovery", "若仍无法开始，请在“插件”中更新或停用旧版触控板手势和模拟鼠标中键。")
         default: return nil
         }
     }
@@ -345,7 +351,7 @@ struct TrackpadScaleCalibrationView: View {
                     .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.red)
             }
             Divider()
-            Text(localized("limitations", "仅支持内置 Force Touch 触控板。称重时暂停 MacTools 触控板手势；停止或关闭页面后恢复。依赖 macOS 私有 API，兼容性可能变化。"))
+            Text(localized("limitations", "仅支持内置 Force Touch 触控板。依赖 macOS 私有 API，兼容性可能变化。"))
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
         }

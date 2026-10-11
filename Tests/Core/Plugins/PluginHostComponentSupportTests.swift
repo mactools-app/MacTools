@@ -589,6 +589,7 @@ final class PluginHostComponentSupportTests: XCTestCase {
 
 @MainActor
 private final class StubDynamicPluginLoader: DynamicPluginLoading {
+    var preparePluginForActivation: ((any MacToolsPlugin) -> Void)?
     private let handler: ([PluginPackageRecord]) -> [DynamicPluginLoadResult]
     private(set) var receivedRecordIDs: [String] = []
 

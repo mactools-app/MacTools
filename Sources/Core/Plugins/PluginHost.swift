@@ -373,6 +373,7 @@ final class PluginHost: ObservableObject {
     }
 
     private let builtInPlugins: [any MacToolsPlugin]
+    private var deactivatedPluginInstances = Set<ObjectIdentifier>()
     private let shortcutStore: ShortcutStore
     private let pluginOrderingStore: PluginOrderingStore
     let menuBarPanelStore: MenuBarPanelStore
@@ -391,6 +392,7 @@ final class PluginHost: ObservableObject {
     private let displayConfigurationObserver: (any DisplayConfigurationObserving)?
     private let accessibilityPermissionObserver: (any AccessibilityPermissionObserving)?
     private let applicationActivityObserver: (any ApplicationActivityObserving)?
+    private let makeTrackpadInputService: () -> SharedTrackpadInputService
     private let focusedApplicationTargetProvider: any FocusedApplicationTargetProviding
     private let displayTopologyRefreshDelay: Duration
     private let pluginStateChangeRebuildDelay: Duration
@@ -574,6 +576,7 @@ final class PluginHost: ObservableObject {
         displayConfigurationObserver: (any DisplayConfigurationObserving)? = nil,
         accessibilityPermissionObserver: (any AccessibilityPermissionObserving)? = nil,
         applicationActivityObserver: (any ApplicationActivityObserving)? = nil,
+        makeTrackpadInputService: @escaping () -> SharedTrackpadInputService = { SharedTrackpadInputService() },
         focusedApplicationTargetProvider: (any FocusedApplicationTargetProviding)? = nil,
         displayTopologyRefreshDelay: Duration = .milliseconds(180),
         pluginStateChangeRebuildDelay: Duration = .milliseconds(80),
@@ -621,6 +624,7 @@ final class PluginHost: ObservableObject {
         self.displayConfigurationObserver = displayConfigurationObserver
         self.accessibilityPermissionObserver = accessibilityPermissionObserver
         self.applicationActivityObserver = applicationActivityObserver
+        self.makeTrackpadInputService = makeTrackpadInputService
         self.focusedApplicationTargetProvider = focusedApplicationTargetProvider
             ?? SystemFocusedApplicationTargetProvider()
         self.applicationActivityState = applicationActivityObserver?.state ?? .interactive
@@ -693,8 +697,16 @@ final class PluginHost: ObservableObject {
         configureCallbacks(for: self.builtInPlugins)
 
         if let dynamicPluginManager {
+            dynamicPluginManager.preparePluginForActivation = { [weak self] plugin in
+                guard let self else { return }
+                self.deactivatedPluginInstances.remove(ObjectIdentifier(plugin))
+                self.configureTrackpadInput(for: plugin)
+            }
             dynamicPluginManager.onPluginWillDeactivate = { [weak self] pluginID, reason in
-                self?.menuBarIconCoordinator.unregister(pluginID: pluginID, reason: reason)
+                guard let self else { return }
+                self.deactivatedPluginInstances.formUnion(self.dynamicPlugins
+                    .filter { $0.metadata.id == pluginID }.map { ObjectIdentifier($0) })
+                self.menuBarIconCoordinator.unregister(pluginID: pluginID, reason: reason)
             }
             let legacyHiddenPluginIDs = dynamicPluginManager.legacyHiddenPluginIDs()
             if menuBarPanelStore.migrateLegacyHiddenPlugins(legacyHiddenPluginIDs) {
@@ -2567,7 +2579,10 @@ final class PluginHost: ObservableObject {
     }
 
     private var activePlugins: [any MacToolsPlugin] {
-        plugins.filter { isolatedPluginFailures[$0.metadata.id] == nil }
+        plugins.filter {
+            isolatedPluginFailures[$0.metadata.id] == nil
+                && !deactivatedPluginInstances.contains(ObjectIdentifier($0))
+        }
     }
 
     private var portablePluginPreferenceIDs: Set<String> {
@@ -2987,6 +3002,7 @@ final class PluginHost: ObservableObject {
 
     private func configureCallbacks(for plugins: [any MacToolsPlugin]) {
         for plugin in plugins {
+            guard !deactivatedPluginInstances.contains(ObjectIdentifier(plugin)) else { continue }
             let pluginID = plugin.metadata.id
 
             if let inputRequester = plugin as? any PluginActionInputPresentationRequesting {
@@ -3114,10 +3130,7 @@ final class PluginHost: ObservableObject {
             if let actionGridConsumer = plugin as? any ActionGridHostContextConsuming {
                 actionGridConsumer.actionGridHostContext = makeActionGridHostContext()
             }
-            if let sensorConsumer = plugin as? any TrackpadInputServiceConsuming {
-                trackpadInputService.setActivityState(applicationActivityState)
-                sensorConsumer.setTrackpadInputService(trackpadInputService)
-            }
+            configureTrackpadInput(for: plugin)
             if let trackpadActionConsumer = plugin as? any TrackpadActionHostContextConsuming {
                 trackpadActionConsumer.trackpadActionHostContext = makeTrackpadActionHostContext()
             }
@@ -3136,6 +3149,9 @@ final class PluginHost: ObservableObject {
             }
             configureHostStatusItemCallbacks(for: [plugin])
         }
+        if !TrackpadInputCompatibility.canWeigh(with: activePlugins) {
+            trackpadInputService.refreshWeighingAvailability()
+        }
         configureTrackpadGestureBridge()
         let pendingIconPluginIDs: Set<String>? = dynamicPluginManager != nil && !didLoadDynamicPlugins
             ? nil
@@ -3143,8 +3159,18 @@ final class PluginHost: ObservableObject {
         menuBarIconCoordinator.synchronize(with: activePlugins, pendingPluginIDs: pendingIconPluginIDs)
     }
 
+    private func configureTrackpadInput(for plugin: any MacToolsPlugin) {
+        guard let consumer = plugin as? any TrackpadInputServiceConsuming else { return }
+        trackpadInputService.setActivityState(applicationActivityState)
+        consumer.setTrackpadInputService(trackpadInputService)
+    }
+
     private lazy var trackpadInputService: SharedTrackpadInputService = {
-        let service = SharedTrackpadInputService()
+        let service = makeTrackpadInputService()
+        service.canBeginWeighing = { [weak self] in
+            guard let self else { return false }
+            return TrackpadInputCompatibility.canWeigh(with: self.activePlugins)
+        }
         service.onGesturePauseChange = { [weak self] paused in
             guard let self else { return }
             for plugin in self.activePlugins {
@@ -3215,6 +3241,7 @@ final class PluginHost: ObservableObject {
 
             return $0.metadata.order < $1.metadata.order
         }
+        deactivatedPluginInstances.formIntersection(dynamicPlugins.map { ObjectIdentifier($0) })
         configureCallbacks(for: dynamicPlugins)
         rebuildDerivedState(synchronizingShortcuts: true)
     }
@@ -4464,6 +4491,9 @@ final class PluginHost: ObservableObject {
     private func refreshDisplayTopologyNow() {
         displayTopologyRefreshTask = nil
         handlePluginAction {
+            if activePlugins.contains(where: { $0 is any TrackpadInputServiceConsuming }) {
+                trackpadInputService.deviceTopologyDidChange()
+            }
             for plugin in activePlugins {
                 if let displayTopologyRefreshing = plugin as? DisplayTopologyRefreshing {
                     guardPluginCall(plugin, operation: "refresh display topology") {

@@ -172,6 +172,7 @@ final class MiddleClickTapPipeline: @unchecked Sendable {
     private var exactContactDeviceIDs = Set<UInt64>()
     private var nativeConvertedDeviceIDs = Set<UInt64>()
     private var convertedButton: MiddleClickNativeButton?
+    private var isPaused = false
 
     init(fingerCount: Int) {
         self.fingerCount = fingerCount
@@ -181,13 +182,14 @@ final class MiddleClickTapPipeline: @unchecked Sendable {
         lock.withLock {
             guard self.fingerCount != fingerCount else { return }
             self.fingerCount = fingerCount
-            clearState()
+            clearState(preservingNativeUp: true)
         }
     }
 
     /// Returns true when the frame completes a tap that still needs a synthesized middle click.
     func process(_ frame: MiddleClickContactFrame) -> Bool {
         lock.withLock {
+            guard !isPaused else { return false }
             if frame.contacts.count == fingerCount {
                 exactContactDeviceIDs.insert(frame.deviceID)
             } else {
@@ -211,7 +213,7 @@ final class MiddleClickTapPipeline: @unchecked Sendable {
         lock.withLock {
             switch event {
             case let .down(button):
-                guard convertedButton == nil, !exactContactDeviceIDs.isEmpty else {
+                guard !isPaused, convertedButton == nil, !exactContactDeviceIDs.isEmpty else {
                     return .passThrough
                 }
                 convertedButton = button
@@ -226,14 +228,25 @@ final class MiddleClickTapPipeline: @unchecked Sendable {
         }
     }
 
-    func reset() {
-        lock.withLock { clearState() }
+    var hasPendingNativeUp: Bool {
+        lock.withLock { convertedButton != nil }
     }
 
-    private func clearState() {
+    func setPaused(_ isPaused: Bool) {
+        lock.withLock {
+            self.isPaused = isPaused
+            clearState(preservingNativeUp: true)
+        }
+    }
+
+    func reset(preservingNativeUp: Bool = false) {
+        lock.withLock { clearState(preservingNativeUp: preservingNativeUp) }
+    }
+
+    private func clearState(preservingNativeUp: Bool = false) {
         recognizersByDevice.removeAll()
         exactContactDeviceIDs.removeAll()
         nativeConvertedDeviceIDs.removeAll()
-        convertedButton = nil
+        if !preservingNativeUp { convertedButton = nil }
     }
 }

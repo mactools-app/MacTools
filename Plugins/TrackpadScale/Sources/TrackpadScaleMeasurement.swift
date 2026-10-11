@@ -30,7 +30,17 @@ struct TrackpadScaleMeasurement {
     // action depend on catching a brief low-variation window between updates.
     var canTare: Bool { hasFullWindow && filtered != nil && contactID != nil }
     var canCalibrate: Bool {
-        isStable && tare != nil && (filtered ?? 0) - (tare ?? 0) > 0.5
+        guard isStable, let calibrationPressure, let tare else { return false }
+        return calibrationPressure - tare > 0.5
+    }
+
+    private var calibrationPressure: Double? {
+        guard !history.isEmpty else { return nil }
+        let count = Double(history.count)
+        // Calibrate against the same raw window used for stability, so display
+        // smoothing cannot become a permanent saved calibration error.
+        let pressure = history.reduce(0) { $0 + $1.1 / count }
+        return pressure.isFinite ? pressure : nil
     }
 
     private var hasFullWindow: Bool {
@@ -164,8 +174,8 @@ struct TrackpadScaleMeasurement {
     @discardableResult
     mutating func calibrate(knownGrams: Double) -> Bool {
         guard knownGrams.isFinite, (1...100).contains(knownGrams), canCalibrate,
-              let filtered, let tare else { return false }
-        let newFactor = knownGrams / (filtered - tare)
+              let calibrationPressure, let tare else { return false }
+        let newFactor = knownGrams / (calibrationPressure - tare)
         guard Self.validFactor(newFactor) else { return false }
         factor = newFactor
         resetFilter()

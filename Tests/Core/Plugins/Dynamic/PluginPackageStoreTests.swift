@@ -339,6 +339,7 @@ final class PluginPackageStoreTests: XCTestCase {
 
 @MainActor
 private final class RequirementRecordingLoader: DynamicPluginLoading {
+    var preparePluginForActivation: ((any MacToolsPlugin) -> Void)?
     var requestedIDs: [String] = []
     func loadInstalledPlugins(from records: [PluginPackageRecord]) -> [DynamicPluginLoadResult] {
         requestedIDs = records.map(\.id)

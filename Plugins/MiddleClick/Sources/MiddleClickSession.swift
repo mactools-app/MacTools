@@ -13,6 +13,7 @@ protocol MiddleClickSessionManaging: AnyObject {
 
     func activate()
     func deactivate()
+    func setInputPaused(_ isPaused: Bool)
 }
 
 private enum MiddleClickEventPoster {
@@ -81,7 +82,7 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
         return MiddleClickInputSubscription { event in
             switch event {
             case .interrupted:
-                pipeline.reset()
+                pipeline.reset(preservingNativeUp: true)
             case let .frame(frame):
                 let snapshot = MiddleClickContactFrame(deviceID: frame.deviceID,
                     timestamp: frame.timestamp, contacts: frame.contacts.map {
@@ -102,7 +103,11 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
     private var displayCallbackRegistered = false
     private var displayCallbackPointer: UnsafeMutableRawPointer?
     private var restartWorkItem: DispatchWorkItem?
-    nonisolated private let tapPipeline = MiddleClickTapPipeline(fingerCount: 3)
+    nonisolated private let tapPipeline: MiddleClickTapPipeline
+    private var inputIsPaused = false
+    private let eventTapStartOverride: (() -> Void)?
+    private let eventTapStopOverride: (() -> Void)?
+    private let observesSystemEvents: Bool
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "cc.ggbond.mactools", category: "MiddleClickSession")
 
     /// After wake, the multitouch driver may not be ready; delay before rebuilding listeners.
@@ -112,6 +117,15 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
     private static let wakeRestartDelay: TimeInterval = 10
     private static let deviceChangeRestartDelay: TimeInterval = 0.5
 
+    init(tapPipeline: MiddleClickTapPipeline = MiddleClickTapPipeline(fingerCount: 3),
+         eventTapStart: (() -> Void)? = nil, eventTapStop: (() -> Void)? = nil,
+         observesSystemEvents: Bool = true) {
+        self.tapPipeline = tapPipeline
+        self.eventTapStartOverride = eventTapStart
+        self.eventTapStopOverride = eventTapStop
+        self.observesSystemEvents = observesSystemEvents
+    }
+
     // MARK: - Singleton Reference
 
     nonisolated(unsafe) static weak var activeSession: MiddleClickSession?
@@ -119,6 +133,7 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
     // MARK: - CGEvent Tap
 
     private func startEventTap() {
+        if let eventTapStartOverride { eventTapStartOverride(); return }
         if let eventTap, CFMachPortIsValid(eventTap), eventTapSource != nil {
             return
         }
@@ -140,7 +155,7 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
 
             if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
                 context.withOwner { session in
-                    session.tapPipeline.reset()
+                    session.tapPipeline.reset(preservingNativeUp: true)
                     DispatchQueue.main.async { [weak session] in
                         session?.reenableEventTap()
                     }
@@ -164,9 +179,7 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
 
             guard let nativeEvent else { return passthrough }
             let decision = context.withOwner { session in
-                session.tapPipeline.handleNativeMouseEvent(
-                    nativeEvent
-                )
+                session.handleNativeMouseEvent(nativeEvent)
             } ?? .passThrough
 
             switch decision {
@@ -221,6 +234,7 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
     }
 
     private func stopEventTap() {
+        if let eventTapStopOverride { eventTapStopOverride(); return }
         callbackContext(from: eventTapCallbackPointer)?.invalidate()
         guard let eventTap else {
             eventTapSource = nil
@@ -252,7 +266,7 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
 
     func setInputService(_ service: any TrackpadInputService) {
         inputService = service
-        startTouchListeners()
+        if !inputIsPaused { startTouchListeners() }
     }
 
     private func startTouchListeners() {
@@ -260,19 +274,22 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
         inputSubscription.start(service: inputService)
     }
 
-    private func stopTouchListeners() {
+    private func stopTouchListeners(preservingNativeUp: Bool = false) {
         inputSubscription.stop()
-        tapPipeline.reset()
+        tapPipeline.reset(preservingNativeUp: preservingNativeUp)
     }
 
     // MARK: - Start / Stop
 
     func start() {
+        guard !inputIsPaused else { return }
         startTouchListeners()
         startEventTap()
-        observeSystemWake()
-        observeMultitouchDeviceArrival()
-        observeDisplayReconfiguration()
+        if observesSystemEvents {
+            observeSystemWake()
+            observeMultitouchDeviceArrival()
+            observeDisplayReconfiguration()
+        }
         logger.info("multitouch listener started deviceCount=\(self.inputService?.devices.count ?? 0, privacy: .public)")
     }
 
@@ -299,20 +316,53 @@ final class MiddleClickSession: MiddleClickSessionManaging, @unchecked Sendable 
         stop()
     }
 
+    func setInputPaused(_ isPaused: Bool) {
+        guard inputIsPaused != isPaused else { return }
+        inputIsPaused = isPaused
+        tapPipeline.setPaused(isPaused)
+        if isPaused {
+            cancelPendingRestart()
+            removeDisplayReconfigurationObserver()
+            removeMultitouchDeviceObserver()
+            removeSystemWakeObserver()
+            stopTouchListeners(preservingNativeUp: true)
+            finishPausedEventTapIfPossible()
+        } else {
+            start()
+        }
+    }
+
+    nonisolated func handleNativeMouseEvent(_ event: MiddleClickNativeMouseEvent) -> MiddleClickNativeEventDecision {
+        let decision = tapPipeline.handleNativeMouseEvent(event)
+        if case .up = event {
+            DispatchQueue.main.async { [weak self] in self?.finishPausedEventTapIfPossible() }
+        }
+        return decision
+    }
+
+    private func finishPausedEventTapIfPossible() {
+        // A rewritten Down owns its exact Up. Keep only that terminal conversion
+        // active while paused; new clicks and contact recognition pass through.
+        guard inputIsPaused, !tapPipeline.hasPendingNativeUp else { return }
+        stopEventTap()
+    }
+
     // MARK: - System Recovery: Listener Restart
 
     /// Rebuilds shared touch subscriptions while keeping the session object.
     /// Used after wake, display reconfiguration, and trackpad re-enumeration.
     private func restartListeners() {
+        guard !inputIsPaused else { return }
         logger.info("rebuilding multitouch and CGEvent tap listeners")
-        stopEventTap()
-        stopTouchListeners()
+        if !tapPipeline.hasPendingNativeUp { stopEventTap() }
+        stopTouchListeners(preservingNativeUp: true)
         startTouchListeners()
         startEventTap()
         logger.info("listener rebuild completed deviceCount=\(self.inputService?.devices.count ?? 0, privacy: .public)")
     }
 
     private func scheduleRestart(after delay: TimeInterval, reason: String) {
+        guard !inputIsPaused else { return }
         logger.info("scheduled listener restart reason=\(reason, privacy: .public) delay=\(delay, privacy: .public)")
         cancelPendingRestart()
         let work = DispatchWorkItem { [weak self] in

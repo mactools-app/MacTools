@@ -841,6 +841,7 @@ private final class SuspendedPluginPackageResolver: PluginPackageResolving {
 
 @MainActor
 private final class StubDynamicPluginLoader: DynamicPluginLoading {
+    var preparePluginForActivation: ((any MacToolsPlugin) -> Void)?
     private let handler: ([PluginPackageRecord]) -> [DynamicPluginLoadResult]
     private(set) var receivedRecordIDBatches: [[String]] = []
 

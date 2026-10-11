@@ -393,7 +393,7 @@ final class MiddleClickPlugin: MacToolsPlugin, TrackpadInputServiceConsuming, Ac
     }
 
     private func applyCurrentConfiguration() {
-        guard !weighingIsActive else { stopSession(); return }
+        guard !weighingIsActive else { session?.setInputPaused(true); return }
         guard store.isEnabled else {
             stopSession()
             return
@@ -416,6 +416,7 @@ final class MiddleClickPlugin: MacToolsPlugin, TrackpadInputServiceConsuming, Ac
         guard !weighingIsActive else { return }
         if let session {
             session.requiredFingerCount = store.requiredFingerCount
+            session.setInputPaused(false)
             return
         }
 

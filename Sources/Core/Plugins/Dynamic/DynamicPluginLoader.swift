@@ -8,12 +8,14 @@ struct DynamicPluginLoadResult {
 }
 
 @MainActor
-protocol DynamicPluginLoading {
+protocol DynamicPluginLoading: AnyObject {
+    var preparePluginForActivation: ((any MacToolsPlugin) -> Void)? { get set }
     func loadInstalledPlugins(from records: [PluginPackageRecord]) -> [DynamicPluginLoadResult]
 }
 
 @MainActor
 final class DynamicPluginLoader: DynamicPluginLoading {
+    var preparePluginForActivation: ((any MacToolsPlugin) -> Void)?
     private let packageStore: PluginPackageStore
     private let trustValidator: PluginTrustValidating
 
@@ -50,11 +52,7 @@ final class DynamicPluginLoader: DynamicPluginLoading {
 
                 for plugin in plugins {
                     activationAttemptedCount += 1
-                    try PluginInvocationGuard
-                        .run(operation: "activate plugin \(plugin.metadata.id)") {
-                            plugin.activate(context: context)
-                        }
-                        .get()
+                    try activatePlugin(plugin, context: context)
                 }
 
                 return DynamicPluginLoadResult(record: record, plugins: plugins, errorMessage: nil)
@@ -70,6 +68,15 @@ final class DynamicPluginLoader: DynamicPluginLoading {
                 )
             }
         }
+    }
+
+    func activatePlugin(_ plugin: any MacToolsPlugin, context: PluginRuntimeContext) throws {
+        try PluginInvocationGuard
+            .run(operation: "activate plugin \(plugin.metadata.id)") {
+                self.preparePluginForActivation?(plugin)
+                plugin.activate(context: context)
+            }
+            .get()
     }
 
     static func deactivateAfterFailedLoad(

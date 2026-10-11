@@ -3,6 +3,7 @@ import Foundation
 import XCTest
 import MacToolsPluginKit
 @testable import MacTools
+@testable import TrackpadGesturesPlugin
 
 @MainActor
 final class DynamicPluginManagerTests: XCTestCase {
@@ -24,6 +25,80 @@ final class DynamicPluginManagerTests: XCTestCase {
         defaults.removePersistentDomain(forName: suiteName)
         defaults = nil
         temporaryRoot = nil
+    }
+
+    func testMigrationPreflightHasSharedInputForEnabledLegacyGesture() throws {
+        let store = makeStore()
+        _ = try store.installPackage(from: makePackage(id: "trackpad-gestures"))
+        let driver = LifecycleTestDriver()
+        let service = makeInputService(driver: driver)
+        let session = MultitouchDeviceSession(testEventTapStart: { true }, testEventTapStop: {})
+        var destination: TrackpadGesturesPlugin?
+        let loader = PreparingDynamicPluginLoader(store: store) { record in
+            let plugin = TrackpadGesturesPlugin(
+                context: store.runtimeContext(for: record),
+                legacyMiddleClick: LegacyMiddleClickPreferences(isEnabled: true, fingerCount: 3),
+                session: session, accessibilityTrusted: { true },
+                requestAccessibilityTrust: { _ in true }, inputMonitoringStatus: { .granted },
+                openURL: { _ in })
+            destination = plugin
+            return plugin
+        }
+        let manager = DynamicPluginManager(packageStore: store, pluginLoader: loader)
+        let host = makeLifecycleHost(manager: manager, service: service, loadOnInit: false)
+
+        XCTAssertNoThrow(try manager.validatePluginInstallationBeforeMigration(pluginID: "trackpad-gestures"))
+        XCTAssertEqual(destination?.store.enabledGestures, [.threeFingerTap])
+        XCTAssertGreaterThan(driver.startCount, 0)
+        XCTAssertFalse(session.isActive)
+        XCTAssertEqual(driver.startCount, driver.stopCount)
+        withExtendedLifetime(host) {}
+    }
+
+    func testBatchUpdateCannotResumeDeactivatedGestureWhenScaleStops() async throws {
+        let store = makeStore()
+        let gestures = LifecycleInputPlugin(id: "middle-click", purpose: .gestures)
+        let scale = LifecycleInputPlugin(id: "trackpad-scale", purpose: .weighing)
+        let plugins: [String: LifecycleInputPlugin] = ["middle-click": gestures, "trackpad-scale": scale]
+        for id in plugins.keys { _ = try store.installPackage(from: makePackage(id: id)) }
+        let loader = PreparingDynamicPluginLoader(store: store) { plugins[$0.id]! }
+        let manager = DynamicPluginManager(packageStore: store, pluginLoader: loader)
+        let driver = LifecycleTestDriver()
+        let service = makeInputService(driver: driver)
+        let host = makeLifecycleHost(manager: manager, service: service)
+        scale.start()
+        XCTAssertTrue(service.gesturesArePaused)
+        XCTAssertNil(gestures.subscriptionID)
+
+        let updates = try ["middle-click", "trackpad-scale"].map { id in
+            (sourceURL: try makePackage(id: id, version: "2.0.0"),
+             catalogEntry: makeCatalogEntry(id: id, version: "2.0.0"))
+        }
+        let failures = await manager.updatePluginPackages(updates)
+
+        XCTAssertTrue(failures.isEmpty)
+        XCTAssertEqual(gestures.startCount, 1)
+        XCTAssertNil(gestures.subscriptionID)
+        XCTAssertNil(scale.subscriptionID)
+        XCTAssertFalse(service.gesturesArePaused)
+        XCTAssertEqual(driver.startCount, driver.stopCount)
+        withExtendedLifetime(host) {}
+    }
+
+    private func makeInputService(driver: LifecycleTestDriver) -> SharedTrackpadInputService {
+        SharedTrackpadInputService(driver: driver, lease: LifecycleTestLease(), inventory: {
+            [TrackpadSensorDevice(deviceID: 1, isBuiltIn: true, transport: .builtIn, supportsForce: true)]
+        }, observesDevices: false)
+    }
+
+    private func makeLifecycleHost(manager: DynamicPluginManager, service: SharedTrackpadInputService,
+                                   loadOnInit: Bool = true) -> PluginHost {
+        PluginHost(plugins: [], dynamicPluginManager: manager,
+            shortcutStore: ShortcutStore(userDefaults: defaults),
+            pluginOrderingStore: PluginOrderingStore(userDefaults: defaults),
+            preferencesBackupStore: PreferencesBackupStore(userDefaults: defaults),
+            globalShortcutManager: GlobalShortcutManager(), makeTrackpadInputService: { service },
+            loadDynamicPluginsOnInit: loadOnInit)
     }
 
     func testReloadKeepsExistingLoadedPluginInstances() throws {
@@ -518,7 +593,95 @@ final class DynamicPluginManagerTests: XCTestCase {
 }
 
 @MainActor
+private final class LifecycleTestDriver: MacTools.MultitouchFrameListening {
+    var deviceCount = 1
+    var connectedDeviceIDs: Set<UInt64> = [1]
+    private(set) var startCount = 0
+    private(set) var stopCount = 0
+    func start(handler: @escaping @Sendable (TrackpadSensorFrame) -> Void) -> Bool {
+        startCount += 1
+        return true
+    }
+    func stop() { stopCount += 1 }
+}
+
+@MainActor
+private final class LifecycleTestLease: TrackpadSensorLeaseManaging {
+    var shouldRetryAfterFailedAcquisition: Bool { false }
+    func acquire() -> Bool { true }
+    func release() {}
+}
+
+@MainActor
+private final class PreparingDynamicPluginLoader: DynamicPluginLoading {
+    var preparePluginForActivation: ((any MacToolsPlugin) -> Void)?
+    private let store: PluginPackageStore
+    private let loader: DynamicPluginLoader
+    private let makePlugin: (PluginPackageRecord) -> any MacToolsPlugin
+    init(store: PluginPackageStore, makePlugin: @escaping (PluginPackageRecord) -> any MacToolsPlugin) {
+        self.store = store
+        self.loader = DynamicPluginLoader(packageStore: store)
+        self.makePlugin = makePlugin
+    }
+    func loadInstalledPlugins(from records: [PluginPackageRecord]) -> [DynamicPluginLoadResult] {
+        loader.preparePluginForActivation = preparePluginForActivation
+        return records.map { record in
+            let plugin = makePlugin(record)
+            do {
+                try loader.activatePlugin(plugin, context: store.runtimeContext(for: record))
+                return DynamicPluginLoadResult(record: record, plugins: [plugin], errorMessage: nil)
+            } catch {
+                DynamicPluginLoader.deactivateAfterFailedLoad([plugin], recordID: record.id)
+                return DynamicPluginLoadResult(record: record, plugins: [], errorMessage: error.localizedDescription)
+            }
+        }
+    }
+}
+
+@MainActor
+private final class LifecycleInputPlugin: MacToolsPlugin, TrackpadInputServiceConsuming {
+    let metadata: PluginMetadata
+    var onStateChange: (() -> Void)?
+    var requestPermissionGuidance: ((String) -> Void)?
+    var shortcutBindingResolver: ((String) -> ShortcutBinding?)?
+    private let purpose: TrackpadInputPurpose
+    private var service: (any TrackpadInputService)?
+    private var paused = false
+    private(set) var subscriptionID: UUID?
+    private(set) var startCount = 0
+    init(id: String, purpose: TrackpadInputPurpose) {
+        self.purpose = purpose
+        metadata = PluginMetadata(id: id, title: id, iconName: "hand.point.up", iconTint: .primary,
+            order: 0, defaultDescription: "")
+    }
+    func activate(context: PluginRuntimeContext) {
+        if purpose == .gestures { start() }
+    }
+    func setTrackpadInputService(_ service: any TrackpadInputService) {
+        self.service = service
+        trackpadInputPauseDidChange(service.gesturesArePaused)
+    }
+    func trackpadInputPauseDidChange(_ isPaused: Bool) {
+        guard paused != isPaused else { return }
+        paused = isPaused
+        guard purpose == .gestures else { return }
+        if isPaused { stop() } else { start() }
+    }
+    func start() {
+        guard subscriptionID == nil else { return }
+        subscriptionID = service?.subscribe(purpose: purpose) { _ in }
+        if subscriptionID != nil { startCount += 1 }
+    }
+    private func stop() {
+        if let subscriptionID { service?.unsubscribe(subscriptionID) }
+        subscriptionID = nil
+    }
+    func deactivate(reason: PluginDeactivationReason) { stop() }
+}
+
+@MainActor
 private final class StubDynamicPluginLoader: DynamicPluginLoading {
+    var preparePluginForActivation: ((any MacToolsPlugin) -> Void)?
     private let handler: ([PluginPackageRecord]) -> [DynamicPluginLoadResult]
     private(set) var receivedRecordIDBatches: [[String]] = []
 

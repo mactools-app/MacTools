@@ -220,6 +220,10 @@ final class DynamicPluginManager: ObservableObject {
     var onPluginsChanged: (([any MacToolsPlugin]) -> Void)?
     /// Revoke host-owned capabilities before plugin teardown or package removal.
     var onPluginWillDeactivate: ((String, PluginDeactivationReason) -> Void)?
+    /// Supply host capabilities before activation, including temporary migration preflight.
+    var preparePluginForActivation: ((any MacToolsPlugin) -> Void)? {
+        didSet { pluginLoader.preparePluginForActivation = preparePluginForActivation }
+    }
 
     var temporaryDirectory: URL {
         packageStore.temporaryDirectory

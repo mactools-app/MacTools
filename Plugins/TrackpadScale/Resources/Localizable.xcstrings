@@ -1298,73 +1298,73 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Built-in Force Touch trackpads only. MacTools trackpad gestures pause while weighing and resume on stop or closing this page. Uses private macOS APIs; compatibility may change."
+            "value": "Built-in Force Touch trackpads only. Uses private macOS APIs; compatibility may change."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "仅支持内置 Force Touch 触控板。称重时暂停 MacTools 触控板手势；停止或关闭页面后恢复。依赖 macOS 私有 API，兼容性可能变化。"
+            "value": "仅支持内置 Force Touch 触控板。依赖 macOS 私有 API，兼容性可能变化。"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nur integrierte Force Touch Trackpads. MacTools-Trackpad-Gesten pausieren beim Wiegen und werden nach dem Stoppen oder Schließen dieser Seite fortgesetzt. Verwendet private macOS-APIs; die Kompatibilität kann sich ändern."
+            "value": "Nur integrierte Force Touch Trackpads. Verwendet private macOS-APIs; die Kompatibilität kann sich ändern."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Solo trackpads Force Touch integrados. Los gestos de MacTools se pausan al pesar y se reanudan al detener o cerrar esta página. Usa API privadas de macOS; la compatibilidad puede cambiar."
+            "value": "Solo trackpads Force Touch integrados. Usa API privadas de macOS; la compatibilidad puede cambiar."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Trackpads Force Touch intégrés uniquement. Les gestes MacTools sont suspendus pendant la pesée et reprennent à l’arrêt ou à la fermeture de cette page. Utilise des API privées de macOS ; la compatibilité peut changer."
+            "value": "Trackpads Force Touch intégrés uniquement. Utilise des API privées de macOS ; la compatibilité peut changer."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apenas trackpads Force Touch integrados. Os gestos do MacTools pausam durante a pesagem e retornam ao parar ou fechar esta página. Usa APIs privadas do macOS; a compatibilidade pode mudar."
+            "value": "Apenas trackpads Force Touch integrados. Usa APIs privadas do macOS; a compatibilidade pode mudar."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Только встроенные трекпады Force Touch. Жесты MacTools приостанавливаются при взвешивании и возобновляются после остановки или закрытия страницы. Используются частные API macOS; совместимость может измениться."
+            "value": "Только встроенные трекпады Force Touch. Используются частные API macOS; совместимость может измениться."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "内蔵Force Touchトラックパッドのみ対応。計量中はMacToolsのトラックパッドジェスチャが一時停止し、停止またはページを閉じると再開します。macOSの非公開APIを使用しているため、互換性は変わる可能性があります。"
+            "value": "内蔵Force Touchトラックパッドのみ対応。macOSの非公開APIを使用しているため、互換性は変わる可能性があります。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "내장 Force Touch 트랙패드만 지원합니다. 측정 중에는 MacTools 트랙패드 제스처가 일시 중지되며 중지하거나 이 페이지를 닫으면 재개됩니다. macOS 비공개 API를 사용하므로 호환성이 변경될 수 있습니다."
+            "value": "내장 Force Touch 트랙패드만 지원합니다. macOS 비공개 API를 사용하므로 호환성이 변경될 수 있습니다."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "僅支援內建 Force Touch 觸控板。稱重時暫停 MacTools 觸控板手勢；停止或關閉頁面後恢復。依賴 macOS 私有 API，相容性可能變更。"
+            "value": "僅支援內建 Force Touch 觸控板。依賴 macOS 私有 API，相容性可能變更。"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "لوحات Force Touch المدمجة فقط. تتوقف إيماءات MacTools أثناء الوزن وتستأنف عند الإيقاف أو إغلاق الصفحة. يستخدم واجهات macOS خاصة؛ قد يتغير التوافق."
+            "value": "يدعم فقط لوحات التعقب المدمجة المزودة بـ Force Touch. يستخدم واجهات macOS خاصة؛ قد يتغير التوافق."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Yalnızca yerleşik Force Touch trackpad’ler. MacTools hareketleri tartım sırasında duraklatılır, durdurulduğunda veya bu sayfa kapatıldığında devam eder. Özel macOS API’lerini kullanır; uyumluluk değişebilir."
+            "value": "Yalnızca yerleşik Force Touch izleme dörtgenleri. Özel macOS API’leri kullanır; uyumluluk değişebilir."
           }
         }
       }
@@ -4557,6 +4557,158 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tekrar başlatana kadar değer korunur. Başka bir işe geçebilirsiniz."
+          }
+        }
+      }
+    },
+    "status.recovery": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If you still cannot start, update or disable older Trackpad Gestures and Middle Click packages in Plugins."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "若仍无法开始，请在“插件”中更新或停用旧版触控板手势和模拟鼠标中键。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إذا تعذر البدء، فحدّث حزم إيماءات لوحة التتبع والنقر بالزر الأوسط القديمة أو عطّلها في الإضافات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn der Start weiterhin nicht möglich ist, aktualisiere oder deaktiviere ältere Pakete für Trackpad-Gesten und Mittelklick unter Plugins."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si aún no puedes iniciar, actualiza o desactiva los paquetes antiguos de Gestos del trackpad y Clic central en Plugins."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si le démarrage reste impossible, mettez à jour ou désactivez les anciens modules Gestes du trackpad et Clic du milieu dans Modules."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開始できない場合は、「プラグイン」で古いトラックパッドジェスチャーとミドルクリックを更新するか無効にしてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "여전히 시작할 수 없으면 플러그인에서 이전 트랙패드 제스처와 가운데 클릭 패키지를 업데이트하거나 비활성화하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se ainda não conseguir iniciar, atualize ou desative os pacotes antigos de Gestos do trackpad e Clique do meio em Plugins."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Если запуск по-прежнему невозможен, обновите или отключите старые пакеты жестов трекпада и средней кнопки мыши в разделе «Плагины»."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "若仍無法開始，請在「外掛」中更新或停用舊版觸控板手勢和模擬滑鼠中鍵。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hâlâ başlatamıyorsanız Eklentiler bölümünde eski İzleme Dörtgeni Hareketleri ve Orta Tıklama paketlerini güncelleyin veya devre dışı bırakın."
+          }
+        }
+      }
+    },
+    "inputSharing.notice": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Middle Click and Trackpad Gestures pause while weighing. After capture or stopping, lift all fingers to resume."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "称重时暂停「中键点击」和「触控板手势」。记录或停止后，抬起全部手指即可恢复。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Middle Click und Trackpad-Gesten pausieren beim Wiegen. Nach dem Erfassen oder Stoppen alle Finger anheben, um sie fortzusetzen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clic central y Gestos del trackpad se pausan al pesar. Tras capturar o detener, levanta todos los dedos para reanudarlos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clic central et Gestes du trackpad sont suspendus pendant la pesée. Après la capture ou l’arrêt, levez tous les doigts pour les réactiver."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clique do meio e Gestos do trackpad pausam durante a pesagem. Após capturar ou parar, levante todos os dedos para retomá-los."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Средний щелчок и Жесты трекпада приостанавливаются при взвешивании. После фиксации или остановки уберите все пальцы, чтобы возобновить их."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "計量中は「中クリック」と「トラックパッドジェスチャ」が一時停止します。記録または停止後、すべての指を離すと再開します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "측정 중에는 중간 클릭과 트랙패드 제스처가 일시 중지됩니다. 기록하거나 중지한 후 모든 손가락을 떼면 재개됩니다."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "稱重時暫停「中鍵點擊」和「觸控板手勢」。記錄或停止後，抬起全部手指即可恢復。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتوقف النقر الأوسط وإيماءات لوحة التعقب مؤقتًا أثناء الوزن. بعد تسجيل القراءة أو الإيقاف، ارفع جميع أصابعك لاستئنافهما."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tartım sırasında Orta Tıklama ve İzleme Dörtgeni Hareketleri duraklatılır. Kaydettikten veya durdurduktan sonra devam etmek için tüm parmaklarınızı kaldırın."
           }
         }
       }

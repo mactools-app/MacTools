@@ -49,6 +49,22 @@ final class TrackpadScaleMeasurementTests: XCTestCase {
         XCTAssertFalse(model.calibrate(knownGrams: 10))
     }
 
+    func testCalibrationAtFirstStableWindowDoesNotPersistDisplaySmoothing() {
+        var model = TrackpadScaleMeasurement()
+        model.start(device: device, factor: 1)
+        settle(&model, pressure: 10, from: 0)
+        for index in 0..<12 {
+            model.receive(frame(20, time: 1.3 + Double(index) * 0.05))
+        }
+        XCTAssertTrue(model.isStable)
+        XCTAssertTrue(model.canCalibrate)
+        XCTAssertTrue(model.calibrate(knownGrams: 30))
+        model.receive(frame(20, time: 1.9))
+        XCTAssertEqual(model.estimatedGrams ?? -1, 30, accuracy: 0.01)
+        settle(&model, pressure: 20, from: 1.95)
+        XCTAssertEqual(model.estimatedGrams ?? -1, 30, accuracy: 0.01)
+    }
+
     func testAutomaticAndManualTareWorkWithFingerPressureVariation() throws {
         var model = TrackpadScaleMeasurement()
         model.start(device: device, factor: 1)

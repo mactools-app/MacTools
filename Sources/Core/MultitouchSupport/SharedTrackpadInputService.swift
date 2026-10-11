@@ -17,11 +17,11 @@ private final class TrackpadSensorDeliveryRelay: @unchecked Sendable {
         lock.withLock { self.handlers = handlers }
     }
 
-    func resumeGestures(deviceIDs: Set<UInt64>) {
+    func requireContactRelease(deviceIDs: Set<UInt64>, observedContactsOnly: Bool) {
         lock.withLock {
             waitingForZero.formIntersection(deviceIDs)
             activeDeviceIDs.formIntersection(deviceIDs)
-            waitingForZero.formUnion(activeDeviceIDs)
+            waitingForZero.formUnion(observedContactsOnly ? activeDeviceIDs : deviceIDs)
         }
     }
 
@@ -39,8 +39,8 @@ private final class TrackpadSensorDeliveryRelay: @unchecked Sendable {
             if frame.contacts.isEmpty { activeDeviceIDs.remove(frame.deviceID) }
             else { activeDeviceIDs.insert(frame.deviceID) }
             let weighing = handlers.values.contains { $0.0 == .weighing }
-            let blocked = waitingForZero.contains(frame.deviceID)
             if frame.contacts.isEmpty { waitingForZero.remove(frame.deviceID) }
+            let blocked = waitingForZero.contains(frame.deviceID)
             for (purpose, handler) in handlers.values {
                 if purpose == .gestures && (weighing || blocked) { continue }
                 handler(.frame(frame))
@@ -51,6 +51,8 @@ private final class TrackpadSensorDeliveryRelay: @unchecked Sendable {
 
 @MainActor
 final class SharedTrackpadInputService: TrackpadInputService {
+    typealias WakeRecoveryScheduler = (@escaping @MainActor @Sendable () -> Void) -> Void
+
     private let driver: any MultitouchFrameListening
     private let lease: any TrackpadSensorLeaseManaging
     private let inventory: () -> [TrackpadSensorDevice]
@@ -61,6 +63,10 @@ final class SharedTrackpadInputService: TrackpadInputService {
     private var isShuttingDown = false
     private var topologyIsChanging = false
     private var performingTopologyUpdate = false
+    private let scheduleWakeRecovery: WakeRecoveryScheduler
+    private var needsWakeRecovery = false
+    private var wakeRecoveryIsScheduled = false
+    private var wakeRecoveryGeneration = UUID()
     private let observesDevices: Bool
     private var port: IONotificationPortRef?
     private var arrivalIterator: io_iterator_t = 0
@@ -69,13 +75,20 @@ final class SharedTrackpadInputService: TrackpadInputService {
     private var topologyUpdate: DispatchWorkItem?
     private(set) var devices: [TrackpadSensorDevice] = []
     var onGesturePauseChange: ((Bool) -> Void)?
-    var gesturesArePaused: Bool { suspended || isShuttingDown || topologyIsChanging || subscribers.values.contains { $0.0 == .weighing } }
+    var canBeginWeighing: () -> Bool = { true }
+    var gesturesArePaused: Bool { suspended || needsWakeRecovery || isShuttingDown || topologyIsChanging || subscribers.values.contains { $0.0 == .weighing } }
 
     init(driver: (any MultitouchFrameListening)? = nil,
          lease: (any TrackpadSensorLeaseManaging)? = nil,
          inventory: (() -> [TrackpadSensorDevice])? = nil,
-         observesDevices: Bool = true) {
+         observesDevices: Bool = true,
+         scheduleWakeRecovery: @escaping WakeRecoveryScheduler = { work in
+             // Native input can report successful registration before recovering
+             // from long sleep. Preserve the existing ten-second driver delay.
+             DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: work)
+         }) {
         self.observesDevices = observesDevices
+        self.scheduleWakeRecovery = scheduleWakeRecovery
         let nativeDriver = driver ?? MultitouchDeviceDriver()
         self.driver = nativeDriver
         self.lease = lease ?? TrackpadSensorProcessLease()
@@ -89,10 +102,10 @@ final class SharedTrackpadInputService: TrackpadInputService {
 
     func subscribe(purpose: TrackpadInputPurpose,
                    handler: @escaping @Sendable (TrackpadSensorEvent) -> Void) -> UUID? {
-        guard !suspended, !isShuttingDown else { return nil }
+        guard !suspended, !needsWakeRecovery, !isShuttingDown else { return nil }
         devices = inventory()
         guard !devices.isEmpty,
-              purpose != .weighing || (!gesturesArePaused && devices.contains(where: \.supportsWeighing))
+              purpose != .weighing || (canBeginWeighing() && !gesturesArePaused && devices.contains(where: \.supportsWeighing))
         else { return nil }
         let id = UUID()
         subscribers[id] = (purpose, handler)
@@ -111,7 +124,7 @@ final class SharedTrackpadInputService: TrackpadInputService {
     func unsubscribe(_ subscriptionID: UUID) {
         guard let removed = subscribers.removeValue(forKey: subscriptionID) else { return }
         if removed.0 == .weighing {
-            relay.resumeGestures(deviceIDs: Set(devices.map(\.deviceID)))
+            relay.requireContactRelease(deviceIDs: Set(devices.map(\.deviceID)), observedContactsOnly: true)
         }
         relay.configure(subscribers)
         if removed.0 == .weighing { onGesturePauseChange?(gesturesArePaused) }
@@ -126,7 +139,8 @@ final class SharedTrackpadInputService: TrackpadInputService {
     }
 
     private func startListening() -> Bool {
-        guard !subscribers.isEmpty, lease.acquire() else { return false }
+        guard !suspended, !needsWakeRecovery, !isShuttingDown,
+              !subscribers.isEmpty, lease.acquire() else { return false }
         let generation = relay.begin()
         let relay = relay
         listening = driver.start { frame in relay.deliver(frame, generation: generation) }
@@ -144,9 +158,17 @@ final class SharedTrackpadInputService: TrackpadInputService {
     /// Interrupt before re-enumerating; a weighing consumer must explicitly restart
     /// and tare again. Gesture subscriptions can recover without saved-setting changes.
     func interrupt() {
+        // Contacts may begin while callbacks are stopped, so every recovered
+        // device must establish an empty frame before recognizing gestures.
+        relay.requireContactRelease(deviceIDs: Set(devices.map(\.deviceID)), observedContactsOnly: false)
         stopListening()
         let callbacks = Array(subscribers.values.map(\.1))
         callbacks.forEach { $0(.interrupted) }
+    }
+
+    func refreshWeighingAvailability() {
+        guard !canBeginWeighing(), subscribers.values.contains(where: { $0.0 == .weighing }) else { return }
+        interrupt()
     }
 
     func deviceTopologyDidChange() {
@@ -156,6 +178,7 @@ final class SharedTrackpadInputService: TrackpadInputService {
         onGesturePauseChange?(true)
         interrupt()
         devices = inventory()
+        relay.requireContactRelease(deviceIDs: Set(devices.map(\.deviceID)), observedContactsOnly: false)
         if !suspended, !isShuttingDown { _ = startListening() }
         topologyIsChanging = false
         performingTopologyUpdate = false
@@ -163,17 +186,42 @@ final class SharedTrackpadInputService: TrackpadInputService {
     }
 
     func setActivityState(_ state: PluginApplicationActivityState) {
+        guard !isShuttingDown else { return }
+        if state == .systemSleeping {
+            needsWakeRecovery = true
+            wakeRecoveryGeneration = UUID()
+            wakeRecoveryIsScheduled = false
+        } else if state == .waking {
+            needsWakeRecovery = true
+            scheduleWakeRecoveryIfNeeded()
+        }
         let shouldSuspend = state != .interactive
         guard suspended != shouldSuspend else { return }
         suspended = shouldSuspend
         if suspended {
             onGesturePauseChange?(true)
             interrupt()
+        } else if needsWakeRecovery {
+            // Also recover if the activity source skipped its waking state.
+            scheduleWakeRecoveryIfNeeded()
         } else { deviceTopologyDidChange() }
+    }
+
+    private func scheduleWakeRecoveryIfNeeded() {
+        guard needsWakeRecovery, !wakeRecoveryIsScheduled else { return }
+        wakeRecoveryIsScheduled = true
+        let generation = wakeRecoveryGeneration
+        scheduleWakeRecovery { [weak self] in
+            guard let self, !self.isShuttingDown, self.wakeRecoveryGeneration == generation else { return }
+            self.wakeRecoveryIsScheduled = false
+            self.needsWakeRecovery = false
+            if !self.suspended { self.deviceTopologyDidChange() }
+        }
     }
 
     func shutdown() {
         isShuttingDown = true
+        wakeRecoveryGeneration = UUID()
         interrupt()
         subscribers.removeAll()
         relay.configure([:])

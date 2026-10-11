@@ -914,6 +914,7 @@ private struct BackupPackageResolver: PluginPackageResolving {
 
 @MainActor
 private final class BackupDynamicPluginLoader: DynamicPluginLoading {
+    var preparePluginForActivation: ((any MacToolsPlugin) -> Void)?
     private(set) var receivedRecordIDBatches: [[String]] = []
 
     func loadInstalledPlugins(from records: [PluginPackageRecord]) -> [DynamicPluginLoadResult] {
