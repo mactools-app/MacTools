@@ -120,6 +120,8 @@ Clipboard selection and scrolling respond immediately. Rapid navigation skips tr
 
 Screenshots work on macOS 14+; region recording and per-app volume require macOS 15+. Hardware controls depend on device support. See the [feature guides](docs/README.md) for details.
 
+Experimental [Trackpad Scale](docs/plugins/trackpad-scale.md) estimates small-object weight on a built-in Force Touch trackpad. Start with no object and keep one finger lightly resting in place; it automatically tares after about one second. Wait for the ready message, then gently place the object while maintaining that contact. Auto capture stops sampling after a stable reading and keeps the result visible so you can lift your finger; turn it off for continuous measuring. Calibration pauses auto capture and includes manual **Tare**; **⌘T** also resets the baseline while measuring.
+
 Screenshot selection remains available on each display after switching desktops or entering and leaving full-screen apps.
 
 **Take your setup with you:** export and import preferences, keep local backups, or sync supported settings through a cloud or shared folder. The app supports **12 languages** and follows your system language by default.

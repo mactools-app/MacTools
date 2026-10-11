@@ -79,8 +79,20 @@ final class TrackpadScaleMailbox: @unchecked Sendable {
 
 @MainActor
 final class TrackpadScaleModel: ObservableObject {
+    struct CapturedReading {
+        let grams: Double
+        let wasCalibrated: Bool
+    }
+
+    private enum StorageKey {
+        static let autoCaptureEnabled = "auto-capture.enabled"
+    }
+
     @Published private(set) var measurement = TrackpadScaleMeasurement()
     @Published private(set) var isRunning = false
+    @Published private(set) var capturedReading: CapturedReading?
+    @Published private(set) var autoCaptureEnabled: Bool
+    @Published private(set) var isCalibrationExpanded = false
     @Published var calibrationError = false
     @Published private(set) var hasCalibration = false
     private var service: (any TrackpadInputService)?
@@ -95,6 +107,7 @@ final class TrackpadScaleModel: ObservableObject {
     init(storage: any PluginStorage, schedule: @escaping TrackpadScaleMailbox.Scheduler = TrackpadScaleMailbox.defaultScheduler) {
         self.storage = storage
         self.schedule = schedule
+        autoCaptureEnabled = storage.object(forKey: StorageKey.autoCaptureEnabled) as? Bool ?? true
         calibrationFactors = (storage.object(forKey: "calibration-factors.v1") as? [String: Double] ?? [:])
             .filter { TrackpadScaleMeasurement.validFactor($0.value) }
     }
@@ -111,6 +124,7 @@ final class TrackpadScaleModel: ObservableObject {
 
     func start() {
         guard !isRunning else { return }
+        capturedReading = nil
         guard let service else { measurement.start(device: nil, factor: 1); return }
         let currentGeneration = UUID()
         generation = currentGeneration
@@ -120,7 +134,12 @@ final class TrackpadScaleModel: ObservableObject {
             if boundary { self.measurement.invalidate(.needsTare) }
             if let frame {
                 self.lastArrival = ProcessInfo.processInfo.systemUptime
-                self.measurement.receive(frame, pressureRange: range)
+                self.measurement.receive(frame, pressureRange: range,
+                                         autoCapture: self.autoCaptureEnabled && !self.isCalibrationExpanded)
+                if self.measurement.captureProgress == 1, let grams = self.measurement.estimatedGrams {
+                    self.capturedReading = CapturedReading(grams: grams, wasCalibrated: self.hasCalibration)
+                    self.stop()
+                }
             }
         }
         guard let token = service.subscribe(purpose: .weighing, handler: { mailbox.receive($0) }) else {
@@ -159,6 +178,24 @@ final class TrackpadScaleModel: ObservableObject {
         measurement.stop(interrupted: interrupted)
         calibrationError = false
         hasCalibration = false
+    }
+
+    func restart() {
+        stop()
+        start()
+    }
+
+    func setAutoCaptureEnabled(_ enabled: Bool) {
+        guard enabled != autoCaptureEnabled else { return }
+        autoCaptureEnabled = enabled
+        storage.set(enabled, forKey: StorageKey.autoCaptureEnabled)
+        measurement.resetCapture()
+    }
+
+    func setCalibrationExpanded(_ expanded: Bool) {
+        guard expanded != isCalibrationExpanded else { return }
+        isCalibrationExpanded = expanded
+        measurement.resetCapture()
     }
 
     func tare() { calibrationError = false; _ = measurement.zero() }

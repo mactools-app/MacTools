@@ -15,14 +15,27 @@ struct TrackpadScaleMeasurement {
     private(set) var isStable = false
     private(set) var hasPressureReading = false
     private(set) var tare: Double?
+    private(set) var isAutoTarePending = false
+    private(set) var captureProgress: Double = 0
+    private var baselineNoise: Double = 0
+    private var captureStartedAt: TimeInterval?
+    private var capturePressureRange: ClosedRange<Double>?
     private var contactID: Int?
+    private var contactStartedAt: TimeInterval?
     private var filtered: Double?
     private var lastTimestamp: TimeInterval?
     private var history: [(TimeInterval, Double)] = []
 
-    var canTare: Bool { isStable && filtered != nil && contactID != nil }
+    // Tare captures a manual baseline. The quality badge must not make this
+    // action depend on catching a brief low-variation window between updates.
+    var canTare: Bool { hasFullWindow && filtered != nil && contactID != nil }
     var canCalibrate: Bool {
         isStable && tare != nil && (filtered ?? 0) - (tare ?? 0) > 0.5
+    }
+
+    private var hasFullWindow: Bool {
+        guard let firstTimestamp = history.first?.0, let lastTimestamp else { return false }
+        return history.count >= 6 && lastTimestamp - firstTimestamp >= 0.45
     }
 
     mutating func start(device: TrackpadSensorDevice?, factor: Double) {
@@ -30,6 +43,7 @@ struct TrackpadScaleMeasurement {
         guard let device, device.supportsWeighing else { state = .unsupported; return }
         self.device = device
         self.factor = Self.validFactor(factor) ? factor : 1
+        isAutoTarePending = true
         state = .noContact
     }
 
@@ -40,12 +54,14 @@ struct TrackpadScaleMeasurement {
 
     mutating func invalidate(_ state: State) {
         tare = nil
+        baselineNoise = 0
         contactID = nil
         resetFilter()
         self.state = state
     }
 
-    mutating func receive(_ frame: TrackpadSensorFrame, pressureRange: ClosedRange<Double>? = nil) {
+    mutating func receive(_ frame: TrackpadSensorFrame, pressureRange: ClosedRange<Double>? = nil,
+                          autoCapture: Bool = false) {
         guard let device, state != .stopped, state != .unsupported else { return }
         guard frame.deviceID == device.deviceID else { invalidate(.interrupted); return }
         guard frame.timestamp.isFinite,
@@ -69,6 +85,7 @@ struct TrackpadScaleMeasurement {
             invalidate(.needsTare)
             contactID = contact.identifier
         }
+        contactStartedAt = contactStartedAt ?? frame.timestamp
         hasPressureReading = true
         let elapsed = frame.timestamp - (lastTimestamp ?? frame.timestamp)
         let alpha = 1 - exp(-max(0, elapsed) / 0.20)
@@ -84,24 +101,60 @@ struct TrackpadScaleMeasurement {
         history.removeAll { frame.timestamp - $0.0 > 0.6 }
         if history.count > 80 { history.removeFirst(history.count - 80) }
         let spread = (history.map(\.1).max() ?? 0) - (history.map(\.1).min() ?? 0)
-        isStable = history.count >= 6
-            && frame.timestamp - (history.first?.0 ?? frame.timestamp) >= 0.45
-            && spread * factor <= 1.5
+        isStable = hasFullWindow && spread * factor <= 1.5
+        // Capture the initial baseline once per explicit Start. Later pressure
+        // changes or returning fingers must not silently zero an object.
+        if isAutoTarePending, canTare,
+           frame.timestamp - (contactStartedAt ?? frame.timestamp) >= 1 {
+            tare = filtered
+            baselineNoise = spread
+            isAutoTarePending = false
+        }
         if let tare, let filtered {
             let grams = (filtered - tare) * factor
             guard grams.isFinite else { invalidate(.invalidSample); return }
             estimatedGrams = max(0, grams)
             state = .measuring
+            updateCapture(timestamp: frame.timestamp, grams: grams,
+                          pressureRange: pressureRange ?? contact.pressure...contact.pressure,
+                          enabled: autoCapture)
         } else {
             estimatedGrams = nil
             state = .needsTare
+            resetCapture()
         }
+    }
+
+    mutating func resetCapture() {
+        captureStartedAt = nil
+        capturePressureRange = nil
+        captureProgress = 0
+    }
+
+    private mutating func updateCapture(timestamp: TimeInterval, grams: Double,
+                                       pressureRange: ClosedRange<Double>, enabled: Bool) {
+        // A positive change must exceed both the provisional two-gram floor
+        // and twice the pressure variation observed when capturing the baseline.
+        guard enabled, isStable, grams >= max(2, baselineNoise * factor * 2) else {
+            resetCapture()
+            return
+        }
+        let lower = min(capturePressureRange?.lowerBound ?? pressureRange.lowerBound, pressureRange.lowerBound)
+        let upper = max(capturePressureRange?.upperBound ?? pressureRange.upperBound, pressureRange.upperBound)
+        // Check the entire capture interval so slow drift cannot pass a series
+        // of individually stable short windows. Coalesced spikes remain visible.
+        if (upper - lower) * factor > 1.5 { resetCapture() }
+        captureStartedAt = captureStartedAt ?? timestamp
+        capturePressureRange = capturePressureRange.map { _ in lower...upper } ?? pressureRange
+        captureProgress = min(1, max(0, (timestamp - (captureStartedAt ?? timestamp)) / 2))
     }
 
     @discardableResult
     mutating func zero() -> Bool {
         guard canTare, let filtered else { return false }
         tare = filtered
+        baselineNoise = (history.map(\.1).max() ?? 0) - (history.map(\.1).min() ?? 0)
+        isAutoTarePending = false
         resetFilter()
         state = .measuring
         return true
@@ -126,6 +179,8 @@ struct TrackpadScaleMeasurement {
     }
 
     private mutating func resetFilter() {
+        resetCapture()
+        contactStartedAt = nil
         filtered = nil
         lastTimestamp = nil
         history.removeAll(keepingCapacity: true)

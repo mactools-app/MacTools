@@ -57,12 +57,17 @@ final class TrackpadScalePlugin: MacToolsPlugin, PluginSettingsPresenting,
         .form(description: metadata.defaultDescription, sections: [
             PluginSettingsSection(id: "measurement", title: localization.string("measurement", defaultValue: "称重"),
                                  systemImage: "scalemass") { [self] _ in
-                PluginObservedContent(model) { model in
-                    TrackpadScaleView(model: model, localization: self.localization)
-                }
+                TrackpadScaleView(model: model, localization: self.localization)
+            },
+            PluginSettingsSection(id: "calibration",
+                                  footer: localization.string("safeUse", defaultValue: "仅轻放小物件，勿用尖锐或重物。不可用于关键测量。")) { [self] _ in
+                TrackpadScaleCalibrationView(model: model, localization: self.localization)
             }
         ]).onVisibilityChange { [weak self] visible in
-            if !visible { self?.model.stop() }
+            if !visible {
+                self?.model.stop()
+                self?.model.setCalibrationExpanded(false)
+            }
         }
     }
 

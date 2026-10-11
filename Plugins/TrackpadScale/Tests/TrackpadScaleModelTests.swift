@@ -47,8 +47,9 @@ final class TrackpadScaleModelTests: XCTestCase {
         TrackpadSensorFrame(deviceID: deviceID, timestamp: time,
             contacts: [TrackpadSensorContact(identifier: contactID, x: 0.5, y: 0.5, pressure: pressure)])
     }
-    private func settle(_ service: ScaleTestService, _ scheduler: ScaleTestScheduler, pressure: Double, from start: Double) {
-        for index in 0..<15 {
+    private func settle(_ service: ScaleTestService, _ scheduler: ScaleTestScheduler, pressure: Double,
+                        from start: Double, samples: Int = 15) {
+        for index in 0..<samples {
             service.send(frame(pressure, time: start + Double(index) * 0.05))
             scheduler.flush()
         }
@@ -142,6 +143,35 @@ final class TrackpadScaleModelTests: XCTestCase {
         }
     }
 
+    func testRestartAfterContactLossCapturesAFreshBaseline() throws {
+        let scheduler = ScaleTestScheduler()
+        let service = ScaleTestService()
+        let model = TrackpadScaleModel(storage: ScaleTestStorage(), schedule: { scheduler.enqueue($0) })
+        model.setService(service)
+        model.start()
+        settle(service, scheduler, pressure: 10, from: 0)
+        settle(service, scheduler, pressure: 10, from: 0.75)
+        XCTAssertNotNil(model.measurement.tare)
+        service.send(TrackpadSensorFrame(deviceID: 1, timestamp: 1.5, contacts: []))
+        scheduler.flush()
+        XCTAssertNil(model.measurement.tare)
+        XCTAssertFalse(model.measurement.isAutoTarePending)
+
+        let staleHandler = try XCTUnwrap(service.handlers.values.first)
+        model.restart()
+        XCTAssertEqual(service.handlers.count, 1)
+        XCTAssertTrue(model.measurement.isAutoTarePending)
+        staleHandler(.interrupted)
+        scheduler.flush()
+        XCTAssertTrue(model.isRunning)
+        settle(service, scheduler, pressure: 20, from: 2)
+        settle(service, scheduler, pressure: 20, from: 2.75)
+        XCTAssertEqual(try XCTUnwrap(model.measurement.tare), 20, accuracy: 0.01)
+        XCTAssertEqual(try XCTUnwrap(model.measurement.estimatedGrams), 0, accuracy: 0.01)
+        model.stop()
+        XCTAssertFalse(service.gesturesArePaused)
+    }
+
     func testCoalescingPreservesPressureSpikesAndInvalidSamples() {
         let scheduler = ScaleTestScheduler()
         let service = ScaleTestService()
@@ -162,5 +192,72 @@ final class TrackpadScaleModelTests: XCTestCase {
         XCTAssertNil(model.measurement.tare)
         XCTAssertNil(model.measurement.estimatedGrams)
         model.stop()
+    }
+
+    func testAutoCaptureReleasesInputAndKeepsResultUntilNextStart() throws {
+        let scheduler = ScaleTestScheduler()
+        let service = ScaleTestService()
+        let storage = ScaleTestStorage()
+        let model = TrackpadScaleModel(storage: storage, schedule: { scheduler.enqueue($0) })
+        model.setService(service)
+        XCTAssertTrue(model.autoCaptureEnabled)
+        model.start()
+        settle(service, scheduler, pressure: 10, from: 0, samples: 25)
+        settle(service, scheduler, pressure: 11, from: 1.25, samples: 60)
+        XCTAssertTrue(model.isRunning)
+        XCTAssertNil(model.capturedReading)
+
+        let staleHandler = try XCTUnwrap(service.handlers.values.first)
+        settle(service, scheduler, pressure: 20, from: 4.25, samples: 65)
+        let captured = try XCTUnwrap(model.capturedReading)
+        XCTAssertEqual(captured.grams, 10, accuracy: 0.1)
+        XCTAssertFalse(captured.wasCalibrated)
+        XCTAssertFalse(model.isRunning)
+        XCTAssertFalse(service.gesturesArePaused)
+        XCTAssertNil(model.measurement.tare)
+        XCTAssertNil(model.measurement.estimatedGrams)
+        staleHandler(.frame(frame(100, time: 8)))
+        staleHandler(.interrupted)
+        scheduler.flush()
+        model.stop(interrupted: true)
+        XCTAssertEqual(model.capturedReading?.grams, captured.grams)
+        XCTAssertTrue(storage.values.isEmpty)
+
+        model.start()
+        XCTAssertNil(model.capturedReading)
+        XCTAssertTrue(model.measurement.isAutoTarePending)
+        model.stop()
+    }
+
+    func testAutoCaptureOptOutPersistsAndCalibrationPausesCapture() throws {
+        let scheduler = ScaleTestScheduler()
+        let service = ScaleTestService()
+        let storage = ScaleTestStorage()
+        let model = TrackpadScaleModel(storage: storage, schedule: { scheduler.enqueue($0) })
+        model.setAutoCaptureEnabled(false)
+        XCTAssertFalse(TrackpadScaleModel(storage: storage).autoCaptureEnabled)
+        model.setService(service)
+        model.start()
+        settle(service, scheduler, pressure: 10, from: 0, samples: 25)
+        settle(service, scheduler, pressure: 20, from: 1.25, samples: 65)
+        XCTAssertTrue(model.isRunning)
+        XCTAssertNil(model.capturedReading)
+        model.setAutoCaptureEnabled(true)
+        settle(service, scheduler, pressure: 20, from: 4.5, samples: 20)
+        model.setCalibrationExpanded(true)
+        settle(service, scheduler, pressure: 20, from: 5.5, samples: 65)
+        model.calibrate("30")
+        XCTAssertFalse(model.calibrationError)
+        XCTAssertTrue(model.isRunning)
+        XCTAssertNil(model.capturedReading)
+        XCTAssertTrue(model.hasCalibration)
+
+        model.setCalibrationExpanded(false)
+        settle(service, scheduler, pressure: 20, from: 8.75, samples: 25)
+        XCTAssertTrue(model.isRunning)
+        settle(service, scheduler, pressure: 20, from: 10, samples: 35)
+        XCTAssertFalse(model.isRunning)
+        XCTAssertEqual(try XCTUnwrap(model.capturedReading).grams, 30, accuracy: 0.1)
+        XCTAssertTrue(try XCTUnwrap(model.capturedReading).wasCalibrated)
     }
 }

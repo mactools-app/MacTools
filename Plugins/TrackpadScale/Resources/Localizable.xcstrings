@@ -462,73 +462,73 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Keep one finger lightly touching the trackpad. Wait for stability, tare, then gently place a small object. Do not lift or replace your finger."
+            "value": "Start with no object and keep one finger lightly touching for about a second. Wait for automatic tare before placing a small object. Do not lift or replace your finger. Press ⌘T for a manual reset."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "保持一根手指轻触触控板，等待读数稳定后归零，再轻放小物件。手指不要抬起或更换。"
+            "value": "开始时请移开物件，保持一根手指轻触约一秒，自动归零后再轻放小物件。手指不要抬起或更换；按 ⌘T 可重新归零。"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Berühren Sie das Trackpad leicht mit einem Finger. Warten Sie auf Stabilität, tarieren Sie und legen Sie dann einen kleinen Gegenstand vorsichtig auf. Heben oder wechseln Sie den Finger nicht."
+            "value": "Starten Sie ohne Gegenstand und berühren Sie das Trackpad etwa eine Sekunde lang leicht mit einem Finger. Warten Sie auf die automatische Tarierung, bevor Sie einen kleinen Gegenstand auflegen. Heben oder wechseln Sie den Finger nicht. Drücken Sie ⌘T zum manuellen Zurücksetzen."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mantén un dedo en contacto suave con el trackpad. Espera a que se estabilice, tara y coloca un objeto pequeño con cuidado. No levantes ni cambies el dedo."
+            "value": "Inicia sin ningún objeto y mantén un dedo apoyado suavemente durante un segundo. Espera a la tara automática antes de colocar un objeto pequeño. No levantes ni cambies el dedo. Pulsa ⌘T para restablecer manualmente."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gardez un doigt en contact léger avec le trackpad. Attendez la stabilité, tarez, puis posez doucement un petit objet. Ne levez pas et ne changez pas de doigt."
+            "value": "Démarrez sans objet et gardez un doigt légèrement posé pendant environ une seconde. Attendez la tare automatique avant de poser un petit objet. Ne levez pas et ne changez pas de doigt. Appuyez sur ⌘T pour refaire la tare manuellement."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mantenha um dedo tocando levemente o trackpad. Aguarde a estabilidade, tare e coloque um objeto pequeno com cuidado. Não levante nem troque o dedo."
+            "value": "Inicie sem nenhum objeto e mantenha um dedo apoiado levemente por cerca de um segundo. Aguarde a tara automática antes de colocar um objeto pequeno. Não levante nem troque o dedo. Pressione ⌘T para redefinir manualmente."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Легко касайтесь трекпада одним пальцем. Дождитесь стабильности, обнулите показания и осторожно положите небольшой предмет. Не поднимайте и не меняйте палец."
+            "value": "Начните без предмета и легко касайтесь одним пальцем около секунды. Дождитесь автоматического обнуления, затем положите небольшой предмет. Не поднимайте и не меняйте палец. Нажмите ⌘T для ручного обнуления."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "指1本でトラックパッドに軽く触れ続けてください。安定したらゼロ設定し、小物をそっと置きます。指を離したり、入れ替えたりしないでください。"
+            "value": "物を置かずに開始し、指1本で約1秒間軽く触れ続けてください。自動ゼロ設定を待ってから小物を置きます。指を離したり、入れ替えたりしないでください。⌘T で手動リセットできます。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "손가락 하나로 트랙패드를 가볍게 터치한 상태를 유지하세요. 안정되면 영점을 조정하고 작은 물체를 살짝 올리세요. 손가락을 떼거나 바꾸지 마세요."
+            "value": "물체가 없는 상태에서 시작하고 손가락 하나로 약 1초 동안 가볍게 터치하세요. 자동 영점 조정이 끝난 후 작은 물체를 올리세요. 손가락을 떼거나 바꾸지 마세요. ⌘T로 수동 초기화할 수 있습니다."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "保持一根手指輕觸觸控板，等讀數穩定後歸零，再輕放小物件。手指不要抬起或更換。"
+            "value": "開始時請移開物件，保持一根手指輕觸約一秒，自動歸零後再輕放小物件。手指不要抬起或更換；按 ⌘T 可重新歸零。"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "أبقِ إصبعًا واحدًا يلامس لوحة التتبع برفق. انتظر الاستقرار، ثم صفّر القراءة وضع جسمًا صغيرًا برفق. لا ترفع إصبعك ولا تستبدله."
+            "value": "ابدأ دون جسم وأبقِ إصبعًا واحدًا يلامس برفق لمدة ثانية تقريبًا. انتظر التصفير التلقائي قبل وضع جسم صغير. لا ترفع إصبعك ولا تستبدله. اضغط ⌘T للتصفير يدويًا."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Trackpad’e bir parmağınızla hafifçe dokunmaya devam edin. Kararlı olmasını bekleyin, sıfırlayın ve küçük bir nesneyi nazikçe yerleştirin. Parmağınızı kaldırmayın veya değiştirmeyin."
+            "value": "Nesne yokken başlatın ve bir parmağınızla yaklaşık bir saniye hafifçe dokunun. Küçük bir nesne yerleştirmeden önce otomatik sıfırlamayı bekleyin. Parmağınızı kaldırmayın veya değiştirmeyin. Elle sıfırlamak için ⌘T’ye basın."
           }
         }
       }
@@ -1526,73 +1526,73 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Keep one finger lightly touching the trackpad."
+            "value": "Remove the object and keep one finger lightly touching the trackpad."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "请保持一根手指轻触触控板。"
+            "value": "请移开物件，保持一根手指轻触触控板。"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Berühren Sie das Trackpad leicht mit einem Finger."
+            "value": "Entfernen Sie den Gegenstand und berühren Sie das Trackpad leicht mit einem Finger."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mantén un dedo en contacto suave con el trackpad."
+            "value": "Retira el objeto y mantén un dedo apoyado suavemente en el trackpad."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gardez un doigt en contact léger avec le trackpad."
+            "value": "Retirez l’objet et gardez un doigt légèrement posé sur le trackpad."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mantenha um dedo tocando levemente o trackpad."
+            "value": "Remova o objeto e mantenha um dedo tocando levemente o trackpad."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Легко касайтесь трекпада одним пальцем."
+            "value": "Уберите предмет и легко касайтесь трекпада одним пальцем."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "指1本でトラックパッドに軽く触れ続けてください。"
+            "value": "物を取り除き、指1本でトラックパッドに軽く触れ続けてください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "손가락 하나로 트랙패드를 가볍게 터치한 상태를 유지하세요."
+            "value": "물체를 치우고 손가락 하나로 트랙패드를 가볍게 터치하세요."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "請保持一根手指輕觸觸控板。"
+            "value": "請移開物件，保持一根手指輕觸觸控板。"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "أبقِ إصبعًا واحدًا يلامس لوحة التتبع برفق."
+            "value": "أزِل الجسم وأبقِ إصبعًا واحدًا يلامس لوحة التتبع برفق."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Trackpad’e bir parmağınızla hafifçe dokunmaya devam edin."
+            "value": "Nesneyi kaldırın ve trackpad’e bir parmağınızla hafifçe dokunmaya devam edin."
           }
         }
       }
@@ -1678,73 +1678,73 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wait for stability, then tare."
+            "value": "Remove the object and restart, or hold your finger steady and press ⌘T to tare."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "等待读数稳定，然后归零。"
+            "value": "请移开物件并重新开始，或保持手指平稳按 ⌘T 归零。"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Warten Sie auf Stabilität und tarieren Sie dann."
+            "value": "Entfernen Sie den Gegenstand und starten Sie neu, oder halten Sie den Finger ruhig und drücken Sie ⌘T zum Tarieren."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Espera a que se estabilice y tara."
+            "value": "Retira el objeto y reinicia, o mantén el dedo quieto y pulsa ⌘T para tarar."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Attendez la stabilité, puis tarez."
+            "value": "Retirez l’objet et redémarrez, ou gardez le doigt immobile et appuyez sur ⌘T pour faire la tare."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aguarde a estabilidade e tare."
+            "value": "Remova o objeto e reinicie, ou mantenha o dedo parado e pressione ⌘T para tarar."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Дождитесь стабильности и обнулите показания."
+            "value": "Уберите предмет и начните заново либо держите палец неподвижно и нажмите ⌘T для обнуления."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "安定してからゼロ設定してください。"
+            "value": "物を取り除いて再開するか、指を動かさずに ⌘T を押してゼロ設定してください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "안정될 때까지 기다린 다음 영점을 조정하세요."
+            "value": "물체를 치우고 다시 시작하거나, 손가락을 움직이지 않고 ⌘T를 눌러 영점을 조정하세요."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "等讀數穩定，然後歸零。"
+            "value": "請移開物件並重新開始，或保持手指平穩按 ⌘T 歸零。"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "انتظر الاستقرار ثم صفّر القراءة."
+            "value": "أزِل الجسم وابدأ مجددًا، أو ثبّت إصبعك واضغط ⌘T لتصفير القراءة."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kararlı olmasını bekleyin, ardından sıfırlayın."
+            "value": "Nesneyi kaldırıp yeniden başlatın ya da parmağınızı sabit tutup sıfırlamak için ⌘T’ye basın."
           }
         }
       }
@@ -1754,73 +1754,73 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Keep your finger position and pressure steady. Readings are approximate."
+            "value": "Ready for a small object. Keep finger position and pressure unchanged; the estimate is for reference only."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "保持手指位置和力度不变；读数仅供参考。"
+            "value": "已就绪，可轻放小物件。保持手指位置和力度不变；读数仅供参考。"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Halten Sie Fingerposition und Druck konstant. Die Werte sind Schätzungen."
+            "value": "Bereit für einen kleinen Gegenstand. Halten Sie Fingerposition und Druck unverändert; die Schätzung dient nur als Richtwert."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mantén constantes la posición y la presión del dedo. Las lecturas son aproximadas."
+            "value": "Listo para un objeto pequeño. Mantén la posición y presión del dedo; la estimación es solo orientativa."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gardez la position et la pression du doigt constantes. Les mesures sont approximatives."
+            "value": "Prêt pour un petit objet. Gardez la position et la pression du doigt constantes ; l’estimation est uniquement indicative."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mantenha a posição e a pressão do dedo constantes. As leituras são aproximadas."
+            "value": "Pronto para um objeto pequeno. Mantenha a posição e a pressão do dedo; a estimativa é apenas uma referência."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сохраняйте положение пальца и силу нажатия. Показания приблизительные."
+            "value": "Можно положить небольшой предмет. Не меняйте положение пальца и давление; оценка носит справочный характер."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "指の位置と圧力を一定に保ってください。表示は概算です。"
+            "value": "小物を置けます。指の位置と力を変えずに保持してください。推定値は参考用です。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "손가락 위치와 압력을 일정하게 유지하세요. 측정값은 대략적인 값입니다."
+            "value": "작은 물체를 올려도 됩니다. 손가락의 위치와 압력을 유지하세요. 추정치는 참고용입니다."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "保持手指位置和力度不變；讀數僅供參考。"
+            "value": "已就緒，可輕放小物件。保持手指位置和力度不變；讀數僅供參考。"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "حافظ على موضع إصبعك وضغطه ثابتين. القراءات تقريبية."
+            "value": "جاهز لجسم صغير. حافظ على موضع الإصبع والضغط؛ التقدير للاستئناس فقط."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Parmağınızın konumunu ve basıncını sabit tutun. Okumalar yaklaşık değerlerdir."
+            "value": "Küçük bir nesne için hazır. Parmağınızın konumunu ve basıncını değiştirmeyin; tahmin yalnızca referans içindir."
           }
         }
       }
@@ -1906,73 +1906,73 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Session interrupted. Start again and tare."
+            "value": "Session interrupted. Remove the object and start again."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "会话已中断。请重新开始并归零。"
+            "value": "会话已中断。请移开物件并重新开始。"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sitzung unterbrochen. Starten Sie erneut und tarieren Sie."
+            "value": "Sitzung unterbrochen. Entfernen Sie den Gegenstand und starten Sie erneut."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sesión interrumpida. Inicia de nuevo y tara."
+            "value": "Sesión interrumpida. Retira el objeto y vuelve a iniciar."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Session interrompue. Redémarrez et tarez."
+            "value": "Session interrompue. Retirez l’objet et recommencez."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sessão interrompida. Inicie novamente e tare."
+            "value": "Sessão interrompida. Remova o objeto e inicie novamente."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сеанс прерван. Начните заново и обнулите показания."
+            "value": "Сеанс прерван. Уберите предмет и начните заново."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "セッションが中断しました。再度開始し、ゼロ設定してください。"
+            "value": "セッションが中断されました。物を取り除いて再開してください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "세션이 중단되었습니다. 다시 시작하고 영점을 조정하세요."
+            "value": "세션이 중단되었습니다. 물체를 치우고 다시 시작하세요."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "工作階段已中斷。請重新開始並歸零。"
+            "value": "工作階段已中斷。請移開物件並重新開始。"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "انقطعت الجلسة. ابدأ مجددًا وصفّر القراءة."
+            "value": "انقطعت الجلسة. أزِل الجسم وابدأ مجددًا."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Oturum kesintiye uğradı. Yeniden başlatın ve sıfırlayın."
+            "value": "Oturum kesildi. Nesneyi kaldırıp yeniden başlatın."
           }
         }
       }
@@ -2277,6 +2277,2286 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ölçüm"
+          }
+        }
+      }
+    },
+    "state.autoTaring": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-taring. Hold your finger steady with no object on the trackpad."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在自动归零，请保持手指平稳，勿放物件。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatische Tarierung. Halten Sie den Finger ruhig und legen Sie keinen Gegenstand auf."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tara automática en curso. Mantén el dedo quieto y el trackpad sin objetos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tare automatique en cours. Gardez le doigt immobile, sans objet sur le trackpad."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tara automática em andamento. Mantenha o dedo parado, sem nenhum objeto no trackpad."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматическое обнуление. Держите палец неподвижно, без предмета на трекпаде."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動ゼロ設定中です。物を置かず、指を動かさずに保持してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자동 영점 조정 중입니다. 물체를 올리지 말고 손가락을 움직이지 마세요."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在自動歸零，請保持手指平穩，勿放物件。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ التصفير التلقائي. ثبّت إصبعك دون جسم على لوحة التتبع."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik sıfırlanıyor. Trackpad üzerinde nesne yokken parmağınızı sabit tutun."
+          }
+        }
+      }
+    },
+    "reading.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estimated weight"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "估算重量"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geschätztes Gewicht"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peso estimado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poids estimé"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peso estimado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оценка веса"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "推定重量"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "추정 무게"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "估算重量"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوزن التقديري"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tahmini ağırlık"
+          }
+        }
+      }
+    },
+    "restart": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restart"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新开始"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neu starten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reiniciar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redémarrer"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reiniciar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Начать заново"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再開"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다시 시작"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新開始"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة البدء"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden başlat"
+          }
+        }
+      }
+    },
+    "contact.one": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 finger detected"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检测到一根手指"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Finger erkannt"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 dedo detectado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 doigt détecté"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 dedo detectado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обнаружен 1 палец"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指1本を検出"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "손가락 1개 감지됨"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "偵測到一根手指"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم اكتشاف إصبع واحد"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 parmak algılandı"
+          }
+        }
+      }
+    },
+    "contact.multiple": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiple contacts"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检测到多个触点"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mehrere Kontakte"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varios contactos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plusieurs contacts"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vários contatos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Несколько касаний"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "複数の接触"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "여러 접촉 감지됨"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "偵測到多個觸點"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقاط لمس متعددة"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Birden fazla temas"
+          }
+        }
+      }
+    },
+    "contact.none": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No contact"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无触点"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein Kontakt"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin contacto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun contact"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem contato"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет касания"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "接触なし"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "접촉 없음"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無觸點"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد لمس"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temas yok"
+          }
+        }
+      }
+    },
+    "step.touch": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Touch"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轻触"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berühren"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tocar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toucher"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tocar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Касание"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触れる"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "접촉"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輕觸"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اللمس"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokun"
+          }
+        }
+      }
+    },
+    "step.touch.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rest one finger on the trackpad."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持一根手指轻触触控板。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einen Finger leicht auflegen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apoya suavemente un dedo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posez un doigt sur le trackpad."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apoie um dedo no trackpad."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Легко положите один палец."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指1本を軽く置きます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "트랙패드에 손가락 하나를 가볍게 대세요."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持一根手指輕觸觸控板。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضع إصبعًا واحدًا على لوحة التتبع برفق."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trackpad üzerine bir parmağınızı hafifçe koyun."
+          }
+        }
+      }
+    },
+    "step.autoTare": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-tare"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动归零"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-Tara"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tara automática"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tare automatique"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tara automática"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автообнуление"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動ゼロ設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자동 영점 조정"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動歸零"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التصفير التلقائي"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik sıfırla"
+          }
+        }
+      }
+    },
+    "step.autoTare.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hold still for a second. No object."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "勿放物件，保持轻触约一秒。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine Sekunde ruhig halten. Ohne Gegenstand."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén el dedo quieto un segundo, sin objetos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restez immobile une seconde, sans objet."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fique imóvel por um segundo, sem objetos."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не двигайтесь секунду. Без предмета."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "物を置かず、約1秒動かさずに保持します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "물체 없이 1초 동안 가만히 유지하세요."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "勿放物件，保持輕觸約一秒。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اثبت لثانية دون وضع جسم."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nesne yokken bir saniye sabit tutun."
+          }
+        }
+      }
+    },
+    "step.weigh": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weigh"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "称重"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wiegen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pesar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peser"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pesar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Взвешивание"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "計量"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "측정"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "稱重"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوزن"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tart"
+          }
+        }
+      }
+    },
+    "step.weigh.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a small object. Keep your finger in place."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轻放小物件，手指保持不动。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kleinen Gegenstand auflegen. Finger ruhig halten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloca un objeto pequeño sin mover el dedo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posez un petit objet sans bouger le doigt."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloque um objeto pequeno sem mover o dedo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Положите небольшой предмет, не двигая палец."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指を動かさず、小物を軽く置きます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "손가락을 유지한 채 작은 물체를 올리세요."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輕放小物件，手指保持不動。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضع جسمًا صغيرًا وأبقِ إصبعك في مكانه."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Küçük bir nesne koyun. Parmağınızı yerinde tutun."
+          }
+        }
+      }
+    },
+    "status.contactLost": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finger contact lost."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手指已离开触控板。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fingerkontakt verloren."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se perdió el contacto del dedo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contact du doigt perdu."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O contato do dedo foi perdido."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Касание пальца потеряно."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指の接触が失われました。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "손가락 접촉이 끊어졌습니다."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手指已離開觸控板。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انقطع لمس الإصبع."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parmak teması kesildi."
+          }
+        }
+      }
+    },
+    "status.ready": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready for a small object."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已就绪，可轻放小物件。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereit für einen kleinen Gegenstand."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listo para un objeto pequeño."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prêt pour un petit objet."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pronto para um objeto pequeno."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Можно положить небольшой предмет."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小物を軽く置いてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "작은 물체를 올릴 준비가 되었습니다."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已就緒，可輕放小物件。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جاهز لوضع جسم صغير."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Küçük bir nesne için hazır."
+          }
+        }
+      }
+    },
+    "status.removeObject": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove any object first."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请先移开物件。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zuerst alle Gegenstände entfernen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retira primero cualquier objeto."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirez d’abord tout objet."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remova primeiro qualquer objeto."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сначала уберите предмет."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "先に物を取り除いてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "먼저 물체를 치우세요."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請先移開物件。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أزِل أي جسم أولًا."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce nesneleri kaldırın."
+          }
+        }
+      }
+    },
+    "status.restart": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove the object, then click Restart."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请移开物件，再点按“重新开始”。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gegenstand entfernen und „Neu starten“ klicken."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retira el objeto y pulsa Reiniciar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirez l’objet, puis cliquez sur Redémarrer."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remova o objeto e clique em Reiniciar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уберите предмет и нажмите «Начать заново»."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "物を取り除いて「再開」をクリックしてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "물체를 치운 뒤 다시 시작을 클릭하세요."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請移開物件，再點按「重新開始」。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أزِل الجسم ثم انقر على إعادة البدء."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nesneyi kaldırıp Yeniden başlat’a tıklayın."
+          }
+        }
+      }
+    },
+    "status.keepFinger": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep finger position and pressure unchanged."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持手指位置和力度不变。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fingerposition und Druck beibehalten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén la posición y presión del dedo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gardez la position et la pression du doigt."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantenha a posição e a pressão do dedo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не меняйте положение и давление пальца."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指の位置と力を変えないでください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "손가락 위치와 압력을 일정하게 유지하세요."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持手指位置和力度不變。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حافظ على موضع الإصبع وضغطه."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parmağınızın konumunu ve basıncını sabit tutun."
+          }
+        }
+      }
+    },
+    "calibration.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calibration"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校准"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalibrierung"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calibración"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Étalonnage"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calibração"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Калибровка"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校正"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "보정"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校準"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المعايرة"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalibrasyon"
+          }
+        }
+      }
+    },
+    "calibration.saved": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calibrated"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已校准"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalibriert"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calibrado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Étalonné"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calibrado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откалибровано"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校正済み"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "보정됨"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已校準"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمت المعايرة"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalibre edildi"
+          }
+        }
+      }
+    },
+    "calibration.unsaved": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uncalibrated"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未校准"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht kalibriert"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin calibrar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non étalonné"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não calibrado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не откалибровано"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未校正"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "보정 안 됨"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未校準"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير معاير"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalibre edilmedi"
+          }
+        }
+      }
+    },
+    "autoCapture.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto capture"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动记录"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatisch erfassen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Captura automática"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture automatique"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Captura automática"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автофиксация"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動記録"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자동 기록"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動記錄"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التسجيل التلقائي"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomatik kaydet"
+          }
+        }
+      }
+    },
+    "autoCapture.help": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Captures after about two seconds of stability above baseline noise (at least 2 g), then stops sampling. Paused while Calibration is open."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重量超过基线波动且至少为 2 g，稳定约两秒后自动记录并停止。展开校准时暂停自动记录。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erfasst nach etwa zwei Sekunden Stabilität oberhalb des Grundrauschens (mindestens 2 g) und beendet die Messung. Bei geöffneter Kalibrierung pausiert."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Captura tras unos dos segundos de estabilidad por encima del ruido de base (al menos 2 g) y detiene la medición. Se pausa mientras Calibración está abierta."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture après environ deux secondes de stabilité au-dessus du bruit de base (au moins 2 g), puis arrête la mesure. En pause lorsque l’étalonnage est ouvert."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Captura após cerca de dois segundos de estabilidade acima do ruído de base (pelo menos 2 g) e para a medição. Pausada enquanto Calibração está aberta."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фиксирует вес после примерно двух секунд стабильности выше фоновых колебаний (не менее 2 г) и останавливает измерение. При открытой калибровке приостановлена."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "基準の変動を超える重量（2 g以上）が約2秒安定すると記録し、測定を停止します。校正を開いている間は一時停止します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기준 변동보다 큰 무게(최소 2 g)가 약 2초 동안 안정되면 기록하고 측정을 멈춥니다. 보정이 열려 있으면 일시 중지됩니다."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重量超過基線波動且至少為 2 g，穩定約兩秒後自動記錄並停止。展開校準時暫停自動記錄。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يسجّل بعد نحو ثانيتين من الاستقرار فوق تقلبات خط الأساس (2 g على الأقل)، ثم يوقف القياس. يتوقف مؤقتًا أثناء فتح المعايرة."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlangıç dalgalanmasının üzerindeki ağırlık (en az 2 g) yaklaşık iki saniye sabit kaldığında kaydeder ve ölçümü durdurur. Kalibrasyon açıkken duraklatılır."
+          }
+        }
+      }
+    },
+    "autoCapture.paused": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto capture is paused while Calibration is open."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "展开校准时暂停自动记录。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatische Erfassung pausiert bei geöffneter Kalibrierung."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La captura automática se pausa mientras Calibración está abierta."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La capture automatique est en pause lorsque l’étalonnage est ouvert."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A captura automática é pausada enquanto Calibração está aberta."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "При открытой калибровке автофиксация приостановлена."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校正を開いている間は自動記録を一時停止します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "보정이 열려 있는 동안 자동 기록이 일시 중지됩니다."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "展開校準時暫停自動記錄。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التسجيل التلقائي متوقف مؤقتًا أثناء فتح المعايرة."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalibrasyon açıkken otomatik kayıt duraklatılır."
+          }
+        }
+      }
+    },
+    "startAgain": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start again"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再次称重"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erneut starten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver a iniciar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recommencer"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar novamente"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Начать снова"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再度計量"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다시 측정"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再次稱重"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البدء مجددًا"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tekrar başlat"
+          }
+        }
+      }
+    },
+    "capture.progress": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture progress"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "称重记录进度"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erfassungsfortschritt"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progreso de captura"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progression de la capture"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progresso da captura"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ход фиксации"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記録の進行状況"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기록 진행률"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "稱重記錄進度"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقدم التسجيل"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt ilerlemesi"
+          }
+        }
+      }
+    },
+    "capture.badge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Captured"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已记录"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erfasst"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturé"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зафиксировано"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記録済み"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기록됨"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已記錄"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم التسجيل"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedildi"
+          }
+        }
+      }
+    },
+    "capture.stopped": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sampling stopped"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已停止采样"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Messung beendet"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medición detenida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mesure arrêtée"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medição interrompida"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Измерение остановлено"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "測定停止"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "측정 중지됨"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已停止取樣"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توقف القياس"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ölçüm durdu"
+          }
+        }
+      }
+    },
+    "status.captured": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weight captured. You can lift your finger."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重量已记录，可抬起手指。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gewicht erfasst. Sie können den Finger anheben."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peso capturado. Puedes levantar el dedo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poids capturé. Vous pouvez lever le doigt."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peso capturado. Você pode levantar o dedo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вес зафиксирован. Можно убрать палец."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重量を記録しました。指を離せます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "무게가 기록되었습니다. 손가락을 떼어도 됩니다."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重量已記錄，可抬起手指。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تسجيل الوزن. يمكنك رفع إصبعك."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağırlık kaydedildi. Parmağınızı kaldırabilirsiniz."
+          }
+        }
+      }
+    },
+    "status.capturing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hold steady to capture the weight."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请保持平稳，正在记录重量。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zum Erfassen des Gewichts ruhig halten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén el dedo quieto para capturar el peso."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restez immobile pour capturer le poids."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantenha o dedo parado para capturar o peso."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не двигайтесь для фиксации веса."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重量を記録するまで動かさずに保持してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "무게가 기록될 때까지 가만히 유지하세요."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請保持平穩，正在記錄重量。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اثبت لتسجيل الوزن."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağırlığı kaydetmek için sabit tutun."
+          }
+        }
+      }
+    },
+    "capture.detail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The reading stays until you start again. You can switch to another task."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读数会保留至下次称重，可切换到其他任务。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Messwert bleibt bis zum nächsten Start erhalten. Sie können zu einer anderen Aufgabe wechseln."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La lectura se conserva hasta que vuelvas a iniciar. Puedes cambiar de tarea."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La mesure reste affichée jusqu’au prochain démarrage. Vous pouvez passer à une autre tâche."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A leitura permanece até você iniciar novamente. Você pode mudar de tarefa."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показание сохраняется до нового запуска. Можно перейти к другой задаче."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "次の計量まで読数を保持します。他の作業に切り替えられます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다시 측정할 때까지 값이 유지됩니다. 다른 작업으로 전환해도 됩니다."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讀數會保留至下次稱重，可切換到其他任務。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبقى القراءة حتى تبدأ مجددًا. يمكنك الانتقال إلى مهمة أخرى."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tekrar başlatana kadar değer korunur. Başka bir işe geçebilirsiniz."
           }
         }
       }
