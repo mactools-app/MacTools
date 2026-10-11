@@ -373,13 +373,18 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             managedDisplay.lastCommittedBrightness = brightness
             managedDisplay.hasBrightnessValue = true
         case .failure(let error):
-            if !managedDisplay.hasBrightnessValue,
-               let fallback = fallbackBackend(for: displayID, failedBackend: managedDisplay.backend) {
-                managedDisplay.backend.cleanup()
-                managedDisplay.backend = fallback
-                managedDisplays[displayID] = managedDisplay
-                scheduleRead(for: displayID)
-                return
+            if !managedDisplay.hasBrightnessValue {
+                if managedDisplay.backend.kind == .ddc {
+                    // Some monitors accept Set VCP without replying to Get VCP.
+                    // Keep cached/default brightness usable until a write proves unavailable.
+                    managedDisplay.hasBrightnessValue = true
+                } else if let fallback = fallbackBackend(for: displayID, failedBackend: managedDisplay.backend) {
+                    managedDisplay.backend.cleanup()
+                    managedDisplay.backend = fallback
+                    managedDisplays[displayID] = managedDisplay
+                    scheduleRead(for: displayID)
+                    return
+                }
             }
             logger.error("failed to read brightness for \(managedDisplay.display.name, privacy: .public): \(error.localizedDescription, privacy: .public)")
             lastErrorMessage = localizedDescription(for: error)
