@@ -828,6 +828,9 @@ final class PluginCatalogManager {
                 current: dynamicPluginManager.hostVersion
             )
         }
+        if let failure = PluginPackageManifestLoader.pluginVersionFailure(
+            id: entry.id, version: entry.version, hostVersion: dynamicPluginManager.hostVersion
+        ) { throw failure }
         if let failure = dynamicPluginManager.requirementFailure(for: entry.requirements) { throw failure }
         return entry
     }
@@ -836,7 +839,9 @@ final class PluginCatalogManager {
         PluginVersionComparator.isVersion(
             dynamicPluginManager.hostVersion,
             atLeast: entry.minimumHostVersion
-        ) && dynamicPluginManager.requirementFailure(for: entry.requirements) == nil
+        ) && PluginPackageManifestLoader.pluginVersionFailure(
+            id: entry.id, version: entry.version, hostVersion: dynamicPluginManager.hostVersion
+        ) == nil && dynamicPluginManager.requirementFailure(for: entry.requirements) == nil
     }
 
     private func shouldDeferSourceUpdateForExtraction(

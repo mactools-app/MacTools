@@ -198,6 +198,10 @@ final class PluginPackageStore {
                                 hostVersion
                             )
                         )
+                    } else if let failure = PluginPackageManifestLoader.pluginVersionFailure(
+                        id: manifest.id, version: manifest.version, hostVersion: hostVersion
+                    ) {
+                        state = .incompatible(failure.localizedDescription)
                     } else if let failure = requirementChecker.failure(for: manifest.requirements) {
                         state = .incompatible(failure.localizedDescription)
                     } else if fileManager.fileExists(atPath: bundleURL.path) {

@@ -73,6 +73,8 @@ Follow the [plugin development standards](docs/plugins/development-guidelines.md
 
 Trackpad input is owned by the host through `TrackpadInputService` (host 2.0.2). Trackpad Gestures, Middle Click, and the optional [experimental Trackpad Scale](docs/plugins/trackpad-scale.md) subscribe to the same listener; preserve temporary gesture suspension and callback lifecycle boundaries when extending this path.
 
+Host 2.0.2 requires Trackpad Gestures and Middle Click package versions 2.0.2 or later, enforced before loading and installation. Publish these compatible packages before distributing the new host; older packages stay installed with update guidance and preserved preferences.
+
 Shared filesystem metadata code lives in `Sources/MacToolsFileSystem`. Disk Clean, Storage Explorer, and Xcode Clean link this static module into their bundles; their core targets use it as a build dependency. Use `FileSystemDirectoryReader.readBatches` to bound enumeration memory for wide folders. Keep cleanup policy in the owning plugin and run the affected plugins' filesystem tests after changing the shared reader or parser.
 
 ## Validation

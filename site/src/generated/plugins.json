@@ -15823,7 +15823,7 @@
       "releaseNotesURL": null,
       "route": "/plugins/middle-click/",
       "summary": "触控板轻点 → 模拟鼠标中键",
-      "version": "2.0.1"
+      "version": "2.0.2"
     },
     {
       "capabilities": {
@@ -21005,7 +21005,7 @@
       "releaseNotesURL": null,
       "route": "/plugins/trackpad-gestures/",
       "summary": "将自定义触控板手势映射为 MacTools 操作、快捷键或中键点击",
-      "version": "2.0.1"
+      "version": "2.0.2"
     },
     {
       "capabilities": {

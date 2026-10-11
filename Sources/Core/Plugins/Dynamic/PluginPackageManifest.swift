@@ -162,6 +162,7 @@ enum PluginPackageManifestError: LocalizedError, Equatable {
     case invalidBundleRelativePath(String)
     case unsupportedPluginKitVersion(Int)
     case incompatibleHostVersion(required: String, current: String)
+    case incompatiblePluginVersion(required: String, current: String)
 
     var errorDescription: String? {
         switch self {
@@ -184,6 +185,13 @@ enum PluginPackageManifestError: LocalizedError, Equatable {
                 required,
                 current
             )
+        case let .incompatiblePluginVersion(required, current):
+            return AppL10n.pluginsFormat(
+                "plugin.error.manifest.incompatiblePluginFormat",
+                defaultValue: "请更新插件至 %@ 或更高版本，当前版本为 %@。",
+                required,
+                current
+            )
         }
     }
 }
@@ -191,6 +199,10 @@ enum PluginPackageManifestError: LocalizedError, Equatable {
 enum PluginPackageManifestLoader {
     static let fileName = "plugin.json"
     static let supportedPluginKitVersion = PluginKitCompatibility.currentVersion
+    private static let minimumPluginVersions = [
+        "middle-click": "2.0.2",
+        "trackpad-gestures": "2.0.2",
+    ]
 
     static func load(
         from packageURL: URL,
@@ -218,6 +230,18 @@ enum PluginPackageManifestLoader {
                 current: hostVersion
             )
         }
+        if let failure = pluginVersionFailure(id: manifest.id, version: manifest.version, hostVersion: hostVersion) {
+            throw failure
+        }
+    }
+
+    static func pluginVersionFailure(id: String, version: String, hostVersion: String) -> PluginPackageManifestError? {
+        // Host 2.0.2 owns shared trackpad input. Older gesture packages retain
+        // independent native listeners and must be updated before activation.
+        guard PluginVersionComparator.isVersion(hostVersion, atLeast: "2.0.2"),
+              let required = minimumPluginVersions[id],
+              !PluginVersionComparator.isVersion(version, atLeast: required) else { return nil }
+        return .incompatiblePluginVersion(required: required, current: version)
     }
 
     static func validatePackageIdentity(_ manifest: PluginPackageManifest) throws {

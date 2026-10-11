@@ -139,6 +139,36 @@ final class PluginCatalogManagerTests: XCTestCase {
         )
     }
 
+    func testOldTrackpadCatalogEntryCannotInstallOrAutomaticallyUpdate() async throws {
+        let oldStore = PluginPackageStore(rootDirectory: temporaryRoot, userDefaults: defaults, hostVersion: "2.0.1")
+        _ = try oldStore.installPackage(from: makePackage(id: "trackpad-gestures", version: "2.0.0"))
+        let store = PluginPackageStore(rootDirectory: temporaryRoot, userDefaults: defaults, hostVersion: "2.0.2")
+        let dynamicManager = DynamicPluginManager(packageStore: store, pluginLoader: StubDynamicPluginLoader { _ in [] })
+        dynamicManager.prepareInstalledPluginsWithoutLoading()
+        let snapshot = makeCatalogSnapshot(entries: [
+            makeCatalogEntry(id: "trackpad-gestures", version: "2.0.1"),
+            makeCatalogEntry(id: "middle-click", version: "2.0.1"),
+        ])
+        let manager = PluginCatalogManager(
+            catalogProvider: StubPluginCatalogProvider(snapshot: snapshot),
+            packageResolver: StubPluginPackageResolver(packagesByID: [:]),
+            dynamicPluginManager: dynamicManager, source: .production(snapshot.sourceURL)
+        )
+        await manager.refreshCatalog()
+
+        XCTAssertTrue(manager.automaticUpdatePlanForInstalledPlugins().updateableInstalledPluginIDs.isEmpty)
+        for item in dynamicManager.pluginManagementItems {
+            guard case .incompatible = item.state else { return XCTFail("Old catalog entries must require an update") }
+        }
+        do {
+            try await manager.installPlugin(id: "middle-click")
+            XCTFail("Old package must be rejected before resolving a download")
+        } catch let error as PluginPackageManifestError {
+            XCTAssertEqual(error, .incompatiblePluginVersion(required: "2.0.2", current: "2.0.1"))
+        }
+        XCTAssertEqual(store.installedRecords().first?.manifest.version, "2.0.0")
+    }
+
     func testNewerHostEntryStaysVisibleButCannotInstallOrAutomaticallyUpdate() async throws {
         let store = PluginPackageStore(
             rootDirectory: temporaryRoot,

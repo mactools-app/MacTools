@@ -986,7 +986,9 @@ final class DynamicPluginManager: ObservableObject {
                 let compatibleCatalogEntry = PluginVersionComparator.isVersion(
                     packageStore.hostVersion,
                     atLeast: entry.minimumHostVersion
-                ) && requirementFailure(for: entry.requirements) == nil ? entry : nil
+                ) && PluginPackageManifestLoader.pluginVersionFailure(
+                    id: entry.id, version: entry.version, hostVersion: packageStore.hostVersion
+                ) == nil && requirementFailure(for: entry.requirements) == nil ? entry : nil
                 items.append(
                     managementItem(
                         for: result,
@@ -1006,6 +1008,10 @@ final class DynamicPluginManager: ObservableObject {
                             current: packageStore.hostVersion
                         ).localizedDescription
                     )
+                } else if let failure = PluginPackageManifestLoader.pluginVersionFailure(
+                    id: entry.id, version: entry.version, hostVersion: packageStore.hostVersion
+                ) {
+                    state = .incompatible(failure.localizedDescription)
                 } else if let failure = requirementFailure(for: entry.requirements) {
                     state = .incompatible(failure.localizedDescription)
                 } else {

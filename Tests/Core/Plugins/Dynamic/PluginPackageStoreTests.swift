@@ -37,6 +37,26 @@ final class PluginPackageStoreTests: XCTestCase {
         XCTAssertEqual(store.installedRecords().first?.state, .installed)
     }
 
+    func testHostUpgradeRetainsOldTrackpadPackageWithoutLoadingIt() throws {
+        let oldStore = makeStore(hostVersion: "2.0.1")
+        let oldPackage = try oldStore.installPackage(from: makePackage(id: "trackpad-gestures", version: "2.0.1"))
+        let store = makeStore(hostVersion: "2.0.2")
+        _ = try store.installPackage(from: makePackage(id: "middle-click", version: "2.0.2"))
+        let loader = RequirementRecordingLoader()
+        let manager = DynamicPluginManager(packageStore: store, pluginLoader: loader)
+        _ = manager.loadInstalledPlugins()
+
+        XCTAssertEqual(loader.requestedIDs, ["middle-click"])
+        let retained = try XCTUnwrap(store.installedRecords().first { $0.id == "trackpad-gestures" })
+        guard case .incompatible = retained.state else { return XCTFail("Old input code must not activate") }
+        XCTAssertEqual(retained.manifest.version, "2.0.1")
+        XCTAssertTrue(FileManager.default.fileExists(atPath: oldPackage.packageURL.path))
+        XCTAssertThrowsError(try store.installPackage(from: makePackage(id: "trackpad-gestures", version: "2.0.0"))) {
+            XCTAssertEqual($0 as? PluginPackageManifestError,
+                           .incompatiblePluginVersion(required: "2.0.2", current: "2.0.0"))
+        }
+    }
+
     func testMissingRequirementPreventsInstallationAndDisablesExistingPackage() throws {
         var found = false
         let checker = PluginRequirementChecker(macOSVersion: { "27.0" }, applicationInstalled: { _ in found })
@@ -286,7 +306,8 @@ final class PluginPackageStoreTests: XCTestCase {
         privateDataDirectoryRemover: ((URL) throws -> Void)? = nil,
         privateDataKeyRemover: ((String) throws -> Void)? = nil,
         now: @escaping () -> Date = { Date() },
-        requirementChecker: PluginRequirementChecker? = nil
+        requirementChecker: PluginRequirementChecker? = nil,
+        hostVersion: String = "1.0.0"
     ) -> PluginPackageStore {
         PluginPackageStore(
             rootDirectory: temporaryRoot,
@@ -297,7 +318,7 @@ final class PluginPackageStoreTests: XCTestCase {
             privateDataDirectoryRemover: privateDataDirectoryRemover,
             privateDataKeyRemover: privateDataKeyRemover,
             now: now,
-            hostVersion: "1.0.0", requirementChecker: requirementChecker ?? PluginRequirementChecker()
+            hostVersion: hostVersion, requirementChecker: requirementChecker ?? PluginRequirementChecker()
         )
     }
 

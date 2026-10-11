@@ -7470,6 +7470,83 @@
         }
       }
     },
+    "plugin.error.manifest.incompatiblePluginFormat": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدّث هذا المكون الإضافي إلى %@ أو أحدث. الإصدار الحالي: %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktualisiere dieses Plugin auf %@ oder neuer. Aktuelle Version: %@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update this plugin to %@ or later. Current version: %@."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualiza este complemento a %@ o posterior. Versión actual: %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettez ce plug-in à jour vers %@ ou une version ultérieure. Version actuelle : %@."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プラグインを %@ 以降に更新してください。現在のバージョン: %@。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플러그인을 %@ 이상으로 업데이트하세요. 현재 버전: %@."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atualize este plug-in para %@ ou posterior. Versão atual: %@."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновите плагин до %@ или более поздней версии. Текущая версия: %@."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu eklentiyi %@ veya üzerine güncelleyin. Geçerli sürüm: %@."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请更新插件至 %@ 或更高版本，当前版本为 %@。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請更新外掛至 %@ 或更高版本，目前版本為 %@。"
+          }
+        }
+      }
+    },
     "plugin.error.manifest.invalidBundlePathFormat": {
       "extractionState": "manual",
       "localizations": {

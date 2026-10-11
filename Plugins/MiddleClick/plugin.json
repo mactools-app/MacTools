@@ -58,7 +58,7 @@
     "setup.requirements.title": "@standardSetup.requirements.title",
     "setup.requirements.description": "@standardSetup.requirements.description"
   },
-  "version": "2.0.1",
+  "version": "2.0.2",
   "minHostVersion": "2.0.2",
   "pluginKitVersion": 7,
   "bundleRelativePath": "MiddleClick.bundle",
