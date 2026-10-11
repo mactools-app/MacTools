@@ -94,6 +94,7 @@ struct PluginManagementSettingsView: View {
                                             isBusy: activeOperationID == item.id
                                                 || presentation.automaticUpdateStatus.isUpdatingPlugin(id: item.id),
                                             isInteractionDisabled: activeOperationID != nil
+                                                || presentation.isUpdatingAvailablePlugins
                                                 || presentation.automaticUpdateStatus.isActive,
                                             onInstall: { runOperation(id: item.id) { try await pluginHost.installPluginFromCatalog(pluginID: item.id) } },
                                             onUpdate: { runOperation(id: item.id) { try await pluginHost.updatePluginFromCatalog(pluginID: item.id) } },
@@ -364,6 +365,7 @@ struct PluginManagementSettingsView: View {
         .layoutPriority(1)
         .disabled(
             activeOperationID != nil
+                || presentation.isUpdatingAvailablePlugins
                 || presentation.catalogStatus.isRefreshing
                 || presentation.automaticUpdateStatus.isActive
         )
@@ -379,6 +381,7 @@ struct PluginManagementSettingsView: View {
 
     private var isBulkPluginUpdateBusy: Bool {
         activeOperationID == "catalog.updateAll"
+            || presentation.isUpdatingAvailablePlugins
             || presentation.automaticUpdateStatus.phase == .updating
     }
 
@@ -397,6 +400,7 @@ struct PluginManagementSettingsView: View {
 
     private func runOperation(id: String, _ operation: @escaping () async throws -> Void) {
         guard activeOperationID == nil,
+              !presentation.isUpdatingAvailablePlugins,
               !presentation.automaticUpdateStatus.isActive
         else {
             return
@@ -530,7 +534,7 @@ struct PluginManagementSettingsView: View {
     }
 
     private func uninstall(_ confirmation: PluginUninstallConfirmation) {
-        guard activeOperationID == nil else {
+        guard activeOperationID == nil, !presentation.isUpdatingAvailablePlugins else {
             return
         }
 
@@ -542,7 +546,7 @@ struct PluginManagementSettingsView: View {
     }
 
     private func requestUninstall(_ item: PluginManagementItem) {
-        guard item.canUninstall, activeOperationID == nil else {
+        guard item.canUninstall, activeOperationID == nil, !presentation.isUpdatingAvailablePlugins else {
             return
         }
 

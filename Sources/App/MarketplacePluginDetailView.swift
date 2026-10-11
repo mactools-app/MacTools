@@ -52,7 +52,9 @@ struct MarketplacePluginDetailView: View {
 
     private var activeOperation: Bool { operation?.isActive == true }
 
-    private var controlsDisabled: Bool { activeOperation || pluginHost.isPreparingPlugins }
+    private var controlsDisabled: Bool {
+        activeOperation || pluginHost.isUpdatingAvailablePlugins || pluginHost.isPreparingPlugins
+    }
 
     private var presentation: MarketplacePluginDetailPresentation? {
         MarketplacePluginDetailPresentation(
@@ -96,6 +98,7 @@ struct MarketplacePluginDetailView: View {
             Button(AppL10n.plugins("plugin.marketplace.uninstall", defaultValue: "卸载"), role: .destructive) {
                 uninstall()
             }
+            .disabled(controlsDisabled)
         } message: {
             Text(AppL10n.plugins(
                 "plugin.marketplace.detail.uninstall.confirmation",

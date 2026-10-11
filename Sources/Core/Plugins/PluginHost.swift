@@ -485,7 +485,11 @@ final class PluginHost: ObservableObject {
     @Published private(set) var shortcutBindingRevision: UInt64 = 0
     @Published private(set) var pluginManagementItems: [PluginManagementItem] = []
     @Published private(set) var pluginMarketplaceOperations: [String: PluginMarketplaceOperation] = [:]
+    @Published private(set) var isUpdatingAvailablePlugins = false
+    @Published private(set) var hasActiveMarketplaceOperation = false
     private var marketplaceOperationAttemptsByPluginID: [String: UUID] = [:]
+    // Superseding feedback does not cancel the underlying package request.
+    private var marketplaceOperationAttemptsInFlight: Set<UUID> = []
     @Published private(set) var pluginCatalogStatus: PluginCatalogStatus = .unavailable
     @Published private(set) var automaticPluginUpdateStatus: PluginAutomaticUpdateStatus = .idle
     @Published private(set) var hasActivePlugin = false
@@ -2537,16 +2541,21 @@ final class PluginHost: ObservableObject {
         pluginID: String,
         kind: PluginMarketplaceOperation.Kind
     ) async throws {
-        guard pluginMarketplaceOperations[pluginID]?.isActive != true else {
+        guard !isUpdatingAvailablePlugins,
+              pluginMarketplaceOperations[pluginID]?.isActive != true else {
             throw PluginMarketplaceOperationError.operationInProgress
         }
         let attemptID = UUID()
+        marketplaceOperationAttemptsInFlight.insert(attemptID)
         marketplaceOperationAttemptsByPluginID[pluginID] = attemptID
         pluginMarketplaceOperations[pluginID] = .init(kind: kind, phase: .running)
+        syncMarketplaceOperationActivity()
         defer {
             if marketplaceOperationAttemptsByPluginID[pluginID] == attemptID {
                 marketplaceOperationAttemptsByPluginID.removeValue(forKey: pluginID)
             }
+            marketplaceOperationAttemptsInFlight.remove(attemptID)
+            syncMarketplaceOperationActivity()
         }
         do {
             guard let pluginCatalogManager else {
@@ -2577,21 +2586,33 @@ final class PluginHost: ObservableObject {
     func updateAvailablePluginsFromCatalog(
         progress: ((PluginCatalogUpdateProgress) -> Void)? = nil
     ) async throws {
-        guard !pluginMarketplaceOperations.values.contains(where: \.isActive) else {
+        guard !hasActiveMarketplaceOperation else {
             throw PluginMarketplaceOperationError.operationInProgress
         }
         guard let pluginCatalogManager else {
             return
         }
 
+        isUpdatingAvailablePlugins = true
+        syncMarketplaceOperationActivity()
         defer {
             syncPluginManagementState()
+            isUpdatingAvailablePlugins = false
+            syncMarketplaceOperationActivity()
         }
 
         try await pluginCatalogManager.updateAvailablePlugins(progress: progress)
     }
 
+    private func syncMarketplaceOperationActivity() {
+        hasActiveMarketplaceOperation = isUpdatingAvailablePlugins
+            || !marketplaceOperationAttemptsInFlight.isEmpty
+    }
+
     func installPluginPackage(from sourceURL: URL) throws {
+        guard !isUpdatingAvailablePlugins else {
+            throw PluginMarketplaceOperationError.operationInProgress
+        }
         try dynamicPluginManager?.installPluginPackage(from: sourceURL)
         clearTerminalMarketplaceFeedback(forPackageAt: sourceURL)
         pluginCatalogManager?.rebuildManagementItems()
@@ -2599,6 +2620,9 @@ final class PluginHost: ObservableObject {
     }
 
     func updatePluginPackage(from sourceURL: URL) throws {
+        guard !isUpdatingAvailablePlugins else {
+            throw PluginMarketplaceOperationError.operationInProgress
+        }
         try dynamicPluginManager?.updatePluginPackage(from: sourceURL)
         clearTerminalMarketplaceFeedback(forPackageAt: sourceURL)
         pluginCatalogManager?.rebuildManagementItems()
@@ -2612,6 +2636,9 @@ final class PluginHost: ObservableObject {
     }
 
     func uninstallDynamicPlugin(pluginID: String, removeData: Bool = false) throws {
+        guard !isUpdatingAvailablePlugins else {
+            throw PluginMarketplaceOperationError.operationInProgress
+        }
         try dynamicPluginManager?.uninstallPlugin(pluginID: pluginID, removeData: removeData)
         marketplaceOperationAttemptsByPluginID.removeValue(forKey: pluginID)
         pluginMarketplaceOperations.removeValue(forKey: pluginID)

@@ -840,6 +840,123 @@ final class PluginCatalogManagerTests: XCTestCase {
         XCTAssertFalse(marketplace.hasActiveMarketplaceOperation)
     }
 
+    func testPendingBulkUpdateRejectsCatalogMutationsAndPublishesCompletion() async throws {
+        let pluginID = "com.example.demo"
+        let otherPluginID = "com.example.other"
+        let store = makeStore()
+        _ = try store.installPackage(from: makePackage(id: pluginID, version: "1.0.0"))
+        let updatePackageURL = try makePackage(id: pluginID, version: "2.0.0")
+        let dynamicManager = DynamicPluginManager(
+            packageStore: store,
+            pluginLoader: StubDynamicPluginLoader { _ in [] }
+        )
+        let snapshot = makeCatalogSnapshot(entries: [
+            makeCatalogEntry(id: pluginID, version: "2.0.0"),
+            makeCatalogEntry(id: otherPluginID, version: "1.0.0"),
+        ])
+        let resolver = SuspendedPluginPackageResolver(subsequentPackageURL: updatePackageURL)
+        let manager = PluginCatalogManager(
+            catalogProvider: StubPluginCatalogProvider(snapshot: snapshot),
+            packageResolver: resolver,
+            dynamicPluginManager: dynamicManager,
+            source: .production(snapshot.sourceURL)
+        )
+        let host = makeFeedbackHost(dynamicManager: dynamicManager, catalogManager: manager)
+        defer { host.deactivateAllPlugins() }
+        let marketplace = PluginMarketplacePresentationModel(host: host)
+        await host.refreshPluginCatalog()
+
+        let bulkUpdate = Task { try await host.updateAvailablePluginsFromCatalog() }
+        await resolver.waitUntilRequested()
+        XCTAssertTrue(marketplace.isUpdatingAvailablePlugins)
+        XCTAssertTrue(marketplace.hasActiveMarketplaceOperation)
+
+        let competingOperations: [(name: String, action: @MainActor () async throws -> Void)] = [
+            ("detail update", { try await host.updatePluginFromCatalog(pluginID: pluginID) }),
+            ("catalog install", { try await host.installPluginFromCatalog(pluginID: otherPluginID) }),
+            ("uninstall", { try host.uninstallDynamicPlugin(pluginID: pluginID) }),
+            ("bulk update", { try await host.updateAvailablePluginsFromCatalog() }),
+        ]
+        for operation in competingOperations {
+            do {
+                try await operation.action()
+                XCTFail("A pending bulk update must reject \(operation.name)")
+            } catch {
+                guard case PluginMarketplaceOperationError.operationInProgress = error else {
+                    resolver.resume(throwing: URLError(.cancelled))
+                    _ = try? await bulkUpdate.value
+                    throw error
+                }
+            }
+        }
+
+        XCTAssertEqual(resolver.requestCount, 1)
+        XCTAssertEqual(dynamicManager.installedPackageVersionsByID()[pluginID], "1.0.0")
+        XCTAssertFalse(dynamicManager.isInstalledPlugin(otherPluginID))
+        XCTAssertTrue(host.pluginMarketplaceOperations.isEmpty)
+        XCTAssertTrue(marketplace.isUpdatingAvailablePlugins)
+        XCTAssertTrue(marketplace.hasActiveMarketplaceOperation)
+
+        resolver.resume(returning: updatePackageURL)
+        try await bulkUpdate.value
+
+        XCTAssertEqual(dynamicManager.installedPackageVersionsByID()[pluginID], "2.0.0")
+        let item = try XCTUnwrap(marketplace.items.first { $0.id == pluginID })
+        XCTAssertEqual(item.version, "2.0.0")
+        XCTAssertFalse(item.canUpdate)
+        XCTAssertNil(host.pluginMarketplaceOperations[pluginID])
+        XCTAssertFalse(marketplace.isUpdatingAvailablePlugins)
+        XCTAssertFalse(marketplace.hasActiveMarketplaceOperation)
+    }
+
+    func testFailedBulkUpdateReleasesSharedActivityAndAllowsDetailRetry() async throws {
+        let pluginID = "com.example.demo"
+        let store = makeStore()
+        _ = try store.installPackage(from: makePackage(id: pluginID, version: "1.0.0"))
+        let updatePackageURL = try makePackage(id: pluginID, version: "2.0.0")
+        let dynamicManager = DynamicPluginManager(
+            packageStore: store,
+            pluginLoader: StubDynamicPluginLoader { _ in [] }
+        )
+        let snapshot = makeCatalogSnapshot(entries: [makeCatalogEntry(id: pluginID, version: "2.0.0")])
+        let resolver = SuspendedPluginPackageResolver(subsequentPackageURL: updatePackageURL)
+        let manager = PluginCatalogManager(
+            catalogProvider: StubPluginCatalogProvider(snapshot: snapshot),
+            packageResolver: resolver,
+            dynamicPluginManager: dynamicManager,
+            source: .production(snapshot.sourceURL)
+        )
+        let host = makeFeedbackHost(dynamicManager: dynamicManager, catalogManager: manager)
+        defer { host.deactivateAllPlugins() }
+        let marketplace = PluginMarketplacePresentationModel(host: host)
+        await host.refreshPluginCatalog()
+
+        let bulkUpdate = Task { try await host.updateAvailablePluginsFromCatalog() }
+        await resolver.waitUntilRequested()
+        XCTAssertTrue(marketplace.isUpdatingAvailablePlugins)
+        XCTAssertTrue(marketplace.hasActiveMarketplaceOperation)
+        resolver.resume(throwing: URLError(.timedOut))
+        do {
+            try await bulkUpdate.value
+            XCTFail("The bulk update must report its download timeout")
+        } catch {
+            let bulkError = try XCTUnwrap(error as? PluginCatalogBulkUpdateError)
+            XCTAssertEqual(bulkError.failures.map(\.pluginID), [pluginID])
+            XCTAssertEqual((bulkError.failures.first?.error as? URLError)?.code, .timedOut)
+        }
+        XCTAssertEqual(dynamicManager.installedPackageVersionsByID()[pluginID], "1.0.0")
+        XCTAssertNil(host.pluginMarketplaceOperations[pluginID])
+        XCTAssertFalse(marketplace.isUpdatingAvailablePlugins)
+        XCTAssertFalse(marketplace.hasActiveMarketplaceOperation)
+
+        try await host.updatePluginFromCatalog(pluginID: pluginID)
+
+        XCTAssertEqual(dynamicManager.installedPackageVersionsByID()[pluginID], "2.0.0")
+        XCTAssertEqual(host.pluginMarketplaceOperations[pluginID], .init(kind: .update, phase: .completed))
+        XCTAssertFalse(marketplace.isUpdatingAvailablePlugins)
+        XCTAssertFalse(marketplace.hasActiveMarketplaceOperation)
+    }
+
     func testSupersededUpdateFailureKeepsReinstallationFeedbackAndDuplicateProtection() async throws {
         try await assertReinstallationKeepsFeedbackAfterSupersededUpdate(failsResolution: true)
     }
@@ -875,6 +992,17 @@ final class PluginCatalogManagerTests: XCTestCase {
 
         try host.uninstallDynamicPlugin(pluginID: pluginID)
         XCTAssertNil(host.pluginMarketplaceOperations[pluginID])
+        do {
+            try await host.updateAvailablePluginsFromCatalog()
+            XCTFail("Update All must reject an update still resolving after uninstall")
+        } catch {
+            guard case PluginMarketplaceOperationError.operationInProgress = error else {
+                resolver.resume(throwing: URLError(.cancelled))
+                _ = try? await oldUpdate.value
+                throw error
+            }
+        }
+        XCTAssertEqual(resolver.requestCount, 1)
         let installation = Task { try await host.installPluginFromCatalog(pluginID: pluginID) }
         await resolver.waitUntilRequested(2)
         XCTAssertEqual(host.pluginMarketplaceOperations[pluginID], .init(kind: .install, phase: .running))
@@ -894,6 +1022,7 @@ final class PluginCatalogManagerTests: XCTestCase {
 
         XCTAssertFalse(dynamicManager.isInstalledPlugin(pluginID))
         XCTAssertEqual(host.pluginMarketplaceOperations[pluginID], .init(kind: .install, phase: .running))
+        XCTAssertTrue(host.hasActiveMarketplaceOperation)
         guard host.pluginMarketplaceOperations[pluginID]?.isActive == true else {
             resolver.resume(returning: packageURL, requestNumber: 2)
             _ = try? await installation.value
@@ -1133,7 +1262,7 @@ private final class SuspendedPluginPackageResolver: PluginPackageResolving {
     private let subsequentPackageURL: URL?
     private var resolutionContinuations: [Int: CheckedContinuation<URL, Error>] = [:]
     private var requestContinuations: [Int: CheckedContinuation<Void, Never>] = [:]
-    private var requestCount = 0
+    private(set) var requestCount = 0
 
     init(subsequentPackageURL: URL? = nil) {
         self.subsequentPackageURL = subsequentPackageURL
