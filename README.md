@@ -12,6 +12,9 @@
   <p><a href="https://mactools.ggbond.app">Website</a> · <a href="https://github.com/ggbond268/MacTools/releases">Download</a> · <a href="docs/README.md">Documentation</a> · <a href="https://github.com/ggbond268/MacTools/issues">Feedback</a></p>
 </div>
 
+<!-- 70-second demo recorded with official MacTools 2.0.1. -->
+https://github.com/user-attachments/assets/7ddba190-de41-4200-8c31-751f9cfb4a2e
+
 <p align="center">
   <a href="docs/assets/screenshots/readme/dashboard-en-dark.png"><img src="docs/assets/screenshots/readme/dashboard-en-dark.png" width="32%" alt="System status panel with live metrics, processes, device batteries, and quick controls"></a>
   <a href="docs/assets/screenshots/readme/activity-en-dark.png"><img src="docs/assets/screenshots/readme/activity-en-dark.png" width="32%" alt="Activity Statistics panel with input counts, screen time, app usage, and trends"></a>

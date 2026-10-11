@@ -12,6 +12,9 @@
   <p><a href="https://mactools.ggbond.app">官网</a> · <a href="https://github.com/ggbond268/MacTools/releases">下载</a> · <a href="docs/README.zh-CN.md">文档</a> · <a href="https://github.com/ggbond268/MacTools/issues">反馈</a></p>
 </div>
 
+<!-- 70-second demo recorded with official MacTools 2.0.1. -->
+https://github.com/user-attachments/assets/7ddba190-de41-4200-8c31-751f9cfb4a2e
+
 <p align="center">
   <a href="docs/assets/screenshots/readme/dashboard-zh-dark.png"><img src="docs/assets/screenshots/readme/dashboard-zh-dark.png" width="32%" alt="系统状态面板，包含实时指标、进程、设备电量和快捷控件"></a>
   <a href="docs/assets/screenshots/readme/activity-zh-dark.png"><img src="docs/assets/screenshots/readme/activity-zh-dark.png" width="32%" alt="活动统计面板，包含输入次数、屏幕时间、应用使用情况与趋势"></a>
