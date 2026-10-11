@@ -13,8 +13,17 @@ private final class TrackpadSensorDeliveryRelay: @unchecked Sendable {
     private var activeDeviceIDs = Set<UInt64>()
     private var generation: UInt64 = 0
 
-    func configure(_ handlers: [UUID: (TrackpadInputPurpose, Handler)]) {
-        lock.withLock { self.handlers = handlers }
+    func configure(_ handlers: [UUID: (TrackpadInputPurpose, Handler)],
+                   requiringContactRelease deviceIDs: Set<UInt64>? = nil) {
+        lock.withLock {
+            // Native callbacks must see the release gate and subscriber change together.
+            if let deviceIDs {
+                waitingForZero.formIntersection(deviceIDs)
+                activeDeviceIDs.formIntersection(deviceIDs)
+                waitingForZero.formUnion(activeDeviceIDs)
+            }
+            self.handlers = handlers
+        }
     }
 
     func requireContactRelease(deviceIDs: Set<UInt64>, observedContactsOnly: Bool) {
@@ -123,10 +132,8 @@ final class SharedTrackpadInputService: TrackpadInputService {
 
     func unsubscribe(_ subscriptionID: UUID) {
         guard let removed = subscribers.removeValue(forKey: subscriptionID) else { return }
-        if removed.0 == .weighing {
-            relay.requireContactRelease(deviceIDs: Set(devices.map(\.deviceID)), observedContactsOnly: true)
-        }
-        relay.configure(subscribers)
+        relay.configure(subscribers,
+                        requiringContactRelease: removed.0 == .weighing ? Set(devices.map(\.deviceID)) : nil)
         if removed.0 == .weighing { onGesturePauseChange?(gesturesArePaused) }
         if subscribers.isEmpty {
             stopListening()

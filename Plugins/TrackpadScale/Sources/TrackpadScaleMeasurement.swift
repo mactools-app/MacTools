@@ -24,7 +24,7 @@ struct TrackpadScaleMeasurement {
     private var contactStartedAt: TimeInterval?
     private var filtered: Double?
     private var lastTimestamp: TimeInterval?
-    private var history: [(TimeInterval, Double)] = []
+    private var history: [(timestamp: TimeInterval, pressure: Double, range: ClosedRange<Double>)] = []
 
     // Tare captures a manual baseline. The quality badge must not make this
     // action depend on catching a brief low-variation window between updates.
@@ -37,14 +37,19 @@ struct TrackpadScaleMeasurement {
     private var calibrationPressure: Double? {
         guard !history.isEmpty else { return nil }
         let count = Double(history.count)
-        // Calibrate against the same raw window used for stability, so display
-        // smoothing cannot become a permanent saved calibration error.
-        let pressure = history.reduce(0) { $0 + $1.1 / count }
+        // Use the raw samples driving the display, without its smoothing lag.
+        // Coalesced extrema detect instability but are not representative samples.
+        let pressure = history.reduce(0) { $0 + $1.pressure / count }
         return pressure.isFinite ? pressure : nil
     }
 
+    private var pressureSpread: Double {
+        (history.map { $0.range.upperBound }.max() ?? 0)
+            - (history.map { $0.range.lowerBound }.min() ?? 0)
+    }
+
     private var hasFullWindow: Bool {
-        guard let firstTimestamp = history.first?.0, let lastTimestamp else { return false }
+        guard let firstTimestamp = history.first?.timestamp, let lastTimestamp else { return false }
         return history.count >= 6 && lastTimestamp - firstTimestamp >= 0.45
     }
 
@@ -102,15 +107,10 @@ struct TrackpadScaleMeasurement {
         filtered = filtered.map { $0 + alpha * (contact.pressure - $0) } ?? contact.pressure
         lastTimestamp = frame.timestamp
         // Time-based stability uses unsmoothed values so smoothing cannot hide motion.
-        if let pressureRange {
-            history.append((frame.timestamp, pressureRange.lowerBound))
-            history.append((frame.timestamp, pressureRange.upperBound))
-        } else {
-            history.append((frame.timestamp, contact.pressure))
-        }
-        history.removeAll { frame.timestamp - $0.0 > 0.6 }
+        history.append((frame.timestamp, contact.pressure, pressureRange ?? contact.pressure...contact.pressure))
+        history.removeAll { frame.timestamp - $0.timestamp > 0.6 }
         if history.count > 80 { history.removeFirst(history.count - 80) }
-        let spread = (history.map(\.1).max() ?? 0) - (history.map(\.1).min() ?? 0)
+        let spread = pressureSpread
         isStable = hasFullWindow && spread * factor <= 1.5
         // Capture the initial baseline once per explicit Start. Later pressure
         // changes or returning fingers must not silently zero an object.
@@ -163,7 +163,7 @@ struct TrackpadScaleMeasurement {
     mutating func zero() -> Bool {
         guard canTare, let filtered else { return false }
         tare = filtered
-        baselineNoise = (history.map(\.1).max() ?? 0) - (history.map(\.1).min() ?? 0)
+        baselineNoise = pressureSpread
         isAutoTarePending = false
         resetFilter()
         state = .measuring

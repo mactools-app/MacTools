@@ -4712,6 +4712,82 @@
           }
         }
       }
+    },
+    "reading.accuracyWarning": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For reference only. Estimates may be inaccurate, even after calibration."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅供参考。即使校准后，估算仍可能不准确。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur zur Orientierung. Schätzwerte können auch nach der Kalibrierung ungenau sein."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solo como referencia. Las estimaciones pueden ser inexactas, incluso después de calibrar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À titre indicatif uniquement. Les estimations peuvent être inexactes, même après étalonnage."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apenas como referência. As estimativas podem ser imprecisas, mesmo após a calibração."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Только для справки. Оценки могут быть неточными даже после калибровки."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "参考値です。校正後でも推定値が不正確な場合があります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "참고용입니다. 보정 후에도 추정값이 부정확할 수 있습니다."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "僅供參考。即使校準後，估算仍可能不準確。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "للاسترشاد فقط. قد تكون التقديرات غير دقيقة، حتى بعد المعايرة."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca referans içindir. Tahminler kalibrasyondan sonra bile hatalı olabilir."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

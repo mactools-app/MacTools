@@ -15,6 +15,8 @@ If starting immediately reports an interrupted session, quit other running MacTo
 
 Use only small objects and gentle placement. Never use sharp or heavy items, or rely on this tool for critical measurements. A changing finger position or pressure can change the estimate substantially.
 
+An accuracy warning stays beside the weight, including captured readings: estimates are for reference only and can be inaccurate even after calibration. Calibration uses the raw samples driving the displayed reading; coalesced pressure extrema are used only to check stability.
+
 The contact indicator reports valid finger contact rather than the finger's physical position. Follow **Touch → Auto-tare → Weigh** before placing an object. After contact loss, remove the object and click **Restart / 重新开始** for a fresh automatic tare; **Stop / 停止** remains available to end the session.
 
 ## UI preview

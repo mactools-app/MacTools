@@ -68,7 +68,14 @@ final class TrackpadScaleModelTests: XCTestCase {
         XCTAssertEqual(model.measurement.state, .noContact)
         settle(service, scheduler, pressure: 10, from: 0)
         model.tare()
-        settle(service, scheduler, pressure: 20, from: 0.8)
+        // Each batch has an asymmetric spike, while its latest raw sample is 20.
+        for index in 0..<15 {
+            let time = 0.8 + Double(index) * 0.05
+            service.send(frame(21, time: time))
+            service.send(frame(20, time: time + 0.01))
+            service.send(frame(20, time: time + 0.02))
+            scheduler.flush()
+        }
         model.calibrate("30junk")
         XCTAssertTrue(model.calibrationError)
         model.calibrate("30")
@@ -77,6 +84,8 @@ final class TrackpadScaleModelTests: XCTestCase {
         let factors = try XCTUnwrap(storage.values["calibration-factors.v1"] as? [String: Double])
         XCTAssertEqual(factors["1"] ?? -1, 3, accuracy: 0.01)
         XCTAssertEqual(factors["2"], 4)
+        settle(service, scheduler, pressure: 20, from: 1.6)
+        XCTAssertEqual(try XCTUnwrap(model.measurement.estimatedGrams), 30, accuracy: 0.01)
         model.stop()
         XCTAssertFalse(service.gesturesArePaused)
         model.start()

@@ -378,19 +378,30 @@ final class SharedTrackpadInputServiceTests: XCTestCase {
         let driver = SensorTestDriver()
         let device = device
         let service = SharedTrackpadInputService(driver: driver, lease: SensorTestLease(), inventory: { [device] }, observesDevices: false)
-        let events = SensorTestEvents()
-        var gestureToken = service.subscribe(purpose: .gestures, handler: { events.receive($0) })
+        let recognizer = SensorTestMiddleClick()
+        let contacts = (1...3).map {
+            TrackpadSensorContact(identifier: $0, x: 0.2 * Double($0), y: 0.5)
+        }
+        var gestureToken = service.subscribe(purpose: .gestures, handler: { recognizer.receive($0) })
         service.onGesturePauseChange = { paused in
             if paused {
                 if let token = gestureToken { service.unsubscribe(token); gestureToken = nil }
+                recognizer.reset()
             } else {
-                gestureToken = service.subscribe(purpose: .gestures, handler: { events.receive($0) })
+                gestureToken = service.subscribe(purpose: .gestures, handler: { recognizer.receive($0) })
+                driver.send(contacts, timestamp: 2)
             }
         }
-        let token = try XCTUnwrap(service.subscribe(purpose: .weighing, handler: { events.receive($0) }))
+        let token = try XCTUnwrap(service.subscribe(purpose: .weighing, handler: { _ in }))
+        driver.send(contacts, timestamp: 1)
         service.unsubscribe(token)
         XCTAssertNotNil(gestureToken)
         XCTAssertEqual(driver.startCount, 1)
+        driver.send(timestamp: 2.1)
+        XCTAssertEqual(recognizer.count, 0)
+        driver.send(contacts, timestamp: 2.2)
+        driver.send(timestamp: 2.3)
+        XCTAssertEqual(recognizer.count, 1)
         service.shutdown()
     }
 

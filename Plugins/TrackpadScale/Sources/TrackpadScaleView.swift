@@ -71,6 +71,10 @@ struct TrackpadScaleView: View {
             .accessibilityValue(displayedGrams.map {
                 String(format: "≈ %.0f g", locale: PluginRuntimeLocalization.locale, $0)
             } ?? status)
+            Text(localized("reading.accuracyWarning", "仅供参考。即使校准后，估算仍可能不准确。"))
+                .font(PluginSettingsTheme.Typography.rowDescription)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
             if model.capturedReading != nil || model.measurement.state == .measuring {
                 Label(readingBadge, systemImage: model.capturedReading != nil || model.measurement.isStable
                       ? "checkmark.circle.fill" : "waveform")
