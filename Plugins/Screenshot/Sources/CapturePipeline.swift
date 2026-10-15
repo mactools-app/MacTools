@@ -148,6 +148,8 @@ enum CapturePipeline {
         config.shouldBeOpaque = true
         config.pixelFormat = kCVPixelFormatType_32BGRA
         config.scalesToFit = false
+        // The default also strips shadows and framing from menus and popovers in display captures.
+        config.ignoreShadowsSingleWindow = false
         return config
     }
 
