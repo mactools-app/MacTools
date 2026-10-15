@@ -6,12 +6,22 @@ import VideoToolbox
 @MainActor
 final class Recorder: NSObject, SCRecordingOutputDelegate {
     var onFinish: ((Result<URL, Error>) -> Void)?
+    /// Capture has ended and the auto-zoom movie is being rendered; other capture modes may run.
+    var onProcessing: (() -> Void)?
     let region: CaptureRegion
+    let autoZoom: Bool
+    private(set) var isProcessing = false
     private let environment: ScreenshotEnvironment
     private let panel: CaptureStatusPanel
     private let outline: CaptureRegionOutlineWindow
     private let controls: CaptureControls
+    /// The file written by capture. With auto zoom, this is the recoverable original.
     private let url: URL
+    /// The published movie.
+    private let movieURL: URL
+    private let clock = RecordingClock()
+    private var activity: RecordingActivity?
+    private var processingTask: Task<Void, Never>?
     private var session: CaptureStreamSession?
     private var output: SCRecordingOutput?
     private var startupTask: Task<Void, Never>?
@@ -19,10 +29,27 @@ final class Recorder: NSObject, SCRecordingOutputDelegate {
     private var startedAt: ContinuousClock.Instant?
     private lazy var lifecycle = RecordingLifecycle { [weak self] in self?.session?.stop() }
 
-    init(region: CaptureRegion, environment: ScreenshotEnvironment) {
+    init(region: CaptureRegion, environment: ScreenshotEnvironment, autoZoom: Bool? = nil) {
         self.region = region
         self.environment = environment
-        url = environment.fileURL(prefix: environment.string("record.filename", "录屏"), ext: "mov")
+        let autoZoom = autoZoom ?? environment.recordingAutoZoom
+        self.autoZoom = autoZoom
+        // Use a name whose movie and original are both unused, so neither can replace an existing file.
+        let preferred = environment.fileURL(prefix: environment.string("record.filename", "录屏"), ext: "mov")
+        let suffix = environment.string("record.originalSuffix", "原始")
+        func original(_ movie: URL) -> URL {
+            movie.deletingLastPathComponent()
+                .appendingPathComponent("\(movie.deletingPathExtension().lastPathComponent) \(suffix).mov")
+        }
+        let files = FileManager.default
+        var index = 1
+        var candidate = preferred
+        while files.fileExists(atPath: candidate.path) || files.fileExists(atPath: original(candidate).path) {
+            index += 1
+            candidate = ScreenshotImageEncoder.numbered(preferred, index)
+        }
+        movieURL = candidate
+        url = autoZoom ? original(candidate) : candidate
         panel = CaptureStatusPanel(primaryTitle: environment.string("record.stop", "停止"), indicatorColor: .systemRed)
         outline = CaptureRegionOutlineWindow(region: region)
         controls = CaptureControls([outline, panel])
@@ -74,6 +101,15 @@ final class Recorder: NSObject, SCRecordingOutputDelegate {
                 let output = SCRecordingOutput(configuration: recording, delegate: self)
                 self.output = output
                 try session.stream.addRecordingOutput(output)
+                if autoZoom {
+                    // The first encoded frame's clock aligns pointer events with the movie timeline.
+                    try session.stream.addStreamOutput(clock, type: .screen,
+                                                       sampleHandlerQueue: DispatchQueue(label: "cc.ggbond.mactools.screenshot.recording-clock"))
+                    let activity = RecordingActivity(displayBounds: CGDisplayBounds(region.display.id),
+                                                     sourceRect: region.sourceRect)
+                    self.activity = activity
+                    guard activity.start() else { throw RecordingZoomError.pointerMonitorUnavailable }
+                }
                 outline.show()
                 panel.show(near: region.globalRect, displayID: region.display.id)
                 session.start()
@@ -92,6 +128,8 @@ final class Recorder: NSObject, SCRecordingOutputDelegate {
     }
 
     func cancel() {
+        // Cancelling processing keeps the finished original.
+        processingTask?.cancel()
         startupTask?.cancel()
         if session == nil { lifecycle.failBeforeCapture(CancellationError()) }
         else { lifecycle.cancel() }
@@ -137,10 +175,73 @@ final class Recorder: NSObject, SCRecordingOutputDelegate {
     private func finish(_ result: Result<URL, Error>) {
         timer?.invalidate()
         timer = nil
-        controls.hide()
-        if let output, let session { try? session.stream.removeRecordingOutput(output) }
+        activity?.stop()
+        if let output, let session {
+            try? session.stream.removeRecordingOutput(output)
+            if autoZoom { try? session.stream.removeStreamOutput(clock, type: .screen) }
+        }
         output = nil
         session = nil
+        let activity = activity
+        self.activity = nil
+        guard case .success(let source) = result, let activity else {
+            controls.hide()
+            deliver(result)
+            return
+        }
+        // Without a frame clock no event can be aligned, so the original becomes the movie unchanged.
+        let events = clock.startTime.map { activity.snapshot(startTime: $0) } ?? []
+        process(source, events: events)
+    }
+
+    private func process(_ source: URL, events: [RecordingZoomEvent]) {
+        isProcessing = true
+        outline.orderOut(nil)
+        panel.setPrimary(title: environment.string("record.keepOriginal", "保留原片"), indicatorColor: .controlAccentColor)
+        panel.onPrimary = { [weak self] in self?.processingTask?.cancel() }
+        updateProcessing(0)
+        onProcessing?()
+        let destination = movieURL
+        let report: @Sendable (Double) -> Void = { [weak self] progress in
+            Task { @MainActor [weak self] in self?.updateProcessing(progress) }
+        }
+        processingTask = Task { [weak self] in
+            let result: Result<URL, Error>
+            do {
+                result = .success(try await Self.render(source: source, destination: destination, events: events,
+                                                        progress: report))
+            } catch {
+                result = .failure(RecordingProcessingError(original: source, cause: error))
+            }
+            guard let self else { return }
+            processingTask = nil
+            isProcessing = false
+            controls.hide()
+            deliver(result)
+        }
+    }
+
+    private nonisolated static func render(source: URL, destination: URL, events: [RecordingZoomEvent],
+                                           progress: @escaping @Sendable (Double) -> Void) async throws -> URL {
+        // A clip without a deliberate interaction keeps the original bytes without re-encoding.
+        guard events.contains(where: { $0.kind == .click || $0.kind == .scroll }) else {
+            try FileManager.default.moveItem(at: source, to: destination)
+            return destination
+        }
+        try await RecordingZoomExporter.export(source: source, destination: destination, events: events, progress: progress)
+        try Task.checkCancellation()
+        // The complete movie exists before the recoverable original is removed.
+        try? FileManager.default.removeItem(at: source)
+        return destination
+    }
+
+    private func updateProcessing(_ progress: Double) {
+        guard isProcessing else { return }
+        let percent = Int(min(1, max(0, progress)) * 100)
+        panel.update(environment.format("record.processing", "正在生成自动缩放视频 %@", "\(percent)%"))
+    }
+
+    private func deliver(_ result: Result<URL, Error>) {
         let completion = onFinish
         onFinish = nil
         completion?(result)
@@ -160,6 +261,14 @@ final class Recorder: NSObject, SCRecordingOutputDelegate {
 }
 
 enum RecordingError: Error { case unsupportedResolution }
+
+enum RecordingZoomError: Error { case pointerMonitorUnavailable }
+
+/// Processing failed or was cancelled after capture; the original movie remains at `original`.
+struct RecordingProcessingError: Error {
+    let original: URL
+    let cause: Error
+}
 
 enum RecordingEncoding {
     static func codec(width: Int, height: Int) throws -> AVVideoCodecType {

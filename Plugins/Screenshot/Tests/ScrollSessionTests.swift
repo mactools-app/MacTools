@@ -69,22 +69,8 @@ final class ScrollSessionTests: XCTestCase {
     }
 
     func testStitcherReconstructsADocumentAcrossDifferentScrollOffsets() throws {
-        let width = 400, height = 2400, viewport = 900
-        let context = try XCTUnwrap(CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
-                                            space: CGColorSpaceCreateDeviceRGB(),
-                                            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue))
-        var seed: UInt32 = 12345
-        func random() -> CGFloat {
-            seed = seed &* 1664525 &+ 1013904223
-            return CGFloat((seed >> 8) & 0xFFFF) / 65535
-        }
-        context.setFillColor(CGColor.white)
-        context.fill(CGRect(x: 0, y: 0, width: width, height: height))
-        for _ in 0..<600 {
-            context.setFillColor(CGColor(red: random(), green: random(), blue: random(), alpha: 1))
-            context.fill(CGRect(x: random() * 380, y: random() * 2380, width: 8 + random() * 60, height: 4 + random() * 20))
-        }
-        let document = try XCTUnwrap(context.makeImage())
+        let width = 400, viewport = 900
+        let document = try makeDocument()
         let stitcher = Stitcher()
         for offset in [0, 300, 650, 650, 1100, 1500] {
             try stitcher.push(try XCTUnwrap(document.cropping(to: CGRect(x: 0, y: offset, width: width, height: viewport))))
@@ -145,6 +131,55 @@ final class ScrollSessionTests: XCTestCase {
         try await Task.sleep(for: .milliseconds(50))
         XCTAssertEqual(results.count, 1)
         XCTAssertNil(try XCTUnwrap(results.first).get())
+    }
+
+    /// Real captures differ slightly between frames; noise must not reject every later frame as unmatched.
+    func testNoisyFramesStillMatchAndAppendEachRowOnce() throws {
+        let width = 400, viewport = 900
+        let document = try makeDocument()
+        var seed: UInt32 = 777
+        for amplitude in [10, 20, 40] {
+            let stitcher = Stitcher()
+            for offset in [0, 300, 650, 1100, 1500] {
+                let frame = try XCTUnwrap(document.cropping(to: CGRect(x: 0, y: offset, width: width, height: viewport)))
+                try stitcher.push(try jittered(frame, amplitude: amplitude, seed: &seed))
+            }
+            let output = try XCTUnwrap(try stitcher.compose())
+            XCTAssertEqual(output.height, document.height, "amplitude: \(amplitude)")
+        }
+    }
+
+    private func makeDocument(width: Int = 400, height: Int = 2400) throws -> CGImage {
+        let context = try XCTUnwrap(CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
+                                            space: CGColorSpaceCreateDeviceRGB(),
+                                            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue))
+        var seed: UInt32 = 12345
+        func random() -> CGFloat {
+            seed = seed &* 1664525 &+ 1013904223
+            return CGFloat((seed >> 8) & 0xFFFF) / 65535
+        }
+        context.setFillColor(CGColor.white)
+        context.fill(CGRect(x: 0, y: 0, width: width, height: height))
+        for _ in 0..<600 {
+            context.setFillColor(CGColor(red: random(), green: random(), blue: random(), alpha: 1))
+            context.fill(CGRect(x: random() * 380, y: random() * 2380, width: 8 + random() * 60, height: 4 + random() * 20))
+        }
+        return try XCTUnwrap(context.makeImage())
+    }
+
+    private func jittered(_ image: CGImage, amplitude: Int, seed: inout UInt32) throws -> CGImage {
+        let bytesPerRow = image.width * 4
+        let context = try XCTUnwrap(CGContext(data: nil, width: image.width, height: image.height, bitsPerComponent: 8,
+                                            bytesPerRow: bytesPerRow, space: CGColorSpaceCreateDeviceRGB(),
+                                            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue))
+        context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+        let pixels = try XCTUnwrap(context.data).assumingMemoryBound(to: UInt8.self)
+        for i in Swift.stride(from: 0, to: bytesPerRow * image.height, by: 4) {
+            seed = seed &* 1664525 &+ 1013904223
+            let delta = Int((seed >> 8) % UInt32(amplitude * 2 + 1)) - amplitude
+            for k in 0..<3 { pixels[i + k] = UInt8(clamping: Int(pixels[i + k]) + delta) }
+        }
+        return try XCTUnwrap(context.makeImage())
     }
 
     private func makeFrame(height: Int = 128) throws -> CGImage {

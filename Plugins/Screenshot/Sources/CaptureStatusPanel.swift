@@ -8,6 +8,7 @@ final class CaptureStatusPanel: NSPanel {
     var onCancel: (() -> Void)?
     private let label = NSTextField(labelWithString: "00:00")
     private let primary = NSButton()
+    private var indicator: NSImageView?
 
     init(primaryTitle: String, cancelTitle: String? = nil, indicatorColor: NSColor? = nil) {
         super.init(contentRect: NSRect(x: 0, y: 0, width: 10, height: 10),
@@ -23,6 +24,7 @@ final class CaptureStatusPanel: NSPanel {
         var views: [NSView] = []
         if let indicatorColor, let image = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: nil) {
             let indicator = NSImageView(image: image)
+            self.indicator = indicator
             indicator.contentTintColor = indicatorColor
             indicator.widthAnchor.constraint(equalToConstant: 10).isActive = true
             indicator.heightAnchor.constraint(equalToConstant: 10).isActive = true
@@ -57,6 +59,12 @@ final class CaptureStatusPanel: NSPanel {
             setFrameOrigin(CGPoint(x: min(max(frame.minX, room.minX), room.maxX - frame.width),
                                    y: min(max(frame.minY, room.minY), room.maxY - frame.height)))
         }
+    }
+
+    /// Reuses the visible panel for a follow-up phase, such as processing a finished recording.
+    func setPrimary(title: String, indicatorColor: NSColor? = nil) {
+        primary.title = title
+        if let indicatorColor { indicator?.contentTintColor = indicatorColor }
     }
 
     func show(near region: CGRect, displayID: CGDirectDisplayID) {
