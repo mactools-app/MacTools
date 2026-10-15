@@ -95,6 +95,27 @@ final class ScreenshotAnnotationEditingTests: XCTestCase {
         try await assertExport(editor, items: [item(.ellipse(oval.offsetBy(dx: 30, dy: 0)), filled: true)])
     }
 
+    func testTextRecognitionFromTheModeBarNeverRevealsTheAnnotationToolbar() throws {
+        let editor = try Editor()
+        defer { editor.close() }
+        var cancelled = false
+        editor.view.onCancel = { cancelled = true }
+        let modeBar = try XCTUnwrap(editor.descendants().first { $0.identifier?.rawValue == "screenshot.modeBar" })
+        // Mode-bar order: screenshot, scrolling, recording, text recognition.
+        try XCTUnwrap(editor.descendants(of: modeBar).compactMap { $0 as? NSButton }.first { $0.tag == 3 }).performClick(nil)
+        let annotationTool = try XCTUnwrap(editor.descendants().compactMap { $0 as? NSButton }
+            .first { $0.accessibilityIdentifier() == "screenshot.tool.rect" })
+        XCTAssertTrue(annotationTool.isHiddenOrHasHiddenAncestor)
+
+        let close = try XCTUnwrap(editor.descendants().compactMap { $0 as? NSButton }
+            .first { $0.action == NSSelectorFromString("closeOcr") })
+        try editor.drag(from: NSPoint(x: 500, y: 400), to: NSPoint(x: 520, y: 410))
+        XCTAssertTrue(annotationTool.isHiddenOrHasHiddenAncestor, "Moving a text-recognition selection must not show annotation tools")
+        close.performClick(nil)
+        XCTAssertTrue(cancelled, "Closing recognition chosen from the mode bar ends the capture")
+        XCTAssertTrue(annotationTool.isHiddenOrHasHiddenAncestor)
+    }
+
     private func item(_ shape: Shape, filled: Bool = false) -> Item {
         Item(shape: shape, stroke: Stroke(color: .systemRed, width: 2, filled: filled))
     }
@@ -164,11 +185,12 @@ private final class Editor {
         try click("screenshot.tool.\(tool)")
     }
 
+    func descendants(of parent: NSView? = nil) -> [NSView] {
+        (parent ?? view).subviews.flatMap { [$0] + descendants(of: $0) }
+    }
+
     func click(_ identifier: String) throws {
-        func descendants(_ parent: NSView) -> [NSView] {
-            parent.subviews.flatMap { [$0] + descendants($0) }
-        }
-        let button = try XCTUnwrap(descendants(view).compactMap { $0 as? NSButton }
+        let button = try XCTUnwrap(descendants().compactMap { $0 as? NSButton }
             .first { $0.accessibilityIdentifier() == identifier })
         button.performClick(nil)
     }
