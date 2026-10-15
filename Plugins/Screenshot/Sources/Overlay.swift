@@ -1025,7 +1025,8 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         switch mode {
         case .record: place(recordBar)
         case .scroll: place(scrollBar)
-        case .shot, .ocr: layoutToolbar()
+        case .shot: layoutToolbar()
+        case .ocr: break  // The recognition panel follows the selection; the annotation toolbar stays hidden.
         }
     }
 
@@ -1735,7 +1736,9 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         pasteboard.clearContents()
         pasteboard.setString(text, forType: .string)
         showOcrPanel(title: title, text: text,
-                     status: environment.format("overlay.recognition.copiedCount", "%d %@ · 已复制到剪贴板", lines.count, unit),
+                     // Blank lines inserted to preserve layout are not recognized lines.
+                     status: environment.format("overlay.recognition.copiedCount", "%d %@ · 已复制到剪贴板",
+                                                lines.lazy.filter { !$0.isEmpty }.count, unit),
                      busy: false)
     }
 
@@ -1771,7 +1774,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         maskButton.isHidden = qrRects.isEmpty
         openButton.isHidden = resultURL == nil
 
-        ocrScrollWidth?.constant = min(max(selection.width, 320), 640)
+        ocrScrollWidth?.constant = min(max(selection.width, 320), 640, bounds.width - 48)
         panel.layoutSubtreeIfNeeded()
         if let manager = textView.layoutManager, let container = textView.textContainer {
             manager.ensureLayout(for: container)
@@ -1882,7 +1885,9 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
 
     @objc private func closeOcr() {
         hideOcrPanel()
-        layoutToolbar()
+        // Text recognition chosen from the mode bar ends with its panel. Recognition started from
+        // the screenshot toolbar returns to annotation.
+        if mode == .ocr { onCancel?() } else { layoutToolbar() }
     }
 
     @objc private func finishOcr() {
