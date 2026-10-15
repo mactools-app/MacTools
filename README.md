@@ -127,6 +127,8 @@ Experimental [Trackpad Scale](docs/plugins/trackpad-scale.md) estimates small-ob
 
 Screenshot selection remains available on each display after switching desktops or entering and leaving full-screen apps.
 
+The screenshot toolbar includes **Spotlight** for keeping a detail clear while dimming the rest, and opaque **Fill** for rectangles and ellipses; shapes stay selectable, movable, and resizable after drawing. Region recordings can **auto zoom** toward clicks and scrolling in the saved video.
+
 **Take your setup with you:** export and import preferences, keep local backups, or sync supported settings through a cloud or shared folder. The app supports **12 languages** and follows your system language by default.
 
 ## `mactools` in your terminal

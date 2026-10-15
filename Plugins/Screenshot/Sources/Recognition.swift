@@ -81,10 +81,11 @@ actor VisionRecognition {
             request.usesLanguageCorrection = true
             request.recognitionLanguages = Self.languages
             try handler.perform([request])
-            let lines = (request.results ?? [])
-                .sorted { $0.boundingBox.minY > $1.boundingBox.minY }
-                .compactMap { $0.topCandidates(1).first?.string }
-            result = RecognitionResult(lines: lines)
+            let fragments = (request.results ?? []).compactMap { observation -> TextLayout.Fragment? in
+                guard let text = observation.topCandidates(1).first?.string else { return nil }
+                return TextLayout.Fragment(text: text, box: observation.boundingBox)
+            }
+            result = RecognitionResult(lines: TextLayout.lines(from: fragments))
         case .barcode:
             let request = VNDetectBarcodesRequest()
             try handler.perform([request])

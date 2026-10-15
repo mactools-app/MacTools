@@ -123,9 +123,9 @@ final class OverlayWindow: NSPanel {
 }
 
 private enum Tool: Int {
-    case none, rect, ellipse, line, arrow, pen, text, tag, mosaic, blur
+    case none, rect, ellipse, line, arrow, pen, text, tag, mosaic, spotlight
 
-    var usesStroke: Bool { self != .none && self != .mosaic && self != .blur }
+    var usesStroke: Bool { self != .none && self != .mosaic && self != .spotlight }
 }
 
 private enum Mode: Int { case shot = 0, ocr = 1, scroll = 2, record = 3 }
@@ -143,6 +143,8 @@ private enum Drag {
     case move
     case resize(Int)
     case draw
+    case moveAnnotation(Int)
+    case resizeAnnotation(item: Int, handle: Int)
 }
 
 enum MagnifierColorFormat: Equatable {
@@ -321,6 +323,15 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
     private var tool: Tool = .none
     private var stroke = Stroke(color: .systemRed, width: 2)
     private var items: [Item] = []
+    private var selectedItemIndex: Int?
+    private var undoHistory: [[Item]] = []
+    private var dragItems: [Item]?
+    private var origAnnotationRect: NSRect = .zero
+
+    private var selectedAnnotationRect: NSRect? {
+        guard mode == .shot, let selectedItemIndex, items.indices.contains(selectedItemIndex) else { return nil }
+        return items[selectedItemIndex].editableRect
+    }
 
     private var anchor: NSPoint?
     private var dragMode: Drag?
@@ -339,8 +350,12 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
     private var toolButtons: [BarButton] = []
     private var colorButtons: [BarButton] = []
     private var widthButtons: [BarButton] = []
+    private var widthControls: [NSView] = []
+    private var fillButton: BarButton!
     private var mode: Mode = .shot
     private var recordBar: NSView!
+    private lazy var autoZoomToggle = NSButton(checkboxWithTitle: environment.string("overlay.record.autoZoom", "自动缩放"),
+                                               target: self, action: #selector(toggleAutoZoom))
     private var scrollBar: NSView!
     private var ocrPanel: NSView?
     private var ocrTextView: NSTextView?
@@ -415,6 +430,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         radiusRow.isHidden = cornerRadius == 0 && shadowSize == 0
         refreshShadowButtons()
         refreshStyleButtons()
+        autoZoomToggle.state = environment.recordingAutoZoom ? .on : .off
         for button in modeButtons { button.isSelectedLook = button.tag == 0 }
         for button in toolButtons { button.isSelectedLook = false }
         backdrop?.prepare(image: image, bounds: bounds, scale: scale)
@@ -449,6 +465,8 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         [modeBar, recordBar, scrollBar, tipView].forEach { $0?.isHidden = true }
         toolbar.isHidden = true
         styleRow.isHidden = true
+        fillButton.isHidden = true
+        widthControls.forEach { $0.isHidden = false }
         setHover(nil)
         tipButton = nil
         pointerInside = false
@@ -461,6 +479,10 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         penPoints.removeAll()
         selection = .zero
         items.removeAll()
+        selectedItemIndex = nil
+        undoHistory.removeAll()
+        dragItems = nil
+        origAnnotationRect = .zero
         editing = false
         toolbarPinned = false
         modeBarPreferredX = nil
@@ -660,7 +682,11 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         let bars: [NSView] = [modeBar, toolbar, recordBar, scrollBar] + (ocrPanel.map { [$0] } ?? [])
         if bars.contains(where: { !$0.isHidden && $0.frame.contains(p) }) { return .arrow }
         guard editing, tool == .none else { return .crosshair }
-        if let i = handleIndex(at: p) { return resizeCursor(for: handleSpots[i]) }
+        if let rect = selectedAnnotationRect, let i = handleIndex(at: p, in: rect) {
+            return resizeCursor(for: handleSpots[i])
+        }
+        if editableItemIndex(at: p) != nil { return .openHand }
+        if let i = handleIndex(at: p, in: selection) { return resizeCursor(for: handleSpots[i]) }
         return selection.contains(p) ? .openHand : .crosshair
     }
 
@@ -692,19 +718,28 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
             drawItems()
             NSGraphicsContext.restoreGraphicsState()
         }
-        if editing, tool == .none, selectionDirty.intersects(dirtyRect) { drawHandles() }
+        if editing, tool == .none, selectionDirty.intersects(dirtyRect) {
+            drawHandles(for: selection)
+            if let rect = selectedAnnotationRect {
+                NSColor.controlAccentColor.setStroke()
+                let outline = NSBezierPath(rect: rect)
+                outline.lineWidth = 1
+                outline.stroke()
+                drawHandles(for: rect)
+            }
+        }
     }
 
     private func pixelColor(at point: NSPoint) -> MagnifierColorValue? {
         magnifier.color(at: point)
     }
 
-    private func drawHandles() {
+    private func drawHandles(for rect: NSRect) {
         let shadow = NSShadow()
         shadow.shadowBlurRadius = 3
         shadow.shadowOffset = NSSize(width: 0, height: -1)
         shadow.shadowColor = NSColor.black.withAlphaComponent(0.4)
-        for p in handlePoints() {
+        for p in handlePoints(for: rect) {
             let dot = NSBezierPath(ovalIn: NSRect(x: p.x - 5, y: p.y - 5, width: 10, height: 10))
             NSGraphicsContext.saveGraphicsState()
             shadow.set()
@@ -746,9 +781,9 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         }
     }
 
-    private func handlePoints() -> [NSPoint] {
-        handleSpots.map { NSPoint(x: coord($0.x, selection.minX, selection.maxX),
-                                  y: coord($0.y, selection.minY, selection.maxY)) }
+    private func handlePoints(for rect: NSRect) -> [NSPoint] {
+        handleSpots.map { NSPoint(x: coord($0.x, rect.minX, rect.maxX),
+                                  y: coord($0.y, rect.minY, rect.maxY)) }
     }
 
     private func coord(_ edge: Edge, _ lo: CGFloat, _ hi: CGFloat) -> CGFloat {
@@ -759,8 +794,8 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         }
     }
 
-    private func handleIndex(at p: NSPoint) -> Int? {
-        handlePoints().firstIndex { hypot($0.x - p.x, $0.y - p.y) <= 8 }
+    private func handleIndex(at p: NSPoint, in rect: NSRect) -> Int? {
+        handlePoints(for: rect).firstIndex { hypot($0.x - p.x, $0.y - p.y) <= 8 }
     }
 
     private func resized(_ r: NSRect, handle: (x: Edge, y: Edge), dx: CGFloat, dy: CGFloat) -> NSRect {
@@ -778,11 +813,31 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         return NSRect(x: min(left, right), y: min(bottom, top), width: abs(right - left), height: abs(top - bottom))
     }
 
-    private func clamped(_ r: NSRect) -> NSRect {
+    private func clamped(_ r: NSRect, to limits: NSRect) -> NSRect {
         var r = r
-        r.origin.x = min(max(0, r.minX), bounds.maxX - r.width)
-        r.origin.y = min(max(0, r.minY), bounds.maxY - r.height)
+        r.size.width = min(r.width, limits.width)
+        r.size.height = min(r.height, limits.height)
+        r.origin.x = min(max(limits.minX, r.minX), limits.maxX - r.width)
+        r.origin.y = min(max(limits.minY, r.minY), limits.maxY - r.height)
         return r
+    }
+
+    private func editableItemIndex(at point: NSPoint) -> Int? {
+        guard mode == .shot, selection.contains(point) else { return nil }
+        return items.indices.reversed().first { items[$0].contains(point) }
+    }
+
+    private func appendItem(_ item: Item) {
+        undoHistory.append(items)
+        items.append(item)
+    }
+
+    private func beginAnnotationDrag(_ index: Int, mode: Drag) {
+        guard let rect = items[index].editableRect else { return }
+        selectedItemIndex = index
+        origAnnotationRect = rect
+        dragItems = items
+        dragMode = mode
     }
 
     override func mouseDown(with event: NSEvent) {
@@ -793,26 +848,38 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         lastMouse = p
         anchor = p
         origSelection = selection
+        dragItems = nil
         penPoints = []
         guard editing else { dragMode = .select; return }
 
         switch tool {
         case .none:
-            if let i = handleIndex(at: p) {
+            if let index = selectedItemIndex, let rect = selectedAnnotationRect,
+               let handle = handleIndex(at: p, in: rect) {
+                beginAnnotationDrag(index, mode: .resizeAnnotation(item: index, handle: handle))
+            } else if let index = editableItemIndex(at: p) {
+                beginAnnotationDrag(index, mode: .moveAnnotation(index))
+                NSCursor.closedHand.set()
+            } else if let i = handleIndex(at: p, in: selection) {
+                selectedItemIndex = nil
                 dragMode = .resize(i)
             } else if selection.contains(p) {
+                selectedItemIndex = nil
                 dragMode = .move
                 NSCursor.closedHand.set()
             } else {
+                selectedItemIndex = nil
                 dragMode = .select
             }
+            refreshSelectionStyle()
+            invalidateAnnotations()
         case .text:
             dragMode = nil
             placeTextField(at: p)
         case .tag:
             dragMode = nil
             let count = items.filter { if case .tag = $0.shape { return true } else { return false } }.count
-            items.append(Item(shape: .tag(count + 1, at: p), stroke: stroke))
+            appendItem(Item(shape: .tag(count + 1, at: p), stroke: stroke))
             invalidateAnnotations()
         default:
             dragMode = .draw
@@ -833,8 +900,18 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         let hadAnnotations = editing || !items.isEmpty || draft != nil
 
         switch mode {
+        case .moveAnnotation(let index):
+            let rect = clamped(origAnnotationRect.offsetBy(dx: dx, dy: dy), to: selection.intersection(bounds))
+            if let item = items[index].replacingEditableRect(rect) { items[index] = item }
+        case .resizeAnnotation(let index, let handle):
+            let rect = resized(origAnnotationRect, handle: handleSpots[handle], dx: dx, dy: dy)
+                .intersection(selection).intersection(bounds)
+            if rect.width >= 2, rect.height >= 2, let item = items[index].replacingEditableRect(rect) {
+                items[index] = item
+            }
         case .draw:
             if tool == .pen {
+                draft = nil  // Release the draft's reference so the append can grow in place.
                 penPoints.append(p)
                 draft = Item(shape: .pen(penPoints), stroke: stroke)
             } else if let shape = makeShape(from: a, to: p) {
@@ -843,7 +920,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
                 draft = nil
             }
         case .move:
-            selection = clamped(origSelection.offsetBy(dx: dx, dy: dy))
+            selection = clamped(origSelection.offsetBy(dx: dx, dy: dy), to: bounds)
             layoutBars()
         case .resize(let i):
             let r = resized(origSelection, handle: handleSpots[i], dx: dx, dy: dy)
@@ -859,6 +936,8 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
                 toolbarPinned = false
                 hideOcrPanel()
                 items.removeAll()
+                selectedItemIndex = nil
+                undoHistory.removeAll()
                 renderer?.clearCache()
                 placeModeBar()
             }
@@ -872,6 +951,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
     override func mouseUp(with event: NSEvent) {
         defer {
             anchor = nil; draft = nil; dragMode = nil
+            dragItems = nil
             onPointerActivity?()
         }
         let p = convert(event.locationInWindow, from: nil)
@@ -880,8 +960,19 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         if lastMouse != p { updateDrag(at: p) }
 
         switch mode {
+        case .moveAnnotation(let index), .resizeAnnotation(let index, _):
+            if let dragItems, items.indices.contains(index), items[index].editableRect != dragItems[index].editableRect {
+                undoHistory.append(dragItems)
+            }
         case .draw:
-            if let d = draft { items.append(d) }
+            if let d = draft {
+                appendItem(d)
+                if d.editableRect != nil {
+                    select(tool: .none)
+                    selectedItemIndex = items.count - 1
+                    refreshSelectionStyle()
+                }
+            }
         case .move:
             if event.clickCount == 2 { primaryAction() }
             else if ocrShowing { rerunRecognition() }
@@ -939,14 +1030,15 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
     }
 
     private func makeShape(from a: NSPoint, to p: NSPoint) -> Shape? {
-        let r = NSRect(x: min(a.x, p.x), y: min(a.y, p.y), width: abs(p.x - a.x), height: abs(p.y - a.y))
+        var r = NSRect(x: min(a.x, p.x), y: min(a.y, p.y), width: abs(p.x - a.x), height: abs(p.y - a.y))
+        if tool == .rect || tool == .spotlight { r = r.intersection(selection).intersection(bounds) }
         let big = r.width >= 2 && r.height >= 2
         let far = hypot(p.x - a.x, p.y - a.y) >= 4
         switch tool {
         case .rect:    return big ? .rect(r) : nil
         case .ellipse: return big ? .ellipse(r) : nil
         case .mosaic:  return big ? .mosaic(r) : nil
-        case .blur:    return big ? .blur(r) : nil
+        case .spotlight: return big ? .spotlight(r) : nil
         case .line:    return far ? .line(from: a, to: p) : nil
         case .arrow:   return far ? .arrow(from: a, to: p) : nil
         case .none, .pen, .text, .tag: return nil
@@ -968,11 +1060,20 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
             updateMagnifier()
             return
         case 123, 124, 125, 126:
-            guard editing else { return }
+            guard editing, dragMode == nil else { return }
             let step: CGFloat = flags.contains(.shift) ? 10 : 1
             let delta: [UInt16: (CGFloat, CGFloat)] = [123: (-step, 0), 124: (step, 0), 125: (0, -step), 126: (0, step)]
             let (dx, dy) = delta[event.keyCode]!
-            selection = clamped(selection.offsetBy(dx: dx, dy: dy))
+            if let index = selectedItemIndex, let rect = selectedAnnotationRect {
+                let moved = clamped(rect.offsetBy(dx: dx, dy: dy), to: selection.intersection(bounds))
+                if moved != rect, let item = items[index].replacingEditableRect(moved) {
+                    undoHistory.append(items)
+                    items[index] = item
+                }
+                invalidateAnnotations()
+                return
+            }
+            selection = clamped(selection.offsetBy(dx: dx, dy: dy), to: bounds)
             layoutBars()
             if ocrShowing { rerunRecognition() }
             invalidateAnnotations()
@@ -993,7 +1094,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         if editing, key == "{" { setShadow(shadowSize - 4); return }
         if editing, key == "}" { setShadow(shadowSize + 4); return }
         let shortcuts: [String: Tool] = ["r": .rect, "o": .ellipse, "l": .line, "a": .arrow, "p": .pen,
-                                         "t": .text, "n": .tag, "m": .mosaic, "b": .blur]
+                                         "t": .text, "n": .tag, "m": .mosaic]
         if editing, let t = shortcuts[key] { select(tool: t) } else { super.keyDown(with: event) }
     }
 
@@ -1133,7 +1234,10 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
             title: environment.string("overlay.action.cancel", "取消"),
             action: #selector(cancel)
         )
-        recordBar = CaptureActionBar.make([start, cancel])
+        autoZoomToggle.font = PluginTypography.body.nsFont
+        autoZoomToggle.toolTip = environment.string("settings.autoZoom.description", "点击或滚动时放大该位置，随后恢复全景。在保存的视频中生成，录制时不改变桌面。")
+        autoZoomToggle.setAccessibilityIdentifier("screenshot.record.autoZoom")
+        recordBar = CaptureActionBar.make([autoZoomToggle, start, cancel])
         recordBar.isHidden = true
         addSubview(recordBar)
     }
@@ -1155,6 +1259,10 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         button.contentTintColor = tint
         if isPrimary { button.keyEquivalent = "\r" }
         return button
+    }
+
+    @objc private func toggleAutoZoom() {
+        environment.recordingAutoZoom = autoZoomToggle.state == .on
     }
 
     @objc private func startRecord() {
@@ -1198,13 +1306,15 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         ]
         for (symbol, t, tip) in drawTools {
             let button = iconButton(symbol, tip: tip, action: #selector(pickTool(_:)), tag: t.rawValue)
+            button.setAccessibilityIdentifier("screenshot.tool.\(t)")
             toolButtons.append(button)
             annotate.append(button)
         }
         annotate.append(separator())
         for (symbol, t, tip) in [("checkerboard.rectangle", Tool.mosaic, environment.string("overlay.tool.mosaic", "马赛克 (M)")),
-                                ("aqi.medium", .blur, environment.string("overlay.tool.blur", "模糊 (B)"))] {
+                                ("light.max", Tool.spotlight, environment.string("overlay.tool.spotlight", "聚焦"))] {
             let button = iconButton(symbol, tip: tip, action: #selector(pickTool(_:)), tag: t.rawValue)
+            button.setAccessibilityIdentifier("screenshot.tool.\(t)")
             toolButtons.append(button)
             annotate.append(button)
         }
@@ -1244,15 +1354,23 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
             colorButtons.append(button)
             style.append(button)
         }
-        style.append(separator())
+        let widthDivider = separator()
+        style.append(widthDivider)
+        widthControls.append(widthDivider)
         for (i, width) in Self.widths.enumerated() {
             let button = styledButton(image: dotImage(color: .labelColor, diameter: 4 + width * 1.5),
                                       tip: [environment.string("overlay.stroke.thin", "细"),
                                             environment.string("overlay.stroke.medium", "中"),
                                             environment.string("overlay.stroke.thick", "粗")][i], action: #selector(pickWidth(_:)), tag: i)
             widthButtons.append(button)
+            widthControls.append(button)
             style.append(button)
         }
+        fillButton = iconButton("paintbrush.pointed.fill", tip: environment.string("overlay.tool.fill", "填充"),
+                                action: #selector(toggleFill))
+        fillButton.setAccessibilityIdentifier("screenshot.style.fill")
+        fillButton.isHidden = true
+        style.append(fillButton)
         styleRow = capsule(style)
         styleRow.isHidden = true
         toolbar.addArrangedSubview(styleRow)
@@ -1419,8 +1537,9 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
     private func select(tool picked: Tool) {
         commitText()
         tool = tool == picked ? .none : picked
+        selectedItemIndex = nil
         for b in toolButtons { b.isSelectedLook = b.tag == tool.rawValue }
-        styleRow.isHidden = !tool.usesStroke
+        refreshStyleControls()
         layoutToolbar()
         invalidateAnnotations()
     }
@@ -1430,6 +1549,47 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         for b in widthButtons { b.isSelectedLook = Self.widths[b.tag] == stroke.width }
         textField?.font = .systemFont(ofSize: stroke.fontSize)
         textField?.textColor = stroke.color
+    }
+
+    private var selectedShape: Item? {
+        guard mode == .shot, let index = selectedItemIndex, items.indices.contains(index),
+              items[index].supportsFill else { return nil }
+        return items[index]
+    }
+
+    /// The style row edits the next shape, or the selected rectangle or ellipse.
+    private func refreshStyleControls() {
+        let canFill = tool == .rect || tool == .ellipse || selectedShape != nil
+        styleRow.isHidden = !tool.usesStroke && selectedShape == nil
+        fillButton.isHidden = !canFill
+        fillButton.isSelectedLook = canFill && stroke.filled
+        fillButton.setAccessibilityValue(stroke.filled ? "1" : "0")
+        // A filled shape has no outline width.
+        for control in widthControls { control.isHidden = canFill && stroke.filled }
+    }
+
+    private func refreshSelectionStyle() {
+        if let item = selectedShape { stroke = item.stroke }
+        refreshStyleButtons()
+        refreshStyleControls()
+        if editing, !toolbar.isHidden { layoutToolbar() }
+    }
+
+    private func applySelectedStyle() {
+        if let item = selectedShape, let index = selectedItemIndex {
+            undoHistory.append(items)
+            items[index] = Item(shape: item.shape, stroke: stroke)
+        }
+        refreshStyleButtons()
+        refreshStyleControls()
+        layoutToolbar()
+        invalidateAnnotations()
+    }
+
+    @objc private func toggleFill() {
+        guard tool == .rect || tool == .ellipse || selectedShape != nil else { return }
+        stroke.filled.toggle()
+        applySelectedStyle()
     }
 
     @objc private func pickTool(_ sender: NSButton) { select(tool: Tool(rawValue: sender.tag) ?? .none) }
@@ -1471,17 +1631,24 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
 
     @objc private func pickColor(_ sender: NSButton) {
         stroke.color = Self.palette[sender.tag]
-        refreshStyleButtons()
+        applySelectedStyle()
     }
 
     @objc private func pickWidth(_ sender: NSButton) {
         stroke.width = Self.widths[sender.tag]
-        refreshStyleButtons()
+        applySelectedStyle()
     }
 
     @objc private func undoLast() {
+        guard dragMode == nil else { return }
         commitText()
-        _ = items.popLast()
+        guard let previous = undoHistory.popLast() else { return }
+        items = previous
+        if let index = selectedItemIndex,
+           !items.indices.contains(index) || items[index].editableRect == nil {
+            selectedItemIndex = nil
+        }
+        refreshSelectionStyle()
         invalidateAnnotations()
     }
 
@@ -1579,7 +1746,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
     }
 
     @objc private func maskQR() {
-        items.append(contentsOf: qrRects.map(Item.qrMask))
+        for rect in qrRects { appendItem(Item.qrMask(rect)) }
         qrRects = []
         hideOcrPanel()
         layoutToolbar()
@@ -1746,7 +1913,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         textField = nil
         let string = field.stringValue.trimmingCharacters(in: .whitespaces)
         if !string.isEmpty {
-            items.append(Item(shape: .text(string, at: field.frame.origin), stroke: stroke))
+            appendItem(Item(shape: .text(string, at: field.frame.origin), stroke: stroke))
         }
         field.removeFromSuperview()
         window?.makeFirstResponder(self)

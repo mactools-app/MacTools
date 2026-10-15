@@ -49,6 +49,37 @@ enum ScreenshotImageEncoder {
             try data.write(to: url, options: .atomic)
         }.value
     }
+
+    /// Publishes a complete file under an unused name instead of replacing an existing file.
+    static func writeNew(_ data: Data, preferred url: URL) async throws -> URL {
+        try await Task.detached(priority: .userInitiated) {
+            try Task.checkCancellation()
+            let files = FileManager.default
+            let folder = url.deletingLastPathComponent()
+            try files.createDirectory(at: folder, withIntermediateDirectories: true)
+            let partial = folder.appendingPathComponent(".mactools-screenshot-\(UUID().uuidString).tmp")
+            defer { try? files.removeItem(at: partial) }
+            try data.write(to: partial, options: .withoutOverwriting)
+            var index = 1
+            while true {
+                let candidate = numbered(url, index)
+                do {
+                    // moveItem never replaces an existing destination, so a concurrent writer cannot be lost.
+                    try files.moveItem(at: partial, to: candidate)
+                    return candidate
+                } catch CocoaError.fileWriteFileExists {
+                    index += 1
+                }
+            }
+        }.value
+    }
+
+    /// Candidate names for an occupied file: the original name, then " 2", " 3", and so on.
+    static func numbered(_ url: URL, _ index: Int) -> URL {
+        guard index > 1 else { return url }
+        return url.deletingLastPathComponent().appendingPathComponent(
+            "\(url.deletingPathExtension().lastPathComponent) \(index).\(url.pathExtension)")
+    }
 }
 
 /// Bound concurrent full-image encodings, including rapid clipboard replacements.

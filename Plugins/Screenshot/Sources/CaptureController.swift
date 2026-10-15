@@ -89,8 +89,22 @@ final class CaptureController {
     private func configure(_ overlay: OverlayWindow, display: CaptureDisplay) {
         overlay.onComplete = { [weak self] png, mode in
             guard let self, !finished else { return }
-            dismiss()
-            ScreenshotOutput.save(png, mode: mode, environment: environment)
+            guard mode == .ask else {
+                dismiss()
+                ScreenshotOutput.save(png, mode: mode, environment: environment)
+                return
+            }
+            // Keep the selection and annotations while the save panel is open; cancelling returns to them.
+            suspend()
+            let saved = ScreenshotOutput.saveAs(png, suggestedName: ScreenshotOutput.suggestedScreenshotName(environment),
+                                                environment: environment)
+            guard !finished else { return }
+            if saved {
+                ScreenshotOutput.copyToPasteboard(png)
+                dismiss()
+            } else {
+                resume()
+            }
         }
         overlay.onCancel = { [weak self] in self?.dismiss() }
         overlay.onRecord = { [weak self] rect in
@@ -112,6 +126,27 @@ final class CaptureController {
                             name: "\(environment.string("output.screenshotName", "截图")) \(environment.stamp()).png")
             environment.showToast(environment.string("pin.created", "已钉在屏幕上，双击或 Esc 关闭"))
         }
+    }
+
+    /// Hides the capture surfaces without discarding their session state.
+    private func suspend() {
+        pointerTracker?.stop()
+        for overlay in overlays { overlay.orderOut(nil) }
+        if cursorPushed {
+            NSCursor.pop()
+            cursorPushed = false
+        }
+    }
+
+    private func resume() {
+        NSCursor.crosshair.push()
+        cursorPushed = true
+        PluginPresentationSafety.prepareForWindowOrdering()
+        for overlay in overlays { overlay.orderFrontRegardless() }
+        let tracker = CapturePointerTracker(overlays: overlays)
+        pointerTracker = tracker
+        // Keyboard focus follows the pointer's display, as when capture first appears.
+        tracker.update()
     }
 
     func dismiss() {

@@ -26,16 +26,17 @@ enum ScreenshotOutput {
     }
 
     static func save(_ png: Data, mode: SaveMode, environment: ScreenshotEnvironment) {
-        copyToPasteboard(png)
         switch mode {
         case .clipboard:
+            copyToPasteboard(png)
             environment.showToast(environment.string("output.copied", "已复制到剪贴板"))
         case .folder:
+            copyToPasteboard(png)
             let url = environment.fileURL(prefix: environment.string("output.screenshotName", "截图"), ext: "png")
             let generation = environment.presentationGeneration
             Task {
                 do {
-                    try await ScreenshotImageEncoder.write(png, to: url)
+                    _ = try await ScreenshotImageEncoder.writeNew(png, preferred: url)
                     guard generation == environment.presentationGeneration else { return }
                     environment.showToast(environment.format("output.savedAndCopied", "已保存到「%@」，并复制到剪贴板", environment.saveFolderDisplayName))
                 } catch {
@@ -44,11 +45,19 @@ enum ScreenshotOutput {
                 }
             }
         case .ask:
-            saveAs(png, suggestedName: "\(environment.string("output.screenshotName", "截图")) \(environment.stamp()).png", environment: environment)
+            if saveAs(png, suggestedName: suggestedScreenshotName(environment), environment: environment) {
+                copyToPasteboard(png)
+            }
         }
     }
 
-    static func saveAs(_ png: Data, suggestedName: String, environment: ScreenshotEnvironment) {
+    static func suggestedScreenshotName(_ environment: ScreenshotEnvironment) -> String {
+        "\(environment.string("output.screenshotName", "截图")) \(environment.stamp()).png"
+    }
+
+    /// Returns whether the user chose a destination; cancelling must not end the caller's workflow.
+    @discardableResult
+    static func saveAs(_ png: Data, suggestedName: String, environment: ScreenshotEnvironment) -> Bool {
         let panel = NSSavePanel()
         panel.directoryURL = environment.saveFolder
         panel.nameFieldStringValue = suggestedName
@@ -57,7 +66,7 @@ enum ScreenshotOutput {
         defer { if environment.savePanel === panel { environment.savePanel = nil } }
         PluginPresentationSafety.prepareForWindowOrdering(panel)
         NSApp.activate(ignoringOtherApps: true)
-        guard panel.runModal() == .OK, let url = panel.url else { return }
+        guard panel.runModal() == .OK, let url = panel.url else { return false }
         let generation = environment.presentationGeneration
         Task {
             do {
@@ -69,6 +78,7 @@ enum ScreenshotOutput {
                 environment.showToast(environment.format("output.saveFailed", "保存失败：%@", error.localizedDescription))
             }
         }
+        return true
     }
 
     static func finishLong(_ image: CGImage, scale: CGFloat, environment: ScreenshotEnvironment) async {
@@ -87,7 +97,8 @@ enum ScreenshotOutput {
         environment.pin(png, at: NSRect(x: room.midX - size.width / 2, y: room.midY - size.height / 2,
                                        width: size.width, height: size.height),
                         bakedShadow: false,
-                        name: "\(environment.string("output.longScreenshotName", "长截图")) \(environment.stamp()).png")
+                        name: "\(environment.string("output.longScreenshotName", "长截图")) \(environment.stamp()).png",
+                        isResult: true)
         environment.showToast(environment.string("output.longCopiedAndPinned", "已复制到剪贴板，并钉在屏幕上 · ⌘S 保存"))
     }
 }

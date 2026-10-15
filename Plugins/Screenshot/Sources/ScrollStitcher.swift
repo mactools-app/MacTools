@@ -154,7 +154,13 @@ final class Stitcher {
                     let e = error(dy, step: 1)
                     if e < bestErr { bestErr = e; best = dy }
                 }
-                guard bestErr <= 6 else { return nil }
+                // Capture noise raises every score, so an absolute limit alone rejects real matches.
+                // Also accept a match that is clearly better than a typical unrelated alignment.
+                let finite = scores.filter(\.isFinite).sorted()
+                let baseline = finite.isEmpty ? 0 : finite[finite.count / 2]
+                guard bestErr <= 6 || (baseline > 1 && bestErr < baseline * 0.7) else { return nil }
+                // The footer check scales with the matched noise floor, staying at 6 for clean frames.
+                let tolerance = max(6, bestErr * 2)
                 if best > 0 {
                     // Repeated or featureless content cannot establish a unique displacement.
                     if scores.enumerated().contains(where: {
@@ -169,7 +175,7 @@ final class Stitcher {
                             samples += 1
                         }
                     }
-                    guard samples > 0, Double(tailError) / Double(samples) <= 6 else { return nil }
+                    guard samples > 0, Double(tailError) / Double(samples) <= tolerance else { return nil }
                 }
                 return best
             }

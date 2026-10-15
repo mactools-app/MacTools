@@ -35,6 +35,7 @@ final class ScreenshotPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
         static let execute = "execute"
         static let permission = "screen-recording"
         static let folder = "save-folder"
+        static let autoZoom = "recording-auto-zoom"
     }
 
     var metadata: PluginMetadata {
@@ -173,6 +174,18 @@ final class ScreenshotPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
                     control: .action(title: environment.string("settings.folder.choose", "选择文件夹…"), role: .normal)
                 )]
             ),
+            PluginSettingsSection(
+                id: "recording",
+                title: environment.string("settings.recording.title", "录屏"),
+                systemImage: "record.circle",
+                rows: [PluginSettingsRow(
+                    id: ID.autoZoom,
+                    title: environment.string("settings.autoZoom.title", "自动缩放"),
+                    description: environment.string("settings.autoZoom.description", "点击或滚动时放大该位置，随后恢复全景。在保存的视频中生成，录制时不改变桌面。"),
+                    systemImage: "plus.magnifyingglass",
+                    control: .toggle(isOn: environment.recordingAutoZoom)
+                )]
+            ),
         ])
     }
 
@@ -287,6 +300,11 @@ final class ScreenshotPlugin: MacToolsPlugin, PluginActionProviding, PluginActio
     }
 
     func handleSettingsAction(_ action: PluginSettingsAction) {
+        if case .setBoolean(ID.autoZoom, let isOn) = action {
+            environment.recordingAutoZoom = isOn
+            onStateChange?()
+            return
+        }
         guard isActive, case .invoke(ID.folder) = action,
               let folder = folderPicker(environment.saveFolder), isActive, folder.isFileURL else { return }
         environment.saveFolder = folder

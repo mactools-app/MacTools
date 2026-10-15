@@ -78,18 +78,18 @@
     "quick-capture-title": "@localizable.action.quickCapture.title",
     "quick-capture-description": "@localizable.action.quickCapture.description",
     "long-description": {
-      "ar": "أداة محلية بلقطات مناطق ونوافذ وتعليقات وإخفاء بالموزاييك أو التمويه والتعرّف على النصوص والرموز وتثبيت الصور ولقطات التمرير. تبدأ فقط بإجراء صريح في الواجهة. تسجيل المناطق بدون صوت يتطلب macOS 15 أو أحدث؛ الميزات الأخرى تعمل على macOS 14 أو أحدث.",
-      "de": "Lokale Bereichs- und Fensteraufnahmen mit Anmerkungen, Mosaik und Weichzeichnen, Text- und Codeerkennung, angehefteten Bildern und Scrollaufnahmen. Start nur durch eine ausdrückliche Vordergrundaktion. Bereichsvideos ohne Ton benötigen macOS 15; alle anderen Funktionen macOS 14.",
-      "en": "Local region and window capture with annotations, mosaic and blur, text and code recognition, pinned images, and scrolling screenshots. Starts only through an explicit foreground action. Silent region recording requires macOS 15 or later; other features support macOS 14 or later.",
-      "es": "Capturas locales de regiones y ventanas con anotaciones, mosaico, desenfoque, reconocimiento de texto y códigos, imágenes fijadas y capturas con desplazamiento. Solo comienza mediante una acción explícita en primer plano. La grabación de regiones sin audio requiere macOS 15; las otras funciones, macOS 14.",
-      "fr": "Captures locales de zones et fenêtres avec annotations, mosaïque et flou, reconnaissance de texte et de codes, images épinglées et captures défilantes. Démarrage uniquement par une action explicite au premier plan. L’enregistrement de zones sans audio nécessite macOS 15 ; les autres fonctions, macOS 14.",
-      "ja": "範囲・ウインドウ撮影、注釈、モザイク・ぼかし、文字・コード認識、画像のピン留め、スクロール撮影をローカルで実行します。明示的な前面操作でのみ開始します。音声なしの範囲収録には macOS 15 以降、その他の機能には macOS 14 以降が必要です。",
-      "ko": "영역·창 캡처, 주석, 모자이크·흐림, 텍스트·코드 인식, 이미지 고정, 스크롤 캡처를 로컬에서 처리합니다. 명시적인 전경 작업으로만 시작합니다. 소리 없는 영역 녹화는 macOS 15 이상, 나머지 기능은 macOS 14 이상이 필요합니다.",
-      "pt": "Capturas locais de áreas e janelas com anotações, mosaico, desfoque, reconhecimento de textos e códigos, imagens fixadas e rolagem. Inicia apenas por uma ação explícita em primeiro plano. A gravação de áreas sem áudio exige macOS 15; os demais recursos, macOS 14.",
-      "ru": "Локальные снимки областей и окон с пометками, мозаикой и размытием, распознаванием текста и кодов, закреплением изображений и прокруткой. Запуск только явным действием на переднем плане. Запись области без звука требует macOS 15; остальные функции — macOS 14.",
-      "tr": "Ek açıklamalar, mozaik ve bulanıklık, metin ve kod tanıma, sabitlenmiş görseller ve kaydırma ekran görüntüleriyle yerel bölge ve pencere yakalama. Yalnızca açık bir ön plan eylemiyle başlar. Sessiz bölge kaydı macOS 15 veya sonrasını gerektirir; diğer özellikler macOS 14 veya sonrasını destekler.",
-      "zh-Hans": "本地完成区域和窗口截图、标注、马赛克与模糊、文字与二维码识别、贴图和滚动截图。仅由明确的前台操作启动；无声区域录屏需要 macOS 15 或更高，其他功能支持 macOS 14 或更高。",
-      "zh-Hant": "在本機完成區域和視窗截圖、標註、馬賽克與模糊、文字與 QR 碼辨識、釘選圖片及捲動截圖。僅由明確的前景操作啟動；無聲區域錄製需要 macOS 15 或更新版本，其他功能支援 macOS 14 或更新版本。"
+      "ar": "أداة محلية بلقطات مناطق ونوافذ وتعليقات وإخفاء بالموزاييك والتعرّف على النصوص والرموز وتثبيت الصور ولقطات التمرير. تبدأ فقط بإجراء صريح في الواجهة. تسجيل المناطق بدون صوت يتطلب macOS 15 أو أحدث؛ الميزات الأخرى تعمل على macOS 14 أو أحدث.",
+      "de": "Lokale Bereichs- und Fensteraufnahmen mit Anmerkungen, Mosaik, Text- und Codeerkennung, angehefteten Bildern und Scrollaufnahmen. Start nur durch eine ausdrückliche Vordergrundaktion. Bereichsvideos ohne Ton benötigen macOS 15; alle anderen Funktionen macOS 14.",
+      "en": "Local region and window capture with annotations, mosaic, text and code recognition, pinned images, and scrolling screenshots. Starts only through an explicit foreground action. Silent region recording requires macOS 15 or later; other features support macOS 14 or later.",
+      "es": "Capturas locales de regiones y ventanas con anotaciones, mosaico, reconocimiento de texto y códigos, imágenes fijadas y capturas con desplazamiento. Solo comienza mediante una acción explícita en primer plano. La grabación de regiones sin audio requiere macOS 15; las otras funciones, macOS 14.",
+      "fr": "Captures locales de zones et fenêtres avec annotations, mosaïque, reconnaissance de texte et de codes, images épinglées et captures défilantes. Démarrage uniquement par une action explicite au premier plan. L’enregistrement de zones sans audio nécessite macOS 15 ; les autres fonctions, macOS 14.",
+      "ja": "範囲・ウインドウ撮影、注釈、モザイク、文字・コード認識、画像のピン留め、スクロール撮影をローカルで実行します。明示的な前面操作でのみ開始します。音声なしの範囲収録には macOS 15 以降、その他の機能には macOS 14 以降が必要です。",
+      "ko": "영역·창 캡처, 주석, 모자이크, 텍스트·코드 인식, 이미지 고정, 스크롤 캡처를 로컬에서 처리합니다. 명시적인 전경 작업으로만 시작합니다. 소리 없는 영역 녹화는 macOS 15 이상, 나머지 기능은 macOS 14 이상이 필요합니다.",
+      "pt": "Capturas locais de áreas e janelas com anotações, mosaico, reconhecimento de textos e códigos, imagens fixadas e rolagem. Inicia apenas por uma ação explícita em primeiro plano. A gravação de áreas sem áudio exige macOS 15; os demais recursos, macOS 14.",
+      "ru": "Локальные снимки областей и окон с пометками, мозаикой, распознаванием текста и кодов, закреплением изображений и прокруткой. Запуск только явным действием на переднем плане. Запись области без звука требует macOS 15; остальные функции — macOS 14.",
+      "tr": "Ek açıklamalar, mozaik, metin ve kod tanıma, sabitlenmiş görseller ve kaydırma ekran görüntüleriyle yerel bölge ve pencere yakalama. Yalnızca açık bir ön plan eylemiyle başlar. Sessiz bölge kaydı macOS 15 veya sonrasını gerektirir; diğer özellikler macOS 14 veya sonrasını destekler.",
+      "zh-Hans": "本地完成区域和窗口截图、标注、马赛克、文字与二维码识别、贴图和滚动截图。仅由明确的前台操作启动；无声区域录屏需要 macOS 15 或更高，其他功能支持 macOS 14 或更高。",
+      "zh-Hant": "在本機完成區域和視窗截圖、標註、馬賽克、文字與 QR 碼辨識、釘選圖片及捲動截圖。僅由明確的前景操作啟動；無聲區域錄製需要 macOS 15 或更新版本，其他功能支援 macOS 14 或更新版本。"
     },
     "retention": {
       "ar": "تبقى الملفات المصدّرة ومحتويات الحافظة تحت تحكم المستخدم. تُزال إعدادات الإضافة وملفاتها الخاصة عند إلغاء تثبيتها؛ ولا تُحذف الملفات التي صدّرها المستخدم.",
@@ -107,7 +107,6 @@
     },
     "setup.requirements.title": "@standardSetup.requirements.title",
     "setup.requirements.description": "@standardSetup.requirements.description",
-    "discovery.blur": "@localizable.overlay.tool.blur",
     "discovery.pixelate": "@localizable.overlay.tool.mosaic",
     "discovery.scrolling-screenshot": "@localizable.overlay.mode.scroll",
     "discovery.pin-image": "@localizable.overlay.action.pin",
@@ -183,7 +182,6 @@
       "scrolling screenshot",
       "screen recording",
       "pin",
-      "blur",
       "pixelate"
     ],
     "localizedSynonyms": {
@@ -229,7 +227,6 @@
       "zh-Hans": [
         "截图",
         "快速截图",
-        "模糊",
         "马赛克"
       ],
       "zh-Hant": [
@@ -253,7 +250,6 @@
     "relatedPluginIDs": [],
     "alternativePluginIDs": [],
     "localizedSynonymRefs": [
-      "@productStrings.discovery.blur",
       "@productStrings.discovery.pixelate",
       "@productStrings.discovery.scrolling-screenshot",
       "@productStrings.discovery.pin-image",
@@ -282,7 +278,8 @@
     "dataObserved": [
       "screen-pixels",
       "window-geometry",
-      "recognized-text-and-codes"
+      "recognized-text-and-codes",
+      "pointer-events"
     ],
     "dataPersisted": [
       "user-exported-screenshots",

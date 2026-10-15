@@ -37,6 +37,12 @@ final class ScreenshotEnvironment {
         }
     }
 
+    /// Recording auto zoom is on by default; the record bar and settings share this preference.
+    var recordingAutoZoom: Bool {
+        get { storage.object(forKey: "recordingAutoZoom") as? Bool ?? true }
+        set { storage.set(newValue, forKey: "recordingAutoZoom") }
+    }
+
     var saveFolderDisplayName: String { FileManager.default.displayName(atPath: saveFolder.path) }
 
     func string(_ key: String, _ defaultValue: String) -> String {
@@ -74,9 +80,9 @@ final class ScreenshotEnvironment {
         saveFolder.appendingPathComponent("\(prefix) \(stamp()).\(ext)")
     }
 
-    func pin(_ png: Data, at frame: NSRect, bakedShadow: Bool, name: String) {
+    func pin(_ png: Data, at frame: NSRect, bakedShadow: Bool, name: String, isResult: Bool = false) {
         pins.removeAll { !$0.isVisible }
-        let window = PinWindow(png: png, at: frame, name: name, environment: self)
+        let window = PinWindow(png: png, at: frame, name: name, isResult: isResult, environment: self)
         window.hasShadow = !bakedShadow
         pins.append(window)
         PluginPresentationSafety.prepareForWindowOrdering(window)
