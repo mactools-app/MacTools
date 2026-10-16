@@ -94,17 +94,20 @@ final class CaptureController {
                 ScreenshotOutput.save(png, mode: mode, environment: environment)
                 return
             }
-            // Keep the selection and annotations while the save panel is open; cancelling returns to them.
+            // Keep the selection and annotations until the file is written; cancelling or a write
+            // failure returns to them.
             suspend()
-            let saved = ScreenshotOutput.saveAs(png, suggestedName: ScreenshotOutput.suggestedScreenshotName(environment),
-                                                environment: environment)
-            guard !finished else { return }
-            if saved {
-                ScreenshotOutput.copyToPasteboard(png)
-                dismiss()
-            } else {
-                resume()
+            let chosen = ScreenshotOutput.saveAs(png, suggestedName: ScreenshotOutput.suggestedScreenshotName(environment),
+                                                 environment: environment) { [weak self] written in
+                guard let self, !finished else { return }
+                if written {
+                    ScreenshotOutput.copyToPasteboard(png)
+                    dismiss()
+                } else {
+                    resume()
+                }
             }
+            if !chosen, !finished { resume() }
         }
         overlay.onCancel = { [weak self] in self?.dismiss() }
         overlay.onRecord = { [weak self] rect in

@@ -255,8 +255,11 @@ final class PinView: NSImageView {
 
     @objc private func saveImage() {
         guard let environment else { return }
-        // A cancelled save panel keeps the pin open.
-        if ScreenshotOutput.saveAs(png, suggestedName: name, environment: environment), isResult { closeWindow() }
+        // A result closes only after its file is written; cancellation or a write failure keeps it for another try.
+        ScreenshotOutput.saveAs(png, suggestedName: name, environment: environment) { [weak self] written in
+            guard let self, written, isResult else { return }
+            closeWindow()
+        }
     }
 
     @objc private func closeWindow() { window?.close() }

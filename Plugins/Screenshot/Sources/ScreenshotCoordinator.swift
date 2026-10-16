@@ -18,6 +18,9 @@ final class ScreenshotCoordinator {
     private var scrollSession: ScrollSession?
     private var exportTask: Task<Void, Never>?
     private var generation: UInt64 = 0
+    /// Changes only when the plugin cancels all work. A recording can finish while a later screenshot
+    /// is in progress, so its messages must not depend on `generation`.
+    private(set) var sessionToken: UInt64 = 0
 
     init(environment: ScreenshotEnvironment) {
         self.environment = environment
@@ -64,6 +67,7 @@ final class ScreenshotCoordinator {
 
     func cancel() {
         generation &+= 1
+        sessionToken &+= 1
         exportTask?.cancel()
         exportTask = nil
         controller?.onFinish = nil
@@ -88,7 +92,7 @@ final class ScreenshotCoordinator {
             report(environment.string("record.processingBusy", "正在生成自动缩放视频，请稍后再录制"))
             return
         }
-        let requestGeneration = generation
+        let requestSession = sessionToken
         let session = Recorder(region: request, environment: environment)
         recorder = session
         session.onProcessing = { [weak self, weak session] in
@@ -103,32 +107,37 @@ final class ScreenshotCoordinator {
             else if processingRecorder === session { processingRecorder = nil }
             else { return }
             onStateChange?()
-            guard generation == requestGeneration else { return }
-            switch result {
-            case .success(let url):
-                let folderName = FileManager.default.displayName(atPath: url.deletingLastPathComponent().path)
-                environment.showToast(environment.format("record.saved", "录屏已保存到「%@」", folderName))
-            case .failure(let error as RecordingProcessingError):
-                let name = error.original.lastPathComponent
-                environment.showToast(error.cause is CancellationError
-                    ? environment.format("record.processingCancelled", "已保留原始录像：%@", name)
-                    : environment.format("record.processingFailed", "自动缩放生成失败，已保留原始录像：%@", name))
-            case .failure(let error):
-                guard !(error is CancellationError) else { return }
-                let message: String
-                switch error {
-                case is RecordingError:
-                    message = environment.string("record.unsupportedResolution", "当前区域超出硬件编码能力，请缩小录制范围")
-                case is RecordingZoomError:
-                    message = environment.string("record.pointerMonitorUnavailable", "无法读取鼠标操作，请重试或关闭自动缩放")
-                default:
-                    message = environment.captureErrorDescription(error)
-                }
-                report(environment.format("record.failed", "录屏失败：%@", message))
-            }
+            recordingFinished(result, session: requestSession)
         }
         onStateChange?()
         session.start()
+    }
+
+    /// Reports a finished recording unless the plugin cancelled its session.
+    func recordingFinished(_ result: Result<URL, Error>, session: UInt64) {
+        guard session == sessionToken else { return }
+        switch result {
+        case .success(let url):
+            let folderName = FileManager.default.displayName(atPath: url.deletingLastPathComponent().path)
+            environment.showToast(environment.format("record.saved", "录屏已保存到「%@」", folderName))
+        case .failure(let error as RecordingProcessingError):
+            let name = error.original.lastPathComponent
+            environment.showToast(error.cause is CancellationError
+                ? environment.format("record.processingCancelled", "已保留原始录像：%@", name)
+                : environment.format("record.processingFailed", "自动缩放生成失败，已保留原始录像：%@", name))
+        case .failure(let error):
+            guard !(error is CancellationError) else { return }
+            let message: String
+            switch error {
+            case is RecordingError:
+                message = environment.string("record.unsupportedResolution", "当前区域超出硬件编码能力，请缩小录制范围")
+            case is RecordingZoomError:
+                message = environment.string("record.pointerMonitorUnavailable", "无法读取鼠标操作，请重试或关闭自动缩放")
+            default:
+                message = environment.captureErrorDescription(error)
+            }
+            report(environment.format("record.failed", "录屏失败：%@", message))
+        }
     }
 
     private func startScroll(_ request: CaptureRegion) {

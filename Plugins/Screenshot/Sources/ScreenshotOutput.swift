@@ -56,8 +56,11 @@ enum ScreenshotOutput {
     }
 
     /// Returns whether the user chose a destination; cancelling must not end the caller's workflow.
+    /// `completion` reports whether the file was actually written, so callers can keep their content
+    /// available for another attempt after a write failure.
     @discardableResult
-    static func saveAs(_ png: Data, suggestedName: String, environment: ScreenshotEnvironment) -> Bool {
+    static func saveAs(_ png: Data, suggestedName: String, environment: ScreenshotEnvironment,
+                       completion: (@MainActor (Bool) -> Void)? = nil) -> Bool {
         let panel = NSSavePanel()
         panel.directoryURL = environment.saveFolder
         panel.nameFieldStringValue = suggestedName
@@ -69,14 +72,20 @@ enum ScreenshotOutput {
         guard panel.runModal() == .OK, let url = panel.url else { return false }
         let generation = environment.presentationGeneration
         Task {
+            let written: Bool
             do {
                 try await ScreenshotImageEncoder.write(png, to: url)
-                guard generation == environment.presentationGeneration else { return }
-                environment.showToast(environment.format("output.saved", "已保存到「%@」", url.deletingLastPathComponent().lastPathComponent))
+                written = true
+                if generation == environment.presentationGeneration {
+                    environment.showToast(environment.format("output.saved", "已保存到「%@」", url.deletingLastPathComponent().lastPathComponent))
+                }
             } catch {
-                guard generation == environment.presentationGeneration else { return }
-                environment.showToast(environment.format("output.saveFailed", "保存失败：%@", error.localizedDescription))
+                written = false
+                if generation == environment.presentationGeneration {
+                    environment.showToast(environment.format("output.saveFailed", "保存失败：%@", error.localizedDescription))
+                }
             }
+            completion?(written)
         }
         return true
     }
