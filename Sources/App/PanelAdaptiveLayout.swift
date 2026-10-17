@@ -96,6 +96,7 @@ struct PanelItemWidthPicker: View {
     @State private var mode: String
     @State private var draft: Double
     @State private var hasEdits = false
+    @State private var presentationFocus = MenuBarPanelPopoverFocus()
 
     init(preference: MenuBarPanelItemWidth?, availableWidth: CGFloat,
          onCommit: @escaping (MenuBarPanelItemWidth?) -> Void) {
@@ -141,6 +142,7 @@ struct PanelItemWidthPicker: View {
         .controlSize(.small)
         .padding(16)
         .frame(width: 280)
+        .background(MenuBarPanelPopoverFocusLifecycle(focus: presentationFocus).allowsHitTesting(false))
     }
 
     private var minimum: Double { MenuBarPanelItemWidth.minimumPoints }
@@ -148,6 +150,7 @@ struct PanelItemWidthPicker: View {
 
     private func commit() {
         guard draft.isFinite else { draft = preference?.points ?? minimum; hasEdits = false; return }
+        presentationFocus.end()
         draft = min(maximum, max(minimum, draft.rounded()))
         hasEdits = false
         onCommit(mode == "custom" ? .custom(draft) : mode == "fill" ? .fill : nil)
@@ -248,6 +251,7 @@ struct PanelWidthPicker: View {
     let onCommit: (Double) -> Void
     @State private var draft: Double
     @State private var hasEdits = false
+    @State private var presentationFocus = MenuBarPanelPopoverFocus()
 
     init(preferredWidth: Double, maximumWidth: CGFloat, onCommit: @escaping (Double) -> Void) {
         self.preferredWidth = preferredWidth
@@ -298,6 +302,7 @@ struct PanelWidthPicker: View {
         .controlSize(.small)
         .padding(16)
         .frame(width: 320)
+        .background(MenuBarPanelPopoverFocusLifecycle(focus: presentationFocus).allowsHitTesting(false))
         .onChange(of: preferredWidth) { _, width in if !hasEdits { draft = width } }
     }
 
@@ -325,6 +330,9 @@ struct PanelWidthPicker: View {
 
     private func commit() {
         guard let width = validatedDraft else { return }
+        // Resizing repositions this child popover. Release its field editor before
+        // AppKit rebuilds the parent/child window responder chain.
+        presentationFocus.end()
         draft = width
         hasEdits = false
         onCommit(width)
