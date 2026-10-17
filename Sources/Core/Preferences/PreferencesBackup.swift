@@ -30,7 +30,7 @@ enum PreferencesImportProgress: Equatable, Sendable {
 }
 
 struct PreferencesBackup: Codable, Equatable, Sendable {
-    static let currentFormatVersion = 6
+    static let currentFormatVersion = 7
     static let maximumFileSize = 16 * 1024 * 1024
 
     struct ApplicationPreferences: Codable, Equatable, Sendable {

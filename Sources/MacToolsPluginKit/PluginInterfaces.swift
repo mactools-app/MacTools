@@ -23,6 +23,13 @@ public protocol MacToolsPlugin: AnyObject {
 }
 
 
+/// Opt-in for simple switch rows that remain usable without a subtitle or detail.
+/// IDs refer to stable row items. The host retains the original row as a fallback.
+@MainActor
+public protocol PluginPanelCompactSwitchProviding: AnyObject {
+    var compactSwitchItemIDs: Set<String> { get }
+}
+
 /// Optional capability for a plugin settings page with its own contextual search field.
 /// The Settings host invokes this when the user presses Command-F on that page.
 @MainActor

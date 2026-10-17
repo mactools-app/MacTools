@@ -19,7 +19,9 @@ private struct NightShiftPluginProvider: PluginProvider {
 }
 
 @MainActor
-final class NightShiftPlugin: MacToolsPlugin, PluginActionProviding {
+final class NightShiftPlugin: MacToolsPlugin, PluginPanelCompactSwitchProviding, PluginActionProviding {
+    var compactSwitchItemIDs: Set<String> { ["control"] }
+
     var panelItems: [PluginPanelItem] {
         let state = rowState
         return [

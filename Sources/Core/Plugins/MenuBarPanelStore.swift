@@ -59,7 +59,7 @@ final class MenuBarPanelStore {
             let data = userDefaults.data(forKey: Self.storageKey)
             let legacyDisplay = userDefaults.data(forKey: Self.legacyDisplayStorageKey)
             let version = try data.flatMap { try JSONSerialization.jsonObject(with: $0) as? [String: Any] }?["version"] as? Int
-            if let data, version == MenuBarPanelConfiguration.currentVersion {
+            if let data, (version == MenuBarPanelConfiguration.currentVersion || version == 3) {
                 configuration = try JSONDecoder().decode(MenuBarPanelConfiguration.self, from: data).normalized()
             } else if data == nil || version == 1 || version == 2 {
                 let legacy = try data.map { try JSONDecoder().decode(LegacyPanelLayout.self, from: $0) }

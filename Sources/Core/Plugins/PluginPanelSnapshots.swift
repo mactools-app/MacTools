@@ -81,6 +81,9 @@ struct PluginPanelRowSnapshot: Identifiable {
     let detail: PluginPanelDetail?
     let buttonActionID: String?
     let buttonTitle: String?
+    let supportsCompactSwitch: Bool
+    let usesCompactPresentation: Bool
+    let width: MenuBarPanelItemWidth?
 
     init(
         id: String,
@@ -98,7 +101,10 @@ struct PluginPanelRowSnapshot: Identifiable {
         detail: PluginPanelDetail?,
         buttonActionID: String?,
         buttonTitle: String?,
-        pluginID: String? = nil
+        pluginID: String? = nil,
+        supportsCompactSwitch: Bool = false,
+        usesCompactPresentation: Bool = false,
+        width: MenuBarPanelItemWidth? = nil
     ) {
         self.id = id
         self.pluginID = pluginID ?? id
@@ -116,5 +122,8 @@ struct PluginPanelRowSnapshot: Identifiable {
         self.detail = detail
         self.buttonActionID = buttonActionID
         self.buttonTitle = buttonTitle
+        self.supportsCompactSwitch = supportsCompactSwitch
+        self.usesCompactPresentation = usesCompactPresentation
+        self.width = width
     }
 }

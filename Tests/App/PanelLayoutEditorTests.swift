@@ -113,6 +113,68 @@ final class PanelLayoutEditorTests: XCTestCase {
         }
     }
 
+    func testCompactCopiesShareTheActionAndKeepIndependentPresentationWhenMoved() throws {
+        let plugin = LayoutEditorTestPlugin("a", order: 0)
+        let host = makeHost([plugin])
+        let first = try XCTUnwrap(host.panelEntries(in: "features").first)
+        _ = host.setPanelPresentation("compact-switch", entry: first)
+        XCTAssertTrue(host.addPanelItem(first.key, to: "features"))
+        let entries = host.panelEntries(in: "features")
+        XCTAssertEqual(entries.count, 2)
+        XCTAssertEqual(host.panelItems(in: "features").map(\.usesCompactPresentation), [true, false])
+        host.setSwitchValue(true, for: first.id)
+        XCTAssertEqual(plugin.switchRequests, [true])
+        XCTAssertTrue(host.panelItems(in: "features").allSatisfy(\.isOn))
+        let destination = try XCTUnwrap(host.addMenuBarPanel())
+        _ = host.transferPanelEntry(entries[0], from: "features", to: destination, at: 0)
+        XCTAssertEqual(host.panelEntries(in: destination).first?.id, first.id)
+        XCTAssertEqual(host.panelEntries(in: destination).first?.placement.presentation, "compact-switch")
+        XCTAssertNil(host.panelEntries(in: "features").first?.placement.presentation)
+        XCTAssertTrue(plugin.contexts.isEmpty)
+    }
+
+    func testPresentationAndWidthUndoDoNotOverwriteNewerChanges() throws {
+        let host = makeHost([LayoutEditorTestPlugin("a", order: 0)])
+        let session = PanelLayoutEditingSession()
+        let entry = try XCTUnwrap(host.panelEntries(in: "features").first)
+        session.didSaveLayoutChange(try XCTUnwrap(host.setPanelPresentation("compact-switch", entry: entry)))
+        XCTAssertTrue(try XCTUnwrap(host.panelItems(in: "features").first).usesCompactPresentation)
+        session.undo(in: host, panelID: "features")
+        XCTAssertFalse(try XCTUnwrap(host.panelItems(in: "features").first).usesCompactPresentation)
+        session.didSaveLayoutChange(try XCTUnwrap(host.setMenuBarPanelWidth(800)))
+        XCTAssertTrue(session.canUndo(in: host, panelID: "features"))
+        session.undo(in: host, panelID: "features")
+        XCTAssertEqual(host.preferredMenuBarPanelWidth, 316)
+        session.didSaveLayoutChange(try XCTUnwrap(host.setMenuBarPanelWidth(900)))
+        _ = host.setMenuBarPanelWidth(1000)
+        XCTAssertFalse(session.canUndo(in: host, panelID: "features"))
+        session.undo(in: host, panelID: "features")
+        XCTAssertEqual(host.preferredMenuBarPanelWidth, 1000)
+    }
+
+    func testItemWidthUndoAndMovesPreserveIndependentCopies() throws {
+        let host = makeHost([LayoutEditorTestPlugin("a", order: 0)])
+        let session = PanelLayoutEditingSession()
+        let entry = try XCTUnwrap(host.panelEntries(in: "features").first)
+        session.didSaveLayoutChange(try XCTUnwrap(host.setPanelItemWidth(.custom(720), entry: entry)))
+        XCTAssertEqual(host.panelItems(in: "features").first?.width, .custom(720))
+        session.undo(in: host, panelID: "features")
+        XCTAssertNil(host.panelItems(in: "features").first?.width)
+        _ = host.setPanelItemWidth(.custom(720), entry: entry)
+        XCTAssertTrue(host.addPanelItem(entry.key, to: "features"))
+        XCTAssertEqual(host.panelItems(in: "features").map(\.width), [.custom(720), nil])
+        let destination = try XCTUnwrap(host.addMenuBarPanel())
+        let configuredEntry = try XCTUnwrap(host.panelEntries(in: "features").first)
+        _ = host.transferPanelEntry(configuredEntry, from: "features", to: destination, at: 0)
+        XCTAssertEqual(host.panelItems(in: destination).first?.width, .custom(720))
+        XCTAssertEqual(host.preferredMenuBarPanelWidth, 316)
+        let moved = try XCTUnwrap(host.panelEntries(in: destination).first)
+        session.didSaveLayoutChange(try XCTUnwrap(host.setPanelItemWidth(.fill, entry: moved)))
+        _ = host.setPanelItemWidth(.custom(440), entry: moved)
+        XCTAssertFalse(session.canUndo(in: host, panelID: destination))
+        XCTAssertNil(host.setPanelItemWidth(.custom(.nan), entry: moved))
+    }
+
     private func makeHost(_ plugins: [LayoutEditorTestPlugin]) -> PluginHost {
         let suite = "PanelLayoutEditorTests.\(UUID().uuidString)"
         suites.append(suite)
@@ -126,7 +188,8 @@ final class PanelLayoutEditorTests: XCTestCase {
 }
 
 @MainActor
-private final class LayoutEditorTestPlugin: MacToolsPlugin {
+private final class LayoutEditorTestPlugin: MacToolsPlugin, PluginPanelCompactSwitchProviding {
+    var compactSwitchItemIDs: Set<String> { ["control"] }
     var panelItems: [PluginPanelItem] {
         return [
             .row(id: "control", initialPlacement: .featurePanel,
@@ -152,6 +215,8 @@ private final class LayoutEditorTestPlugin: MacToolsPlugin {
     var grid: PluginPanelWidgetGrid = .standard
     var libraryWidgetCount = 1
     var subtitle = "Reading"
+    var isOn = false
+    var switchRequests: [Bool] = []
     var contexts: [PluginPanelWidgetContext] = []
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
@@ -162,7 +227,7 @@ private final class LayoutEditorTestPlugin: MacToolsPlugin {
     }
 
     var rowState: PluginPanelRowState {
-        .init(subtitle: subtitle, isOn: false, isEnabled: true, isAvailable: runtimeVisible,
+        .init(subtitle: subtitle, isOn: isOn, isEnabled: true, isAvailable: runtimeVisible,
               detail: nil, errorMessage: nil)
     }
 
@@ -175,5 +240,7 @@ private final class LayoutEditorTestPlugin: MacToolsPlugin {
         return AnyView(EmptyView())
     }
 
-    func handleAction(_ action: PluginPanelAction) {}
+    func handleAction(_ action: PluginPanelAction) {
+        if case let .setSwitch(value) = action { switchRequests.append(value); isOn = value }
+    }
 }

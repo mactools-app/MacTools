@@ -84,7 +84,9 @@ struct CoreAudioMicrophoneController: MicrophoneControlling {
 }
 
 @MainActor
-final class MicrophoneMutePlugin: MacToolsPlugin, PluginActionProviding {
+final class MicrophoneMutePlugin: MacToolsPlugin, PluginPanelCompactSwitchProviding, PluginActionProviding {
+    var compactSwitchItemIDs: Set<String> { ["control"] }
+
     var panelItems: [PluginPanelItem] {
         let state = rowState
         return [

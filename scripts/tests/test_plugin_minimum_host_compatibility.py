@@ -20,6 +20,7 @@ PLUGIN_INTERFACES = REPO_ROOT / "Sources/MacToolsPluginKit/PluginInterfaces.swif
 PLUGIN_SETTINGS_MODELS = REPO_ROOT / "Sources/MacToolsPluginKit/PluginSettingsModels.swift"
 APP_VERSION_CONFIG = REPO_ROOT / "Configs/AppVersion.xcconfig"
 NEW_API_MINIMUM_HOSTS = {
+    "PluginPanelCompactSwitchProviding": "2.0.3",
     "TrackpadSensorContact": "2.0.2",
     "TrackpadSensorFrame": "2.0.2",
     "TrackpadSensorTransport": "2.0.2",

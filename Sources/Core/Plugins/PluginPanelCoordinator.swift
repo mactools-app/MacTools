@@ -7,10 +7,13 @@ struct PanelCatalogItem: Identifiable {
     let pluginTitle: String
     let metadata: PluginMetadata
     let definition: PluginPanelItem
+    let supportsCompactSwitch: Bool
     private let sourceDefaultDescription: String
 
     init(key: PluginPanelItemKey, pluginTitle: String, metadata: PluginMetadata,
-         definition: PluginPanelItem, sourceDefaultDescription: String? = nil) {
+         definition: PluginPanelItem, sourceDefaultDescription: String? = nil,
+         supportsCompactSwitch: Bool = false) {
+        self.supportsCompactSwitch = supportsCompactSwitch
         self.key = key
         self.pluginTitle = pluginTitle
         self.metadata = metadata
@@ -87,7 +90,8 @@ final class PluginPanelCoordinator {
     deinit { layoutChangeTask?.cancel() }
 
     func update(pluginID: String, metadata: PluginMetadata, definitions: [PluginPanelItem],
-                allowedKinds: Set<PluginPanelItemKind>, sourceDefaultDescription: String? = nil) throws {
+                allowedKinds: Set<PluginPanelItemKind>, sourceDefaultDescription: String? = nil,
+                compactSwitchItemIDs: Set<String> = []) throws {
         guard definitions.count <= 256 else { throw CatalogError.tooManyItems }
         var seen: Set<String> = []
         for item in definitions {
@@ -104,7 +108,8 @@ final class PluginPanelCoordinator {
         let items = definitions.map {
             PanelCatalogItem(key: PluginPanelItemKey(pluginID: pluginID, itemID: $0.id),
                              pluginTitle: metadata.title, metadata: metadata, definition: $0,
-                             sourceDefaultDescription: sourceDefaultDescription)
+                             sourceDefaultDescription: sourceDefaultDescription,
+                             supportsCompactSwitch: compactSwitchItemIDs.contains($0.id))
         }
         for key in keysByPluginID[pluginID, default: []] { itemsByKey.removeValue(forKey: key) }
         keysByPluginID[pluginID] = items.map(\.key)
@@ -285,7 +290,13 @@ final class PluginPanelCoordinator {
             isOn: state.isOn, isExpanded: id.map(isExpanded) ?? false, isEnabled: state.isEnabled,
             detail: state.detail.map { detailSnapshot($0, id: id) },
             buttonActionID: descriptor.controlStyle == .button ? "execute" : nil,
-            buttonTitle: buttonTitle, pluginID: item.key.pluginID)
+            buttonTitle: buttonTitle, pluginID: item.key.pluginID,
+            supportsCompactSwitch: item.supportsCompactSwitch && descriptor.controlStyle == .switch,
+            usesCompactPresentation: item.supportsCompactSwitch && descriptor.controlStyle == .switch
+                && id.flatMap { placementsByID[$0]?.placement.presentation } == MenuBarPanelItemPresentation.compactSwitch
+                && state.detail == nil && state.indicator == nil && state.compactIndicator == nil
+                && state.errorMessage == nil && state.isEnabled,
+            width: id.flatMap { placementsByID[$0]?.placement.width })
     }
 
     private func detailSnapshot(_ detail: PluginPanelDetail, id: String?) -> PluginPanelDetail {
