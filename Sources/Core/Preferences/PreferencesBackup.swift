@@ -230,10 +230,10 @@ struct PreferencesBackup: Codable, Equatable, Sendable {
         return data
     }
 
-    /// Export timestamps describe a snapshot file, not a restorable preference.
+    /// Wire versions and export timestamps describe serialization, not restorable preferences.
+    /// Decoding has already migrated supported formats into the same preference models.
     func hasSameMeaningfulContent(as other: PreferencesBackup) -> Bool {
-        formatVersion == other.formatVersion
-            && application == other.application
+        application == other.application
             && pluginDisplay == other.pluginDisplay
             && shortcutCustomizations == other.shortcutCustomizations
             && actionShortcutAssignments == other.actionShortcutAssignments

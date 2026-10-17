@@ -916,6 +916,16 @@ final class PluginHost: ObservableObject {
         }
     }
 
+    /// Cached permission providers need a live check when their settings are revisited.
+    /// Use the existing refresh contract so already-installed plugins also recover.
+    func refreshSettingsPermissions(pluginID: String?) {
+        guard let pluginID, permissionCards.contains(where: { $0.pluginID == pluginID }) else {
+            permissionCoordinator.refresh()
+            return
+        }
+        refreshActionPresentations(providerIDs: [pluginID])
+    }
+
     func refreshAll() {
         handlePluginAction(rebuildAfterAction: false) {
             for plugin in activePlugins {

@@ -4101,7 +4101,7 @@ private struct PluginSettingsDetailPane: View {
             guard notification.object is MacToolsCommandWindow else { return }
             // Refresh permissions when the settings window itself is revisited.
             // Global panels must not turn background settings into a full refresh.
-            pluginHost.permissionCoordinator.refresh()
+            pluginHost.refreshSettingsPermissions(pluginID: item?.pluginID)
         }
     }
 

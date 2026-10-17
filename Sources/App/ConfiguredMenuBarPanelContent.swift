@@ -146,6 +146,7 @@ private struct ConfiguredMenuBarPanelContent: View {
     let onPresentDiskCleanConfiguration: () -> Void
     let onPresentLaunchControlConfiguration: () -> Void
 
+    @State private var scrollCoordinateSpace = UUID()
     @State private var retainedBodyHeight: CGFloat?
     @State private var isComponentDetailInline = false
     @State private var isFeatureDetailInline = false
@@ -183,6 +184,10 @@ private struct ConfiguredMenuBarPanelContent: View {
                     }
                 }
                 .background(ScrollViewScrollerVisibilityConfigurator())
+                .coordinateSpace(name: scrollCoordinateSpace)
+                .environment(\.panelInlineDetailViewport, PanelInlineDetailViewport(
+                    coordinateSpace: scrollCoordinateSpace, height: contentBodyHeight
+                ))
             } else if !components.isEmpty {
                 let placement = ConfiguredMenuBarPanelLayout.placement(
                     entries: pluginHost.panelEntries(in: panelID), components: components, features: [], width: surfaceWidth

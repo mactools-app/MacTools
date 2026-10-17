@@ -228,16 +228,14 @@ struct ComponentPanelContent: View {
                 .allowsHitTesting(!secondaryPanelController.isPresentingInline)
 
             if secondaryPanelController.isPresentingInline, let detailContent {
-                ComponentDetailPanelView(
-                    title: detailContent.title,
-                    content: detailContent.content,
-                    onDismiss: dismissDetail
-                )
-                .frame(
-                    width: surfaceWidth,
-                    height: contentBodyHeight,
-                    alignment: .topLeading
-                )
+                PanelInlineDetailContainer(fallbackHeight: contentBodyHeight) { viewportHeight in
+                    ComponentDetailPanelView(
+                        title: detailContent.title,
+                        content: detailContent.content,
+                        onDismiss: dismissDetail
+                    )
+                    .frame(width: surfaceWidth, height: viewportHeight, alignment: .topLeading)
+                }
             }
         }
         .frame(

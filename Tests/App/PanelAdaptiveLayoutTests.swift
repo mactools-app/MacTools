@@ -13,6 +13,23 @@ final class PanelAdaptiveLayoutTests: XCTestCase {
               buttonTitle: nil, supportsCompactSwitch: compact, usesCompactPresentation: compact, width: width)
     }
 
+    func testInvalidWidthDraftsCannotReachColumnConversionOrCommit() throws {
+        let formatter = FloatingPointFormatStyle<Double>.number.precision(.fractionLength(0)).locale(Locale(identifier: "en_US"))
+        let pasted = try formatter.parseStrategy.parse("-999999999999999999999999")
+        for value in [pasted, -Double.greatestFiniteMagnitude, Double.greatestFiniteMagnitude,
+                      .infinity, -.infinity, .nan, 0, 315, 629] {
+            XCTAssertNil(MenuBarPanelWidth.validatedDraft(value, maximum: 628))
+        }
+        XCTAssertEqual(MenuBarPanelWidth.columns(forSurfaceWidth: pasted), 1)
+        XCTAssertEqual(MenuBarPanelWidth.columns(forSurfaceWidth: .greatestFiniteMagnitude), Int.max)
+        XCTAssertEqual(MenuBarPanelWidth.columns(forSurfaceWidth: .nan), 1)
+        XCTAssertEqual(MenuBarPanelWidth.validatedDraft(316, maximum: 628), 316)
+        XCTAssertEqual(MenuBarPanelWidth.validatedDraft(628, maximum: 628), 628)
+        XCTAssertEqual(MenuBarPanelWidth.validatedDraft(500.4, maximum: 628), 500)
+        // A smaller screen changes presentation, not the saved preferred width.
+        XCTAssertEqual(MenuBarPanelWidth.resolved(preferred: 940, maximum: 628), 628)
+    }
+
     func testWidthControlsColumnCountWithoutResizingLegacyWidgets() throws {
         let rows = (0..<14).map { row(String($0)) }
         for (width, firstBandCount) in [(CGFloat(304), 2), (464, 3), (1100, 7)] {

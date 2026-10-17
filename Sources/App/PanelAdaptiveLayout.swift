@@ -26,8 +26,10 @@ enum MenuBarPanelWidth {
     }
 
     static func columns(forSurfaceWidth width: CGFloat) -> Int {
-        guard width.isFinite else { return 1 }
-        return max(1, Int(floor((width + allocationSpacing) / (minimumColumnWidth + allocationSpacing))))
+        guard width.isFinite, width >= minimumColumnWidth else { return 1 }
+        let count = floor((width + allocationSpacing) / (minimumColumnWidth + allocationSpacing))
+        guard count < CGFloat(Int.max) else { return Int.max }
+        return max(1, Int(count))
     }
 
     static func columnWidth(forSurfaceWidth width: CGFloat) -> CGFloat {
@@ -59,6 +61,11 @@ enum MenuBarPanelWidth {
     static func resolved(preferred: Double, maximum: CGFloat) -> CGFloat {
         guard preferred.isFinite else { return MenuBarPanelLayout.baseWidth }
         return min(maximum, max(MenuBarPanelLayout.baseWidth, preferred))
+    }
+
+    static func validatedDraft(_ draft: Double, maximum: CGFloat) -> Double? {
+        guard draft.isFinite, draft >= MenuBarPanelLayout.baseWidth, draft <= maximum else { return nil }
+        return min(maximum, draft.rounded())
     }
 
     static var title: String { FeatureL10n.string("面板宽度") }
@@ -269,10 +276,10 @@ struct PanelWidthPicker: View {
             }
             .buttonStyle(.bordered)
             Stepper(value: Binding(get: {
-                MenuBarPanelWidth.columns(forSurfaceWidth: min(maximumWidth, draft) - MenuBarPanelLayout.outerPadding * 2)
+                MenuBarPanelWidth.columns(forSurfaceWidth: feedbackWidth - MenuBarPanelLayout.outerPadding * 2)
             }, set: applyColumns), in: 1...maximumColumns) {
                 Text(MenuBarPanelWidth.columnTitle(MenuBarPanelWidth.columns(
-                    forSurfaceWidth: min(maximumWidth, draft) - MenuBarPanelLayout.outerPadding * 2)))
+                    forSurfaceWidth: feedbackWidth - MenuBarPanelLayout.outerPadding * 2)))
             }
             HStack(spacing: 8) {
                 Text(FeatureL10n.string("宽度"))
@@ -282,7 +289,7 @@ struct PanelWidthPicker: View {
                     .accessibilityIdentifier("panel.width.value")
                 Button(FeatureL10n.string("应用宽度"), action: commit)
                     .fixedSize()
-                    .disabled(!hasEdits)
+                    .disabled(!hasEdits || validatedDraft == nil)
                     .accessibilityIdentifier("panel.width.apply")
             }
             Text(FeatureL10n.string("选择列数后拖放内容，也可输入精确宽度"))
@@ -292,6 +299,14 @@ struct PanelWidthPicker: View {
         .padding(16)
         .frame(width: 320)
         .onChange(of: preferredWidth) { _, width in if !hasEdits { draft = width } }
+    }
+
+    private var validatedDraft: Double? {
+        MenuBarPanelWidth.validatedDraft(draft, maximum: maximumWidth)
+    }
+
+    private var feedbackWidth: CGFloat {
+        validatedDraft ?? MenuBarPanelWidth.resolved(preferred: preferredWidth, maximum: maximumWidth)
     }
 
     private var maximumColumns: Int {
@@ -309,9 +324,9 @@ struct PanelWidthPicker: View {
     }
 
     private func commit() {
-        guard draft.isFinite else { draft = preferredWidth; hasEdits = false; return }
-        draft = min(maximumWidth, max(316, draft.rounded()))
+        guard let width = validatedDraft else { return }
+        draft = width
         hasEdits = false
-        onCommit(draft)
+        onCommit(width)
     }
 }

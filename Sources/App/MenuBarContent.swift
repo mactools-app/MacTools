@@ -696,48 +696,50 @@ struct MenuBarContent: View {
                 secondaryPanelController.isPresentingInline,
                 let activeSecondaryPanel
             {
-                SecondarySlidingPanel(
-                    title: activeSecondaryPanel.panel.title,
-                    controls: activeSecondaryPanel.panel.controls,
-                    maximumContentHeight: max(
-                        0,
-                        contentBodyHeight - MenuBarPanelLayout.secondaryPanelContentChromeHeight
-                    ),
-                    showsDismissButton: true,
-                    onDismiss: {
-                        hoverCoordinator.dismissImmediately()
-                    },
-                    onSelectionChange: { controlID, optionID in
-                        pluginHost.setPanelSelectionValue(
-                            optionID,
-                            controlID: controlID,
-                            for: activeSecondaryPanel.item.id
-                        )
-                    },
-                    onNavigationSelectionChange: { controlID, optionID in
-                        pluginHost.setPanelNavigationSelectionValue(
-                            optionID,
-                            controlID: controlID,
-                            for: activeSecondaryPanel.item.id
-                        )
-                    },
-                    onDateChange: { controlID, date in
-                        pluginHost.setPanelDateValue(
-                            date,
-                            controlID: controlID,
-                            for: activeSecondaryPanel.item.id
-                        )
-                    },
-                    onHoverChange: handleSecondaryPanelHoverChange,
-                    onSliderChange: { controlID, value, phase in
-                        pluginHost.setPanelSliderValue(
-                            value,
-                            controlID: controlID,
-                            for: activeSecondaryPanel.item.id,
-                            phase: phase
-                        )
-                    }
-                )
+                PanelInlineDetailContainer(fallbackHeight: contentBodyHeight) { viewportHeight in
+                    SecondarySlidingPanel(
+                        title: activeSecondaryPanel.panel.title,
+                        controls: activeSecondaryPanel.panel.controls,
+                        maximumContentHeight: max(
+                            0,
+                            viewportHeight - MenuBarPanelLayout.secondaryPanelContentChromeHeight
+                        ),
+                        showsDismissButton: true,
+                        onDismiss: {
+                            hoverCoordinator.dismissImmediately()
+                        },
+                        onSelectionChange: { controlID, optionID in
+                            pluginHost.setPanelSelectionValue(
+                                optionID,
+                                controlID: controlID,
+                                for: activeSecondaryPanel.item.id
+                            )
+                        },
+                        onNavigationSelectionChange: { controlID, optionID in
+                            pluginHost.setPanelNavigationSelectionValue(
+                                optionID,
+                                controlID: controlID,
+                                for: activeSecondaryPanel.item.id
+                            )
+                        },
+                        onDateChange: { controlID, date in
+                            pluginHost.setPanelDateValue(
+                                date,
+                                controlID: controlID,
+                                for: activeSecondaryPanel.item.id
+                            )
+                        },
+                        onHoverChange: handleSecondaryPanelHoverChange,
+                        onSliderChange: { controlID, value, phase in
+                            pluginHost.setPanelSliderValue(
+                                value,
+                                controlID: controlID,
+                                for: activeSecondaryPanel.item.id,
+                                phase: phase
+                            )
+                        }
+                    )
+                }
             }
         }
         .frame(
