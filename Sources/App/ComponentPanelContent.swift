@@ -9,11 +9,15 @@ struct ComponentGridPlacement: Identifiable, Equatable {
     let gridColumns: Int
     let gridSpacing: CGFloat
     let span: PluginPanelWidgetSpan
+    let size: CGSize?
+    let xOffset: CGFloat?
     let yOffset: CGFloat
 
     init(id: String, row: Int, column: Int, span: PluginPanelWidgetSpan, yOffset: CGFloat,
          gridColumns: Int = ComponentPanelLayout.columns,
-         gridSpacing: CGFloat = ComponentPanelLayout.horizontalSpacing) {
+         gridSpacing: CGFloat = ComponentPanelLayout.horizontalSpacing, xOffset: CGFloat? = nil, size: CGSize? = nil) {
+        self.size = size
+        self.xOffset = xOffset
         self.id = id
         self.row = row
         self.column = column
@@ -67,7 +71,7 @@ enum ComponentPanelLayout {
     }
 
     static func xOffset(for placement: ComponentGridPlacement) -> CGFloat {
-        CGFloat(placement.column) * (gridWidth + placement.gridSpacing) / CGFloat(placement.gridColumns)
+        placement.xOffset ?? (CGFloat(placement.column) * (gridWidth + placement.gridSpacing) / CGFloat(placement.gridColumns))
     }
 
     static func yOffset(for placement: ComponentGridPlacement) -> CGFloat {
@@ -76,7 +80,7 @@ enum ComponentPanelLayout {
 
     static func gridContentHeight(for placements: [ComponentGridPlacement]) -> CGFloat {
         guard let maximumBottom = placements.map({
-            $0.yOffset + itemHeight(for: $0.span)
+            $0.yOffset + ($0.size?.height ?? itemHeight(for: $0.span))
         }).max() else {
             return emptyContentHeight
         }
@@ -114,8 +118,9 @@ enum ComponentGridPlacementEngine {
         placements(for: items.map { (id: $0.id, span: $0.span) })
     }
 
-    static func placements(for items: [(id: String, span: PluginPanelWidgetSpan)]) -> [ComponentGridPlacement] {
-        var state = State(hasCompactItems: items.contains { $0.span.grid == .compact })
+    static func placements(for items: [(id: String, span: PluginPanelWidgetSpan)],
+                           width: CGFloat = ComponentPanelLayout.gridWidth) -> [ComponentGridPlacement] {
+        var state = State(hasCompactItems: items.contains { $0.span.grid == .compact }, width: width)
         return items.map { state.append(id: $0.id, span: $0.span) }
     }
 
@@ -128,8 +133,12 @@ enum ComponentGridPlacementEngine {
         private var rowHeight = 0
         private var rowOffset: CGFloat = 0
         private var rowIsCompact = false
+        private let width: CGFloat
+        private var nextX: CGFloat = 0
+        private var previousWasFullWidth = false
 
-        init(hasCompactItems: Bool) {
+        init(hasCompactItems: Bool, width: CGFloat = ComponentPanelLayout.gridWidth) {
+            self.width = width
             // Quarters and fifths share a subdivision without changing card widths.
             columns = hasCompactItems
                 ? PluginPanelWidgetGrid.standard.rawValue * PluginPanelWidgetGrid.compact.rawValue
@@ -137,6 +146,18 @@ enum ComponentGridPlacementEngine {
         }
 
         func next(id: String, span: PluginPanelWidgetSpan) -> ComponentGridPlacement {
+            if width != ComponentPanelLayout.gridWidth {
+                let itemWidth = ComponentPanelLayout.itemWidth(for: span)
+                let fullWidth = span.width == span.grid.rawValue
+                let wraps = rowHeight > 0 && (span.height != rowHeight || previousWasFullWidth || fullWidth
+                    || nextX + itemWidth > width + 0.001)
+                let gap = rowIsCompact && span.grid == .compact
+                    ? ComponentPanelLayout.compactRowSpacing : ComponentPanelLayout.verticalSpacing
+                return ComponentGridPlacement(id: id, row: wraps ? row + rowHeight : row,
+                    column: wraps ? 0 : nextColumn, span: span,
+                    yOffset: wraps ? rowOffset + ComponentPanelLayout.metrics.itemHeight(forSpanHeight: rowHeight) + gap : rowOffset,
+                    xOffset: wraps ? 0 : nextX)
+            }
             let width = span.width * columns / span.grid.rawValue
             let wraps = rowHeight > 0 && (span.height != rowHeight || nextColumn + width > columns)
             let gap = rowIsCompact && span.grid == .compact
@@ -160,6 +181,9 @@ enum ComponentGridPlacementEngine {
             rowHeight = span.height
             rowOffset = placement.yOffset
             nextColumn = placement.column + span.width * columns / span.grid.rawValue
+            nextX = ComponentPanelLayout.xOffset(for: placement) + ComponentPanelLayout.itemWidth(for: span)
+                + (span.grid == .compact ? PluginPanelWidgetLayoutMetrics.compactSpacing : ComponentPanelLayout.horizontalSpacing)
+            previousWasFullWidth = span.width == span.grid.rawValue
             return placement
         }
     }
@@ -176,6 +200,7 @@ struct ComponentPanelContent: View {
     @StateObject private var secondaryPanelController = SecondaryPanelController()
     let pluginHost: PluginHost
     @EnvironmentObject private var presentation: MenuBarPanelPresentationModel
+    @Environment(\.menuBarPanelSurfaceWidth) private var surfaceWidth
     let contentBodyHeight: CGFloat
     let isPanelVisible: Bool
     let onDismiss: () -> Void
@@ -203,20 +228,18 @@ struct ComponentPanelContent: View {
                 .allowsHitTesting(!secondaryPanelController.isPresentingInline)
 
             if secondaryPanelController.isPresentingInline, let detailContent {
-                ComponentDetailPanelView(
-                    title: detailContent.title,
-                    content: detailContent.content,
-                    onDismiss: dismissDetail
-                )
-                .frame(
-                    width: ComponentPanelLayout.gridWidth,
-                    height: contentBodyHeight,
-                    alignment: .topLeading
-                )
+                PanelInlineDetailContainer(fallbackHeight: contentBodyHeight) { viewportHeight in
+                    ComponentDetailPanelView(
+                        title: detailContent.title,
+                        content: detailContent.content,
+                        onDismiss: dismissDetail
+                    )
+                    .frame(width: surfaceWidth, height: viewportHeight, alignment: .topLeading)
+                }
             }
         }
         .frame(
-            width: ComponentPanelLayout.gridWidth,
+            width: surfaceWidth,
             height: contentBodyHeight,
             alignment: .topLeading
         )
@@ -289,6 +312,7 @@ struct ComponentPanelContent: View {
     private var grid: some View {
         ComponentGridView(
             pluginHost: pluginHost, items: items, placements: placements, contentHeight: suppliedGridHeight,
+            showsColumnGuides: !embedded,
             detailAnchorID: detailCoordinator.state.selection?.placementID,
             onDismiss: onDismiss, onCardFrameChange: { id, frame in
                 detailCoordinator.updatePresentationFrame(id: id, frame: frame)
@@ -356,11 +380,13 @@ struct ComponentPanelContent: View {
 }
 
 private struct ComponentGridView: View {
+    @Environment(\.menuBarPanelSurfaceWidth) private var surfaceWidth
     let pluginHost: PluginHost
     @EnvironmentObject private var presentation: MenuBarPanelPresentationModel
     let items: [PluginPanelWidgetSnapshot]
     let placements: [ComponentGridPlacement]
     var contentHeight: CGFloat? = nil
+    var showsColumnGuides = true
     let detailAnchorID: String?
     let onDismiss: () -> Void
     let onCardFrameChange: (String, CGRect?) -> Void
@@ -374,12 +400,9 @@ private struct ComponentGridView: View {
         let itemLookup = itemsByID
 
         let frames = placements.map { placement in
-            PanelItemFrame(id: placement.id, frame: CGRect(
-                x: ComponentPanelLayout.xOffset(for: placement), y: placement.yOffset,
-                width: ComponentPanelLayout.itemWidth(for: placement.span),
-                height: ComponentPanelLayout.itemHeight(for: placement.span)))
+            PanelItemFrame(id: placement.id, frame: PanelLayoutDestination.frame(placement))
         }
-        PanelViewportStack(frames: frames, width: ComponentPanelLayout.gridWidth,
+        PanelViewportStack(frames: frames, width: surfaceWidth,
                            height: contentHeight ?? ComponentPanelLayout.gridContentHeight(for: placements),
                            retainedIDs: Set([detailAnchorID].compactMap { $0 })) { id in
             if let item = itemLookup[id] {
@@ -389,6 +412,12 @@ private struct ComponentGridView: View {
                     measuresDetailAnchor: id == detailAnchorID,
                     onFrameChange: { onCardFrameChange(id, $0) }
                 )
+            }
+        }
+        .background {
+            if showsColumnGuides {
+                PanelColumnGuides(frames: frames.map(\.frame), width: surfaceWidth,
+                    height: contentHeight ?? ComponentPanelLayout.gridContentHeight(for: placements))
             }
         }
     }

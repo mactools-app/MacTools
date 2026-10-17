@@ -381,6 +381,9 @@ final class AccessibilityAutoInputFocusObserver: AutoInputFocusObserving {
         }
 
         let applicationElement = AXUIElementCreateApplication(application.processIdentifier)
+        // Keep an unresponsive app from holding the host's UI during registration
+        // or focus queries. Apply this per element, without changing other plugins.
+        AXUIElementSetMessagingTimeout(applicationElement, Self.messagingTimeout)
         let context = CallbackContext(owner: self)
         let retainedPointer = Unmanaged.passRetained(context).toOpaque()
         let addStatus = AXObserverAddNotification(
@@ -525,6 +528,7 @@ final class AccessibilityAutoInputFocusObserver: AutoInputFocusObserving {
         }
 
         let element = focusedValue as! AXUIElement
+        AXUIElementSetMessagingTimeout(element, Self.messagingTimeout)
         if requiresFocusedElement,
            Self.boolAttribute(kAXFocusedAttribute, from: element) != true {
             observation.resetFocusedElement()
@@ -656,6 +660,8 @@ final class AccessibilityAutoInputFocusObserver: AutoInputFocusObserving {
             }
         }
     }
+
+    private static let messagingTimeout: Float = 0.25
 
     private static let terminalBundleIdentifiers: Set<String> = [
         "com.apple.Terminal",

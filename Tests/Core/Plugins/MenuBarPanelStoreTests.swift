@@ -123,6 +123,37 @@ final class MenuBarPanelStoreTests: XCTestCase {
         XCTAssertEqual(MenuBarPanelStore(userDefaults: defaults).configuration, migrated.configuration)
     }
 
+    func testVersionThreeMigratesAndAdaptivePreferencesSurviveMissingPluginsAndMoves() throws {
+        var original = MenuBarPanelConfiguration()
+        let placement = MenuBarPanelPlacement(item: key("missing"))
+        original.placementsByPanelID["features"] = [placement]
+        var object = try XCTUnwrap(JSONSerialization.jsonObject(with: JSONEncoder().encode(original)) as? [String: Any])
+        object["version"] = 3
+        object.removeValue(forKey: "preferredWidth")
+        defaults.set(try JSONSerialization.data(withJSONObject: object), forKey: MenuBarPanelStore.storageKey)
+        let migrated = MenuBarPanelStore(userDefaults: defaults)
+        XCTAssertNil(migrated.loadError)
+        XCTAssertEqual(migrated.configuration.preferredWidth, 316)
+        XCTAssertEqual(migrated.configuration.placementsByPanelID["features"], [placement])
+        var adaptive = migrated.configuration
+        adaptive.preferredWidth = 1600
+        adaptive.placementsByPanelID["features"]?[0].presentation = "future-presentation"
+        adaptive.placementsByPanelID["features"]?[0].width = .custom(720)
+        XCTAssertTrue(migrated.replace(adaptive))
+        migrated.movePlacement(id: placement.id, to: "components", visibleOrder: [placement.id])
+        let reloaded = MenuBarPanelStore(userDefaults: defaults)
+        XCTAssertEqual(reloaded.configuration.preferredWidth, 1600)
+        XCTAssertEqual(reloaded.configuration.placementsByPanelID["components"]?.first?.presentation, "future-presentation")
+        XCTAssertEqual(reloaded.configuration.placementsByPanelID["components"]?.first?.id, placement.id)
+        XCTAssertEqual(reloaded.configuration.placementsByPanelID["components"]?.first?.width, .custom(720))
+        var invalid = reloaded.configuration
+        invalid.preferredWidth = .infinity
+        invalid.placementsByPanelID["components"]?[0].width = .custom(.infinity)
+        XCTAssertTrue(reloaded.replace(invalid))
+        XCTAssertEqual(reloaded.configuration.preferredWidth, 316)
+        XCTAssertNil(reloaded.configuration.placementsByPanelID["components"]?.first?.width)
+    }
+
     func testNewBackupEncodesOnlyCanonicalLayoutAndManagementOrder() throws {
         store.reconcile([(key(), .featurePanel)])
         let backup = PluginDisplayPreferencesBackup(orderedPluginIDs: ["example"], hiddenPluginIDs: [],

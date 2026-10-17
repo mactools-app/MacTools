@@ -693,6 +693,10 @@ final class MenuBarPanelPresenter: NSObject {
     }
 
     private func observePanelItemChanges() {
+        NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)
+            .merge(with: NotificationCenter.default.publisher(for: NSWindow.didChangeScreenNotification))
+            .sink { [weak self] _ in self?.refreshHeightForVisiblePanel() }
+            .store(in: &heightRefreshCancellables)
         pluginHost.menuBarPanelContentDidChange
             .sink { [weak self] _ in
                 // The host has finished publishing all content and layout changes.
@@ -709,7 +713,7 @@ final class MenuBarPanelPresenter: NSObject {
     }
 
     private func setPopoverHeight(_ height: CGFloat) {
-        let width = MenuBarPanelLayout.baseWidth
+        let width = panelModel.contentWidth
         let currentSize = panelContentSize
         guard
             abs(currentSize.width - width) > 0.5
@@ -875,6 +879,11 @@ final class MenuBarPanelPresenter: NSObject {
         for tab: MenuBarPanelTab,
         screen: NSScreen?
     ) -> MenuBarPanelHeightResolution {
+        let maximumWidth = MenuBarPanelWidth.maximum(visibleFrameWidth: screen?.visibleFrame.width)
+        panelModel.updateWidth(MenuBarPanelWidth.resolved(
+            preferred: pluginHost.preferredMenuBarPanelWidth, maximum: maximumWidth),
+            maximum: maximumWidth)
+        let surfaceWidth = panelModel.contentWidth - MenuBarPanelLayout.outerPadding * 2
         let maximumFeatureListHeight = MenuBarPanelLayout.maximumFeatureListHeight(for: screen)
         let components = pluginHost.componentItems(in: tab.id)
         let features = pluginHost.panelItems(in: tab.id)
@@ -882,7 +891,7 @@ final class MenuBarPanelPresenter: NSObject {
         let height: CGFloat
         if panelModel.isEditingLayout {
             let placement = ConfiguredMenuBarPanelLayout.placement(
-                entries: entries, components: components, features: features
+                entries: entries, components: components, features: features, width: surfaceWidth
             )
             height = PanelLayoutDestination.editorContentHeight(
                 itemHeight: placement.height,
@@ -894,7 +903,7 @@ final class MenuBarPanelPresenter: NSObject {
             )
         } else {
             height = ConfiguredMenuBarPanelLayout.contentHeight(
-                components: components, features: features, screen: screen, entries: entries
+                components: components, features: features, screen: screen, entries: entries, width: surfaceWidth
             )
         }
         return MenuBarPanelHeightResolution(contentHeight: height, maximumFeatureListHeight: maximumFeatureListHeight)
@@ -974,6 +983,14 @@ final class MenuBarUnifiedPanelModel: ObservableObject {
     private(set) var contentHeight: CGFloat
     private(set) var maximumFeatureListHeight: CGFloat
     private(set) var isPanelVisible: Bool
+    @Published private(set) var contentWidth = MenuBarPanelLayout.baseWidth
+    @Published private(set) var maximumWidth = MenuBarPanelWidth.maximum(visibleFrameWidth: nil)
+
+    func updateWidth(_ width: CGFloat, maximum: CGFloat) {
+        if contentWidth != width { contentWidth = width }
+        if maximumWidth != maximum { maximumWidth = maximum }
+    }
+
     @Published private(set) var isEditingLayout = false
     let editingFeedback = MenuBarPanelEditingFeedback()
     var onTabSelection: ((MenuBarPanelTab) -> Void)?
@@ -1065,6 +1082,7 @@ struct MenuBarUnifiedPanelContent: View {
     @StateObject private var layoutEditingSession = PanelLayoutEditingSession()
     @State private var iconPickerPanel: MenuBarPanelDefinition?
     @State private var showsComponentLibrary = false
+    @State private var showsWidthPicker = false
     @State private var additionRevealRequest: UUID?
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.colorSchemeContrast) private var colorSchemeContrast
@@ -1106,16 +1124,32 @@ struct MenuBarUnifiedPanelContent: View {
                 onItemDrop: dropItemOnPanel,
                 canUndoLayout: layoutEditingSession.canUndo(in: pluginHost, panelID: model.selectedTab.id),
                 editingFeedback: model.editingFeedback,
-                onUndoLayout: undoLayoutEdit
+                onUndoLayout: undoLayoutEdit,
+                panelWidth: model.contentWidth,
+                onChangeWidth: { if model.isEditingLayout { showsWidthPicker = true } }
             )
             .frame(maxWidth: .infinity)
             .frame(height: MenuBarPanelLayout.headerHeight)
             .padding(.horizontal, MenuBarPanelLayout.outerPadding)
+            .popover(isPresented: $showsWidthPicker, arrowEdge: .top) {
+                if model.isEditingLayout {
+                    PanelWidthPicker(preferredWidth: pluginHost.preferredMenuBarPanelWidth,
+                        maximumWidth: model.maximumWidth, onCommit: { width in
+                            guard model.isEditingLayout else { return }
+                            if let change = pluginHost.setMenuBarPanelWidth(width) {
+                                layoutEditingSession.didSaveLayoutChange(change)
+                            }
+                        })
+                    .background(MenuWindowAccessor { window in
+                        if let window { MenuBarPanelWindowRegistry.markEditingPopover(window) }
+                    }.allowsHitTesting(false))
+                }
+            }
             .popover(item: $iconPickerPanel, arrowEdge: .bottom) { panel in
                 iconPickerContent(panel)
             }
 
-            MenuBarPanelContentSurface(contentBodyHeight: contentBodyHeight) {
+            MenuBarPanelContentSurface(contentBodyHeight: contentBodyHeight, panelWidth: model.contentWidth) {
                 panelContent(contentBodyHeight: contentBodyHeight)
             }
 
@@ -1146,7 +1180,7 @@ struct MenuBarUnifiedPanelContent: View {
         .padding(.bottom, model.isEditingLayout
             ? MenuBarPanelLayout.editingPanelBottomPadding : MenuBarPanelLayout.panelBottomPadding)
         .frame(
-            width: MenuBarPanelLayout.baseWidth,
+            width: model.contentWidth,
             height: MenuBarPanelLayout.panelHeight(
                 forContentHeight: model.contentHeight,
                 showsEditingActionBar: model.isEditingLayout
@@ -1159,6 +1193,7 @@ struct MenuBarUnifiedPanelContent: View {
         .foregroundStyle(theme.text.primary)
         .tint(theme.accent)
         .id(runtimeLocale.revision)
+        .environment(\.menuBarPanelSurfaceWidth, model.contentWidth - MenuBarPanelLayout.outerPadding * 2)
         .environmentObject(presentation)
         .environmentObject(nativeMenuPresenter)
         .environment(\.menuBarPanelTheme, theme)
@@ -1169,9 +1204,13 @@ struct MenuBarUnifiedPanelContent: View {
             if !isEditing {
                 iconPickerPanel = nil
                 showsComponentLibrary = false
+                showsWidthPicker = false
                 additionRevealRequest = nil
                 layoutEditingSession.reset()
             }
+        }
+        .onChange(of: model.isPanelVisible) { _, visible in
+            if !visible { showsWidthPicker = false }
         }
         .onChange(of: model.selectedTab) { _, _ in additionRevealRequest = nil }
         .onChange(of: pluginHost.menuBarPanels.map(\.id)) { _, ids in
@@ -1299,17 +1338,19 @@ struct MenuBarUnifiedPanelContent: View {
 
 private struct MenuBarPanelContentSurface<Content: View>: View {
     let contentBodyHeight: CGFloat
+    let panelWidth: CGFloat
     private let content: Content
 
-    init(contentBodyHeight: CGFloat, @ViewBuilder content: () -> Content) {
+    init(contentBodyHeight: CGFloat, panelWidth: CGFloat, @ViewBuilder content: () -> Content) {
         self.contentBodyHeight = contentBodyHeight
+        self.panelWidth = panelWidth
         self.content = content()
     }
 
     var body: some View {
         content
             .frame(
-                width: MenuBarPanelLayout.surfaceWidth,
+                width: panelWidth - MenuBarPanelLayout.outerPadding * 2,
                 height: contentBodyHeight,
                 alignment: .topLeading
             )
@@ -1317,7 +1358,7 @@ private struct MenuBarPanelContentSurface<Content: View>: View {
             .padding(.horizontal, MenuBarPanelLayout.outerPadding)
             .padding(.bottom, MenuBarPanelLayout.contentBottomPadding)
             .frame(
-                width: MenuBarPanelLayout.baseWidth,
+                width: panelWidth,
                 height: contentBodyHeight + MenuBarPanelLayout.contentVerticalPadding,
                 alignment: .topLeading
             )
@@ -1344,12 +1385,14 @@ struct MenuBarPanelHeader: View {
     let canUndoLayout: Bool
     let editingFeedback: MenuBarPanelEditingFeedback
     let onUndoLayout: () -> Void
+    var panelWidth: CGFloat = MenuBarPanelLayout.baseWidth
+    var onChangeWidth: () -> Void = {}
 
     var body: some View {
         if isEditingLayout {
             MenuBarPanelEditingControls(canUndoLayout: canUndoLayout, feedback: editingFeedback,
                 onUndoLayout: onUndoLayout, onDone: onEditLayout) {
-                    navigation
+                    HStack(spacing: 4) { navigation; widthButton }
                 }
         } else {
             ZStack {
@@ -1371,6 +1414,22 @@ struct MenuBarPanelHeader: View {
                 }
             }
         }
+    }
+
+    private var widthButton: some View {
+        Button(action: onChangeWidth) {
+            Label(MenuBarPanelWidth.columnTitle(MenuBarPanelWidth.columns(forSurfaceWidth:
+                panelWidth - MenuBarPanelLayout.outerPadding * 2)), systemImage: "arrow.left.and.right")
+                .font(PluginTypography.detail.font)
+                .fixedSize()
+        }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+            .help(MenuBarPanelWidth.title)
+            .accessibilityLabel(MenuBarPanelWidth.title)
+            .accessibilityValue(MenuBarPanelWidth.columnTitle(MenuBarPanelWidth.columns(forSurfaceWidth:
+                panelWidth - MenuBarPanelLayout.outerPadding * 2)))
+            .accessibilityIdentifier("panel.width")
     }
 
     private var navigation: some View {

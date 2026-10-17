@@ -4096,11 +4096,12 @@ private struct PluginSettingsDetailPane: View {
         }
         .onReceive(
             NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)
+                .receive(on: RunLoop.main)
         ) { notification in
             guard notification.object is MacToolsCommandWindow else { return }
             // Refresh permissions when the settings window itself is revisited.
             // Global panels must not turn background settings into a full refresh.
-            pluginHost.refreshAll()
+            pluginHost.refreshSettingsPermissions(pluginID: item?.pluginID)
         }
     }
 

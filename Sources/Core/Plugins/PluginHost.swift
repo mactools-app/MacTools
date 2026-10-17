@@ -916,6 +916,16 @@ final class PluginHost: ObservableObject {
         }
     }
 
+    /// Cached permission providers need a live check when their settings are revisited.
+    /// Use the existing refresh contract so already-installed plugins also recover.
+    func refreshSettingsPermissions(pluginID: String?) {
+        guard let pluginID, permissionCards.contains(where: { $0.pluginID == pluginID }) else {
+            permissionCoordinator.refresh()
+            return
+        }
+        refreshActionPresentations(providerIDs: [pluginID])
+    }
+
     func refreshAll() {
         handlePluginAction(rebuildAfterAction: false) {
             for plugin in activePlugins {
@@ -3465,10 +3475,13 @@ final class PluginHost: ObservableObject {
                     !panelCoordinator.hasSnapshot(for: id) else { continue }
             guard let items = guardedValue(for: descriptor.plugin, operation: "read panel items",
                                            descriptor.plugin.panelItems) else { continue }
+            let compactSwitchIDs = guardedValue(for: descriptor.plugin, operation: "read compact switch items",
+                (descriptor.plugin as? PluginPanelCompactSwitchProviding)?.compactSwitchItemIDs ?? []) ?? []
             do {
                 try panelCoordinator.update(pluginID: id, metadata: descriptor.metadata,
                     definitions: items, allowedKinds: descriptor.capabilities.panelKinds,
-                    sourceDefaultDescription: descriptor.plugin.metadata.defaultDescription)
+                    sourceDefaultDescription: descriptor.plugin.metadata.defaultDescription,
+                    compactSwitchItemIDs: compactSwitchIDs)
             } catch {
                 // Keep the last validated snapshot and its identity contract until
                 // the plugin publishes valid definitions or is actually unloaded.
@@ -6008,6 +6021,48 @@ struct MenuBarPanelContentSnapshot {
 
 extension PluginHost {
     var visibleMenuBarPanels: [MenuBarPanelDefinition] { menuBarPanels.filter { !$0.isHidden } }
+
+    var preferredMenuBarPanelWidth: Double { menuBarPanelStore.configuration.preferredWidth }
+
+    @discardableResult
+    func setMenuBarPanelWidth(_ width: Double) -> MenuBarPanelLayoutChange? {
+        guard width.isFinite else { return nil }
+        var next = menuBarPanelStore.configuration
+        next.preferredWidth = max(MenuBarPanelConfiguration.defaultWidth, width.rounded())
+        return replacePanelLayout(next)
+    }
+
+    @discardableResult
+    func setPanelPresentation(_ presentation: String?, entry: MenuBarPanelEntry) -> MenuBarPanelLayoutChange? {
+        guard let panelID = menuBarPanelStore.configuration.panelID(for: entry.placement.id),
+              let index = menuBarPanelStore.configuration.placementsByPanelID[panelID]?.firstIndex(where: {
+                  $0.id == entry.placement.id
+              }), panelItems(in: panelID).contains(where: { $0.id == entry.id && $0.supportsCompactSwitch }),
+              presentation == nil || presentation == MenuBarPanelItemPresentation.compactSwitch else { return nil }
+        var next = menuBarPanelStore.configuration
+        next.placementsByPanelID[panelID]?[index].presentation = presentation
+        return replacePanelLayout(next)
+    }
+
+    @discardableResult
+    func setPanelItemWidth(_ width: MenuBarPanelItemWidth?, entry: MenuBarPanelEntry) -> MenuBarPanelLayoutChange? {
+        guard let panelID = menuBarPanelStore.configuration.panelID(for: entry.placement.id),
+              let index = menuBarPanelStore.configuration.placementsByPanelID[panelID]?.firstIndex(where: {
+                  $0.id == entry.placement.id
+              }), panelItems(in: panelID).contains(where: { $0.id == entry.id && !$0.usesCompactPresentation }),
+              width == nil || width == .fill || (width?.mode == "custom" && width?.normalized != nil) else { return nil }
+        var next = menuBarPanelStore.configuration
+        next.placementsByPanelID[panelID]?[index].width = width?.normalized
+        return replacePanelLayout(next)
+    }
+
+    private func replacePanelLayout(_ next: MenuBarPanelConfiguration) -> MenuBarPanelLayoutChange? {
+        let before = menuBarPanelStore.configuration
+        guard menuBarPanelStore.replace(next) else { return nil }
+        let change = MenuBarPanelLayoutChange(before: before, after: menuBarPanelStore.configuration)
+        panelConfigurationDidChange()
+        return change
+    }
 
     func panelItems(in panelID: String) -> [PluginPanelRowSnapshot] { panelContentSnapshot(in: panelID).features }
     func componentItems(in panelID: String) -> [PluginPanelWidgetSnapshot] { panelContentSnapshot(in: panelID).components }

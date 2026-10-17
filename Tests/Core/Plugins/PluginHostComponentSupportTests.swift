@@ -148,6 +148,37 @@ final class PluginHostComponentSupportTests: XCTestCase {
         XCTAssertTrue(plugin.handledPermissionIDs.isEmpty)
     }
 
+    func testSettingsFocusRefreshesCachedPermissionsAndActionsWithoutRefreshingOtherPlugins() throws {
+        var externalPermissionGranted = false
+        let plugin = MockComponentPanelPlugin(id: "cached-permission", permissionRequirements: [
+            .init(id: "screen-recording", kind: .screenRecording, title: "Screen Recording", description: "Capture")
+        ], settingsPage: .form(description: "Capture settings", sections: []), isPermissionGranted: false)
+        let action = ActionDefinition(key: .init(providerID: plugin.metadata.id, actionID: "capture"),
+            title: "Capture", description: "", systemImage: "camera", capabilities: [.foregroundInteractive])
+        plugin.actionDefinitions = [action]
+        plugin.onRefresh = { [weak plugin] in plugin?.isPermissionGranted = externalPermissionGranted }
+        let unrelated = MockComponentPanelPlugin(id: "unrelated")
+        let host = makeHost(plugins: [plugin, unrelated])
+        let reference = ActionReference(key: action.key)
+        let initialRefreshes = plugin.refreshCallCount
+        let unrelatedRefreshes = unrelated.refreshCallCount
+        XCTAssertFalse(host.actionAvailability(for: reference).isAvailable)
+
+        externalPermissionGranted = true
+        host.refreshSettingsPermissions(pluginID: plugin.metadata.id)
+        XCTAssertTrue(host.actionAvailability(for: reference).isAvailable)
+        XCTAssertTrue(try XCTUnwrap(host.pluginSettingsItems.first { $0.pluginID == plugin.metadata.id }).missingPermissionCards.isEmpty)
+        XCTAssertEqual(plugin.refreshCallCount, initialRefreshes + 1)
+
+        externalPermissionGranted = false
+        host.refreshSettingsPermissions(pluginID: plugin.metadata.id)
+        XCTAssertFalse(host.actionAvailability(for: reference).isAvailable)
+        XCTAssertEqual(try XCTUnwrap(host.pluginSettingsItems.first { $0.pluginID == plugin.metadata.id }).missingPermissionCards.count, 1)
+        host.refreshSettingsPermissions(pluginID: unrelated.metadata.id)
+        XCTAssertEqual(unrelated.refreshCallCount, unrelatedRefreshes)
+        XCTAssertEqual(plugin.refreshCallCount, initialRefreshes + 2)
+    }
+
     func testLanguageSwitchRefreshesPluginMetadataAndPreservesCustomSettingsIntroductions() throws {
         let originalPreference = UserDefaults.standard.string(
             forKey: PluginRuntimeLocalization.preferenceUserDefaultsKey
@@ -629,7 +660,7 @@ private final class StubDynamicPluginLoader: DynamicPluginLoading {
 }
 
 @MainActor
-private final class MockComponentPanelPlugin: MacToolsPlugin, PluginRuntimeLocalizationRefreshing, PluginShortcutBindingChangeHandling, PluginGroupedShortcutSettingsProviding, PluginDashboardPresenting {
+private final class MockComponentPanelPlugin: MacToolsPlugin, PluginActionProviding, PluginRuntimeLocalizationRefreshing, PluginShortcutBindingChangeHandling, PluginGroupedShortcutSettingsProviding, PluginDashboardPresenting {
     var panelItems: [PluginPanelItem] {
         return [
             .widget(id: "widget", initialPlacement: .dashboard,
@@ -677,6 +708,15 @@ private final class MockComponentPanelPlugin: MacToolsPlugin, PluginRuntimeLocal
     private(set) var handledPermissionIDs: [String] = []
 
     var onSurfaceVisible: (() -> Void)?
+    var actionDefinitions: [ActionDefinition] = []
+
+    func actionAvailability(for reference: ActionReference) -> ActionAvailability {
+        isPermissionGranted ? .available : .unavailable("Permission required")
+    }
+
+    func beginAction(_ invocation: ActionInvocation) throws -> ActionExecutionHandle {
+        ActionExecutionHandle { .succeeded() }
+    }
 
     init(
         id: String,

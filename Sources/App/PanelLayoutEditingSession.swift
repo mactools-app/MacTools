@@ -22,8 +22,8 @@ enum PanelLayoutDestination {
     static func frame(_ placement: ComponentGridPlacement) -> CGRect {
         CGRect(
             x: ComponentPanelLayout.xOffset(for: placement), y: placement.yOffset,
-            width: ComponentPanelLayout.itemWidth(for: placement.span),
-            height: ComponentPanelLayout.itemHeight(for: placement.span)
+            width: placement.size?.width ?? ComponentPanelLayout.itemWidth(for: placement.span),
+            height: placement.size?.height ?? ComponentPanelLayout.itemHeight(for: placement.span)
         )
     }
 
@@ -93,6 +93,7 @@ final class PanelLayoutEditingSession: ObservableObject {
     @Published private(set) var feedback: Feedback = .guidance
     @Published private var undoMove: UndoMove?
     @Published private var transferUndo: TransferUndo?
+    @Published private var layoutUndo: MenuBarPanelLayoutChange?
     private(set) var originalIDs: [String] = []
     private(set) var token: String?
     private(set) var sourcePanelID: String?
@@ -160,7 +161,8 @@ final class PanelLayoutEditingSession: ObservableObject {
     func preview(target: PanelLayoutDropTarget, ids: [String]) {
         guard validate(ids: ids) else { return }
         let next = PanelLayoutDropTarget(offset: min(max(target.offset, 0), ids.count),
-                                        markerFrame: target.markerFrame, isVacancy: target.isVacancy)
+                                        markerFrame: target.markerFrame, isVacancy: target.isVacancy,
+                                        previewFrame: target.previewFrame)
         guard dragPreview.target != next else { return }
         dragPreview.target = next
     }
@@ -218,6 +220,7 @@ final class PanelLayoutEditingSession: ObservableObject {
     func didSave(_ move: Move, beforeIDs: [String], afterIDs: [String]) {
         guard let before = beforeIDs.firstIndex(of: move.id),
               let after = afterIDs.firstIndex(of: move.id), beforeIDs != afterIDs else { return }
+        layoutUndo = nil
         undoMove = UndoMove(move: Move(id: move.id, offset: before > after ? before + 1 : before),
                             expectedIDs: afterIDs)
         transferUndo = nil
@@ -247,6 +250,7 @@ final class PanelLayoutEditingSession: ObservableObject {
                 return false
             }
             undoMove = nil
+            layoutUndo = nil
             transferUndo = TransferUndo(change: change, sourcePanelID: source, destinationPanelID: panelID,
                 sourceIDs: host.panelEntries(in: source).map(\.id), destinationIDs: host.panelEntries(in: panelID).map(\.id))
             feedback = .saved
@@ -265,6 +269,7 @@ final class PanelLayoutEditingSession: ObservableObject {
 
     func canUndo(in host: PluginHost, panelID: String) -> Bool {
         guard token == nil else { return false }
+        if let layoutUndo { return host.canUndoPanelLayoutChange(layoutUndo) }
         guard let transferUndo else { return canUndo(ids: host.panelEntries(in: panelID).map(\.id)) }
         return panelID == transferUndo.destinationPanelID && host.canUndoPanelLayoutChange(transferUndo.change)
             && host.panelEntries(in: panelID).map(\.id) == transferUndo.destinationIDs
@@ -273,7 +278,10 @@ final class PanelLayoutEditingSession: ObservableObject {
 
     func undo(in host: PluginHost, panelID: String) {
         guard canUndo(in: host, panelID: panelID) else { return }
-        if let transferUndo {
+        if let layoutUndo {
+            self.layoutUndo = nil
+            guard host.undoPanelLayoutChange(layoutUndo) else { rejectMove(); return }
+        } else if let transferUndo {
             self.transferUndo = nil
             guard host.undoPanelLayoutChange(transferUndo.change) else { rejectMove(); return }
         } else {
@@ -287,8 +295,17 @@ final class PanelLayoutEditingSession: ObservableObject {
         didUndo()
     }
 
+    func didSaveLayoutChange(_ change: MenuBarPanelLayoutChange) {
+        cancel()
+        undoMove = nil
+        transferUndo = nil
+        layoutUndo = change
+        feedback = .saved
+    }
+
     func rejectMove() {
         cancel()
+        layoutUndo = nil
         undoMove = nil
         transferUndo = nil
         feedback = .invalidated
@@ -311,6 +328,7 @@ final class PanelLayoutEditingSession: ObservableObject {
 
     func reset() {
         cancel()
+        layoutUndo = nil
         if undoMove != nil {
             undoMove = nil
         }

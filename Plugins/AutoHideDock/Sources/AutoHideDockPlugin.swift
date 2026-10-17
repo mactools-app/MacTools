@@ -64,7 +64,9 @@ private struct AutoHideDockPluginProvider: PluginProvider {
 }
 
 @MainActor
-final class AutoHideDockPlugin: MacToolsPlugin, PluginActionProviding, PluginActionPermissionProviding {
+final class AutoHideDockPlugin: MacToolsPlugin, PluginPanelCompactSwitchProviding, PluginActionProviding, PluginActionPermissionProviding {
+    var compactSwitchItemIDs: Set<String> { ["control"] }
+
     var panelItems: [PluginPanelItem] {
         let state = rowState
         return [

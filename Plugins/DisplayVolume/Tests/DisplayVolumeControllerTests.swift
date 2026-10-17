@@ -113,6 +113,43 @@ final class DisplayVolumeControllerTests: XCTestCase {
         XCTAssertEqual(try restarted.readVolume(), 0.6)
     }
 
+    func testBackgroundVolumeCachePublishesWithoutBlockingSnapshotReads() async throws {
+        let cache = VolumeTestCache(value: 0.15)
+        defer { cache.restore() }
+        let transport = VolumeTestTransport()
+        transport.update { $0.value = .init(current: 40, maximum: 100) }
+        let backend = try XCTUnwrap(DDCVolumeBackend(display: display(cache), transport: transport))
+        let cacheKey = cache.key
+        let displayID = cache.id
+        let readPublished = expectation(description: "Read cache published")
+        let writePublished = expectation(description: "Write cache published")
+        let observer = NotificationCenter.default.addObserver(
+            forName: UserDefaults.didChangeNotification,
+            object: UserDefaults.standard,
+            queue: nil
+        ) { _ in
+            let volume = UserDefaults.standard.double(forKey: cacheKey)
+            guard volume == 0.4 || volume == 0.6 else { return }
+            XCTAssertTrue(Thread.isMainThread, "Preference notifications must not wait for SwiftUI from a worker")
+            guard Thread.isMainThread else { return }
+            // A synchronous observer can read the same snapshots used by a
+            // Settings refresh without reentering a held backend lock.
+            XCTAssertEqual(backend.cachedVolume, volume)
+            XCTAssertEqual(backend.display.id, displayID)
+            if volume == 0.4 { readPublished.fulfill() }
+            else { writePublished.fulfill() }
+        }
+        defer { NotificationCenter.default.removeObserver(observer) }
+
+        let volume = try await Task.detached { try backend.readVolume() }.value
+        XCTAssertEqual(volume, 0.4)
+        await fulfillment(of: [readPublished], timeout: 3)
+        try await Task.detached { try backend.writeVolume(0.6) }.value
+        await fulfillment(of: [writePublished], timeout: 3)
+        let restarted = try XCTUnwrap(DDCVolumeBackend(display: display(cache), transport: transport))
+        XCTAssertEqual(restarted.cachedVolume, 0.6)
+    }
+
     func testFailedWriteDoesNotBecomeCommittedAfterRefresh() async throws {
         let cache = VolumeTestCache(value: 0.4)
         defer { cache.restore() }

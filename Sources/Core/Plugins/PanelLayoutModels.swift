@@ -8,13 +8,42 @@ struct PluginPanelItemKey: Codable, Hashable, Sendable {
     var id: String { "\(pluginID):\(itemID)" }
 }
 
+enum MenuBarPanelItemPresentation {
+    static let compactSwitch = "compact-switch"
+}
+
+/// Host-owned sizing; unknown modes survive backups and temporarily missing plugins.
+struct MenuBarPanelItemWidth: Codable, Hashable, Sendable {
+    static let minimumPoints: Double = 304
+    static let fill = Self(mode: "fill", points: nil)
+    static func custom(_ points: Double) -> Self { Self(mode: "custom", points: points) }
+
+    let mode: String
+    let points: Double?
+
+    var normalized: Self? {
+        if mode == "fill" { return .fill }
+        if mode == "custom" {
+            guard let points, points.isFinite else { return nil }
+            return .custom(max(Self.minimumPoints, points.rounded()))
+        }
+        return Self(mode: mode, points: points?.isFinite == true ? points : nil)
+    }
+}
+
 struct MenuBarPanelPlacement: Codable, Hashable, Identifiable, Sendable {
     let id: UUID
     let item: PluginPanelItemKey
+    // Keep unknown preferences intact when a plugin is unavailable or downgraded.
+    var presentation: String?
+    var width: MenuBarPanelItemWidth?
 
-    init(id: UUID = UUID(), item: PluginPanelItemKey) {
+    init(id: UUID = UUID(), item: PluginPanelItemKey, presentation: String? = nil,
+         width: MenuBarPanelItemWidth? = nil) {
         self.id = id
         self.item = item
+        self.presentation = presentation
+        self.width = width
     }
 }
 
@@ -35,23 +64,25 @@ struct MenuBarPanelLayoutChange {
 }
 
 struct MenuBarPanelConfiguration: Codable, Equatable, Sendable {
-    static let currentVersion = 3
+    static let currentVersion = 4
+    static let defaultWidth: Double = 316
     var version = currentVersion
     var panels = MenuBarPanelDefinition.defaults
     var placementsByPanelID: [String: [MenuBarPanelPlacement]] = [:]
     var initializedItems: Set<PluginPanelItemKey> = []
     var legacySeed: LegacyPanelSeed?
+    var preferredWidth = defaultWidth
 
     init() {}
 
     private enum CodingKeys: String, CodingKey {
-        case version, panels, placementsByPanelID, initializedItems, legacySeed
+        case version, panels, placementsByPanelID, initializedItems, legacySeed, preferredWidth
     }
 
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let version = try values.decode(Int.self, forKey: .version)
-        guard version == Self.currentVersion else {
+        guard version == Self.currentVersion || version == 3 else {
             guard (1...2).contains(version) else {
                 throw DecodingError.dataCorruptedError(forKey: .version, in: values,
                     debugDescription: "Unsupported panel layout version")
@@ -59,11 +90,12 @@ struct MenuBarPanelConfiguration: Codable, Equatable, Sendable {
             self = try PanelLayoutMigrator.migrate(LegacyPanelLayout(from: decoder))
             return
         }
-        self.version = version
+        self.version = Self.currentVersion
         panels = try values.decode([MenuBarPanelDefinition].self, forKey: .panels)
         placementsByPanelID = try values.decode([String: [MenuBarPanelPlacement]].self, forKey: .placementsByPanelID)
         initializedItems = try values.decode(Set<PluginPanelItemKey>.self, forKey: .initializedItems)
         legacySeed = try values.decodeIfPresent(LegacyPanelSeed.self, forKey: .legacySeed)
+        preferredWidth = try values.decodeIfPresent(Double.self, forKey: .preferredWidth) ?? Self.defaultWidth
     }
 
     var displayPanels: [MenuBarPanelDefinition] {
@@ -89,6 +121,7 @@ struct MenuBarPanelConfiguration: Codable, Equatable, Sendable {
 
     func normalized() -> Self {
         var result = self
+        result.preferredWidth = preferredWidth.isFinite ? max(Self.defaultWidth, preferredWidth) : Self.defaultWidth
         var panelIDs: Set<String> = []
         var customCount = 0
         result.panels = panels.compactMap { original in
@@ -126,6 +159,13 @@ struct MenuBarPanelConfiguration: Codable, Equatable, Sendable {
             }
         }
         result.initializedItems.formUnion(result.placementsByPanelID.values.flatMap { $0 }.map(\.item))
+        for panelID in result.placementsByPanelID.keys {
+            result.placementsByPanelID[panelID] = result.placementsByPanelID[panelID]?.map { placement in
+                var placement = placement
+                placement.width = placement.width?.normalized
+                return placement
+            }
+        }
         return result
     }
 }

@@ -39,6 +39,7 @@ struct PanelViewportStack<Content: View>: View {
     var retainedIDs: Set<String> = []
     @ViewBuilder var content: (String) -> Content
     @StateObject private var viewport = PanelViewportState()
+    @Environment(\.layoutDirection) private var layoutDirection
 
     var body: some View {
         // Bootstrap at most a screenful before the native clip view is attached.
@@ -50,12 +51,16 @@ struct PanelViewportStack<Content: View>: View {
         ZStack(alignment: .topLeading) {
             ForEach(frames.filter { ids.contains($0.id) || retainedIDs.contains($0.id) }) { item in
                 content(item.id)
+                    .environment(\.layoutDirection, layoutDirection)
+                    .environment(\.menuBarPanelSurfaceWidth, item.frame.width)
                     .frame(width: item.frame.width, height: item.frame.height)
-                    .offset(x: item.frame.minX, y: item.frame.minY)
+                    .offset(x: layoutDirection == .rightToLeft ? width - item.frame.maxX : item.frame.minX,
+                            y: item.frame.minY)
             }
         }
         .frame(width: width, height: height, alignment: .topLeading)
         .background(PanelViewportReader(frames: frames, state: viewport).allowsHitTesting(false))
+        .environment(\.layoutDirection, .leftToRight)
     }
 }
 

@@ -33,6 +33,7 @@ final class PanelLayoutHoverState: ObservableObject {
     }
 
     func updatePointer(at point: CGPoint?, in region: NSView) {
+        guard !isDragging else { return }
         var target: String?
         if let point, let window = region.window,
            region.bounds.contains(region.convert(point, from: nil)),
@@ -58,6 +59,7 @@ final class PanelLayoutHoverState: ObservableObject {
 
     func setDragging(_ dragging: Bool) {
         isDragging = dragging
+        if dragging { hoveredItemID = nil }
         updateOwner()
         if !dragging { trackingView?.scheduleRefresh() }
     }
