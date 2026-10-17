@@ -187,6 +187,22 @@ final class AutoInputStore: ObservableObject {
     }
 
     @discardableResult
+    func updateRuleKeyboardMode(
+        bundleIdentifier: String,
+        keyboardMode: AutoInputKeyboardMode
+    ) -> AutoInputStoreMutationResult {
+        guard let index = rules.firstIndex(where: { $0.bundleIdentifier == bundleIdentifier }),
+              rules[index].keyboardMode != keyboardMode else {
+            return record(.committed)
+        }
+        var candidate = rules
+        candidate[index].keyboardMode = keyboardMode
+        let result = persist(candidate, forKey: Keys.rules)
+        if result == .committed { rules = candidate }
+        return record(result)
+    }
+
+    @discardableResult
     func removeRule(bundleIdentifier: String) -> AutoInputStoreMutationResult {
         let candidate = rules.filter { $0.bundleIdentifier != bundleIdentifier }
         guard candidate != rules else { return record(.committed) }
@@ -197,6 +213,10 @@ final class AutoInputStore: ObservableObject {
 
     func rule(for bundleIdentifier: String) -> AutoInputRule? {
         rules.first { $0.bundleIdentifier == bundleIdentifier }
+    }
+
+    var hasKeyboardModeRules: Bool {
+        rules.contains { $0.keyboardMode != .system }
     }
 
     @discardableResult

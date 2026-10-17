@@ -179,6 +179,7 @@ final class AutoInputController: ObservableObject {
     private let hudPresenter: InputSourceHUDPresenting
     private let hudLabelResolver: InputSourceHUDLabelResolving
     private let accessibilityCheck: AutoInputAccessibilityChecking
+    private let functionKeyController: AutoInputFunctionKeyControlling
     private let applicationNotificationCenter: NotificationCenter
     private let switchErrorMessage: () -> String
     private let now: () -> TimeInterval
@@ -200,6 +201,8 @@ final class AutoInputController: ObservableObject {
     private var hudTriggerPolicy: AutoInputHUDTriggerPolicy
     private var hudFrequencyPolicy = AutoInputHUDFrequencyPolicy()
     private var appliedHUDReminderPreferences: AutoInputHUDReminderPreferences
+    private var restoreStandardFunctionKeys: Bool?
+    private var appliedStandardFunctionKeys: Bool?
 
     var currentSourceID: String? {
         sourceController.currentSourceID
@@ -213,6 +216,7 @@ final class AutoInputController: ObservableObject {
         hudPresenter: InputSourceHUDPresenting = InputSourceHUDController(),
         hudLabelResolver: InputSourceHUDLabelResolving = StandardInputSourceHUDLabelResolver(),
         accessibilityCheck: AutoInputAccessibilityChecking = SystemAutoInputAccessibilityCheck(),
+        functionKeyController: AutoInputFunctionKeyControlling = SystemAutoInputFunctionKeyController(),
         applicationNotificationCenter: NotificationCenter = .default,
         now: @escaping () -> TimeInterval = { ProcessInfo.processInfo.systemUptime },
         switchErrorMessage: @escaping () -> String = { "无法切换输入法" }
@@ -224,6 +228,7 @@ final class AutoInputController: ObservableObject {
         self.hudPresenter = hudPresenter
         self.hudLabelResolver = hudLabelResolver
         self.accessibilityCheck = accessibilityCheck
+        self.functionKeyController = functionKeyController
         self.applicationNotificationCenter = applicationNotificationCenter
         self.now = now
         self.switchErrorMessage = switchErrorMessage
@@ -263,6 +268,8 @@ final class AutoInputController: ObservableObject {
     func stop() {
         guard isStarted else { return }
         operationGeneration += 1
+        restoreStandardFunctionKeysIfNeeded()
+        restoreStandardFunctionKeys = nil
         stopFocusMonitoring()
         stopApplicationMonitoring()
         stopSourceMonitoring()
@@ -378,6 +385,7 @@ final class AutoInputController: ObservableObject {
     }
 
     private func handleApplicationActivated(_ application: AutoInputApplication) {
+        applyKeyboardMode(for: application.bundleIdentifier)
         let applicationIdentifier = hudApplicationIdentifier(
             processIdentifier: application.processIdentifier,
             fallback: application.bundleIdentifier
@@ -497,17 +505,26 @@ final class AutoInputController: ObservableObject {
         isStarted && isInteractive && store.isInputHUDEnabled
     }
 
+    private var keyboardModeActive: Bool {
+        isStarted && isInteractive && store.hasKeyboardModeRules
+    }
+
     private func reconcileActiveServices() {
         // Canonical input-source actions remain available even when automatic
         // switching and the optional HUD are both off.
         let shouldMonitorSources = isStarted && isInteractive
-        let shouldMonitorApplications = autoSwitchActive || hudPermissionObservationActive
+        let shouldMonitorApplications = autoSwitchActive
+            || hudPermissionObservationActive
+            || keyboardModeActive
         setSourceMonitoring(active: shouldMonitorSources)
         setApplicationMonitoring(active: shouldMonitorApplications)
 
         if shouldMonitorApplications,
            let application = applicationMonitor.frontmostApplication {
             handleApplicationActivated(application)
+        }
+        if !keyboardModeActive {
+            restoreStandardFunctionKeysIfNeeded()
         }
         setFocusMonitoring(active: hudActive)
         if !hudActive {
@@ -571,6 +588,47 @@ final class AutoInputController: ObservableObject {
         isFocusMonitoringActive = false
         focusedElement = nil
         hudPresenter.dismiss()
+    }
+
+    private func applyKeyboardMode(for bundleIdentifier: String) {
+        guard isStarted, isInteractive, store.hasKeyboardModeRules else { return }
+        applyKeyboardMode(store.rule(for: bundleIdentifier)?.keyboardMode ?? .system)
+    }
+
+    private func applyKeyboardMode(_ mode: AutoInputKeyboardMode) {
+        switch mode {
+        case .system:
+            restoreStandardFunctionKeysIfNeeded()
+        case .standardFunctionKeys:
+            setStandardFunctionKeys(true)
+        case .mediaShortcuts:
+            setStandardFunctionKeys(false)
+        }
+    }
+
+    private func setStandardFunctionKeys(_ isEnabled: Bool) {
+        if restoreStandardFunctionKeys == nil {
+            restoreStandardFunctionKeys = functionKeyController.isStandardFunctionKeysEnabled
+        }
+        guard appliedStandardFunctionKeys != isEnabled else { return }
+        appliedStandardFunctionKeys = isEnabled
+        if !functionKeyController.setStandardFunctionKeysEnabled(isEnabled) {
+            logger.error("Failed to update the standard function key preference")
+        }
+    }
+
+    /// Returns the top row to the value it had before the plugin started managing it.
+    private func restoreStandardFunctionKeysIfNeeded() {
+        if appliedStandardFunctionKeys != nil {
+            appliedStandardFunctionKeys = nil
+            if let restoreStandardFunctionKeys,
+               functionKeyController.isStandardFunctionKeysEnabled != restoreStandardFunctionKeys,
+               !functionKeyController.setStandardFunctionKeysEnabled(restoreStandardFunctionKeys) {
+                logger.error("Failed to restore the standard function key preference")
+            }
+        }
+        // While unmanaged, keep returning to the user's current System Settings choice.
+        restoreStandardFunctionKeys = functionKeyController.isStandardFunctionKeysEnabled
     }
 
     private func handleEditableFocusChanged(_ focus: AutoInputEditableFocus?) {

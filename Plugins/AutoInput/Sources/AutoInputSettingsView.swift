@@ -638,23 +638,8 @@ struct AutoInputSettingsView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            Picker("", selection: Binding(
-                get: { rule.inputSourceID },
-                set: { sourceID in
-                    store.updateRule(bundleIdentifier: rule.bundleIdentifier, inputSourceID: sourceID)
-                    onChange()
-                }
-            )) {
-                if !isSourceAvailable(rule.inputSourceID) {
-                    Text(localization.string("settings.source.unavailable", defaultValue: "输入法不可用"))
-                        .tag(rule.inputSourceID)
-                }
-                ForEach(controller.sources) { source in
-                    Text(source.name).tag(source.id)
-                }
-            }
-            .labelsHidden()
-            .frame(minWidth: 160, idealWidth: 190, maxWidth: 240)
+            ruleInputSourcePicker(rule)
+            ruleKeyboardModePicker(rule)
 
             Button {
                 store.removeRule(bundleIdentifier: rule.bundleIdentifier)
@@ -667,6 +652,89 @@ struct AutoInputSettingsView: View {
             .help(localization.string("settings.rules.delete", defaultValue: "删除此规则"))
         }
         .pluginSettingsListRowPadding(interactive: true)
+    }
+
+    private func ruleInputSourcePicker(_ rule: AutoInputRule) -> some View {
+        Picker("", selection: Binding(
+            get: { rule.inputSourceID },
+            set: { sourceID in
+                store.updateRule(bundleIdentifier: rule.bundleIdentifier, inputSourceID: sourceID)
+                onChange()
+            }
+        )) {
+            if !isSourceAvailable(rule.inputSourceID) {
+                Text(localization.string("settings.source.unavailable", defaultValue: "输入法不可用"))
+                    .tag(rule.inputSourceID)
+            }
+            ForEach(controller.sources) { source in
+                Text(source.name).tag(source.id)
+            }
+        }
+        .labelsHidden()
+        .frame(minWidth: 140, idealWidth: 170, maxWidth: 210)
+        .help(inputSourceTitle)
+        .accessibilityLabel(Text(inputSourceTitle))
+        .accessibilityIdentifier("auto-input.rule-input-source")
+    }
+
+    private func ruleKeyboardModePicker(_ rule: AutoInputRule) -> some View {
+        HStack(spacing: PluginSettingsTheme.Spacing.controlCluster) {
+            Image(systemName: "keyboard")
+                .font(PluginSettingsTheme.Typography.rowDescription)
+                .foregroundStyle(.secondary)
+                .help(keyboardModeDescription)
+                .accessibilityHidden(true)
+
+            Picker("", selection: Binding(
+                get: { rule.keyboardMode },
+                set: { mode in
+                    store.updateRuleKeyboardMode(
+                        bundleIdentifier: rule.bundleIdentifier,
+                        keyboardMode: mode
+                    )
+                    onChange()
+                }
+            )) {
+                ForEach(AutoInputKeyboardMode.allCases) { mode in
+                    Text(localizedKeyboardMode(mode)).tag(mode)
+                }
+            }
+            .labelsHidden()
+            .frame(minWidth: 120, idealWidth: 150, maxWidth: 190)
+            .help(keyboardModeDescription)
+            .accessibilityLabel(Text(keyboardModeTitle))
+            .accessibilityHint(Text(keyboardModeDescription))
+            .accessibilityIdentifier("auto-input.rule-keyboard-mode")
+        }
+    }
+
+    private var inputSourceTitle: String {
+        localization.string("settings.rules.inputSource.title", defaultValue: "输入法")
+    }
+
+    private var keyboardModeTitle: String {
+        localization.string("settings.rules.keyboardMode.title", defaultValue: "键盘模式")
+    }
+
+    private var keyboardModeDescription: String {
+        localization.string(
+            "settings.rules.keyboardMode.description",
+            defaultValue: "该应用位于前台时，顶部按键的用途。"
+        )
+    }
+
+    private func localizedKeyboardMode(_ mode: AutoInputKeyboardMode) -> String {
+        switch mode {
+        case .system:
+            localization.string("settings.rules.keyboardMode.system", defaultValue: "跟随系统")
+        case .standardFunctionKeys:
+            localization.string(
+                "settings.rules.keyboardMode.functionKeys",
+                defaultValue: "F1–F12 功能键"
+            )
+        case .mediaShortcuts:
+            localization.string("settings.rules.keyboardMode.media", defaultValue: "MacBook 快捷键")
+        }
     }
 
     private func settingToggle(

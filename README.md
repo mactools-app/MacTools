@@ -102,7 +102,7 @@ Editing a direct shortcut highlights its key and shows a concise prompt beside D
 | --- | --- |
 | Capture & clipboard | Annotate screenshots, use OCR and QR recognition, pin images, capture scrolling content, and record a region. Keep encrypted local clipboard history, snippets, and paste queues, with a default clipboard content limit of 30 MB per item. |
 | Windows & workspace | Switch and arrange windows, launch apps, manage Stage Manager, and customize Finder's right-click menu. |
-| Keyboard, mouse & trackpad | Remap inputs, assign gestures and app shortcuts, tune scrolling, add middle-click, and type text with Auto Input. |
+| Keyboard, mouse & trackpad | Remap inputs, assign gestures and app shortcuts, tune scrolling, add middle-click, and type text with Auto Input. Switch each app's input source and top-row behavior automatically. |
 | Displays & appearance | Adjust brightness and resolution, connect Sidecar, toggle True Tone and Night Shift, hide the notch, and organize menu bar icons and the Dock. |
 | Audio & power | Control system, microphone, app, and display volume; keep the Mac awake; manage fans and charging limits; lock, sleep, or shut down. |
 | Monitoring & calendar | Follow system performance, device batteries, activity statistics, AI usage, and network status, manage Apple containers and virtual machines, or combine battery, Wi-Fi, and volume into one resizable menu bar icon with the battery percentage, status colors, detailed network states, and a Bluetooth audio mark. Check your calendar and upcoming events. Monitor live system power consumption, AC input, battery charging/discharging wattage, battery health, temperature, and cycle count in a dedicated power panel. |
@@ -126,6 +126,8 @@ Screenshots work on macOS 14+; region recording and per-app volume require macOS
 Experimental [Trackpad Scale](docs/plugins/trackpad-scale.md) estimates small-object weight on a built-in Force Touch trackpad. Start with no object and keep one finger lightly resting in place; it automatically tares after about one second. Wait for the ready message, then gently place the object while maintaining that contact. Auto capture stops sampling after a stable reading and keeps the result visible so you can lift your finger; turn it off for continuous measuring. Calibration pauses auto capture and includes manual **Tare**; **⌘T** also resets the baseline while measuring.
 
 Screenshot selection remains available on each display after switching desktops or entering and leaving full-screen apps.
+
+Auto Input applies a fixed rule's input source and keyboard mode when its app comes to the front. Keyboard mode can follow the system, use standard F1–F12 keys, or keep the MacBook top-row shortcuts, and the top row returns to its previous behavior when you switch away.
 
 The screenshot toolbar includes **Spotlight** for keeping a detail clear while dimming the rest, and opaque **Fill** for rectangles and ellipses; shapes stay selectable, movable, and resizable after drawing. Region recordings can **auto zoom** toward clicks and scrolling in the saved video.
 
