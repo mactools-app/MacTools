@@ -29,6 +29,7 @@ struct PanelLayoutDragSource: NSViewRepresentable {
         view.toolTip = FeatureL10n.string("拖移以移动")
         view.handleColor = NSColor(showsControls ? theme.accent : theme.text.secondary)
         view.handleBackgroundColor = NSColor(theme.surfaces.panel)
+        view.controlLabels = .localized
         view.showsControls = showsControls
         view.isDraggable = isDraggable
         view.rightToLeft = rightToLeft
@@ -71,6 +72,9 @@ final class PanelLayoutDragSourceView: NSView {
     var rightToLeft = false {
         didSet { if rightToLeft != oldValue { updateTrackingAreas(); needsDisplay = true } }
     }
+    var controlLabels: PanelLayoutControlLabels = .localized {
+        didSet { if controlLabels != oldValue { updateTrackingAreas() } }
+    }
     private(set) var controlFrames: [CGRect] = []
     weak var hover: PanelLayoutHoverState?
     var onBegin: (() -> String?)?
@@ -83,6 +87,7 @@ final class PanelLayoutDragSourceView: NSView {
         let visibleBounds: CGRect
         let showsControls: Bool
         let rightToLeft: Bool
+        let labels: PanelLayoutControlLabels
     }
     private var trackingGeometry: TrackingGeometry?
 
@@ -106,7 +111,7 @@ final class PanelLayoutDragSourceView: NSView {
 
     /// Match the adaptive, centered toolbar; its remaining card area stays draggable.
     var menuFrame: CGRect {
-        PanelLayoutItemControlsLayout.frame(in: bounds)
+        PanelLayoutItemControlsLayout(size: bounds.size, labels: controlLabels).frame(in: bounds)
     }
 
     override func hitTest(_ point: NSPoint) -> NSView? {
@@ -119,10 +124,10 @@ final class PanelLayoutDragSourceView: NSView {
         super.updateTrackingAreas()
         let visibleBounds = bounds.intersection(visibleRect)
         let next = TrackingGeometry(bounds: bounds, visibleBounds: visibleBounds,
-                                    showsControls: showsControls, rightToLeft: rightToLeft)
+                                    showsControls: showsControls, rightToLeft: rightToLeft, labels: controlLabels)
         guard next != trackingGeometry else { return }
         trackingGeometry = next
-        controlFrames = PanelLayoutItemControlsLayout(size: bounds.size)
+        controlFrames = PanelLayoutItemControlsLayout(size: bounds.size, labels: controlLabels)
             .buttonFrames(in: bounds, rightToLeft: rightToLeft)
         cursorTrackingAreas.forEach(removeTrackingArea)
         cursorTrackingAreas.removeAll(keepingCapacity: true)

@@ -315,7 +315,7 @@ struct PanelLayoutDropPreview: View {
         ZStack(alignment: .topLeading) {
             if let frame = preview.target?.previewFrame {
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(theme.surfaces.panel.opacity(0.92))
+                    .fill(theme.surfaces.panel)
                     .overlay { RoundedRectangle(cornerRadius: 8).fill(theme.accent.opacity(0.10)) }
                     .overlay {
                         RoundedRectangle(cornerRadius: 8)
@@ -397,7 +397,7 @@ private struct PanelLayoutReorderItem<Content: View>: View {
     @FocusState private var focusedControl: Control?
     @State private var showsWidthPicker = false
 
-    private var showsControls: Bool { hoverState.isActive }
+    private var showsControls: Bool { hoverState.isActive && !isDragging }
 
     var body: some View {
         ZStack {
@@ -406,7 +406,7 @@ private struct PanelLayoutReorderItem<Content: View>: View {
             content
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
                 .compositingGroup()
-                .overlay { theme.surfaces.panel.opacity(showsControls ? 0.12 : 0) }
+                .overlay { theme.surfaces.panel.opacity(showsControls ? 0.18 : 0) }
                 .clipShape(RoundedRectangle(cornerRadius: MenuBarPanelLayout.cornerRadius))
                 .opacity(isDragging ? 0.32 : 1)
                 .scaleEffect(isDragging ? 0.985 : 1)
@@ -414,19 +414,22 @@ private struct PanelLayoutReorderItem<Content: View>: View {
                 .focusable(false)
                 .accessibilityHidden(true)
             GeometryReader { proxy in
-                let metrics = PanelLayoutItemControlsLayout(size: proxy.size)
+                let labels = PanelLayoutControlLabels.localized
+                let metrics = PanelLayoutItemControlsLayout(size: proxy.size, labels: labels)
+                let controlsFrame = metrics.frame(in: CGRect(origin: .zero, size: proxy.size))
                 PanelLayoutControls(metrics: metrics, rightToLeft: layoutDirection == .rightToLeft) {
                     if metrics.isCompact {
                         MenuBarPanelMenu(makeMenu: { compactMenu(proxy: proxy, metrics: metrics) }) {
                             controlIcon("ellipsis", side: metrics.buttonSide, preferredIconSide: 14)
                         }
                         .focused($focusedControl, equals: .more)
-                        .help(PanelLayoutCopy.position(title, index: index, count: count))
-                        .accessibilityLabel(PanelLayoutCopy.position(title, index: index, count: count))
+                        .help(FeatureL10n.string("更多"))
+                        .accessibilityLabel(FeatureL10n.string("更多"))
+                        .accessibilityValue(PanelLayoutCopy.position(title, index: index, count: count))
                         .accessibilityIdentifier("panel.layout.more.\(id)")
                     } else {
                         Button { requestRemoval(proxy: proxy, metrics: metrics) } label: {
-                            controlIcon("trash", side: metrics.buttonSide)
+                            controlLabel("trash", index: 0, metrics: metrics, labels: labels)
                         }
                         .focused($focusedControl, equals: .remove)
                         .help(FeatureL10n.string("移除组件"))
@@ -434,7 +437,7 @@ private struct PanelLayoutReorderItem<Content: View>: View {
                         .accessibilityIdentifier("panel.layout.remove.\(id)")
 
                         MenuBarPanelMenu(makeMenu: { destinationMenu(showsHeading: true) }) {
-                            controlIcon("arrow.forward.square", side: metrics.buttonSide)
+                            controlLabel("arrow.forward.square", index: 1, metrics: metrics, labels: labels)
                         }
                         .focused($focusedControl, equals: .moveTo)
                         .help(FeatureL10n.string("移动到"))
@@ -442,14 +445,15 @@ private struct PanelLayoutReorderItem<Content: View>: View {
                         .accessibilityIdentifier("panel.layout.moveTo.\(id)")
 
                         MenuBarPanelMenu(makeMenu: orderingMenu) {
-                            controlIcon("ellipsis.circle", side: metrics.buttonSide)
+                            controlLabel("ellipsis.circle", index: 2, metrics: metrics, labels: labels)
                         }
                         .focused($focusedControl, equals: .more)
-                        .accessibilityLabel(PanelLayoutCopy.position(title, index: index, count: count))
+                        .help(FeatureL10n.string("更多"))
+                        .accessibilityLabel(FeatureL10n.string("更多"))
+                        .accessibilityValue(PanelLayoutCopy.position(title, index: index, count: count))
                         .accessibilityIdentifier("panel.layout.more.\(id)")
                     }
                 }
-                .accessibilityHint(PanelLayoutCopy.hint)
                 .accessibilityAction(named: PanelLayoutCopy.earlier) { if index > 0 { perform(index - 1) } }
                 .accessibilityAction(named: PanelLayoutCopy.later) { if index < count - 1 { perform(index + 2) } }
                 .accessibilityAction(named: PanelLayoutCopy.beginning) { perform(0) }
@@ -459,11 +463,13 @@ private struct PanelLayoutReorderItem<Content: View>: View {
                 .foregroundStyle(theme.text.primary)
                 .fixedSize()
                 .background {
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(theme.surfaces.control)
-                        .padding(-3)
+                    // Keep backdrop filtering local to the visible toolbar. Hidden
+                    // cards and native drags must not retain material render layers.
+                    if showsControls {
+                        PanelLayoutControlsBackground().padding(-3)
+                    }
                 }
-                .frame(width: proxy.size.width, height: proxy.size.height)
+                .position(x: controlsFrame.midX, y: controlsFrame.midY)
             }
             .opacity(showsControls ? 1 : 0)
             .allowsHitTesting(showsControls)
@@ -572,6 +578,24 @@ private struct PanelLayoutReorderItem<Content: View>: View {
         let anchor = button.offsetBy(dx: controls.minX, dy: controls.minY)
         // Let a compact menu finish dismissing before presenting confirmation.
         DispatchQueue.main.async { remove(anchor) }
+    }
+
+    private func controlLabel(_ symbol: String, index: Int, metrics: PanelLayoutItemControlsLayout,
+                              labels: PanelLayoutControlLabels) -> some View {
+        HStack(spacing: 5) {
+            Image(systemName: symbol)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 16, height: 16)
+            if metrics.showsLabels {
+                Text(labels.titles[index])
+                    .font(PluginTypography.control.font)
+                    .lineLimit(1)
+                    .fixedSize()
+            }
+        }
+        .frame(width: metrics.buttonWidths[index], height: metrics.buttonSide)
+        .contentShape(Rectangle())
     }
 
     private func controlIcon(_ symbol: String, side: CGFloat, preferredIconSide: CGFloat = 16) -> some View {
