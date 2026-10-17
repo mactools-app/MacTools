@@ -3,7 +3,7 @@ import XCTest
 @testable import ClipboardHistoryPlugin
 
 final class ClipboardHistoryPayloadReferenceTests: XCTestCase {
-    func testConcurrentReadersReceivePayloadAfterAnotherReaderReleasesTheCache() async throws {
+    func testConcurrentReadersReceivePayloadWhenCachePublicationIsInvalidated() async throws {
         let payload = ClipboardHistoryPayload.plainText("Shared saved content")
         let started = expectation(description: "Payload read started")
         let release = DispatchSemaphore(value: 0)
@@ -24,6 +24,9 @@ final class ClipboardHistoryPayloadReferenceTests: XCTestCase {
         }
         let joined = await waitForReaders(1, reference: reference)
         XCTAssertTrue(joined)
+        // Rebind persistence while both readers share the original read. Its result
+        // cannot enter the cache, regardless of which reader resumes first.
+        reference.configureLoader({ payload }, discardCachedPayload: true)
         release.signal()
 
         let original = try await owner.value
