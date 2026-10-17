@@ -77,6 +77,43 @@ final class AutoInputFocusObserverTests: XCTestCase {
         runLoop.shutdown()
     }
 
+    func testLatestQueuedActivationSurvivesTerminationWhileWorkerIsBlocked() async {
+        let previous = AutoInputTestApplication(processIdentifier: 101)
+        let next = AutoInputTestApplication(processIdentifier: 202)
+        let latest = AutoInputTestApplication(processIdentifier: 303)
+        for activations in [[next], [next, latest]] {
+            let entered = expectation(description: "Previous app registration entered")
+            let completed = expectation(description: "Previous app registration returned")
+            completed.assertForOverFulfill = false
+            let backend = BlockingAutoInputRegistration(entered: entered, completed: completed, status: .notImplemented)
+            let runLoop = AutoInputAccessibilityRunLoop()
+            let notifications = NotificationCenter()
+            let current = activations.last!
+            let observer = AccessibilityAutoInputFocusObserver(
+                workspace: AutoInputTestApplications(frontmostApplication: previous),
+                notificationCenter: notifications,
+                focusedApplicationProcessIdentifier: { current.processIdentifier },
+                registrationBackend: backend, runLoop: runLoop)
+            observer.start()
+            await fulfillment(of: [entered], timeout: 5)
+            defer { backend.release.signal(); observer.stop(); runLoop.shutdown() }
+
+            for application in activations {
+                notifications.post(name: NSWorkspace.didActivateApplicationNotification, object: nil,
+                    userInfo: [NSWorkspace.applicationUserInfoKey: application])
+            }
+            notifications.post(name: NSWorkspace.didTerminateApplicationNotification, object: nil,
+                userInfo: [NSWorkspace.applicationUserInfoKey: previous])
+            backend.release.signal()
+            await fulfillment(of: [completed], timeout: 5)
+            await drain(runLoop)
+
+            XCTAssertEqual(backend.registeredProcessIdentifiers,
+                [previous.processIdentifier, current.processIdentifier],
+                "Termination must preserve observation of the latest app and skip obsolete activations")
+        }
+    }
+
     func testForegroundWorkOvertakesQueuedAccessoryWork() async {
         let entered = expectation(description: "Current AX request entered")
         let release = DispatchSemaphore(value: 0)
@@ -113,8 +150,21 @@ final class AutoInputFocusObserverTests: XCTestCase {
 
 @MainActor
 private struct AutoInputTestApplications: AutoInputApplicationProviding {
-    var frontmostApplication: NSRunningApplication? { .current }
+    var frontmostApplication: NSRunningApplication? = .current
     var runningApplications: [NSRunningApplication] { [] }
+}
+
+private final class AutoInputTestApplication: NSRunningApplication, @unchecked Sendable {
+    private let identifier: pid_t
+
+    init(processIdentifier: pid_t) {
+        identifier = processIdentifier
+        super.init()
+    }
+
+    override var processIdentifier: pid_t { identifier }
+    override var bundleIdentifier: String? { "test.auto-input.\(identifier)" }
+    override var activationPolicy: NSApplication.ActivationPolicy { .regular }
 }
 
 private final class BlockingAutoInputRegistration: AutoInputAccessibilityRegistering, @unchecked Sendable {
@@ -123,22 +173,25 @@ private final class BlockingAutoInputRegistration: AutoInputAccessibilityRegiste
     private let entered: XCTestExpectation
     private let completed: XCTestExpectation
     private let lock = NSLock()
-    private var count = 0
+    private let status: AXError
+    private var registeredPIDs: [pid_t] = []
     private var usedMainThread = false
-    var registrationCount: Int { lock.withLock { count } }
+    var registrationCount: Int { lock.withLock { registeredPIDs.count } }
+    var registeredProcessIdentifiers: [pid_t] { lock.withLock { registeredPIDs } }
     var ranOnMainThread: Bool { lock.withLock { usedMainThread } }
 
-    init(entered: XCTestExpectation, completed: XCTestExpectation) {
+    init(entered: XCTestExpectation, completed: XCTestExpectation, status: AXError = .apiDisabled) {
         self.entered = entered
         self.completed = completed
+        self.status = status
     }
 
     func register(processIdentifier: pid_t, callback: AXObserverCallback,
                   context: UnsafeMutableRawPointer) -> AutoInputAccessibilityRegistrationResult {
         let first = lock.withLock {
-            count += 1
+            registeredPIDs.append(processIdentifier)
             usedMainThread = usedMainThread || Thread.isMainThread
-            return count == 1
+            return registeredPIDs.count == 1
         }
         if first {
             entered.fulfill()
@@ -147,7 +200,7 @@ private final class BlockingAutoInputRegistration: AutoInputAccessibilityRegiste
             if !Thread.isMainThread { release.wait() }
         }
         completed.fulfill()
-        return .init(status: .apiDisabled)
+        return .init(status: status)
     }
 }
 

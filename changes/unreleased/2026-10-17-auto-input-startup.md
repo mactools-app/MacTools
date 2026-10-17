@@ -3,4 +3,4 @@ release: plugin
 type: fixed
 ---
 
-Auto Input no longer blocks MacTools while waiting for another app's Accessibility service during startup. Stopped sessions ignore late focus updates.
+Auto Input no longer stalls MacTools during startup. Focus tracking survives app quits during a switch, and stopped sessions ignore late updates.

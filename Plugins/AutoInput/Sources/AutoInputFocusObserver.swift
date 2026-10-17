@@ -207,9 +207,20 @@ private final class AutoInputFocusSessionValidity: @unchecked Sendable {
     private let lock = NSLock()
     private var generation: Int?
     private var revision = 0
+    private var activationRevision = 0
 
-    func set(generation: Int?, revision: Int) {
-        lock.withLock { self.generation = generation; self.revision = revision }
+    func set(generation: Int?, revision: Int, isActivation: Bool = false) {
+        lock.withLock {
+            // Termination retires focus results without superseding the latest
+            // queued activation needed to register the current application.
+            if self.generation != generation || isActivation { activationRevision = revision }
+            self.generation = generation
+            self.revision = revision
+        }
+    }
+
+    func acceptsActivation(_ generation: Int, revision: Int) -> Bool {
+        lock.withLock { self.generation == generation && activationRevision == revision }
     }
 
     func accepts(_ generation: Int, revision: Int? = nil) -> Bool {
@@ -397,7 +408,8 @@ final class AccessibilityAutoInputFocusObserver: AutoInputFocusObserving {
         } else {
             focusRevision &+= 1
             let revision = focusRevision
-            validity.set(generation: generation, revision: revision)
+            validity.set(generation: generation, revision: revision,
+                isActivation: event == NSWorkspace.didActivateApplicationNotification)
             let screen = primaryScreenFrame
             runLoop.perform(priority: .foreground) { [session] in
                 if event == NSWorkspace.didActivateApplicationNotification {
@@ -516,7 +528,7 @@ private final class AutoInputFocusObservationSession: @unchecked Sendable {
     }
 
     func activate(_ application: AutoInputObservedApplication, generation: Int, revision: Int, screen: CGRect) {
-        guard self.generation == generation, validity.accepts(generation, revision: revision) else { return }
+        guard self.generation == generation, validity.acceptsActivation(generation, revision: revision) else { return }
         focusRevision = revision
         primaryScreenFrame = screen
         observeActivatedApplication(application)
