@@ -232,6 +232,22 @@ final class DockClickMinimizePluginTests: XCTestCase {
         XCTAssertTrue(applicationHider.hiddenProcessIdentifiers.isEmpty)
     }
 
+    func testReturningToSameApplicationBeforeDelayDoesNotRestorePendingHide() async {
+        let monitor = MockDockClickMonitor()
+        let applicationHider = MockDockApplicationHider(hasVisibleWindow: true)
+        let scheduler = ManualScheduler()
+        let plugin = makePlugin(monitor: monitor, applicationHider: applicationHider, scheduler: scheduler)
+
+        monitor.emit(target: safariTarget, frontmostApplication: safariApplication)
+        await waitUntil { !scheduler.actions.isEmpty }
+        // The monitor observes activation changes even when the current identity
+        // again matches by the time the delayed action executes.
+        monitor.activityGeneration += 2
+        scheduler.runNext()
+
+        XCTAssertTrue(applicationHider.hiddenProcessIdentifiers.isEmpty)
+    }
+
     private var safariTarget: DockApplicationTarget {
         DockApplicationTarget(bundleIdentifier: "com.apple.Safari")
     }
@@ -319,6 +335,7 @@ final class DockClickMinimizePluginTests: XCTestCase {
 @MainActor
 private final class MockDockClickMonitor: @preconcurrency DockClickMonitoring {
     var onApplicationClick: ((DockApplicationTarget, DockFrontmostApplication) -> Void)?
+    var activityGeneration = 0
     private(set) var startCallCount = 0
     private(set) var stopCallCount = 0
     private let startResult: Bool

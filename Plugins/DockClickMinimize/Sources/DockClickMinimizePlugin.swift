@@ -366,12 +366,14 @@ final class DockClickMinimizePlugin: MacToolsPlugin, AccessibilityPermissionRefr
         }
 
         let expectedGeneration = actionGeneration
+        let expectedActivityGeneration = monitor.activityGeneration
         Task { @MainActor [weak self] in
             guard let self else { return }
             let hasVisibleWindow = await applicationHider.hasVisibleWindow(
                 for: frontmostApplication.processIdentifier
             )
             guard expectedGeneration == actionGeneration,
+                  expectedActivityGeneration == monitor.activityGeneration,
                   isEnabled,
                   isAccessibilityGranted,
                   isInputMonitoringGranted,
@@ -389,7 +391,8 @@ final class DockClickMinimizePlugin: MacToolsPlugin, AccessibilityPermissionRefr
                 self?.hideAfterDockClick(
                     target: target,
                     expectedFrontmostApplication: frontmostApplication,
-                    expectedGeneration: expectedGeneration
+                    expectedGeneration: expectedGeneration,
+                    expectedActivityGeneration: expectedActivityGeneration
                 )
             }
         }
@@ -411,9 +414,11 @@ final class DockClickMinimizePlugin: MacToolsPlugin, AccessibilityPermissionRefr
     private func hideAfterDockClick(
         target: DockApplicationTarget,
         expectedFrontmostApplication: DockFrontmostApplication,
-        expectedGeneration: Int
+        expectedGeneration: Int,
+        expectedActivityGeneration: Int
     ) {
         guard expectedGeneration == actionGeneration,
+              expectedActivityGeneration == monitor.activityGeneration,
               isEnabled,
               isAccessibilityGranted,
               isInputMonitoringGranted,
