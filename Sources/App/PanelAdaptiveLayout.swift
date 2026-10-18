@@ -279,9 +279,10 @@ struct PanelWidthPicker: View {
                 }
             }
             .buttonStyle(.bordered)
+            // Swift 6.3.3 crashes when an isolated method reference is used as this setter.
             Stepper(value: Binding(get: {
                 MenuBarPanelWidth.columns(forSurfaceWidth: feedbackWidth - MenuBarPanelLayout.outerPadding * 2)
-            }, set: applyColumns), in: 1...maximumColumns) {
+            }, set: { applyColumns($0) }), in: 1...maximumColumns) {
                 Text(MenuBarPanelWidth.columnTitle(MenuBarPanelWidth.columns(
                     forSurfaceWidth: feedbackWidth - MenuBarPanelLayout.outerPadding * 2)))
             }
