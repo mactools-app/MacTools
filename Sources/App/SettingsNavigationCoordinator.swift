@@ -307,7 +307,7 @@ final class SettingsNavigationCoordinator: ObservableObject {
                 )
             },
             isMarketplaceDetailAvailable: { target in
-                pluginHost.hasMarketplaceDetail(target: target)
+                pluginHost.canPresentMarketplaceDetail(target: target)
             },
             isAutomationWorkflowAvailable: { workflowID in
                 pluginHost.automationController.workflows.contains { $0.id == workflowID }
@@ -560,6 +560,9 @@ final class SettingsNavigationCoordinator: ObservableObject {
     }
 
     func reconcileCurrentDestinationAvailability() {
+        // Informational details own their loading and unavailable states. Keep
+        // the current page visible when catalog resolution changes availability.
+        if case .marketplaceDetail = destination { return }
         guard !isAvailable(destination) else {
             return
         }

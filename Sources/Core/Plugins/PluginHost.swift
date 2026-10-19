@@ -1100,6 +1100,9 @@ final class PluginHost: ObservableObject {
         selection: PreferencesBackupSelection? = nil,
         progress: (PreferencesImportProgress) -> Void = { _ in }
     ) async throws -> PreferencesImportResult {
+        guard !automaticPluginUpdateStatus.isActive,
+              didLoadDynamicPlugins || !hasInstalledDynamicPlugins
+        else { throw PluginMarketplaceOperationError.operationInProgress }
         let preview = try preferencesImportPreview(for: backup, selection: selection)
         let installablePluginIDs = Set(preview.installablePlugins.map(\.id))
         let pluginIDs = requestedPluginIDs.intersection(installablePluginIDs).sorted()
@@ -2170,6 +2173,13 @@ final class PluginHost: ObservableObject {
         )
     }
 
+    func canPresentMarketplaceDetail(target: MarketplacePluginDetailTarget) -> Bool {
+        guard pluginManagementItems.contains(where: { $0.id == target.pluginID }) else {
+            return pluginCatalogStatus.lastUpdatedAt == nil
+        }
+        return hasMarketplaceDetail(target: target)
+    }
+
     func hasMarketplaceDetail(target: MarketplacePluginDetailTarget) -> Bool {
         guard let item = pluginManagementItems.first(where: { $0.id == target.pluginID }) else {
             return false
@@ -2434,10 +2444,6 @@ final class PluginHost: ObservableObject {
 
     func refreshPluginCatalog() async {
         guard let pluginCatalogManager else { return }
-        guard !pluginCatalogManager.status.isRefreshing else {
-            pluginCatalogStatus = pluginCatalogManager.status
-            return
-        }
         var status = pluginCatalogManager.status
         status.isRefreshing = true
         status.errorMessage = nil
@@ -2493,8 +2499,7 @@ final class PluginHost: ObservableObject {
             message: nil
         )
 
-        await pluginCatalogManager.refreshCatalog()
-        syncPluginManagementState()
+        await refreshPluginCatalog()
 
         if let errorMessage = pluginCatalogManager.status.errorMessage {
             automaticPluginUpdateStatus = PluginAutomaticUpdateStatus(

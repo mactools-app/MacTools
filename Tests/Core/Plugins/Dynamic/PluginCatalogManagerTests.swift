@@ -111,6 +111,97 @@ final class PluginCatalogManagerTests: XCTestCase {
         XCTAssertFalse(manager.status.isRefreshing)
     }
 
+    func testConcurrentHostRefreshesShareOneScanAndSurviveCancelledWaiter() async {
+        let fileManager = InstalledDirectoryCountingFileManager()
+        let store = PluginPackageStore(
+            rootDirectory: temporaryRoot, fileManager: fileManager,
+            userDefaults: defaults, hostVersion: "1.0.0"
+        )
+        let dynamicManager = DynamicPluginManager(
+            packageStore: store, pluginLoader: StubDynamicPluginLoader { _ in [] }
+        )
+        let snapshot = makeCatalogSnapshot(entries: [makeCatalogEntry(id: "com.example.demo", version: "1.0.0")])
+        let provider = SuspendedPluginCatalogProvider()
+        let manager = PluginCatalogManager(
+            catalogProvider: provider,
+            packageResolver: StubPluginPackageResolver(packagesByID: [:]),
+            dynamicPluginManager: dynamicManager, source: .production(snapshot.sourceURL)
+        )
+        let host = makeFeedbackHost(
+            dynamicManager: dynamicManager, catalogManager: manager, loadDynamicPluginsOnInit: false
+        )
+        defer { host.deactivateAllPlugins() }
+        let initialScans = fileManager.scanCount
+        let first = Task { await host.refreshPluginCatalog() }
+        await provider.waitUntilRequested()
+        XCTAssertTrue(host.pluginCatalogStatus.isRefreshing)
+        first.cancel()
+
+        var joined: Task<Void, Never>?
+        var joinedDidFinish = false
+        await withCheckedContinuation { started in
+            joined = Task {
+                started.resume()
+                await host.refreshPluginCatalog()
+                joinedDidFinish = true
+            }
+        }
+        XCTAssertFalse(joinedDidFinish, "A joining caller must wait for the catalog")
+        XCTAssertEqual(provider.requestCount, 1)
+        provider.resume(returning: snapshot)
+        await first.value
+        await joined?.value
+
+        XCTAssertTrue(joinedDidFinish)
+        XCTAssertEqual(fileManager.scanCount - initialScans, 1)
+        XCTAssertEqual(host.pluginManagementItems.map(\.id), ["com.example.demo"])
+        XCTAssertEqual(host.pluginCatalogStatus.lastUpdatedAt, snapshot.loadedAt)
+        XCTAssertNil(host.pluginCatalogStatus.errorMessage)
+        XCTAssertFalse(host.pluginCatalogStatus.isRefreshing)
+    }
+
+    func testStartupAndHostRefreshesShareRequestAndPublishLoading() async {
+        let dynamicManager = DynamicPluginManager(
+            packageStore: makeStore(), pluginLoader: StubDynamicPluginLoader { _ in [] }
+        )
+        let snapshot = makeCatalogSnapshot(entries: [makeCatalogEntry(id: "com.example.demo", version: "1.0.0")])
+        let provider = SuspendedPluginCatalogProvider()
+        let manager = PluginCatalogManager(
+            catalogProvider: provider,
+            packageResolver: StubPluginPackageResolver(packagesByID: [:]),
+            dynamicPluginManager: dynamicManager, source: .production(snapshot.sourceURL)
+        )
+        let host = makeFeedbackHost(
+            dynamicManager: dynamicManager, catalogManager: manager, loadDynamicPluginsOnInit: false
+        )
+        defer { host.deactivateAllPlugins() }
+        let startup = Task { await host.automaticUpdateInstalledPluginsBeforeLoading() }
+        await provider.waitUntilRequested()
+        XCTAssertTrue(host.pluginCatalogStatus.isRefreshing, "Startup must publish catalog loading before a view joins")
+
+        var joined: Task<Void, Never>?
+        var joinedDidFinish = false
+        await withCheckedContinuation { started in
+            joined = Task {
+                started.resume()
+                await host.refreshPluginCatalog()
+                joinedDidFinish = true
+            }
+        }
+        XCTAssertFalse(joinedDidFinish)
+        XCTAssertEqual(provider.requestCount, 1)
+        provider.resume(returning: snapshot)
+        let succeeded = await startup.value
+        await joined?.value
+
+        XCTAssertTrue(succeeded)
+        XCTAssertTrue(joinedDidFinish)
+        XCTAssertEqual(provider.requestCount, 1)
+        XCTAssertEqual(host.pluginCatalogStatus.lastUpdatedAt, snapshot.loadedAt)
+        XCTAssertFalse(host.pluginCatalogStatus.isRefreshing)
+        XCTAssertFalse(host.isPreparingPlugins)
+    }
+
     func testAutomaticUpdatePlanOnlyIncludesInstalledPluginsWithNewerCatalogVersions() async throws {
         let store = makeStore()
         _ = try store.installPackage(from: makePackage(id: "com.example.installed", version: "1.0.0"))
@@ -1159,6 +1250,11 @@ final class PluginCatalogManagerTests: XCTestCase {
 
         let preparation = Task { await host.automaticUpdateInstalledPluginsBeforeLoading() }
         await resolver.waitUntilRequested()
+        do {
+            _ = try await host.importPreferences(host.makePreferencesBackup(), installingMissingPluginIDs: [])
+            XCTFail("Backup restoration must wait until installed plugins are loaded")
+        } catch PluginMarketplaceOperationError.operationInProgress {
+        }
         XCTAssertTrue(try XCTUnwrap(host.marketplaceSetupPresentation(pluginID: pluginID)).issues.isEmpty)
         host.recheckPluginRequirements()
         XCTAssertFalse(dynamicManager.isPluginLoaded(pluginID))
@@ -1282,6 +1378,37 @@ private struct StubPluginCatalogProvider: PluginCatalogProviding {
 
     func loadCatalog() async throws -> PluginCatalogSnapshot {
         snapshot
+    }
+}
+
+@MainActor
+private final class SuspendedPluginCatalogProvider: PluginCatalogProviding {
+    private var loadContinuations: [CheckedContinuation<PluginCatalogSnapshot, Error>] = []
+    private var requestContinuation: CheckedContinuation<Void, Never>?
+    private(set) var requestCount = 0
+
+    func loadCatalog() async throws -> PluginCatalogSnapshot {
+        requestCount += 1
+        requestContinuation?.resume()
+        requestContinuation = nil
+        let snapshot = try await withCheckedThrowingContinuation { continuation in
+            loadContinuations.append(continuation)
+        }
+        try Task.checkCancellation()
+        return snapshot
+    }
+
+    func waitUntilRequested() async {
+        guard requestCount == 0 else { return }
+        await withCheckedContinuation { continuation in
+            requestContinuation = continuation
+        }
+    }
+
+    func resume(returning snapshot: PluginCatalogSnapshot) {
+        let continuations = loadContinuations
+        loadContinuations = []
+        continuations.forEach { $0.resume(returning: snapshot) }
     }
 }
 

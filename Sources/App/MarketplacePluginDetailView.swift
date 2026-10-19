@@ -37,6 +37,30 @@ struct MarketplacePluginDetailPresentation: Equatable {
     }
 }
 
+enum MarketplacePluginDetailState: Equatable {
+    case detail(MarketplacePluginDetailPresentation)
+    case loading
+    case catalogFailure(String)
+    case unavailable
+
+    init(
+        item: PluginManagementItem?,
+        target: MarketplacePluginDetailTarget,
+        catalogStatus: PluginCatalogStatus,
+        didAttemptCatalogLoad: Bool
+    ) {
+        if let presentation = MarketplacePluginDetailPresentation(item: item, target: target) {
+            self = .detail(presentation)
+        } else if item != nil || catalogStatus.lastUpdatedAt != nil {
+            self = .unavailable
+        } else if catalogStatus.isRefreshing || !didAttemptCatalogLoad {
+            self = .loading
+        } else {
+            self = .catalogFailure(catalogStatus.errorMessage ?? catalogStatus.title)
+        }
+    }
+}
+
 struct MarketplacePluginDetailView: View {
     @ObservedObject var pluginHost: PluginHost
     @ObservedObject var navigationCoordinator: SettingsNavigationCoordinator
@@ -44,6 +68,7 @@ struct MarketplacePluginDetailView: View {
 
     @State private var errorMessage: String?
     @State private var showUninstallConfirmation = false
+    @State private var didAttemptCatalogLoad = false
     @AccessibilityFocusState private var highlightedActionID: String?
 
     private var operation: PluginMarketplaceOperation? {
@@ -56,18 +81,43 @@ struct MarketplacePluginDetailView: View {
         activeOperation || pluginHost.isUpdatingAvailablePlugins || pluginHost.isPreparingPlugins
     }
 
-    private var presentation: MarketplacePluginDetailPresentation? {
-        MarketplacePluginDetailPresentation(
+    private var state: MarketplacePluginDetailState {
+        MarketplacePluginDetailState(
             item: pluginHost.pluginManagementItems.first { $0.id == target.pluginID },
-            target: target
+            target: target,
+            catalogStatus: pluginHost.pluginCatalogStatus,
+            didAttemptCatalogLoad: didAttemptCatalogLoad
         )
     }
 
     var body: some View {
         Group {
-            if let presentation {
+            switch state {
+            case let .detail(presentation):
                 detail(presentation)
-            } else {
+            case .loading:
+                VStack(spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+                    ProgressView().controlSize(.small)
+                    Text(AppL10n.plugins("plugin.catalog.detail.refreshing", defaultValue: "正在刷新插件列表..."))
+                        .font(PluginSettingsTheme.Typography.rowDescription)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .accessibilityIdentifier("mactools.marketplace.detail.loading")
+            case let .catalogFailure(message):
+                ContentUnavailableView {
+                    Label(pluginHost.pluginCatalogStatus.title, systemImage: "exclamationmark.triangle")
+                } description: {
+                    Text(message)
+                } actions: {
+                    Button(FeatureL10n.string("重试")) {
+                        Task { await loadCatalogIfNeeded() }
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                }
+                .accessibilityIdentifier("mactools.marketplace.detail.catalog-error")
+            case .unavailable:
                 ContentUnavailableView(
                     AppL10n.plugins("plugin.marketplace.detail.unavailable.title", defaultValue: "插件不可用"),
                     systemImage: "shippingbox",
@@ -79,6 +129,7 @@ struct MarketplacePluginDetailView: View {
                 .accessibilityIdentifier("mactools.marketplace.detail.unavailable")
             }
         }
+        .task(id: target) { await loadCatalogIfNeeded() }
         .alert(
             AppL10n.plugins("plugin.marketplace.operationFailed.title", defaultValue: "插件操作失败"),
             isPresented: Binding(
@@ -105,13 +156,18 @@ struct MarketplacePluginDetailView: View {
                 defaultValue: "插件及其已安装版本将从 MacTools 中移除。"
             ))
         }
-        .onChange(of: pluginHost.pluginManagementItems) {
-            navigationCoordinator.reconcileCurrentDestinationAvailability()
-        }
         .onChange(of: target.pluginID) {
             errorMessage = nil
             showUninstallConfirmation = false
         }
+    }
+
+    private func loadCatalogIfNeeded() async {
+        guard !pluginHost.pluginManagementItems.contains(where: { $0.id == target.pluginID }),
+              pluginHost.pluginCatalogStatus.lastUpdatedAt == nil else { return }
+        didAttemptCatalogLoad = false
+        await pluginHost.refreshPluginCatalog()
+        didAttemptCatalogLoad = true
     }
 
     private func detail(_ presentation: MarketplacePluginDetailPresentation) -> some View {

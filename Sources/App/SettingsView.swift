@@ -1327,6 +1327,9 @@ private struct PreferencesBackupSettingsRow: View {
                 pluginOptions: pluginOptions(for: Set(pending.backup.pluginPreferences.keys)),
                 isImporting: isImporting,
                 importProgress: importProgress,
+                isPreparingPlugins: pluginHost.isPreparingPlugins,
+                catalogStatus: pluginHost.pluginCatalogStatus,
+                onRetryCatalog: { await pluginHost.refreshPluginCatalog() },
                 onCancel: { pendingImport = nil },
                 onImport: { selectedPluginIDs, selection in
                     importPreferences(
@@ -2289,6 +2292,9 @@ struct PreferencesImportPreviewSheet: View {
     let pluginOptions: [PreferencesPluginOption]
     let isImporting: Bool
     let importProgress: PreferencesImportProgress?
+    let isPreparingPlugins: Bool
+    let catalogStatus: PluginCatalogStatus?
+    let onRetryCatalog: (() async -> Void)?
     let onCancel: () -> Void
     let onImport: (Set<String>, PreferencesBackupSelection) -> Void
     @State var selectionModel: PreferencesImportSelectionModel
@@ -2310,6 +2316,9 @@ struct PreferencesImportPreviewSheet: View {
         pluginOptions: [PreferencesPluginOption],
         isImporting: Bool,
         importProgress: PreferencesImportProgress? = nil,
+        isPreparingPlugins: Bool = false,
+        catalogStatus: PluginCatalogStatus? = nil,
+        onRetryCatalog: (() async -> Void)? = nil,
         onCancel: @escaping () -> Void,
         onImport: @escaping (Set<String>, PreferencesBackupSelection) -> Void
     ) {
@@ -2318,6 +2327,9 @@ struct PreferencesImportPreviewSheet: View {
         self.pluginOptions = pluginOptions
         self.isImporting = isImporting
         self.importProgress = importProgress
+        self.isPreparingPlugins = isPreparingPlugins
+        self.catalogStatus = catalogStatus
+        self.onRetryCatalog = onRetryCatalog
         self.onCancel = onCancel
         self.onImport = onImport
         var availableSelection = preview.selection
@@ -2341,8 +2353,11 @@ struct PreferencesImportPreviewSheet: View {
     var body: some View {
         VStack(spacing: 0) {
             ScrollView {
-                previewContent
-                    .padding(24)
+                VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
+                    catalogNotice
+                    previewContent
+                }
+                .padding(24)
             }
 
             if isImporting, let importProgress {
@@ -2362,7 +2377,8 @@ struct PreferencesImportPreviewSheet: View {
                     onImport(selectedInstallablePluginIDs, selection)
                 }
                     .buttonStyle(.borderedProminent)
-                    .disabled(isImporting || selection.isEmpty || previewErrorMessage != nil)
+                    .disabled(isImporting || isPreparingPlugins || catalogStatus?.isRefreshing == true
+                        || selection.isEmpty || previewErrorMessage != nil)
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 16)
@@ -2370,6 +2386,53 @@ struct PreferencesImportPreviewSheet: View {
         .frame(width: 500, height: 640)
         .onChange(of: selection) { _, selection in
             refreshPreview(for: selection)
+        }
+        .onChange(of: catalogStatus) { _, _ in
+            if !isImporting { refreshPreview(for: selection) }
+        }
+        .onChange(of: isPreparingPlugins) { _, isPreparing in
+            if !isPreparing, !isImporting { refreshPreview(for: selection) }
+        }
+    }
+
+    @ViewBuilder
+    private var catalogNotice: some View {
+        if isPreparingPlugins {
+            HStack {
+                ProgressView().controlSize(.small)
+                Text(FeatureL10n.string("正在准备插件…"))
+                    .font(PluginSettingsTheme.Typography.rowDescription)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        if let status = catalogStatus,
+           status.isRefreshing || status.errorMessage != nil || status.lastUpdatedAt == nil {
+            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+                HStack {
+                    if status.isRefreshing {
+                        ProgressView().controlSize(.small)
+                        Text(AppL10n.plugins("plugin.catalog.detail.refreshing", defaultValue: "正在刷新插件列表..."))
+                    } else {
+                        Label(status.errorMessage ?? status.title, systemImage: "exclamationmark.triangle")
+                            .foregroundStyle(.orange)
+                        Spacer(minLength: 8)
+                        if let onRetryCatalog, status.source != .unavailable {
+                            Button(FeatureL10n.string("重试")) { Task { await onRetryCatalog() } }
+                                .buttonStyle(.bordered)
+                                .controlSize(.small)
+                                .disabled(isImporting)
+                                .settingsPointingHandCursor()
+                                .accessibilityIdentifier("mactools.preferences-import.retry-catalog")
+                        }
+                    }
+                }
+                if status.lastUpdatedAt == nil {
+                    Text(FeatureL10n.string("插件列表未加载，缺失插件暂时无法安装。"))
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .font(PluginSettingsTheme.Typography.rowDescription)
+            .accessibilityIdentifier("mactools.preferences-import.catalog-status")
         }
     }
 

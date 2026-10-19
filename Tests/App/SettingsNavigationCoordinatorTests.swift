@@ -201,4 +201,20 @@ final class SettingsNavigationCoordinatorTests: XCTestCase {
         XCTAssertEqual(coordinator.destination, .general)
     }
 
+    func testCurrentDetailRetainsUnavailableStateWhileHistorySkipsRetiredTargets() {
+        let detail = SettingsNavigationDestination.marketplaceDetail(.init(pluginID: "catalog-tool"))
+        var isAvailable = true
+        let coordinator = SettingsNavigationCoordinator(isMarketplaceDetailAvailable: { _ in isAvailable })
+        coordinator.navigate(to: detail)
+        isAvailable = false
+
+        coordinator.reconcileCurrentDestinationAvailability()
+        XCTAssertEqual(coordinator.destination, detail)
+        coordinator.navigate(to: .about)
+        coordinator.goBack()
+        XCTAssertEqual(coordinator.destination, .general)
+        coordinator.navigate(to: detail)
+        XCTAssertEqual(coordinator.destination, .general)
+    }
+
 }

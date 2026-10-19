@@ -6,7 +6,7 @@ enum StarterPackStep: Hashable {
     case choose, review, results
 }
 
-enum StarterPack: String, CaseIterable, Identifiable {
+enum StarterPack: String, Codable, CaseIterable, Identifiable {
     case everyday, windows, writing, meetings, displays, developer, maintenance
 
     var id: String { rawValue }
@@ -35,11 +35,11 @@ struct StarterPackCatalog: Decodable {
         let zhHant: String
         let translations: [String: String]?
         var localized: String {
-            let locale = PluginRuntimeLocalization.locale.identifier
-            let language = locale.components(separatedBy: CharacterSet(charactersIn: "_-"))[0]
-            if let translation = translations?[language] { return translation }
-            guard locale.hasPrefix("zh") else { return en }
-            return locale.contains("Hant") || locale.contains("TW") || locale.contains("HK") ? zhHant : zh
+            var values = translations ?? [:]
+            values["en"] = en
+            values["zh-Hans"] = zh
+            values["zh-Hant"] = zhHant
+            return PluginLocalizedText(values).localizedValue() ?? en
         }
     }
     struct Pack: Decodable {
@@ -66,7 +66,7 @@ struct StarterPackCatalog: Decodable {
     }()
 }
 
-struct StarterPackDraft {
+struct StarterPackDraft: Codable {
     var selectedPluginIDs: Set<String>
     var addToPanel = true
     var panelID = MenuBarPanelDefinition.componentsID
@@ -112,9 +112,22 @@ struct StarterPackResult: Identifiable {
 @MainActor
 final class StarterPackController: ObservableObject {
     static let onboardingKey = "app.starterPacks.onboardingComplete.v1"
+    private static let onboardingStateKey = "app.starterPacks.onboardingState.v1"
+    private static let onboardingDraftKey = "app.starterPacks.onboardingDraft.v1"
+    enum OnboardingState: String {
+        case inProgress, deferred, completed
+    }
+    private struct SavedDraft: Codable {
+        var packs: Set<StarterPack>
+        var draft: StarterPackDraft
+        var excludedPluginIDs: Set<String>
+        var hasEditedSelection: Bool
+    }
     @Published private(set) var selectedPacks: Set<StarterPack>
     @Published private(set) var draft: StarterPackDraft
-    @Published private(set) var needsOnboarding: Bool
+    @Published private(set) var onboardingState: OnboardingState
+    var needsOnboarding: Bool { onboardingState == .inProgress }
+    var canResumeOnboarding: Bool { onboardingState != .completed }
     @Published private(set) var isRunning = false
     @Published private(set) var stopRequested = false
     @Published private(set) var results: [StarterPackResult] = []
@@ -133,12 +146,23 @@ final class StarterPackController: ObservableObject {
     init(defaults: UserDefaults, hasExistingSetup: Bool, services: StarterPackServices) {
         self.defaults = defaults
         self.services = services
-        let onboarding = !defaults.bool(forKey: Self.onboardingKey) && !hasExistingSetup
-        needsOnboarding = onboarding
-        selectedPacks = onboarding ? [.everyday] : []
-        draft = StarterPackDraft(selectedPluginIDs: onboarding ? Set(StarterPack.everyday.pluginIDs) : [])
-        draft.addToPanel = onboarding
-        if hasExistingSetup { defaults.set(true, forKey: Self.onboardingKey) }
+        // Established preferences are only a migration signal. Once started,
+        // onboarding is never completed by automatically persisted defaults.
+        let state = defaults.string(forKey: Self.onboardingStateKey).flatMap(OnboardingState.init(rawValue:))
+            ?? (defaults.bool(forKey: Self.onboardingKey) || hasExistingSetup ? .completed : .inProgress)
+        onboardingState = state
+        let onboarding = state != .completed
+        let saved = onboarding ? defaults.data(forKey: Self.onboardingDraftKey)
+            .flatMap { try? JSONDecoder().decode(SavedDraft.self, from: $0) } : nil
+        selectedPacks = saved?.packs ?? (onboarding ? [.everyday] : [])
+        draft = saved?.draft ?? StarterPackDraft(selectedPluginIDs: onboarding ? Set(StarterPack.everyday.pluginIDs) : [])
+        if saved == nil { draft.addToPanel = onboarding }
+        excludedPluginIDs = saved?.excludedPluginIDs ?? []
+        hasEditedSelection = saved?.hasEditedSelection ?? false
+        draft.selectedPluginIDs.formIntersection(candidateIDs)
+        defaults.set(state.rawValue, forKey: Self.onboardingStateKey)
+        if state == .completed { defaults.set(true, forKey: Self.onboardingKey) }
+        persistOnboardingDraft()
     }
 
     static func hasExistingPreferences(in defaults: UserDefaults) -> Bool {
@@ -173,8 +197,32 @@ final class StarterPackController: ObservableObject {
     }
 
     func finishOnboarding() {
-        needsOnboarding = false
+        onboardingState = .completed
+        defaults.set(OnboardingState.completed.rawValue, forKey: Self.onboardingStateKey)
         defaults.set(true, forKey: Self.onboardingKey)
+        defaults.removeObject(forKey: Self.onboardingDraftKey)
+    }
+
+    func deferOnboarding() {
+        guard canResumeOnboarding, !isRunning else { return }
+        onboardingState = .deferred
+        defaults.set(OnboardingState.deferred.rawValue, forKey: Self.onboardingStateKey)
+        persistOnboardingDraft()
+    }
+
+    func resumeOnboarding() {
+        guard onboardingState == .deferred, !isRunning else { return }
+        onboardingState = .inProgress
+        defaults.set(OnboardingState.inProgress.rawValue, forKey: Self.onboardingStateKey)
+    }
+
+    private func persistOnboardingDraft() {
+        guard canResumeOnboarding else { return }
+        let saved = SavedDraft(packs: selectedPacks, draft: draft,
+                               excludedPluginIDs: excludedPluginIDs, hasEditedSelection: hasEditedSelection)
+        if let data = try? JSONEncoder().encode(saved) {
+            defaults.set(data, forKey: Self.onboardingDraftKey)
+        }
     }
 
     func updateDraft(_ update: (inout StarterPackDraft) -> Void) {
@@ -186,15 +234,20 @@ final class StarterPackController: ObservableObject {
         excludedPluginIDs.formUnion(Set(candidateIDs).subtracting(value.selectedPluginIDs))
         excludedPluginIDs.subtract(value.selectedPluginIDs)
         draft = value
+        persistOnboardingDraft()
     }
 
-    func reviewSelection() { hasEditedSelection = true }
+    func reviewSelection() {
+        hasEditedSelection = true
+        persistOnboardingDraft()
+    }
 
     func selectPack(_ pack: StarterPack, isSelected: Bool) {
         guard !isRunning else { return }
         hasEditedSelection = true
         if isSelected { selectedPacks.insert(pack) } else { selectedPacks.remove(pack) }
         draft.selectedPluginIDs = Set(candidateIDs).subtracting(excludedPluginIDs)
+        persistOnboardingDraft()
     }
 
     func selectAllPacks() {
@@ -202,6 +255,7 @@ final class StarterPackController: ObservableObject {
         hasEditedSelection = true
         selectedPacks = Set(StarterPack.allCases)
         draft.selectedPluginIDs = Set(candidateIDs).subtracting(excludedPluginIDs)
+        persistOnboardingDraft()
     }
 
     func clearSelection() {
@@ -210,10 +264,12 @@ final class StarterPackController: ObservableObject {
         selectedPacks = []
         excludedPluginIDs = []
         draft.selectedPluginIDs = []
+        persistOnboardingDraft()
     }
 
     func includePackFromLink(_ pack: StarterPack) {
         guard !isRunning else { return }
+        resumeOnboarding()
         if !hasEditedSelection { selectedPacks = [] }
         selectPack(pack, isSelected: true)
     }
@@ -224,6 +280,7 @@ final class StarterPackController: ObservableObject {
         draft = appliedDraft
         excludedPluginIDs = Set(candidateIDs).subtracting(draft.selectedPluginIDs)
         hasEditedSelection = true
+        persistOnboardingDraft()
     }
 
     var recommendedPanelItems: [PluginPanelItemKey] {
@@ -249,7 +306,9 @@ final class StarterPackController: ObservableObject {
             || (selectedIDs.contains("action-grid") && draft.assignShortcut && !hasGridShortcut))
     }
 
-    var canApply: Bool { !isRunning && hasChanges && !needsCatalogLoad }
+    var canApply: Bool {
+        !isRunning && !selectedIDs.isEmpty && (hasChanges || canResumeOnboarding) && !needsCatalogLoad
+    }
 
     @discardableResult
     func apply() -> Bool {
@@ -260,7 +319,6 @@ final class StarterPackController: ObservableObject {
         appliedPacks = selectedPacks
         appliedDraft = reviewedDraft
         resultPanelID = reviewedDraft.panelID
-        finishOnboarding()
         isRunning = true
         stopRequested = false
         showsProgress = true
@@ -305,6 +363,9 @@ final class StarterPackController: ObservableObject {
             currentPluginID = nil
             isRunning = false
             installationTask = nil
+            if results.allSatisfy({ $0.outcome == .ready || $0.outcome == .installed }) {
+                finishOnboarding()
+            }
         }
         return true
     }

@@ -1,10 +1,47 @@
 import Foundation
-import MacToolsPluginKit
 import XCTest
 @testable import MacTools
+@testable import MacToolsPluginKit
 
 @MainActor
 final class LocalizationResourceTests: XCTestCase {
+    func testChineseTextHonorsExplicitScriptBeforeRegionalFallback() {
+        let text = PluginLocalizedText(["en": "English", "zh-Hans": "Simplified", "zh-Hant": "Traditional"])
+        let cases = [
+            ("zh-Hans-TW", "Simplified"),
+            ("zh_Hans_HK", "Simplified"),
+            ("zh-Hans-MO", "Simplified"),
+            ("zh-Hant-CN", "Traditional"),
+            ("zh-TW", "Traditional"),
+            ("zh-HK", "Traditional"),
+            ("zh-MO", "Traditional"),
+            ("zh-CN", "Simplified"),
+        ]
+        for (language, expected) in cases {
+            XCTAssertEqual(text.localizedValue(preferredLanguages: [language]), expected, language)
+        }
+    }
+
+    func testRuntimeTextLanguageRemainsIndependentOfFormattingRegion() throws {
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "LocalizationTests-\(UUID())"))
+        let source = PluginRuntimeLocaleSource(
+            userDefaults: defaults,
+            systemPreferredLanguages: { ["fr-FR", "en"] },
+            currentLocale: { Locale(identifier: "en_TW") }
+        )
+        let text = PluginLocalizedText([
+            "en": "English", "fr": "French", "zh-Hans": "Simplified", "zh-Hant": "Traditional",
+        ])
+
+        source.setPreference("zh-Hans")
+        XCTAssertEqual(text.localizedValue(preferredLanguages: source.preferredLanguages), "Simplified")
+        XCTAssertEqual(source.locale.region?.identifier, "TW")
+
+        source.setPreference("system")
+        XCTAssertEqual(text.localizedValue(preferredLanguages: source.preferredLanguages), "French")
+        XCTAssertEqual(source.locale.identifier, "en_TW")
+    }
+
     func testCatalogTranslationsAreAvailableFromCompiledResources() throws {
         let originalPreference = UserDefaults.standard.string(forKey: PluginRuntimeLocalization.preferenceUserDefaultsKey)
         defer { PluginRuntimeLocalization.source.setPreference(originalPreference) }

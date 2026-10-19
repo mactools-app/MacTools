@@ -43,11 +43,10 @@ enum LocalizedBundleResolver {
 
         if let languageCode = components.first {
             if languageCode == "zh" {
-                candidates.append(
-                    components.contains(where: { ["Hant", "HK", "MO", "TW"].contains($0) })
-                        ? "zh-Hant"
-                        : "zh-Hans"
-                )
+                let usesTraditional = components.contains("Hant")
+                    || (!components.contains("Hans")
+                        && components.contains(where: { ["HK", "MO", "TW"].contains($0) }))
+                candidates.append(usesTraditional ? "zh-Hant" : "zh-Hans")
             }
             candidates.append(languageCode)
         }

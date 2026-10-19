@@ -123,7 +123,17 @@ final class PluginCatalogManager {
     private let synchronizeExtractionMigrationDefaults: (UserDefaults) -> Bool
 
     private var snapshot: PluginCatalogSnapshot?
+    private var refreshTask: Task<RefreshResult, Never>?
     private(set) var status: PluginCatalogStatus
+
+    @MainActor
+    private final class RefreshResult {
+        let installedMetadata: InstalledPluginMetadata
+
+        init(installedMetadata: InstalledPluginMetadata) {
+            self.installedMetadata = installedMetadata
+        }
+    }
 
     init(
         catalogProvider: (any PluginCatalogProviding)?,
@@ -182,6 +192,9 @@ final class PluginCatalogManager {
 
     @discardableResult
     func refreshCatalog() async -> InstalledPluginMetadata? {
+        if let refreshTask {
+            return await refreshTask.value.installedMetadata
+        }
         guard let catalogProvider else {
             status = .unavailable
             return nil
@@ -190,21 +203,32 @@ final class PluginCatalogManager {
         status.isRefreshing = true
         status.errorMessage = nil
 
-        do {
-            let snapshot = try await catalogProvider.loadCatalog()
-            self.snapshot = snapshot
-            status = PluginCatalogStatus(
-                source: statusSource(for: snapshot),
-                lastUpdatedAt: snapshot.loadedAt,
-                errorMessage: nil,
-                isRefreshing: false
-            )
-        } catch {
-            status.isRefreshing = false
-            status.errorMessage = error.localizedDescription
-        }
+        // The manager owns the request so leaving a view only cancels its waiter.
+        // All waiters receive the same installed-package scan after the request.
+        let task = Task { @MainActor [self] in
+            do {
+                let snapshot = try await catalogProvider.loadCatalog()
+                self.snapshot = snapshot
+                status = PluginCatalogStatus(
+                    source: statusSource(for: snapshot),
+                    lastUpdatedAt: snapshot.loadedAt,
+                    errorMessage: nil,
+                    isRefreshing: false
+                )
+            } catch {
+                status.isRefreshing = false
+                status.errorMessage = error.localizedDescription
+            }
 
-        return dynamicPluginManager.rebuildManagementItems(catalogSnapshot: snapshot)
+            return RefreshResult(
+                installedMetadata: dynamicPluginManager.rebuildManagementItems(catalogSnapshot: snapshot)
+            )
+        }
+        refreshTask = task
+        let result = await task.value
+        refreshTask = nil
+
+        return result.installedMetadata
     }
 
     func installPlugin(id: String) async throws {

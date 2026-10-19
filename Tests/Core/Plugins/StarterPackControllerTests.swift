@@ -36,6 +36,60 @@ final class StarterPackControllerTests: XCTestCase {
         XCTAssertEqual(first.selectedPacks, [.everyday])
     }
 
+    func testUnfinishedOnboardingSurvivesPersistedDefaultsAndCanBeDeferredAndResumed() {
+        let store = defaults()
+        let fixture = Fixture()
+        let first = StarterPackController(defaults: store, hasExistingSetup: false, services: fixture.services)
+        first.selectPack(.windows, isSelected: true)
+        first.updateDraft { $0.selectedPluginIDs.remove("keep-awake"); $0.seedGrid = true }
+        store.set(Data(), forKey: MenuBarPanelStore.storageKey)
+
+        let reopened = StarterPackController(defaults: store, hasExistingSetup: true, services: fixture.services)
+        XCTAssertTrue(reopened.needsOnboarding)
+        XCTAssertEqual(reopened.selectedPacks, [.everyday, .windows])
+        XCTAssertFalse(reopened.selectedIDs.contains("keep-awake"))
+        XCTAssertTrue(reopened.draft.seedGrid)
+        reopened.deferOnboarding()
+
+        let deferred = StarterPackController(defaults: store, hasExistingSetup: true, services: fixture.services)
+        XCTAssertFalse(deferred.needsOnboarding)
+        XCTAssertTrue(deferred.canResumeOnboarding)
+        deferred.resumeOnboarding()
+        XCTAssertTrue(deferred.needsOnboarding)
+        deferred.selectPack(.meetings, isSelected: true)
+        XCTAssertFalse(deferred.selectedIDs.contains("keep-awake"))
+        deferred.finishOnboarding()
+        let completed = StarterPackController(defaults: store, hasExistingSetup: true, services: fixture.services)
+        XCTAssertFalse(completed.canResumeOnboarding)
+        XCTAssertTrue(completed.selectedPacks.isEmpty)
+        XCTAssertTrue(fixture.installs.isEmpty)
+    }
+
+    func testFailedOnboardingRemainsResumableAfterRestartAndCompletesAfterRetry() async {
+        let store = defaults()
+        let fixture = Fixture()
+        fixture.unusable = ["keep-awake"]
+        let first = StarterPackController(defaults: store, hasExistingSetup: false, services: fixture.services)
+        first.updateDraft { $0.addToPanel = false }
+        first.apply()
+        await first.waitForInstallation()
+        XCTAssertTrue(first.needsOnboarding)
+        first.selectPack(.writing, isSelected: true)
+        first.restoreAppliedSelection()
+
+        let reopened = StarterPackController(defaults: store, hasExistingSetup: true, services: fixture.services)
+        XCTAssertTrue(reopened.needsOnboarding)
+        XCTAssertEqual(reopened.selectedPacks, [.everyday])
+        XCTAssertTrue(reopened.missingIDs.isEmpty)
+        XCTAssertFalse(reopened.hasChanges)
+        fixture.unusable = []
+        XCTAssertTrue(reopened.canApply)
+        reopened.apply()
+        await reopened.waitForInstallation()
+        XCTAssertFalse(reopened.canResumeOnboarding)
+        XCTAssertEqual(fixture.installs.filter { $0 == "system-status" }.count, 1)
+    }
+
     func testOnlyMissingPluginsInstallAndExistingPlacementsKeepTheirIdentity() async {
         let fixture = Fixture()
         fixture.installed = ["system-status", "keep-awake"]
@@ -258,6 +312,7 @@ private final class Fixture {
     var installed: Set<String> = []
     var installs: [String] = []
     var failures: Set<String> = []
+    var unusable: Set<String> = []
     var catalogReady = true
     var layout = MenuBarPanelConfiguration()
     var grid: StarterPackGridState = .empty
@@ -270,7 +325,7 @@ private final class Fixture {
     var services: StarterPackServices {
         StarterPackServices(
             installedIDs: { self.installed },
-            isUsable: { self.installed.contains($0) },
+            isUsable: { self.installed.contains($0) && !self.unusable.contains($0) },
             isCatalogReady: { self.catalogReady },
             install: { id in
                 self.installs.append(id)

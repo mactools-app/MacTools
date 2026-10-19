@@ -37,7 +37,7 @@ struct StarterPackSettingsView: View {
 
     private var footer: some View {
         HStack {
-            Button(FeatureL10n.string("返回插件市场")) { navigation.navigate(to: .plugins(.marketplace)) }
+            Button(FeatureL10n.string(controller.canResumeOnboarding && !controller.isRunning ? "稍后设置" : "返回插件市场"), action: leaveSetup)
                 .settingsPointingHandCursor()
                 .accessibilityIdentifier("mactools.starter-packs.marketplace")
             if step == .review {
@@ -76,7 +76,7 @@ struct StarterPackSettingsView: View {
 
     private var breadcrumb: some View {
         HStack(spacing: 8) {
-            Button(FeatureL10n.string("插件市场")) { navigation.navigate(to: .plugins(.marketplace)) }
+            Button(FeatureL10n.string("插件市场"), action: leaveSetup)
                 .buttonStyle(.link)
                 .settingsPointingHandCursor()
             Image(systemName: "chevron.right")
@@ -92,6 +92,11 @@ struct StarterPackSettingsView: View {
         }
         .font(PluginSettingsTheme.Typography.rowDescription)
         .foregroundStyle(.secondary)
+    }
+
+    private func leaveSetup() {
+        controller.deferOnboarding()
+        navigation.navigate(to: .plugins(.marketplace))
     }
 
     @ViewBuilder
@@ -162,6 +167,7 @@ struct StarterPackSettingsView: View {
                         .settingsPointingHandCursor()
                 }
                 .buttonStyle(.borderless).foregroundStyle(.tint)
+                .disabled(controller.isRunning)
             }
         }
     }
