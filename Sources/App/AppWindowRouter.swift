@@ -524,7 +524,7 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
         let navigation = SettingsNavigationCoordinator(initialDestination: .starterPacks(initialStep))
         let importer = PreferencesImportController(pluginHost: pluginHost)
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 1000, height: 760),
+            contentRect: NSRect(x: 0, y: 0, width: 1000, height: 680),
             styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false
         )
         window.title = FeatureL10n.string("MacTools 设置")

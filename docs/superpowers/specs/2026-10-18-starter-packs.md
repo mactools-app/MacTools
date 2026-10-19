@@ -20,7 +20,9 @@ Native pack titles, summaries, permission descriptions, and workflow copy cover 
 
 ## Selection and navigation
 
-New users see a dedicated native setup window with three steps: Choose, Review, and Ready. Everyday Essentials is suggested among four recommended packs (Everyday, Windows, Writing, and Meetings); Browse All Seven expands the full collection. Each card shows its plugins immediately, and a combined sample panel preview updates with the selection. The preview reuses the host row renderer without loading plugins or invoking actions. Start Empty and Restore Backup remain available.
+New users see a dedicated native setup window with three steps: Choose, Review, and Ready. Everyday Essentials is suggested among four recommended packs (Everyday, Windows, Writing, and Meetings); Browse All Seven expands the full collection. Each card shows its plugins immediately, and a combined sample panel preview updates with the selection. Start Empty and Restore Backup remain available.
+
+The preview shows the bundled MacTools menu-bar icon, the actual panel header and row renderer, and sample widgets using the shared component surfaces. It retains the native 316-point panel width, follows the app appearance and panel theme, and scrolls its sample content independently from the selection. Native controls are rendered into read-only snapshots; the preview never loads plugins, requests permissions, invokes actions, or adds controls to keyboard navigation.
 
 Existing users keep the complete chooser in Marketplace, starting with no packs selected and panel additions disabled. The chooser displays each pack's plugin list, installed count, and permission summary directly in a responsive one-, two-, or three-column grid. Settings opens independently from first-launch setup.
 
@@ -28,7 +30,7 @@ Pack checkboxes are additive. Removing one retains plugins shared with another s
 
 During onboarding, Set Up Later opens Marketplace, saves the draft, and suppresses automatic onboarding until Continue Setup reopens the dedicated window. Closing asks for confirmation and explains that choices are preserved for the next launch, or that installation continues in the background. Quitting also preserves unfinished setup. Start Empty explicitly completes onboarding and opens Marketplace without installing anything. Restore Backup uses the same picker, preview, catalog recovery, and progress presentation as Settings; canceling returns to setup with its draft intact. Review shows pending downloads, optional panel additions, selected-plugin permissions, and optional grid changes. Existing grids are preserved.
 
-Ready introduces Marketplace, explains where all seven packs remain available, and offers Open Panel and Explore Marketplace. Pack deep links open Review in the setup window while onboarding is unfinished, and in Settings for established users. Installation progress, stop, partial failures, and retry remain available in both presentations.
+Onboarding Review uses a compact plugin checklist with dividers and independent scrolling, with panel settings below and optional Action Grid settings collapsed initially. Ready confirms the selected packs, explains the MacTools menu-bar icon and where all seven packs remain available, and offers Edit Selection, Open Panel, and Explore Marketplace. When no panel can be opened, Marketplace is the single primary destination. Pack deep links open Review in the setup window while onboarding is unfinished, and in Settings for established users. Installation progress, stop, partial failures, and retry remain available in both presentations.
 
 ## Applying a combined selection
 

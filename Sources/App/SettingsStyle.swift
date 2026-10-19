@@ -77,6 +77,7 @@ private struct SettingsPointingHandCursor: ViewModifier {
 /// The complete label is one keyboard-operable target with checkbox semantics.
 struct SettingsSelectionToggleStyle: ToggleStyle {
     var card = false
+    var cardPadding: CGFloat = PluginSettingsTheme.Spacing.rowHorizontal
 
     func makeBody(configuration: Configuration) -> some View {
         Toggle(isOn: configuration.$isOn) {
@@ -87,7 +88,7 @@ struct SettingsSelectionToggleStyle: ToggleStyle {
                     .accessibilityHidden(true)
                 configuration.label.frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(card ? PluginSettingsTheme.Spacing.rowHorizontal : 0)
+            .padding(card ? cardPadding : 0)
             .frame(maxWidth: .infinity, maxHeight: card ? .infinity : nil, alignment: .topLeading)
             .contentShape(Rectangle())
         }
