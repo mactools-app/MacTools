@@ -14,6 +14,14 @@ final class AppURLRouterTests: XCTestCase {
             ("settings/features/actions-and-shortcuts", .settings(.actionsAndShortcuts)),
             ("settings/features/automation", .settings(.automation)),
             ("settings/plugins/marketplace", .settings(.pluginMarketplace)),
+            ("settings/starter-packs", .settings(.starterPacks(nil))),
+            ("settings/starter-packs/everyday", .settings(.starterPacks(.everyday))),
+            ("settings/starter-packs/windows", .settings(.starterPacks(.windows))),
+            ("settings/starter-packs/writing", .settings(.starterPacks(.writing))),
+            ("settings/starter-packs/meetings", .settings(.starterPacks(.meetings))),
+            ("settings/starter-packs/displays", .settings(.starterPacks(.displays))),
+            ("settings/starter-packs/developer", .settings(.starterPacks(.developer))),
+            ("settings/starter-packs/maintenance", .settings(.starterPacks(.maintenance))),
             ("settings/plugins/fan-control", .settings(.pluginConfiguration("fan-control"))),
             ("panels/dashboard", .panel(.dashboard)),
             ("panels/feature", .panel(.feature)),
@@ -27,6 +35,19 @@ final class AppURLRouterTests: XCTestCase {
                     acceptedSchemes: [scheme]
                 )
                 XCTAssertEqual(parsed, .success(expected), "Failed route: \(scheme)://app/\(path)")
+            }
+        }
+    }
+
+    func testPackLinksOnlyPresentKnownPacksWithoutApplyingSetup() throws {
+        for pack in StarterPack.allCases {
+            let link = AppDeepLink.settings(.starterPacks(pack))
+            XCTAssertEqual(link.presentationRequest, .settings(.starterPacks(pack)))
+        }
+        for suffix in ["unknown", "everyday/install", "everyday?install=true", "windows?", "everyday%2Fwindows"] {
+            let url = try XCTUnwrap(URL(string: "mactools://app/settings/starter-packs/\(suffix)"))
+            if case .success = AppDeepLinkParser.parseRoute(url, acceptedSchemes: ["mactools"]) {
+                XCTFail("Accepted unsupported pack link: \(suffix)")
             }
         }
     }

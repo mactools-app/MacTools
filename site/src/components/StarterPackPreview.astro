@@ -1,0 +1,17 @@
+---
+import LocalizedText from "./LocalizedText.astro";
+import StarterPackIcon from "./StarterPackIcon.astro";
+import { starterPacks, starterPluginSymbol, packText as t } from "@/lib/starter-packs";
+import { loadPluginCatalog, localizedPluginText } from "@/lib/plugins";
+const { id } = Astro.props as { id: string };
+const pack = starterPacks.find((pack) => pack.id === id)!;
+const catalog = await loadPluginCatalog();
+---
+<div class="pack-preview" role="group" aria-label="Included plugins" data-aria-label-zh="包含的插件" data-aria-label-en="Included plugins">
+  <strong><LocalizedText {...t(`${pack.pluginIDs.length} 个插件，可与其他组合搭配`, `${pack.pluginIDs.length} plugins, ready to combine`)} /></strong>
+  <ul class="pack-preview-list">{pack.pluginIDs.map((id) => {
+    const plugin = catalog.plugins.find((plugin) => plugin.id === id)!;
+    const text = localizedPluginText(plugin);
+    return <li><StarterPackIcon symbol={starterPluginSymbol(id)} /><LocalizedText zh={text.zh.displayName} en={text.en.displayName} /></li>;
+  })}</ul>
+</div>

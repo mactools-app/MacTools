@@ -1,0 +1,24 @@
+---
+import LocalizedText from "./LocalizedText.astro";
+import StarterPackIcon from "./StarterPackIcon.astro";
+import { starterPacks, starterPluginSymbol, packRoute, packText as t } from "@/lib/starter-packs";
+import { loadPluginCatalog, localizedPluginText } from "@/lib/plugins";
+const { limit } = Astro.props as { limit?: number };
+const packs = limit ? starterPacks.slice(0, limit) : starterPacks;
+const catalog = await loadPluginCatalog();
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+<div class="pack-cards">
+  {packs.map((pack) => <article class="plugin-detail-card pack-card" data-pack-card={pack.id}>
+    <h2><a href={`${base}${packRoute(pack.id)}`}><StarterPackIcon symbol={pack.symbol} class="pack-title-symbol" /><LocalizedText {...pack.title} /></a></h2>
+    <p><LocalizedText {...pack.summary} /></p>
+    <ul class="pack-member-list">{pack.pluginIDs.map((id) => {
+      const plugin = catalog.plugins.find((plugin) => plugin.id === id);
+      if (!plugin) throw new Error(`Starter pack ${pack.id} references missing plugin ${id}`);
+      const text = localizedPluginText(plugin);
+      return <li><a href={`${base}/plugins/${id}`}><StarterPackIcon symbol={starterPluginSymbol(id)} /><LocalizedText zh={text.zh.displayName} en={text.en.displayName} /></a></li>;
+    })}</ul>
+    <p class="plugin-detail-muted"><LocalizedText {...t(`${pack.pluginIDs.length} 个插件`, `${pack.pluginIDs.length} plugins`)} /> · <LocalizedText {...pack.permission} /></p>
+    <a class="button subtle" href={`${base}${packRoute(pack.id)}`}><LocalizedText {...t("查看工具组合", "Explore pack")} /></a>
+  </article>)}
+</div>

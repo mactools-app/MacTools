@@ -2,6 +2,8 @@
 
 The Astro website consumes checked-in data generated from `Plugins/*/plugin.json` and the repository-local `Localizable.xcstrings` files referenced by those manifests; it never fetches the production plugin catalog during a build.
 
+Starter packs share `Sources/Resources/StarterPacks.json` with the app. After changing its SF Symbols, run `swift scripts/icons/export-starter-pack-symbols.swift` from the repository root on macOS to refresh the website icon assets.
+
 After changing a plugin manifest, a referenced localization string, or a Marketplace asset, run:
 
 ```bash
@@ -15,6 +17,16 @@ The website consumes the committed `src/generated/plugins.json` and
 `src/generated/actions.json` files. Checksum-named assets in
 `public/generated/plugin-assets/` are committed alongside them. CI rejects
 stale output.
+
+Starter packs are introduced on the home and Plugins pages and listed at `/packs`.
+All seven shareable pages at `/packs/<pack-id>` link member plugins
+from the generated catalog and open the matching native review with
+`mactools://app/settings/starter-packs/<pack-id>`. These links never install tools
+or apply settings. Publish these pages alongside an app release containing the
+starter-pack routes. Pack definitions come directly from the bundled host resource
+`Sources/Resources/StarterPacks.json`, including membership, names, and setup copy.
+The app combines selected packs and presents shared plugins once. Pack metadata is
+localized with the existing language control.
 
 Navigation controls are loaded by `BaseLayout` on every page. Existing settings
 preview models remain in use, with generic controls only for plugins without a

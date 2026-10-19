@@ -48,6 +48,9 @@ struct PanelPluginEmptyState: View {
             }
 
             installButton
+            Button(FeatureL10n.string("工具组合…")) { pluginHost.presentStarterPacks() }
+                .buttonStyle(.link)
+                .font(PluginTypography.control.font)
         }
         .padding(.horizontal, 14)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)

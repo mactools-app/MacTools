@@ -253,3 +253,48 @@ test('action feedback follows language changes and releases the original markup'
   env.language.applyLanguage('en');
   assert.equal(feedback.textContent, 'Original control');
 });
+
+test('pack pages link to their native reviews and declared plugin details', async () => {
+  const source = ts.transpileModule(readFileSync(new URL('src/lib/starter-packs.ts', site), 'utf8').replace(/^import catalog from .*;$/m, 'const catalog = ' + readFileSync(new URL('../Sources/Resources/StarterPacks.json', site), 'utf8') + ';'), {
+    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ES2022 },
+  }).outputText;
+  const { starterPacks, packAppURL, packRoute } = await import('data:text/javascript;base64,' + Buffer.from(source).toString('base64'));
+  const catalog = JSON.parse(readFileSync(new URL('src/generated/plugins.json', site), 'utf8'));
+  const nativeCatalog = JSON.parse(readFileSync(new URL('../Sources/Resources/StarterPacks.json', site), 'utf8'));
+  const manifests = readdirSync(new URL('../Plugins/', site)).flatMap((directory) => {
+    try { return [JSON.parse(readFileSync(new URL(`../Plugins/${directory}/plugin.json`, site), 'utf8'))]; }
+    catch { return []; }
+  });
+  assert.equal(new Set(starterPacks.map(pack => pack.id)).size, starterPacks.length);
+  const index = readFileSync(new URL('dist/packs/index.html', site), 'utf8');
+  const sitemap = readFileSync(new URL('dist/sitemap.xml', site), 'utf8');
+  for (const pack of starterPacks) {
+    const path = packRoute(pack.id);
+    const card = index.split(`data-pack-card="${pack.id}"`)[1]?.split('</article>')[0];
+    assert.ok(card);
+    const html = readFileSync(new URL(`dist${path}/index.html`, site), 'utf8');
+    const url = new URL(packAppURL(pack.id));
+    assert.equal(url.protocol, 'mactools:');
+    assert.equal(url.hostname, 'app');
+    assert.equal(url.pathname, `/settings/starter-packs/${pack.id}`);
+    assert.equal(url.search, '');
+    assert.ok(index.includes(`href="${path}"`));
+    assert.ok(sitemap.includes(path));
+    assert.ok(html.includes(`href="${url.href}"`));
+    assert.equal(new Set(pack.pluginIDs).size, pack.pluginIDs.length);
+    for (const item of pack.panelItems) {
+      assert.ok(pack.pluginIDs.includes(item.pluginID));
+      const manifest = manifests.find(plugin => plugin.id === item.pluginID);
+      assert.ok(manifest.capabilities.panelItems.includes(item.itemID === 'widget' ? 'widget' : 'row'));
+    }
+    for (const id of pack.pluginIDs) {
+      assert.ok(catalog.plugins.some(plugin => plugin.id === id));
+      assert.ok(card.includes(`href="/plugins/${id}"`));
+      assert.ok(html.includes(`href="/plugins/${id}"`));
+      const manifest = manifests.find(plugin => plugin.id === id);
+      assert.equal(nativeCatalog.plugins[id].title.en, manifest.localizedMetadata.en.displayName);
+      assert.deepEqual(nativeCatalog.plugins[id].permissionIDs, manifest.permissions);
+    }
+    assert.ok(!/href="mactools:\/\/app\/actions\//.test(html));
+  }
+});

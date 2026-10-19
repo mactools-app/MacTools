@@ -4,6 +4,19 @@ import MacToolsPluginKit
 
 @MainActor
 final class SettingsNavigationCoordinatorTests: XCTestCase {
+    func testStarterPackReviewParticipatesInHistoryWithoutAddingSidebarDestinations() {
+        let coordinator = SettingsNavigationCoordinator(initialDestination: .plugins(.marketplace))
+        coordinator.navigate(to: .starterPacks(.choose))
+        coordinator.navigate(to: .starterPacks(.review))
+        coordinator.navigate(to: .marketplaceDetail(.init(pluginID: "keep-awake")))
+        coordinator.goBack()
+        XCTAssertEqual(coordinator.destination, .starterPacks(.review))
+        XCTAssertEqual(coordinator.destination.sidebarDestination, .plugins(.marketplace))
+        coordinator.goBack()
+        XCTAssertEqual(coordinator.destination, .starterPacks(.choose))
+        coordinator.goBack()
+        XCTAssertEqual(coordinator.destination, .plugins(.marketplace))
+    }
 
     func testDirectPluginSettingsNavigationEndsPreviousVisibilityBeforeStartingNext() {
         XCTAssertEqual(

@@ -444,7 +444,7 @@ private struct PanelComponentLibraryPreview: View {
     }
 }
 
-private struct PanelComponentLibraryFeaturePreview: View {
+struct PanelComponentLibraryFeaturePreview: View {
     let pluginHost: PluginHost
     let item: PluginPanelRowSnapshot
 

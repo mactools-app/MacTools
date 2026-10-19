@@ -46,6 +46,7 @@ final class MenuBarPanelStore {
     static let selectionStorageKey = "menuBar.lastSelectedPanelID"
     static let legacyClickBehaviorStorageKey = "menuBar.clickBehaviorPreference"
     static let legacyDisplayStorageKey = "plugin.display.preferences"
+    private static let initialPlacementSuppressionsKey = "menuBar.initialPlacementSuppressions"
     private let userDefaults: UserDefaults
     private let reporter: PreferencesBackupChangeReporter?
     private(set) var configuration: MenuBarPanelConfiguration
@@ -135,12 +136,26 @@ final class MenuBarPanelStore {
         return true
     }
 
+    func suppressInitialPlacement(for pluginID: String) {
+        var ids = Set(userDefaults.stringArray(forKey: Self.initialPlacementSuppressionsKey) ?? [])
+        ids.insert(pluginID)
+        userDefaults.set(ids.sorted(), forKey: Self.initialPlacementSuppressionsKey)
+    }
+
+    func cancelInitialPlacementSuppression(for pluginID: String) {
+        let ids = Set(userDefaults.stringArray(forKey: Self.initialPlacementSuppressionsKey) ?? [])
+        guard ids.contains(pluginID) else { return }
+        userDefaults.set(ids.subtracting([pluginID]).sorted(), forKey: Self.initialPlacementSuppressionsKey)
+    }
+
     /// Seeding and the acknowledgement are one write, including library-only items.
     @discardableResult
     func reconcile(_ items: [(key: PluginPanelItemKey, initialPlacement: PluginPanelInitialPlacement?)],
                    discoveredPluginIDs: Set<String> = []) -> Bool {
         var next = configuration
+        let suppressed = Set(userDefaults.stringArray(forKey: Self.initialPlacementSuppressionsKey) ?? [])
         for item in items where next.initializedItems.insert(item.key).inserted {
+            guard !suppressed.contains(item.key.pluginID) else { continue }
             if let seed = next.legacySeed, seed.pluginIDs.contains(item.key.pluginID),
                !seed.resolvedPluginIDs.contains(item.key.pluginID),
                item.key.itemID == "control" || item.key.itemID == "widget" {
@@ -161,7 +176,19 @@ final class MenuBarPanelStore {
         }
         next.legacySeed?.resolvedPluginIDs.formUnion(discoveredPluginIDs.union(items.map(\.key.pluginID)))
         if let seed = next.legacySeed, seed.pluginIDs.isSubset(of: seed.resolvedPluginIDs) { next.legacySeed = nil }
-        return replace(next)
+        let changed = replace(next)
+        if loadError == nil {
+            // Keep suppression across failed loads and restarts until the complete
+            // first snapshot has been durably acknowledged without seeding it.
+            let acknowledged = discoveredPluginIDs.filter { id in
+                items.filter { $0.key.pluginID == id }.allSatisfy { configuration.initializedItems.contains($0.key) }
+            }
+            let remaining = suppressed.subtracting(acknowledged)
+            if remaining != suppressed {
+                userDefaults.set(remaining.sorted(), forKey: Self.initialPlacementSuppressionsKey)
+            }
+        }
+        return changed
     }
 
     func migrateLegacyHiddenPlugins(_ ids: Set<String>) -> Bool {
@@ -233,6 +260,7 @@ final class MenuBarPanelStore {
     }
 
     func removePlugin(id: String) {
+        cancelInitialPlacementSuppression(for: id)
         var next = configuration
         for panelID in next.placementsByPanelID.keys {
             next.placementsByPanelID[panelID]?.removeAll { $0.item.pluginID == id }

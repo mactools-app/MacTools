@@ -840,6 +840,14 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
         case .pluginMarketplace:
             pendingAppUpdateVersion = nil
             settingsNavigationCoordinator?.navigate(to: .plugins(.marketplace))
+        case let .starterPacks(pack):
+            pendingAppUpdateVersion = nil
+            if let pack, !pluginHost.starterPacks.isRunning {
+                pluginHost.starterPacks.includePackFromLink(pack)
+            }
+            settingsNavigationCoordinator?.navigate(to: .starterPacks(
+                pluginHost.starterPacks.isRunning ? .results : pack == nil ? .choose : .review
+            ))
         case let .pluginMarketplaceDetail(target):
             pendingAppUpdateVersion = nil
             settingsNavigationCoordinator?.navigate(to: .marketplaceDetail(target))

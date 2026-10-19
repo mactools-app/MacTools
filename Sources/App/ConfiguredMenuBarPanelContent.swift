@@ -194,6 +194,10 @@ private struct ConfiguredMenuBarPanelContent: View {
                         .font(.subheadline)
                     Text(FeatureL10n.string("在编辑面板中添加内容"))
                         .font(.caption).foregroundStyle(.secondary)
+                    Button(FeatureL10n.string("工具组合…")) { pluginHost.presentStarterPacks() }
+                        .buttonStyle(.link)
+                        .font(PluginTypography.control.font)
+                        .accessibilityIdentifier("panel.empty.starter-packs")
                 }
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 20)

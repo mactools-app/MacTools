@@ -58,13 +58,16 @@ enum SettingsPageLayout {
 struct SettingsPageIntroductionConfiguration {
     let description: String
     let descriptionColor: Color
+    let descriptionLineLimit: Int?
 
     init(
         description: String,
-        descriptionColor: Color = .secondary
+        descriptionColor: Color = .secondary,
+        descriptionLineLimit: Int? = nil
     ) {
         self.description = description
         self.descriptionColor = descriptionColor
+        self.descriptionLineLimit = descriptionLineLimit
     }
 }
 
@@ -308,6 +311,9 @@ struct SettingsPageIntroduction<Accessory: View>: View {
         ) {
             Label {
                 Text(configuration.description)
+                    .lineLimit(configuration.descriptionLineLimit)
+                    .truncationMode(.middle)
+                    .help(configuration.description)
             } icon: {
                 Image(systemName: "info.circle")
                     .frame(width: PluginSettingsTheme.Size.rowIcon)
@@ -320,6 +326,7 @@ struct SettingsPageIntroduction<Accessory: View>: View {
             Spacer(minLength: PluginSettingsTheme.Spacing.controlCluster)
 
             accessory
+                .fixedSize(horizontal: true, vertical: false)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .textCase(nil)

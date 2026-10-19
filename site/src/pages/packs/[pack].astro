@@ -1,0 +1,70 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SiteNav from "@/components/SiteNav.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import LocalizedText from "@/components/LocalizedText.astro";
+import StarterPackPreview from "@/components/StarterPackPreview.astro";
+import StarterPackIcon from "@/components/StarterPackIcon.astro";
+import { starterPacks, starterPluginSymbol, packAppURL, packText as t, type StarterPack } from "@/lib/starter-packs";
+import { loadPluginCatalog, localizedPluginText } from "@/lib/plugins";
+import appRelease from "../../../../docs/app-release.json";
+export function getStaticPaths() {
+  return starterPacks.map((pack) => ({ params: { pack: pack.id }, props: { pack } }));
+}
+const { pack } = Astro.props as { pack: StarterPack };
+const catalog = await loadPluginCatalog();
+const plugins = pack.pluginIDs.map((id) => {
+  const plugin = catalog.plugins.find((plugin) => plugin.id === id);
+  if (!plugin) throw new Error(`Starter pack ${pack.id} references missing plugin ${id}`);
+  return plugin;
+});
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const title = t(`${pack.title.zh} · MacTools 工具组合`, `${pack.title.en} · MacTools Starter Pack`);
+const appURL = packAppURL(pack.id);
+---
+<BaseLayout title={title} description={pack.summary} page="packs">
+  <SiteNav active="packs" />
+  <main class="plugin-detail-page">
+    <a class="pack-back-link" href={`${base}/packs`}><LocalizedText {...t("所有工具组合", "All starter packs")} /></a>
+    <section class="plugin-detail-hero pack-detail-hero">
+      <div>
+        <p class="plugin-detail-eyebrow"><LocalizedText {...t("MacTools 工具组合", "MacTools Starter Pack")} /></p>
+        <StarterPackIcon symbol={pack.symbol} class="pack-hero-symbol" />
+        <h1><LocalizedText {...pack.title} /></h1>
+        <p class="plugin-detail-lead"><LocalizedText {...pack.summary} /></p>
+        <p><LocalizedText {...pack.permission} /></p>
+        <div class="plugin-detail-actions">
+          <a class="button primary" href={appURL} data-pack-open={pack.id}><LocalizedText {...t("在 MacTools 中检查设置", "Review in MacTools")} /></a>
+          <a class="button subtle" href={appRelease.downloadURL}><LocalizedText {...t("下载 MacTools", "Download MacTools")} /></a>
+        </div>
+        <p class="plugin-detail-muted"><LocalizedText {...t("需要支持工具组合的 MacTools 版本。链接只会打开检查页面，由你确认安装。", "Requires a MacTools version with Starter Packs support. The link opens the review page; you decide what to install.")} /></p>
+      </div>
+      <StarterPackPreview id={pack.id} />
+    </section>
+    <section class="plugin-detail-section">
+      <h2><LocalizedText {...t("组合中的工具", "Tools in this pack")} /></h2>
+      <div class="plugin-action-grid">{plugins.map((plugin) => {
+        const text = localizedPluginText(plugin);
+        return <article class="plugin-action-card pack-plugin-card"><h3><a href={`${base}/plugins/${plugin.id}`}><StarterPackIcon symbol={starterPluginSymbol(plugin.id)} /><LocalizedText zh={text.zh.displayName} en={text.en.displayName} /></a></h3><p><LocalizedText zh={text.zh.summary} en={text.en.summary} /></p></article>;
+      })}</div>
+    </section>
+    <section class="plugin-detail-section">
+      <h2><LocalizedText {...t("如何设置", "Make it yours")} /></h2>
+      <ol class="plugin-setup-list">
+        <li><strong><LocalizedText {...t("检查所选工具", "Review your selection")} /></strong><span><LocalizedText {...t("可搭配其他工具组合；共享插件只显示一次。取消不需要的插件，保留已安装插件的设置。", "Combine this with other packs in MacTools. Shared plugins appear once. Deselect anything you do not need; installed plugins keep their settings.")} /></span></li>
+        <li><strong><LocalizedText {...t("选择布局", "Choose the layout")} /></strong><span><LocalizedText {...pack.setup} /></span></li>
+        <li><strong><LocalizedText {...t("确认并开始使用", "Confirm and get started")} /></strong><span><LocalizedText {...t("安装后，根据所选工具的需要完成授权。清理、脚本和系统操作由你手动运行。", "After installation, grant only the permissions needed by your chosen tools. Cleanup, scripts, and system actions remain manual.")} /></span></li>
+      </ol>
+    </section>
+    <section class="plugin-detail-section">
+      <h2><LocalizedText {...t("保留你的现有设置", "Keep your existing setup")} /></h2>
+      <p><LocalizedText {...t("只下载缺少的插件，不移动已有面板项目，也不覆盖现有网格或快捷键。某个插件安装失败时，其余已完成的更改会保留，可以返回检查后重试。", "Only missing plugins are downloaded. Existing panel items stay put, and grids and shortcuts are preserved. If an installation fails, completed changes are kept so you can review and retry.")} /></p>
+    </section>
+    <section class="plugin-detail-section">
+      <h2><LocalizedText {...t("打开此工具组合", "Open this pack")} /></h2>
+      <p class="plugin-detail-muted"><LocalizedText {...t("如果链接没有打开检查页面，请更新到支持工具组合的 MacTools 版本。", "If the link does not open the review page, update to a MacTools version that supports Starter Packs.")} /></p>
+      <div class="plugin-deep-link"><a href={appURL}><code>{appURL}</code></a></div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>

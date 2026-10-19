@@ -5,6 +5,7 @@ struct PluginManagementSettingsView: View {
     @Environment(\.locale) private var locale
     @Environment(\.layoutDirection) private var layoutDirection
     let pluginHost: PluginHost
+    @ObservedObject private var starterPacks: StarterPackController
     @StateObject private var presentation: PluginMarketplacePresentationModel
     @ObservedObject var navigationCoordinator: SettingsNavigationCoordinator
     @ObservedObject var uninstallConfirmationSession: PluginUninstallConfirmationSession
@@ -30,6 +31,7 @@ struct PluginManagementSettingsView: View {
         appRelauncher: any AppRelaunching = AppRelauncher()
     ) {
         self.pluginHost = pluginHost
+        self.starterPacks = pluginHost.starterPacks
         self.navigationCoordinator = navigationCoordinator
         self.uninstallConfirmationSession = uninstallConfirmationSession
         self.appRelauncher = appRelauncher
@@ -93,7 +95,7 @@ struct PluginManagementSettingsView: View {
                                             hasSettings: configurationPluginIDs.contains(item.id),
                                             isBusy: activeOperationID == item.id
                                                 || presentation.automaticUpdateStatus.isUpdatingPlugin(id: item.id),
-                                            isInteractionDisabled: activeOperationID != nil
+                                            isInteractionDisabled: starterPacks.isRunning || activeOperationID != nil
                                                 || presentation.isUpdatingAvailablePlugins
                                                 || presentation.automaticUpdateStatus.isActive,
                                             onInstall: { runOperation(id: item.id) { try await pluginHost.installPluginFromCatalog(pluginID: item.id) } },
@@ -322,12 +324,20 @@ struct PluginManagementSettingsView: View {
 
         return SettingsPageIntroductionConfiguration(
             description: description,
-            descriptionColor: status.errorMessage == nil ? .secondary : .orange
+            descriptionColor: status.errorMessage == nil ? .secondary : .orange,
+            descriptionLineLimit: 2
         )
     }
 
     @ViewBuilder
     private var marketplaceIntroductionActions: some View {
+        Button(FeatureL10n.string("工具组合…")) {
+            navigationCoordinator.navigate(to: .starterPacks(.choose))
+        }
+        .buttonStyle(.bordered)
+        .accessibilityIdentifier("mactools.marketplace.starter-packs")
+        .settingsPointingHandCursor()
+
         if shouldShowBulkUpdateControls {
             bulkUpdateProgressLabel
 
@@ -345,7 +355,7 @@ struct PluginManagementSettingsView: View {
             .fixedSize(horizontal: true, vertical: false)
             .layoutPriority(1)
             .disabled(
-                activeOperationID != nil
+                starterPacks.isRunning || activeOperationID != nil
                     || !hasAvailablePluginUpdates
                     || presentation.catalogStatus.isRefreshing
                     || presentation.automaticUpdateStatus.isActive
@@ -364,7 +374,7 @@ struct PluginManagementSettingsView: View {
         .fixedSize(horizontal: true, vertical: false)
         .layoutPriority(1)
         .disabled(
-            activeOperationID != nil
+            starterPacks.isRunning || activeOperationID != nil
                 || presentation.isUpdatingAvailablePlugins
                 || presentation.catalogStatus.isRefreshing
                 || presentation.automaticUpdateStatus.isActive

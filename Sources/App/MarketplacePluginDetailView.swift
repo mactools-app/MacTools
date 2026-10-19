@@ -164,7 +164,9 @@ struct MarketplacePluginDetailView: View {
                     .foregroundStyle(.secondary)
             }
             Spacer(minLength: 12)
-            lifecycleControls(for: presentation.item)
+            StarterPackLifecycleControls(controller: pluginHost.starterPacks) {
+                lifecycleControls(for: presentation.item)
+            }
         }
         .padding(PluginSettingsTheme.Spacing.cardContent)
         .pluginSettingsCardBackground(.standard)
@@ -376,11 +378,18 @@ struct MarketplacePluginDetailView: View {
             Text(action.description.localizedValue() ?? "")
                 .font(PluginSettingsTheme.Typography.rowDescription)
                 .foregroundStyle(.secondary)
-            Text(([MarketplacePluginDetailCopy.value(action.risk, group: "risk")]
-                + action.surfaces.map { MarketplacePluginDetailCopy.value($0, group: "surface") }
-                + action.permissionIDs.map { MarketplacePluginDetailCopy.value($0, group: "permission") }).joined(separator: " · "))
-                .font(PluginSettingsTheme.Typography.statusBadge)
-                .foregroundStyle(.secondary)
+            if !action.permissionIDs.isEmpty {
+                Label(action.permissionIDs.map { MarketplacePluginDetailCopy.value($0, group: "permission") }.joined(separator: " · "),
+                      systemImage: "lock.shield")
+                    .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+            }
+            DisclosureGroup(FeatureL10n.string("操作详情")) {
+                Text(([MarketplacePluginDetailCopy.value(action.risk, group: "risk")]
+                    + action.surfaces.map { MarketplacePluginDetailCopy.value($0, group: "surface") }
+                    + action.permissionIDs.map { MarketplacePluginDetailCopy.value($0, group: "permission") }).joined(separator: " · "))
+                    .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+            }
+            .font(PluginSettingsTheme.Typography.rowDescription)
         }
         .padding(8)
         .background(highlighted ? Color.accentColor.opacity(0.12) : .clear, in: RoundedRectangle(cornerRadius: 8))
@@ -575,4 +584,10 @@ struct MarketplacePluginDetailView: View {
         case .failed, .incompatible, .revoked: "exclamationmark.triangle.fill"
         }
     }
+}
+
+private struct StarterPackLifecycleControls<Content: View>: View {
+    @ObservedObject var controller: StarterPackController
+    @ViewBuilder var content: () -> Content
+    var body: some View { content().disabled(controller.isRunning) }
 }

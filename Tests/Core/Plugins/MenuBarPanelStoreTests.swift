@@ -4,6 +4,25 @@ import XCTest
 
 @MainActor
 final class MenuBarPanelStoreTests: XCTestCase {
+    func testPackPlacementSuppressionSurvivesDelayedLoadingAndRestart() {
+        let key = PluginPanelItemKey(pluginID: "delayed-plugin", itemID: "control")
+        store.suppressInitialPlacement(for: key.pluginID)
+        _ = store.reconcile([])
+        let reopened = MenuBarPanelStore(userDefaults: defaults)
+        _ = reopened.reconcile([(key, .featurePanel)], discoveredPluginIDs: [key.pluginID])
+        XCTAssertTrue(reopened.configuration.placementsByPanelID.isEmpty)
+        XCTAssertTrue(reopened.configuration.initializedItems.contains(key))
+        let reloaded = MenuBarPanelStore(userDefaults: defaults)
+        _ = reloaded.reconcile([(key, .featurePanel)], discoveredPluginIDs: [key.pluginID])
+        XCTAssertTrue(reloaded.configuration.placementsByPanelID.isEmpty)
+
+        let manual = PluginPanelItemKey(pluginID: "manual-plugin", itemID: "control")
+        reloaded.suppressInitialPlacement(for: manual.pluginID)
+        reloaded.cancelInitialPlacementSuppression(for: manual.pluginID)
+        _ = reloaded.reconcile([(manual, .featurePanel)], discoveredPluginIDs: [manual.pluginID])
+        XCTAssertEqual(reloaded.configuration.placementsByPanelID[MenuBarPanelDefinition.featuresID]?.map(\.item), [manual])
+    }
+
     private var suite: String!
     private var defaults: UserDefaults!
     private var store: MenuBarPanelStore!

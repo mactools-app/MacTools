@@ -5,6 +5,8 @@ import HomeHero from "@/components/HomeHero.astro";
 import FeatureShowcase from "@/components/FeatureShowcase.astro";
 import SearchIntent from "@/components/SearchIntent.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
+import StarterPackCards from "@/components/StarterPackCards.astro";
+import LocalizedText from "@/components/LocalizedText.astro";
 import appRelease from "../../../docs/app-release.json";
 
 const pageTitle = { zh: "MacTools | 免费开源的原生 macOS 菜单栏工具集", en: "MacTools | Free, open-source native macOS menu bar tools" };
@@ -34,6 +36,7 @@ const homeKeywords = [
   "Battery Charge Limit",
 ];
 const siteURL = Astro.site?.href ?? "https://mactools.ggbond.app/";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const downloadURL = appRelease.downloadURL;
 const structuredDataFor = (language: "zh" | "en") => [
   {
@@ -89,6 +92,14 @@ const structuredDataFor = (language: "zh" | "en") => [
   <SiteNav active="home" />
   <main>
     <HomeHero downloadURL={downloadURL} />
+    <section class="home-packs" aria-labelledby="home-packs-title">
+      <div class="section-heading">
+        <h2 id="home-packs-title"><LocalizedText zh="从常用工具开始" en="Start with a few useful tools" /></h2>
+        <p><LocalizedText zh="搭配多个工具组合，安装前检查，之后随时自定。" en="Combine starter packs, review before installing, and customize anytime." /></p>
+      </div>
+      <StarterPackCards limit={3} />
+      <a class="button subtle" href={`${base}/packs`}><LocalizedText zh="查看全部七个工具组合" en="Explore all seven packs" /></a>
+    </section>
     <FeatureShowcase />
     <SearchIntent />
   </main>

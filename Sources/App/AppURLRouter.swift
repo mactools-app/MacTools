@@ -11,6 +11,7 @@ enum AppDeepLink: Equatable {
         case actionsAndShortcuts
         case automation
         case pluginMarketplace
+        case starterPacks(StarterPack?)
         case marketplaceDetail(MarketplacePluginDetailTarget)
         case pluginConfiguration(String)
     }
@@ -40,6 +41,8 @@ enum AppDeepLink: Equatable {
             return .settings(.feature(.automation))
         case .settings(.pluginMarketplace):
             return .settings(.pluginMarketplace)
+        case let .settings(.starterPacks(pack)):
+            return .settings(.starterPacks(pack))
         case let .settings(.marketplaceDetail(target)):
             return .settings(.pluginMarketplaceDetail(target))
         case let .settings(.pluginConfiguration(pluginID)):
@@ -218,6 +221,13 @@ enum AppDeepLinkParser {
             return .success(.navigation(.settings(.automation)))
         case ["settings", "plugins", "marketplace"]:
             return .success(.navigation(.settings(.pluginMarketplace)))
+        case ["settings", "starter-packs"]:
+            guard components.percentEncodedQuery == nil else { return .failure(.unsupportedURLComponents) }
+            return .success(.navigation(.settings(.starterPacks(nil))))
+        case let path where path.count == 3 && path[0] == "settings" && path[1] == "starter-packs":
+            guard components.percentEncodedQuery == nil else { return .failure(.unsupportedURLComponents) }
+            guard let pack = StarterPack(rawValue: path[2]) else { return .failure(.unsupportedRoute) }
+            return .success(.navigation(.settings(.starterPacks(pack))))
         case let path where path.count == 4
             && path[0] == "settings"
             && path[1] == "plugins"

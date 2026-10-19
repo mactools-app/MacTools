@@ -459,6 +459,15 @@ enum MacToolsSearchIndexBuilder {
                 suggestionPriority: 4
             ),
             navigationResult(
+                id: "navigation.starter-packs",
+                title: FeatureL10n.string("工具组合"),
+                subtitle: AppL10n.search("search.subtitle.plugins", defaultValue: "插件"),
+                detail: FeatureL10n.string("选择常用工具组合，安装前检查设置，之后可随时自定。"),
+                systemImage: "sparkles",
+                destination: .starterPacks(.choose),
+                suggestionPriority: 0
+            ),
+            navigationResult(
                 id: "navigation.about",
                 title: AppL10n.settings("tab.about", defaultValue: "关于"),
                 subtitle: AppL10n.search("search.subtitle.appSettings", defaultValue: "应用设置"),

@@ -5166,7 +5166,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restores plugin order and visibility in Dashboard and Feature Panel; missing plugins must be installed separately."
+            "value": "Restores panel item order and visibility. You can select missing plugins to install before importing."
           }
         },
         "es": {
@@ -5214,13 +5214,13 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "恢复仪表盘和功能面板中的插件顺序与可见性；缺失插件需要另外安装。"
+            "value": "恢复面板项目顺序和可见性，可在导入前选择安装缺少的插件。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "回復儀表板和功能面板中的外掛順序與可見性；缺少的外掛需要另外安裝。"
+            "value": "回復面板項目順序和可見性，可在匯入前選擇安裝缺少的外掛。"
           }
         }
       }

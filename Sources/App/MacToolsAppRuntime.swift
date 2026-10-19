@@ -121,6 +121,9 @@ final class MacToolsAppRuntime {
 
         startCLIHostIfAvailable()
         bootstrapDynamicPlugins()
+        if pluginHost.starterPacks.needsOnboarding {
+            windowRouter.showSettings()
+        }
     }
 
     func showSettings() -> Bool {

@@ -19,12 +19,22 @@ The three schemes route to the matching installation. Stable, development, and N
 | Actions & Shortcuts | `mactools://app/settings/features/actions-and-shortcuts` |
 | Automation | `mactools://app/settings/features/automation` |
 | Plugin Marketplace | `mactools://app/settings/plugins/marketplace` |
+| Starter pack chooser | `mactools://app/settings/starter-packs` |
+| Everyday Essentials review | `mactools://app/settings/starter-packs/everyday` |
+| Windows & Workspace review | `mactools://app/settings/starter-packs/windows` |
+| Writing & Clipboard review | `mactools://app/settings/starter-packs/writing` |
+| Meetings & Presentations review | `mactools://app/settings/starter-packs/meetings` |
+| Displays & Desk review | `mactools://app/settings/starter-packs/displays` |
+| Developer Tools review | `mactools://app/settings/starter-packs/developer` |
+| Storage & Maintenance review | `mactools://app/settings/starter-packs/maintenance` |
 | Marketplace plugin details | `mactools://app/settings/plugins/marketplace/<plugin-id>` |
 | Marketplace static-action details | `mactools://app/settings/plugins/marketplace/<plugin-id>?provider=<provider-id>&action=<action-id>` |
 | Installed plugin settings | `mactools://app/settings/plugins/<plugin-id>` |
 | Dashboard | `mactools://app/panels/dashboard` |
 | Feature Panel | `mactools://app/panels/feature` |
 | Unified search | `mactools://app/search` |
+
+Starter pack links open the chooser or the specified pack's review without installing plugins, changing a layout, assigning shortcuts, or granting permissions. Users confirm the setup in MacTools. Known pack IDs are `everyday`, `windows`, `writing`, `meetings`, `displays`, `developer`, and `maintenance`; unknown IDs and all query parameters are rejected. A first link replaces the untouched first-run suggestion; later links add to the current selection without clearing individual exclusions. If a pack is currently installing, another pack link shows its existing progress instead of replacing the active setup.
 
 For example:
 
@@ -33,6 +43,7 @@ open 'mactools://app/settings/plugins/fan-control'
 open 'mactools://app/settings/plugins/marketplace/fan-control?provider=fan-control&action=set-speed'
 open 'mactools://app/panels/dashboard'
 open 'mactools://app/search'
+open 'mactools://app/settings/starter-packs/windows'
 ```
 
 Use the stable ID from the plugin's `plugin.json` for `<plugin-id>`. The ID `marketplace` is reserved for the host-owned Marketplace route and cannot be used by a plugin. A plugin settings link is accepted only when that plugin is installed, loaded, and provides settings. Dashboard and Feature Panel links always use show/focus behavior, so opening the same link again does not toggle the panel closed.
@@ -56,7 +67,7 @@ Mixed navigation and action links share one ordered cold-launch queue. The queue
 
 ## Compatibility
 
-Published routes are a backward-compatible product interface and are independent of the MacTools app version. New routes and optional navigation parameters may be added, but an existing route will keep its meaning. Unique unknown navigation query parameters are ignored except for Marketplace-detail links, which accept only the paired `provider` and `action` highlight parameters. Duplicate parameter names and all action-route query parameters are rejected, as are malformed or unavailable destinations.
+Published routes are a backward-compatible product interface and are independent of the MacTools app version. New routes and optional navigation parameters may be added, but an existing route will keep its meaning. Unique unknown navigation query parameters are ignored except for Marketplace-detail links, which accept only paired `provider` and `action` highlight parameters, and starter-pack links, which accept no query parameters. Duplicate parameter names and all action-route query parameters are rejected, as are malformed or unavailable destinations.
 
 The URL namespace has no global version. If a future feature needs an incompatible structured payload, that feature will use a dedicated `formatVersion` or `protocolVersion` parameter.
 

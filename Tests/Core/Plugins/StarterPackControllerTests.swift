@@ -1,0 +1,264 @@
+import Foundation
+import MacToolsPluginKit
+import XCTest
+@testable import MacTools
+@testable import ActionGridPlugin
+
+@MainActor
+final class StarterPackControllerTests: XCTestCase {
+    private var suites: [String] = []
+
+    override func tearDown() {
+        suites.forEach { UserDefaults(suiteName: $0)?.removePersistentDomain(forName: $0) }
+        super.tearDown()
+    }
+
+    private func defaults() -> UserDefaults {
+        let name = "StarterPackTests-\(UUID())"
+        suites.append(name)
+        return UserDefaults(suiteName: name)!
+    }
+
+    func testOnboardingIsOptionalAndDoesNotReappearForExistingSetups() {
+        let store = defaults()
+        let fixture = Fixture()
+        let first = StarterPackController(defaults: store, hasExistingSetup: false, services: fixture.services)
+        XCTAssertTrue(first.needsOnboarding)
+        first.finishOnboarding()
+        XCTAssertFalse(StarterPackController(defaults: store, hasExistingSetup: false, services: fixture.services).needsOnboarding)
+        XCTAssertTrue(fixture.installs.isEmpty)
+        let existingStore = defaults()
+        existingStore.set(Data(), forKey: MenuBarPanelStore.storageKey)
+        XCTAssertTrue(StarterPackController.hasExistingPreferences(in: existingStore))
+        let existing = StarterPackController(defaults: existingStore, hasExistingSetup: true, services: fixture.services)
+        XCTAssertFalse(existing.needsOnboarding)
+        XCTAssertTrue(existing.selectedPacks.isEmpty)
+        XCTAssertEqual(first.selectedPacks, [.everyday])
+    }
+
+    func testOnlyMissingPluginsInstallAndExistingPlacementsKeepTheirIdentity() async {
+        let fixture = Fixture()
+        fixture.installed = ["system-status", "keep-awake"]
+        let existing = MenuBarPanelPlacement(item: .init(pluginID: "keep-awake", itemID: "control"))
+        fixture.layout.placementsByPanelID[MenuBarPanelDefinition.featuresID] = [existing]
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: true, services: fixture.services)
+        controller.selectPack(.everyday, isSelected: true)
+        controller.updateDraft { $0.panelID = MenuBarPanelDefinition.featuresID; $0.addToPanel = true }
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertEqual(fixture.installs, ["microphone-mute", "system-mute", "lock-screen", "display-brightness"])
+        XCTAssertEqual(fixture.layout.placementsByPanelID[MenuBarPanelDefinition.featuresID]?.first, existing)
+        XCTAssertEqual(fixture.layout.placementsByPanelID.values.flatMap { $0 }.count, 6)
+        XCTAssertFalse(controller.hasChanges)
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertEqual(fixture.installs.count, 4)
+    }
+
+    func testOptingOutOfPanelLayoutDoesNotAddPlacements() async {
+        let fixture = Fixture()
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: fixture.services)
+        controller.updateDraft { $0.addToPanel = false }
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertEqual(fixture.installs.count, 6)
+        XCTAssertTrue(fixture.layout.placementsByPanelID.isEmpty)
+    }
+
+    func testInstalledPackageThatCannotLoadReportsItsErrorWithoutAddingControls() async {
+        let fixture = Fixture()
+        var services = fixture.services
+        services.isUsable = { _ in false }
+        let loadFailure = "Rejected test bundle"
+        services.readinessMessage = { _ in loadFailure }
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: services)
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertEqual(fixture.installed.count, 6)
+        XCTAssertTrue(controller.results.allSatisfy { $0.outcome == .failed(loadFailure) })
+        XCTAssertTrue(fixture.layout.placementsByPanelID.isEmpty)
+    }
+
+    func testPartialFailureKeepsSuccessesAndRetryInstallsOnlyTheMissingPlugin() async {
+        let fixture = Fixture()
+        fixture.failures = ["microphone-mute"]
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: fixture.services)
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertEqual(controller.results.filter { if case .failed = $0.outcome { true } else { false } }.count, 1)
+        XCTAssertEqual(fixture.layout.placementsByPanelID.values.flatMap { $0 }.count, 5)
+        let preserved = fixture.layout.placementsByPanelID
+        fixture.failures = []
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertEqual(fixture.installs.suffix(1), ["microphone-mute"])
+        XCTAssertEqual(fixture.installs.count, 7)
+        XCTAssertEqual(fixture.layout.placementsByPanelID[MenuBarPanelDefinition.componentsID]?.prefix(3), preserved[MenuBarPanelDefinition.componentsID]?.prefix(3))
+    }
+
+    func testStopKeepsTheCurrentInstallAndSkipsTheRemainingPlugins() async {
+        let fixture = Fixture()
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: fixture.services)
+        fixture.didInstall = { controller.stopAfterCurrentPlugin() }
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertEqual(fixture.installs, ["system-status"])
+        XCTAssertEqual(controller.results.filter { $0.outcome == .skipped }.count, 5)
+        XCTAssertEqual(fixture.layout.placementsByPanelID.values.flatMap { $0 }.count, 1)
+    }
+
+    func testHostRejectsOtherPackageMutationsWhilePackInstallationIsRunning() async {
+        let fixture = Fixture()
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: fixture.services)
+        let suite = "StarterPackTests-\(UUID())"
+        suites.append(suite)
+        let host = makePluginHostForTests(plugins: [], suiteName: suite)
+        host.starterPacks = controller
+        controller.apply()
+        XCTAssertThrowsError(try host.installPluginPackage(from: URL(fileURLWithPath: "/unused-test-package")))
+        XCTAssertThrowsError(try host.uninstallDynamicPlugin(pluginID: "keep-awake"))
+        controller.stopAfterCurrentPlugin()
+        await controller.waitForInstallation()
+    }
+
+    func testWindowPackPreservesGridAndShortcutAndRechecksChangesDuringInstall() async {
+        let fixture = Fixture()
+        fixture.grid = .occupied
+        fixture.shortcut = true
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: true, services: fixture.services)
+        controller.clearSelection()
+        controller.selectPack(.windows, isSelected: true)
+        controller.updateDraft { $0.assignShortcut = true; $0.seedGrid = true }
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertTrue(fixture.seeded.isEmpty)
+        XCTAssertEqual(fixture.shortcutWrites, 0)
+        fixture.installed = []
+        fixture.grid = .empty
+        fixture.didInstall = { fixture.grid = .occupied }
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertTrue(fixture.seeded.isEmpty)
+    }
+
+    func testNewWindowGridRestoresThroughTheRealPluginFormatAndReportsShortcutConflict() async throws {
+        let fixture = Fixture()
+        fixture.shortcutError = "Shortcut is already assigned"
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: fixture.services)
+        controller.clearSelection()
+        controller.selectPack(.windows, isSelected: true)
+        controller.updateDraft { $0.assignShortcut = true; $0.seedGrid = true }
+        controller.apply()
+        await controller.waitForInstallation()
+        let grid = ActionGridStore(storage: UserDefaultsPluginStorage(pluginID: "action-grid", userDefaults: defaults()))
+        let payload = try JSONEncoder().encode(StarterPackGridPreferences(references: fixture.seeded))
+        XCTAssertTrue(grid.restorePortableBackup(payload))
+        XCTAssertEqual(grid.entries.map(\.reference.key.actionID), ["left-half", "right-half", "maximize"])
+        XCTAssertEqual(controller.setupMessages, ["Shortcut is already assigned"])
+        XCTAssertFalse(fixture.shortcut)
+    }
+
+    func testCombinedPacksInstallSharedPluginsOnceAndKeepExistingLayoutByDefault() async {
+        let fixture = Fixture()
+        fixture.installed = ["keep-awake"]
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: true, services: fixture.services)
+        controller.selectPack(.everyday, isSelected: true)
+        controller.selectPack(.windows, isSelected: true)
+        XCTAssertEqual(controller.selectedIDs.count, 12)
+        XCTAssertFalse(controller.draft.addToPanel)
+        controller.updateDraft { $0.selectedPluginIDs.remove("system-mute") }
+        controller.selectPack(.meetings, isSelected: true)
+        XCTAssertFalse(controller.selectedIDs.contains("system-mute"))
+        controller.selectPack(.meetings, isSelected: false)
+        controller.selectPack(.everyday, isSelected: false)
+        XCTAssertTrue(controller.selectedIDs.contains("keep-awake"))
+        XCTAssertFalse(controller.selectedIDs.contains("microphone-mute"))
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertEqual(Set(fixture.installs), Set(StarterPack.windows.pluginIDs).subtracting(["keep-awake"]))
+        XCTAssertEqual(fixture.installs.count, Set(fixture.installs).count)
+        XCTAssertTrue(fixture.layout.placementsByPanelID.isEmpty)
+        XCTAssertTrue(fixture.seeded.isEmpty)
+    }
+
+    func testLinksAreAdditiveAndRunningBatchKeepsItsReviewedSelection() async {
+        let fixture = Fixture()
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: fixture.services)
+        controller.includePackFromLink(.windows)
+        XCTAssertEqual(controller.selectedPacks, [.windows])
+        controller.includePackFromLink(.meetings)
+        let reviewed = controller.selectedIDs
+        XCTAssertEqual(controller.selectedPacks, [.windows, .meetings])
+        fixture.didInstall = { controller.includePackFromLink(.maintenance); controller.clearSelection() }
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertEqual(fixture.installs, reviewed)
+        XCTAssertEqual(controller.appliedPacks, [.windows, .meetings])
+        controller.clearSelection()
+        controller.selectPack(.writing, isSelected: true)
+        controller.restoreAppliedSelection()
+        XCTAssertEqual(controller.selectedIDs, reviewed)
+    }
+
+    func testAllPacksHaveOneReversiblePluginSelectionAndDeduplicatedPlacements() async {
+        let fixture = Fixture()
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: fixture.services)
+        controller.selectAllPacks()
+        let union = Set(StarterPack.allCases.flatMap(\.pluginIDs))
+        XCTAssertEqual(Set(controller.selectedIDs), union)
+        XCTAssertEqual(controller.candidateIDs.count, union.count)
+        controller.updateDraft { $0.selectedPluginIDs.remove("keep-awake") }
+        XCTAssertTrue(controller.candidateIDs.contains("keep-awake"))
+        controller.updateDraft { $0.selectedPluginIDs.insert("keep-awake") }
+        controller.apply()
+        await controller.waitForInstallation()
+        XCTAssertEqual(Set(fixture.installs), union)
+        XCTAssertEqual(fixture.installs.count, union.count)
+        let items = fixture.layout.placementsByPanelID.values.flatMap { $0 }.map(\.item)
+        XCTAssertEqual(items.count, Set(items).count)
+        controller.clearSelection()
+        XCTAssertTrue(controller.selectedIDs.isEmpty)
+        XCTAssertEqual(fixture.installed, union)
+    }
+}
+
+@MainActor
+private final class Fixture {
+    var installed: Set<String> = []
+    var installs: [String] = []
+    var failures: Set<String> = []
+    var layout = MenuBarPanelConfiguration()
+    var grid: StarterPackGridState = .empty
+    var seeded: [ActionReference] = []
+    var shortcut = false
+    var shortcutWrites = 0
+    var shortcutError: String?
+    var didInstall: (() -> Void)?
+
+    var services: StarterPackServices {
+        StarterPackServices(
+            installedIDs: { self.installed },
+            isUsable: { self.installed.contains($0) },
+            install: { id in
+                self.installs.append(id)
+                if self.failures.contains(id) { throw StarterPackError.notReady }
+                self.installed.insert(id)
+                self.didInstall?()
+            },
+            layout: { self.layout },
+            addPlacement: { item, panel in
+                guard self.layout.panels.contains(where: { $0.id == panel && !$0.isHidden }) else { return false }
+                self.layout.placementsByPanelID[panel, default: []].append(.init(item: item))
+                return true
+            },
+            gridState: { self.grid },
+            seedGrid: { self.seeded = $0; self.grid = .occupied; return true },
+            hasGridShortcut: { self.shortcut },
+            assignGridShortcut: {
+                self.shortcutWrites += 1
+                if self.shortcutError == nil { self.shortcut = true }
+                return self.shortcutError
+            }
+        )
+    }
+}

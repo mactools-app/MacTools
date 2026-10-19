@@ -4,11 +4,12 @@ const base = import.meta.env.BASE_URL.endsWith("/")
   : `${import.meta.env.BASE_URL}/`;
 const withBase = (path: string) => `${base}${path.replace(/^\//, "")}`;
 
-const { active = "home" } = Astro.props as { active?: "home" | "plugins" | "about" | "privacy" };
+const { active = "home" } = Astro.props as { active?: "home" | "plugins" | "packs" | "about" | "privacy" };
 
 const items = [
   { key: "home", href: withBase("/"), label: "首页", en: "Home" },
   { key: "plugins", href: withBase("/plugins"), label: "插件", en: "Plugins" },
+  { key: "packs", href: withBase("/packs"), label: "工具组合", en: "Starter Packs" },
   { key: "about", href: withBase("/about"), label: "关于", en: "About" },
 ] as const;
 ---

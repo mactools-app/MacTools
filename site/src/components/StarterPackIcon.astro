@@ -1,0 +1,5 @@
+---
+const { symbol, class: className = "" } = Astro.props as { symbol: string; class?: string };
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+<span class:list={["pack-symbol", className]} style={`--pack-symbol: url("${base}/assets/starter-pack-symbols/${symbol}.png")`} aria-hidden="true"></span>

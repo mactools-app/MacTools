@@ -1,0 +1,23 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SiteNav from "@/components/SiteNav.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import LocalizedText from "@/components/LocalizedText.astro";
+import StarterPackCards from "@/components/StarterPackCards.astro";
+import { packText as t } from "@/lib/starter-packs";
+const title = t("工具组合 · MacTools", "Starter Packs · MacTools");
+const description = t("从七个工具组合中选择一个或多个，共享插件只安装一次，安装前检查工具和布局。", "Choose one or more of seven packs in MacTools. Shared plugins install once. Review tools and layout before applying.");
+---
+<BaseLayout title={title} description={description} page="packs">
+  <SiteNav active="packs" />
+  <main class="plugin-detail-page">
+    <section class="pack-page-heading">
+      <p class="plugin-detail-eyebrow">MacTools</p>
+      <h1><LocalizedText {...t("从常用工具开始", "Start with a few useful tools")} /></h1>
+      <p class="plugin-detail-lead"><LocalizedText {...description} /></p>
+    </section>
+    <StarterPackCards />
+    <p class="plugin-detail-muted"><LocalizedText {...t("已有设置？只下载缺少的插件，保留现有布局、控制状态和快捷键。也可以从空白开始，随时从插件市场添加组合。", "Already set up? Download only missing plugins and keep existing layouts, control states, and shortcuts. You can also start empty and add a pack from the Marketplace anytime.")} /></p>
+  </main>
+  <SiteFooter />
+</BaseLayout>

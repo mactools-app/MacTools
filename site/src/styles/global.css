@@ -2683,7 +2683,7 @@ button.sim-feature-row {
     order: 3;
     justify-self: stretch;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 0;
     padding-top: 2px;
   }
@@ -4439,3 +4439,36 @@ button.sim-feature-row {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Starter packs share the existing product-page surfaces and color tokens. */
+.home-packs { width: min(var(--max-page), calc(100% - 48px)); margin: 96px auto; }
+.pack-page-heading { margin-bottom: 48px; }
+.pack-page-heading h1 { max-width: 850px; font-size: clamp(38px, 6vw, 64px); line-height: 1.05; letter-spacing: -.045em; }
+.pack-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-block: 36px; }
+.pack-card { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; cursor: pointer; }
+.pack-card h2, .pack-card p { margin: 0; }
+.pack-card h2 a { display: flex; align-items: baseline; gap: 10px; }
+.pack-card h2 a::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius-lg); }
+.pack-card:hover, .pack-card:focus-within { border-color: var(--blue); }
+.pack-card h2 a:focus-visible::after { outline: 2px solid var(--blue); outline-offset: 3px; }
+.pack-card .button { position: relative; margin-top: auto; }
+.pack-symbol { display: inline-block; flex: 0 0 auto; width: 1em; height: 1em; background: currentColor; -webkit-mask: var(--pack-symbol) center / contain no-repeat; mask: var(--pack-symbol) center / contain no-repeat; }
+.pack-title-symbol { color: var(--blue); width: 24px; height: 24px; align-self: center; }
+.pack-hero-symbol { width: 40px; height: 40px; color: var(--blue); margin-bottom: 12px; }
+.pack-member-list a, .pack-preview-list li, .pack-plugin-card h3 a { display: flex; align-items: baseline; gap: 8px; }
+.pack-member-list a { position: relative; padding-block: 4px; }
+.pack-member-list .pack-symbol, .pack-preview-list .pack-symbol { color: var(--muted); }
+.pack-plugin-card h3 .pack-symbol { color: var(--blue); }
+.pack-preview { width: 100%; max-width: 330px; padding: 18px; display: grid; gap: 14px; background: var(--canvas); border: 1px solid var(--hairline); border-radius: var(--radius-lg); color: var(--ink); }
+.pack-detail-hero { display: grid; grid-template-columns: minmax(0,1fr) minmax(220px,300px); align-items: center; gap: 40px; }
+.pack-detail-hero h1 { font-size: clamp(36px,5vw,64px); }
+.pack-back-link { display: inline-block; margin-bottom: 22px; color: var(--blue); }
+@media (max-width: 800px) { .pack-cards, .pack-detail-hero { grid-template-columns: minmax(0,1fr); } .pack-detail-hero .pack-preview { justify-self: center; } }
+@media (max-width: 400px) { .plugin-detail-page, .home-packs { width: calc(100% - 24px); } .primary-nav a { font-size: 11px; } .plugin-detail-hero { padding: 24px 18px; } }
+
+.pack-member-list { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 20px; list-style: none; padding: 0; margin: 4px 0; font-size: 14px; }
+.pack-member-list li, .pack-preview-list li { min-width: 0; overflow-wrap: anywhere; }
+.pack-member-list a { color: var(--ink); }
+.pack-preview-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+@media (min-width: 1250px) { .pack-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 400px) { .pack-member-list { grid-template-columns: minmax(0, 1fr); } }

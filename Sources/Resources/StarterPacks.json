@@ -1,0 +1,733 @@
+{
+  "packs": [
+    {
+      "id": "everyday",
+      "symbol": "sparkles",
+      "title": {
+        "zh": "日常必备",
+        "en": "Everyday Essentials",
+        "zhHant": "日常必備"
+      },
+      "summary": {
+        "zh": "查看系统状态，快速使用日常控制。",
+        "en": "Check your Mac and reach everyday controls.",
+        "zhHant": "查看系統狀態，快速使用日常控制。"
+      },
+      "permission": {
+        "zh": "无需 macOS 权限",
+        "en": "No macOS permissions required",
+        "zhHant": "無需 macOS 權限"
+      },
+      "setup": {
+        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
+        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
+        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+      },
+      "pluginIDs": [
+        "system-status",
+        "keep-awake",
+        "microphone-mute",
+        "system-mute",
+        "lock-screen",
+        "display-brightness"
+      ],
+      "panelItems": [
+        {
+          "pluginID": "system-status",
+          "itemID": "widget"
+        },
+        {
+          "pluginID": "keep-awake",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "microphone-mute",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "system-mute",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "lock-screen",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "display-brightness",
+          "itemID": "control"
+        }
+      ]
+    },
+    {
+      "id": "windows",
+      "symbol": "macwindow.on.rectangle",
+      "title": {
+        "zh": "窗口与工作区",
+        "en": "Windows & Workspace",
+        "zhHant": "視窗與工作區"
+      },
+      "summary": {
+        "zh": "排列窗口，快速切换应用和工作区。",
+        "en": "Arrange windows and move between your apps.",
+        "zhHant": "排列視窗，快速切換 App 和工作區。"
+      },
+      "permission": {
+        "zh": "辅助功能 · 程序坞控制需要自动化权限",
+        "en": "Accessibility · Automation for Dock controls",
+        "zhHant": "輔助使用 · Dock 控制需要自動化權限"
+      },
+      "setup": {
+        "zh": "可为全新操作网格添加左半屏、右半屏和最大化，并选择网格快捷键。现有网格和快捷键保持不变。",
+        "en": "Optionally add Left Half, Right Half, and Maximize to an empty Action Grid and choose a grid shortcut. Existing grids and shortcuts are kept.",
+        "zhHant": "可為全新操作網格加入左半螢幕、右半螢幕和最大化，並選擇網格快捷鍵。現有網格和快捷鍵保持不變。"
+      },
+      "pluginIDs": [
+        "window-layouts",
+        "window-switcher",
+        "action-grid",
+        "app-hotkey",
+        "stage-manager",
+        "auto-hide-dock",
+        "keep-awake"
+      ],
+      "panelItems": [
+        {
+          "pluginID": "app-hotkey",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "stage-manager",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "auto-hide-dock",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "keep-awake",
+          "itemID": "control"
+        }
+      ]
+    },
+    {
+      "id": "writing",
+      "symbol": "text.cursor",
+      "title": {
+        "zh": "写作与剪贴板",
+        "en": "Writing & Clipboard",
+        "zhHant": "寫作與剪貼簿"
+      },
+      "summary": {
+        "zh": "找回复制内容，翻译文字，切换输入语言。",
+        "en": "Retrieve text, translate, and work across languages.",
+        "zhHant": "找回複製內容，翻譯文字，切換輸入語言。"
+      },
+      "permission": {
+        "zh": "辅助功能 · 屏幕录制 · 自动化",
+        "en": "Accessibility · Screen Recording · Automation",
+        "zhHant": "輔助使用 · 螢幕錄製 · 自動化"
+      },
+      "setup": {
+        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
+        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
+        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+      },
+      "pluginIDs": [
+        "clipboard",
+        "auto-input",
+        "translator",
+        "screenshot",
+        "app-hotkey",
+        "apple-shortcuts"
+      ],
+      "panelItems": [
+        {
+          "pluginID": "clipboard",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "auto-input",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "translator",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "screenshot",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "app-hotkey",
+          "itemID": "control"
+        }
+      ]
+    },
+    {
+      "id": "meetings",
+      "symbol": "video",
+      "title": {
+        "zh": "会议与演示",
+        "en": "Meetings & Presentations",
+        "zhHant": "會議與簡報"
+      },
+      "summary": {
+        "zh": "管理通话音量，截取笔记，准备演示屏幕。",
+        "en": "Manage calls, capture notes, and keep screens ready.",
+        "zhHant": "管理通話音量，擷取筆記，準備簡報螢幕。"
+      },
+      "permission": {
+        "zh": "日历 · 屏幕与系统音频录制 · 自动化",
+        "en": "Calendar · Screen and system audio capture · Automation",
+        "zhHant": "行事曆 · 螢幕與系統音訊錄製 · 自動化"
+      },
+      "setup": {
+        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
+        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
+        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+      },
+      "pluginIDs": [
+        "calendar",
+        "microphone-mute",
+        "app-volume",
+        "system-mute",
+        "keep-awake",
+        "screenshot",
+        "display-resolution"
+      ],
+      "panelItems": [
+        {
+          "pluginID": "calendar",
+          "itemID": "widget"
+        },
+        {
+          "pluginID": "microphone-mute",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "app-volume",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "system-mute",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "keep-awake",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "screenshot",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "display-resolution",
+          "itemID": "control"
+        }
+      ]
+    },
+    {
+      "id": "displays",
+      "symbol": "display.2",
+      "title": {
+        "zh": "显示器与桌面",
+        "en": "Displays & Desk",
+        "zhHant": "顯示器與桌面"
+      },
+      "summary": {
+        "zh": "调整显示器、光线和音量，连接 iPad。",
+        "en": "Set up displays, lighting, audio, and an iPad.",
+        "zhHant": "調整顯示器、光線和音量，連接 iPad。"
+      },
+      "permission": {
+        "zh": "自动化 · 部分工具需要兼容设备",
+        "en": "Automation · Some tools need compatible hardware",
+        "zhHant": "自動化 · 部分工具需要相容裝置"
+      },
+      "setup": {
+        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
+        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
+        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+      },
+      "pluginIDs": [
+        "display-brightness",
+        "display-resolution",
+        "display-volume",
+        "night-shift",
+        "display-true-color",
+        "sidecar",
+        "auto-hide-dock"
+      ],
+      "panelItems": [
+        {
+          "pluginID": "display-brightness",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "display-resolution",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "display-volume",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "night-shift",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "display-true-color",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "sidecar",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "auto-hide-dock",
+          "itemID": "control"
+        }
+      ]
+    },
+    {
+      "id": "developer",
+      "symbol": "terminal",
+      "title": {
+        "zh": "开发工具",
+        "en": "Developer Tools",
+        "zhHant": "開發工具"
+      },
+      "summary": {
+        "zh": "管理软件包、脚本、Shell 配置和开发缓存。",
+        "en": "Manage packages, scripts, shell settings, and caches.",
+        "zhHant": "管理套件、指令稿、Shell 設定和開發快取。"
+      },
+      "permission": {
+        "zh": "辅助功能 · 自动化",
+        "en": "Accessibility · Automation",
+        "zhHant": "輔助使用 · 自動化"
+      },
+      "setup": {
+        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
+        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
+        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+      },
+      "pluginIDs": [
+        "homebrew",
+        "saved-scripts",
+        "zsh-config",
+        "xcode-clean",
+        "ip-overview",
+        "clipboard",
+        "keep-awake"
+      ],
+      "panelItems": [
+        {
+          "pluginID": "homebrew",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "saved-scripts",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "zsh-config",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "xcode-clean",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "ip-overview",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "clipboard",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "keep-awake",
+          "itemID": "control"
+        }
+      ]
+    },
+    {
+      "id": "maintenance",
+      "symbol": "internaldrive",
+      "title": {
+        "zh": "存储与维护",
+        "en": "Storage & Maintenance",
+        "zhHant": "儲存空間與維護"
+      },
+      "summary": {
+        "zh": "查找大文件，检查清理项目，管理外置磁盘。",
+        "en": "Find large files and review cleanup tasks.",
+        "zhHant": "尋找大型檔案，檢查清理項目，管理外接磁碟。"
+      },
+      "permission": {
+        "zh": "清理需要完全磁盘访问权限 · 自动化",
+        "en": "Full Disk Access for cleanup · Automation",
+        "zhHant": "清理需要完整磁碟存取權限 · 自動化"
+      },
+      "setup": {
+        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
+        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
+        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+      },
+      "pluginIDs": [
+        "com.mactools.plugin.storage-explorer",
+        "disk-clean",
+        "xcode-clean",
+        "eject-disk",
+        "empty-trash"
+      ],
+      "panelItems": [
+        {
+          "pluginID": "disk-clean",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "xcode-clean",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "eject-disk",
+          "itemID": "control"
+        },
+        {
+          "pluginID": "empty-trash",
+          "itemID": "control"
+        }
+      ]
+    }
+  ],
+  "plugins": {
+    "system-status": {
+      "title": {
+        "zh": "系统状态",
+        "en": "System Status",
+        "zhHant": "系統狀態"
+      },
+      "permissionIDs": [],
+      "symbol": "gauge.with.dots.needle.67percent"
+    },
+    "keep-awake": {
+      "title": {
+        "zh": "阻止休眠",
+        "en": "Keep Awake",
+        "zhHant": "防止睡眠"
+      },
+      "permissionIDs": [],
+      "symbol": "moon"
+    },
+    "microphone-mute": {
+      "title": {
+        "zh": "麦克风静音",
+        "en": "Microphone Mute",
+        "zhHant": "麥克風靜音"
+      },
+      "permissionIDs": [],
+      "symbol": "mic.slash"
+    },
+    "system-mute": {
+      "title": {
+        "zh": "系统静音",
+        "en": "System Mute",
+        "zhHant": "系統靜音"
+      },
+      "permissionIDs": [],
+      "symbol": "speaker.slash"
+    },
+    "lock-screen": {
+      "title": {
+        "zh": "锁定屏幕",
+        "en": "Lock Screen",
+        "zhHant": "鎖定螢幕"
+      },
+      "permissionIDs": [],
+      "symbol": "lock"
+    },
+    "display-brightness": {
+      "title": {
+        "zh": "显示器亮度",
+        "en": "Display Brightness",
+        "zhHant": "顯示器亮度"
+      },
+      "permissionIDs": [],
+      "symbol": "sun.max"
+    },
+    "window-layouts": {
+      "title": {
+        "zh": "窗口布局",
+        "en": "Window Layouts",
+        "zhHant": "視窗佈局"
+      },
+      "permissionIDs": [
+        "accessibility"
+      ],
+      "symbol": "rectangle.3.group"
+    },
+    "window-switcher": {
+      "title": {
+        "zh": "窗口切换",
+        "en": "Window Switcher",
+        "zhHant": "視窗切換"
+      },
+      "permissionIDs": [
+        "accessibility"
+      ],
+      "symbol": "rectangle.2.swap"
+    },
+    "action-grid": {
+      "title": {
+        "zh": "操作网格",
+        "en": "Action Grid",
+        "zhHant": "操作網格"
+      },
+      "permissionIDs": [],
+      "symbol": "square.grid.3x3"
+    },
+    "app-hotkey": {
+      "title": {
+        "zh": "应用快捷键",
+        "en": "App Hotkeys",
+        "zhHant": "應用程式快速鍵"
+      },
+      "permissionIDs": [],
+      "symbol": "keyboard"
+    },
+    "stage-manager": {
+      "title": {
+        "zh": "台前调度",
+        "en": "Stage Manager",
+        "zhHant": "幕前調度"
+      },
+      "permissionIDs": [],
+      "symbol": "sidebar.squares.leading"
+    },
+    "auto-hide-dock": {
+      "title": {
+        "zh": "自动隐藏程序坞",
+        "en": "Auto-hide Dock",
+        "zhHant": "自動隱藏 Dock"
+      },
+      "permissionIDs": [
+        "automation"
+      ],
+      "symbol": "rectangle.bottomthird.inset.filled"
+    },
+    "clipboard": {
+      "title": {
+        "zh": "剪贴板",
+        "en": "Clipboard",
+        "zhHant": "剪貼簿"
+      },
+      "permissionIDs": [
+        "accessibility"
+      ],
+      "symbol": "clipboard"
+    },
+    "auto-input": {
+      "title": {
+        "zh": "自动切换输入法",
+        "en": "Auto Input",
+        "zhHant": "自動切換輸入法"
+      },
+      "permissionIDs": [
+        "accessibility"
+      ],
+      "symbol": "keyboard"
+    },
+    "translator": {
+      "title": {
+        "zh": "翻译",
+        "en": "Translator",
+        "zhHant": "翻譯"
+      },
+      "permissionIDs": [
+        "accessibility",
+        "automation",
+        "screen-recording"
+      ],
+      "symbol": "text.bubble"
+    },
+    "screenshot": {
+      "title": {
+        "zh": "截图",
+        "en": "Screenshot",
+        "zhHant": "截圖"
+      },
+      "permissionIDs": [
+        "screen-recording"
+      ],
+      "symbol": "camera.viewfinder"
+    },
+    "apple-shortcuts": {
+      "title": {
+        "zh": "Apple 快捷指令",
+        "en": "Apple Shortcuts",
+        "zhHant": "Apple 捷徑"
+      },
+      "permissionIDs": [
+        "automation"
+      ],
+      "symbol": "square.stack.3d.up.fill"
+    },
+    "calendar": {
+      "title": {
+        "zh": "日历",
+        "en": "Calendar",
+        "zhHant": "行事曆"
+      },
+      "permissionIDs": [
+        "calendarFullAccess",
+        "automation"
+      ],
+      "symbol": "calendar"
+    },
+    "app-volume": {
+      "title": {
+        "zh": "应用音量",
+        "en": "App Volume",
+        "zhHant": "應用程式音量"
+      },
+      "permissionIDs": [
+        "system-audio-recording"
+      ],
+      "symbol": "speaker.wave.2.bubble"
+    },
+    "display-resolution": {
+      "title": {
+        "zh": "显示器分辨率",
+        "en": "Display Resolution",
+        "zhHant": "顯示器解析度"
+      },
+      "permissionIDs": [],
+      "symbol": "display"
+    },
+    "display-volume": {
+      "title": {
+        "zh": "显示器音量",
+        "en": "Display Volume",
+        "zhHant": "顯示器音量"
+      },
+      "permissionIDs": [],
+      "symbol": "speaker.wave.2"
+    },
+    "night-shift": {
+      "title": {
+        "zh": "夜览",
+        "en": "Night Shift",
+        "zhHant": "Night Shift"
+      },
+      "permissionIDs": [],
+      "symbol": "lamp.floor"
+    },
+    "display-true-color": {
+      "title": {
+        "zh": "原彩显示",
+        "en": "True Tone",
+        "zhHant": "原彩顯示"
+      },
+      "permissionIDs": [],
+      "symbol": "circle.righthalf.filled"
+    },
+    "sidecar": {
+      "title": {
+        "zh": "Sidecar",
+        "en": "Sidecar",
+        "zhHant": "Sidecar"
+      },
+      "permissionIDs": [],
+      "symbol": "display"
+    },
+    "homebrew": {
+      "title": {
+        "zh": "Homebrew 管理",
+        "en": "Homebrew Manager",
+        "zhHant": "Homebrew 管理"
+      },
+      "permissionIDs": [],
+      "symbol": "shippingbox.fill"
+    },
+    "saved-scripts": {
+      "title": {
+        "zh": "已存脚本",
+        "en": "Saved Scripts",
+        "zhHant": "已儲存腳本"
+      },
+      "permissionIDs": [],
+      "symbol": "terminal.fill"
+    },
+    "zsh-config": {
+      "title": {
+        "zh": "zsh 配置",
+        "en": "zsh Config",
+        "zhHant": "zsh 設定"
+      },
+      "permissionIDs": [
+        "automation"
+      ],
+      "symbol": "curlybraces"
+    },
+    "xcode-clean": {
+      "title": {
+        "zh": "Xcode 清理",
+        "en": "Xcode Cleanup",
+        "zhHant": "Xcode 清理"
+      },
+      "permissionIDs": [],
+      "symbol": "hammer"
+    },
+    "ip-overview": {
+      "title": {
+        "zh": "IP 检测",
+        "en": "IP Check",
+        "zhHant": "IP 檢測"
+      },
+      "permissionIDs": [],
+      "symbol": "network"
+    },
+    "com.mactools.plugin.storage-explorer": {
+      "title": {
+        "zh": "存储空间分析",
+        "en": "Storage Explorer",
+        "zhHant": "儲存空間分析"
+      },
+      "permissionIDs": [],
+      "symbol": "internaldrive"
+    },
+    "disk-clean": {
+      "title": {
+        "zh": "磁盘清理",
+        "en": "Disk Cleanup",
+        "zhHant": "磁碟清理"
+      },
+      "permissionIDs": [
+        "full-disk-access"
+      ],
+      "symbol": "internaldrive"
+    },
+    "eject-disk": {
+      "title": {
+        "zh": "推出磁盘",
+        "en": "Eject Disks",
+        "zhHant": "退出磁碟"
+      },
+      "permissionIDs": [],
+      "symbol": "eject"
+    },
+    "empty-trash": {
+      "title": {
+        "zh": "清空废纸篓",
+        "en": "Empty Trash",
+        "zhHant": "清空垃圾桶"
+      },
+      "permissionIDs": [
+        "automation"
+      ],
+      "symbol": "trash"
+    }
+  }
+}

@@ -866,6 +866,9 @@ const structuredDataFor = (language: "zh" | "en") => ({
         <span data-i18n-zh>{plugins.length} 个原生插件覆盖显示、音频、系统、清理、效率与监控。按需组合，每个插件都有清晰独立的设置。</span>
         <span data-i18n-en>{plugins.length} native plugins for displays, audio, system controls, cleanup, productivity, and monitoring. Mix what you need and fine-tune each one.</span>
       </p>
+      <a class="button subtle" href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/packs`}>
+        <span data-i18n-zh>从工具组合开始</span><span data-i18n-en>Start with a pack</span>
+      </a>
     </section>
 
     <section

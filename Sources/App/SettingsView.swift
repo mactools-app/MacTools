@@ -46,6 +46,8 @@ private func settingsNavigationTitle(
         FeatureL10n.string("自动化")
     case .plugins(.marketplace):
         AppL10n.settings("plugins.sidebar.marketplace", defaultValue: "插件市场")
+    case .starterPacks:
+        FeatureL10n.string("工具组合")
     case .marketplaceDetail:
         AppL10n.settings("plugins.sidebar.marketplace", defaultValue: "插件市场")
     case let .plugins(.configuration(pluginID)):
@@ -140,6 +142,9 @@ struct SettingsView: View {
                 maxWidth: .infinity,
                 maxHeight: .infinity
             )
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                StarterPackProgressBanner(controller: pluginHost.starterPacks, navigation: navigationCoordinator)
+            }
             .toolbar {
                 if #available(macOS 26.0, *) {
                     ToolbarItem(placement: .navigation) {
@@ -728,7 +733,7 @@ struct GeneralSettingsView: View {
                     )
                 }
                 Section {
-                    PreferencesBackupSettingsRow(pluginHost: pluginHost)
+                    PreferencesBackupSettingsRow(navigationCoordinator: navigationCoordinator, pluginHost: pluginHost)
                         .generalSettingsSearchAnchor(
                             target: .preferencesBackup,
                             activeTarget: activeSearchTarget
@@ -1160,6 +1165,7 @@ private struct PendingPreferencesImport: Identifiable {
 private struct PreferencesBackupSettingsRow: View {
     @Environment(\.locale) private var locale
     @Environment(\.layoutDirection) private var layoutDirection
+    @ObservedObject var navigationCoordinator: SettingsNavigationCoordinator
     private enum ManualBackupFeedback {
         case created
         case unchanged
@@ -1307,6 +1313,8 @@ private struct PreferencesBackupSettingsRow: View {
 
         }
         .frame(maxWidth: .infinity, minHeight: GeneralSettingsCardLayout.minRowHeight, alignment: .leading)
+        .onAppear { consumeImportRequest() }
+        .onChange(of: navigationCoordinator.preferencesImportRequestID) { _, _ in consumeImportRequest() }
         .sheet(item: $pendingImport) { pending in
             PreferencesImportPreviewSheet(
                 preview: pending.preview,
@@ -1522,6 +1530,12 @@ private struct PreferencesBackupSettingsRow: View {
         }
     }
 
+    private func consumeImportRequest() {
+        guard navigationCoordinator.preferencesImportRequestID != nil else { return }
+        navigationCoordinator.preferencesImportRequestID = nil
+        choosePreferencesImport()
+    }
+
     private func choosePreferencesImport() {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = [.json]
@@ -1571,6 +1585,7 @@ private struct PreferencesBackupSettingsRow: View {
                     selection: selection,
                     progress: { importProgress = $0 }
                 )
+                pluginHost.starterPacks.finishOnboarding()
                 pendingImport = nil
                 let importedMessage = AppL10n.preferencesBackup(
                     "preferencesBackup.imported",
@@ -3281,7 +3296,7 @@ private struct SettingsSidebar: View {
             switch $0 {
             case .general, .permissions, .about:
                 true
-            case .plugins, .marketplaceDetail:
+            case .plugins, .marketplaceDetail, .starterPacks:
                 false
             }
         }
@@ -3348,7 +3363,7 @@ private struct SettingsSidebar: View {
                         shortcutNumber: shortcutNumber
                     )
                 }
-            case .marketplaceDetail:
+            case .marketplaceDetail, .starterPacks:
                 EmptyView()
             }
         }
@@ -3550,7 +3565,7 @@ private struct SettingsSidebar: View {
             .app
         case .plugins(.configuration):
             .pluginSettings
-        case .plugins, .marketplaceDetail:
+        case .plugins, .marketplaceDetail, .starterPacks:
             .customize
         }
     }
@@ -3657,7 +3672,7 @@ private struct SettingsSidebar: View {
                 sidebarPreferences.setSection(.app, expanded: true)
             case .plugins(.configuration):
                 sidebarPreferences.setSection(.pluginSettings, expanded: true)
-            case .plugins, .marketplaceDetail:
+            case .plugins, .marketplaceDetail, .starterPacks:
                 sidebarPreferences.setSection(.customize, expanded: true)
             }
         }
@@ -3967,6 +3982,8 @@ private struct SettingsDetailPane: View {
                 selectedPane: pane,
                 uninstallConfirmationSession: uninstallConfirmationSession
             )
+        case let .starterPacks(step):
+            StarterPackSettingsView(controller: pluginHost.starterPacks, host: pluginHost, navigation: navigationCoordinator, step: step)
         case let .marketplaceDetail(target):
             MarketplacePluginDetailView(
                 pluginHost: pluginHost,
