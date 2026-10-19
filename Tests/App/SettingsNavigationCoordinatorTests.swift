@@ -4,6 +4,20 @@ import MacToolsPluginKit
 
 @MainActor
 final class SettingsNavigationCoordinatorTests: XCTestCase {
+    func testSettingsOpensIndependentlyOfUnfinishedOnboarding() {
+        let suite = "OnboardingNavigationTests-\(UUID().uuidString)"
+        let host = makePluginHostForTests(plugins: [], suiteName: suite, loadDynamicPluginsOnInit: false)
+        defer { UserDefaults(suiteName: suite)?.removePersistentDomain(forName: suite) }
+        XCTAssertTrue(host.starterPacks.needsOnboarding)
+        host.starterPacks.selectPack(.windows, isSelected: true)
+
+        let navigation = SettingsNavigationCoordinator(pluginHost: host)
+        XCTAssertEqual(navigation.destination, .general)
+        navigation.navigate(to: .plugins(.marketplace))
+        XCTAssertTrue(host.starterPacks.needsOnboarding)
+        XCTAssertEqual(host.starterPacks.selectedPacks, [.everyday, .windows])
+    }
+
     func testStarterPackReviewParticipatesInHistoryWithoutAddingSidebarDestinations() {
         let coordinator = SettingsNavigationCoordinator(initialDestination: .plugins(.marketplace))
         coordinator.navigate(to: .starterPacks(.choose))

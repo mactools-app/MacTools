@@ -20,11 +20,15 @@ Native pack titles, summaries, permission descriptions, and workflow copy cover 
 
 ## Selection and navigation
 
-New users see Everyday Essentials suggested, with Start Empty and Restore Backup available. Existing users start with no packs selected and panel additions disabled. The chooser displays each pack's plugin list, installed count, and permission summary directly in a responsive one-, two-, or three-column grid.
+New users see a dedicated native setup window with three steps: Choose, Review, and Ready. Everyday Essentials is suggested among four recommended packs (Everyday, Windows, Writing, and Meetings); Browse All Seven expands the full collection. Each card shows its plugins immediately, and a combined sample panel preview updates with the selection. The preview reuses the host row renderer without loading plugins or invoking actions. Start Empty and Restore Backup remain available.
+
+Existing users keep the complete chooser in Marketplace, starting with no packs selected and panel additions disabled. The chooser displays each pack's plugin list, installed count, and permission summary directly in a responsive one-, two-, or three-column grid. Settings opens independently from first-launch setup.
 
 Pack checkboxes are additive. Removing one retains plugins shared with another selected pack and never uninstalls anything. Review presents a stable, ordered union with one checkbox per plugin; unchecked rows remain visible and reversible. Individual exclusions survive adding or removing other packs. Select All respects those exclusions; Clear Selection resets them.
 
-During onboarding, the footer provides Set up later. This opens Marketplace, saves the draft, and suppresses automatic onboarding until Continue setup is chosen. Closing the window or quitting preserves unfinished onboarding and its selected packs, exclusions, and layout options for the next launch. Start empty explicitly completes onboarding without installing anything. Existing users retain Back to Marketplace. The breadcrumb also links to Marketplace. Review shows pending downloads, optional panel additions, selected-plugin permissions, and optional grid changes. Existing grids are described as preserved rather than used to illustrate a new pack.
+During onboarding, Set Up Later opens Marketplace, saves the draft, and suppresses automatic onboarding until Continue Setup reopens the dedicated window. Closing asks for confirmation and explains that choices are preserved for the next launch, or that installation continues in the background. Quitting also preserves unfinished setup. Start Empty explicitly completes onboarding and opens Marketplace without installing anything. Restore Backup uses the same picker, preview, catalog recovery, and progress presentation as Settings; canceling returns to setup with its draft intact. Review shows pending downloads, optional panel additions, selected-plugin permissions, and optional grid changes. Existing grids are preserved.
+
+Ready introduces Marketplace, explains where all seven packs remain available, and offers Open Panel and Explore Marketplace. Pack deep links open Review in the setup window while onboarding is unfinished, and in Settings for established users. Installation progress, stop, partial failures, and retry remain available in both presentations.
 
 ## Applying a combined selection
 

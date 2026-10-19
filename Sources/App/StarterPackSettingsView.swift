@@ -6,6 +6,12 @@ struct StarterPackSettingsView: View {
     @ObservedObject var host: PluginHost
     @ObservedObject var navigation: SettingsNavigationCoordinator
     let step: StarterPackStep
+    var isOnboarding = false
+    var onExit: (() -> Void)?
+    var onRestore: (() -> Void)?
+    var onOpenSettings: ((SettingsNavigationDestination) -> Void)?
+    var onOpenPanel: ((String) -> Void)?
+    @State private var showsAllPacks = false
 
     var body: some View {
         SettingsPageScaffold {
@@ -16,15 +22,25 @@ struct StarterPackSettingsView: View {
                     switch step {
                     case .choose: chooser
                     case .review: review
-                    case .results: results
+                    case .results:
+                        if isOnboarding && !controller.isRunning && controller.failedCount == 0 && !controller.wasStopped {
+                            onboardingReady
+                        } else {
+                            results
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-        .safeAreaInset(edge: .bottom, spacing: 0) { footer }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            if isOnboarding { onboardingFooter } else { footer }
+        }
         .controlSize(.small)
         .task {
+            if isOnboarding, controller.selectedPacks.contains(where: { !StarterPack.recommendedForOnboarding.contains($0) }) {
+                showsAllPacks = true
+            }
             if !host.visibleMenuBarPanels.contains(where: { $0.id == controller.draft.panelID }),
                let first = host.visibleMenuBarPanels.first {
                 controller.updateDraft { $0.panelID = first.id }
@@ -76,18 +92,26 @@ struct StarterPackSettingsView: View {
 
     private var breadcrumb: some View {
         HStack(spacing: 8) {
-            Button(FeatureL10n.string("插件市场"), action: leaveSetup)
-                .buttonStyle(.link)
-                .settingsPointingHandCursor()
-            Image(systemName: "chevron.right")
-            if step == .choose {
-                Text(FeatureL10n.string("工具组合"))
+            if isOnboarding {
+                stepLabel("选择工具", active: step == .choose)
+                Image(systemName: "chevron.right")
+                stepLabel("检查设置", active: step == .review)
+                Image(systemName: "chevron.right")
+                stepLabel("完成", active: step == .results)
             } else {
-                Button(FeatureL10n.string("工具组合")) { navigation.navigate(to: .starterPacks(.choose)) }
+                Button(FeatureL10n.string("插件市场"), action: leaveSetup)
                     .buttonStyle(.link)
                     .settingsPointingHandCursor()
                 Image(systemName: "chevron.right")
-                Text(FeatureL10n.string(step == .review ? "检查设置" : controller.isRunning ? "正在设置" : "完成"))
+                if step == .choose {
+                    Text(FeatureL10n.string("工具组合"))
+                } else {
+                    Button(FeatureL10n.string("工具组合")) { navigation.navigate(to: .starterPacks(.choose)) }
+                        .buttonStyle(.link)
+                        .settingsPointingHandCursor()
+                    Image(systemName: "chevron.right")
+                    Text(FeatureL10n.string(step == .review ? "检查设置" : controller.isRunning ? "正在设置" : "完成"))
+                }
             }
         }
         .font(PluginSettingsTheme.Typography.rowDescription)
@@ -96,7 +120,21 @@ struct StarterPackSettingsView: View {
 
     private func leaveSetup() {
         controller.deferOnboarding()
-        navigation.navigate(to: .plugins(.marketplace))
+        exitToMarketplace()
+    }
+
+    private func exitToMarketplace() {
+        if let onExit { onExit() } else { navigation.navigate(to: .plugins(.marketplace)) }
+    }
+
+    private func openSettings(_ destination: SettingsNavigationDestination) {
+        if let onOpenSettings { onOpenSettings(destination) } else { navigation.navigate(to: destination) }
+    }
+
+    private func stepLabel(_ key: String, active: Bool) -> some View {
+        Text(FeatureL10n.string(key))
+            .fontWeight(active ? .semibold : .regular)
+            .foregroundStyle(active ? Color.primary : Color.secondary)
     }
 
     @ViewBuilder
@@ -141,19 +179,29 @@ struct StarterPackSettingsView: View {
                 FeatureL10n.string(controller.needsOnboarding ? "选择适合你的工具" : "为现有设置添加工具"),
                 FeatureL10n.string("可选择多个组合，在检查页面取消不需要的插件。")
             )
-            HStack {
-                Button(FeatureL10n.string("选择所有组合")) { controller.selectAllPacks() }
-                    .settingsPointingHandCursor()
-                Button(FeatureL10n.string("清除选择")) { controller.clearSelection() }
-                    .settingsPointingHandCursor()
+            if isOnboarding {
+                onboardingColumns {
+                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
+                        packChoices(columns: 2)
+                        Button(FeatureL10n.string(showsAllPacks ? "显示推荐组合" : "浏览全部七个组合")) { showsAllPacks.toggle() }
+                            .buttonStyle(.link).settingsPointingHandCursor()
+                    }
+                }
+            } else {
+                HStack {
+                    Button(FeatureL10n.string("选择所有组合")) { controller.selectAllPacks() }
+                        .settingsPointingHandCursor()
+                    Button(FeatureL10n.string("清除选择")) { controller.clearSelection() }
+                        .settingsPointingHandCursor()
+                }
+                .buttonStyle(.borderless).foregroundStyle(.tint).disabled(controller.isRunning)
+                ViewThatFits(in: .horizontal) {
+                    packChoices(columns: 3).frame(minWidth: 960)
+                    packChoices(columns: 2).frame(minWidth: 620)
+                    packChoices(columns: 1)
+                }
             }
-            .buttonStyle(.borderless).foregroundStyle(.tint).disabled(controller.isRunning)
-            ViewThatFits(in: .horizontal) {
-                packChoices(columns: 3).frame(minWidth: 960)
-                packChoices(columns: 2).frame(minWidth: 620)
-                packChoices(columns: 1)
-            }
-            if controller.needsOnboarding {
+            if controller.needsOnboarding && !isOnboarding {
                 HStack {
                     Button(FeatureL10n.string("从空白开始")) {
                         controller.clearSelection()
@@ -174,7 +222,7 @@ struct StarterPackSettingsView: View {
 
     private func packChoices(columns: Int) -> some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: PluginSettingsTheme.Spacing.sectionHeaderContent), count: columns), alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
-            ForEach(StarterPack.allCases) { pack in packCard(pack) }
+            ForEach(isOnboarding && !showsAllPacks ? StarterPack.recommendedForOnboarding : StarterPack.allCases) { pack in packCard(pack) }
         }
     }
 
@@ -220,14 +268,18 @@ struct StarterPackSettingsView: View {
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
             introduction(FeatureL10n.string("检查组合设置"), FeatureL10n.string("共享插件只显示一次。仅下载缺少的插件，保留现有设置、布局和快捷键。"))
             reviewSummary
-            ViewThatFits(in: .horizontal) {
-                HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.section) {
-                    reviewConfiguration.frame(minWidth: 340, maxWidth: .infinity)
-                    if showsLayoutPreview { layoutPreview.frame(width: 260) }
-                }
-                VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
-                    reviewConfiguration
-                    if showsLayoutPreview { layoutPreview }
+            if isOnboarding {
+                onboardingColumns { reviewConfiguration }
+            } else {
+                ViewThatFits(in: .horizontal) {
+                    HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.section) {
+                        reviewConfiguration.frame(minWidth: 340, maxWidth: .infinity)
+                        if showsLayoutPreview { layoutPreview.frame(width: 260) }
+                    }
+                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
+                        reviewConfiguration
+                        if showsLayoutPreview { layoutPreview }
+                    }
                 }
             }
         }
@@ -262,19 +314,21 @@ struct StarterPackSettingsView: View {
                             Label { Text(pluginTitle(id)) } icon: { pluginIcon(id) }
                                 .font(PluginSettingsTheme.Typography.rowTitle)
                             Text(pluginStatus(id)).font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                            Text(StarterPack.allCases.filter { controller.selectedPacks.contains($0) && $0.pluginIDs.contains(id) }.map(\.title).joined(separator: " · "))
-                                .font(PluginSettingsTheme.Typography.statusBadge).foregroundStyle(.secondary)
+                            if !isOnboarding {
+                                Text(StarterPack.allCases.filter { controller.selectedPacks.contains($0) && $0.pluginIDs.contains(id) }.map(\.title).joined(separator: " · "))
+                                    .font(PluginSettingsTheme.Typography.statusBadge).foregroundStyle(.secondary)
+                            }
                         }
                     }
                     .toggleStyle(SettingsSelectionToggleStyle())
                     .accessibilityLabel(Text(pluginTitle(id)))
                     .accessibilityIdentifier("mactools.starter-packs.plugin.\(id)")
                     Spacer(minLength: 8)
-                    Button(FeatureL10n.string("详情")) { navigation.navigate(to: .marketplaceDetail(.init(pluginID: id))) }
+                    Button(FeatureL10n.string("详情")) { openSettings(.marketplaceDetail(.init(pluginID: id))) }
                         .disabled(item(id) == nil)
                         .settingsPointingHandCursor()
                 }
-                .padding(PluginSettingsTheme.Spacing.rowHorizontal)
+                .padding(isOnboarding ? PluginSettingsTheme.Spacing.rowVertical : PluginSettingsTheme.Spacing.rowHorizontal)
                 .pluginSettingsCardBackground(.standard)
             }
             if !controller.recommendedPanelItems.isEmpty {
@@ -373,7 +427,7 @@ struct StarterPackSettingsView: View {
                     }
                     Spacer()
                     Button(FeatureL10n.string("详情")) {
-                        navigation.navigate(to: .marketplaceDetail(.init(pluginID: result.id)))
+                        openSettings(.marketplaceDetail(.init(pluginID: result.id)))
                     }.disabled(item(result.id) == nil)
                         .settingsPointingHandCursor()
                 }
@@ -382,7 +436,7 @@ struct StarterPackSettingsView: View {
                 Label(message, systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
             }
             if controller.results.contains(where: { needsPermission($0.id) }) {
-                Button(FeatureL10n.string("打开权限设置")) { navigation.navigate(to: .permissions) }
+                Button(FeatureL10n.string("打开权限设置")) { openSettings(.permissions) }
                     .settingsPointingHandCursor()
             }
             if !controller.isRunning {
@@ -399,12 +453,12 @@ struct StarterPackSettingsView: View {
                         }
                         .settingsPointingHandCursor()
                     } else if controller.appliedPacks.contains(.windows), host.hasPluginSettings(pluginID: "action-grid") {
-                        Button(FeatureL10n.string("打开操作网格设置")) { navigation.navigate(to: .plugins(.configuration("action-grid"))) }
+                        Button(FeatureL10n.string("打开操作网格设置")) { openSettings(.plugins(.configuration("action-grid"))) }
                             .settingsPointingHandCursor()
                     }
                     Button(FeatureL10n.string("完成")) {
                         controller.showsProgress = false
-                        navigation.navigate(to: .plugins(.marketplace))
+                        exitToMarketplace()
                     }.buttonStyle(.borderedProminent)
                         .settingsPointingHandCursor()
                 }
@@ -471,6 +525,134 @@ struct StarterPackSettingsView: View {
     }
 }
 
+private extension StarterPackSettingsView {
+    var canOpenResultPanel: Bool {
+        controller.didApplyPanelLayout && !host.panelEntries(in: controller.resultPanelID).isEmpty
+    }
+
+    func onboardingColumns<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.section) {
+                content().frame(minWidth: 520, maxWidth: .infinity)
+                StarterPackPanelPreview(controller: controller).frame(width: 300)
+            }
+            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
+                content()
+                StarterPackPanelPreview(controller: controller).frame(maxWidth: 400)
+            }
+        }
+    }
+
+    var onboardingFooter: some View {
+        HStack(spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+            if step == .choose {
+                Button(FeatureL10n.string("稍后设置"), action: leaveSetup)
+                    .settingsPointingHandCursor()
+                Button(FeatureL10n.string("从空白开始")) {
+                    controller.clearSelection()
+                    controller.finishOnboarding()
+                    exitToMarketplace()
+                }
+                .accessibilityIdentifier("mactools.starter-packs.start-empty")
+                .settingsPointingHandCursor()
+                Button(FeatureL10n.string("恢复备份…")) { onRestore?() }
+                    .accessibilityIdentifier("mactools.starter-packs.restore")
+                    .settingsPointingHandCursor()
+            } else if step == .review {
+                Button(FeatureL10n.string("返回选择")) { navigation.navigate(to: .starterPacks(.choose)) }
+                    .settingsPointingHandCursor()
+                Button(FeatureL10n.string("稍后设置"), action: leaveSetup)
+                    .settingsPointingHandCursor()
+            }
+            Spacer(minLength: 8)
+            if step == .choose {
+                Text(FeatureL10n.format("已选 %d 个组合 · %d 个插件", controller.selectedPacks.count, controller.selectedIDs.count))
+                    .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+                Button(FeatureL10n.string("检查设置…")) {
+                    controller.reviewSelection()
+                    navigation.navigate(to: .starterPacks(.review))
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(controller.selectedIDs.isEmpty)
+                .accessibilityIdentifier("mactools.starter-packs.review")
+                .settingsPointingHandCursor()
+            } else if step == .review {
+                Button(controller.missingIDs.isEmpty ? FeatureL10n.string("应用设置") : FeatureL10n.format("安装 %d 个插件", controller.missingIDs.count)) {
+                    if controller.apply() { navigation.navigate(to: .starterPacks(.results)) }
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(!controller.canApply || host.isCatalogMutationActive || host.automaticPluginUpdateStatus.isActive)
+                .accessibilityIdentifier("mactools.starter-packs.apply")
+                .settingsPointingHandCursor()
+            } else if !controller.isRunning && controller.failedCount == 0 && !controller.wasStopped {
+                Button(FeatureL10n.string("检查设置…")) {
+                    controller.restoreAppliedSelection()
+                    navigation.navigate(to: .starterPacks(.review))
+                }
+                .settingsPointingHandCursor()
+                Button(FeatureL10n.string(canOpenResultPanel ? "打开面板" : "打开插件市场")) {
+                    controller.showsProgress = false
+                    if canOpenResultPanel {
+                        if let onOpenPanel { onOpenPanel(controller.resultPanelID) }
+                        else { host.menuBarPanelPresentationHandler?(controller.resultPanelID, false) }
+                    } else { exitToMarketplace() }
+                }
+                .buttonStyle(.borderedProminent)
+                .accessibilityIdentifier("mactools.starter-packs.open-panel")
+                .settingsPointingHandCursor()
+            } else {
+                Button(FeatureL10n.string("返回插件市场"), action: leaveSetup)
+                    .settingsPointingHandCursor()
+            }
+        }
+        .buttonStyle(.bordered)
+        .controlSize(.small)
+        .padding(PluginSettingsTheme.Spacing.rowHorizontal)
+        .background(SettingsStyle.contentBackground)
+    }
+
+    var onboardingReady: some View {
+        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
+            introduction(FeatureL10n.string("设置完成"), FeatureL10n.format("已安装：%d · 未完成：%d", controller.installedCount, controller.results.count - controller.installedCount))
+            onboardingColumns {
+                VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
+                    ForEach(StarterPack.allCases.filter { controller.appliedPacks.contains($0) }) { pack in
+                        HStack {
+                            Image(systemName: PluginSystemImage.resolvedName(pack.symbol)).foregroundStyle(.tint)
+                            Text(pack.title).font(PluginSettingsTheme.Typography.rowTitle)
+                            Spacer()
+                            Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
+                        }
+                    }
+                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
+                        Text(FeatureL10n.string("更多工具，随时添加"))
+                            .font(PluginSettingsTheme.Typography.sectionTitle)
+                        Text(FeatureL10n.string("可随时在插件市场安装更多插件，或选择全部七个工具组合。"))
+                            .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+                        Button(FeatureL10n.string("浏览插件市场")) {
+                            controller.showsProgress = false
+                            exitToMarketplace()
+                        }
+                        .buttonStyle(.bordered).settingsPointingHandCursor()
+                        Text(FeatureL10n.string("设置 → 插件市场 → 工具组合"))
+                            .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+                    }
+                    .padding(PluginSettingsTheme.Spacing.rowHorizontal)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .pluginSettingsCardBackground(.standard)
+                    ForEach(Array(controller.setupMessages.enumerated()), id: \.offset) { _, message in
+                        Label(message, systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
+                    }
+                    if controller.results.contains(where: { needsPermission($0.id) }) {
+                        Button(FeatureL10n.string("打开权限设置")) { openSettings(.permissions) }
+                            .settingsPointingHandCursor()
+                    }
+                }
+            }
+        }
+    }
+}
+
 private struct StarterPackGridPreview: View {
     let items: [StarterPackGridPreviewItem]
 
@@ -508,7 +690,9 @@ struct StarterPackProgressBanner: View {
                     : controller.wasStopped ? "设置已停止" : "工具组合设置已结束"))
                     .font(PluginSettingsTheme.Typography.rowDescription)
                 Spacer()
-                Button(FeatureL10n.string("查看结果")) { navigation.navigate(to: .starterPacks(.results)) }
+                Button(FeatureL10n.string("查看结果")) {
+                    if navigation.presentOnboarding?() != true { navigation.navigate(to: .starterPacks(.results)) }
+                }
                     .settingsPointingHandCursor()
                 if !controller.isRunning {
                     Button(FeatureL10n.string("关闭")) { controller.showsProgress = false }

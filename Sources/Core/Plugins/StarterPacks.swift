@@ -9,6 +9,8 @@ enum StarterPackStep: Hashable {
 enum StarterPack: String, Codable, CaseIterable, Identifiable {
     case everyday, windows, writing, meetings, displays, developer, maintenance
 
+    static let recommendedForOnboarding: [Self] = [.everyday, .windows, .writing, .meetings]
+
     var id: String { rawValue }
     private var definition: StarterPackCatalog.Pack { StarterPackCatalog.shared.packs.first { $0.id == rawValue }! }
     var title: String { definition.title.localized }

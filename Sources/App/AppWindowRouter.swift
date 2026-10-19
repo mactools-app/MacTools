@@ -400,6 +400,9 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
     private let commandPaletteFocusRestoration: PluginPanelFocusRestoration
     private(set) var settingsWindow: NSWindow?
     private(set) var settingsNavigationCoordinator: SettingsNavigationCoordinator?
+    private(set) var onboardingWindow: NSWindow?
+    private(set) var onboardingNavigationCoordinator: SettingsNavigationCoordinator?
+    private var onboardingImporter: PreferencesImportController?
     private(set) var commandPalettePanel: NSPanel?
     private(set) var commandPaletteState: StandaloneCommandPaletteState?
     private var runtimeLocaleCancellable: AnyCancellable?
@@ -468,6 +471,7 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
             .sink { [weak self] _ in
                 DispatchQueue.main.async { [weak self] in
                     self?.settingsWindow?.title = Self.settingsWindowTitle
+                    self?.onboardingWindow?.title = FeatureL10n.string("MacTools 设置")
                     self?.commandPalettePanel?.setAccessibilityTitle(Self.commandPaletteWindowTitle)
                     self?.commandPaletteState?.refreshLocalization()
                 }
@@ -482,6 +486,7 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
             }
             Task { @MainActor [weak self] in
                 preference.apply(to: self?.settingsWindow)
+                preference.apply(to: self?.onboardingWindow)
                 self?.applyCommandPaletteAppearance()
             }
         }
@@ -496,6 +501,55 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
 
     func showSettings() {
         presentSettings(.settings)
+    }
+
+    func showOnboarding(pack: StarterPack? = nil) {
+        dismissCommandPalette(restoringFocus: false)
+        let controller = pluginHost.starterPacks
+        controller.resumeOnboarding()
+        let window = onboardingWindow ?? makeOnboardingWindow()
+        if let pack, !controller.isRunning {
+            controller.includePackFromLink(pack)
+            onboardingNavigationCoordinator?.navigate(to: .starterPacks(.review))
+        }
+        AppDockVisibilityController.update(hasVisibleSettingsWindow: true)
+        show(window)
+    }
+
+    private func makeOnboardingWindow() -> NSWindow {
+        let navigation = SettingsNavigationCoordinator(initialDestination: .starterPacks(pluginHost.starterPacks.hasResults ? .results : .choose))
+        let importer = PreferencesImportController(pluginHost: pluginHost)
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 1000, height: 760),
+            styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false
+        )
+        window.title = FeatureL10n.string("MacTools 设置")
+        window.contentMinSize = NSSize(width: 900, height: 580)
+        window.isReleasedWhenClosed = false
+        window.delegate = self
+        AppAppearancePreference.stored(in: appearanceUserDefaults).apply(to: window)
+        let hostingView = NSHostingView(rootView: StarterPackOnboardingView(
+            controller: pluginHost.starterPacks, host: pluginHost, navigation: navigation, importer: importer,
+            onExit: { [weak self] in
+                self?.onboardingWindow?.close()
+                self?.presentSettings(.pluginMarketplace)
+            },
+            onOpenSettings: { [weak self] destination in
+                self?.presentSettings(.settings)
+                self?.settingsNavigationCoordinator?.navigate(to: destination)
+            },
+            onOpenPanel: { [weak self] panelID in
+                self?.onboardingWindow?.close()
+                self?.pluginHost.menuBarPanelPresentationHandler?(panelID, false)
+            }
+        ))
+        hostingView.sizingOptions = []
+        window.contentView = hostingView
+        window.center()
+        onboardingWindow = window
+        onboardingNavigationCoordinator = navigation
+        onboardingImporter = importer
+        return window
     }
 
     func showUnifiedSearch() {
@@ -648,6 +702,11 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
             pluginHost: pluginHost,
             sidebarPreferences: settingsSidebarPreferences
         )
+        navigationCoordinator.presentOnboarding = { [weak self] in
+            guard let self, pluginHost.starterPacks.canResumeOnboarding || onboardingWindow != nil else { return false }
+            showOnboarding()
+            return true
+        }
         let window = MacToolsCommandWindow(
             contentRect: NSRect(origin: .zero, size: SettingsWindowLayout.defaultContentSize),
             styleMask: [
@@ -816,6 +875,10 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
     }
 
     func presentSettings(_ request: SettingsPresentationRequest) {
+        if case let .starterPacks(pack) = request, pluginHost.starterPacks.canResumeOnboarding || onboardingWindow != nil {
+            showOnboarding(pack: pack)
+            return
+        }
         dismissCommandPalette(restoringFocus: false)
         let window = settingsWindow ?? makeSettingsWindow()
         let pendingAppUpdateVersion: String?
@@ -950,7 +1013,31 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
         )
     }
 
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        guard sender === onboardingWindow else { return true }
+        if onboardingImporter?.isBusy == true { NSSound.beep(); return false }
+        let controller = pluginHost.starterPacks
+        guard controller.canResumeOnboarding || controller.isRunning else { return true }
+        let alert = NSAlert()
+        alert.messageText = FeatureL10n.string("关闭设置？")
+        alert.informativeText = FeatureL10n.string(controller.isRunning
+            ? "安装将在后台继续，可在插件市场查看进度。"
+            : "你的选择会保留，下次启动时可继续设置。")
+        alert.addButton(withTitle: FeatureL10n.string("关闭设置"))
+        alert.addButton(withTitle: FeatureL10n.string("继续设置"))
+        return alert.runModal() == .alertFirstButtonReturn
+    }
+
     func windowWillClose(_ notification: Notification) {
+        if let window = notification.object as? NSWindow, window === onboardingWindow {
+            window.delegate = nil
+            window.contentView = nil
+            onboardingWindow = nil
+            onboardingNavigationCoordinator = nil
+            onboardingImporter = nil
+            AppDockVisibilityController.update(hasVisibleSettingsWindow: settingsWindow?.isVisible == true)
+            return
+        }
         guard let window = notification.object as? NSWindow, window === settingsWindow else {
             return
         }
@@ -959,6 +1046,6 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
         window.contentView = nil
         settingsWindow = nil
         settingsNavigationCoordinator = nil
-        AppDockVisibilityController.update(hasVisibleSettingsWindow: false)
+        AppDockVisibilityController.update(hasVisibleSettingsWindow: onboardingWindow?.isVisible == true)
     }
 }

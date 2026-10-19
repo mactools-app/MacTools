@@ -3,4 +3,4 @@ release: app
 type: added
 ---
 
-Combine seven starter packs with icons and larger selection targets while preserving settings. Resume or defer setup, retry plugin lists and backup imports, and open plugin links in your chosen language.
+Combine seven starter packs in a dedicated first-launch setup with panel previews, plugin customization, and Marketplace guidance. Resume setup, restore a backup, or start empty while preserving settings.

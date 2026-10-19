@@ -1156,12 +1156,6 @@ private struct AppShortcutSettingsRow: View {
     }
 }
 
-private struct PendingPreferencesImport: Identifiable {
-    let id = UUID()
-    let backup: PreferencesBackup
-    let preview: PreferencesImportPreview
-}
-
 private struct PreferencesBackupSettingsRow: View {
     @Environment(\.locale) private var locale
     @Environment(\.layoutDirection) private var layoutDirection
@@ -1172,17 +1166,20 @@ private struct PreferencesBackupSettingsRow: View {
     }
 
     @ObservedObject var pluginHost: PluginHost
-    @State private var pendingImport: PendingPreferencesImport?
+    @StateObject private var importer: PreferencesImportController
     @State private var isChoosingExport = false
     @State private var exportSelection = PreferencesBackupSelection.all(pluginPreferenceIDs: [])
     @State private var exportPluginOptions: [PreferencesPluginOption] = []
     @State private var deviceLocalAutomationRuleCount = 0
     @State private var alertMessage: String?
-    @State private var isPreparingImport = false
-    @State private var isImporting = false
-    @State private var importProgress: PreferencesImportProgress?
     @State private var isBackingUp = false
     @State private var manualBackupFeedback: ManualBackupFeedback?
+
+    init(navigationCoordinator: SettingsNavigationCoordinator, pluginHost: PluginHost) {
+        self.navigationCoordinator = navigationCoordinator
+        self.pluginHost = pluginHost
+        _importer = StateObject(wrappedValue: PreferencesImportController(pluginHost: pluginHost))
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -1272,7 +1269,7 @@ private struct PreferencesBackupSettingsRow: View {
                     action: backUpNow
                 )
                     .buttonStyle(.bordered)
-                    .disabled(isPreparingImport || isImporting || isBackingUp)
+                    .disabled(importer.isBusy || isBackingUp)
 
                 Button(
                     AppL10n.preferencesBackup(
@@ -1282,7 +1279,7 @@ private struct PreferencesBackupSettingsRow: View {
                     action: openBackupFolder
                 )
                     .buttonStyle(.bordered)
-                    .disabled(isPreparingImport || isImporting)
+                    .disabled(importer.isBusy)
             }
             .controlSize(.small)
             .padding(.horizontal, GeneralSettingsCardLayout.horizontalPadding)
@@ -1301,11 +1298,11 @@ private struct PreferencesBackupSettingsRow: View {
 
                 Button(AppL10n.preferencesBackup("preferencesBackup.export", defaultValue: "导出偏好设置…"), action: exportPreferences)
                     .buttonStyle(.bordered)
-                    .disabled(isPreparingImport || isImporting || isBackingUp)
+                    .disabled(importer.isBusy || isBackingUp)
 
                 Button(AppL10n.preferencesBackup("preferencesBackup.import", defaultValue: "导入偏好设置…"), action: choosePreferencesImport)
                     .buttonStyle(.bordered)
-                    .disabled(isPreparingImport || isImporting || isBackingUp)
+                    .disabled(importer.isBusy || isBackingUp)
             }
             .controlSize(.small)
             .padding(.horizontal, GeneralSettingsCardLayout.horizontalPadding)
@@ -1315,33 +1312,7 @@ private struct PreferencesBackupSettingsRow: View {
         .frame(maxWidth: .infinity, minHeight: GeneralSettingsCardLayout.minRowHeight, alignment: .leading)
         .onAppear { consumeImportRequest() }
         .onChange(of: navigationCoordinator.preferencesImportRequestID) { _, _ in consumeImportRequest() }
-        .sheet(item: $pendingImport) { pending in
-            PreferencesImportPreviewSheet(
-                preview: pending.preview,
-                previewProvider: { selection in
-                    try pluginHost.preferencesImportPreview(
-                        for: pending.backup,
-                        selection: selection
-                    )
-                },
-                pluginOptions: pluginOptions(for: Set(pending.backup.pluginPreferences.keys)),
-                isImporting: isImporting,
-                importProgress: importProgress,
-                isPreparingPlugins: pluginHost.isPreparingPlugins,
-                catalogStatus: pluginHost.pluginCatalogStatus,
-                onRetryCatalog: { await pluginHost.refreshPluginCatalog() },
-                onCancel: { pendingImport = nil },
-                onImport: { selectedPluginIDs, selection in
-                    importPreferences(
-                        pending.backup,
-                        installingMissingPluginIDs: selectedPluginIDs,
-                        selection: selection
-                    )
-                }
-            )
-            .environment(\.locale, locale)
-            .environment(\.layoutDirection, layoutDirection)
-        }
+        .modifier(PreferencesImportPresentation(controller: importer, host: pluginHost))
         .sheet(isPresented: $isChoosingExport) {
             PreferencesExportSelectionSheet(
                 selection: $exportSelection,
@@ -1497,7 +1468,7 @@ private struct PreferencesBackupSettingsRow: View {
     private func exportPreferences() {
         let backup = pluginHost.makePreferencesBackup()
         exportSelection = .all(pluginPreferenceIDs: Set(backup.pluginPreferences.keys))
-        exportPluginOptions = pluginOptions(for: Set(backup.pluginPreferences.keys))
+        exportPluginOptions = importer.pluginOptions(for: Set(backup.pluginPreferences.keys))
         deviceLocalAutomationRuleCount = pluginHost.deviceLocalAutomationRuleCount
         isChoosingExport = true
     }
@@ -1539,128 +1510,12 @@ private struct PreferencesBackupSettingsRow: View {
         choosePreferencesImport()
     }
 
-    private func choosePreferencesImport() {
-        let panel = NSOpenPanel()
-        panel.allowedContentTypes = [.json]
-        panel.allowsMultipleSelection = false
-        panel.canChooseDirectories = false
-        panel.message = AppL10n.preferencesBackup("preferencesBackup.import.prompt", defaultValue: "选择 MacTools 导出的偏好设置 JSON 文件。")
-
-        PluginPresentationSafety.prepareForWindowOrdering()
-        guard panel.runModal() == .OK, let url = panel.url else {
-            return
-        }
-
-        Task { @MainActor in
-            isPreparingImport = true
-            defer { isPreparingImport = false }
-
-            do {
-                let backup = try await PreferencesBackup.decodeJSON(contentsOf: url)
-                await pluginHost.refreshPluginCatalog()
-                pendingImport = PendingPreferencesImport(
-                    backup: backup,
-                    preview: try pluginHost.preferencesImportPreview(for: backup)
-                )
-            } catch {
-                alertMessage = preferencesBackupErrorMessage(error)
-            }
-        }
-    }
-
-    private func importPreferences(
-        _ backup: PreferencesBackup,
-        installingMissingPluginIDs pluginIDs: Set<String>,
-        selection: PreferencesBackupSelection
-    ) {
-        Task { @MainActor in
-            isImporting = true
-            importProgress = .preparing(pluginCount: pluginIDs.count)
-            defer {
-                isImporting = false
-                importProgress = nil
-            }
-
-            do {
-                let result = try await pluginHost.importPreferences(
-                    backup,
-                    installingMissingPluginIDs: pluginIDs,
-                    selection: selection,
-                    progress: { importProgress = $0 }
-                )
-                pluginHost.starterPacks.finishOnboarding()
-                pendingImport = nil
-                let importedMessage = AppL10n.preferencesBackup(
-                    "preferencesBackup.imported",
-                    defaultValue: "偏好设置已导入。"
-                )
-                let warnings = result.pluginInstallationFailures
-                    .sorted { $0.key < $1.key }
-                    .map { pluginID, message in
-                        let title = pluginHost.pluginManagementItems
-                            .first(where: { $0.id == pluginID })?
-                            .title
-                            ?? pluginID
-                        return "\(title): \(message)"
-                    }
-                    + result.deferredPluginPreferenceIDs.map { pluginID in
-                        let title = pluginHost.pluginManagementItems
-                            .first(where: { $0.id == pluginID })?
-                            .title
-                            ?? pluginID
-                        return AppL10n.preferencesBackupFormat(
-                            "preferencesBackup.import.pluginRestoreDeferred",
-                            defaultValue: "已安装“%@”。请重新启动 MacTools，然后再次导入此备份以恢复其设置。",
-                            title
-                        )
-                    }
-                    + result.shortcutErrors
-                        .values
-                        .sorted()
-                alertMessage = warnings.isEmpty
-                    ? importedMessage
-                    : ([importedMessage] + warnings).joined(separator: "\n")
-            } catch {
-                pendingImport = nil
-                alertMessage = preferencesBackupErrorMessage(error)
-            }
-        }
-    }
-
-    private func pluginOptions(for pluginIDs: Set<String>) -> [PreferencesPluginOption] {
-        let titles = Dictionary(
-            pluginHost.pluginManagementItems.map { ($0.id, $0.title) },
-            uniquingKeysWith: { first, _ in first }
-        )
-        return pluginIDs.map { id in
-            PreferencesPluginOption(id: id, title: titles[id] ?? id)
-        }
-        .sorted { $0.title.localizedCompare($1.title) == .orderedAscending }
-    }
+    private func choosePreferencesImport() { importer.choosePreferencesImport() }
 
     private func preferencesBackupErrorMessage(_ error: Error) -> String {
-        switch error as? PreferencesBackupError {
-        case let .unsupportedFormatVersion(version):
-            return AppL10n.preferencesBackupFormat(
-                "preferencesBackup.error.unsupportedFormat",
-                defaultValue: "不支持的偏好设置备份版本（%d）。",
-                version
-            )
-        case .invalidApplicationPreferences:
-            return AppL10n.preferencesBackup(
-                "preferencesBackup.error.invalidApplicationPreferences",
-                defaultValue: "备份中的应用偏好设置无效。"
-            )
-        case let .fileTooLarge(maximumBytes):
-            return AppL10n.preferencesBackupFormat(
-                "preferencesBackup.error.fileTooLarge",
-                defaultValue: "偏好设置备份不能超过 %d MB。",
-                maximumBytes / (1024 * 1024)
-            )
-        case nil:
-            return error.localizedDescription
-        }
+        PreferencesImportController.errorMessage(error)
     }
+
 }
 
 private struct CloudPreferencesSyncSettingsRow: View {
