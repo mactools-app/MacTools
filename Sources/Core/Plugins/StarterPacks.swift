@@ -33,8 +33,11 @@ struct StarterPackCatalog: Decodable {
         let en: String
         let zh: String
         let zhHant: String
+        let translations: [String: String]?
         var localized: String {
             let locale = PluginRuntimeLocalization.locale.identifier
+            let language = locale.components(separatedBy: CharacterSet(charactersIn: "_-"))[0]
+            if let translation = translations?[language] { return translation }
             guard locale.hasPrefix("zh") else { return en }
             return locale.contains("Hant") || locale.contains("TW") || locale.contains("HK") ? zhHant : zh
         }

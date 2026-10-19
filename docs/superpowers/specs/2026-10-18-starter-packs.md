@@ -16,6 +16,8 @@ Starter packs are host-owned Marketplace flows using the existing catalog instal
 
 Membership overlaps intentionally. Together the packs contain 33 unique plugins. Website checks validate referenced plugins, localized fallback titles, permission IDs, and recommended panel capabilities against the manifests.
 
+Native pack titles, summaries, permission descriptions, and workflow copy cover all 12 supported app languages. Plugin fallback names match the localized manifests, including in an empty profile. The website retains its English and Chinese presentation.
+
 ## Selection and navigation
 
 New users see Everyday Essentials suggested, with Start Empty and Restore Backup available. Existing users start with no packs selected and panel additions disabled. The chooser displays each pack's plugin list, installed count, and permission summary directly in a responsive one-, two-, or three-column grid.

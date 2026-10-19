@@ -6,17 +6,50 @@
       "title": {
         "zh": "日常必备",
         "en": "Everyday Essentials",
-        "zhHant": "日常必備"
+        "zhHant": "日常必備",
+        "translations": {
+          "de": "Alltagshelfer",
+          "es": "Herramientas esenciales",
+          "fr": "Essentiels du quotidien",
+          "pt": "Essenciais do dia a dia",
+          "ru": "На каждый день",
+          "ja": "日常の基本ツール",
+          "ko": "일상 필수 도구",
+          "ar": "الأدوات اليومية الأساسية",
+          "tr": "Günlük temel araçlar"
+        }
       },
       "summary": {
         "zh": "查看系统状态，快速使用日常控制。",
         "en": "Check your Mac and reach everyday controls.",
-        "zhHant": "查看系統狀態，快速使用日常控制。"
+        "zhHant": "查看系統狀態，快速使用日常控制。",
+        "translations": {
+          "de": "Prüfe deinen Mac und greife auf alltägliche Funktionen zu.",
+          "es": "Comprueba tu Mac y accede a los controles cotidianos.",
+          "fr": "Vérifiez votre Mac et accédez aux commandes courantes.",
+          "pt": "Verifique seu Mac e acesse os controles cotidianos.",
+          "ru": "Проверяйте состояние Mac и пользуйтесь повседневными функциями.",
+          "ja": "Macの状態を確認し、日常の操作にすばやくアクセスします。",
+          "ko": "Mac 상태를 확인하고 자주 쓰는 기능에 빠르게 접근하세요.",
+          "ar": "تحقق من حالة جهاز Mac ووصل إلى عناصر التحكم اليومية.",
+          "tr": "Mac’inizin durumunu kontrol edin ve günlük denetimlere erişin."
+        }
       },
       "permission": {
         "zh": "无需 macOS 权限",
         "en": "No macOS permissions required",
-        "zhHant": "無需 macOS 權限"
+        "zhHant": "無需 macOS 權限",
+        "translations": {
+          "de": "Keine macOS-Berechtigungen erforderlich",
+          "es": "No requiere permisos de macOS",
+          "fr": "Aucune autorisation macOS requise",
+          "pt": "Não requer permissões do macOS",
+          "ru": "Разрешения macOS не требуются",
+          "ja": "macOSのアクセス許可は不要",
+          "ko": "macOS 권한이 필요하지 않음",
+          "ar": "لا تتطلب أذونات macOS",
+          "tr": "macOS izni gerektirmez"
+        }
       },
       "setup": {
         "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
@@ -64,17 +97,50 @@
       "title": {
         "zh": "窗口与工作区",
         "en": "Windows & Workspace",
-        "zhHant": "視窗與工作區"
+        "zhHant": "視窗與工作區",
+        "translations": {
+          "de": "Fenster und Arbeitsbereich",
+          "es": "Ventanas y espacio de trabajo",
+          "fr": "Fenêtres et espace de travail",
+          "pt": "Janelas e espaço de trabalho",
+          "ru": "Окна и рабочее пространство",
+          "ja": "ウインドウと作業環境",
+          "ko": "윈도우와 작업 공간",
+          "ar": "النوافذ ومساحة العمل",
+          "tr": "Pencereler ve çalışma alanı"
+        }
       },
       "summary": {
         "zh": "排列窗口，快速切换应用和工作区。",
         "en": "Arrange windows and move between your apps.",
-        "zhHant": "排列視窗，快速切換 App 和工作區。"
+        "zhHant": "排列視窗，快速切換 App 和工作區。",
+        "translations": {
+          "de": "Ordne Fenster an und wechsle zwischen deinen Apps.",
+          "es": "Organiza ventanas y cambia entre tus apps.",
+          "fr": "Organisez vos fenêtres et passez d’une app à l’autre.",
+          "pt": "Organize janelas e alterne entre os apps.",
+          "ru": "Упорядочивайте окна и переключайтесь между приложениями.",
+          "ja": "ウインドウを整理し、アプリを切り替えます。",
+          "ko": "윈도우를 정리하고 앱 간에 전환하세요.",
+          "ar": "رتّب النوافذ وتنقّل بين تطبيقاتك.",
+          "tr": "Pencereleri düzenleyin ve uygulamalarınız arasında geçiş yapın."
+        }
       },
       "permission": {
         "zh": "辅助功能 · 程序坞控制需要自动化权限",
         "en": "Accessibility · Automation for Dock controls",
-        "zhHant": "輔助使用 · Dock 控制需要自動化權限"
+        "zhHant": "輔助使用 · Dock 控制需要自動化權限",
+        "translations": {
+          "de": "Bedienungshilfen · Automation für Dock-Steuerungen",
+          "es": "Accesibilidad · Automatización para los controles del Dock",
+          "fr": "Accessibilité · Automatisation pour les commandes du Dock",
+          "pt": "Acessibilidade · Automação para controles do Dock",
+          "ru": "Универсальный доступ · Автоматизация для управления Dock",
+          "ja": "アクセシビリティ · Dock操作用のオートメーション",
+          "ko": "손쉬운 사용 · Dock 제어를 위한 자동화",
+          "ar": "تسهيلات الاستخدام · الأتمتة للتحكم في Dock",
+          "tr": "Erişilebilirlik · Dock denetimleri için Otomasyon"
+        }
       },
       "setup": {
         "zh": "可为全新操作网格添加左半屏、右半屏和最大化，并选择网格快捷键。现有网格和快捷键保持不变。",
@@ -115,17 +181,50 @@
       "title": {
         "zh": "写作与剪贴板",
         "en": "Writing & Clipboard",
-        "zhHant": "寫作與剪貼簿"
+        "zhHant": "寫作與剪貼簿",
+        "translations": {
+          "de": "Schreiben und Zwischenablage",
+          "es": "Escritura y portapapeles",
+          "fr": "Rédaction et presse-papiers",
+          "pt": "Escrita e área de transferência",
+          "ru": "Текст и буфер обмена",
+          "ja": "文章作成とクリップボード",
+          "ko": "글쓰기와 클립보드",
+          "ar": "الكتابة والحافظة",
+          "tr": "Yazma ve pano"
+        }
       },
       "summary": {
         "zh": "找回复制内容，翻译文字，切换输入语言。",
         "en": "Retrieve text, translate, and work across languages.",
-        "zhHant": "找回複製內容，翻譯文字，切換輸入語言。"
+        "zhHant": "找回複製內容，翻譯文字，切換輸入語言。",
+        "translations": {
+          "de": "Rufe Texte ab, übersetze und arbeite in mehreren Sprachen.",
+          "es": "Recupera texto, traduce y trabaja en distintos idiomas.",
+          "fr": "Retrouvez du texte, traduisez et travaillez dans plusieurs langues.",
+          "pt": "Recupere textos, traduza e trabalhe em diferentes idiomas.",
+          "ru": "Возвращайтесь к текстам, переводите и работайте на разных языках.",
+          "ja": "テキストを取り出し、翻訳して、複数の言語で作業します。",
+          "ko": "텍스트를 다시 찾고 번역하며 여러 언어로 작업하세요.",
+          "ar": "استرجع النصوص وترجمها واعمل بلغات متعددة.",
+          "tr": "Metinleri geri getirin, çevirin ve farklı dillerde çalışın."
+        }
       },
       "permission": {
         "zh": "辅助功能 · 屏幕录制 · 自动化",
         "en": "Accessibility · Screen Recording · Automation",
-        "zhHant": "輔助使用 · 螢幕錄製 · 自動化"
+        "zhHant": "輔助使用 · 螢幕錄製 · 自動化",
+        "translations": {
+          "de": "Bedienungshilfen · Bildschirmaufnahme · Automation",
+          "es": "Accesibilidad · Grabación de pantalla · Automatización",
+          "fr": "Accessibilité · Enregistrement de l’écran · Automatisation",
+          "pt": "Acessibilidade · Gravação de Tela · Automação",
+          "ru": "Универсальный доступ · Запись экрана · Автоматизация",
+          "ja": "アクセシビリティ · 画面収録 · オートメーション",
+          "ko": "손쉬운 사용 · 화면 기록 · 자동화",
+          "ar": "تسهيلات الاستخدام · تسجيل الشاشة · الأتمتة",
+          "tr": "Erişilebilirlik · Ekran Kaydı · Otomasyon"
+        }
       },
       "setup": {
         "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
@@ -169,17 +268,50 @@
       "title": {
         "zh": "会议与演示",
         "en": "Meetings & Presentations",
-        "zhHant": "會議與簡報"
+        "zhHant": "會議與簡報",
+        "translations": {
+          "de": "Besprechungen und Präsentationen",
+          "es": "Reuniones y presentaciones",
+          "fr": "Réunions et présentations",
+          "pt": "Reuniões e apresentações",
+          "ru": "Встречи и презентации",
+          "ja": "会議とプレゼンテーション",
+          "ko": "회의와 프레젠테이션",
+          "ar": "الاجتماعات والعروض التقديمية",
+          "tr": "Toplantılar ve sunumlar"
+        }
       },
       "summary": {
         "zh": "管理通话音量，截取笔记，准备演示屏幕。",
         "en": "Manage calls, capture notes, and keep screens ready.",
-        "zhHant": "管理通話音量，擷取筆記，準備簡報螢幕。"
+        "zhHant": "管理通話音量，擷取筆記，準備簡報螢幕。",
+        "translations": {
+          "de": "Verwalte Anrufe, halte Notizen fest und bereite Bildschirme vor.",
+          "es": "Gestiona llamadas, captura notas y prepara las pantallas.",
+          "fr": "Gérez les appels, capturez des notes et préparez vos écrans.",
+          "pt": "Gerencie chamadas, capture notas e prepare as telas.",
+          "ru": "Управляйте звонками, сохраняйте заметки и готовьте экраны к работе.",
+          "ja": "通話の管理、メモのキャプチャ、画面の準備を行います。",
+          "ko": "통화를 관리하고 메모를 캡처하며 화면을 준비하세요.",
+          "ar": "أدر المكالمات والتقط الملاحظات وجهّز الشاشات.",
+          "tr": "Aramaları yönetin, notları yakalayın ve ekranları hazırlayın."
+        }
       },
       "permission": {
         "zh": "日历 · 屏幕与系统音频录制 · 自动化",
         "en": "Calendar · Screen and system audio capture · Automation",
-        "zhHant": "行事曆 · 螢幕與系統音訊錄製 · 自動化"
+        "zhHant": "行事曆 · 螢幕與系統音訊錄製 · 自動化",
+        "translations": {
+          "de": "Kalender · Bildschirm- und Systemaudioaufnahme · Automation",
+          "es": "Calendario · Captura de pantalla y audio del sistema · Automatización",
+          "fr": "Calendrier · Capture de l’écran et de l’audio système · Automatisation",
+          "pt": "Calendário · Captura de tela e áudio do sistema · Automação",
+          "ru": "Календарь · Запись экрана и системного звука · Автоматизация",
+          "ja": "カレンダー · 画面とシステムオーディオの収録 · オートメーション",
+          "ko": "캘린더 · 화면 및 시스템 오디오 캡처 · 자동화",
+          "ar": "التقويم · التقاط الشاشة وصوت النظام · الأتمتة",
+          "tr": "Takvim · Ekran ve sistem sesi kaydı · Otomasyon"
+        }
       },
       "setup": {
         "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
@@ -232,17 +364,50 @@
       "title": {
         "zh": "显示器与桌面",
         "en": "Displays & Desk",
-        "zhHant": "顯示器與桌面"
+        "zhHant": "顯示器與桌面",
+        "translations": {
+          "de": "Displays und Schreibtisch",
+          "es": "Pantallas y escritorio",
+          "fr": "Écrans et bureau",
+          "pt": "Monitores e mesa",
+          "ru": "Дисплеи и рабочий стол",
+          "ja": "ディスプレイとデスク",
+          "ko": "디스플레이와 데스크",
+          "ar": "الشاشات ومكتب العمل",
+          "tr": "Ekranlar ve masaüstü"
+        }
       },
       "summary": {
         "zh": "调整显示器、光线和音量，连接 iPad。",
         "en": "Set up displays, lighting, audio, and an iPad.",
-        "zhHant": "調整顯示器、光線和音量，連接 iPad。"
+        "zhHant": "調整顯示器、光線和音量，連接 iPad。",
+        "translations": {
+          "de": "Richte Displays, Beleuchtung, Audio und ein iPad ein.",
+          "es": "Configura pantallas, iluminación, audio y un iPad.",
+          "fr": "Configurez les écrans, l’éclairage, l’audio et un iPad.",
+          "pt": "Configure monitores, iluminação, áudio e um iPad.",
+          "ru": "Настройте дисплеи, освещение, звук и iPad.",
+          "ja": "ディスプレイ、照明、オーディオ、iPadを設定します。",
+          "ko": "디스플레이, 조명, 오디오 및 iPad를 설정하세요.",
+          "ar": "اضبط الشاشات والإضاءة والصوت وجهاز iPad.",
+          "tr": "Ekranları, aydınlatmayı, sesi ve bir iPad’i ayarlayın."
+        }
       },
       "permission": {
         "zh": "自动化 · 部分工具需要兼容设备",
         "en": "Automation · Some tools need compatible hardware",
-        "zhHant": "自動化 · 部分工具需要相容裝置"
+        "zhHant": "自動化 · 部分工具需要相容裝置",
+        "translations": {
+          "de": "Automation · Einige Tools erfordern kompatible Hardware",
+          "es": "Automatización · Algunas herramientas requieren hardware compatible",
+          "fr": "Automatisation · Certains outils nécessitent du matériel compatible",
+          "pt": "Automação · Algumas ferramentas requerem hardware compatível",
+          "ru": "Автоматизация · Некоторым инструментам нужно совместимое оборудование",
+          "ja": "オートメーション · 一部のツールには対応ハードウェアが必要",
+          "ko": "자동화 · 일부 도구는 호환되는 하드웨어가 필요함",
+          "ar": "الأتمتة · تتطلب بعض الأدوات أجهزة متوافقة",
+          "tr": "Otomasyon · Bazı araçlar uyumlu donanım gerektirir"
+        }
       },
       "setup": {
         "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
@@ -295,17 +460,50 @@
       "title": {
         "zh": "开发工具",
         "en": "Developer Tools",
-        "zhHant": "開發工具"
+        "zhHant": "開發工具",
+        "translations": {
+          "de": "Entwicklertools",
+          "es": "Herramientas de desarrollo",
+          "fr": "Outils de développement",
+          "pt": "Ferramentas de desenvolvimento",
+          "ru": "Инструменты разработчика",
+          "ja": "開発者向けツール",
+          "ko": "개발자 도구",
+          "ar": "أدوات المطورين",
+          "tr": "Geliştirici araçları"
+        }
       },
       "summary": {
         "zh": "管理软件包、脚本、Shell 配置和开发缓存。",
         "en": "Manage packages, scripts, shell settings, and caches.",
-        "zhHant": "管理套件、指令稿、Shell 設定和開發快取。"
+        "zhHant": "管理套件、指令稿、Shell 設定和開發快取。",
+        "translations": {
+          "de": "Verwalte Pakete, Skripte, Shell-Einstellungen und Caches.",
+          "es": "Gestiona paquetes, scripts, ajustes de shell y cachés.",
+          "fr": "Gérez les paquets, scripts, réglages du shell et caches.",
+          "pt": "Gerencie pacotes, scripts, ajustes do shell e caches.",
+          "ru": "Управляйте пакетами, скриптами, настройками оболочки и кэшами.",
+          "ja": "パッケージ、スクリプト、シェル設定、キャッシュを管理します。",
+          "ko": "패키지, 스크립트, 셸 설정 및 캐시를 관리하세요.",
+          "ar": "أدر الحزم والبرامج النصية وإعدادات الصدفة وذاكرات التخزين المؤقت.",
+          "tr": "Paketleri, betikleri, kabuk ayarlarını ve önbellekleri yönetin."
+        }
       },
       "permission": {
         "zh": "辅助功能 · 自动化",
         "en": "Accessibility · Automation",
-        "zhHant": "輔助使用 · 自動化"
+        "zhHant": "輔助使用 · 自動化",
+        "translations": {
+          "de": "Bedienungshilfen · Automation",
+          "es": "Accesibilidad · Automatización",
+          "fr": "Accessibilité · Automatisation",
+          "pt": "Acessibilidade · Automação",
+          "ru": "Универсальный доступ · Автоматизация",
+          "ja": "アクセシビリティ · オートメーション",
+          "ko": "손쉬운 사용 · 자동화",
+          "ar": "تسهيلات الاستخدام · الأتمتة",
+          "tr": "Erişilebilirlik · Otomasyon"
+        }
       },
       "setup": {
         "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
@@ -358,17 +556,50 @@
       "title": {
         "zh": "存储与维护",
         "en": "Storage & Maintenance",
-        "zhHant": "儲存空間與維護"
+        "zhHant": "儲存空間與維護",
+        "translations": {
+          "de": "Speicher und Wartung",
+          "es": "Almacenamiento y mantenimiento",
+          "fr": "Stockage et maintenance",
+          "pt": "Armazenamento e manutenção",
+          "ru": "Хранилище и обслуживание",
+          "ja": "ストレージとメンテナンス",
+          "ko": "저장 공간과 유지보수",
+          "ar": "التخزين والصيانة",
+          "tr": "Depolama ve bakım"
+        }
       },
       "summary": {
         "zh": "查找大文件，检查清理项目，管理外置磁盘。",
         "en": "Find large files and review cleanup tasks.",
-        "zhHant": "尋找大型檔案，檢查清理項目，管理外接磁碟。"
+        "zhHant": "尋找大型檔案，檢查清理項目，管理外接磁碟。",
+        "translations": {
+          "de": "Finde große Dateien und prüfe Bereinigungsaufgaben.",
+          "es": "Encuentra archivos grandes y revisa tareas de limpieza.",
+          "fr": "Trouvez les fichiers volumineux et vérifiez les tâches de nettoyage.",
+          "pt": "Encontre arquivos grandes e revise tarefas de limpeza.",
+          "ru": "Находите большие файлы и проверяйте задачи очистки.",
+          "ja": "大きなファイルを見つけ、クリーンアップ内容を確認します。",
+          "ko": "대용량 파일을 찾고 정리 작업을 검토하세요.",
+          "ar": "اعثر على الملفات الكبيرة وراجع مهام التنظيف.",
+          "tr": "Büyük dosyaları bulun ve temizleme görevlerini inceleyin."
+        }
       },
       "permission": {
         "zh": "清理需要完全磁盘访问权限 · 自动化",
         "en": "Full Disk Access for cleanup · Automation",
-        "zhHant": "清理需要完整磁碟存取權限 · 自動化"
+        "zhHant": "清理需要完整磁碟存取權限 · 自動化",
+        "translations": {
+          "de": "Festplattenvollzugriff für die Bereinigung · Automation",
+          "es": "Acceso total al disco para la limpieza · Automatización",
+          "fr": "Accès complet au disque pour le nettoyage · Automatisation",
+          "pt": "Acesso Total ao Disco para limpeza · Automação",
+          "ru": "Полный доступ к диску для очистки · Автоматизация",
+          "ja": "クリーンアップ用のフルディスクアクセス · オートメーション",
+          "ko": "정리를 위한 전체 디스크 접근 권한 · 자동화",
+          "ar": "وصول كامل إلى القرص للتنظيف · الأتمتة",
+          "tr": "Temizleme için Tam Disk Erişimi · Otomasyon"
+        }
       },
       "setup": {
         "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
@@ -407,7 +638,18 @@
       "title": {
         "zh": "系统状态",
         "en": "System Status",
-        "zhHant": "系統狀態"
+        "zhHant": "系統狀態",
+        "translations": {
+          "de": "Systemstatus",
+          "es": "Estado del sistema",
+          "fr": "État du système",
+          "pt": "Status do sistema",
+          "ru": "Состояние системы",
+          "ja": "システム状況",
+          "ko": "시스템 상태",
+          "ar": "حالة النظام",
+          "tr": "Sistem Durumu"
+        }
       },
       "permissionIDs": [],
       "symbol": "gauge.with.dots.needle.67percent"
@@ -416,7 +658,18 @@
       "title": {
         "zh": "阻止休眠",
         "en": "Keep Awake",
-        "zhHant": "防止睡眠"
+        "zhHant": "防止睡眠",
+        "translations": {
+          "de": "Wach halten",
+          "es": "Mantener activo",
+          "fr": "Empêcher la suspension",
+          "pt": "Manter ativo",
+          "ru": "Не давать уснуть",
+          "ja": "スリープを防止",
+          "ko": "잠자기 방지",
+          "ar": "منع السكون",
+          "tr": "Uyanık Tutma"
+        }
       },
       "permissionIDs": [],
       "symbol": "moon"
@@ -425,7 +678,18 @@
       "title": {
         "zh": "麦克风静音",
         "en": "Microphone Mute",
-        "zhHant": "麥克風靜音"
+        "zhHant": "麥克風靜音",
+        "translations": {
+          "de": "Mikrofon stummschalten",
+          "es": "Silenciar micrófono",
+          "fr": "Couper le micro",
+          "pt": "Silenciar microfone",
+          "ru": "Отключить микрофон",
+          "ja": "マイクをミュート",
+          "ko": "마이크 음소거",
+          "ar": "كتم الميكروفون",
+          "tr": "Mikrofon Sessize Alma"
+        }
       },
       "permissionIDs": [],
       "symbol": "mic.slash"
@@ -434,7 +698,18 @@
       "title": {
         "zh": "系统静音",
         "en": "System Mute",
-        "zhHant": "系統靜音"
+        "zhHant": "系統靜音",
+        "translations": {
+          "de": "System stummschalten",
+          "es": "Silenciar sistema",
+          "fr": "Couper le son du système",
+          "pt": "Silenciar sistema",
+          "ru": "Отключить звук системы",
+          "ja": "システムをミュート",
+          "ko": "시스템 음소거",
+          "ar": "كتم صوت النظام",
+          "tr": "Sistem Sessize Alma"
+        }
       },
       "permissionIDs": [],
       "symbol": "speaker.slash"
@@ -443,7 +718,18 @@
       "title": {
         "zh": "锁定屏幕",
         "en": "Lock Screen",
-        "zhHant": "鎖定螢幕"
+        "zhHant": "鎖定螢幕",
+        "translations": {
+          "de": "Bildschirm sperren",
+          "es": "Bloquear pantalla",
+          "fr": "Verrouiller l’écran",
+          "pt": "Bloquear tela",
+          "ru": "Заблокировать экран",
+          "ja": "画面をロック",
+          "ko": "화면 잠그기",
+          "ar": "قفل الشاشة",
+          "tr": "Ekran Kilidi"
+        }
       },
       "permissionIDs": [],
       "symbol": "lock"
@@ -452,7 +738,18 @@
       "title": {
         "zh": "显示器亮度",
         "en": "Display Brightness",
-        "zhHant": "顯示器亮度"
+        "zhHant": "顯示器亮度",
+        "translations": {
+          "de": "Displayhelligkeit",
+          "es": "Brillo de pantalla",
+          "fr": "Luminosité de l’écran",
+          "pt": "Brilho da tela",
+          "ru": "Яркость дисплея",
+          "ja": "ディスプレイの明るさ",
+          "ko": "디스플레이 밝기",
+          "ar": "سطوع الشاشة",
+          "tr": "Ekran Parlaklığı"
+        }
       },
       "permissionIDs": [],
       "symbol": "sun.max"
@@ -461,7 +758,18 @@
       "title": {
         "zh": "窗口布局",
         "en": "Window Layouts",
-        "zhHant": "視窗佈局"
+        "zhHant": "視窗佈局",
+        "translations": {
+          "de": "Fensterlayouts",
+          "es": "Diseños de ventanas",
+          "fr": "Disposition des fenêtres",
+          "pt": "Layouts de janelas",
+          "ru": "Расположение окон",
+          "ja": "ウインドウレイアウト",
+          "ko": "윈도우 레이아웃",
+          "ar": "تخطيطات النوافذ",
+          "tr": "Pencere Düzenleri"
+        }
       },
       "permissionIDs": [
         "accessibility"
@@ -472,7 +780,18 @@
       "title": {
         "zh": "窗口切换",
         "en": "Window Switcher",
-        "zhHant": "視窗切換"
+        "zhHant": "視窗切換",
+        "translations": {
+          "de": "Fensterwechsel",
+          "es": "Cambiador de ventanas",
+          "fr": "Sélecteur de fenêtres",
+          "pt": "Alternador de janelas",
+          "ru": "Переключатель окон",
+          "ja": "ウインドウ切り替え",
+          "ko": "윈도우 전환기",
+          "ar": "مبدّل النوافذ",
+          "tr": "Pencere Değiştirici"
+        }
       },
       "permissionIDs": [
         "accessibility"
@@ -483,7 +802,18 @@
       "title": {
         "zh": "操作网格",
         "en": "Action Grid",
-        "zhHant": "操作網格"
+        "zhHant": "操作網格",
+        "translations": {
+          "de": "Aktionsraster",
+          "es": "Cuadrícula de acciones",
+          "fr": "Grille d’actions",
+          "pt": "Grade de ações",
+          "ru": "Сетка действий",
+          "ja": "アクショングリッド",
+          "ko": "동작 그리드",
+          "ar": "شبكة الإجراءات",
+          "tr": "Eylem Izgarası"
+        }
       },
       "permissionIDs": [],
       "symbol": "square.grid.3x3"
@@ -492,7 +822,18 @@
       "title": {
         "zh": "应用快捷键",
         "en": "App Hotkeys",
-        "zhHant": "應用程式快速鍵"
+        "zhHant": "應用程式快速鍵",
+        "translations": {
+          "de": "App-Kurzbefehle",
+          "es": "Atajos de apps",
+          "fr": "Raccourcis d’apps",
+          "pt": "Atalhos de apps",
+          "ru": "Горячие клавиши приложений",
+          "ja": "アプリショートカット",
+          "ko": "앱 단축키",
+          "ar": "اختصارات التطبيقات",
+          "tr": "Uygulama Kısayolları"
+        }
       },
       "permissionIDs": [],
       "symbol": "keyboard"
@@ -501,7 +842,18 @@
       "title": {
         "zh": "台前调度",
         "en": "Stage Manager",
-        "zhHant": "幕前調度"
+        "zhHant": "幕前調度",
+        "translations": {
+          "de": "Stage Manager",
+          "es": "Organizador Visual",
+          "fr": "Stage Manager",
+          "pt": "Organizador Visual",
+          "ru": "Stage Manager",
+          "ja": "ステージマネージャ",
+          "ko": "스테이지 매니저",
+          "ar": "Stage Manager",
+          "tr": "Stage Manager"
+        }
       },
       "permissionIDs": [],
       "symbol": "sidebar.squares.leading"
@@ -510,7 +862,18 @@
       "title": {
         "zh": "自动隐藏程序坞",
         "en": "Auto-hide Dock",
-        "zhHant": "自動隱藏 Dock"
+        "zhHant": "自動隱藏 Dock",
+        "translations": {
+          "de": "Dock automatisch ausblenden",
+          "es": "Ocultar Dock automáticamente",
+          "fr": "Masquer le Dock automatiquement",
+          "pt": "Ocultar Dock automaticamente",
+          "ru": "Автоскрытие Dock",
+          "ja": "Dockを自動的に隠す",
+          "ko": "Dock 자동 숨기기",
+          "ar": "إخفاء Dock تلقائيًا",
+          "tr": "Dock'u Otomatik Gizleme"
+        }
       },
       "permissionIDs": [
         "automation"
@@ -521,7 +884,18 @@
       "title": {
         "zh": "剪贴板",
         "en": "Clipboard",
-        "zhHant": "剪貼簿"
+        "zhHant": "剪貼簿",
+        "translations": {
+          "de": "Zwischenablage",
+          "es": "Portapapeles",
+          "fr": "Presse-papiers",
+          "pt": "Área de transferência",
+          "ru": "Буфер обмена",
+          "ja": "クリップボード",
+          "ko": "클립보드",
+          "ar": "الحافظة",
+          "tr": "Pano"
+        }
       },
       "permissionIDs": [
         "accessibility"
@@ -532,7 +906,18 @@
       "title": {
         "zh": "自动切换输入法",
         "en": "Auto Input",
-        "zhHant": "自動切換輸入法"
+        "zhHant": "自動切換輸入法",
+        "translations": {
+          "de": "Eingabequelle automatisch wechseln",
+          "es": "Cambio automático de entrada",
+          "fr": "Changement automatique de saisie",
+          "pt": "Troca automática de entrada",
+          "ru": "Автопереключение источника ввода",
+          "ja": "入力ソースの自動切り替え",
+          "ko": "입력 소스 자동 전환",
+          "ar": "تبديل مصادر الإدخال تلقائيًا",
+          "tr": "Otomatik Giriş Kaynağı"
+        }
       },
       "permissionIDs": [
         "accessibility"
@@ -543,7 +928,18 @@
       "title": {
         "zh": "翻译",
         "en": "Translator",
-        "zhHant": "翻譯"
+        "zhHant": "翻譯",
+        "translations": {
+          "de": "Übersetzer",
+          "es": "Traductor",
+          "fr": "Traducteur",
+          "pt": "Tradutor",
+          "ru": "Переводчик",
+          "ja": "翻訳",
+          "ko": "번역",
+          "ar": "المترجم",
+          "tr": "Çevirmen"
+        }
       },
       "permissionIDs": [
         "accessibility",
@@ -556,7 +952,18 @@
       "title": {
         "zh": "截图",
         "en": "Screenshot",
-        "zhHant": "截圖"
+        "zhHant": "截圖",
+        "translations": {
+          "de": "Bildschirmfoto",
+          "es": "Captura de pantalla",
+          "fr": "Capture d’écran",
+          "pt": "Captura de tela",
+          "ru": "Снимок экрана",
+          "ja": "スクリーンショット",
+          "ko": "스크린샷",
+          "ar": "لقطة شاشة",
+          "tr": "Ekran Görüntüsü"
+        }
       },
       "permissionIDs": [
         "screen-recording"
@@ -567,7 +974,18 @@
       "title": {
         "zh": "Apple 快捷指令",
         "en": "Apple Shortcuts",
-        "zhHant": "Apple 捷徑"
+        "zhHant": "Apple 捷徑",
+        "translations": {
+          "de": "Apple-Kurzbefehle",
+          "es": "Atajos de Apple",
+          "fr": "Raccourcis Apple",
+          "pt": "Atalhos da Apple",
+          "ru": "Быстрые команды Apple",
+          "ja": "Appleショートカット",
+          "ko": "Apple 단축어",
+          "ar": "اختصارات Apple",
+          "tr": "Apple Shortcuts"
+        }
       },
       "permissionIDs": [
         "automation"
@@ -578,7 +996,18 @@
       "title": {
         "zh": "日历",
         "en": "Calendar",
-        "zhHant": "行事曆"
+        "zhHant": "行事曆",
+        "translations": {
+          "de": "Kalender",
+          "es": "Calendario",
+          "fr": "Calendrier",
+          "pt": "Calendário",
+          "ru": "Календарь",
+          "ja": "カレンダー",
+          "ko": "캘린더",
+          "ar": "التقويم",
+          "tr": "Takvim"
+        }
       },
       "permissionIDs": [
         "calendarFullAccess",
@@ -590,7 +1019,18 @@
       "title": {
         "zh": "应用音量",
         "en": "App Volume",
-        "zhHant": "應用程式音量"
+        "zhHant": "應用程式音量",
+        "translations": {
+          "de": "App-Lautstärke",
+          "es": "Volumen por aplicación",
+          "fr": "Volume des apps",
+          "pt": "Volume por app",
+          "ru": "Громкость приложений",
+          "ja": "アプリ音量",
+          "ko": "앱 음량",
+          "ar": "مستوى صوت التطبيقات",
+          "tr": "Uygulama Sesi"
+        }
       },
       "permissionIDs": [
         "system-audio-recording"
@@ -601,7 +1041,18 @@
       "title": {
         "zh": "显示器分辨率",
         "en": "Display Resolution",
-        "zhHant": "顯示器解析度"
+        "zhHant": "顯示器解析度",
+        "translations": {
+          "de": "Displayauflösung",
+          "es": "Resolución de pantalla",
+          "fr": "Résolution de l’écran",
+          "pt": "Resolução da tela",
+          "ru": "Разрешение дисплея",
+          "ja": "ディスプレイ解像度",
+          "ko": "디스플레이 해상도",
+          "ar": "دقة الشاشة",
+          "tr": "Ekran Çözünürlüğü"
+        }
       },
       "permissionIDs": [],
       "symbol": "display"
@@ -610,7 +1061,18 @@
       "title": {
         "zh": "显示器音量",
         "en": "Display Volume",
-        "zhHant": "顯示器音量"
+        "zhHant": "顯示器音量",
+        "translations": {
+          "de": "Displaylautstärke",
+          "es": "Volumen de pantalla",
+          "fr": "Volume de l'écran",
+          "pt": "Volume da tela",
+          "ru": "Громкость дисплея",
+          "ja": "ディスプレイ音量",
+          "ko": "디스플레이 볼륨",
+          "ar": "مستوى صوت الشاشة",
+          "tr": "Ekran Sesi"
+        }
       },
       "permissionIDs": [],
       "symbol": "speaker.wave.2"
@@ -619,7 +1081,18 @@
       "title": {
         "zh": "夜览",
         "en": "Night Shift",
-        "zhHant": "Night Shift"
+        "zhHant": "Night Shift",
+        "translations": {
+          "de": "Night Shift",
+          "es": "Night Shift",
+          "fr": "Night Shift",
+          "pt": "Night Shift",
+          "ru": "Night Shift",
+          "ja": "Night Shift",
+          "ko": "Night Shift",
+          "ar": "Night Shift",
+          "tr": "Night Shift"
+        }
       },
       "permissionIDs": [],
       "symbol": "lamp.floor"
@@ -628,7 +1101,18 @@
       "title": {
         "zh": "原彩显示",
         "en": "True Tone",
-        "zhHant": "原彩顯示"
+        "zhHant": "原彩顯示",
+        "translations": {
+          "de": "True Tone",
+          "es": "True Tone",
+          "fr": "True Tone",
+          "pt": "True Tone",
+          "ru": "True Tone",
+          "ja": "True Tone",
+          "ko": "True Tone",
+          "ar": "True Tone",
+          "tr": "True Tone"
+        }
       },
       "permissionIDs": [],
       "symbol": "circle.righthalf.filled"
@@ -637,7 +1121,18 @@
       "title": {
         "zh": "Sidecar",
         "en": "Sidecar",
-        "zhHant": "Sidecar"
+        "zhHant": "Sidecar",
+        "translations": {
+          "de": "Sidecar",
+          "es": "Sidecar",
+          "fr": "Sidecar",
+          "pt": "Sidecar",
+          "ru": "Sidecar",
+          "ja": "Sidecar",
+          "ko": "Sidecar",
+          "ar": "Sidecar",
+          "tr": "Sidecar"
+        }
       },
       "permissionIDs": [],
       "symbol": "display"
@@ -646,7 +1141,18 @@
       "title": {
         "zh": "Homebrew 管理",
         "en": "Homebrew Manager",
-        "zhHant": "Homebrew 管理"
+        "zhHant": "Homebrew 管理",
+        "translations": {
+          "de": "Homebrew",
+          "es": "Homebrew",
+          "fr": "Homebrew",
+          "pt": "Homebrew",
+          "ru": "Homebrew",
+          "ja": "Homebrew",
+          "ko": "Homebrew",
+          "ar": "Homebrew",
+          "tr": "Homebrew Yöneticisi"
+        }
       },
       "permissionIDs": [],
       "symbol": "shippingbox.fill"
@@ -655,7 +1161,18 @@
       "title": {
         "zh": "已存脚本",
         "en": "Saved Scripts",
-        "zhHant": "已儲存腳本"
+        "zhHant": "已儲存腳本",
+        "translations": {
+          "de": "Gespeicherte Skripte",
+          "es": "Scripts guardados",
+          "fr": "Scripts enregistrés",
+          "pt": "Scripts salvos",
+          "ru": "Сохранённые скрипты",
+          "ja": "保存済みスクリプト",
+          "ko": "저장된 스크립트",
+          "ar": "البرامج النصية المحفوظة",
+          "tr": "Kayıtlı Betikler"
+        }
       },
       "permissionIDs": [],
       "symbol": "terminal.fill"
@@ -664,7 +1181,18 @@
       "title": {
         "zh": "zsh 配置",
         "en": "zsh Config",
-        "zhHant": "zsh 設定"
+        "zhHant": "zsh 設定",
+        "translations": {
+          "de": "zsh-Konfig.",
+          "es": "Config. zsh",
+          "fr": "Config. zsh",
+          "pt": "Config. zsh",
+          "ru": "Настройки zsh",
+          "ja": "zsh 設定",
+          "ko": "zsh 설정",
+          "ar": "إعدادات zsh",
+          "tr": "zsh Yapılandırması"
+        }
       },
       "permissionIDs": [
         "automation"
@@ -675,7 +1203,18 @@
       "title": {
         "zh": "Xcode 清理",
         "en": "Xcode Cleanup",
-        "zhHant": "Xcode 清理"
+        "zhHant": "Xcode 清理",
+        "translations": {
+          "de": "Xcode-Bereinigung",
+          "es": "Limpieza de Xcode",
+          "fr": "Nettoyage Xcode",
+          "pt": "Limpeza do Xcode",
+          "ru": "Очистка Xcode",
+          "ja": "Xcode クリーンアップ",
+          "ko": "Xcode 정리",
+          "ar": "تنظيف Xcode",
+          "tr": "Xcode Temizliği"
+        }
       },
       "permissionIDs": [],
       "symbol": "hammer"
@@ -684,7 +1223,18 @@
       "title": {
         "zh": "IP 检测",
         "en": "IP Check",
-        "zhHant": "IP 檢測"
+        "zhHant": "IP 檢測",
+        "translations": {
+          "de": "IP-Prüfung",
+          "es": "Comprobación de IP",
+          "fr": "Vérification IP",
+          "pt": "Verificação de IP",
+          "ru": "Проверка IP",
+          "ja": "IPチェック",
+          "ko": "IP 확인",
+          "ar": "فحص IP",
+          "tr": "IP Kontrolü"
+        }
       },
       "permissionIDs": [],
       "symbol": "network"
@@ -693,7 +1243,18 @@
       "title": {
         "zh": "存储空间分析",
         "en": "Storage Explorer",
-        "zhHant": "儲存空間分析"
+        "zhHant": "儲存空間分析",
+        "translations": {
+          "de": "Speicher-Explorer",
+          "es": "Explorador de almacenamiento",
+          "fr": "Explorateur de stockage",
+          "pt": "Explorador de armazenamento",
+          "ru": "Анализатор диска",
+          "ja": "ストレージエクスプローラー",
+          "ko": "저장 공간 탐색기",
+          "ar": "مستكشف التخزين",
+          "tr": "Depolama Gezgini"
+        }
       },
       "permissionIDs": [],
       "symbol": "internaldrive"
@@ -702,7 +1263,18 @@
       "title": {
         "zh": "磁盘清理",
         "en": "Disk Cleanup",
-        "zhHant": "磁碟清理"
+        "zhHant": "磁碟清理",
+        "translations": {
+          "de": "Datenträgerbereinigung",
+          "es": "Limpieza de disco",
+          "fr": "Nettoyage du disque",
+          "pt": "Limpeza de disco",
+          "ru": "Очистка диска",
+          "ja": "ディスククリーンアップ",
+          "ko": "디스크 정리",
+          "ar": "تنظيف القرص",
+          "tr": "Disk Temizliği"
+        }
       },
       "permissionIDs": [
         "full-disk-access"
@@ -713,7 +1285,18 @@
       "title": {
         "zh": "推出磁盘",
         "en": "Eject Disks",
-        "zhHant": "退出磁碟"
+        "zhHant": "退出磁碟",
+        "translations": {
+          "de": "Datenträger auswerfen",
+          "es": "Expulsar discos",
+          "fr": "Éjecter les disques",
+          "pt": "Ejetar discos",
+          "ru": "Извлечь диски",
+          "ja": "ディスクを取り出す",
+          "ko": "디스크 추출",
+          "ar": "إخراج الأقراص",
+          "tr": "Disk Çıkarma"
+        }
       },
       "permissionIDs": [],
       "symbol": "eject"
@@ -722,7 +1305,18 @@
       "title": {
         "zh": "清空废纸篓",
         "en": "Empty Trash",
-        "zhHant": "清空垃圾桶"
+        "zhHant": "清空垃圾桶",
+        "translations": {
+          "de": "Papierkorb leeren",
+          "es": "Vaciar papelera",
+          "fr": "Vider la corbeille",
+          "pt": "Esvaziar Lixo",
+          "ru": "Очистить корзину",
+          "ja": "ゴミ箱を空にする",
+          "ko": "휴지통 비우기",
+          "ar": "إفراغ سلة المهملات",
+          "tr": "Çöpü Boşalt"
+        }
       },
       "permissionIDs": [
         "automation"

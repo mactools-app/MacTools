@@ -5154,13 +5154,13 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يستعيد ترتيب الإضافات وظهورها في لوحة المعلومات ولوحة الميزات؛ يجب تثبيت الإضافات المفقودة بشكل منفصل."
+            "value": "يستعيد ترتيب عناصر اللوحات وظهورها. يمكنك تحديد الإضافات الناقصة لتثبيتها قبل الاستيراد."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Stellt Reihenfolge und Sichtbarkeit in Dashboard und Funktionsbereich wieder her; fehlende Plugins müssen separat installiert werden."
+            "value": "Stellt Reihenfolge und Sichtbarkeit der Panel-Elemente wieder her. Fehlende Plugins können vor dem Import zur Installation ausgewählt werden."
           }
         },
         "en": {
@@ -5172,43 +5172,43 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restaura el orden y la visibilidad en el Dashboard y el Panel de funciones; los plugins ausentes deben instalarse aparte."
+            "value": "Restaura el orden y la visibilidad de los elementos del panel. Puedes elegir qué plugins faltantes instalar antes de importar."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restaure l’ordre et la visibilité dans le tableau de bord et le panneau de fonctions ; les modules absents doivent être installés séparément."
+            "value": "Restaure l’ordre et la visibilité des éléments des panneaux. Vous pouvez sélectionner les plugins manquants à installer avant l’importation."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ダッシュボードと機能パネルのプラグインの順序と表示を復元します。不足するプラグインは別途インストールが必要です。"
+            "value": "パネル項目の順序と表示状態を復元します。読み込み前に不足しているプラグインを選択してインストールできます。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "대시보드와 기능 패널의 플러그인 순서 및 표시 여부를 복원합니다. 누락된 플러그인은 별도로 설치해야 합니다."
+            "value": "패널 항목의 순서와 표시 여부를 복원합니다. 가져오기 전에 누락된 플러그인을 선택하여 설치할 수 있습니다."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restaura a ordem e a visibilidade no Painel e no Painel de recursos; plugins ausentes precisam ser instalados separadamente."
+            "value": "Restaura a ordem e a visibilidade dos itens do painel. Você pode selecionar os plugins ausentes para instalar antes da importação."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Восстанавливает порядок и видимость в панели и панели функций; отсутствующие плагины устанавливаются отдельно."
+            "value": "Восстанавливает порядок и видимость элементов панелей. Перед импортом можно выбрать недостающие плагины для установки."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dashboard ve Özellik Paneli'ndeki eklenti sırasını ve görünürlüğünü geri yükler; eksik eklentilerin ayrıca yüklenmesi gerekir."
+            "value": "Panel öğelerinin sırasını ve görünürlüğünü geri yükler. İçe aktarmadan önce eksik eklentileri seçip yükleyebilirsiniz."
           }
         },
         "zh-Hans": {

@@ -293,6 +293,12 @@ test('pack pages link to their native reviews and declared plugin details', asyn
       assert.ok(html.includes(`href="/plugins/${id}"`));
       const manifest = manifests.find(plugin => plugin.id === id);
       assert.equal(nativeCatalog.plugins[id].title.en, manifest.localizedMetadata.en.displayName);
+      for (const [language, metadata] of Object.entries(manifest.localizedMetadata)) {
+        const title = nativeCatalog.plugins[id].title;
+        const localized = language === 'en' ? title.en : language === 'zh-Hans' ? title.zh
+          : language === 'zh-Hant' ? title.zhHant : title.translations?.[language];
+        assert.equal(localized, metadata.displayName, `${id}: ${language}`);
+      }
       assert.deepEqual(nativeCatalog.plugins[id].permissionIDs, manifest.permissions);
     }
     assert.ok(!/href="mactools:\/\/app\/actions\//.test(html));
