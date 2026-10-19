@@ -3,4 +3,4 @@ release: app
 type: added
 ---
 
-Combine seven starter packs with icons, larger selection targets, and hover feedback. Review shared tools once, preserve settings, layouts, and shortcuts, and complete setup when only on-demand permissions remain.
+Combine seven starter packs with icons and larger selection targets while preserving settings, layouts, and shortcuts. Downloads wait for the plugin list; on-demand permissions allow setup to complete.

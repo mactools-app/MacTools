@@ -12,6 +12,7 @@ struct StarterPackSettingsView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
                     breadcrumb
+                    catalogStatus
                     switch step {
                     case .choose: chooser
                     case .review: review
@@ -57,11 +58,12 @@ struct StarterPackSettingsView: View {
                     .settingsPointingHandCursor()
             } else if step == .review {
                 Button(FeatureL10n.string("应用设置")) {
-                    controller.apply()
-                    navigation.navigate(to: .starterPacks(.results))
+                    if controller.apply() {
+                        navigation.navigate(to: .starterPacks(.results))
+                    }
                 }
                 .buttonStyle(.borderedProminent)
-                .disabled(!controller.hasChanges || controller.isRunning || host.isCatalogMutationActive
+                .disabled(!controller.canApply || host.isCatalogMutationActive
                     || host.automaticPluginUpdateStatus.isActive)
                 .accessibilityIdentifier("mactools.starter-packs.apply")
                 .settingsPointingHandCursor()
@@ -90,6 +92,35 @@ struct StarterPackSettingsView: View {
         }
         .font(PluginSettingsTheme.Typography.rowDescription)
         .foregroundStyle(.secondary)
+    }
+
+    @ViewBuilder
+    private var catalogStatus: some View {
+        if step != .results, controller.needsCatalogLoad {
+            let status = host.pluginCatalogStatus
+            let message = status.errorMessage ?? (status.source == .unavailable ? status.title : nil)
+            HStack(alignment: .firstTextBaseline, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+                if let message, !status.isRefreshing {
+                    Label(message, systemImage: "exclamationmark.triangle")
+                        .foregroundStyle(.orange)
+                    Spacer(minLength: 8)
+                    Button(FeatureL10n.string("重试")) {
+                        Task { await host.refreshPluginCatalog() }
+                    }
+                    .buttonStyle(.bordered)
+                    .disabled(host.automaticPluginUpdateStatus.isActive)
+                    .accessibilityIdentifier("mactools.starter-packs.retry-catalog")
+                    .settingsPointingHandCursor()
+                } else {
+                    ProgressView().controlSize(.small)
+                    Text(AppL10n.plugins("plugin.catalog.detail.refreshing", defaultValue: "正在刷新插件列表..."))
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .font(PluginSettingsTheme.Typography.rowDescription)
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("mactools.starter-packs.catalog-status")
+        }
     }
 
     private func introduction(_ title: String, _ description: String) -> some View {

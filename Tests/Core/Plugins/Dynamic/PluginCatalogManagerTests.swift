@@ -75,7 +75,8 @@ final class PluginCatalogManagerTests: XCTestCase {
 
         marketplaceUpdates = 0
         await host.refreshPluginCatalog()
-        XCTAssertEqual(marketplaceUpdates, 0, "An unchanged refresh must not invalidate the marketplace")
+        XCTAssertGreaterThan(marketplaceUpdates, 0, "Loading state remains visible when catalog entries do not change")
+        XCTAssertFalse(marketplace.catalogStatus.isRefreshing)
 
         // External package changes must be picked up on the next refresh.
         _ = try store.installPackage(from: makePackage(id: "com.example.demo", version: "1.0.0"))

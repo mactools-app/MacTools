@@ -90,6 +90,7 @@ struct StarterPackGridPreviewItem: Identifiable {
 struct StarterPackServices {
     var installedIDs: () -> Set<String>
     var isUsable: (String) -> Bool
+    var isCatalogReady: () -> Bool
     var install: (String) async throws -> Void
     var layout: () -> MenuBarPanelConfiguration
     var addPlacement: (PluginPanelItemKey, String) -> Bool
@@ -159,6 +160,7 @@ final class StarterPackController: ObservableObject {
     }
     var didApplyPanelLayout: Bool { appliedDraft?.addToPanel == true }
     var missingIDs: [String] { selectedIDs.filter { !services.installedIDs().contains($0) } }
+    var needsCatalogLoad: Bool { !missingIDs.isEmpty && !services.isCatalogReady() }
     var gridState: StarterPackGridState { services.gridState() }
     var hasGridShortcut: Bool { services.hasGridShortcut() }
     var hasResults: Bool { !results.isEmpty }
@@ -247,8 +249,11 @@ final class StarterPackController: ObservableObject {
             || (selectedIDs.contains("action-grid") && draft.assignShortcut && !hasGridShortcut))
     }
 
-    func apply() {
-        guard !isRunning, hasChanges else { return }
+    var canApply: Bool { !isRunning && hasChanges && !needsCatalogLoad }
+
+    @discardableResult
+    func apply() -> Bool {
+        guard canApply else { return false }
         let reviewedDraft = draft
         let panelItems = recommendedPanelItems
         let selected = selectedIDs
@@ -301,6 +306,7 @@ final class StarterPackController: ObservableObject {
             isRunning = false
             installationTask = nil
         }
+        return true
     }
 
     func stopAfterCurrentPlugin() { stopRequested = true }

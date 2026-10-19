@@ -2433,7 +2433,16 @@ final class PluginHost: ObservableObject {
     }
 
     func refreshPluginCatalog() async {
-        let installedMetadata = await pluginCatalogManager?.refreshCatalog()
+        guard let pluginCatalogManager else { return }
+        guard !pluginCatalogManager.status.isRefreshing else {
+            pluginCatalogStatus = pluginCatalogManager.status
+            return
+        }
+        var status = pluginCatalogManager.status
+        status.isRefreshing = true
+        status.errorMessage = nil
+        pluginCatalogStatus = status
+        let installedMetadata = await pluginCatalogManager.refreshCatalog()
         syncPluginManagementState(installedMetadata: installedMetadata)
     }
 
@@ -3130,6 +3139,7 @@ final class PluginHost: ObservableObject {
                     .union(self.builtInPlugins.map { $0.metadata.id })
             },
             isUsable: { [weak self] in self?.corePlugin(for: $0) != nil },
+            isCatalogReady: { [weak self] in self?.pluginCatalogStatus.lastUpdatedAt != nil },
             install: { [weak self] id in
                 guard let self else { throw StarterPackError.notReady }
                 try await self.installPluginFromCatalog(pluginID: id, applyInitialPlacements: false)

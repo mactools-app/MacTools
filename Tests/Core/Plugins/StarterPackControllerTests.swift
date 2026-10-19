@@ -55,6 +55,37 @@ final class StarterPackControllerTests: XCTestCase {
         XCTAssertEqual(fixture.installs.count, 4)
     }
 
+    func testCatalogMustLoadBeforeDownloadsStartAndOnboardingCompletes() async {
+        let fixture = Fixture()
+        fixture.catalogReady = false
+        let store = defaults()
+        let controller = StarterPackController(defaults: store, hasExistingSetup: false, services: fixture.services)
+        XCTAssertFalse(controller.apply())
+        await controller.waitForInstallation()
+        XCTAssertTrue(fixture.installs.isEmpty)
+        XCTAssertTrue(controller.needsOnboarding)
+        XCTAssertFalse(store.bool(forKey: StarterPackController.onboardingKey))
+
+        fixture.catalogReady = true
+        XCTAssertTrue(controller.apply())
+        await controller.waitForInstallation()
+        XCTAssertEqual(fixture.installed, Set(StarterPack.everyday.pluginIDs))
+        XCTAssertFalse(controller.needsOnboarding)
+    }
+
+    func testInstalledToolsCanBeAddedToPanelsWithoutACatalog() async {
+        let fixture = Fixture()
+        fixture.installed = Set(StarterPack.everyday.pluginIDs)
+        fixture.catalogReady = false
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: true, services: fixture.services)
+        controller.selectPack(.everyday, isSelected: true)
+        controller.updateDraft { $0.addToPanel = true }
+        XCTAssertTrue(controller.apply())
+        await controller.waitForInstallation()
+        XCTAssertTrue(fixture.installs.isEmpty)
+        XCTAssertEqual(fixture.layout.placementsByPanelID.values.flatMap { $0 }.count, 6)
+    }
+
     func testOptingOutOfPanelLayoutDoesNotAddPlacements() async {
         let fixture = Fixture()
         let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: fixture.services)
@@ -227,6 +258,7 @@ private final class Fixture {
     var installed: Set<String> = []
     var installs: [String] = []
     var failures: Set<String> = []
+    var catalogReady = true
     var layout = MenuBarPanelConfiguration()
     var grid: StarterPackGridState = .empty
     var seeded: [ActionReference] = []
@@ -239,6 +271,7 @@ private final class Fixture {
         StarterPackServices(
             installedIDs: { self.installed },
             isUsable: { self.installed.contains($0) },
+            isCatalogReady: { self.catalogReady },
             install: { id in
                 self.installs.append(id)
                 if self.failures.contains(id) { throw StarterPackError.notReady }
