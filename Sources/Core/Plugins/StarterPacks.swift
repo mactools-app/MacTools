@@ -270,6 +270,14 @@ final class StarterPackController: ObservableObject {
         persistOnboardingDraft()
     }
 
+    @discardableResult
+    func startEmpty() -> Bool {
+        guard !isRunning else { return false }
+        clearSelection()
+        finishOnboarding()
+        return true
+    }
+
     func includePackFromLink(_ pack: StarterPack) {
         guard !isRunning else { return }
         resumeOnboarding()

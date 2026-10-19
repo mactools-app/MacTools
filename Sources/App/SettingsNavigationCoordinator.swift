@@ -505,7 +505,11 @@ final class SettingsNavigationCoordinator: ObservableObject {
         }
 
         dismissUnifiedSearch()
-        navigate(to: destination)
+        if case let .starterPacks(step) = destination {
+            presentStarterPacks(step)
+        } else {
+            navigate(to: destination)
+        }
 
         guard let target else {
             searchRevealRequest = nil

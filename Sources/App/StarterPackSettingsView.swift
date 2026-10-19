@@ -204,9 +204,9 @@ struct StarterPackSettingsView: View {
             if controller.needsOnboarding && !isOnboarding {
                 HStack {
                     Button(FeatureL10n.string("从空白开始")) {
-                        controller.clearSelection()
-                        controller.finishOnboarding()
-                        navigation.navigate(to: .plugins(.marketplace))
+                        if controller.startEmpty() {
+                            navigation.navigate(to: .plugins(.marketplace))
+                        }
                     }
                     .help(FeatureL10n.string("返回插件市场"))
                     .accessibilityIdentifier("mactools.starter-packs.start-empty")
@@ -551,10 +551,9 @@ private extension StarterPackSettingsView {
                 Button(FeatureL10n.string("稍后设置"), action: leaveSetup)
                     .settingsPointingHandCursor()
                 Button(FeatureL10n.string("从空白开始")) {
-                    controller.clearSelection()
-                    controller.finishOnboarding()
-                    exitToMarketplace()
+                    if controller.startEmpty() { exitToMarketplace() }
                 }
+                .disabled(controller.isRunning)
                 .accessibilityIdentifier("mactools.starter-packs.start-empty")
                 .settingsPointingHandCursor()
                 Button(FeatureL10n.string("恢复备份…")) { onRestore?() }

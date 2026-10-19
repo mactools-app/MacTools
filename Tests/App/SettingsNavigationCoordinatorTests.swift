@@ -49,6 +49,26 @@ final class SettingsNavigationCoordinatorTests: XCTestCase {
         XCTAssertEqual(settings.destination, .starterPacks(.results))
     }
 
+    func testStarterPackSearchReusesOnboardingAndFallsBackToSettingsForExistingUsers() {
+        let settings = SettingsNavigationCoordinator()
+        let onboarding = SettingsNavigationCoordinator(initialDestination: .starterPacks(.choose))
+        settings.presentOnboarding = { _ in
+            onboarding.navigate(to: .starterPacks(.results))
+            return true
+        }
+        settings.presentUnifiedSearch(origin: .keyboard)
+
+        XCTAssertTrue(settings.navigateFromSearch(to: .starterPacks(.choose), target: nil))
+        XCTAssertFalse(settings.isUnifiedSearchPresented)
+        XCTAssertEqual(settings.destination, .general)
+        XCTAssertEqual(settings.history, [.general])
+        XCTAssertEqual(onboarding.destination, .starterPacks(.results))
+
+        settings.presentOnboarding = { _ in false }
+        XCTAssertTrue(settings.navigateFromSearch(to: .starterPacks(.choose), target: nil))
+        XCTAssertEqual(settings.destination, .starterPacks(.choose))
+    }
+
     func testDirectPluginSettingsNavigationEndsPreviousVisibilityBeforeStartingNext() {
         XCTAssertEqual(
             PluginSettingsPageVisibilityTransition.changes(

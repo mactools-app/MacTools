@@ -197,6 +197,37 @@ final class StarterPackControllerTests: XCTestCase {
         XCTAssertEqual(fixture.layout.placementsByPanelID.values.flatMap { $0 }.count, 1)
     }
 
+    func testStartEmptyDuringInstallationPreservesChoicesForRetryAfterRestart() async {
+        let store = defaults()
+        let fixture = Fixture()
+        let controller = StarterPackController(defaults: store, hasExistingSetup: false, services: fixture.services)
+        controller.selectPack(.windows, isSelected: true)
+        controller.updateDraft { $0.selectedPluginIDs.remove("keep-awake"); $0.addToPanel = false }
+        let selectedIDs = controller.selectedIDs
+        fixture.didInstall = { controller.stopAfterCurrentPlugin() }
+
+        XCTAssertTrue(controller.apply())
+        XCTAssertFalse(controller.startEmpty())
+        XCTAssertTrue(controller.canResumeOnboarding)
+        XCTAssertEqual(controller.selectedIDs, selectedIDs)
+        await controller.waitForInstallation()
+        XCTAssertTrue(controller.wasStopped)
+
+        let reopened = StarterPackController(defaults: store, hasExistingSetup: true, services: fixture.services)
+        XCTAssertTrue(reopened.needsOnboarding)
+        XCTAssertEqual(reopened.selectedPacks, [.everyday, .windows])
+        XCTAssertEqual(reopened.selectedIDs, selectedIDs)
+        XCTAssertFalse(reopened.draft.addToPanel)
+        XCTAssertTrue(reopened.canApply)
+
+        XCTAssertTrue(reopened.startEmpty())
+        XCTAssertTrue(reopened.selectedPacks.isEmpty)
+        XCTAssertTrue(reopened.selectedIDs.isEmpty)
+        XCTAssertFalse(reopened.canResumeOnboarding)
+        XCTAssertFalse(StarterPackController(defaults: store, hasExistingSetup: true, services: fixture.services).canResumeOnboarding)
+        XCTAssertEqual(fixture.installs, ["system-status"])
+    }
+
     func testHostRejectsPackageMutationsAndBackupRestoreWhilePackInstallationIsRunning() async {
         let fixture = Fixture()
         let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: fixture.services)
