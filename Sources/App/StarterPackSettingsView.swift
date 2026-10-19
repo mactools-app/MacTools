@@ -537,7 +537,7 @@ private extension StarterPackSettingsView {
         HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.section + PluginSettingsTheme.Spacing.sectionHeaderContent) {
             content().frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             StarterPackPanelPreview(controller: controller, panels: host.visibleMenuBarPanels, showsAppliedSelection: showsAppliedSelection)
-                .frame(width: MenuBarPanelLayout.baseWidth)
+                .frame(width: StarterPackPanelPreview.preferredWidth)
                 .frame(maxHeight: .infinity, alignment: .top)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)

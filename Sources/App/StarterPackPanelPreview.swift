@@ -4,6 +4,8 @@ import MacToolsPluginKit
 
 /// Static snapshots use the real panel chrome and row renderer without loading plugins.
 struct StarterPackPanelPreview: View {
+    static let preferredWidth = MenuBarPanelLayout.baseWidth + 2 * PluginSettingsTheme.Spacing.rowContentControl
+
     @ObservedObject var controller: StarterPackController
     var panels: [MenuBarPanelDefinition] = MenuBarPanelDefinition.defaults
     var showsAppliedSelection = false
@@ -40,35 +42,16 @@ struct StarterPackPanelPreview: View {
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
             Label(FeatureL10n.string("设置预览"), systemImage: "eye")
                 .font(PluginSettingsTheme.Typography.sectionTitle).foregroundStyle(.secondary)
-            menuBar
             VStack(spacing: 0) {
-                if let headerImage {
-                    Image(nsImage: headerImage).accessibilityHidden(true)
-                }
-                if panelIDs.isEmpty {
-                    Text(FeatureL10n.string("面板保持不变。"))
-                        .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, minHeight: 100)
-                } else {
-                    ScrollView {
-                        if let contentImage {
-                            Image(nsImage: contentImage)
-                                .accessibilityLabel(Text(panelIDs.map(StarterPack.title(for:)).joined(separator: ", ")))
-                        } else {
-                            ProgressView().frame(maxWidth: .infinity, minHeight: 100)
-                        }
-                    }
-                    .frame(minHeight: 100, idealHeight: min(contentImage?.size.height ?? 200, 320), maxHeight: 320)
-                }
+                menuBar
+                panel
             }
-            .frame(width: MenuBarPanelLayout.baseWidth)
-            .background(theme.surfaces.panel)
-            .clipShape(RoundedRectangle(cornerRadius: MenuBarPanelLayout.cornerRadius))
+            .padding(PluginSettingsTheme.Spacing.rowContentControl)
+            .pluginSettingsCardBackground(.recessed)
             .overlay {
-                RoundedRectangle(cornerRadius: MenuBarPanelLayout.cornerRadius)
+                RoundedRectangle(cornerRadius: PluginSettingsTheme.Radius.card, style: .continuous)
                     .strokeBorder(SettingsStyle.cardBorder, lineWidth: PluginSettingsTheme.Stroke.hairline)
             }
-            .accessibilityIdentifier("mactools.starter-packs.panel-preview")
             Text(FeatureL10n.string("示例面板，数值仅供参考。"))
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
             let otherIDs = selectedIDs.filter { !panelIDs.contains($0) }
@@ -94,6 +77,47 @@ struct StarterPackPanelPreview: View {
         .onChange(of: contrast) { _, _ in renderSnapshots() }
         .onChange(of: layoutDirection) { _, _ in renderSnapshots() }
         .onChange(of: localization.revision) { _, _ in renderSnapshots() }
+    }
+
+    private var panel: some View {
+        let shape = StarterPackPreviewPopoverShape(arrowCenterX: iconCenterX)
+        return VStack(spacing: 0) {
+            if let headerImage {
+                Image(nsImage: headerImage).accessibilityHidden(true)
+            }
+            if panelIDs.isEmpty {
+                Text(FeatureL10n.string("面板保持不变。"))
+                    .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, minHeight: 100)
+            } else {
+                ScrollView {
+                    if let contentImage {
+                        Image(nsImage: contentImage)
+                            .accessibilityLabel(Text(panelIDs.map(StarterPack.title(for:)).joined(separator: ", ")))
+                    } else {
+                        ProgressView().frame(maxWidth: .infinity, minHeight: 100)
+                    }
+                }
+                .frame(minHeight: 100, idealHeight: min(contentImage?.size.height ?? 200, 320), maxHeight: 320)
+            }
+        }
+        .padding(.top, StarterPackPreviewPopoverShape.arrowHeight)
+        .frame(width: MenuBarPanelLayout.baseWidth)
+        .background(theme.surfaces.panel, in: shape)
+        .clipShape(shape)
+        .overlay {
+            shape.stroke(SettingsStyle.cardBorder, lineWidth: contrast == .increased
+                ? PluginSettingsTheme.Stroke.standard : PluginSettingsTheme.Stroke.hairline)
+        }
+        .shadow(color: .black.opacity(0.16), radius: 6, y: 3)
+        .accessibilityIdentifier("mactools.starter-packs.panel-preview")
+    }
+
+    private var iconCenterX: CGFloat {
+        // The icon's highlight and the menu bar's edge each use controlCluster padding.
+        // SwiftUI mirrors both the shape and the menu bar automatically in right-to-left layouts.
+        let inset = 2 * PluginSettingsTheme.Spacing.controlCluster + MenuBarIconProcessing.standardIconPointSize / 2
+        return MenuBarPanelLayout.baseWidth - inset
     }
 
     private var menuBar: some View {
@@ -167,6 +191,36 @@ struct StarterPackPanelPreview: View {
         let image = NSImage(size: size)
         image.addRepresentation(bitmap)
         return image
+    }
+}
+
+/// One continuous outline keeps the arrow joined to the sample panel without a seam.
+private struct StarterPackPreviewPopoverShape: Shape {
+    static let arrowHeight: CGFloat = 10
+    let arrowCenterX: CGFloat
+
+    func path(in rect: CGRect) -> Path {
+        let top = rect.minY + Self.arrowHeight
+        let radius = MenuBarPanelLayout.cornerRadius
+        let center = rect.minX + arrowCenterX
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX + radius, y: top))
+        path.addLine(to: CGPoint(x: center - 12, y: top))
+        path.addQuadCurve(to: CGPoint(x: center - 8, y: top - 2), control: CGPoint(x: center - 10, y: top))
+        path.addLine(to: CGPoint(x: center - 2, y: rect.minY + 2))
+        path.addQuadCurve(to: CGPoint(x: center + 2, y: rect.minY + 2), control: CGPoint(x: center, y: rect.minY))
+        path.addLine(to: CGPoint(x: center + 8, y: top - 2))
+        path.addQuadCurve(to: CGPoint(x: center + 12, y: top), control: CGPoint(x: center + 10, y: top))
+        path.addLine(to: CGPoint(x: rect.maxX - radius, y: top))
+        path.addQuadCurve(to: CGPoint(x: rect.maxX, y: top + radius), control: CGPoint(x: rect.maxX, y: top))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - radius))
+        path.addQuadCurve(to: CGPoint(x: rect.maxX - radius, y: rect.maxY), control: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX + radius, y: rect.maxY))
+        path.addQuadCurve(to: CGPoint(x: rect.minX, y: rect.maxY - radius), control: CGPoint(x: rect.minX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX, y: top + radius))
+        path.addQuadCurve(to: CGPoint(x: rect.minX + radius, y: top), control: CGPoint(x: rect.minX, y: top))
+        path.closeSubpath()
+        return path
     }
 }
 
