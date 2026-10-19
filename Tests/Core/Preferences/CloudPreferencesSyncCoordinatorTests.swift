@@ -347,6 +347,41 @@ final class CloudPreferencesSyncCoordinatorTests: XCTestCase {
         XCTAssertEqual(coordinatorA.currentGeneration, 2)
     }
 
+    func testFormatUpgradeDoesNotCreateLocalEditsOrBlockNewerSharedPreferences() async throws {
+        let directory = makeTemporaryDirectoryURL()
+        let defaults = configuredDefaults(directory: directory)
+        var current = makeBackup(marker: "base", panelConfiguration: MenuBarPanelConfiguration())
+        var legacy = try XCTUnwrap(JSONSerialization.jsonObject(with: current.encodedJSON()) as? [String: Any])
+        legacy["formatVersion"] = 6
+        var display = try XCTUnwrap(legacy["pluginDisplay"] as? [String: Any])
+        var layout = try XCTUnwrap(display["panelConfiguration"] as? [String: Any])
+        layout["version"] = 3
+        layout.removeValue(forKey: "preferredWidth")
+        display["panelConfiguration"] = layout
+        legacy["pluginDisplay"] = display
+        let baseline = try PreferencesBackup.decodeJSON(JSONSerialization.data(withJSONObject: legacy))
+        let shared = CloudPreferencesSnapshot(generation: 1, deviceID: "previous-device", deviceName: "Previous", backup: baseline)
+        let state = CloudPreferencesSyncState(shared: shared, localBaseline: baseline)
+        defaults.set([directory.path: try JSONEncoder().encode(state)], forKey: CloudPreferencesSyncCoordinator.stateUserDefaultsKey)
+        let remote = CloudPreferencesSnapshot(generation: 2, deviceID: "remote", deviceName: "Remote",
+            parentDocumentID: shared.documentID, backup: makeBackup(marker: "remote-edit", panelConfiguration: MenuBarPanelConfiguration()))
+        try remote.encodedJSON().write(to: directory.appendingPathComponent(CloudPreferencesSnapshot.defaultFileName))
+        let coordinator = CloudPreferencesSyncCoordinator(userDefaults: defaults, debounceDelay: .seconds(60))
+        var imports = 0
+        coordinator.snapshotProvider = { current }
+        coordinator.importHandler = { current = $0; imports += 1 }
+        defer { coordinator.setEnabled(false) }
+
+        try await coordinator.syncNow()
+
+        XCTAssertEqual(imports, 1)
+        XCTAssertEqual(current.pluginDisplay.orderedPluginIDs, ["remote-edit"])
+        XCTAssertEqual(coordinator.currentGeneration, 2)
+        XCTAssertNil(try savedState(defaults, directory: directory).pending)
+        XCTAssertNil(try savedState(defaults, directory: directory).conflict)
+        XCTAssertEqual(try readSnapshot(in: directory).documentID, remote.documentID)
+    }
+
     func testPendingLocalEditRequiresChoiceBeforeReplacingHigherGenerationSnapshot() async throws {
         let directory = makeTemporaryDirectoryURL()
         let coordinator = makeConfiguredCoordinator(directory: directory)
@@ -606,7 +641,8 @@ final class CloudPreferencesSyncCoordinatorTests: XCTestCase {
     private func makeBackup(
         marker: String,
         appearance: AppAppearancePreference = .system,
-        workflows: [WorkflowDefinition] = []
+        workflows: [WorkflowDefinition] = [],
+        panelConfiguration: MenuBarPanelConfiguration? = nil
     ) -> PreferencesBackup {
         PreferencesBackup(
             application: PreferencesBackup.ApplicationPreferences(
@@ -616,7 +652,8 @@ final class CloudPreferencesSyncCoordinatorTests: XCTestCase {
             ),
             pluginDisplay: PluginDisplayPreferencesBackup(
                 orderedPluginIDs: [marker],
-                hiddenPluginIDs: []
+                hiddenPluginIDs: [],
+                panelConfiguration: panelConfiguration
             ),
             shortcutCustomizations: [:],
             pluginPreferences: [:],

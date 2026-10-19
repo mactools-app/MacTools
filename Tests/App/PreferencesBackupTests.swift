@@ -140,6 +140,8 @@ final class PreferencesBackupTests: XCTestCase {
         let first = BackupTestPlugin(id: "first", order: 1, shortcutID: "toggle")
         let second = BackupTestPlugin(id: "second", order: 2, shortcutID: "open")
         let host = makeHost(plugins: [first, second], defaults: makeDefaults())
+        let entry = try XCTUnwrap(host.panelEntries(in: "features").first)
+        _ = host.setPanelItemWidth(.custom(720), entry: entry)
         let backup = PreferencesBackup(
             application: validApplicationPreferences,
             pluginDisplay: PluginDisplayPreferencesBackup(
@@ -166,6 +168,7 @@ final class PreferencesBackupTests: XCTestCase {
         XCTAssertEqual(first.restoredPortablePreferences, Data("restore-first".utf8))
         XCTAssertNil(second.restoredPortablePreferences)
         XCTAssertEqual(host.pluginSettingsItems.map(\.pluginID), ["first", "second"])
+        XCTAssertEqual(host.panelItems(in: "features").first?.width, .custom(720))
     }
 
     func testRunLinkPresetsWorkflowsAndRulesRoundTripThroughBackup() throws {
@@ -573,7 +576,20 @@ final class PreferencesBackupTests: XCTestCase {
         sourceHost.removeTestItem(pluginID: "first", kind: .widget)
         sourceHost.removeTestItem(pluginID: "third", kind: .row)
 
-        let backup = sourceHost.makePreferencesBackup()
+        _ = sourceHost.setMenuBarPanelWidth(1200)
+        var layout = sourceHost.menuBarPanelStore.configuration
+        layout.placementsByPanelID["features"]?[0].presentation = "compact-switch"
+        layout.placementsByPanelID["features"]?[0].width = .custom(720)
+        layout.placementsByPanelID["features"]?[1].width = .fill
+        layout.placementsByPanelID["features", default: []].append(.init(
+            item: .init(pluginID: "missing", itemID: "control"), presentation: "future-presentation",
+            width: .init(mode: "future-width", points: 840)))
+        layout = layout.normalized()
+        XCTAssertTrue(sourceHost.menuBarPanelStore.replace(layout))
+        let backup = try PreferencesBackup.decodeJSON(sourceHost.makePreferencesBackup().encodedJSON())
+        let cloud = CloudPreferencesSnapshot(generation: 1, deviceID: "source", deviceName: "Source", backup: backup)
+        XCTAssertEqual(try CloudPreferencesSnapshot.decodeJSON(cloud.encodedJSON()).backup.pluginDisplay.panelConfiguration, layout)
+
 
         XCTAssertEqual(backup.pluginDisplay.panelConfiguration, sourceHost.menuBarPanelStore.configuration)
         XCTAssertNil(backup.pluginDisplay.dashboardOrderedPluginIDs)
@@ -590,6 +606,10 @@ final class PreferencesBackupTests: XCTestCase {
         )
 
         _ = try targetHost.importPreferences(backup)
+        XCTAssertEqual(targetHost.preferredMenuBarPanelWidth, 1200)
+        XCTAssertEqual(targetHost.menuBarPanelStore.configuration, layout)
+        XCTAssertEqual(targetHost.panelItems(in: "features").map(\.width), [.custom(720), .fill])
+
 
         XCTAssertEqual(targetHost.panelEntries(in: "components").map(\.pluginID), ["third", "second"])
         XCTAssertTrue(targetHost.menuBarPanelStore.configuration.initializedItems.contains(.init(pluginID: "first", itemID: "widget")))

@@ -7,20 +7,23 @@ enum PanelLayoutWidgetDropTargets {
     static func targets(
         source: PluginPanelWidgetSnapshot, entries: [MenuBarPanelEntry],
         components: [PluginPanelWidgetSnapshot], features: [PluginPanelRowSnapshot],
-        frames: [PanelLayoutEntryFrame]
+        frames: [PanelLayoutEntryFrame], width: CGFloat = ComponentPanelLayout.gridWidth, sourceIsFlexible: Bool = false
     ) -> [PanelLayoutDropTarget] {
+        // Flexible cards can change width and row count when inserted. Use their
+        // actual item edges instead of promising a fixed vacant footprint.
+        guard !sourceIsFlexible, features.isEmpty else { return [] }
         let sourceIndex = entries.firstIndex { $0.id == source.id }
         let remaining = entries.filter { $0.id != source.id }
         let spans = Dictionary(uniqueKeysWithValues: components.map { ($0.id, $0.span) })
         let baseline = ConfiguredMenuBarPanelLayout.placement(
-            entries: remaining, components: components, features: features)
+            entries: remaining, components: components, features: features, width: width)
         let obstacles = ObstacleIndex(frames: frames.filter { $0.id != source.id }.map(\.frame))
         var targets: [PanelLayoutDropTarget] = []
         var start = 0
 
         while true {
             var end = start
-            while end < remaining.count, remaining[end].kind == .widget { end += 1 }
+            while end < remaining.count, spans[remaining[end].id] != nil { end += 1 }
             let originY: CGFloat
             if start == 0 {
                 originY = 0
@@ -30,7 +33,7 @@ enum PanelLayoutWidgetDropTargets {
                     + baseline.featureHeights[rowID, default: 0] + ConfiguredMenuBarPanelLayout.itemSpacing
             }
             var state = ComponentGridPlacementEngine.State(hasCompactItems: source.span.grid == .compact
-                || remaining[start..<end].contains { spans[$0.id]?.grid == .compact })
+                || remaining[start..<end].contains { spans[$0.id]?.grid == .compact }, width: width)
             for boundary in start...end {
                 let placement = state.next(id: source.id, span: source.span)
                 let frame = PanelLayoutDestination.frame(placement).offsetBy(dx: 0, dy: originY)
@@ -89,30 +92,55 @@ enum PanelLayoutWidgetDropTargets {
 @MainActor
 final class PanelLayoutDropGeometryCache: ObservableObject {
     private struct Source: Equatable {
-        let id: String
-        let span: PluginPanelWidgetSpan
+        let entry: MenuBarPanelEntry?
+        let id: String?
+        let span: PluginPanelWidgetSpan?
+        let isFlexible: Bool
+        let size: CGSize?
+        let title: String?
     }
 
     private var frames: [PanelLayoutEntryFrame] = []
     private var spans: [PluginPanelWidgetSpan] = []
     private var source: Source?
+    private var titles: [String] = []
     private var cached: PanelLayoutDropGeometry?
+    private var width: CGFloat?
 
     func geometry(
         entries: [MenuBarPanelEntry], components: [PluginPanelWidgetSnapshot], features: [PluginPanelRowSnapshot],
-        frames: [PanelLayoutEntryFrame], source: PluginPanelWidgetSnapshot?
+        frames: [PanelLayoutEntryFrame], source: PluginPanelWidgetSnapshot?,
+        width: CGFloat = ComponentPanelLayout.gridWidth, sourceIsFlexible: Bool = false,
+        sourceEntry: MenuBarPanelEntry? = nil, sourceFeature: PluginPanelRowSnapshot? = nil
     ) -> PanelLayoutDropGeometry {
-        let sourceKey = source.map { Source(id: $0.id, span: $0.span) }
+        let sourceSize = sourceEntry.flatMap { entry in frames.first { $0.id == entry.id }?.frame.size }
+            ?? sourceFeature.map { row in
+                let width = row.usesCompactPresentation
+                    ? (MenuBarPanelWidth.columnWidth(forSurfaceWidth: width) - PanelCompactSwitchLayout.spacing) / 2
+                    : PanelItemWidthLayout.resolved(row.width, available: width)
+                return CGSize(width: width, height: row.usesCompactPresentation
+                    ? PanelCompactSwitchLayout.height(title: row.title, width: width)
+                    : MenuBarPanelLayout.rowHeight(for: row, width: width))
+            }
+        let sourceKey = Source(entry: sourceEntry, id: source?.id, span: source?.span,
+                               isFlexible: sourceIsFlexible, size: sourceSize, title: sourceFeature?.title)
         let spans = components.map(\.span)
-        if let cached, self.frames == frames, self.spans == spans, self.source == sourceKey { return cached }
-        let targets = source.map {
-            PanelLayoutWidgetDropTargets.targets(source: $0, entries: entries, components: components,
-                                                features: features, frames: frames)
+        let titles = features.map(\.title)
+        if let cached, self.frames == frames, self.spans == spans, self.source == sourceKey,
+           self.width == width, self.titles == titles { return cached }
+        let candidates = sourceEntry.map {
+            PanelLayoutDropCandidates.targets(source: $0, entries: entries, components: components, features: features, width: width)
         } ?? []
-        let geometry = PanelLayoutDropGeometry(frames: frames, vacancies: targets)
+        let targets = candidates.isEmpty ? source.map {
+            PanelLayoutWidgetDropTargets.targets(source: $0, entries: entries, components: components,
+                                                features: features, frames: frames, width: width, sourceIsFlexible: sourceIsFlexible)
+        } ?? [] : []
+        let geometry = PanelLayoutDropGeometry(frames: frames, width: width, vacancies: targets, candidates: candidates)
+        self.width = width
         self.frames = frames
         self.spans = spans
         self.source = sourceKey
+        self.titles = titles
         cached = geometry
         return geometry
     }

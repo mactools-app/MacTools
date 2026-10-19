@@ -146,14 +146,74 @@ Slider icon buttons require host 2.0.1. Older hosts ignore the icon; set
 
 ## Panel layout and editing
 
-Live panels follow saved item order. Equal-height widgets share a row while their
+Items are placed in saved order. In row layouts, shorter controls can stack beside
+expanded details in neighboring columns. In widget-only layouts, equal-height widgets share a row while their
 widths fit; a different height or insufficient width starts a new row. Later items
 do not backfill completed rows. Standard and compact spans retain their own widths.
+
+
+The popup width is user controlled in Edit Layout and shared across panel tabs.
+Column presets and a stepper replace the width slider; exact numeric input requires
+Apply or Return. Everyday panels have no resize control. The host reflows
+ordered items within that width without a column cap or automatic widening.
+Original widget spans retain the dimensions of `PluginPanelWidgetLayoutMetrics.default`.
+Full-size widgets can occupy any available column in a wide panel; the original
+narrow grid keeps its row behavior. Never
+calculate default plugin metrics from the popup width or restart collectors on resize.
+
+### Compact switch rows
+
+Host 2.0.3 adds the optional `PluginPanelCompactSwitchProviding` protocol without
+changing the PluginKit 7 binary contract. Declare `minHostVersion: 2.0.3` when
+adopting it:
+
+```swift
+extension ExamplePlugin: PluginPanelCompactSwitchProviding {
+    var compactSwitchItemIDs: Set<String> { ["control"] }
+}
+```
+
+Opt in only stable `.switch` row IDs whose essential interaction is a single
+toggle in every state. Users choose Full Controls or Compact Switch independently for
+each placement in the editor's ordering menu. Host switch cards share available
+row width and balance incomplete rows, without a fixed column cap. Their native
+switch sits beside the label when there is room, or below it at narrow widths.
+Original rows also share columns, including Keep Awake with its existing detail
+controls. Their Content Width menu offers Automatic (a standard column), Fill
+Panel (a separate full-width band), or Custom Width. Custom widths have a 304-point
+minimum to preserve the original row contract, and are clamped to the available
+panel width without losing the saved preference. Detail measurements use the
+resolved item width, including the existing list fallback for segmented controls.
+These host-owned choices require no new plugin API and do not resize fixed widgets.
+Compact switches use native toggle semantics and the same `.setSwitch`
+action, dismissal behavior, state, and lifecycle as the original row. Existing icon widgets remain separate library items.
+
+The host uses the original row when the capability is missing, the control is
+disabled, an error or detail is present, or an indicator needs the original space.
+It retains the saved preference so the compact presentation can return when
+supported. Rows with conditional detail, such as Keep Awake, should not opt in.
+
+Layout schema 4 stores the preferred popup width, per-placement presentation, and
+per-placement content width. The layout category in manual, automatic, and cloud backups includes all three; backups
+use format 7. Previous backups migrate with the original width and presentations.
+A smaller display clamps only the presented width, preserving the preferred value.
+Unavailable item references, unknown presentation names, and unknown width modes survive restoration.
+Older hosts reject new layouts rather than silently discarding these preferences;
+update every syncing host before sharing this format.
 
 During editing, small widgets use one centered menu for removal, cross-panel moves,
 and ordering, leaving the surrounding area draggable. Larger cards keep separate
 controls with draggable gaps. Insertion indicators follow the pointed widget edge
 and preview the available footprint; moving a widget does not reserve its old cell.
+Dragging uses prepared insertion results, so the pointed column and preview agree
+with the saved order. Column layouts measure once and reuse a single prefix packing
+pass; pointer updates only choose among those prepared results. Compact cards can
+share a column, while full controls always start at column boundaries.
+Column guides occupy empty gutters and stop around wider items. Edit Layout shows
+drag grips, stronger guides, the current column count, and an exact proposed drop
+footprint. The committed hit map stays stable until release, and no plugin actions
+run while calculating a preview. Saved popup widths keep their column counts as
+flexible host rows absorb wider gutters; plugin widgets keep their declared sizes.
 Changes save one ordered list, and Undo restores the previous arrangement.
 
 ## Identity and state

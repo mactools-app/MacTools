@@ -11,6 +11,7 @@ enum IPOverviewFeatureRowContract {
 enum MenuBarPanelLayout {
     static let baseWidth: CGFloat = 316
     static let secondaryPanelWidth: CGFloat = 216
+    static let maximumFeatureContentWidth: CGFloat = 560
     static let maximumPanelHeight: CGFloat = 720
     static let minimumPanelHeight: CGFloat = 224
     static let featureListMaximumHeight: CGFloat = 860
@@ -198,14 +199,14 @@ enum MenuBarPanelLayout {
         return max(minimumPanelHeight, visibleFrameHeight * featurePanelScreenHeightRatio)
     }
 
-    static func rowHeight(for item: PluginPanelRowSnapshot) -> CGFloat {
+    static func rowHeight(for item: PluginPanelRowSnapshot, width: CGFloat = surfaceWidth) -> CGFloat {
         guard let detail = displayedDetail(for: item) else {
             return rowHeaderHeight + rowVerticalPadding
         }
 
         return rowHeaderHeight
             + detailSpacing
-            + detailHeight(for: detail.primaryControls)
+            + detailHeight(for: detail.primaryControls, width: PanelItemWidthLayout.resolved(item.width, available: width))
             + rowVerticalPadding
     }
 
@@ -225,13 +226,17 @@ enum MenuBarPanelLayout {
         return detail
     }
 
-    private static func detailHeight(for controls: [PluginPanelControl]) -> CGFloat {
+    private static func detailHeight(for controls: [PluginPanelControl], width: CGFloat) -> CGFloat {
         controls.enumerated().reduce(CGFloat(0)) { partialResult, element in
             let (index, control) = element
             let controlSpacing = index == 0 ? CGFloat(0) : detailControlSpacing
             let dividerHeight = control.showsLeadingDivider ? CGFloat(8) : CGFloat(0)
-            return partialResult + controlSpacing + dividerHeight + controlHeight(for: control)
+            return partialResult + controlSpacing + dividerHeight + controlHeight(for: control, width: width)
         }
+    }
+
+    static func segmentedWidth(for width: CGFloat) -> CGFloat {
+        width - FeatureRowLayout.rowHorizontalPadding * 2 - FeatureRowLayout.detailLeadingInset
     }
 
     // Match the feature row's available width when estimating the panel's height.
@@ -239,33 +244,33 @@ enum MenuBarPanelLayout {
         surfaceWidth - FeatureRowLayout.rowHorizontalPadding * 2 - FeatureRowLayout.detailLeadingInset
     }
 
-    static func segmentedUsesList(_ control: PluginPanelControl) -> Bool {
+    static func segmentedUsesList(_ control: PluginPanelControl, width: CGFloat = surfaceWidth) -> Bool {
         // Existing compact controls keep their layout. Descriptive choices can fall
         // back to a list when translated labels would be compressed or truncated.
         guard control.options.contains(where: { $0.subtitle != nil }) else { return false }
-        let width = control.options.reduce(CGFloat(0)) { result, option in
+        let requiredWidth = control.options.reduce(CGFloat(0)) { result, option in
             result + (option.title as NSString).size(withAttributes: [.font: PluginTypography.control.nsFont]).width + 20
         }
-        return width > segmentedContentWidth
+        return requiredWidth > segmentedWidth(for: width)
     }
 
-    static func segmentedSubtitleHeight(_ control: PluginPanelControl) -> CGFloat {
+    static func segmentedSubtitleHeight(_ control: PluginPanelControl, width: CGFloat = surfaceWidth) -> CGFloat {
         guard let subtitle = control.options.first(where: { $0.id == control.selectedOptionID })?.subtitle,
               !subtitle.isEmpty else { return 0 }
         let rect = (subtitle as NSString).boundingRect(
-            with: CGSize(width: segmentedContentWidth - 10, height: .greatestFiniteMagnitude),
+            with: CGSize(width: segmentedWidth(for: width) - 10, height: .greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading],
             attributes: [.font: PluginTypography.detail.nsFont]
         )
         return ceil(rect.height) + 2
     }
 
-    private static func controlHeight(for control: PluginPanelControl) -> CGFloat {
+    private static func controlHeight(for control: PluginPanelControl, width: CGFloat) -> CGFloat {
         switch control.kind {
         case .segmented:
             let titleHeight = control.sectionTitle == nil ? CGFloat(0) : CGFloat(19)
-            let choicesHeight = segmentedUsesList(control) ? CGFloat(control.options.count) * 26 : 24
-            let subtitleHeight = segmentedSubtitleHeight(control)
+            let choicesHeight = segmentedUsesList(control, width: width) ? CGFloat(control.options.count) * 26 : 24
+            let subtitleHeight = segmentedSubtitleHeight(control, width: width)
             return titleHeight + choicesHeight + (subtitleHeight > 0 ? subtitleHeight + 4 : 0)
         case .datePicker:
             switch control.datePickerStyle ?? .compact {
@@ -602,6 +607,8 @@ struct MenuBarContent: View {
     var suppliedItems: [PluginPanelRowSnapshot]? = nil
     var embedded = false
     var suppliedRowOffsets: [String: CGFloat]? = nil
+    var suppliedRowFrames: [String: CGRect]? = nil
+    @Environment(\.menuBarPanelSurfaceWidth) private var surfaceWidth
     var onInlinePresentationChange: (Bool) -> Void = { _ in }
 
     private var items: [PluginPanelRowSnapshot] { suppliedItems ?? pluginHost.panelItems }
@@ -689,52 +696,54 @@ struct MenuBarContent: View {
                 secondaryPanelController.isPresentingInline,
                 let activeSecondaryPanel
             {
-                SecondarySlidingPanel(
-                    title: activeSecondaryPanel.panel.title,
-                    controls: activeSecondaryPanel.panel.controls,
-                    maximumContentHeight: max(
-                        0,
-                        contentBodyHeight - MenuBarPanelLayout.secondaryPanelContentChromeHeight
-                    ),
-                    showsDismissButton: true,
-                    onDismiss: {
-                        hoverCoordinator.dismissImmediately()
-                    },
-                    onSelectionChange: { controlID, optionID in
-                        pluginHost.setPanelSelectionValue(
-                            optionID,
-                            controlID: controlID,
-                            for: activeSecondaryPanel.item.id
-                        )
-                    },
-                    onNavigationSelectionChange: { controlID, optionID in
-                        pluginHost.setPanelNavigationSelectionValue(
-                            optionID,
-                            controlID: controlID,
-                            for: activeSecondaryPanel.item.id
-                        )
-                    },
-                    onDateChange: { controlID, date in
-                        pluginHost.setPanelDateValue(
-                            date,
-                            controlID: controlID,
-                            for: activeSecondaryPanel.item.id
-                        )
-                    },
-                    onHoverChange: handleSecondaryPanelHoverChange,
-                    onSliderChange: { controlID, value, phase in
-                        pluginHost.setPanelSliderValue(
-                            value,
-                            controlID: controlID,
-                            for: activeSecondaryPanel.item.id,
-                            phase: phase
-                        )
-                    }
-                )
+                PanelInlineDetailContainer(fallbackHeight: contentBodyHeight) { viewportHeight in
+                    SecondarySlidingPanel(
+                        title: activeSecondaryPanel.panel.title,
+                        controls: activeSecondaryPanel.panel.controls,
+                        maximumContentHeight: max(
+                            0,
+                            viewportHeight - MenuBarPanelLayout.secondaryPanelContentChromeHeight
+                        ),
+                        showsDismissButton: true,
+                        onDismiss: {
+                            hoverCoordinator.dismissImmediately()
+                        },
+                        onSelectionChange: { controlID, optionID in
+                            pluginHost.setPanelSelectionValue(
+                                optionID,
+                                controlID: controlID,
+                                for: activeSecondaryPanel.item.id
+                            )
+                        },
+                        onNavigationSelectionChange: { controlID, optionID in
+                            pluginHost.setPanelNavigationSelectionValue(
+                                optionID,
+                                controlID: controlID,
+                                for: activeSecondaryPanel.item.id
+                            )
+                        },
+                        onDateChange: { controlID, date in
+                            pluginHost.setPanelDateValue(
+                                date,
+                                controlID: controlID,
+                                for: activeSecondaryPanel.item.id
+                            )
+                        },
+                        onHoverChange: handleSecondaryPanelHoverChange,
+                        onSliderChange: { controlID, value, phase in
+                            pluginHost.setPanelSliderValue(
+                                value,
+                                controlID: controlID,
+                                for: activeSecondaryPanel.item.id,
+                                phase: phase
+                            )
+                        }
+                    )
+                }
             }
         }
         .frame(
-            width: MenuBarPanelLayout.surfaceWidth,
+            width: surfaceWidth,
             height: contentBodyHeight,
             alignment: .topLeading
         )
@@ -1046,95 +1055,101 @@ struct MenuBarContent: View {
     @ViewBuilder
     private var featureCards: some View {
         let templates = Dictionary(uniqueKeysWithValues: items.map { ($0.id, $0) })
-        let placement = ConfiguredMenuBarPanelLayout.placement(features: items)
+        let placement = ConfiguredMenuBarPanelLayout.placement(features: items, width: surfaceWidth)
         let offsets = suppliedRowOffsets ?? placement.featureOffsets
         let retainedIDs = Set(hoverCoordinator.activeActivation.map { [$0.placementID] } ?? [])
         let frames = items.compactMap { item -> PanelItemFrame? in
             guard let y = offsets[item.id] else { return nil }
             return PanelItemFrame(id: item.id,
-                frame: CGRect(x: 0, y: y, width: MenuBarPanelLayout.surfaceWidth,
-                              height: MenuBarPanelLayout.rowHeight(for: item)))
+                frame: suppliedRowFrames?[item.id] ?? placement.featureFrames[item.id]
+                    ?? CGRect(x: 0, y: y, width: surfaceWidth, height: MenuBarPanelLayout.rowHeight(for: item, width: surfaceWidth)))
         }
         if items.isEmpty {
             PanelPluginEmptyState(tab: .features, pluginHost: pluginHost, onInstall: { pluginHost.presentPluginMarketplace() })
                 .frame(height: contentBodyHeight)
         } else {
-            PanelViewportStack(frames: frames, width: MenuBarPanelLayout.surfaceWidth,
+            PanelViewportStack(frames: frames, width: surfaceWidth,
                                height: suppliedRowOffsets == nil ? placement.height : contentBodyHeight,
                                retainedIDs: retainedIDs) { id in
                 if let item = templates[id] {
-                    FeatureRowView(
-                        item: item,
-                        indicator: pluginHost.rowIndicator(for: item.id),
-                        compactIndicator: pluginHost.rowCompactIndicator(for: item.id),
-                        onDisclosureToggle: { isExpanded in
-                            pluginHost.setDisclosureExpanded(isExpanded, for: item.id)
-                        },
-                        onSelectionChange: { controlID, optionID in
-                            pluginHost.setPanelSelectionValue(optionID, controlID: controlID, for: item.id)
-                        },
-                        onNavigationSelectionChange: { controlID, optionID in
-                            if isNavigationOptionSelected(
-                                in: item.detail?.primaryControls ?? [],
-                                controlID: controlID,
-                                optionID: optionID
-                            ) {
-                                pluginHost.clearPanelNavigationSelection(controlID: controlID, for: item.id)
-                                hoverCoordinator.dismissImmediately()
-                                return
-                            }
-
-                            if item.detail?.secondaryPanel(controlID: controlID, optionID: optionID) != nil {
-                                hoverCoordinator.pin(
-                                    placementID: item.id,
-                                    controlID: controlID,
-                                    optionID: optionID
-                                )
-                            } else {
-                                hoverCoordinator.dismissImmediately()
-                            }
-                            pluginHost.setPanelNavigationSelectionValue(optionID, controlID: controlID, for: item.id)
-                        },
-                        onNavigationHoverChange: { controlID, optionID, isHovering in
-                            handleNavigationHoverChange(
-                                pluginID: item.id,
-                                controlID: controlID,
-                                optionID: optionID,
-                                isHovering: isHovering
-                            )
-                        },
-                        onNavigationRowFrameChange: { controlID, optionID, frame in
-                            hoverCoordinator.updateRowFrame(
-                                frame,
-                                for: HoverSecondaryPanelCoordinator.Activation(
-                                    placementID: item.id,
-                                    controlID: controlID,
-                                    optionID: optionID
-                                )
-                            )
-                        },
-                        onDateChange: { controlID, date in
-                            pluginHost.setPanelDateValue(date, controlID: controlID, for: item.id)
-                        },
-                        onSwitchChange: { newValue in
-                            handlePanelSwitchChange(newValue, for: item)
-                        },
-                        onSliderChange: { controlID, value, phase in
-                            pluginHost.setPanelSliderValue(
-                                value,
-                                controlID: controlID,
-                                for: item.id,
-                                phase: phase
-                            )
-                        },
-                        onActionInvoke: { controlID, behavior in
-                            handleActionInvoke(
-                                controlID: controlID,
-                                for: item,
-                                behavior: behavior
-                            )
+                    if item.usesCompactPresentation {
+                        PanelCompactSwitchView(item: item) { value in
+                            _ = handlePanelSwitchChange(value, for: item)
                         }
-                    )
+                    } else {
+                        FeatureRowView(
+                            item: item,
+                            indicator: pluginHost.rowIndicator(for: item.id),
+                            compactIndicator: pluginHost.rowCompactIndicator(for: item.id),
+                            onDisclosureToggle: { isExpanded in
+                                pluginHost.setDisclosureExpanded(isExpanded, for: item.id)
+                            },
+                            onSelectionChange: { controlID, optionID in
+                                pluginHost.setPanelSelectionValue(optionID, controlID: controlID, for: item.id)
+                            },
+                            onNavigationSelectionChange: { controlID, optionID in
+                                if isNavigationOptionSelected(
+                                    in: item.detail?.primaryControls ?? [],
+                                    controlID: controlID,
+                                    optionID: optionID
+                                ) {
+                                    pluginHost.clearPanelNavigationSelection(controlID: controlID, for: item.id)
+                                    hoverCoordinator.dismissImmediately()
+                                    return
+                                }
+
+                                if item.detail?.secondaryPanel(controlID: controlID, optionID: optionID) != nil {
+                                    hoverCoordinator.pin(
+                                        placementID: item.id,
+                                        controlID: controlID,
+                                        optionID: optionID
+                                    )
+                                } else {
+                                    hoverCoordinator.dismissImmediately()
+                                }
+                                pluginHost.setPanelNavigationSelectionValue(optionID, controlID: controlID, for: item.id)
+                            },
+                            onNavigationHoverChange: { controlID, optionID, isHovering in
+                                handleNavigationHoverChange(
+                                    pluginID: item.id,
+                                    controlID: controlID,
+                                    optionID: optionID,
+                                    isHovering: isHovering
+                                )
+                            },
+                            onNavigationRowFrameChange: { controlID, optionID, frame in
+                                hoverCoordinator.updateRowFrame(
+                                    frame,
+                                    for: HoverSecondaryPanelCoordinator.Activation(
+                                        placementID: item.id,
+                                        controlID: controlID,
+                                        optionID: optionID
+                                    )
+                                )
+                            },
+                            onDateChange: { controlID, date in
+                                pluginHost.setPanelDateValue(date, controlID: controlID, for: item.id)
+                            },
+                            onSwitchChange: { newValue in
+                                handlePanelSwitchChange(newValue, for: item)
+                            },
+                            onSliderChange: { controlID, value, phase in
+                                pluginHost.setPanelSliderValue(
+                                    value,
+                                    controlID: controlID,
+                                    for: item.id,
+                                    phase: phase
+                                )
+                            },
+                            onActionInvoke: { controlID, behavior in
+                                handleActionInvoke(
+                                    controlID: controlID,
+                                    for: item,
+                                    behavior: behavior
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -1282,6 +1297,7 @@ struct FeatureRowView: View {
     let onSliderChange: (String, Double, PluginPanelAction.SliderPhase) -> Void
     let onActionInvoke: (String, PluginMenuActionBehavior) -> Void
     @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
+    @Environment(\.menuBarPanelSurfaceWidth) private var surfaceWidth
     @Environment(\.menuBarPanelTheme) private var theme
     @State private var isHovered = false
     @State private var didPushDisabledCursor = false
@@ -1368,8 +1384,10 @@ struct FeatureRowView: View {
                 .padding(.leading, FeatureRowLayout.detailLeadingInset)
             }
         }
+        .environment(\.menuBarPanelSurfaceWidth, PanelItemWidthLayout.resolved(item.width, available: surfaceWidth))
         .padding(.horizontal, FeatureRowLayout.rowHorizontalPadding)
         .padding(.vertical, FeatureRowLayout.rowVerticalPadding)
+        .frame(width: PanelItemWidthLayout.resolved(item.width, available: surfaceWidth), alignment: .leading)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(alignment: .center) {
             RoundedRectangle(cornerRadius: MenuBarHoverStyle.cornerRadius, style: .continuous)
@@ -2019,13 +2037,14 @@ private struct PluginPanelDetailView: View {
 }
 
 private struct DescriptiveSegmentedControl: View {
+    @Environment(\.menuBarPanelSurfaceWidth) private var surfaceWidth
     let control: PluginPanelControl
     let onSelectionChange: (String, String) -> Void
     @Environment(\.menuBarPanelTheme) private var theme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            if MenuBarPanelLayout.segmentedUsesList(control) {
+            if MenuBarPanelLayout.segmentedUsesList(control, width: surfaceWidth) {
                 SelectListControl(control: control) { optionID in
                     onSelectionChange(control.id, optionID)
                 }

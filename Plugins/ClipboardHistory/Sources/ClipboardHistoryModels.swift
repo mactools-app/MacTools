@@ -416,16 +416,20 @@ enum ClipboardHistoryPayloadAccessError: Error, Sendable {
 }
 
 final class ClipboardHistoryPayloadReference: @unchecked Sendable {
+    /// Each reader keeps its load's result independently of the evictable cache.
+    /// Access to this result is protected by the reference's condition lock.
+    private final class Load: @unchecked Sendable {
+        var result: Result<ClipboardHistoryPayload, any Error>?
+    }
+
     private let condition = NSCondition()
     private var cachedPayload: ClipboardHistoryPayload?
     private var loader: (@Sendable () throws -> ClipboardHistoryPayload)?
-    private var isLoading = false
+    private var activeLoad: Load?
     private var waitingLoaderCount = 0
     private var asyncWaiters: [UUID: CheckedContinuation<ClipboardHistoryPayload, any Error>] = [:]
-    private var loadGeneration: UInt64 = 0
     private var cachePublicationRevision: UInt64 = 0
     private var loaderRevision: UInt64 = 0
-    private var lastLoadFailure: (generation: UInt64, error: any Error)?
 
     init(payload: ClipboardHistoryPayload) {
         cachedPayload = payload
@@ -445,7 +449,7 @@ final class ClipboardHistoryPayloadReference: @unchecked Sendable {
         condition.withLock { cachedPayload != nil }
     }
 
-    var isLoadingForTesting: Bool { condition.withLock { isLoading } }
+    var isLoadingForTesting: Bool { condition.withLock { activeLoad != nil } }
 
     func loadAsync() async throws -> ClipboardHistoryPayload {
         let waiterID = UUID()
@@ -468,18 +472,21 @@ final class ClipboardHistoryPayloadReference: @unchecked Sendable {
                     return
                 }
                 asyncWaiters[waiterID] = continuation
-                let shouldStartLoading = !isLoading
+                let shouldStartLoading = activeLoad == nil
+                let load = activeLoad ?? Load()
                 let publicationRevision = cachePublicationRevision
                 let currentLoaderRevision = loaderRevision
                 if shouldStartLoading {
-                    isLoading = true
+                    activeLoad = load
                 }
                 condition.unlock()
 
                 if shouldStartLoading {
                     Task.detached(priority: .userInitiated) { [weak self] in
-                        self?.finishLoading(Result { try loader() }, publicationRevision: publicationRevision,
-                                            loaderRevision: currentLoaderRevision)
+                        self?.finishLoading(
+                            Result { try loader() }, load: load,
+                            publicationRevision: publicationRevision, loaderRevision: currentLoaderRevision
+                        )
                     }
                 }
             }
@@ -501,8 +508,7 @@ final class ClipboardHistoryPayloadReference: @unchecked Sendable {
             throw ClipboardHistoryPayloadAccessError.unavailable
         }
 
-        if isLoading {
-            let observedGeneration = loadGeneration
+        if let load = activeLoad {
             waitingLoaderCount += 1
             defer {
                 waitingLoaderCount -= 1
@@ -511,25 +517,19 @@ final class ClipboardHistoryPayloadReference: @unchecked Sendable {
                 }
                 condition.unlock()
             }
-            repeat {
+            while true {
                 if Task.isCancelled {
                     throw CancellationError()
                 }
+                if let result = load.result {
+                    return try result.get()
+                }
                 condition.wait(until: Date(timeIntervalSinceNow: 0.05))
-            } while isLoading && loadGeneration == observedGeneration
-
-            guard !Task.isCancelled else { throw CancellationError() }
-            if let cachedPayload {
-                return cachedPayload
             }
-            if let lastLoadFailure,
-               lastLoadFailure.generation == loadGeneration {
-                throw lastLoadFailure.error
-            }
-            throw ClipboardHistoryPayloadAccessError.unavailable
         }
 
-        isLoading = true
+        let load = Load()
+        activeLoad = load
         let publicationRevision = cachePublicationRevision
         let currentLoaderRevision = loaderRevision
         condition.unlock()
@@ -538,7 +538,7 @@ final class ClipboardHistoryPayloadReference: @unchecked Sendable {
         if Task.isCancelled {
             condition.withLock { cachePublicationRevision &+= 1 }
         }
-        finishLoading(result, publicationRevision: publicationRevision, loaderRevision: currentLoaderRevision)
+        finishLoading(result, load: load, publicationRevision: publicationRevision, loaderRevision: currentLoaderRevision)
 
         guard !Task.isCancelled else { throw CancellationError() }
         return try result.get()
@@ -546,14 +546,14 @@ final class ClipboardHistoryPayloadReference: @unchecked Sendable {
 
     private func finishLoading(
         _ result: Result<ClipboardHistoryPayload, any Error>,
+        load: Load,
         publicationRevision: UInt64,
         loaderRevision: UInt64
     ) {
         condition.lock()
-        isLoading = false
-        loadGeneration &+= 1
-        switch result {
-        case let .success(payload):
+        activeLoad = nil
+        load.result = result
+        if case let .success(payload) = result {
             // A discarded load may still serve surviving consumers, but must not retain
             // decrypted data after its last consumer has cancelled or released it.
             if self.loaderRevision == loaderRevision,
@@ -561,9 +561,6 @@ final class ClipboardHistoryPayloadReference: @unchecked Sendable {
                 || !asyncWaiters.isEmpty || waitingLoaderCount > 0 {
                 cachedPayload = payload
             }
-            lastLoadFailure = nil
-        case let .failure(error):
-            lastLoadFailure = (generation: loadGeneration, error: error)
         }
         let waiters = asyncWaiters.values
         asyncWaiters.removeAll()

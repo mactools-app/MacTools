@@ -24,6 +24,32 @@ final class PluginPanelCoordinatorTests: XCTestCase {
                 content: make)
     }
 
+    func testCompactSwitchRequiresOptInAndPreservesPreferenceDuringFallback() throws {
+        let coordinator = PluginPanelCoordinator()
+        let placement = MenuBarPanelPlacement(item: .init(pluginID: "example", itemID: "control"),
+                                              presentation: "compact-switch")
+        var configuration = MenuBarPanelConfiguration()
+        configuration.placementsByPanelID["features"] = [placement]
+        func snapshot() throws -> PluginPanelRowSnapshot {
+            coordinator.synchronize(configuration: configuration, pluginOrder: ["example"], visiblePanelID: nil)
+            let resolved = try XCTUnwrap(coordinator.snapshot(in: "features").first)
+            return try XCTUnwrap(coordinator.rowSnapshot(resolved.item, id: resolved.id))
+        }
+        try coordinator.update(pluginID: "example", metadata: metadata(), definitions: [row("control")], allowedKinds: [.row])
+        XCTAssertFalse(try snapshot().usesCompactPresentation)
+        try coordinator.update(pluginID: "example", metadata: metadata(), definitions: [row("control")],
+                               allowedKinds: [.row], compactSwitchItemIDs: ["control"])
+        XCTAssertTrue(try snapshot().usesCompactPresentation)
+        let error = PluginPanelItem.row(id: "control", descriptor: .init(controlStyle: .switch, menuActionBehavior: .keepPresented),
+            state: .init(subtitle: "Permission required", isOn: false, isEnabled: false, isAvailable: true,
+                         detail: nil, errorMessage: "Permission required"), action: { _ in })
+        try coordinator.update(pluginID: "example", metadata: metadata(), definitions: [error],
+                               allowedKinds: [.row], compactSwitchItemIDs: ["control"])
+        XCTAssertFalse(try snapshot().usesCompactPresentation)
+        XCTAssertTrue(try snapshot().supportsCompactSwitch)
+        XCTAssertEqual(configuration.placementsByPanelID["features"]?.first?.presentation, "compact-switch")
+    }
+
     func testMultipleRowsAndWidgetsAreResolvedByItemAndPlacement() throws {
         let coordinator = PluginPanelCoordinator()
         let definitions = [row("first"), row("second"), widget("chart") { _ in AnyView(EmptyView()) }]

@@ -17,6 +17,7 @@ struct PanelLayoutEditor: View {
     @State private var removalSourceRect = CGRect.zero
     @Namespace private var popoverCoordinateSpace
     @Environment(\.menuBarPanelTheme) private var theme
+    @Environment(\.menuBarPanelSurfaceWidth) private var surfaceWidth
     @Environment(\.layoutDirection) private var layoutDirection
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -34,11 +35,19 @@ struct PanelLayoutEditor: View {
     private var ids: [String] { entries.map(\.id) }
 
     var body: some View {
+        let sourceRow = session.sourcePanelID.flatMap { sourcePanel in
+            pluginHost.panelItems(in: sourcePanel).first { $0.id == session.sourceID }
+        }
         let source = session.sourcePanelID.flatMap { sourcePanel in
             pluginHost.componentItems(in: sourcePanel).first { $0.id == session.sourceID }
+        } ?? sourceRow?.compactLayoutWidget
+        let sourceEntry = session.sourcePanelID.flatMap { sourcePanel in
+            pluginHost.panelEntries(in: sourcePanel).first { $0.id == session.sourceID }
         }
         let layout = PanelLayoutEditorSnapshot(pluginHost: pluginHost, panelID: panelID,
-                                              cache: dropGeometryCache, source: source)
+                                              cache: dropGeometryCache, source: source, width: surfaceWidth,
+                                              sourceIsFlexible: sourceRow?.usesCompactPresentation == true,
+                                              sourceEntry: sourceEntry, sourceFeature: sourceRow)
         GeometryReader { geometry in
             Group {
                 ScrollView(.vertical, showsIndicators: false) {
@@ -76,7 +85,7 @@ struct PanelLayoutEditor: View {
                 .onDisappear { scroller.stop() }
                 .environment(\.panelLayoutScrollToItem, { id in
                     DispatchQueue.main.async {
-                        let updated = PanelLayoutEditorSnapshot(pluginHost: pluginHost, panelID: panelID)
+                        let updated = PanelLayoutEditorSnapshot(pluginHost: pluginHost, panelID: panelID, width: surfaceWidth)
                         if let frame = updated.frames.first(where: { $0.id == id })?.frame {
                             scroller.reveal(frame)
                         }
@@ -125,16 +134,25 @@ struct PanelLayoutEditor: View {
         let positions = layout.frames
         let indices = Dictionary(uniqueKeysWithValues: layout.ids.enumerated().map { ($0.element, $0.offset) })
         return PanelViewportStack(frames: layout.itemFrames(rightToLeft: layoutDirection == .rightToLeft),
-                              width: ComponentPanelLayout.gridWidth,
-                              height: PanelLayoutDestination.visibleContentHeight(itemHeight: layout.height),
+                              width: surfaceWidth,
+                              height: layout.previewContentHeight,
                               retainedIDs: Set([session.sourceID, hover.focusedItemID].compactMap { $0 })) { id in
             if let item = layout.items[id], let index = indices[id] {
                 reorderItem(item, feature: layout.features[item.entry.id], index: index, count: layout.ids.count)
                     .environment(\.layoutDirection, layoutDirection)
             }
         }
+        .background(alignment: .topLeading) {
+            PanelColumnGuides(frames: layout.frames.map(\.frame), width: surfaceWidth,
+                              height: layout.height, isEditing: true, isDragging: session.sourceID != nil)
+                .environment(\.layoutDirection, layoutDirection)
+        }
         .overlay(alignment: .topLeading) {
-            PanelLayoutInsertionMarker(preview: session.dragPreview)
+            PanelLayoutDropPreview(preview: session.dragPreview,
+                title: session.sourceID.flatMap { layout.items[$0]?.item.title }
+                    ?? session.sourcePanelID.flatMap { sourcePanel in
+                        pluginHost.panelLayoutEntries(in: sourcePanel).first { $0.id == session.sourceID }?.item.title
+                    })
         }
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.14), value: positions)
         .environment(\.layoutDirection, .leftToRight)
@@ -161,21 +179,40 @@ struct PanelLayoutEditor: View {
                 removalSourceRect = sourceRect
                 entryToRemove = item
             },
-            moveToPanel: { move(item.entry, to: $0) }
+            moveToPanel: { move(item.entry, to: $0) },
+            supportsCompactSwitch: feature?.supportsCompactSwitch == true,
+            compactSwitchSelected: item.entry.placement.presentation == MenuBarPanelItemPresentation.compactSwitch,
+            changePresentation: { compact in
+                if let change = pluginHost.setPanelPresentation(compact ? MenuBarPanelItemPresentation.compactSwitch : nil, entry: item.entry) {
+                    session.didSaveLayoutChange(change)
+                }
+            },
+            supportsWidth: feature != nil && feature?.usesCompactPresentation == false,
+            widthPreference: item.entry.placement.width,
+            availableWidth: surfaceWidth,
+            changeWidth: { width in
+                if let change = pluginHost.setPanelItemWidth(width, entry: item.entry) {
+                    session.didSaveLayoutChange(change)
+                }
+            }
         ) {
             if item.entry.kind == .widget {
                 pluginHost.componentViewItem(for: item.entry.id, dismiss: onDismiss).content
             } else if let feature {
-                FeatureRowView(
-                    item: feature,
-                    indicator: pluginHost.rowIndicator(for: feature.id),
-                    compactIndicator: pluginHost.rowCompactIndicator(for: feature.id),
-                    onDisclosureToggle: { _ in }, onSelectionChange: { _, _ in },
-                    onNavigationSelectionChange: { _, _ in }, onNavigationHoverChange: { _, _, _ in },
-                    onNavigationRowFrameChange: { _, _, _ in }, onDateChange: { _, _ in },
-                    onSwitchChange: { _ in false }, onSliderChange: { _, _, _ in },
-                    onActionInvoke: { _, _ in }
-                )
+                if feature.usesCompactPresentation {
+                    PanelCompactSwitchView(item: feature, onChange: { _ in })
+                } else {
+                    FeatureRowView(
+                        item: feature,
+                        indicator: pluginHost.rowIndicator(for: feature.id),
+                        compactIndicator: pluginHost.rowCompactIndicator(for: feature.id),
+                        onDisclosureToggle: { _ in }, onSelectionChange: { _, _ in },
+                        onNavigationSelectionChange: { _, _ in }, onNavigationHoverChange: { _, _, _ in },
+                        onNavigationRowFrameChange: { _, _, _ in }, onDateChange: { _, _ in },
+                        onSwitchChange: { _ in false }, onSliderChange: { _, _, _ in },
+                        onActionInvoke: { _, _ in }
+                    )
+                }
             }
         } beginDrag: {
             scroller.stop()
@@ -193,13 +230,14 @@ struct PanelLayoutEditor: View {
     }
 
     private func updateDestination(_ point: CGPoint, layout: PanelLayoutEditorSnapshot) {
-        guard session.validate(in: pluginHost, panelID: panelID) else { scroller.stop(); return }
+        guard session.validate(ids: layout.ids) else { scroller.stop(); return }
         preview(at: point, layout: layout)
         scroller.start { preview(at: $0, layout: layout) }
     }
 
     private func preview(at point: CGPoint, layout: PanelLayoutEditorSnapshot) {
-        let target = layout.dropGeometry.target(at: point, rightToLeft: layoutDirection == .rightToLeft)
+        let target = layout.dropGeometry.target(at: point, rightToLeft: layoutDirection == .rightToLeft,
+            previousOffset: session.destination, verticalAnchorFraction: session.nativeDragSource.verticalAnchorFraction)
         session.preview(target: target, ids: layout.ids)
     }
 
@@ -224,51 +262,93 @@ private struct PanelLayoutEditorSnapshot {
     let features: [String: PluginPanelRowSnapshot]
     let frames: [PanelLayoutEntryFrame]
     let height: CGFloat
+    let width: CGFloat
     let dropGeometry: PanelLayoutDropGeometry
+
+    var previewContentHeight: CGFloat {
+        PanelLayoutDestination.visibleContentHeight(itemHeight: dropGeometry.maximumPreviewHeight)
+    }
 
     func itemFrames(rightToLeft: Bool) -> [PanelItemFrame] {
         frames.map { position in
             var frame = position.frame
-            if rightToLeft { frame.origin.x = ComponentPanelLayout.gridWidth - frame.maxX }
+            if rightToLeft { frame.origin.x = width - frame.maxX }
             return PanelItemFrame(id: position.id, frame: frame)
         }
     }
 
     init(pluginHost: PluginHost, panelID: String, cache: PanelLayoutDropGeometryCache? = nil,
-         source: PluginPanelWidgetSnapshot? = nil) {
+         source: PluginPanelWidgetSnapshot? = nil, width: CGFloat = ComponentPanelLayout.gridWidth,
+         sourceIsFlexible: Bool = false, sourceEntry: MenuBarPanelEntry? = nil,
+         sourceFeature: PluginPanelRowSnapshot? = nil) {
+        self.width = width
         let entries = pluginHost.panelEntries(in: panelID)
         let components = pluginHost.componentItems(in: panelID)
         let features = pluginHost.panelItems(in: panelID)
+        let previewComponents = components + ((sourceEntry?.kind == .widget ? source : nil).map { value in
+            components.contains(where: { $0.id == value.id }) ? [] : [value]
+        } ?? [])
+        let previewFeatures = features + (sourceFeature.map { value in
+            features.contains(where: { $0.id == value.id }) ? [] : [value]
+        } ?? [])
         let placement = ConfiguredMenuBarPanelLayout.placement(
-            entries: entries, components: components, features: features
+            entries: entries, components: components, features: features, width: width
         )
         ids = entries.map(\.id)
         items = Dictionary(uniqueKeysWithValues: pluginHost.panelLayoutEntries(in: panelID).map { ($0.id, $0) })
         self.features = Dictionary(uniqueKeysWithValues: features.map { ($0.id, $0) })
         frames = PanelLayoutEntryFrame.frames(entries: entries, placement: placement)
-        dropGeometry = cache?.geometry(entries: entries, components: components, features: features,
-                                       frames: frames, source: source) ?? PanelLayoutDropGeometry(frames: frames)
+        dropGeometry = (cache ?? PanelLayoutDropGeometryCache()).geometry(
+            entries: entries, components: previewComponents, features: previewFeatures,
+            frames: frames, source: source, width: width, sourceIsFlexible: sourceIsFlexible,
+            sourceEntry: sourceEntry, sourceFeature: sourceFeature)
         height = placement.height
     }
 }
 
-private struct PanelLayoutInsertionMarker: View {
+struct PanelLayoutDropPreview: View {
     @ObservedObject var preview: PanelLayoutDragPreview
+    var title: String? = nil
     @Environment(\.menuBarPanelTheme) private var theme
 
     var body: some View {
-        if let target = preview.target, let marker = target.markerFrame {
-            RoundedRectangle(cornerRadius: target.isVacancy ? 8 : 1)
-                .fill(theme.accent.opacity(target.isVacancy ? 0.12 : 1))
-                .overlay {
-                    if target.isVacancy {
-                        RoundedRectangle(cornerRadius: 8).strokeBorder(theme.accent, lineWidth: 2)
+        ZStack(alignment: .topLeading) {
+            if let frame = preview.target?.previewFrame {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(theme.surfaces.panel)
+                    .overlay { RoundedRectangle(cornerRadius: 8).fill(theme.accent.opacity(0.10)) }
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .strokeBorder(theme.accent, style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                     }
-                }
-                .frame(width: marker.width, height: marker.height)
-                .offset(x: marker.minX, y: marker.minY)
-                .allowsHitTesting(false).accessibilityHidden(true)
+                    .overlay {
+                        if let title, frame.width >= 80, frame.height >= 24 {
+                            Label(title, systemImage: "arrow.turn.down.right")
+                                .font(PluginTypography.body.font)
+                                .foregroundStyle(theme.text.primary)
+                                .lineLimit(1).padding(.horizontal, 12)
+                        }
+                    }
+                    .frame(width: frame.width, height: frame.height)
+                    .offset(x: frame.minX, y: frame.minY)
+                    .allowsHitTesting(false).accessibilityHidden(true)
+            }
+            if let target = preview.target, let marker = target.markerFrame {
+                RoundedRectangle(cornerRadius: target.isVacancy ? 8 : 1)
+                    .fill(theme.accent.opacity(target.isVacancy ? 0.12 : 1))
+                    .overlay {
+                        if target.isVacancy {
+                            RoundedRectangle(cornerRadius: 8).strokeBorder(theme.accent, lineWidth: 2)
+                        }
+                    }
+                    .frame(width: marker.width, height: marker.height)
+                    .offset(x: marker.minX, y: marker.minY)
+                    .allowsHitTesting(false).accessibilityHidden(true)
+            }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
     }
 }
 
@@ -299,6 +379,13 @@ private struct PanelLayoutReorderItem<Content: View>: View {
     let move: (Int) -> Void
     let remove: (CGRect) -> Void
     let moveToPanel: (String) -> Void
+    let supportsCompactSwitch: Bool
+    let compactSwitchSelected: Bool
+    let changePresentation: (Bool) -> Void
+    let supportsWidth: Bool
+    let widthPreference: MenuBarPanelItemWidth?
+    let availableWidth: CGFloat
+    let changeWidth: (MenuBarPanelItemWidth?) -> Void
     @ViewBuilder let content: Content
     let beginDrag: () -> String?
     let endDrag: (String) -> Void
@@ -308,8 +395,9 @@ private struct PanelLayoutReorderItem<Content: View>: View {
     private enum Control: Hashable { case remove, moveTo, more }
     @Environment(\.layoutDirection) private var layoutDirection
     @FocusState private var focusedControl: Control?
+    @State private var showsWidthPicker = false
 
-    private var showsControls: Bool { hoverState.isActive }
+    private var showsControls: Bool { hoverState.isActive && !isDragging }
 
     var body: some View {
         ZStack {
@@ -318,8 +406,7 @@ private struct PanelLayoutReorderItem<Content: View>: View {
             content
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
                 .compositingGroup()
-                .blur(radius: showsControls ? 2 : 0)
-                .overlay { theme.surfaces.panel.opacity(showsControls ? 0.22 : 0) }
+                .overlay { theme.surfaces.panel.opacity(showsControls ? 0.18 : 0) }
                 .clipShape(RoundedRectangle(cornerRadius: MenuBarPanelLayout.cornerRadius))
                 .opacity(isDragging ? 0.32 : 1)
                 .scaleEffect(isDragging ? 0.985 : 1)
@@ -327,19 +414,22 @@ private struct PanelLayoutReorderItem<Content: View>: View {
                 .focusable(false)
                 .accessibilityHidden(true)
             GeometryReader { proxy in
-                let metrics = PanelLayoutItemControlsLayout(size: proxy.size)
+                let labels = PanelLayoutControlLabels.localized
+                let metrics = PanelLayoutItemControlsLayout(size: proxy.size, labels: labels)
+                let controlsFrame = metrics.frame(in: CGRect(origin: .zero, size: proxy.size))
                 PanelLayoutControls(metrics: metrics, rightToLeft: layoutDirection == .rightToLeft) {
                     if metrics.isCompact {
                         MenuBarPanelMenu(makeMenu: { compactMenu(proxy: proxy, metrics: metrics) }) {
                             controlIcon("ellipsis", side: metrics.buttonSide, preferredIconSide: 14)
                         }
                         .focused($focusedControl, equals: .more)
-                        .help(PanelLayoutCopy.position(title, index: index, count: count))
-                        .accessibilityLabel(PanelLayoutCopy.position(title, index: index, count: count))
+                        .help(FeatureL10n.string("更多"))
+                        .accessibilityLabel(FeatureL10n.string("更多"))
+                        .accessibilityValue(PanelLayoutCopy.position(title, index: index, count: count))
                         .accessibilityIdentifier("panel.layout.more.\(id)")
                     } else {
                         Button { requestRemoval(proxy: proxy, metrics: metrics) } label: {
-                            controlIcon("trash", side: metrics.buttonSide)
+                            controlLabel("trash", index: 0, metrics: metrics, labels: labels)
                         }
                         .focused($focusedControl, equals: .remove)
                         .help(FeatureL10n.string("移除组件"))
@@ -347,7 +437,7 @@ private struct PanelLayoutReorderItem<Content: View>: View {
                         .accessibilityIdentifier("panel.layout.remove.\(id)")
 
                         MenuBarPanelMenu(makeMenu: { destinationMenu(showsHeading: true) }) {
-                            controlIcon("arrow.forward.square", side: metrics.buttonSide)
+                            controlLabel("arrow.forward.square", index: 1, metrics: metrics, labels: labels)
                         }
                         .focused($focusedControl, equals: .moveTo)
                         .help(FeatureL10n.string("移动到"))
@@ -355,14 +445,15 @@ private struct PanelLayoutReorderItem<Content: View>: View {
                         .accessibilityIdentifier("panel.layout.moveTo.\(id)")
 
                         MenuBarPanelMenu(makeMenu: orderingMenu) {
-                            controlIcon("ellipsis.circle", side: metrics.buttonSide)
+                            controlLabel("ellipsis.circle", index: 2, metrics: metrics, labels: labels)
                         }
                         .focused($focusedControl, equals: .more)
-                        .accessibilityLabel(PanelLayoutCopy.position(title, index: index, count: count))
+                        .help(FeatureL10n.string("更多"))
+                        .accessibilityLabel(FeatureL10n.string("更多"))
+                        .accessibilityValue(PanelLayoutCopy.position(title, index: index, count: count))
                         .accessibilityIdentifier("panel.layout.more.\(id)")
                     }
                 }
-                .accessibilityHint(PanelLayoutCopy.hint)
                 .accessibilityAction(named: PanelLayoutCopy.earlier) { if index > 0 { perform(index - 1) } }
                 .accessibilityAction(named: PanelLayoutCopy.later) { if index < count - 1 { perform(index + 2) } }
                 .accessibilityAction(named: PanelLayoutCopy.beginning) { perform(0) }
@@ -371,7 +462,14 @@ private struct PanelLayoutReorderItem<Content: View>: View {
                 .tint(theme.text.primary)
                 .foregroundStyle(theme.text.primary)
                 .fixedSize()
-                .frame(width: proxy.size.width, height: proxy.size.height)
+                .background {
+                    // Keep backdrop filtering local to the visible toolbar. Hidden
+                    // cards and native drags must not retain material render layers.
+                    if showsControls {
+                        PanelLayoutControlsBackground().padding(-3)
+                    }
+                }
+                .position(x: controlsFrame.midX, y: controlsFrame.midY)
             }
             .opacity(showsControls ? 1 : 0)
             .allowsHitTesting(showsControls)
@@ -386,13 +484,21 @@ private struct PanelLayoutReorderItem<Content: View>: View {
         }
         .overlay {
             RoundedRectangle(cornerRadius: 10)
-                .strokeBorder(isDragging || (showsControls && focusedControl != nil) ? theme.accent : .clear, lineWidth: 2)
+                .strokeBorder(isDragging || showsControls ? theme.accent : theme.surfaces.separator,
+                              lineWidth: isDragging || showsControls ? 1.5 : 0.5)
                 .allowsHitTesting(false)
                 .accessibilityHidden(true)
         }
         .onChange(of: focusedControl) { _, control in
             hover.focusChanged(id: id, isFocused: control != nil)
             if control != nil { scrollToItem(id) }
+        }
+        .popover(isPresented: $showsWidthPicker, arrowEdge: .trailing) {
+            PanelItemWidthPicker(preference: widthPreference, availableWidth: availableWidth, onCommit: changeWidth)
+                .background(MenuWindowAccessor { window in
+                    if let window { MenuBarPanelWindowRegistry.markEditingPopover(window) }
+                }.allowsHitTesting(false))
+                .onExitCommand { showsWidthPicker = false }
         }
         .id(id)
     }
@@ -404,6 +510,35 @@ private struct PanelLayoutReorderItem<Content: View>: View {
         menu.addItem(MenuBarPanelMenuItem(PanelLayoutCopy.later, isEnabled: index < count - 1) { perform(index + 2) })
         menu.addItem(MenuBarPanelMenuItem(PanelLayoutCopy.beginning, isEnabled: index > 0) { perform(0) })
         menu.addItem(MenuBarPanelMenuItem(PanelLayoutCopy.end, isEnabled: index < count - 1) { perform(count) })
+        if supportsCompactSwitch {
+            menu.addItem(.separator())
+            let full = MenuBarPanelMenuItem(FeatureL10n.string("完整控件")) { changePresentation(false) }
+            full.state = compactSwitchSelected ? .off : .on
+            menu.addItem(full)
+            let compact = MenuBarPanelMenuItem(FeatureL10n.string("紧凑开关")) { changePresentation(true) }
+            compact.state = compactSwitchSelected ? .on : .off
+            menu.addItem(compact)
+        }
+        if supportsWidth {
+            menu.addItem(.separator())
+            let width = NSMenuItem(title: PanelItemWidthLayout.title, action: nil, keyEquivalent: "")
+            let submenu = NSMenu()
+            submenu.autoenablesItems = false
+            let automatic = MenuBarPanelMenuItem(PanelItemWidthLayout.automaticTitle) { changeWidth(nil) }
+            automatic.state = widthPreference == nil ? .on : .off
+            submenu.addItem(automatic)
+            let fill = MenuBarPanelMenuItem(PanelItemWidthLayout.fillTitle) { changeWidth(.fill) }
+            fill.state = widthPreference == .fill ? .on : .off
+            submenu.addItem(fill)
+            let custom = MenuBarPanelMenuItem(PanelItemWidthLayout.customTitle) {
+                // Finish native menu tracking before opening the child popover.
+                DispatchQueue.main.async { showsWidthPicker = true }
+            }
+            custom.state = widthPreference?.mode == "custom" ? .on : .off
+            submenu.addItem(custom)
+            width.submenu = submenu
+            menu.addItem(width)
+        }
         return menu
     }
 
@@ -443,6 +578,24 @@ private struct PanelLayoutReorderItem<Content: View>: View {
         let anchor = button.offsetBy(dx: controls.minX, dy: controls.minY)
         // Let a compact menu finish dismissing before presenting confirmation.
         DispatchQueue.main.async { remove(anchor) }
+    }
+
+    private func controlLabel(_ symbol: String, index: Int, metrics: PanelLayoutItemControlsLayout,
+                              labels: PanelLayoutControlLabels) -> some View {
+        HStack(spacing: 5) {
+            Image(systemName: symbol)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 16, height: 16)
+            if metrics.showsLabels {
+                Text(labels.titles[index])
+                    .font(PluginTypography.control.font)
+                    .lineLimit(1)
+                    .fixedSize()
+            }
+        }
+        .frame(width: metrics.buttonWidths[index], height: metrics.buttonSide)
+        .contentShape(Rectangle())
     }
 
     private func controlIcon(_ symbol: String, side: CGFloat, preferredIconSide: CGFloat = 16) -> some View {

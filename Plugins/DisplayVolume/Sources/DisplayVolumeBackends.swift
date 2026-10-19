@@ -142,21 +142,22 @@ final class DDCVolumeBackend: DisplayVolumeBackend, @unchecked Sendable {
 
     func readVolume() throws -> Double {
         let revision = lock.withLock { cacheRevision }
-        return try ioLock.withLock {
+        let result = try ioLock.withLock { () -> (volume: Double, updated: Bool) in
             try Task.checkCancellation()
             guard let volume = try? transport.readVolume(),
                   volume.maximum > 0,
                   volume.current <= volume.maximum else {
-                return cachedVolume
+                return (cachedVolume, false)
             }
             return lock.withLock {
-                guard !Task.isCancelled, revision == cacheRevision else { return localVolume }
+                guard !Task.isCancelled, revision == cacheRevision else { return (localVolume, false) }
                 maximumValue = volume.maximum
                 localVolume = Double(volume.current) / Double(volume.maximum)
-                UserDefaults.standard.set(localVolume, forKey: cacheKey)
-                return localVolume
+                return (localVolume, true)
             }
         }
+        if result.updated { persistCachedVolume() }
+        return result.volume
     }
 
     func writeVolume(_ value: Double) throws {
@@ -169,7 +170,21 @@ final class DDCVolumeBackend: DisplayVolumeBackend, @unchecked Sendable {
             try transport.writeVolume(rawValue)
             lock.withLock {
                 localVolume = clampedValue
-                UserDefaults.standard.set(localVolume, forKey: cacheKey)
+            }
+        }
+        persistCachedVolume()
+    }
+
+    private func persistCachedVolume() {
+        // Defaults notifications enter SwiftUI synchronously. Publish on the main
+        // queue after releasing both locks, so UI snapshot reads cannot deadlock.
+        // Read the latest cache when publishing so queued reads cannot overwrite
+        // a newer completed write.
+        if Thread.isMainThread {
+            UserDefaults.standard.set(cachedVolume, forKey: cacheKey)
+        } else {
+            DispatchQueue.main.async { [self] in
+                UserDefaults.standard.set(cachedVolume, forKey: cacheKey)
             }
         }
     }

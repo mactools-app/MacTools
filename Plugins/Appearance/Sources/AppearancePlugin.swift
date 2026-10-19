@@ -20,7 +20,9 @@ private struct AppearancePluginProvider: PluginProvider {
 }
 
 @MainActor
-final class AppearancePlugin: MacToolsPlugin, PluginActionProviding, PluginActionPermissionProviding {
+final class AppearancePlugin: MacToolsPlugin, PluginPanelCompactSwitchProviding, PluginActionProviding, PluginActionPermissionProviding {
+    var compactSwitchItemIDs: Set<String> { ["control"] }
+
     var panelItems: [PluginPanelItem] {
         let state = rowState
         return [
