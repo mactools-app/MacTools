@@ -48,7 +48,7 @@ open 'mactools://app/settings/starter-packs/windows'
 
 Use the stable ID from the plugin's `plugin.json` for `<plugin-id>`. The ID `marketplace` is reserved for the host-owned Marketplace route and cannot be used by a plugin. A plugin settings link is accepted only when that plugin is installed, loaded, and provides settings. Dashboard and Feature Panel links always use show/focus behavior, so opening the same link again does not toggle the panel closed.
 
-Marketplace detail links are navigation-only. They can refer to an available or installed catalog entry, but never install a package or execute an action. `provider` and `action` are accepted only as a pair, must identify a catalog-published static action for that plugin, and reject unknown, duplicate, partial, or malformed values.
+Marketplace detail links are navigation-only. They can refer to an available or installed catalog entry, but never install a package or execute an action. Cold-launch links load the catalog before deciding availability, with Retry after a loading failure. Installed details remain usable offline. `provider` and `action` are accepted only as a pair and must identify a catalog-published static action for that plugin. Duplicate, partial, or malformed values are rejected; unresolved plugin or action targets show an unavailable page after catalog resolution.
 
 ## Run Links
 
