@@ -399,7 +399,7 @@ struct StarterPackSettingsView: View {
 
     private func item(_ id: String) -> PluginManagementItem? { host.pluginManagementItems.first { $0.id == id } }
     private func needsPermission(_ id: String) -> Bool {
-        host.permissionCoordinator.items.contains { $0.affectedFeatures.contains { $0.pluginID == id && !$0.isGranted } }
+        host.permissionCoordinator.items.contains { $0.affectedFeatures.contains { $0.pluginID == id && $0.status == .attention } }
     }
     private func pluginTitle(_ id: String) -> String { item(id)?.title ?? StarterPack.title(for: id) }
     private func pluginIcon(_ id: String) -> some View {
