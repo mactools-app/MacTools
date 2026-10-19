@@ -24,7 +24,7 @@ final class PreferencesImportController: ObservableObject {
     init(pluginHost: PluginHost) { self.pluginHost = pluginHost }
 
     func choosePreferencesImport() {
-        guard !isBusy else { return }
+        guard !isBusy, pluginHost.preferencesImportUnavailableMessage == nil else { return }
         let panel = NSOpenPanel()
         panel.allowedContentTypes = [.json]
         panel.allowsMultipleSelection = false
@@ -166,6 +166,7 @@ struct PreferencesImportPresentation: ViewModifier {
     @Environment(\.layoutDirection) private var layoutDirection
     @ObservedObject var controller: PreferencesImportController
     @ObservedObject var host: PluginHost
+    @ObservedObject var starterPacks: StarterPackController
     var onCompletion: () -> Void = {}
 
     func body(content: Content) -> some View {
@@ -183,6 +184,7 @@ struct PreferencesImportPresentation: ViewModifier {
                 isImporting: controller.isImporting,
                 importProgress: controller.importProgress,
                 isPreparingPlugins: host.isPreparingPlugins,
+                importUnavailableMessage: controller.isImporting ? nil : host.preferencesImportUnavailableMessage,
                 catalogStatus: host.pluginCatalogStatus,
                 onRetryCatalog: { await controller.pluginHost.refreshPluginCatalog() },
                 onCancel: { controller.pendingImport = nil },

@@ -332,9 +332,8 @@ struct PluginManagementSettingsView: View {
     @ViewBuilder
     private var marketplaceIntroductionActions: some View {
         Button(FeatureL10n.string(starterPacks.canResumeOnboarding && !starterPacks.isRunning ? "继续设置…" : "工具组合…")) {
-            if navigationCoordinator.presentOnboarding?() == true { return }
             starterPacks.resumeOnboarding()
-            navigationCoordinator.navigate(to: .starterPacks(starterPacks.isRunning ? .results : .choose))
+            navigationCoordinator.presentStarterPacks(starterPacks.isRunning ? .results : .choose)
         }
         .buttonStyle(.bordered)
         .accessibilityIdentifier("mactools.marketplace.starter-packs")

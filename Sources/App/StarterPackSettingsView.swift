@@ -288,6 +288,9 @@ struct StarterPackSettingsView: View {
 
     private var reviewSummary: some View {
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+            if host.isImportingPreferences {
+                Label(FeatureL10n.string("正在恢复备份，请稍后重试。"), systemImage: "info.circle")
+            }
             if controller.selectedIDs.isEmpty {
                 Label(FeatureL10n.string("请选择至少一个插件。"), systemImage: "info.circle")
             } else if !controller.hasChanges {
@@ -442,7 +445,6 @@ struct StarterPackSettingsView: View {
             if !controller.isRunning {
                 HStack {
                     Button(FeatureL10n.string(controller.failedCount > 0 || controller.wasStopped ? "返回检查并重试" : "检查设置…")) {
-                        controller.restoreAppliedSelection()
                         navigation.navigate(to: .starterPacks(.review))
                     }
                     .settingsPointingHandCursor()
@@ -530,15 +532,15 @@ private extension StarterPackSettingsView {
         controller.didApplyPanelLayout && !host.panelEntries(in: controller.resultPanelID).isEmpty
     }
 
-    func onboardingColumns<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+    func onboardingColumns<Content: View>(showsAppliedSelection: Bool = false, @ViewBuilder content: () -> Content) -> some View {
         ViewThatFits(in: .horizontal) {
             HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.section) {
                 content().frame(minWidth: 520, maxWidth: .infinity)
-                StarterPackPanelPreview(controller: controller).frame(width: 300)
+                StarterPackPanelPreview(controller: controller, showsAppliedSelection: showsAppliedSelection).frame(width: 300)
             }
             VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
                 content()
-                StarterPackPanelPreview(controller: controller).frame(maxWidth: 400)
+                StarterPackPanelPreview(controller: controller, showsAppliedSelection: showsAppliedSelection).frame(maxWidth: 400)
             }
         }
     }
@@ -556,6 +558,7 @@ private extension StarterPackSettingsView {
                 .accessibilityIdentifier("mactools.starter-packs.start-empty")
                 .settingsPointingHandCursor()
                 Button(FeatureL10n.string("恢复备份…")) { onRestore?() }
+                    .disabled(controller.isRunning || host.isImportingPreferences)
                     .accessibilityIdentifier("mactools.starter-packs.restore")
                     .settingsPointingHandCursor()
             } else if step == .review {
@@ -586,7 +589,6 @@ private extension StarterPackSettingsView {
                 .settingsPointingHandCursor()
             } else if !controller.isRunning && controller.failedCount == 0 && !controller.wasStopped {
                 Button(FeatureL10n.string("检查设置…")) {
-                    controller.restoreAppliedSelection()
                     navigation.navigate(to: .starterPacks(.review))
                 }
                 .settingsPointingHandCursor()
@@ -614,7 +616,7 @@ private extension StarterPackSettingsView {
     var onboardingReady: some View {
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
             introduction(FeatureL10n.string("设置完成"), FeatureL10n.format("已安装：%d · 未完成：%d", controller.installedCount, controller.results.count - controller.installedCount))
-            onboardingColumns {
+            onboardingColumns(showsAppliedSelection: true) {
                 VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
                     ForEach(StarterPack.allCases.filter { controller.appliedPacks.contains($0) }) { pack in
                         HStack {
@@ -691,7 +693,7 @@ struct StarterPackProgressBanner: View {
                     .font(PluginSettingsTheme.Typography.rowDescription)
                 Spacer()
                 Button(FeatureL10n.string("查看结果")) {
-                    if navigation.presentOnboarding?() != true { navigation.navigate(to: .starterPacks(.results)) }
+                    navigation.presentStarterPacks(.results)
                 }
                     .settingsPointingHandCursor()
                 if !controller.isRunning {

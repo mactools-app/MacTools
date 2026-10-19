@@ -503,21 +503,25 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
         presentSettings(.settings)
     }
 
-    func showOnboarding(pack: StarterPack? = nil) {
+    func showOnboarding(pack: StarterPack? = nil, step: StarterPackStep? = nil) {
         dismissCommandPalette(restoringFocus: false)
         let controller = pluginHost.starterPacks
         controller.resumeOnboarding()
-        let window = onboardingWindow ?? makeOnboardingWindow()
+        let requestedStep = controller.isRunning ? StarterPackStep.results : step
+        let window = onboardingWindow ?? makeOnboardingWindow(initialStep: requestedStep ?? .choose)
         if let pack, !controller.isRunning {
             controller.includePackFromLink(pack)
             onboardingNavigationCoordinator?.navigate(to: .starterPacks(.review))
+        } else if let requestedStep {
+            onboardingNavigationCoordinator?.navigate(to: .starterPacks(requestedStep))
         }
         AppDockVisibilityController.update(hasVisibleSettingsWindow: true)
         show(window)
+        onProgrammaticSettingsPresentation()
     }
 
-    private func makeOnboardingWindow() -> NSWindow {
-        let navigation = SettingsNavigationCoordinator(initialDestination: .starterPacks(pluginHost.starterPacks.hasResults ? .results : .choose))
+    private func makeOnboardingWindow(initialStep: StarterPackStep) -> NSWindow {
+        let navigation = SettingsNavigationCoordinator(initialDestination: .starterPacks(initialStep))
         let importer = PreferencesImportController(pluginHost: pluginHost)
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 1000, height: 760),
@@ -702,9 +706,9 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
             pluginHost: pluginHost,
             sidebarPreferences: settingsSidebarPreferences
         )
-        navigationCoordinator.presentOnboarding = { [weak self] in
+        navigationCoordinator.presentOnboarding = { [weak self] step in
             guard let self, pluginHost.starterPacks.canResumeOnboarding || onboardingWindow != nil else { return false }
-            showOnboarding()
+            showOnboarding(step: step)
             return true
         }
         let window = MacToolsCommandWindow(

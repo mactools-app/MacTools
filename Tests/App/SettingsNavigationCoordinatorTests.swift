@@ -32,6 +32,23 @@ final class SettingsNavigationCoordinatorTests: XCTestCase {
         XCTAssertEqual(coordinator.destination, .plugins(.marketplace))
     }
 
+    func testStarterPackPresentationRequestsResultsOrSelectionInTheDedicatedWindow() {
+        let settings = SettingsNavigationCoordinator()
+        let onboarding = SettingsNavigationCoordinator(initialDestination: .starterPacks(.review))
+        settings.presentOnboarding = { step in
+            onboarding.navigate(to: .starterPacks(step))
+            return true
+        }
+        settings.presentStarterPacks(.results)
+        XCTAssertEqual(onboarding.destination, .starterPacks(.results))
+        XCTAssertEqual(settings.destination, .general)
+        settings.presentStarterPacks(.choose)
+        XCTAssertEqual(onboarding.destination, .starterPacks(.choose))
+        settings.presentOnboarding = nil
+        settings.presentStarterPacks(.results)
+        XCTAssertEqual(settings.destination, .starterPacks(.results))
+    }
+
     func testDirectPluginSettingsNavigationEndsPreviousVisibilityBeforeStartingNext() {
         XCTAssertEqual(
             PluginSettingsPageVisibilityTransition.changes(

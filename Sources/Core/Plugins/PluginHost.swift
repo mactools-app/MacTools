@@ -380,12 +380,18 @@ final class PluginHost: ObservableObject {
     private let pluginOrderingStore: PluginOrderingStore
     let menuBarPanelStore: MenuBarPanelStore
     private let hadStarterPackSetup: Bool
-    var isCatalogMutationActive: Bool { hasActiveMarketplaceOperation }
+    @Published private(set) var isImportingPreferences = false
+    var isCatalogMutationActive: Bool { hasActiveMarketplaceOperation || isImportingPreferences }
     lazy var starterPacks = StarterPackController(
         defaults: shortcutStore.userDefaults,
         hasExistingSetup: hadStarterPackSetup,
         services: starterPackServices()
     )
+    var preferencesImportUnavailableMessage: String? {
+        if starterPacks.isRunning { return FeatureL10n.string("请等待工具组合设置完成后再恢复备份。") }
+        if isImportingPreferences { return FeatureL10n.string("正在恢复备份，请稍后重试。") }
+        return nil
+    }
     let menuBarIconCoordinator: PluginMenuBarIconCoordinator
     @Published private(set) var menuBarPanels: [MenuBarPanelDefinition] = []
     private var visibleMenuBarPanelID: String?
@@ -1110,9 +1116,12 @@ final class PluginHost: ObservableObject {
         selection: PreferencesBackupSelection? = nil,
         progress: (PreferencesImportProgress) -> Void = { _ in }
     ) async throws -> PreferencesImportResult {
-        guard !automaticPluginUpdateStatus.isActive,
+        guard !starterPacks.isRunning, !isImportingPreferences, !hasActiveMarketplaceOperation,
+              !automaticPluginUpdateStatus.isActive,
               didLoadDynamicPlugins || !hasInstalledDynamicPlugins
         else { throw PluginMarketplaceOperationError.operationInProgress }
+        isImportingPreferences = true
+        defer { isImportingPreferences = false }
         let preview = try preferencesImportPreview(for: backup, selection: selection)
         let installablePluginIDs = Set(preview.installablePlugins.map(\.id))
         let pluginIDs = requestedPluginIDs.intersection(installablePluginIDs).sorted()
@@ -1146,7 +1155,7 @@ final class PluginHost: ObservableObject {
             .filter { $0.state == .restartRequired }
             .map(\.id))
             .subtracting(activePlugins.map { $0.metadata.id })
-        let importedResult = try importPreferences(backup, selection: selection)
+        let importedResult = try restorePreferences(backup, selection: selection)
         var shortcutErrors = importedResult.shortcutErrors
         let deferredPluginPreferenceIDs = installedPluginIDs.filter { pluginID in
             guard pluginIDsAwaitingRestart.contains(pluginID) else { return false }
@@ -1239,7 +1248,8 @@ final class PluginHost: ObservableObject {
         _ backup: PreferencesBackup,
         selection requestedSelection: PreferencesBackupSelection? = nil
     ) throws -> PreferencesImportResult {
-        try restorePreferences(backup, selection: requestedSelection)
+        guard !starterPacks.isRunning, !isImportingPreferences else { throw StarterPackError.busy }
+        return try restorePreferences(backup, selection: requestedSelection)
     }
 
     private func restorePreferences(
@@ -3181,6 +3191,11 @@ final class PluginHost: ObservableObject {
                 case .restartRequired: return item.statusText
                 default: return StarterPackError.notReady.localizedDescription
                 }
+            },
+            canBeginSetup: { [weak self] in
+                guard let self else { return false }
+                return !self.isImportingPreferences && !self.hasActiveMarketplaceOperation
+                    && !self.isPreparingPlugins
             }
         )
     }

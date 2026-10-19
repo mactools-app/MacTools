@@ -1,6 +1,160 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
+    "正在恢复备份，请稍后重试。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A backup is being restored. Try again when it finishes."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在恢复备份，请稍后重试。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在還原備份，請稍後再試。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein Backup wird wiederhergestellt. Versuche es anschließend erneut."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se está restaurando una copia de seguridad. Inténtalo de nuevo cuando termine."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une sauvegarde est en cours de restauration. Réessayez une fois celle-ci terminée."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Um backup está sendo restaurado. Tente novamente quando terminar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Восстанавливается резервная копия. Повторите попытку после завершения."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バックアップを復元中です。完了してからもう一度お試しください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "백업을 복원하는 중입니다. 완료 후 다시 시도하세요."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ استعادة نسخة احتياطية. حاول مجددًا عند الانتهاء."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yedek geri yükleniyor. Tamamlandığında yeniden deneyin."
+          }
+        }
+      }
+    },
+    "请等待工具组合设置完成后再恢复备份。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wait for starter pack setup to finish before restoring a backup."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请等待工具组合设置完成后再恢复备份。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請等待工具組合設定完成後再還原備份。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warte, bis die Einrichtung der Starterpakete abgeschlossen ist, bevor du ein Backup wiederherstellst."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Espera a que termine la configuración de los paquetes antes de restaurar una copia de seguridad."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attendez la fin de la configuration des packs avant de restaurer une sauvegarde."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aguarde a conclusão da configuração dos pacotes antes de restaurar um backup."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дождитесь завершения настройки наборов, прежде чем восстанавливать резервную копию."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スターターパックの設定が完了してからバックアップを復元してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스타터 팩 설정이 완료된 후 백업을 복원하세요."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتظر حتى يكتمل إعداد الحزم قبل استعادة نسخة احتياطية."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yedeği geri yüklemeden önce başlangıç paketlerinin kurulumunun tamamlanmasını bekleyin."
+          }
+        }
+      }
+    },
     "消息": {
       "extractionState": "manual",
       "localizations": {

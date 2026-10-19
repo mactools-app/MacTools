@@ -101,6 +101,7 @@ struct StarterPackServices {
     var hasGridShortcut: () -> Bool
     var assignGridShortcut: () -> String?
     var readinessMessage: (String) -> String = { _ in StarterPackError.notReady.localizedDescription }
+    var canBeginSetup: () -> Bool = { true }
 }
 
 struct StarterPackResult: Identifiable {
@@ -136,7 +137,7 @@ final class StarterPackController: ObservableObject {
     @Published private(set) var setupMessages: [String] = []
     @Published private(set) var currentPluginID: String?
     @Published private(set) var appliedPacks: Set<StarterPack> = []
-    private var appliedDraft: StarterPackDraft?
+    private(set) var appliedDraft: StarterPackDraft?
     private var excludedPluginIDs: Set<String> = []
     private var hasEditedSelection = false
     private(set) var resultPanelID = MenuBarPanelDefinition.componentsID
@@ -276,19 +277,18 @@ final class StarterPackController: ObservableObject {
         selectPack(pack, isSelected: true)
     }
 
-    func restoreAppliedSelection() {
-        guard !isRunning, let appliedDraft else { return }
-        selectedPacks = appliedPacks
-        draft = appliedDraft
-        excludedPluginIDs = Set(candidateIDs).subtracting(draft.selectedPluginIDs)
-        hasEditedSelection = true
-        persistOnboardingDraft()
+    var recommendedPanelItems: [PluginPanelItemKey] {
+        panelItems(for: selectedPacks, selectedIDs: draft.selectedPluginIDs)
     }
 
-    var recommendedPanelItems: [PluginPanelItemKey] {
+    var appliedPanelItems: [PluginPanelItemKey] {
+        panelItems(for: appliedPacks, selectedIDs: appliedDraft?.selectedPluginIDs ?? [])
+    }
+
+    private func panelItems(for packs: Set<StarterPack>, selectedIDs: Set<String>) -> [PluginPanelItemKey] {
         var seen: Set<PluginPanelItemKey> = []
-        return StarterPack.allCases.filter { selectedPacks.contains($0) }.flatMap(\.panelItems)
-            .filter { draft.selectedPluginIDs.contains($0.pluginID) && seen.insert($0).inserted }
+        return StarterPack.allCases.filter { packs.contains($0) }.flatMap(\.panelItems)
+            .filter { selectedIDs.contains($0.pluginID) && seen.insert($0).inserted }
     }
 
     var pendingPanelItems: [PluginPanelItemKey] {
@@ -309,7 +309,8 @@ final class StarterPackController: ObservableObject {
     }
 
     var canApply: Bool {
-        !isRunning && !selectedIDs.isEmpty && (hasChanges || canResumeOnboarding) && !needsCatalogLoad
+        !isRunning && services.canBeginSetup() && !selectedIDs.isEmpty
+            && (hasChanges || canResumeOnboarding) && !needsCatalogLoad
     }
 
     @discardableResult

@@ -14,6 +14,33 @@ final class PreferencesBackupTests: XCTestCase {
         super.tearDown()
     }
 
+    func testBackupRestoreBlocksPackSetupUntilAllRestorePhasesFinish() async throws {
+        let host = makeHost(plugins: [BackupTestPlugin(id: "keep-awake", order: 0, shortcutID: "toggle")], defaults: makeDefaults())
+        defer { host.deactivateAllPlugins() }
+        var layout = host.menuBarPanelStore.configuration
+        layout.placementsByPanelID = [:]
+        host.menuBarPanelStore.replace(layout)
+        let controller = host.starterPacks
+        controller.selectPack(.everyday, isSelected: true)
+        controller.updateDraft { $0.selectedPluginIDs = ["keep-awake"]; $0.addToPanel = true }
+        XCTAssertTrue(controller.canApply)
+        let backup = host.makePreferencesBackup()
+
+        _ = try await host.importPreferences(backup, installingMissingPluginIDs: []) { _ in
+            XCTAssertTrue(host.isImportingPreferences)
+            XCTAssertFalse(controller.apply())
+            do {
+                _ = try host.importPreferences(backup)
+                XCTFail("Another restore must wait until the current restore finishes")
+            } catch {}
+        }
+
+        XCTAssertFalse(host.isImportingPreferences)
+        XCTAssertFalse(controller.isRunning)
+        XCTAssertTrue(controller.canApply)
+        XCTAssertEqual(host.menuBarPanelStore.configuration, layout)
+    }
+
     func testExportContainsOnlyPortableHostAndKnownPluginPreferences() throws {
         let defaults = makeDefaults()
         defaults.set(AppAppearancePreference.dark.rawValue, forKey: AppAppearancePreference.userDefaultsKey)

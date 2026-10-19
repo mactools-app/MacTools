@@ -36,7 +36,9 @@ Only missing packages download. Each selected plugin installs once, and only usa
 
 When Action Grid and Window Layouts are selected, users can opt into Left Half, Right Half, and Maximize in an empty grid. Grid seeding and Control-Option-Space assignment are off by default. The host rechecks grid contents and shortcut assignments after installation. An occupied or unreadable grid is never overwritten; shortcut assignment uses the existing conflict validator.
 
-Applying freezes the selected packs, plugin choices, and layout options. Further selection changes and links cannot replace a running batch. Stop finishes the current installation and skips remaining downloads. Partial failures retain successes; Review and Retry restores the applied selection and downloads only remaining packages. Background progress remains visible in Settings.
+Applying freezes the selected packs, plugin choices, and layout options. Further selection changes and links cannot replace a running batch. Stop finishes the current installation and skips remaining downloads. Partial failures retain successes; Review and Retry uses the latest saved draft and downloads only remaining packages. Previous results and their preview retain the applied snapshot without overwriting later edits. Continue Setup opens the saved selection; View Results explicitly opens the previous batch. Background progress remains visible in Settings.
+
+Backup restoration and pack setup are mutually exclusive for their entire duration. The conflicting action stays disabled with an explanation, and the host rechecks before applying changes. Browsing and pending selections remain available.
 
 The catalog manager owns one shared refresh request. Startup, Marketplace, pack setup, plugin details, and backup import await that request; leaving a page does not cancel it. Missing-plugin downloads wait for a loaded catalog. Import previews show catalog failures and Retry, refresh installation choices after recovery, and still permit restoring available settings with explicit unavailable-item warnings.
 

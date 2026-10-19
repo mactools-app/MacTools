@@ -237,7 +237,7 @@ final class SettingsNavigationCoordinator: ObservableObject {
 
     @Published private(set) var destination: SettingsNavigationDestination
     @Published var preferencesImportRequestID: UUID?
-    var presentOnboarding: (() -> Bool)?
+    var presentOnboarding: ((StarterPackStep) -> Bool)?
     @Published private(set) var searchFocusRequest: SettingsSearchFocusRequest?
     @Published private(set) var aboutUpdateActionRequest: AboutUpdateActionRequest?
     @Published private(set) var isUnifiedSearchPresented = false
@@ -388,6 +388,10 @@ final class SettingsNavigationCoordinator: ObservableObject {
     func requestPreferencesImport() {
         preferencesImportRequestID = UUID()
         _ = navigateFromSearch(to: .general, target: .general(.preferencesBackup))
+    }
+
+    func presentStarterPacks(_ step: StarterPackStep) {
+        if presentOnboarding?(step) != true { navigate(to: .starterPacks(step)) }
     }
 
     @discardableResult

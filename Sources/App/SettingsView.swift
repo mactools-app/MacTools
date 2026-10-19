@@ -1166,6 +1166,7 @@ private struct PreferencesBackupSettingsRow: View {
     }
 
     @ObservedObject var pluginHost: PluginHost
+    @ObservedObject private var starterPacks: StarterPackController
     @StateObject private var importer: PreferencesImportController
     @State private var isChoosingExport = false
     @State private var exportSelection = PreferencesBackupSelection.all(pluginPreferenceIDs: [])
@@ -1178,6 +1179,7 @@ private struct PreferencesBackupSettingsRow: View {
     init(navigationCoordinator: SettingsNavigationCoordinator, pluginHost: PluginHost) {
         self.navigationCoordinator = navigationCoordinator
         self.pluginHost = pluginHost
+        self.starterPacks = pluginHost.starterPacks
         _importer = StateObject(wrappedValue: PreferencesImportController(pluginHost: pluginHost))
     }
 
@@ -1302,17 +1304,24 @@ private struct PreferencesBackupSettingsRow: View {
 
                 Button(AppL10n.preferencesBackup("preferencesBackup.import", defaultValue: "导入偏好设置…"), action: choosePreferencesImport)
                     .buttonStyle(.bordered)
-                    .disabled(importer.isBusy || isBackingUp)
+                    .disabled(importer.isBusy || isBackingUp || pluginHost.preferencesImportUnavailableMessage != nil)
             }
             .controlSize(.small)
             .padding(.horizontal, GeneralSettingsCardLayout.horizontalPadding)
             .padding(.vertical, PluginSettingsTheme.Spacing.interactiveRowVertical)
 
+            if let message = pluginHost.preferencesImportUnavailableMessage, !importer.isImporting {
+                Text(message)
+                    .font(PluginSettingsTheme.Typography.rowDescription)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, GeneralSettingsCardLayout.horizontalPadding)
+                    .padding(.bottom, PluginSettingsTheme.Spacing.rowVertical)
+            }
         }
         .frame(maxWidth: .infinity, minHeight: GeneralSettingsCardLayout.minRowHeight, alignment: .leading)
         .onAppear { consumeImportRequest() }
         .onChange(of: navigationCoordinator.preferencesImportRequestID) { _, _ in consumeImportRequest() }
-        .modifier(PreferencesImportPresentation(controller: importer, host: pluginHost))
+        .modifier(PreferencesImportPresentation(controller: importer, host: pluginHost, starterPacks: starterPacks))
         .sheet(isPresented: $isChoosingExport) {
             PreferencesExportSelectionSheet(
                 selection: $exportSelection,
@@ -2148,6 +2157,7 @@ struct PreferencesImportPreviewSheet: View {
     let isImporting: Bool
     let importProgress: PreferencesImportProgress?
     let isPreparingPlugins: Bool
+    let importUnavailableMessage: String?
     let catalogStatus: PluginCatalogStatus?
     let onRetryCatalog: (() async -> Void)?
     let onCancel: () -> Void
@@ -2172,6 +2182,7 @@ struct PreferencesImportPreviewSheet: View {
         isImporting: Bool,
         importProgress: PreferencesImportProgress? = nil,
         isPreparingPlugins: Bool = false,
+        importUnavailableMessage: String? = nil,
         catalogStatus: PluginCatalogStatus? = nil,
         onRetryCatalog: (() async -> Void)? = nil,
         onCancel: @escaping () -> Void,
@@ -2183,6 +2194,7 @@ struct PreferencesImportPreviewSheet: View {
         self.isImporting = isImporting
         self.importProgress = importProgress
         self.isPreparingPlugins = isPreparingPlugins
+        self.importUnavailableMessage = importUnavailableMessage
         self.catalogStatus = catalogStatus
         self.onRetryCatalog = onRetryCatalog
         self.onCancel = onCancel
@@ -2209,6 +2221,11 @@ struct PreferencesImportPreviewSheet: View {
         VStack(spacing: 0) {
             ScrollView {
                 VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
+                    if let importUnavailableMessage {
+                        Label(importUnavailableMessage, systemImage: "info.circle")
+                            .font(PluginSettingsTheme.Typography.rowDescription)
+                            .foregroundStyle(.secondary)
+                    }
                     catalogNotice
                     previewContent
                 }
@@ -2233,7 +2250,7 @@ struct PreferencesImportPreviewSheet: View {
                 }
                     .buttonStyle(.borderedProminent)
                     .disabled(isImporting || isPreparingPlugins || catalogStatus?.isRefreshing == true
-                        || selection.isEmpty || previewErrorMessage != nil)
+                        || importUnavailableMessage != nil || selection.isEmpty || previewErrorMessage != nil)
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 16)

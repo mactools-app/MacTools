@@ -65,7 +65,7 @@ final class StarterPackControllerTests: XCTestCase {
         XCTAssertTrue(fixture.installs.isEmpty)
     }
 
-    func testFailedOnboardingRemainsResumableAfterRestartAndCompletesAfterRetry() async {
+    func testFailedOnboardingPreservesNewerDraftThroughResumeAndRestart() async {
         let store = defaults()
         let fixture = Fixture()
         fixture.unusable = ["keep-awake"]
@@ -75,13 +75,18 @@ final class StarterPackControllerTests: XCTestCase {
         await first.waitForInstallation()
         XCTAssertTrue(first.needsOnboarding)
         first.selectPack(.writing, isSelected: true)
-        first.restoreAppliedSelection()
+        first.updateDraft { $0.selectedPluginIDs.remove("display-brightness") }
+        let editedIDs = first.selectedIDs
+        first.deferOnboarding()
+        first.resumeOnboarding()
+        XCTAssertEqual(first.selectedIDs, editedIDs)
+        XCTAssertEqual(first.appliedPacks, [.everyday])
 
         let reopened = StarterPackController(defaults: store, hasExistingSetup: true, services: fixture.services)
         XCTAssertTrue(reopened.needsOnboarding)
-        XCTAssertEqual(reopened.selectedPacks, [.everyday])
-        XCTAssertTrue(reopened.missingIDs.isEmpty)
-        XCTAssertFalse(reopened.hasChanges)
+        XCTAssertEqual(reopened.selectedPacks, [.everyday, .writing])
+        XCTAssertEqual(reopened.selectedIDs, editedIDs)
+        XCTAssertTrue(reopened.hasChanges)
         fixture.unusable = []
         XCTAssertTrue(reopened.canApply)
         reopened.apply()
@@ -192,16 +197,26 @@ final class StarterPackControllerTests: XCTestCase {
         XCTAssertEqual(fixture.layout.placementsByPanelID.values.flatMap { $0 }.count, 1)
     }
 
-    func testHostRejectsOtherPackageMutationsWhilePackInstallationIsRunning() async {
+    func testHostRejectsPackageMutationsAndBackupRestoreWhilePackInstallationIsRunning() async {
         let fixture = Fixture()
         let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: fixture.services)
         let suite = "StarterPackTests-\(UUID())"
         suites.append(suite)
         let host = makePluginHostForTests(plugins: [], suiteName: suite)
         host.starterPacks = controller
+        let backup = host.makePreferencesBackup()
+        let originalLayout = host.menuBarPanelStore.configuration
         controller.apply()
         XCTAssertThrowsError(try host.installPluginPackage(from: URL(fileURLWithPath: "/unused-test-package")))
         XCTAssertThrowsError(try host.uninstallDynamicPlugin(pluginID: "keep-awake"))
+        XCTAssertThrowsError(try host.importPreferences(backup))
+        do {
+            _ = try await host.importPreferences(backup, installingMissingPluginIDs: [])
+            XCTFail("Backup restoration must wait until pack setup finishes")
+        } catch {
+            XCTAssertEqual(host.menuBarPanelStore.configuration, originalLayout)
+            XCTAssertFalse(host.isImportingPreferences)
+        }
         controller.stopAfterCurrentPlugin()
         await controller.waitForInstallation()
     }
@@ -279,10 +294,13 @@ final class StarterPackControllerTests: XCTestCase {
         await controller.waitForInstallation()
         XCTAssertEqual(fixture.installs, reviewed)
         XCTAssertEqual(controller.appliedPacks, [.windows, .meetings])
+        let appliedPanelItems = controller.appliedPanelItems
         controller.clearSelection()
         controller.selectPack(.writing, isSelected: true)
-        controller.restoreAppliedSelection()
-        XCTAssertEqual(controller.selectedIDs, reviewed)
+        XCTAssertEqual(controller.selectedPacks, [.writing])
+        XCTAssertEqual(controller.appliedPacks, [.windows, .meetings])
+        XCTAssertEqual(controller.appliedDraft?.selectedPluginIDs, Set(reviewed))
+        XCTAssertEqual(controller.appliedPanelItems, appliedPanelItems)
     }
 
     func testAllPacksHaveOneReversiblePluginSelectionAndDeduplicatedPlacements() async {

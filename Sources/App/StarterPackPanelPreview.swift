@@ -4,9 +4,19 @@ import MacToolsPluginKit
 /// Sample snapshots use the host row renderer, without loading plugins or invoking actions.
 struct StarterPackPanelPreview: View {
     @ObservedObject var controller: StarterPackController
+    var showsAppliedSelection = false
+
+    private var draft: StarterPackDraft {
+        showsAppliedSelection ? controller.appliedDraft ?? controller.draft : controller.draft
+    }
+
+    private var selectedIDs: [String] {
+        showsAppliedSelection ? controller.results.map(\.id) : controller.selectedIDs
+    }
 
     private var panelIDs: [String] {
-        controller.draft.addToPanel ? controller.recommendedPanelItems.map(\.pluginID) : []
+        let items = showsAppliedSelection ? controller.appliedPanelItems : controller.recommendedPanelItems
+        return draft.addToPanel ? items.map(\.pluginID) : []
     }
 
     var body: some View {
@@ -34,14 +44,16 @@ struct StarterPackPanelPreview: View {
             .accessibilityIdentifier("mactools.starter-packs.panel-preview")
             Text(FeatureL10n.string("预览随选择更新，数值仅为示例。"))
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-            let otherIDs = controller.selectedIDs.filter { !panelIDs.contains($0) }
+            let otherIDs = selectedIDs.filter { !panelIDs.contains($0) }
             if !otherIDs.isEmpty {
                 Text(FeatureL10n.string("也包含"))
                     .font(PluginSettingsTheme.Typography.sectionTitle).foregroundStyle(.secondary)
                 Text(otherIDs.map(StarterPack.title(for:)).joined(separator: " · "))
                     .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
             }
-            if controller.canSeedGrid && controller.draft.seedGrid {
+            if draft.seedGrid && (showsAppliedSelection
+                ? selectedIDs.contains("action-grid") && selectedIDs.contains("window-layouts")
+                : controller.canSeedGrid) {
                 Label(FeatureL10n.string("左半屏") + " · " + FeatureL10n.string("右半屏") + " · " + FeatureL10n.string("最大化"), systemImage: "square.grid.3x3")
                     .font(PluginSettingsTheme.Typography.rowDescription)
             }

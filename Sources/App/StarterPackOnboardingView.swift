@@ -27,7 +27,7 @@ struct StarterPackOnboardingView: View {
         .overlay {
             if importer.isPreparingImport { ProgressView().controlSize(.small) }
         }
-        .modifier(PreferencesImportPresentation(controller: importer, host: host, onCompletion: onExit))
+        .modifier(PreferencesImportPresentation(controller: importer, host: host, starterPacks: controller, onCompletion: onExit))
         .environment(\.locale, PluginRuntimeLocalization.locale)
         .environment(\.layoutDirection, StandaloneCommandPaletteRootView.layoutDirection(for: PluginRuntimeLocalization.locale))
     }
