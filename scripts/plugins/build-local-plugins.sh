@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+ORIGINAL_ARGS=("$@")
 
 if [[ -z "${PYTHON3:-}" ]]; then
     if [[ -x /usr/bin/python3 ]]; then
@@ -127,26 +128,31 @@ if [[ -z "$SOURCE_DIR" || -z "$OUTPUT_DIR" ]]; then
     exit 1
 fi
 
-SOURCE_DIR="$(cd "$SOURCE_DIR" 2>/dev/null && pwd || true)"
+SOURCE_DIR="$(cd "$SOURCE_DIR" 2>/dev/null && pwd -P || true)"
 if [[ -z "$SOURCE_DIR" || ! -d "$SOURCE_DIR" ]]; then
     echo "Plugin source directory not found. Expected: $SOURCE_DIR" >&2
     exit 1
 fi
 
-REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-OFFICIAL_PLUGIN_SOURCE_DIR="$(cd "$REPO_ROOT/Plugins" && pwd)"
+REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd -P)"
+OFFICIAL_PLUGIN_SOURCE_DIR="$(cd "$REPO_ROOT/Plugins" && pwd -P)"
 THIRD_PARTY_NOTICE_MANIFEST="$REPO_ROOT/Sources/Resources/ThirdPartyNotices/manifest.json"
 THIRD_PARTY_NOTICE_GENERATOR="$REPO_ROOT/scripts/licenses/generate-third-party-notices.py"
 if [[ -z "$XCODEBUILD_COMMAND" ]]; then
     XCODEBUILD_COMMAND="$REPO_ROOT/scripts/xcodebuild-filtered.sh"
 fi
+cache_args=(--source-dir "$SOURCE_DIR" --output-dir "$OUTPUT_DIR"
+    --configuration "$CONFIGURATION" --destination "$DESTINATION" --xcodebuild "$XCODEBUILD_COMMAND")
+[[ "$UNSIGNED_BUILD" == "1" ]] && cache_args+=(--unsigned-build)
+# Validate before resetting Packages, including when a cache root was misconfigured inside it.
+"$PYTHON3" "$REPO_ROOT/scripts/plugins/with-build-cache.py" --check-paths "${cache_args[@]}"
 OUTPUT_DIR="$(mkdir -p "$OUTPUT_DIR" && cd "$OUTPUT_DIR" && pwd)"
 PACKAGES_DIR="$OUTPUT_DIR/Packages"
-DERIVED_DATA_DIR="$OUTPUT_DIR/DerivedData"
+DERIVED_DATA_DIR="${MACTOOLS_PLUGIN_DERIVED_ROOT:-}"
 CATALOG_PATH="$OUTPUT_DIR/catalog.dev.json"
 
 rm -rf "$PACKAGES_DIR"
-mkdir -p "$PACKAGES_DIR" "$DERIVED_DATA_DIR"
+mkdir -p "$PACKAGES_DIR"
 
 json_value() {
     local file="$1"
@@ -309,6 +315,11 @@ build_bundle_if_needed() {
         return
     fi
 
+    # Prebuilt/aggregate products keep their existing path; only fallback compiles need a cache owner.
+    if [[ "${MACTOOLS_PLUGIN_CACHE_CHECKOUT:-}" != "$REPO_ROOT" ]]; then
+        exec "$PYTHON3" "$REPO_ROOT/scripts/plugins/with-build-cache.py" "${cache_args[@]}" -- "${ORIGINAL_ARGS[@]}"
+    fi
+
     local project
     project_file_for "$root" "$manifest" project
     if [[ -z "$project" ]]; then
@@ -324,8 +335,13 @@ build_bundle_if_needed() {
     fi
 
     local derived_data
-    derived_data="$DERIVED_DATA_DIR/$(basename "$root")"
-    rm -rf "$derived_data"
+    local project_key
+    project_key="$("$PYTHON3" - "$project" "$scheme" <<'PY'
+import hashlib, json, pathlib, sys
+print(hashlib.sha256(json.dumps([str(pathlib.Path(sys.argv[1]).resolve()), sys.argv[2]]).encode()).hexdigest()[:24])
+PY
+)"
+    derived_data="$DERIVED_DATA_DIR/$project_key"
 
     local build_args=(
         -project "$project"
@@ -343,19 +359,29 @@ build_bundle_if_needed() {
             CODE_SIGN_IDENTITY=
         )
     fi
-    build_args+=(build -quiet)
-
-    if ! "$XCODEBUILD_COMMAND" "${build_args[@]}"; then
+    if ! "$XCODEBUILD_COMMAND" "${build_args[@]}" build -quiet; then
         echo "Failed to build plugin bundle '$scheme' for $root." >&2
         return 1
     fi
 
+    local settings_file="$MACTOOLS_PLUGIN_BUILD_REPORT/$project_key-build-settings.json"
+    "$XCODEBUILD_COMMAND" "${build_args[@]}" -showBuildSettings -json > "$settings_file"
     local built_bundle
-    built_bundle="$(find "$derived_data/Build/Products" -name "$bundle_name" -type d -print | sort | head -1)"
-    if [[ -z "$built_bundle" ]]; then
-        echo "Built bundle not found: $bundle_name" >&2
-        return 1
-    fi
+    # Retained products may include obsolete targets or paths. Use the current scheme's declared product.
+    built_bundle="$("$PYTHON3" - "$settings_file" "$bundle_name" "$derived_data" <<'PY'
+import json, pathlib, sys
+settings_file, name, derived = sys.argv[1:]
+settings = json.load(open(settings_file))
+paths = {pathlib.Path(entry['buildSettings']['TARGET_BUILD_DIR']) / name
+         for entry in settings if entry.get('buildSettings', {}).get('FULL_PRODUCT_NAME') == name}
+if len(paths) != 1:
+    sys.exit('Current scheme must declare exactly one product for ' + name)
+product = paths.pop().resolve()
+if pathlib.Path(derived).resolve() not in product.parents or not product.is_dir():
+    sys.exit('Current product is missing or outside managed compiler storage: ' + str(product))
+print(product)
+PY
+)"
 
     printf -v "$output_var" '%s' "$built_bundle"
 }

@@ -108,6 +108,8 @@ A full Debug sync mirrors the current checkout: packages missing from its local 
 
 Debug package copies normalize `minHostVersion` to the locally built app version because the host and plugin bundles come from the same checkout. Release packages preserve each source manifest's declared minimum host version.
 
+Fallback compiles in `build-local-plugins.sh` reuse internal compiler workspaces under `~/Library/Caches/MacTools/PluginBuilds`. The cache separates source checkout, project/scheme, Xcode/SDK, host architecture, configuration, destination, signing mode and compiler flags. A lock covers compilation and copying bundles into packages. Each run retains its log and build record under `<output-dir>/BuildReports/`; packaged bundles remain under `<output-dir>/Packages` and do not depend on the compiler cache. Set `MACTOOLS_PLUGIN_FRESH_BUILD=1` for a separate cold workspace, `MACTOOLS_PLUGIN_CACHE_VARIANT` to isolate a probe, or `MACTOOLS_PLUGIN_CACHE_ROOT` for another internal root. Existing compiler output is preserved. Prebuilt packages and `--products-dir` aggregate products keep their existing packaging path.
+
 If the plugin needs extra frameworks, private include paths, bundle resources, helper/tool targets, or target dependencies, add only those differences in `Plugins/<PluginName>/project.yml`. If the plugin package contains an extra executable inside the bundle resources, declare it in `plugin.json.package.signPaths` so release packaging signs it before signing the bundle.
 
 Plugin UI copy should be localized by the plugin itself. Put plugin string catalogs under `Plugins/<PluginName>/Resources`, then look them up from the plugin bundle, for example:
