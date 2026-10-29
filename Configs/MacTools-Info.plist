@@ -70,6 +70,8 @@
 	<string>读取蓝牙外设电量，用于在设备电量组件中显示鼠标、键盘和耳机状态。</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>读取系统日历事件，用于在右键日历组件中显示当天日程。</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>MacTools uses your microphone for voice conversations when you start the assistant.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>读取系统日历事件，用于在右键日历组件中显示当天日程。</string>
 	<key>SUAllowsAutomaticUpdates</key>

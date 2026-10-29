@@ -3539,6 +3539,10 @@ final class PluginHost: ObservableObject {
             if let actionExecutionConsumer = plugin as? any PluginActionExecutionHostContextConsuming {
                 actionExecutionConsumer.actionExecutionHostContext = makePluginActionExecutionHostContext()
             }
+            if let voiceConsumer = plugin as? any PluginVoiceControlHostContextConsuming,
+               pluginID == "voice-control" {
+                voiceConsumer.voiceControlHostContext = voiceControlRouter.context(owner: pluginID)
+            }
             if let activityStateHandling = plugin as? any PluginApplicationActivityStateHandling {
                 guardPluginCall(plugin, operation: "set application activity state") {
                     activityStateHandling.applicationActivityStateDidChange(applicationActivityState)
@@ -4252,6 +4256,14 @@ final class PluginHost: ObservableObject {
         )
     }
 
+    private lazy var voiceControlRouter = VoiceControlRouter(
+        registry: actionRegistry, executor: actionExecutor, confirmation: actionConfirmationService,
+        plugins: { [weak self] in self?.activePlugins ?? [] },
+        openFeature: { [weak self] id in
+            self?.makePluginActionExecutionHostContext().openProviderSettings(providerID: id)
+        }
+    )
+
     private func makePluginActionExecutionHostContext() -> PluginActionExecutionHostContext {
         PluginActionExecutionHostContext(
             item: { [weak self] reference in
@@ -4912,6 +4924,8 @@ final class PluginHost: ObservableObject {
         (plugin as? any ActionGridHostContextConsuming)?.actionGridHostContext = nil
         (plugin as? any TrackpadActionHostContextConsuming)?.trackpadActionHostContext = nil
         (plugin as? any PluginActionExecutionHostContextConsuming)?.actionExecutionHostContext = nil
+        voiceControlRouter.revoke(owner: pluginID)
+        (plugin as? any PluginVoiceControlHostContextConsuming)?.voiceControlHostContext = nil
         syncGlobalShortcuts()
     }
 
@@ -6313,7 +6327,7 @@ final class PluginHost: ObservableObject {
             return isGranted
                 ? AppL10n.plugins("plugin.permission.openSettings", defaultValue: "打开设置")
                 : AppL10n.plugins("plugin.permission.openAuthorization", defaultValue: "前往授权")
-        case .calendarFullAccess, .systemAudioRecording:
+        case .calendarFullAccess, .systemAudioRecording, .microphone:
             return isGranted
                 ? AppL10n.plugins("plugin.permission.checkStatus", defaultValue: "检查授权状态")
                 : AppL10n.plugins("plugin.permission.requestAuthorization", defaultValue: "请求授权")
@@ -6334,6 +6348,8 @@ final class PluginHost: ObservableObject {
             return "cursorarrow.click.2"
         case .finderExtension:
             return "puzzlepiece.extension"
+        case .microphone:
+            return "mic"
         case .screenRecording:
             return "rectangle.dashed.badge.record"
         case .systemAudioRecording:

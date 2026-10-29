@@ -385,6 +385,83 @@
           }
         }
       }
+    },
+    "NSMicrophoneUsageDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يستخدم MacTools الميكروفون للمحادثات الصوتية عند بدء المساعد."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools verwendet dein Mikrofon für Sprachgespräche, wenn du den Assistenten startest."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools uses your microphone for voice conversations when you start the assistant."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools usa el micrófono para conversaciones de voz cuando inicias el asistente."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools utilise votre microphone pour les conversations vocales lorsque vous démarrez l’assistant."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アシスタントを開始すると、MacToolsは音声会話にマイクを使用します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "어시스턴트를 시작하면 MacTools가 음성 대화에 마이크를 사용합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O MacTools usa o microfone para conversas por voz quando inicia o assistente."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools использует микрофон для голосовых разговоров при запуске помощника."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asistanı başlattığınızda MacTools sesli görüşmeler için mikrofonunuzu kullanır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 仅在你启动助手后使用麦克风进行语音对话。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacTools 僅在你啟動助理後使用麥克風進行語音對話。"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

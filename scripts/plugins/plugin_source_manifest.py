@@ -207,7 +207,7 @@ VALID_CATEGORIES = {
 }
 VALID_PERMISSION_IDS = {
     "accessibility", "automation", "calendarFullAccess", "inputMonitoring",
-    "screen-recording", "system-audio-recording", "full-disk-access"
+    "screen-recording", "system-audio-recording", "full-disk-access", "microphone"
 }
 VALID_SURFACES = {
     "unified-search", "global-shortcut", "run-link", "workflow", "automatic-rule",
