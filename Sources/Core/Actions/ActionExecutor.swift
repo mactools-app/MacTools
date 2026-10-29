@@ -280,12 +280,14 @@ final class ActionExecutor {
 
     func execute(
         _ invocation: ActionInvocation,
-        confirmationService overrideConfirmationService: (any ActionConfirmationRequesting)? = nil
+        confirmationService overrideConfirmationService: (any ActionConfirmationRequesting)? = nil,
+        exposureSurface: ActionExposureSurface? = nil
     ) async -> ActionExecutionOutcome {
         switch await prepare(
             invocation,
             confirmationService: overrideConfirmationService,
-            expectedDefinition: nil
+            expectedDefinition: nil,
+            exposureSurface: exposureSurface
         ) {
         case let .prepared(execution):
             return await executionOutcome(
@@ -504,7 +506,8 @@ final class ActionExecutor {
     private func prepare(
         _ invocation: ActionInvocation,
         confirmationService overrideConfirmationService: (any ActionConfirmationRequesting)?,
-        expectedDefinition: ActionDefinition?
+        expectedDefinition: ActionDefinition?,
+        exposureSurface: ActionExposureSurface? = nil
     ) async -> PreparationOutcome {
         guard !Task.isCancelled else {
             return .completed(.cancelled)
@@ -523,7 +526,7 @@ final class ActionExecutor {
         if let rejection = policyRejection(for: initial.definition, invocation: invocation) {
             return .rejected(rejection)
         }
-        if let rejection = exposureRejection(for: invocation) {
+        if let rejection = exposureRejection(for: invocation, additionalSurface: exposureSurface) {
             return .rejected(rejection)
         }
         let availability = registry.availability(for: invocation.reference)
@@ -577,7 +580,7 @@ final class ActionExecutor {
         guard currentAvailability.isAvailable else {
             return .rejected(.unavailable(currentAvailability.reason))
         }
-        if let rejection = exposureRejection(for: invocation) {
+        if let rejection = exposureRejection(for: invocation, additionalSurface: exposureSurface) {
             return .rejected(rejection)
         }
 
@@ -619,7 +622,7 @@ final class ActionExecutor {
             concurrencyLease.release()
             return .rejected(.unavailable(admittedAvailability.reason))
         }
-        if let rejection = exposureRejection(for: invocation) {
+        if let rejection = exposureRejection(for: invocation, additionalSurface: exposureSurface) {
             concurrencyLease.release()
             return .rejected(rejection)
         }
@@ -718,8 +721,11 @@ final class ActionExecutor {
     }
 
     private func exposureRejection(
-        for invocation: ActionInvocation
+        for invocation: ActionInvocation, additionalSurface: ActionExposureSurface? = nil
     ) -> ActionExecutionRejection? {
+        if let additionalSurface, registry.exposurePolicy(for: invocation.reference, on: additionalSurface) == .excluded {
+            return .systemExposureUnavailable
+        }
         let surface: ActionExposureSurface
         switch invocation.source {
         case .appIntent:

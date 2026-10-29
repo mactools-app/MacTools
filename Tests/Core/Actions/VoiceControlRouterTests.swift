@@ -88,6 +88,28 @@ final class VoiceControlRouterTests: XCTestCase {
         XCTAssertEqual(value.payload, "{\"value\":35}")
     }
 
+    func testRevokedContextCannotCreateAnotherSession() throws {
+        let fixture = Fixture()
+        let context = fixture.router.context(owner: "voice-control")
+        XCTAssertNotNil(context.beginSession())
+        fixture.router.revoke(owner: "voice-control")
+        XCTAssertNil(context.beginSession())
+    }
+
+    func testExposureRevokedDuringApprovalPreventsMutation() async throws {
+        let fixture = Fixture()
+        fixture.plugin.confirmAction = true
+        fixture.register()
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search(""), sessionID: session)
+        let command = try XCTUnwrap(reply.capabilities.first { $0.kind == .action })
+        fixture.confirmation.operation = { fixture.plugin.excluded = true; return true }
+        let result = await context.request(.perform(capabilityID: command.id, parameters: .empty), sessionID: session)
+        XCTAssertEqual(result.status, "unavailable")
+        XCTAssertEqual(fixture.plugin.executions, 0)
+    }
+
     func testStopDuringActionConfirmationPreventsMutation() async throws {
         let fixture = Fixture()
         fixture.plugin.confirmAction = true
@@ -117,15 +139,16 @@ private final class Fixture {
     let registry = ActionRegistry()
     let confirmation = VoiceFixtureConfirmation()
     var plugin = VoiceFixturePlugin()
+    let owner = VoiceFixturePlugin(id: "voice-control")
     lazy var router = VoiceControlRouter(registry: registry,
         executor: ActionExecutor(registry: registry, confirmationService: confirmation),
-        confirmation: confirmation, plugins: { [unowned self] in [plugin] }, openFeature: { _ in })
+        confirmation: confirmation, plugins: { [unowned self] in [plugin, owner] }, openFeature: { _ in })
     init() { register() }
     func register() {
         let provider = plugin
         registry.synchronize([.init(providerID: provider.metadata.id, identity: ObjectIdentifier(provider),
             definitions: provider.actionDefinitions, catalogEntries: provider.actionCatalogEntries,
-            availability: { _ in .available }, begin: { invocation in
+            availability: { _ in .available }, exposurePolicy: { _, _ in provider.excluded ? .excluded : .automatic }, begin: { invocation in
                 .success(ActionExecutionHandle { provider.executions += 1; return .succeeded() })
             })])
     }
@@ -134,11 +157,15 @@ private final class Fixture {
 @MainActor
 private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     PluginVoiceQueryProviding, PluginVoiceParameterizedActionProviding {
-    let metadata = PluginMetadata(id: "fixture", title: "Fixture", iconName: "bolt", iconTint: .blue,
+    let metadata: PluginMetadata
+    init(id: String = "fixture") {
+        metadata = PluginMetadata(id: id, title: "Fixture", iconName: "bolt", iconTint: .blue,
                                   order: 0, defaultDescription: "Fixture controls")
+    }
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
     var shortcutBindingResolver: ((String) -> ShortcutBinding?)?
+    var excluded = false
     var parameterized = false
     var confirmAction = false
     var privateQuery = false

@@ -749,6 +749,10 @@ final class PluginHost: ObservableObject {
                 guard let self else { return }
                 self.deactivatedPluginInstances.formUnion(self.dynamicPlugins
                     .filter { $0.metadata.id == pluginID }.map { ObjectIdentifier($0) })
+                self.voiceControlRouter.revoke(owner: pluginID)
+                for plugin in self.dynamicPlugins where plugin.metadata.id == pluginID {
+                    (plugin as? any PluginVoiceControlHostContextConsuming)?.voiceControlHostContext = nil
+                }
                 self.menuBarIconCoordinator.unregister(pluginID: pluginID, reason: reason)
                 self.clearAppMenuBarIconVisibilityRequest(for: pluginID)
             }
@@ -942,6 +946,7 @@ final class PluginHost: ObservableObject {
     }
 
     func deactivateAllPlugins(reason: PluginDeactivationReason = .hostShutdown) {
+        voiceControlRouter.revoke(owner: "voice-control")
         trackpadInputService.shutdown()
         menuBarIconCoordinator.deactivateAll(reason: reason)
         appMenuBarIconHiddenRequesters.removeAll()

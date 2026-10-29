@@ -6,6 +6,8 @@ import MacToolsPluginKit
 final class VoiceControlRouter {
     private struct Grant {
         let owner: String
+        let ownerIdentity: ObjectIdentifier
+        let contextID: UUID
         let allowedPluginIDs: Set<String>
         let expires: ContinuousClock.Instant
         var issued: [String: Binding] = [:]
@@ -25,6 +27,7 @@ final class VoiceControlRouter {
     private let confirmation: any ActionConfirmationRequesting
     private let plugins: () -> [any MacToolsPlugin]
     private let openFeature: (String) -> Void
+    private var contexts: [String: UUID] = [:]
     private var grants: [UUID: Grant] = [:]
     private var operations: [UUID: (UUID, Task<PluginVoiceReply, Never>)] = [:]
     private let surface = ActionExposureSurface(rawValue: "voice-control")
@@ -37,16 +40,22 @@ final class VoiceControlRouter {
     }
 
     func context(owner: String) -> PluginVoiceControlHostContext {
-        PluginVoiceControlHostContext(providers: { [weak self] in
+        let identity = plugins().first { $0.metadata.id == owner }.map(ObjectIdentifier.init)
+        let contextID = UUID()
+        revoke(owner: owner)
+        contexts[owner] = contextID
+        return PluginVoiceControlHostContext(providers: { [weak self] in
             self?.plugins().filter { $0.metadata.id != owner }.map {
                 PluginVoiceProvider(id: $0.metadata.id, title: $0.metadata.title)
             } ?? []
         }, begin: { [weak self] excluded in
-            guard let self, owner == "voice-control" else { return nil }
-            self.revoke(owner: owner)
+            guard let self, owner == "voice-control", let identity,
+                  self.contexts[owner] == contextID,
+                  self.plugins().contains(where: { $0.metadata.id == owner && ObjectIdentifier($0) == identity }) else { return nil }
+            self.endSessions(owner: owner)
             let id = UUID()
             let allowed = Set(self.plugins().map(\.metadata.id)).subtracting(excluded).subtracting([owner])
-            self.grants[id] = Grant(owner: owner, allowedPluginIDs: allowed,
+            self.grants[id] = Grant(owner: owner, ownerIdentity: identity, contextID: contextID, allowedPluginIDs: allowed,
                                     expires: .now.advanced(by: .seconds(600)))
             return id
         }, end: { [weak self] id in
@@ -66,6 +75,11 @@ final class VoiceControlRouter {
     }
 
     func revoke(owner: String) {
+        contexts[owner] = nil
+        endSessions(owner: owner)
+    }
+
+    private func endSessions(owner: String) {
         for id in grants.keys.filter({ grants[$0]?.owner == owner }) { end(id) }
     }
 
@@ -76,7 +90,8 @@ final class VoiceControlRouter {
 
     private func valid(_ id: UUID) -> Bool {
         guard let grant = grants[id] else { return false }
-        return .now < grant.expires && !Task.isCancelled
+        return .now < grant.expires && !Task.isCancelled && contexts[grant.owner] == grant.contextID
+            && plugins().contains { $0.metadata.id == grant.owner && ObjectIdentifier($0) == grant.ownerIdentity }
     }
 
     private func route(_ request: PluginVoiceRequest, sessionID: UUID) async -> PluginVoiceReply {
@@ -98,7 +113,7 @@ final class VoiceControlRouter {
                     ? ActionReference(key: reference.key, schemaVersion: reference.schemaVersion, parameters: parameters)
                     : reference
                 guard registry.exposurePolicy(for: target, on: surface) != .excluded else { return .init(status: "unavailable") }
-                let result = await executor.execute(ActionInvocation(reference: target, source: .manual, mode: .foreground))
+                let result = await executor.execute(ActionInvocation(reference: target, source: .manual, mode: .foreground), exposureSurface: surface)
                 guard valid(sessionID) else { return .init(status: "sessionEnded") }
                 switch result {
                 case let .completed(.succeeded(message)): return .init(message: message)
@@ -160,7 +175,7 @@ final class VoiceControlRouter {
         for plugin in plugins() where grant.allowedPluginIDs.contains(plugin.metadata.id) {
             let pluginID = plugin.metadata.id
             add(plugin, kind: .feature, title: plugin.metadata.title,
-                description: plugin.metadata.defaultDescription ?? "", operation: .feature)
+                description: plugin.metadata.defaultDescription, operation: .feature)
             for entry in registry.catalogEntries where entry.reference.key.providerID == pluginID {
                 guard let definition = registry.definition(for: entry.reference.key),
                       registry.exposurePolicy(for: entry.reference, on: surface) != .excluded else { continue }
@@ -174,8 +189,7 @@ final class VoiceControlRouter {
                 for definition in actionProvider.actionDefinitions where provider.voiceParameterizedActionIDs.contains(definition.key.actionID)
                     && definition.key.providerID == pluginID {
                     let reference = ActionReference(key: definition.key, schemaVersion: definition.parameterSchemaVersion)
-                    guard registry.definition(for: definition.key) == definition,
-                          registry.exposurePolicy(for: reference, on: surface) != .excluded else { continue }
+                    guard registry.definition(for: definition.key) == definition else { continue }
                     add(plugin, kind: .action, title: definition.title,
                         description: definition.description + " " + definition.keywords.joined(separator: " "),
                         parameters: definition.parameters,
