@@ -98,6 +98,7 @@ NEW_API_MINIMUM_HOSTS = {
     # Canonical action registry, execution, discovery, and surface bridges.
     "ActionKey": "1.2.0",
     "ActionParameterSet": "1.2.0",
+    "ActionParameterValue": "1.2.0",
     "ActionParameterDefinition": "1.2.0",
     "ActionDefinition": "1.2.0",
     "ActionReference": "1.2.0",

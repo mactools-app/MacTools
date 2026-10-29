@@ -24494,6 +24494,269 @@
     },
     {
       "capabilities": {
+        "panelItems": [
+          "row"
+        ],
+        "settings": "form"
+      },
+      "category": "productivity",
+      "displayName": "语音控制",
+      "id": "voice-control",
+      "localizedMetadata": {
+        "ar": {
+          "displayName": "التحكم الصوتي",
+          "summary": "تحكّم في ميزات MacTools المفعّلة بالمحادثة الصوتية"
+        },
+        "de": {
+          "displayName": "Sprachsteuerung",
+          "summary": "Aktivierte MacTools-Funktionen per Sprachgespräch steuern"
+        },
+        "en": {
+          "displayName": "Voice Control",
+          "summary": "Control enabled MacTools features through voice conversation"
+        },
+        "es": {
+          "displayName": "Control por voz",
+          "summary": "Controla las funciones activadas de MacTools con la voz"
+        },
+        "fr": {
+          "displayName": "Commande vocale",
+          "summary": "Contrôlez les fonctions MacTools activées par la voix"
+        },
+        "ja": {
+          "displayName": "音声コントロール",
+          "summary": "音声会話で有効なMacTools機能を操作"
+        },
+        "ko": {
+          "displayName": "음성 제어",
+          "summary": "음성 대화로 활성화된 MacTools 기능 제어"
+        },
+        "pt": {
+          "displayName": "Controlo por voz",
+          "summary": "Controle as funções ativas do MacTools por voz"
+        },
+        "ru": {
+          "displayName": "Голосовое управление",
+          "summary": "Управляйте включёнными функциями MacTools голосом"
+        },
+        "tr": {
+          "displayName": "Sesle kontrol",
+          "summary": "Etkin MacTools özelliklerini sesli sohbetle kontrol edin"
+        },
+        "zh-Hans": {
+          "displayName": "语音控制",
+          "summary": "通过语音对话控制已启用的 MacTools 功能"
+        },
+        "zh-Hant": {
+          "displayName": "語音控制",
+          "summary": "透過語音對話控制已啟用的 MacTools 功能"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control",
+      "product": {
+        "actions": null,
+        "discovery": {
+          "alternativePluginIDs": [],
+          "goalCategories": [
+            "productivity"
+          ],
+          "keywords": [
+            "voice",
+            "brightness",
+            "OpenAI"
+          ],
+          "localizedSynonyms": {
+            "ar": [
+              "التحكم الصوتي"
+            ],
+            "de": [
+              "Sprachsteuerung"
+            ],
+            "en": [
+              "Voice Control"
+            ],
+            "es": [
+              "Control por voz"
+            ],
+            "fr": [
+              "Commande vocale"
+            ],
+            "ja": [
+              "音声コントロール"
+            ],
+            "ko": [
+              "음성 제어"
+            ],
+            "pt": [
+              "Controle por voz"
+            ],
+            "ru": [
+              "Голосовое управление"
+            ],
+            "tr": [
+              "Sesle kontrol"
+            ],
+            "zh-Hans": [
+              "语音控制"
+            ],
+            "zh-Hant": [
+              "語音控制"
+            ]
+          },
+          "relatedPluginIDs": [
+            "display-brightness"
+          ],
+          "useCases": [
+            {
+              "id": "primary-use",
+              "title": {
+                "ar": "التحكم الصوتي",
+                "de": "Sprachsteuerung",
+                "en": "Voice Control",
+                "es": "Control por voz",
+                "fr": "Commande vocale",
+                "ja": "音声コントロール",
+                "ko": "음성 제어",
+                "pt": "Controlo por voz",
+                "ru": "Голосовое управление",
+                "tr": "Sesle kontrol",
+                "zh-Hans": "语音控制",
+                "zh-Hant": "語音控制"
+              }
+            }
+          ]
+        },
+        "presentation": {
+          "documentationURL": "https://github.com/mactools-app/MacTools/blob/main/docs/plugins/voice-control.md",
+          "examples": [
+            {
+              "id": "primary-use",
+              "text": {
+                "ar": "تحكّم في ميزات MacTools المفعّلة بالمحادثة الصوتية",
+                "de": "Aktivierte MacTools-Funktionen per Sprachgespräch steuern",
+                "en": "Control enabled MacTools features through voice conversation",
+                "es": "Controla las funciones activadas de MacTools con la voz",
+                "fr": "Contrôlez les fonctions MacTools activées par la voix",
+                "ja": "音声会話で有効なMacTools機能を操作",
+                "ko": "음성 대화로 활성화된 MacTools 기능 제어",
+                "pt": "Controle as funções ativas do MacTools por voz",
+                "ru": "Управляйте включёнными функциями MacTools голосом",
+                "tr": "Etkin MacTools özelliklerini sesli sohbetle kontrol edin",
+                "zh-Hans": "通过语音对话控制已启用的 MacTools 功能",
+                "zh-Hant": "透過語音對話控制已啟用的 MacTools 功能"
+              }
+            }
+          ],
+          "license": "GPL-3.0-only",
+          "longDescription": {
+            "ar": "تحكّم في ميزات MacTools المفعّلة بالمحادثة الصوتية",
+            "de": "Aktivierte MacTools-Funktionen per Sprachgespräch steuern",
+            "en": "Control enabled MacTools features through voice conversation",
+            "es": "Controla las funciones activadas de MacTools con la voz",
+            "fr": "Contrôlez les fonctions MacTools activées par la voix",
+            "ja": "音声会話で有効なMacTools機能を操作",
+            "ko": "음성 대화로 활성화된 MacTools 기능 제어",
+            "pt": "Controle as funções ativas do MacTools por voz",
+            "ru": "Управляйте включёнными функциями MacTools голосом",
+            "tr": "Etkin MacTools özelliklerini sesli sohbetle kontrol edin",
+            "zh-Hans": "通过语音对话控制已启用的 MacTools 功能",
+            "zh-Hant": "透過語音對話控制已啟用的 MacTools 功能"
+          },
+          "publisher": "MacTools",
+          "screenshots": [],
+          "supportURL": "https://github.com/mactools-app/MacTools/issues"
+        },
+        "privacy": {
+          "allowsUserConfiguredDomains": false,
+          "dataObserved": [
+            "microphone-audio",
+            "conversation-transcript",
+            "plugin-command-metadata",
+            "requested-plugin-state"
+          ],
+          "dataPersisted": [
+            "api-key-in-local-keychain",
+            "excluded-plugin-ids"
+          ],
+          "diagnosticExportsContainUserData": false,
+          "networkDomains": [
+            "api.openai.com"
+          ],
+          "networkUse": "required",
+          "processesSensitiveUserContent": true,
+          "retention": {
+            "policy": "user-controlled"
+          },
+          "telemetry": "none"
+        },
+        "relationships": {
+          "includedPackIDs": [],
+          "relatedPluginIDs": [
+            "display-brightness"
+          ],
+          "suggestedRecipeIDs": [],
+          "supersedesPluginIDs": []
+        },
+        "requirements": {
+          "applications": [],
+          "architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "executables": [],
+          "hardware": [],
+          "minimumMacOSVersion": "14.0",
+          "permissionIDs": [
+            "microphone"
+          ],
+          "requiresRelaunch": false,
+          "setupComplexity": "simple"
+        },
+        "setup": {
+          "optionalSurfaces": [],
+          "steps": [
+            {
+              "description": {
+                "ar": "تُحاسب المكالمات على حساب OpenAI الخاص بك. تُحفظ المفاتيح في سلسلة مفاتيح هذا الـMac فقط، ولا تُضمّن في التطبيق أو الشفرة المصدرية.",
+                "de": "Abrechnung über dein OpenAI-Konto. Schlüssel bleiben im Schlüsselbund dieses Macs und werden weder mit der App noch dem Quellcode verteilt.",
+                "en": "Usage is billed to your own OpenAI account. Keys saved here stay in this Mac’s Keychain and are not included in the app or source code.",
+                "es": "El uso se factura a tu cuenta de OpenAI. Las claves solo se guardan en el Llavero de este Mac y no se incluyen en la app ni en el código.",
+                "fr": "L’utilisation est facturée à votre compte OpenAI. Les clés restent dans le trousseau de ce Mac et ne sont incluses ni dans l’app ni dans le code source.",
+                "ja": "料金は自分のOpenAIアカウントに請求されます。キーはこのMacのキーチェーンにのみ保存され、アプリやソースコードには含まれません。",
+                "ko": "사용 요금은 본인의 OpenAI 계정에 청구됩니다. 키는 이 Mac의 키체인에만 저장되며 앱이나 소스 코드에 포함되지 않습니다.",
+                "pt": "A utilização é cobrada à sua conta OpenAI. As chaves ficam apenas nas Chaves deste Mac e não são incluídas na aplicação nem no código-fonte.",
+                "ru": "Использование оплачивается с вашего аккаунта OpenAI. Ключи хранятся только в Связке ключей этого Mac и не входят в приложение или исходный код.",
+                "tr": "Kullanım kendi OpenAI hesabınıza faturalandırılır. Anahtarlar yalnızca bu Mac’in Anahtar Zinciri’nde saklanır; uygulamaya veya kaynak koda eklenmez.",
+                "zh-Hans": "使用你自己的 OpenAI 账户计费。在这里保存的密钥仅存于本机钥匙串，不会包含在 App 或开源代码中。",
+                "zh-Hant": "使用你自己的 OpenAI 帳號計費。在這裡儲存的金鑰僅存於本機鑰匙圈，不會包含在 App 或開放原始碼中。"
+              },
+              "id": "configure-credentials",
+              "title": {
+                "ar": "مفتاح OpenAI API الخاص بك",
+                "de": "Dein OpenAI-API-Schlüssel",
+                "en": "Your OpenAI API key",
+                "es": "Tu clave de API de OpenAI",
+                "fr": "Votre clé API OpenAI",
+                "ja": "自分のOpenAI APIキー",
+                "ko": "내 OpenAI API 키",
+                "pt": "A sua chave API OpenAI",
+                "ru": "Ваш ключ API OpenAI",
+                "tr": "OpenAI API anahtarınız",
+                "zh-Hans": "你的 OpenAI API 密钥",
+                "zh-Hant": "你的 OpenAI API 金鑰"
+              }
+            }
+          ]
+        }
+      },
+      "releaseChannel": null,
+      "releaseNotesURL": null,
+      "route": "/plugins/voice-control/",
+      "summary": "通过语音对话控制已启用的 MacTools 功能",
+      "version": "0.1.0"
+    },
+    {
+      "capabilities": {
         "panelItems": [],
         "settings": "form"
       },
