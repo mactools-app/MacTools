@@ -79,21 +79,6 @@ final class VoiceCredentialConfiguration {
         }
     }
 
-    func load() throws -> String {
-        switch source {
-        case .none: throw VoiceFailure.credentials
-        case .keychain:
-            guard let key = try secrets.load(), VoiceCredentials.valid(key) else { throw VoiceFailure.credentials }
-            return key
-        case .file, .environment:
-            #if DEBUG
-            return try VoiceCredentials.load(path: source == .file ? path : nil, environment: source == .file ? [:] : environment)
-            #else
-            throw VoiceFailure.credentials
-            #endif
-        }
-    }
-
     func loadForConversation() async throws -> String {
         switch source {
         case .file, .environment:
@@ -107,15 +92,20 @@ final class VoiceCredentialConfiguration {
             #else
             throw VoiceFailure.credentials
             #endif
-        case .none, .keychain:
-            return try load()
+        case .none: throw VoiceFailure.credentials
+        case .keychain:
+            let secrets = self.secrets
+            let key = try await Task.detached(priority: .userInitiated) { try secrets.load() }.value
+            guard let key, VoiceCredentials.valid(key) else { throw VoiceFailure.credentials }
+            return key
         }
     }
 
-    func save(_ input: String) throws {
+    func save(_ input: String) async throws {
         let key = input.trimmingCharacters(in: .whitespacesAndNewlines)
         guard VoiceCredentials.valid(key) else { throw VoiceFailure.credentials }
-        try secrets.save(key)
+        let secrets = self.secrets
+        try await Task.detached(priority: .userInitiated) { try secrets.save(key) }.value
         source = .keychain; path = nil
         storage.removeObject(forKey: "credentialFile")
         storage.set(source.rawValue, forKey: "credentialSource")
@@ -130,8 +120,9 @@ final class VoiceCredentialConfiguration {
 
     #endif
 
-    func forget() throws {
-        try secrets.remove()
+    func forget() async throws {
+        let secrets = self.secrets
+        try await Task.detached(priority: .userInitiated) { try secrets.remove() }.value
         source = .none; path = nil
         storage.removeObject(forKey: "credentialFile")
         storage.set(source.rawValue, forKey: "credentialSource")

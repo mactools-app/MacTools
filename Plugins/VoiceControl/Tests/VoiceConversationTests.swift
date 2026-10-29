@@ -6,7 +6,7 @@ import XCTest
 @MainActor
 final class VoiceConversationTests: XCTestCase {
     func testExcludedProvidersReachHostBeforeMicrophoneAccess() async {
-        let model = makeModel()
+        let model = await makeModel()
         model.excludedPluginIDs = ["clipboard"]
         var requested: Set<String>?
         model.context = .init(begin: { requested = $0; return nil }, end: { _ in },
@@ -18,7 +18,7 @@ final class VoiceConversationTests: XCTestCase {
     }
 
     func testDeniedMicrophoneRevokesHostSession() async {
-        let model = makeModel()
+        let model = await makeModel()
         let session = UUID()
         var revoked = false
         model.context = .init(begin: { _ in session }, end: { revoked = $0 == session },
@@ -30,10 +30,11 @@ final class VoiceConversationTests: XCTestCase {
         XCTAssertFalse(model.connected)
     }
 
-    private func makeModel() -> VoiceConversation {
+    private func makeModel() async -> VoiceConversation {
         let model = VoiceConversation(context: .init(pluginID: "voice-control", storage: VoiceCredentialTestStorage()),
             audio: NoCaptureAudio(), requestMicrophone: { false }, secrets: VoiceCredentialTestSecrets())
-        XCTAssertTrue(model.saveKey("sk-unit-test-fixture-not-a-real-key"))
+        let saved = await model.saveKey("sk-unit-test-fixture-not-a-real-key")
+        XCTAssertTrue(saved)
         return model
     }
 }

@@ -22,6 +22,7 @@ final class VoiceConversation: ObservableObject {
     @Published private(set) var hasCredentials: Bool
     @Published private(set) var credentialMessage: String?
     @Published private(set) var credentialError = false
+    @Published private(set) var credentialBusy = false
     var context: PluginVoiceControlHostContext? { didSet { if active { stop() } } }
     var onChange: (() -> Void)?
     let localization: PluginLocalization
@@ -58,7 +59,7 @@ final class VoiceConversation: ObservableObject {
     func text(_ value: String) -> String { localization.string(value, defaultValue: value) }
     #if DEBUG
     func chooseCredentials() {
-        guard !active else { return }
+        guard !active, !credentialBusy else { return }
         let panel = NSOpenPanel()
         panel.canChooseDirectories = false; panel.allowsMultipleSelection = false; panel.showsHiddenFiles = true
         panel.message = text("选择已有的 OpenAI API 密钥文件；只保存文件位置。")
@@ -85,10 +86,12 @@ final class VoiceConversation: ObservableObject {
         credentialMessage = nil; credentialError = false
     }
 
-    func saveKey(_ key: String) -> Bool {
-        guard !active else { return false }
+    func saveKey(_ key: String) async -> Bool {
+        guard !active, !credentialBusy else { return false }
+        credentialBusy = true
+        defer { credentialBusy = false }
         do {
-            try credentials.save(key); refreshCredentials()
+            try await credentials.save(key); refreshCredentials()
             credentialMessage = "密钥已保存，开始对话时将验证 API 访问权限。"
             return true
         } catch {
@@ -99,14 +102,16 @@ final class VoiceConversation: ObservableObject {
         }
     }
 
-    func forgetKey() {
-        guard !active else { return }
-        do { try credentials.forget(); refreshCredentials() }
+    func forgetKey() async {
+        guard !active, !credentialBusy else { return }
+        credentialBusy = true
+        defer { credentialBusy = false }
+        do { try await credentials.forget(); refreshCredentials() }
         catch { credentialError = true; credentialMessage = "无法移除密钥，请检查钥匙串访问权限。" }
     }
 
     func start() {
-        guard !active, hasCredentials else { return }
+        guard !active, !credentialBusy, hasCredentials else { return }
         active = true; connected = false; muted = false; transcript = ""; status = "正在连接…"
         captionRole = nil
         let token = UUID(); epoch = token

@@ -8,59 +8,67 @@ final class VoiceCredentialsTests: XCTestCase {
     private let userKey = "sk-user-fixture-not-an-actual-api-key"
     private let developmentKey = "sk-dev-fixture-not-an-actual-api-key"
 
-    func testOwnKeyIsRequiredAndSavedOnlyInSecretStore() throws {
+    func testOwnKeyIsRequiredAndSavedOnlyInSecretStore() async throws {
         let storage = VoiceCredentialTestStorage()
         let secrets = VoiceCredentialTestSecrets()
         let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: [:])
         XCTAssertFalse(credentials.isConfigured)
-        XCTAssertThrowsError(try credentials.load())
-        try credentials.save("  \(userKey)\n")
+        await assertUnreadable(credentials)
+        try await credentials.save("  \(userKey)\n")
         XCTAssertEqual(secrets.key, userKey)
-        XCTAssertEqual(try credentials.load(), userKey)
+        try await assertKey(credentials, equals: userKey)
         XCTAssertEqual(credentials.source, .keychain)
         XCTAssertFalse(storage.values.values.contains { ($0 as? String) == userKey })
         let reloaded = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: [:])
-        XCTAssertEqual(try reloaded.load(), userKey)
+        try await assertKey(reloaded, equals: userKey)
     }
 
-    func testExplicitUserKeyNeverFallsBackToDevelopmentKey() throws {
+    func testExplicitUserKeyNeverFallsBackToDevelopmentKey() async throws {
         let storage = VoiceCredentialTestStorage()
         let secrets = VoiceCredentialTestSecrets()
         let environment = ["OPENAI_API_KEY": developmentKey]
         let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: environment)
         #if DEBUG
-        XCTAssertEqual(try credentials.load(), developmentKey)
+        try await assertKey(credentials, equals: developmentKey)
         #else
-        XCTAssertThrowsError(try credentials.load())
+        await assertUnreadable(credentials)
         #endif
-        try credentials.save(userKey)
-        XCTAssertEqual(try credentials.load(), userKey)
+        try await credentials.save(userKey)
+        try await assertKey(credentials, equals: userKey)
         secrets.key = nil
-        XCTAssertThrowsError(try credentials.load())
+        await assertUnreadable(credentials)
         secrets.shouldFail = true
-        XCTAssertThrowsError(try credentials.load())
+        await assertUnreadable(credentials)
         secrets.shouldFail = false
-        try credentials.forget()
+        try await credentials.forget()
         XCTAssertFalse(credentials.isConfigured)
-        XCTAssertThrowsError(try credentials.load())
+        await assertUnreadable(credentials)
         let reloaded = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: environment)
         XCTAssertFalse(reloaded.isConfigured)
-        XCTAssertThrowsError(try reloaded.load())
+        await assertUnreadable(reloaded)
     }
 
-    func testFailedSecretChangesPreservePreviousConfiguration() throws {
+    func testFailedSecretChangesPreservePreviousConfiguration() async throws {
         let storage = VoiceCredentialTestStorage()
         let secrets = VoiceCredentialTestSecrets()
         let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: [:])
-        try credentials.save(userKey)
-        XCTAssertThrowsError(try credentials.save("invalid"))
-        XCTAssertEqual(try credentials.load(), userKey)
+        try await credentials.save(userKey)
+        do { try await credentials.save("invalid"); XCTFail("Invalid keys must be rejected") } catch {}
+        try await assertKey(credentials, equals: userKey)
         secrets.shouldFail = true
-        XCTAssertThrowsError(try credentials.save(developmentKey))
-        XCTAssertThrowsError(try credentials.forget())
+        do { try await credentials.save(developmentKey); XCTFail("A rejected write must fail") } catch {}
+        do { try await credentials.forget(); XCTFail("A rejected delete must fail") } catch {}
         XCTAssertEqual(credentials.source, .keychain)
         secrets.shouldFail = false
-        XCTAssertEqual(try credentials.load(), userKey)
+        try await assertKey(credentials, equals: userKey)
+    }
+
+    private func assertKey(_ credentials: VoiceCredentialConfiguration, equals expected: String) async throws {
+        let key = try await credentials.loadForConversation()
+        XCTAssertEqual(key, expected)
+    }
+    private func assertUnreadable(_ credentials: VoiceCredentialConfiguration) async {
+        do { _ = try await credentials.loadForConversation(); XCTFail("No credential may be returned") } catch {}
     }
 
     #if DEBUG
@@ -75,13 +83,13 @@ final class VoiceCredentialsTests: XCTestCase {
         let secrets = VoiceCredentialTestSecrets()
         let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: ["OPENAI_API_KEY": developmentKey])
         XCTAssertEqual(credentials.source, .file)
-        XCTAssertEqual(try credentials.load(), userKey)
+        try await assertKey(credentials, equals: userKey)
         let loaded = try await credentials.loadForConversation()
         XCTAssertEqual(loaded, userKey)
         XCTAssertNil(secrets.key)
-        try credentials.forget()
+        try await credentials.forget()
         XCTAssertTrue(FileManager.default.fileExists(atPath: file.path))
-        XCTAssertThrowsError(try credentials.load())
+        await assertUnreadable(credentials)
     }
     #endif
 }
@@ -99,11 +107,14 @@ final class VoiceCredentialsTests: XCTestCase {
     func migrateValueIfNeeded(fromLegacyKey legacyKey: String, to key: String) {}
 }
 
-final class VoiceCredentialTestSecrets: VoiceSecretStoring {
-    var key: String?
-    var shouldFail = false
+final class VoiceCredentialTestSecrets: VoiceSecretStoring, @unchecked Sendable {
+    private let lock = NSLock()
+    private var storedKey: String?
+    private var failing = false
+    var key: String? { get { lock.withLock { storedKey } } set { lock.withLock { storedKey = newValue } } }
+    var shouldFail: Bool { get { lock.withLock { failing } } set { lock.withLock { failing = newValue } } }
     private struct Failure: Error {}
-    func load() throws -> String? { if shouldFail { throw Failure() }; return key }
-    func save(_ key: String) throws { if shouldFail { throw Failure() }; self.key = key }
-    func remove() throws { if shouldFail { throw Failure() }; key = nil }
+    func load() throws -> String? { XCTAssertFalse(Thread.isMainThread); if shouldFail { throw Failure() }; return key }
+    func save(_ key: String) throws { XCTAssertFalse(Thread.isMainThread); if shouldFail { throw Failure() }; self.key = key }
+    func remove() throws { XCTAssertFalse(Thread.isMainThread); if shouldFail { throw Failure() }; key = nil }
 }

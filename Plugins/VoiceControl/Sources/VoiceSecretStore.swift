@@ -2,13 +2,14 @@ import Foundation
 import MacToolsPluginKit
 import Security
 
-protocol VoiceSecretStoring {
+protocol VoiceSecretStoring: Sendable {
     func load() throws -> String?
     func save(_ key: String) throws
     func remove() throws
 }
 
-/// Each host owns a separate, device-only Keychain entry. Preferences never contain the key.
+/// Host-specific entries use the native macOS login Keychain and its signing ACL.
+/// This store does not synchronize credentials or claim Data Protection accessibility.
 struct VoiceSecretStore: VoiceSecretStoring {
     private let service: String
     private let account = "openai.api-key.v1"
@@ -19,7 +20,8 @@ struct VoiceSecretStore: VoiceSecretStoring {
 
     private var query: [String: Any] {
         [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: service,
-         kSecAttrAccount as String: account, kSecAttrSynchronizable as String: false]
+         kSecAttrAccount as String: account, kSecAttrSynchronizable as String: false,
+         kSecUseDataProtectionKeychain as String: false]
     }
 
     func load() throws -> String? {
@@ -35,8 +37,7 @@ struct VoiceSecretStore: VoiceSecretStoring {
     }
 
     func save(_ key: String) throws {
-        let attributes: [String: Any] = [kSecValueData as String: Data(key.utf8),
-                                        kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly]
+        let attributes: [String: Any] = [kSecValueData as String: Data(key.utf8)]
         let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
         if status == errSecSuccess { return }
         guard status == errSecItemNotFound else { throw VoiceSecretStoreError.security(status) }
