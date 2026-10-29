@@ -128,7 +128,7 @@ private struct VoiceAssistantView: View {
                 Button(model.text(!model.hasCredentials ? "设置" : model.active ? "停止" : "开始对话")) {
                     if !model.hasCredentials { presenter.openSettings?() }
                     else if model.active { model.stop() } else { model.start() }
-                }.buttonStyle(.borderedProminent)
+                }.buttonStyle(.borderedProminent).disabled(model.credentialBusy)
                     .accessibilityIdentifier("voice-control.start-stop")
                 Button { model.toggleMute() } label: {
                     Image(systemName: model.muted ? "mic.slash" : "mic")
