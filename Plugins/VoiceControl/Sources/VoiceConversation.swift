@@ -27,7 +27,6 @@ final class VoiceConversation: ObservableObject {
     var allowedProviders: [PluginVoiceProvider] {
         active ? sessionProviders : context?.providers().filter { featureAccess.isAllowed($0.id) } ?? []
     }
-    @Published private(set) var credentialPath: String?
     @Published private(set) var credentialStatus: String
     @Published private(set) var hasCredentials: Bool
     @Published private(set) var credentialMessage: String?
@@ -82,7 +81,7 @@ final class VoiceConversation: ObservableObject {
         self.audio = audio; self.requestMicrophone = requestMicrophone; self.makeConnection = makeConnection
         let credentials = VoiceCredentialConfiguration(storage: context.storage, secrets: secrets)
         self.credentials = credentials
-        credentialPath = credentials.path; hasCredentials = credentials.isConfigured
+        hasCredentials = credentials.isConfigured
         credentialStatus = Self.credentialStatus(for: credentials)
         localization = PluginLocalization(bundle: context.resourceBundle)
         audio.observePlayback { [weak self] playing in self?.speaking = playing && self?.active == true }
@@ -93,31 +92,16 @@ final class VoiceConversation: ObservableObject {
     }
     deinit { network.invalidateAndCancel() }
     func text(_ value: String) -> String { localization.string(value, defaultValue: value) }
-    #if DEBUG
-    func chooseCredentials() {
-        guard !active, !credentialBusy else { return }
-        let panel = NSOpenPanel()
-        panel.canChooseDirectories = false; panel.allowsMultipleSelection = false; panel.showsHiddenFiles = true
-        panel.message = text("选择已有的 OpenAI API 密钥文件；只保存文件位置。")
-        if panel.runModal() == .OK, let url = panel.url {
-            credentials.selectFile(url.path); refreshCredentials()
-        }
-    }
-
-    #endif
-
     private static func credentialStatus(for credentials: VoiceCredentialConfiguration) -> String {
         guard credentials.isConfigured else { return "请添加你自己的 OpenAI API 密钥" }
         return switch credentials.source {
         case .keychain: "已保存在本机钥匙串"
-        case .file: "使用你选择的密钥文件"
-        case .environment: "使用本机开发环境密钥"
         case .none: "请添加你自己的 OpenAI API 密钥"
         }
     }
 
     private func refreshCredentials() {
-        credentialPath = credentials.path; hasCredentials = credentials.isConfigured
+        hasCredentials = credentials.isConfigured
         credentialStatus = Self.credentialStatus(for: credentials)
         credentialMessage = nil; credentialError = false
     }
