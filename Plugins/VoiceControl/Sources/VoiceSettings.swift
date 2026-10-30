@@ -11,19 +11,27 @@ struct VoiceKeySettings: View {
             HStack(spacing: PluginSettingsTheme.Spacing.controlCluster) {
                 Label(model.text(model.credentialStatus), systemImage: "key")
                     .font(PluginSettingsTheme.Typography.rowTitle)
+                    .accessibilityIdentifier("voice-control.credential-status")
                 Spacer(minLength: 12)
                 if model.credentialBusy { ProgressView().controlSize(.small) }
                 if model.hasCredentials && !editing {
                     Button(model.text("更换密钥…")) { editing = true }
                         .accessibilityIdentifier("voice-control.replace-key")
-                    Menu {
+                }
+                Menu {
+                    if model.hasCredentials {
                         Button(model.text("忘记密钥"), role: .destructive) {
                             Task { await model.forgetKey(); draftKey = "" }
                         }
-                    } label: { Image(systemName: "ellipsis.circle") }
-                    .menuStyle(.borderlessButton).menuIndicator(.hidden).fixedSize()
-                    .accessibilityLabel(model.text("密钥选项"))
-                }
+                        Divider()
+                    }
+                    Section(model.text("故障排查")) {
+                        Button(model.text("测试扬声器")) { model.testSpeaker() }
+                    }
+                } label: { Image(systemName: "ellipsis.circle") }
+                .menuStyle(.borderlessButton).menuIndicator(.hidden).fixedSize()
+                .accessibilityLabel(model.text("连接选项"))
+                .accessibilityIdentifier("voice-control.connection-options")
             }.disabled(model.active || model.credentialBusy)
             if editing || !model.hasCredentials {
                 HStack(spacing: PluginSettingsTheme.Spacing.controlCluster) {
@@ -36,8 +44,10 @@ struct VoiceKeySettings: View {
                     Button(model.text("保存密钥")) { save() }
                         .buttonStyle(.borderedProminent)
                         .disabled(draftKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        .accessibilityIdentifier("voice-control.save-key")
                     if model.hasCredentials {
                         Button(model.text("取消")) { draftKey = ""; editing = false }
+                            .accessibilityIdentifier("voice-control.cancel-key-edit")
                     }
                 }.disabled(model.active || model.credentialBusy)
             }
@@ -45,17 +55,6 @@ struct VoiceKeySettings: View {
                 Text(model.text(message)).font(PluginSettingsTheme.Typography.rowDescription)
                     .foregroundStyle(model.credentialError ? Color.red : Color.secondary)
             }
-            #if DEBUG
-            DisclosureGroup(model.text("开发选项：使用已有密钥文件")) {
-                HStack {
-                    Text(model.credentialPath ?? model.text("只保存文件位置，不复制文件中的密钥。"))
-                        .lineLimit(2).truncationMode(.middle).textSelection(.enabled)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Button(model.text("选择文件…")) { model.chooseCredentials(); draftKey = ""; editing = false }
-                        .disabled(model.active || model.credentialBusy)
-                }.font(PluginSettingsTheme.Typography.rowDescription)
-            }
-            #endif
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .buttonStyle(.bordered).controlSize(.small)

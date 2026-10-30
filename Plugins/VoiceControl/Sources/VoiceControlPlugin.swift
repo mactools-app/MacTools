@@ -97,26 +97,16 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
     }
     var settingsPage: PluginSettingsPage? {
         .form(description: metadata.defaultDescription, sections: [
-            .init(id: "credentials", title: conversation.text("你的 OpenAI API 密钥"), systemImage: "key",
-                  footer: conversation.text("使用你自己的 OpenAI 账户计费。在这里保存的密钥仅存于本机钥匙串，不会包含在 App 或开源代码中。")) { [conversation] _ in
+            .init(id: "credentials", title: conversation.text("OpenAI 连接"), systemImage: "key",
+                  footer: conversation.text("密钥仅保存在本机钥匙串，费用由你的 OpenAI 账户承担。")) { [conversation] _ in
                 VoiceKeySettings(model: conversation)
             },
-            .init(id: "audio", title: conversation.text("音频"), systemImage: "speaker.wave.2",
-                  footer: conversation.text("对话音频和请求的功能数据会发送到 OpenAI，使用你的 API 额度。回复由 AI 生成；停止、锁屏或睡眠时结束录音。"), rows: [
-                .init(id: "test-speaker", title: conversation.text("扬声器"),
-                      description: conversation.text("播放提示音以检查当前输出设备。"),
-                      control: .action(title: conversation.text("测试扬声器"), role: .normal))
-            ]),
             .init(id: "scope", title: conversation.text("允许的功能"), systemImage: "checkmark.shield",
-                  footer: conversation.text("选择助手可使用的功能。更改将在下一次对话生效。")) { [weak self] _ in
+                  footer: conversation.text("对话音频和请求的功能数据会发送到 OpenAI，使用你的 API 额度。回复由 AI 生成；停止、锁屏或睡眠时结束录音。")) { [weak self] _ in
                 if let self { VoiceScopeSettings(plugin: self, model: conversation) }
             }
         ])
     }
-    func handleSettingsAction(_ action: PluginSettingsAction) {
-        if case .invoke(controlID: "test-speaker") = action { conversation.testSpeaker() }
-    }
-
     private enum AccessAction {
         static let enable = "automatic-plugin-access-on"
         static let disable = "automatic-plugin-access-off"

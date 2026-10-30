@@ -155,79 +155,79 @@
         }
       }
     },
-    "你的 OpenAI API 密钥": {
+    "OpenAI 连接": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "你的 OpenAI API 密钥"
+            "value": "OpenAI 连接"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your OpenAI API key"
+            "value": "OpenAI connection"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "مفتاح OpenAI API الخاص بك"
+            "value": "الاتصال بـ OpenAI"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dein OpenAI-API-Schlüssel"
+            "value": "OpenAI-Verbindung"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tu clave de API de OpenAI"
+            "value": "Conexión con OpenAI"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Votre clé API OpenAI"
+            "value": "Connexion à OpenAI"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "自分のOpenAI APIキー"
+            "value": "OpenAI 接続"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "내 OpenAI API 키"
+            "value": "OpenAI 연결"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "A sua chave API OpenAI"
+            "value": "Ligação ao OpenAI"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ваш ключ API OpenAI"
+            "value": "Подключение к OpenAI"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenAI API anahtarınız"
+            "value": "OpenAI bağlantısı"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "你的 OpenAI API 金鑰"
+            "value": "OpenAI 連線"
           }
         }
       }
@@ -309,233 +309,79 @@
         }
       }
     },
-    "使用你自己的 OpenAI 账户计费。在这里保存的密钥仅存于本机钥匙串，不会包含在 App 或开源代码中。": {
+    "密钥仅保存在本机钥匙串，费用由你的 OpenAI 账户承担。": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "使用你自己的 OpenAI 账户计费。在这里保存的密钥仅存于本机钥匙串，不会包含在 App 或开源代码中。"
+            "value": "密钥仅保存在本机钥匙串，费用由你的 OpenAI 账户承担。"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Usage is billed to your own OpenAI account. Keys saved here stay in this Mac’s Keychain and are not included in the app or source code."
+            "value": "Keys stay in this Mac’s Keychain. Usage is billed to your OpenAI account."
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "تُحاسب المكالمات على حساب OpenAI الخاص بك. تُحفظ المفاتيح في سلسلة مفاتيح هذا الـMac فقط، ولا تُضمّن في التطبيق أو الشفرة المصدرية."
+            "value": "تُحفظ المفاتيح في سلسلة مفاتيح هذا الـ Mac فقط. تُحتسب تكلفة الاستخدام على حسابك في OpenAI."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Abrechnung über dein OpenAI-Konto. Schlüssel bleiben im Schlüsselbund dieses Macs und werden weder mit der App noch dem Quellcode verteilt."
+            "value": "Schlüssel bleiben im Schlüsselbund dieses Mac. Die Nutzung wird über dein OpenAI-Konto abgerechnet."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "El uso se factura a tu cuenta de OpenAI. Las claves solo se guardan en el Llavero de este Mac y no se incluyen en la app ni en el código."
+            "value": "Las claves se guardan en el Llavero de este Mac. El uso se factura a tu cuenta de OpenAI."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "L’utilisation est facturée à votre compte OpenAI. Les clés restent dans le trousseau de ce Mac et ne sont incluses ni dans l’app ni dans le code source."
+            "value": "Les clés restent dans le trousseau de ce Mac. L’utilisation est facturée à votre compte OpenAI."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "料金は自分のOpenAIアカウントに請求されます。キーはこのMacのキーチェーンにのみ保存され、アプリやソースコードには含まれません。"
+            "value": "キーはこの Mac のキーチェーンにのみ保存されます。利用料金はご自身の OpenAI アカウントに請求されます。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "사용 요금은 본인의 OpenAI 계정에 청구됩니다. 키는 이 Mac의 키체인에만 저장되며 앱이나 소스 코드에 포함되지 않습니다."
+            "value": "키는 이 Mac의 키체인에만 저장됩니다. 사용 요금은 본인의 OpenAI 계정에 청구됩니다."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "A utilização é cobrada à sua conta OpenAI. As chaves ficam apenas nas Chaves deste Mac e não são incluídas na aplicação nem no código-fonte."
+            "value": "As chaves ficam no Porta-chaves deste Mac. A utilização é cobrada à sua conta OpenAI."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Использование оплачивается с вашего аккаунта OpenAI. Ключи хранятся только в Связке ключей этого Mac и не входят в приложение или исходный код."
+            "value": "Ключи хранятся в Связке ключей этого Mac. Использование оплачивается через ваш аккаунт OpenAI."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kullanım kendi OpenAI hesabınıza faturalandırılır. Anahtarlar yalnızca bu Mac’in Anahtar Zinciri’nde saklanır; uygulamaya veya kaynak koda eklenmez."
+            "value": "Anahtarlar bu Mac’in Anahtar Zinciri’nde saklanır. Kullanım kendi OpenAI hesabınıza faturalandırılır."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "使用你自己的 OpenAI 帳號計費。在這裡儲存的金鑰僅存於本機鑰匙圈，不會包含在 App 或開放原始碼中。"
-          }
-        }
-      }
-    },
-    "使用你选择的密钥文件": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用你选择的密钥文件"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Using your selected key file"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "استخدام ملف المفتاح المحدد"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verwendet deine ausgewählte Schlüsseldatei"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Usando el archivo de clave seleccionado"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Utilisation du fichier de clé sélectionné"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選択したキーファイルを使用"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "선택한 키 파일 사용 중"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A usar o ficheiro de chave selecionado"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Используется выбранный файл ключа"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seçtiğiniz anahtar dosyası kullanılıyor"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用你選擇的金鑰檔案"
-          }
-        }
-      }
-    },
-    "使用本机开发环境密钥": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用本机开发环境密钥"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Using a local development key"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "استخدام مفتاح بيئة التطوير المحلية"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verwendet lokalen Entwicklungsschlüssel"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Usando la clave de desarrollo local"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Utilisation de la clé de développement locale"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ローカル開発環境のキーを使用"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "로컬 개발 환경 키 사용 중"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A usar a chave de desenvolvimento local"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Используется ключ локальной среды разработки"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Yerel geliştirme anahtarı kullanılıyor"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用本機開發環境金鑰"
+            "value": "金鑰僅儲存在此 Mac 的鑰匙圈，費用由你的 OpenAI 帳戶負擔。"
           }
         }
       }
@@ -844,83 +690,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "取消靜音"
-          }
-        }
-      }
-    },
-    "只保存文件位置，不复制文件中的密钥。": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "只保存文件位置，不复制文件中的密钥。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Only the file location is saved. Its key is not copied."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يُحفظ موقع الملف فقط؛ لا يُنسخ المفتاح."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nur der Dateipfad wird gespeichert, nicht der Schlüssel kopiert."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Solo guarda la ubicación del archivo, sin copiar la clave."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seul l’emplacement du fichier est enregistré, sans copie de la clé."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ファイルの場所のみ保存し、キーはコピーしません。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "파일 위치만 저장하며 키를 복사하지 않습니다."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Guarda apenas a localização do ficheiro, sem copiar a chave."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Сохраняется только путь к файлу, без копирования ключа."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Yalnızca dosya konumu kaydedilir, anahtar kopyalanmaz."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "只儲存檔案位置，不複製檔案中的金鑰。"
           }
         }
       }
@@ -1306,83 +1075,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "已儲存在本機鑰匙圈"
-          }
-        }
-      }
-    },
-    "开发选项：使用已有密钥文件": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开发选项：使用已有密钥文件"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Developer option: use an existing key file"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "خيار التطوير: استخدام ملف مفتاح موجود"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Entwicklungsoption: vorhandene Schlüsseldatei verwenden"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opción de desarrollo: usar un archivo de clave existente"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Option de développement : utiliser un fichier de clé existant"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開発用：既存のキーファイルを使用"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "개발 옵션: 기존 키 파일 사용"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opção de desenvolvimento: usar um ficheiro de chave existente"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Для разработки: использовать существующий файл ключа"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geliştirme seçeneği: mevcut anahtar dosyasını kullan"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開發選項：使用既有金鑰檔案"
           }
         }
       }
@@ -2614,160 +2306,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "連線已中斷，請檢查網路、API 額度和模型權限後重試"
-          }
-        }
-      }
-    },
-    "选择已有的 OpenAI API 密钥文件；只保存文件位置。": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "选择已有的 OpenAI API 密钥文件；只保存文件位置。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose an existing OpenAI API key file. Only its location is saved."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اختر ملف مفتاح OpenAI API موجودًا؛ يُحفظ موقعه فقط."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vorhandene OpenAI-Schlüsseldatei wählen; nur der Pfad wird gespeichert."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Selecciona un archivo de clave OpenAI existente; solo se guarda su ubicación."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choisissez un fichier de clé OpenAI existant ; seul son emplacement est enregistré."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "既存のOpenAI APIキーファイルを選択します。場所のみ保存します。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "기존 OpenAI API 키 파일을 선택하세요. 위치만 저장합니다."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escolha um ficheiro de chave OpenAI existente; só é guardada a localização."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Выберите существующий файл ключа OpenAI; сохраняется только путь."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mevcut OpenAI API anahtar dosyasını seçin; yalnızca konum kaydedilir."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選擇既有的 OpenAI API 金鑰檔案；只儲存檔案位置。"
-          }
-        }
-      }
-    },
-    "选择文件…": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "选择文件…"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose File…"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اختيار ملف…"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Datei auswählen…"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elegir archivo…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choisir un fichier…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ファイルを選択…"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "파일 선택…"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escolher ficheiro…"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Выбрать файл…"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dosya seç…"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選擇檔案…"
           }
         }
       }
@@ -4605,79 +4143,79 @@
         }
       }
     },
-    "密钥选项": {
+    "连接选项": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "密钥选项"
+            "value": "连接选项"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Key options"
+            "value": "Connection options"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "金鑰選項"
+            "value": "連線選項"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "خيارات المفتاح"
+            "value": "خيارات الاتصال"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Schlüsseloptionen"
+            "value": "Verbindungsoptionen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Opciones de la clave"
+            "value": "Opciones de conexión"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Options de la clé"
+            "value": "Options de connexion"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "キーのオプション"
+            "value": "接続オプション"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "키 옵션"
+            "value": "연결 옵션"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Opções da chave"
+            "value": "Opções de ligação"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Параметры ключа"
+            "value": "Параметры подключения"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Anahtar seçenekleri"
+            "value": "Bağlantı seçenekleri"
           }
         }
       }
@@ -7142,6 +6680,83 @@
           "stringUnit": {
             "state": "translated",
             "value": "Yeni eklentiler için elle onay gerekir. Mevcut seçimlerin ve devam eden konuşmanın erişimi değişmez."
+          }
+        }
+      }
+    },
+    "故障排查": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استكشاف الأخطاء وإصلاحها"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehlerbehebung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Troubleshooting"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solución de problemas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dépannage"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "トラブルシューティング"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "문제 해결"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resolução de problemas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Устранение неполадок"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sorun giderme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "故障排查"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "疑難排解"
           }
         }
       }
