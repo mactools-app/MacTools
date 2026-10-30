@@ -58,6 +58,8 @@ struct VoiceKeySettings: View {
                     .foregroundStyle(model.credentialError ? Color.red : Color.secondary)
             }
             Divider().padding(.vertical, PluginSettingsTheme.Spacing.rowTitleDescription)
+            VoicePricingSettings(model: model)
+            Divider().padding(.vertical, PluginSettingsTheme.Spacing.rowTitleDescription)
             Toggle(model.text("说话后连接"), isOn: Binding(
                 get: { model.connectOnSpeech }, set: { plugin.setConnectOnSpeech($0) }))
                 .toggleStyle(.switch)
@@ -93,6 +95,55 @@ struct VoiceKeySettings: View {
     private func save() {
         let key = draftKey
         Task { if await model.saveKey(key) { draftKey = ""; editing = false } }
+    }
+}
+
+@MainActor
+private struct VoicePricingSettings: View {
+    @ObservedObject var model: VoiceConversation
+    @State private var expanded = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+            HStack {
+                Text(model.text("语音模型"))
+                Spacer(minLength: 12)
+                Link(VoiceTools.voiceModelID, destination: modelURL(VoiceTools.voiceModelID))
+                    .accessibilityIdentifier("voice-control.voice-model-pricing")
+            }
+            HStack {
+                Text(model.text("指令模型"))
+                Spacer(minLength: 12)
+                Link(VoiceTools.backendModelID, destination: modelURL(VoiceTools.backendModelID))
+                    .accessibilityIdentifier("voice-control.command-model-pricing")
+            }
+            Text(model.text("US$0.05/分钟，按秒计费"))
+                .accessibilityIdentifier("voice-control.voice-rate")
+            Text(model.text("连接后，即使无声或麦克风静音也计费。指令处理另按 Token 计费。"))
+                .foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            DisclosureGroup(model.text("费用详情"), isExpanded: $expanded) {
+                VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+                    HStack {
+                        Text(model.text("本机语音检测"))
+                        Spacer(minLength: 12)
+                        Text(verbatim: "Silero VAD")
+                            .accessibilityIdentifier("voice-control.local-speech-model")
+                    }
+                    Text(model.text("连接前的语音检测在本机运行，不产生 OpenAI 费用。"))
+                        .foregroundStyle(.secondary)
+                    Link(model.text("查看 OpenAI 价格"), destination: URL(string: "https://developers.openai.com/api/docs/pricing")!)
+                        .accessibilityIdentifier("voice-control.openai-pricing")
+                    Text(model.text("参考费率核对日期：2026-10-30。价格可能调整。"))
+                        .foregroundStyle(.secondary)
+                }.padding(.top, PluginSettingsTheme.Spacing.rowTitleDescription)
+            }
+            .accessibilityIdentifier("voice-control.pricing-details")
+        }
+        .font(PluginSettingsTheme.Typography.rowDescription)
+    }
+
+    private func modelURL(_ id: String) -> URL {
+        URL(string: "https://developers.openai.com/api/docs/models/\(id)")!
     }
 }
 

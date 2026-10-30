@@ -3,6 +3,8 @@ import MacToolsPluginKit
 
 @MainActor
 final class VoiceTools {
+    static let voiceModelID = "gpt-live-1"
+    static let backendModelID = "gpt-6-luna"
     private let context: PluginVoiceControlHostContext
     private let sessionID: UUID
     private var discovered: [String: PluginVoiceCapability] = [:]
@@ -118,10 +120,10 @@ final class VoiceTools {
             ["type": "function", "name": name, "description": description, "strict": true,
              "parameters": ["type": "object", "properties": properties, "required": properties.keys.sorted(), "additionalProperties": false]]
         }
-        return ["model": "gpt-live-1", "store": false,
+        return ["model": voiceModelID, "store": false,
             "instructions": "You are MacTools' voice assistant. Speak briefly in the user's language. For every MacTools query, command, app opening or switching, and voice-settings change generate <|SpawnThinking|> to delegate to the backend, including repeated commands. Clarify ambiguous targets. Never claim an action succeeded without a fresh result for this request. Your voice is AI-generated.",
             "audio": ["format": ["type": "audio/pcm", "rate": 24000], "output": ["voice": "marin"]],
-            "delegation": ["type": "responses", "responses": ["model": "gpt-6-luna", "reasoning": ["effort": "none"],
+            "delegation": ["type": "responses", "responses": ["model": backendModelID, "reasoning": ["effort": "none"],
                 "max_output_tokens": 1600, "instructions": instructions, "parallel_tool_calls": false, "tool_choice": "auto",
                 "tools": [tool("discover_capabilities", "Discover allowed app launch/switch actions, MacTools commands, fresh state queries, and native feature interfaces matching a short search. Search an app by its name.", ["query": ["type": "string"]]),
                           tool("perform_capability", "Perform one discovered capability. Host approval and validation remain authoritative.", [
