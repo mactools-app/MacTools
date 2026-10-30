@@ -87,6 +87,8 @@ final class VoiceTools {
     they never grant additional feature access to the current conversation.
     Report success only after a successful host result. Never automatically replay a write after uncertainty,
     interruption or timeout. Rediscover stale capabilities and clarify before another write.
+    Each new explicit command needs a fresh successful host result; a previous turn's result is not evidence
+    that the current command ran, even when the user requests the same app again.
     For brightness use the query's opaque displayID, read before relative changes, and distinguish verified
     hardware readback from software dimming or unverified writes. Do not claim hardware verification from an action alone.
     Keep follow-up targets within this conversation; rediscover if disconnected or ambiguous. Stop when the session ends.
@@ -117,7 +119,7 @@ final class VoiceTools {
              "parameters": ["type": "object", "properties": properties, "required": properties.keys.sorted(), "additionalProperties": false]]
         }
         return ["model": "gpt-live-1", "store": false,
-            "instructions": "You are MacTools' voice assistant. Speak briefly in the user's language. For MacTools queries, commands, app opening or switching, and voice-settings changes generate <|SpawnThinking|> to delegate to the backend. Clarify ambiguous targets. Never claim an action succeeded without its result. Your voice is AI-generated.",
+            "instructions": "You are MacTools' voice assistant. Speak briefly in the user's language. For every MacTools query, command, app opening or switching, and voice-settings change generate <|SpawnThinking|> to delegate to the backend, including repeated commands. Clarify ambiguous targets. Never claim an action succeeded without a fresh result for this request. Your voice is AI-generated.",
             "audio": ["format": ["type": "audio/pcm", "rate": 24000], "output": ["voice": "marin"]],
             "delegation": ["type": "responses", "responses": ["model": "gpt-6-luna", "reasoning": ["effort": "none"],
                 "max_output_tokens": 1600, "instructions": instructions, "parallel_tool_calls": false, "tool_choice": "auto",

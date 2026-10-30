@@ -248,10 +248,13 @@ final class VoiceControlRouter {
         if !terms.isEmpty, grant.allowedPluginIDs.contains(Self.applicationProviderID) {
             let apps = await applications.applications()
             guard valid(sessionID) else { return .init(status: "sessionEnded") }
-            let intentWords: Set<String> = ["open", "launch", "activate", "switch", "to", "the", "app", "apps", "application", "applications", "browser"]
+            let intentWords: Set<String> = ["open", "launch", "activate", "switch", "to", "the", "app", "apps", "application", "applications", "browser", "or", "and", "please", "again", "now"]
             let appTerms = terms.filter { !intentWords.contains($0) }
             for app in apps {
-                let score = appTerms.reduce(0) { $0 + (app.searchText.contains($1) ? 10 : 0) }
+                let name = "\(app.name) \(app.url.deletingPathExtension().lastPathComponent)".lowercased()
+                let score = appTerms.reduce(0) { total, term in
+                    total + (name.contains(term) ? 10 : app.searchText.contains(term) ? 1 : 0)
+                }
                 guard appTerms.isEmpty || score > 0 else { continue }
                 let title = String(format: AppL10n.feature("voice.applications.open", defaultValue: "打开或切换到 %@"), app.name)
                 let capability = PluginVoiceCapability(id: UUID().uuidString, kind: .action, title: title,
