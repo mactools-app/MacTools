@@ -101,6 +101,7 @@ struct ConfiguredMenuBarPanelsContent: View {
     let contentBodyHeight: CGFloat
     let onDismiss: () -> Void
     let onOpenSettings: () -> Void
+    let onEditLayout: () -> Void
     let onPresentDiskCleanConfiguration: () -> Void
     let onPresentLaunchControlConfiguration: () -> Void
     @State private var visited: Set<String> = []
@@ -116,6 +117,7 @@ struct ConfiguredMenuBarPanelsContent: View {
                     maximumFeatureListHeight: model.maximumFeatureListHeight,
                     isVisible: model.isPanelVisible && panel.id == model.selectedTab.id,
                     onDismiss: onDismiss, onOpenSettings: onOpenSettings,
+                    onEditLayout: onEditLayout,
                     onPresentDiskCleanConfiguration: onPresentDiskCleanConfiguration,
                     onPresentLaunchControlConfiguration: onPresentLaunchControlConfiguration
                 )
@@ -143,6 +145,7 @@ private struct ConfiguredMenuBarPanelContent: View {
     let isVisible: Bool
     let onDismiss: () -> Void
     let onOpenSettings: () -> Void
+    let onEditLayout: () -> Void
     let onPresentDiskCleanConfiguration: () -> Void
     let onPresentLaunchControlConfiguration: () -> Void
 
@@ -195,22 +198,11 @@ private struct ConfiguredMenuBarPanelContent: View {
                 componentContent(components, height: contentBodyHeight, placements: placement.components,
                                  gridHeight: placement.height)
             } else {
-                VStack(spacing: 10) {
-                    Image(systemName: "square.grid.2x2")
-                        .font(.title)
-                        .foregroundStyle(.secondary)
-                    Text(FeatureL10n.string("此面板暂无内容"))
-                        .font(.subheadline)
-                    Text(FeatureL10n.string("在编辑面板中添加内容"))
-                        .font(.caption).foregroundStyle(.secondary)
-                    Button(FeatureL10n.string("工具组合…")) { pluginHost.presentStarterPacks() }
-                        .buttonStyle(.link)
-                        .font(PluginTypography.control.font)
-                        .accessibilityIdentifier("panel.empty.starter-packs")
-                }
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 20)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                PanelPluginEmptyState(
+                    systemImage: pluginHost.menuBarPanels.first { $0.id == panelID }?.systemImage ?? "square.grid.2x2",
+                    pluginHost: pluginHost,
+                    onEditLayout: onEditLayout
+                )
             }
         }
         .frame(width: surfaceWidth, height: contentBodyHeight, alignment: .topLeading)
@@ -226,7 +218,7 @@ private struct ConfiguredMenuBarPanelContent: View {
     ) -> some View {
         ComponentPanelContent(
             pluginHost: pluginHost, contentBodyHeight: height, isPanelVisible: isVisible && !isFeatureDetailInline,
-            onDismiss: onDismiss, panelID: panelID, suppliedItems: items,
+            onDismiss: onDismiss, onEditLayout: onEditLayout, panelID: panelID, suppliedItems: items,
             embedded: embedded,
             suppliedPlacements: placements, suppliedGridHeight: gridHeight ?? (placements == nil ? nil : height),
             onInlinePresentationChange: { isComponentDetailInline = $0 }
@@ -241,6 +233,7 @@ private struct ConfiguredMenuBarPanelContent: View {
             pluginHost: pluginHost, contentBodyHeight: height,
             maximumFeatureListHeight: embedded ? height : maximumFeatureListHeight,
             isPanelVisible: isVisible, onDismiss: onDismiss, onOpenSettings: onOpenSettings,
+            onEditLayout: onEditLayout,
             onPresentDiskCleanConfiguration: onPresentDiskCleanConfiguration,
             onPresentLaunchControlConfiguration: onPresentLaunchControlConfiguration,
             suppliedItems: items,

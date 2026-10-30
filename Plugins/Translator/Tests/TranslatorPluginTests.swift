@@ -214,23 +214,26 @@ final class TranslatorPluginTests: XCTestCase {
     }
 
     func testImportedEndpointRemainsQuarantinedWithoutChangingLocalConsentOrKeys() throws {
-        let storage = TranslatorInMemoryPluginStorage()
-        let secret = CountingTranslatorSecretStore(apiKey: "local-secret")
-        let plugin = makePlugin(storage: storage, secretStore: secret)
-        var object = try XCTUnwrap(JSONSerialization.jsonObject(with: XCTUnwrap(plugin.makePortablePreferencesBackup())) as? [String: Any])
-        var profiles = try XCTUnwrap(object["profiles"] as? [[String: Any]])
-        profiles[0]["baseURL"] = "https://imported.example/v1"
-        object["profiles"] = profiles
-        let incoming = try JSONSerialization.data(withJSONObject: object)
-        XCTAssertTrue(plugin.restorePortablePreferencesReportingResult(from: incoming))
-        XCTAssertTrue(plugin.restorePortablePreferencesReportingResult(from: incoming))
-        let reloaded = makePlugin(storage: storage, secretStore: secret)
-        let id = try XCTUnwrap(profiles[0]["id"] as? String)
-        XCTAssertFalse(PortableCredentialAuthorization(storage: storage).allows(profileID: id, baseURL: "https://imported.example/v1"))
-        XCTAssertEqual(secret.loadCount, 0)
-        XCTAssertEqual(secret.saveCount, 0)
-        XCTAssertFalse(storage.bool(forKey: "preferences-backup.include-prompt-text"))
-        XCTAssertNotNil(reloaded.saveConfiguration(OpenAICompatibleConfiguration(baseURL: "https://imported.example/v1", model: "test", promptTemplate: "{{text}}"), apiKey: "", languagePair: .init(first: .english, second: .simplifiedChinese)))
+        for endpoint in ["https://imported.example/v1", "http://10.0.0.10:8000/gateway/v1", "http://[fd12::1]:8000/v1"] {
+            let storage = TranslatorInMemoryPluginStorage()
+            let secret = CountingTranslatorSecretStore(apiKey: "local-secret")
+            let plugin = makePlugin(storage: storage, secretStore: secret)
+            var object = try XCTUnwrap(JSONSerialization.jsonObject(with: XCTUnwrap(plugin.makePortablePreferencesBackup())) as? [String: Any])
+            var profiles = try XCTUnwrap(object["profiles"] as? [[String: Any]])
+            profiles[0]["baseURL"] = endpoint
+            object["profiles"] = profiles
+            let incoming = try JSONSerialization.data(withJSONObject: object)
+            XCTAssertTrue(plugin.restorePortablePreferencesReportingResult(from: incoming))
+            XCTAssertTrue(plugin.restorePortablePreferencesReportingResult(from: incoming))
+            XCTAssertNotNil(plugin.makePortablePreferencesBackup())
+            let reloaded = makePlugin(storage: storage, secretStore: secret)
+            let id = try XCTUnwrap(profiles[0]["id"] as? String)
+            XCTAssertFalse(PortableCredentialAuthorization(storage: storage).allows(profileID: id, baseURL: endpoint))
+            XCTAssertEqual(secret.loadCount, 0)
+            XCTAssertEqual(secret.saveCount, 0)
+            XCTAssertFalse(storage.bool(forKey: "preferences-backup.include-prompt-text"))
+            XCTAssertNotNil(reloaded.saveConfiguration(OpenAICompatibleConfiguration(baseURL: endpoint, model: "test", promptTemplate: "{{text}}"), apiKey: "", languagePair: .init(first: .english, second: .simplifiedChinese)))
+        }
     }
 
     func testFailedCredentialReplacementPreservesOnlyVerifiedUnchangedAccess() throws {

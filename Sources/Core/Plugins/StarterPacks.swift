@@ -9,8 +9,6 @@ enum StarterPackStep: Hashable {
 enum StarterPack: String, Codable, CaseIterable, Identifiable {
     case everyday, windows, writing, meetings, displays, developer, maintenance
 
-    static let recommendedForOnboarding: [Self] = [.everyday, .windows, .writing, .meetings]
-
     var id: String { rawValue }
     private var definition: StarterPackCatalog.Pack { StarterPackCatalog.shared.packs.first { $0.id == rawValue }! }
     var title: String { definition.title.localized }
@@ -45,7 +43,13 @@ struct StarterPackCatalog: Decodable {
         }
     }
     struct Pack: Decodable {
-        struct PanelItem: Decodable { let pluginID: String; let itemID: String }
+        struct PanelItem: Decodable {
+            let pluginID: String
+            let itemID: String
+            let initialPlacement: PluginPanelInitialPlacement
+
+            var key: PluginPanelItemKey { .init(pluginID: pluginID, itemID: itemID) }
+        }
         let id: String
         let symbol: String
         let title: Text
@@ -57,6 +61,10 @@ struct StarterPackCatalog: Decodable {
     struct Plugin: Decodable { let title: Text; let symbol: String; let permissionIDs: [String] }
     let packs: [Pack]
     let plugins: [String: Plugin]
+
+    func defaultPanelID(for item: PluginPanelItemKey) -> String? {
+        packs.lazy.flatMap(\.panelItems).first { $0.key == item }?.initialPlacement.panelID
+    }
 
     static let shared: Self = {
         guard let url = Bundle.main.url(forResource: "StarterPacks", withExtension: "json"),
@@ -71,20 +79,13 @@ struct StarterPackCatalog: Decodable {
 struct StarterPackDraft: Codable {
     var selectedPluginIDs: Set<String>
     var addToPanel = true
-    var panelID = MenuBarPanelDefinition.componentsID
+    var panelID: String?
     var seedGrid = false
     var assignShortcut = false
 }
 
 enum StarterPackGridState: Equatable {
     case empty, occupied, unavailable
-}
-
-struct StarterPackGridPreviewItem: Identifiable {
-    var id: Int { slot }
-    let slot: Int
-    let title: String
-    let symbol: String
 }
 
 /// Dependencies are closures so batch outcomes can be checked without downloads or system actions.
@@ -159,7 +160,9 @@ final class StarterPackController: ObservableObject {
             .flatMap { try? JSONDecoder().decode(SavedDraft.self, from: $0) } : nil
         selectedPacks = saved?.packs ?? (onboarding ? [.everyday] : [])
         draft = saved?.draft ?? StarterPackDraft(selectedPluginIDs: onboarding ? Set(StarterPack.everyday.pluginIDs) : [])
-        if saved == nil { draft.addToPanel = onboarding }
+        // Setup uses each item's default location, including resumed drafts from older versions.
+        draft.addToPanel = true
+        draft.panelID = nil
         excludedPluginIDs = saved?.excludedPluginIDs ?? []
         hasEditedSelection = saved?.hasEditedSelection ?? false
         draft.selectedPluginIDs.formIntersection(candidateIDs)
@@ -299,6 +302,35 @@ final class StarterPackController: ObservableObject {
             .filter { selectedIDs.contains($0.pluginID) && seen.insert($0).inserted }
     }
 
+    /// Preview existing copies in place and route new items exactly as setup will.
+    func panelItemsByPanelID(showsAppliedSelection: Bool = false) -> [String: [PluginPanelItemKey]] {
+        let selection = showsAppliedSelection ? appliedDraft : draft
+        guard let selection, selection.addToPanel else { return [:] }
+        let items = showsAppliedSelection
+            ? appliedPanelItems.filter { succeeded($0.pluginID) } : recommendedPanelItems
+        let itemSet = Set(items)
+        let layout = services.layout()
+        var grouped = layout.placementsByPanelID.mapValues { placements in
+            placements.map(\.item).filter { itemSet.contains($0) }
+        }.filter { !$0.value.isEmpty }
+        if !showsAppliedSelection {
+            let placed = Set(grouped.values.flatMap { $0 })
+            for item in items where !placed.contains(item) {
+                if let panelID = destinationPanelID(for: item, draft: selection, layout: layout) {
+                    grouped[panelID, default: []].append(item)
+                }
+            }
+        }
+        return grouped
+    }
+
+    private func destinationPanelID(for item: PluginPanelItemKey, draft: StarterPackDraft,
+                                    layout: MenuBarPanelConfiguration) -> String? {
+        let preferredID = draft.panelID ?? StarterPackCatalog.shared.defaultPanelID(for: item)
+        return layout.panels.first { !$0.isHidden && $0.id == preferredID }?.id
+            ?? layout.panels.first { !$0.isHidden }?.id
+    }
+
     var pendingPanelItems: [PluginPanelItemKey] {
         guard draft.addToPanel else { return [] }
         let placed = Set(services.layout().placementsByPanelID.values.flatMap { $0 }.map(\.item))
@@ -329,7 +361,8 @@ final class StarterPackController: ObservableObject {
         let selected = selectedIDs
         appliedPacks = selectedPacks
         appliedDraft = reviewedDraft
-        resultPanelID = reviewedDraft.panelID
+        resultPanelID = services.layout().panels.first { !$0.isHidden }?.id
+            ?? MenuBarPanelDefinition.componentsID
         isRunning = true
         stopRequested = false
         showsProgress = true
@@ -346,12 +379,16 @@ final class StarterPackController: ObservableObject {
                         throw StarterPackError.unavailable(services.readinessMessage(id))
                     }
                     setResult(id, alreadyInstalled ? .ready : .installed)
-                    if reviewedDraft.addToPanel,
-                       let item = panelItems.first(where: { $0.pluginID == id }) {
-                        let layout = services.layout()
-                        let placed = layout.placementsByPanelID.values.flatMap { $0 }.contains { $0.item == item }
-                        if !placed, !services.addPlacement(item, reviewedDraft.panelID) {
-                            setupMessages.append(FeatureL10n.string("未能添加到面板，请在面板编辑器中添加。"))
+                    if reviewedDraft.addToPanel {
+                        for item in panelItems where item.pluginID == id {
+                            let layout = services.layout()
+                            let placed = layout.placementsByPanelID.values.flatMap { $0 }.contains { $0.item == item }
+                            guard !placed else { continue }
+                            guard let panelID = destinationPanelID(for: item, draft: reviewedDraft, layout: layout),
+                                  services.addPlacement(item, panelID) else {
+                                setupMessages.append(FeatureL10n.string("未能添加到面板，请在面板编辑器中添加。"))
+                                continue
+                            }
                         }
                     }
                 } catch {
@@ -371,6 +408,10 @@ final class StarterPackController: ObservableObject {
             if selected.contains("action-grid"), succeeded("action-grid"),
                reviewedDraft.assignShortcut, !services.hasGridShortcut(),
                let error = services.assignGridShortcut() { setupMessages.append(error) }
+            let appliedItems = panelItemsByPanelID(showsAppliedSelection: true)
+            if let panel = services.layout().panels.first(where: { !$0.isHidden && appliedItems[$0.id]?.isEmpty == false }) {
+                resultPanelID = panel.id
+            }
             currentPluginID = nil
             isRunning = false
             installationTask = nil

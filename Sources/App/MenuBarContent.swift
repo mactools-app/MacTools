@@ -602,6 +602,7 @@ struct MenuBarContent: View {
     let isPanelVisible: Bool
     let onDismiss: () -> Void
     let onOpenSettings: () -> Void
+    let onEditLayout: () -> Void
     let onPresentDiskCleanConfiguration: () -> Void
     let onPresentLaunchControlConfiguration: () -> Void
     var suppliedItems: [PluginPanelRowSnapshot]? = nil
@@ -1065,7 +1066,8 @@ struct MenuBarContent: View {
                     ?? CGRect(x: 0, y: y, width: surfaceWidth, height: MenuBarPanelLayout.rowHeight(for: item, width: surfaceWidth)))
         }
         if items.isEmpty {
-            PanelPluginEmptyState(tab: .features, pluginHost: pluginHost, onInstall: { pluginHost.presentPluginMarketplace() })
+            PanelPluginEmptyState(systemImage: MenuBarPanelTab.features.systemImage,
+                                  pluginHost: pluginHost, onEditLayout: onEditLayout)
                 .frame(height: contentBodyHeight)
         } else {
             PanelViewportStack(frames: frames, width: surfaceWidth,

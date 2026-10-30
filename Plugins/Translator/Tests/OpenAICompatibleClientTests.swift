@@ -3,7 +3,7 @@ import XCTest
 @testable import TranslatorPlugin
 
 final class OpenAICompatibleClientTests: XCTestCase {
-    func testBuildsRequestAndParsesSuccessResult() async throws {
+    func testBuildsPrivateHTTPRequestAndParsesSuccessResult() async throws {
         let recorder = RequestRecorder()
         let httpClient = StubTranslatorHTTPClient(
             recorder: recorder,
@@ -15,7 +15,7 @@ final class OpenAICompatibleClientTests: XCTestCase {
         let client = OpenAICompatibleClient(httpClient: httpClient)
         let languageSelection = TranslatorLanguageSelection(source: .english, target: .simplifiedChinese)
         let configuration = OpenAICompatibleConfiguration(
-            baseURL: "https://api.openai.com",
+            baseURL: "http://10.0.0.10:8000/gateway/v1/chat/completions",
             model: "gpt-test",
             promptTemplate: "Translate from {{source_language}} to {{target_language}}:\n{{text}}"
         )
@@ -39,7 +39,7 @@ final class OpenAICompatibleClientTests: XCTestCase {
 
         let recordedRequests = await recorder.requests
         let request = try XCTUnwrap(recordedRequests.first)
-        XCTAssertEqual(request.url?.absoluteString, "https://api.openai.com/v1/chat/completions")
+        XCTAssertEqual(request.url?.absoluteString, "http://10.0.0.10:8000/gateway/v1/chat/completions")
         XCTAssertEqual(request.httpMethod, "POST")
         XCTAssertEqual(request.cachePolicy, .reloadIgnoringLocalCacheData)
         XCTAssertEqual(request.timeoutInterval, 30)

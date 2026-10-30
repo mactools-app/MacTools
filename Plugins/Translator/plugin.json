@@ -80,7 +80,7 @@
     "discovery.screenshot-translation": "@localizable.shortcut.screenshotTranslation.title"
   },
   "version": "1.1.0",
-  "minHostVersion": "2.0.1",
+  "minHostVersion": "2.2.0",
   "pluginKitVersion": 7,
   "bundleRelativePath": "Translator.bundle",
   "factoryClass": "TranslatorPlugin.TranslatorPluginFactory",
