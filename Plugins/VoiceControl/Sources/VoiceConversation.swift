@@ -35,7 +35,8 @@ final class VoiceConversation: ObservableObject {
     private let credentials: VoiceCredentialConfiguration
     private let audio: any VoiceAudioIO
     private let requestMicrophone: () async -> Bool
-    private var socket: URLSessionWebSocketTask?
+    private var socket: (any VoiceConnection)?
+    private let makeConnection: ((URLRequest) -> any VoiceConnection)?
     // Reuse transport resources, never an idle Live session. No request runs until Start.
     private let network: URLSession = {
         let configuration = URLSessionConfiguration.ephemeral
@@ -48,6 +49,10 @@ final class VoiceConversation: ObservableObject {
     private var toolTask: Task<Void, Never>?
     private var deadlineTask: Task<Void, Never>?
     private var startupTask: Task<Void, Never>?
+    private var idleTask: Task<Void, Never>?
+    private var lastActivity = ContinuousClock.now
+    private(set) var sessionMetrics = VoiceSessionMetrics(id: UUID())
+    private(set) var recentSessionMetrics: [VoiceSessionMetrics] = []
     private var tools: VoiceTools?
     private var startupTimeoutFailure = VoiceFailure.connection
     private var epoch = UUID()
@@ -68,8 +73,9 @@ final class VoiceConversation: ObservableObject {
              default: return false
              }
          },
-         secrets: any VoiceSecretStoring = VoiceSecretStore()) {
-        self.audio = audio; self.requestMicrophone = requestMicrophone
+         secrets: any VoiceSecretStoring = VoiceSecretStore(),
+         makeConnection: ((URLRequest) -> any VoiceConnection)? = nil) {
+        self.audio = audio; self.requestMicrophone = requestMicrophone; self.makeConnection = makeConnection
         let credentials = VoiceCredentialConfiguration(storage: context.storage, secrets: secrets)
         self.credentials = credentials
         credentialPath = credentials.path; hasCredentials = credentials.isConfigured
@@ -142,6 +148,7 @@ final class VoiceConversation: ObservableObject {
         captions = VoiceTranscript(); turns = []; pendingInput = VoicePendingInput()
         startupInstant = .now; startupTimings = [:]
         let token = UUID(); epoch = token
+        sessionMetrics = VoiceSessionMetrics(id: token); lastActivity = .now
         onChange?()
         deadlineTask = Task { @MainActor [weak self] in
             try? await Task.sleep(for: .seconds(15))
@@ -174,8 +181,7 @@ final class VoiceConversation: ObservableObject {
                 guard granted else { throw VoiceFailure.microphone }
                 var request = URLRequest(url: URL(string: "wss://api.openai.com/v1/live/sessions")!)
                 request.setValue("Bearer \(key)", forHTTPHeaderField: "Authorization")
-                let socket = network.webSocketTask(with: request)
-                socket.maximumMessageSize = 2_000_000
+                let socket = makeConnection?(request) ?? VoiceWebSocketConnection(network: network, request: request)
                 self.socket = socket; socket.resume()
                 // TLS/session setup overlaps local audio startup. Speech remains bounded in
                 // memory until session.started, then one audio task drains it in order.
@@ -184,7 +190,7 @@ final class VoiceConversation: ObservableObject {
                 startupTimeoutFailure = .connection
                 status = "正在连接，可以开始说话"
                 consumeAudio(stream, token: token)
-                receiveTask = Task { @MainActor [weak self] in await self?.receive(token: token) }
+                receiveTask = Task { @MainActor [weak self] in await self?.receive(token: token, socket: socket) }
                 try await send(["type": "session.start", "session": VoiceTools.configuration], token: token)
             } catch { if epoch == token { fail(error) } }
         }
@@ -198,35 +204,41 @@ final class VoiceConversation: ObservableObject {
     func testSpeaker() { NSSound(named: "Glass")?.play() }
 
     func stop(keepingStatus: Bool = false) {
+        if active {
+            recentSessionMetrics.append(sessionMetrics)
+            recentSessionMetrics = Array(recentSessionMetrics.suffix(4))
+        }
         epoch = UUID(); active = false; connected = false; capturing = false; muted = false; speaking = false; activity = nil; startupTimeoutFailure = .connection
         pendingInput = VoicePendingInput()
         inputLevels = Array(repeating: 0, count: 24); outputLevels = Array(repeating: 0, count: 24)
         tools?.stop(); tools = nil
         audio.stop()
         startupTask?.cancel(); startupTask = nil
-        receiveTask?.cancel(); receiveTask = nil
+        let oldReceiver = receiveTask; receiveTask = nil
         audioTask?.cancel(); audioTask = nil
         toolTask?.cancel(); toolTask = nil
         deadlineTask?.cancel(); deadlineTask = nil
+        idleTask?.cancel(); idleTask = nil
         calls.removeAll(); delegations.removeAll(); handled.removeAll(); toolQueue.removeAll()
         let old = socket; socket = nil
-        // Capture and host authorization end immediately; socket teardown has a bounded grace period.
-        if let old {
+        // Capture and grants end immediately. The old receiver drains only usage while
+        // waiting briefly for session.closed; it cannot play audio or run another tool.
+        if let old, !sessionMetrics.finalized {
+            Task { try? await old.send(["type": "session.close"]) }
             Task {
-                try? await old.send(.string("{\"type\":\"session.close\"}"))
+                try? await Task.sleep(for: .milliseconds(1_500))
+                old.cancel(); oldReceiver?.cancel()
             }
-            Task {
-                try? await Task.sleep(for: .seconds(1))
-                old.cancel(with: .normalClosure, reason: nil)
-            }
-        }
+        } else { old?.cancel(); oldReceiver?.cancel() }
         if !keepingStatus { status = "对话已结束" }
         onChange?()
     }
 
     private func fail(_ error: Error) {
-        if (socket?.response as? HTTPURLResponse)?.statusCode == 401 {
-            status = "API 密钥未通过验证，请检查后重新保存。"
+        if let service = error as? VoiceServiceFailure {
+            status = service.message
+        } else if let httpStatus = socket?.httpStatus, [401, 403, 404, 429].contains(httpStatus) {
+            status = VoiceServiceFailure.classify(nil, httpStatus: httpStatus).message
         } else {
             status = switch error as? VoiceFailure {
             case .credentials: "无法读取密钥，请检查 API 密钥设置。"
@@ -240,13 +252,12 @@ final class VoiceConversation: ObservableObject {
     }
 
     private func send(_ object: [String: Any], token: UUID) async throws {
-        guard epoch == token, active, let socket,
-              let data = try? JSONSerialization.data(withJSONObject: object),
-              let string = String(data: data, encoding: .utf8) else { throw VoiceFailure.connection }
-        try await socket.send(.string(string))
+        guard epoch == token, active, let socket else { throw VoiceFailure.connection }
+        try await socket.send(object)
     }
 
     private func recordStartup(_ stage: String) {
+        guard startupTimings[stage] == nil else { return }
         let elapsed = startupInstant.duration(to: .now).components
         startupTimings[stage] = Double(elapsed.seconds) + Double(elapsed.attoseconds) / 1e18
     }
@@ -257,9 +268,11 @@ final class VoiceConversation: ObservableObject {
             do {
                 for try await data in stream {
                     guard epoch == token, active else { return }
-                    inputLevels = Array(inputLevels.dropFirst()) + [muted ? 0 : VoiceAudioMeter.level(data)]
+                    let level = muted ? Float.zero : VoiceAudioMeter.level(data)
+                    inputLevels = Array(inputLevels.dropFirst()) + [level]
                     let input = muted ? Data(count: data.count) : data
                     if !connected { try pendingInput.append(input); continue }
+                    if level > 0 { recordStartup("firstInputAudio") }
                     let queued = pendingInput.take()
                     for chunk in queued {
                         let buffered = muted ? Data(count: chunk.count) : chunk
@@ -272,17 +285,26 @@ final class VoiceConversation: ObservableObject {
         }
     }
 
-    private func receive(token: UUID) async {
+    private func receive(token: UUID, socket: any VoiceConnection) async {
         do {
-            while epoch == token, active, let socket {
-                let message = try await socket.receive()
-                guard epoch == token, active else { return }
-                let data: Data
-                switch message { case let .data(value): data = value; case let .string(value): data = Data(value.utf8); @unknown default: throw VoiceFailure.protocolError }
-                guard let event = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw VoiceFailure.protocolError }
-                try await handle(event, token: token)
+            while !Task.isCancelled {
+                let event = try await socket.receive()
+                if epoch == token, active {
+                    sessionMetrics.observe(event)
+                    try await handle(event, token: token)
+                } else if let index = recentSessionMetrics.firstIndex(where: { $0.id == token }) {
+                    recentSessionMetrics[index].observe(event)
+                }
+                if event["type"] as? String == "session.closed" { socket.cancel(); return }
             }
         } catch { if epoch == token, active { fail(error) } }
+    }
+
+    func stopIfIdle(at now: ContinuousClock.Instant = .now) {
+        guard active, connected, !speaking, toolTask == nil,
+              lastActivity.duration(to: now) >= .seconds(120) else { return }
+        status = "一段时间没有活动，对话已结束。重新开始即可继续。"
+        stop(keepingStatus: true)
     }
 
     private func handle(_ event: [String: Any], token: UUID) async throws {
@@ -290,17 +312,36 @@ final class VoiceConversation: ObservableObject {
         case "session.started":
             guard !connected else { return }
             recordStartup("connected")
-            connected = true; status = "正在聆听"; onChange?()
+            connected = true; status = "正在聆听"; lastActivity = .now; onChange?()
+            idleTask = Task { @MainActor [weak self] in
+                while !Task.isCancelled {
+                    try? await Task.sleep(for: .seconds(10))
+                    guard let self, epoch == token, active else { return }
+                    stopIfIdle()
+                }
+            }
         case "session.output_audio.delta":
-            if let encoded = event["delta"] as? String, let data = Data(base64Encoded: encoded) { try audio.play(data) }
+            if let encoded = event["delta"] as? String, let data = Data(base64Encoded: encoded), !data.isEmpty {
+                recordStartup("firstOutputAudio"); lastActivity = .now
+                try audio.play(data)
+            }
         case "session.input_transcript.delta", "session.output_transcript.delta":
-            if let delta = event["delta"] as? String {
+            if let delta = event["delta"] as? String, !delta.isEmpty {
+                lastActivity = .now
+                recordStartup(event["type"] as? String == "session.input_transcript.delta" ? "firstInputTranscript" : "firstOutputTranscript")
                 captions.append(delta, speaker: event["type"] as? String == "session.input_transcript.delta" ? .user : .assistant,
                                 start: event["start_ms"] as? Int, end: event["end_ms"] as? Int)
                 turns = captions.turns
             }
-        case "session.closed": stop()
-        case "error", "session.error": throw VoiceFailure.connection
+        case "session.closed":
+            switch event["reason"] as? String {
+            case "expired": status = "对话已到时，请重新开始"
+            case "content": status = "语音服务已结束此对话，请重新开始。"
+            case "connection_lost": status = VoiceServiceFailure.connection.message
+            default: status = "对话已结束"
+            }
+            stop(keepingStatus: true)
+        case "error", "session.error": throw VoiceServiceFailure.classify(event["error"] as? [String: Any])
         case "response.event":
             guard let nested = event["event"] as? [String: Any] else { return }
             let delegation = event["delegation_id"] as? String ?? ""
@@ -321,7 +362,8 @@ final class VoiceConversation: ObservableObject {
                 guard toolQueue.count < 8 else { throw VoiceFailure.overloaded }
                 toolQueue.append((id, pending)); processTools(token: token)
             } else if ["response.failed", "response.incomplete"].contains(nested["type"] as? String ?? "") {
-                throw VoiceFailure.connection
+                let response = nested["response"] as? [String: Any]
+                throw VoiceServiceFailure.classify(response?["error"] as? [String: Any])
             }
         default: break
         }
