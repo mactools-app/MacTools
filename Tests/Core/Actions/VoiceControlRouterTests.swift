@@ -152,6 +152,25 @@ final class VoiceControlRouterTests: XCTestCase {
         XCTAssertEqual(fixture.applications.opened.count, 1)
     }
 
+    func testApplicationNameRemainsDiscoverableAmongGenericSearchMatches() async throws {
+        let fixture = Fixture()
+        fixture.applications.targets = (0..<35).map { index in
+            .init(name: "A Editor \(index)", url: URL(fileURLWithPath: "/Applications/Editor\(index).app"),
+                  bundleIdentifier: "org.editor.\(index)")
+        } + [.init(name: "TextEdit", url: URL(fileURLWithPath: "/Applications/TextEdit.app"),
+                   bundleIdentifier: "com.apple.TextEdit")]
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search("TextEdit app launch or activate switch"), sessionID: session)
+        let target = try XCTUnwrap(reply.capabilities.first)
+        XCTAssertTrue(target.title.contains("TextEdit"))
+        let identifierNoise = await context.request(.search("TextEdit org"), sessionID: session)
+        XCTAssertTrue(try XCTUnwrap(identifierNoise.capabilities.first).title.contains("TextEdit"))
+        let result = await context.request(.perform(capabilityID: target.id, parameters: .empty), sessionID: session)
+        XCTAssertEqual(result.status, "ok")
+        XCTAssertEqual(fixture.applications.opened.map(\.name), ["TextEdit"])
+    }
+
     func testStopDuringApplicationDiscoveryCannotIssueCapabilities() async throws {
         let fixture = Fixture()
         let context = fixture.router.context(owner: "voice-control")
