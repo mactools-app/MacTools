@@ -111,11 +111,19 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
     func handleSettingsAction(_ action: PluginSettingsAction) {
         if case .invoke(controlID: "test-speaker") = action { conversation.testSpeaker() }
     }
-    func setProvider(_ id: String, allowed: Bool) {
-        guard !conversation.active else { return }
-        if allowed { conversation.excludedPluginIDs.remove(id) } else { conversation.excludedPluginIDs.insert(id) }
-        storage.set(conversation.excludedPluginIDs.sorted(), forKey: "excludedProviders")
-        onPersistentPreferencesChange?(); onStateChange?()
+    func setProviderAccess(_ access: [String: Bool]) {
+        guard !conversation.active, !conversation.credentialBusy, !access.isEmpty else { return }
+        let available = Set(conversation.context?.providers().map(\.id) ?? [])
+        var excluded = conversation.excludedPluginIDs
+        for (id, allowed) in access where available.contains(id) {
+            if allowed { excluded.remove(id) } else { excluded.insert(id) }
+        }
+        guard excluded != conversation.excludedPluginIDs else { return }
+        conversation.excludedPluginIDs = excluded
+        storage.set(excluded.sorted(), forKey: "excludedProviders")
+        // Access affects the next session, not host commands or panel declarations.
+        // Notify backup once per edit session without rebuilding the host UI.
+        onPersistentPreferencesChange?()
     }
     private struct Preferences: Codable { let version: Int; let excludedProviders: [String] }
     func makePortablePreferencesBackup() -> Data? {

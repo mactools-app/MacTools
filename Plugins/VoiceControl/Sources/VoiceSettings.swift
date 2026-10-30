@@ -92,57 +92,110 @@ private func voiceAccessSummary(_ model: VoiceConversation) -> String {
     return String.localizedStringWithFormat(model.text("已允许 %lld 项，共 %lld 项"), allowed, providers.count)
 }
 
+/// Keep switch edits local: provider discovery and preference backups must not run per click.
+@MainActor
+final class VoiceFeatureAccessDraft: ObservableObject {
+    let providers: [PluginVoiceProvider]
+    private let originalExcludedPluginIDs: Set<String>
+    @Published private(set) var excludedPluginIDs: Set<String>
+
+    init(providers: [PluginVoiceProvider], excludedPluginIDs: Set<String>) {
+        self.providers = providers.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
+        originalExcludedPluginIDs = excludedPluginIDs
+        self.excludedPluginIDs = excludedPluginIDs
+    }
+    var allowedCount: Int { providers.filter { isAllowed($0.id) }.count }
+    var access: [String: Bool] { Dictionary(uniqueKeysWithValues: providers.map { ($0.id, isAllowed($0.id)) }) }
+    var changes: [String: Bool] {
+        access.filter { originalExcludedPluginIDs.contains($0.key) == $0.value }
+    }
+    func isAllowed(_ id: String) -> Bool { !excludedPluginIDs.contains(id) }
+    func matches(_ query: String) -> [PluginVoiceProvider] {
+        let search = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        return providers.filter { search.isEmpty || $0.title.localizedStandardContains(search) }
+    }
+    func setAllowed(_ allowed: Bool, for providers: [PluginVoiceProvider]) {
+        var excluded = excludedPluginIDs
+        let ids = Set(providers.map(\.id))
+        if allowed { excluded.subtract(ids) } else { excluded.formUnion(ids) }
+        if excluded != excludedPluginIDs { excludedPluginIDs = excluded }
+    }
+}
+
 @MainActor
 private struct VoiceFeatureAccessSheet: View {
     let plugin: VoiceControlPlugin
     @ObservedObject var model: VoiceConversation
+    @StateObject private var draft: VoiceFeatureAccessDraft
     @Environment(\.dismiss) private var dismiss
     @State private var query = ""
     @FocusState private var searchFocused: Bool
-    private var providers: [PluginVoiceProvider] {
-        (model.context?.providers() ?? []).sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
+    init(plugin: VoiceControlPlugin, model: VoiceConversation) {
+        self.plugin = plugin
+        self.model = model
+        _draft = StateObject(wrappedValue: VoiceFeatureAccessDraft(
+            providers: model.context?.providers() ?? [], excludedPluginIDs: model.excludedPluginIDs))
     }
-    private var matches: [PluginVoiceProvider] {
-        let search = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        return providers.filter { search.isEmpty || $0.title.localizedStandardContains(search) }
-    }
+    private var editingDisabled: Bool { model.active || model.credentialBusy }
     var body: some View {
+        let matches = draft.matches(query)
+        let filtered = !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
             HStack {
                 Text(model.text("允许的功能")).font(PluginSettingsTheme.Typography.pageTitle)
                 Spacer()
-                Button(model.text("完成")) { dismiss() }
+                Button(model.text("取消")) { dismiss() }
+                    .accessibilityIdentifier("voice-control.features-cancel")
+                Button(model.text("完成")) {
+                    plugin.setProviderAccess(draft.changes)
+                    dismiss()
+                }
                     .buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
+                    .disabled(editingDisabled)
                     .accessibilityIdentifier("voice-control.features-done")
             }
-            Text(voiceAccessSummary(model))
+            Text(String.localizedStringWithFormat(model.text("已允许 %lld 项，共 %lld 项"), draft.allowedCount, draft.providers.count))
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
             TextField("", text: $query, prompt: Text(model.text("搜索功能")))
                 .labelsHidden().textFieldStyle(.roundedBorder)
                 .accessibilityLabel(model.text("搜索功能"))
                 .accessibilityIdentifier("voice-control.feature-search")
                 .focused($searchFocused)
+            HStack {
+                if filtered {
+                    Text(String.localizedStringWithFormat(model.text("找到 %lld 项功能"), matches.count))
+                        .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button(model.text(filtered ? "允许搜索结果" : "全部允许")) { draft.setAllowed(true, for: matches) }
+                    .disabled(editingDisabled || matches.allSatisfy { draft.isAllowed($0.id) })
+                    .accessibilityIdentifier("voice-control.features-allow-all")
+                Button(model.text(filtered ? "禁止搜索结果" : "全部禁止")) { draft.setAllowed(false, for: matches) }
+                    .disabled(editingDisabled || matches.allSatisfy { !draft.isAllowed($0.id) })
+                    .accessibilityIdentifier("voice-control.features-allow-none")
+            }
             List(matches) { provider in
-                Toggle(provider.title, isOn: Binding(get: { !model.excludedPluginIDs.contains(provider.id) },
-                                                    set: { plugin.setProvider(provider.id, allowed: $0) }))
+                Toggle(provider.title, isOn: Binding(get: { draft.isAllowed(provider.id) },
+                                                    set: { draft.setAllowed($0, for: [provider]) }))
                     .toggleStyle(.switch).controlSize(.small)
                     .font(PluginSettingsTheme.Typography.rowTitle)
-                    .disabled(model.active || model.credentialBusy)
+                    .disabled(editingDisabled)
                     .accessibilityIdentifier("voice-control.feature." + provider.id)
             }
             .listStyle(.inset)
             .overlay {
                 if matches.isEmpty {
-                    if providers.isEmpty {
+                    if draft.providers.isEmpty {
                         ContentUnavailableView(model.text("没有可用功能"), systemImage: "square.stack")
                     } else { ContentUnavailableView.search(text: query) }
                 }
             }
-            Text(model.text(model.active ? "请先停止对话，再修改允许的功能。" : "更改将在下一次对话生效。"))
+            Text(model.text(model.active ? "请先停止对话，再修改允许的功能。" : "选择“完成”保存更改。将在下一次对话生效。"))
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
         }
         .padding(PluginSettingsTheme.Spacing.pagePadding)
         .frame(width: 480, height: 500)
+        .buttonStyle(.bordered).controlSize(.small)
         .onAppear { searchFocused = true }
         .onExitCommand { dismiss() }
     }

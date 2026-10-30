@@ -2,4 +2,4 @@
 release: plugin
 type: added
 ---
-Add a persistent voice assistant with live speaker captions, audio meters, and global shortcuts. Compact setup includes secure key controls and searchable feature access.
+Add a persistent voice assistant with live captions, audio meters, and global shortcuts. Setup includes secure key controls and responsive feature selection with search, batch changes, and cancelable edits.
