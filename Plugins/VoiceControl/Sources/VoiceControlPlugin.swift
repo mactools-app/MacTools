@@ -16,7 +16,7 @@ public final class VoiceControlPluginFactory: NSObject, MacToolsPluginBundleFact
 
 @MainActor
 final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
-    PluginVoiceControlHostContextConsuming, PluginApplicationActivityStateHandling,
+    PluginVoiceControlHostContextConsuming, PluginApplicationActivityStateHandling, PluginGroupedShortcutSettingsProviding,
     PluginPortablePreferencesProviding, PluginPortablePreferencesRestorationReporting,
     PluginPersistentPreferencesChangeSignaling {
     let conversation: VoiceConversation
@@ -56,8 +56,12 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
         [shortcut(id: "toggle-assistant", title: "显示或关闭助手"),
          shortcut(id: "dismiss-assistant", title: "停止并关闭助手")]
     }
+    var shortcutSettingsGroups: [PluginShortcutSettingsGroupConfiguration] {
+        [.init(id: "conversation", title: conversation.text("快捷键"),
+               shortcutDefinitionIDs: ["toggle-assistant", "dismiss-assistant"], placementAfterSectionID: "credentials")]
+    }
     private func shortcut(id: String, title: String) -> PluginShortcutDefinition {
-        .init(id: id, title: conversation.text(title), description: conversation.text(id == "dismiss-assistant" ? "停止并关闭助手" : "隐藏时开始聆听，再按一次停止并关闭。"),
+        .init(id: id, title: conversation.text(title), description: conversation.text(id == "dismiss-assistant" ? "可选的独立快捷键，用于停止录音并关闭助手。" : "隐藏时开始聆听，再按一次停止并关闭。"),
               actionID: id, scope: .global, defaultBinding: nil, isRequired: false)
     }
     func handleShortcutAction(id: String) {
@@ -88,14 +92,24 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
     }
     var settingsPage: PluginSettingsPage? {
         .form(description: metadata.defaultDescription, sections: [
-            .init(id: "credentials", title: conversation.text("你的 OpenAI API 密钥"), systemImage: "key") { [conversation] _ in
+            .init(id: "credentials", title: conversation.text("你的 OpenAI API 密钥"), systemImage: "key",
+                  footer: conversation.text("使用你自己的 OpenAI 账户计费。在这里保存的密钥仅存于本机钥匙串，不会包含在 App 或开源代码中。")) { [conversation] _ in
                 VoiceKeySettings(model: conversation)
             },
+            .init(id: "audio", title: conversation.text("音频"), systemImage: "speaker.wave.2",
+                  footer: conversation.text("对话音频和请求的功能数据会发送到 OpenAI，使用你的 API 额度。回复由 AI 生成；停止、锁屏或睡眠时结束录音。"), rows: [
+                .init(id: "test-speaker", title: conversation.text("扬声器"),
+                      description: conversation.text("播放提示音以检查当前输出设备。"),
+                      control: .action(title: conversation.text("测试扬声器"), role: .normal))
+            ]),
             .init(id: "scope", title: conversation.text("允许的功能"), systemImage: "checkmark.shield",
-                  footer: conversation.text("本次对话只使用下面勾选的功能。修改后在下一次对话生效。")) { [weak self] _ in
+                  footer: conversation.text("选择助手可使用的功能。更改将在下一次对话生效。")) { [weak self] _ in
                 if let self { VoiceScopeSettings(plugin: self, model: conversation) }
             }
         ])
+    }
+    func handleSettingsAction(_ action: PluginSettingsAction) {
+        if case .invoke(controlID: "test-speaker") = action { conversation.testSpeaker() }
     }
     func setProvider(_ id: String, allowed: Bool) {
         guard !conversation.active else { return }

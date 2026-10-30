@@ -2,4 +2,4 @@
 release: plugin
 type: added
 ---
-Add a persistent, expandable voice assistant with live audio meters, separate speaker captions, personal API-key setup, feature access controls, and global shortcuts. Start speaking while it connects.
+Add a persistent voice assistant with live speaker captions, audio meters, and global shortcuts. Compact setup includes secure key controls and searchable feature access.
