@@ -194,7 +194,7 @@ final class VoiceConversation: ObservableObject {
                 status = "正在连接，可以开始说话"
                 consumeAudio(stream, token: token)
                 receiveTask = Task { @MainActor [weak self] in await self?.receive(token: token, socket: socket) }
-                try await send(["type": "session.start", "session": VoiceTools.configuration], token: token)
+                try await send(["type": "session.start", "session": VoiceTools.configuration(providers: sessionProviders)], token: token)
             } catch { if epoch == token { fail(error) } }
         }
     }
