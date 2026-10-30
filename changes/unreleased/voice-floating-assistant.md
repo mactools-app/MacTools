@@ -2,4 +2,4 @@
 release: plugin
 type: added
 ---
-Add a floating voice assistant with expandable captions, user-owned OpenAI keys, per-feature controls, and configurable global shortcuts. Stop keeps the panel visible; dismissing ends audio.
+Add a persistent, expandable voice assistant with live audio meters, separate speaker captions, personal API-key setup, feature access controls, and global shortcuts. Start speaking while it connects.
