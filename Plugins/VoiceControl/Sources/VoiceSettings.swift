@@ -58,6 +58,15 @@ struct VoiceKeySettings: View {
                     .foregroundStyle(model.credentialError ? Color.red : Color.secondary)
             }
             Divider().padding(.vertical, PluginSettingsTheme.Spacing.rowTitleDescription)
+            Toggle(model.text("说话后连接"), isOn: Binding(
+                get: { model.connectOnSpeech }, set: { plugin.setConnectOnSpeech($0) }))
+                .toggleStyle(.switch)
+                .font(PluginSettingsTheme.Typography.rowTitle)
+                .disabled(model.active || model.credentialBusy)
+                .accessibilityIdentifier("voice-control.connect-on-speech")
+            Text(model.text("先在本机检测语音，再连接 OpenAI。连接后正常传输对话音频。"))
+                .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+            Divider().padding(.vertical, PluginSettingsTheme.Spacing.rowTitleDescription)
             HStack {
                 Text(model.text("自动结束闲置对话"))
                     .font(PluginSettingsTheme.Typography.rowTitle)

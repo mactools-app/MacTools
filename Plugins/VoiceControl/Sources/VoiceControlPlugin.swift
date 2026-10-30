@@ -173,6 +173,12 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
         storage.set(timeout.rawValue, forKey: "idleTimeoutSeconds")
         onPersistentPreferencesChange?()
     }
+    func setConnectOnSpeech(_ enabled: Bool) {
+        guard !conversation.active, !conversation.credentialBusy, conversation.connectOnSpeech != enabled else { return }
+        conversation.connectOnSpeech = enabled
+        storage.set(enabled, forKey: "connectOnSpeech")
+        onPersistentPreferencesChange?()
+    }
     private func commitFeatureAccess(_ updated: VoiceFeatureAccess) {
         guard updated != conversation.featureAccess else { return }
         conversation.featureAccess = updated
@@ -193,25 +199,27 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
         let automaticallyAllowNewPlugins: Bool?
         let approvedProviders: [String]?
         let idleTimeoutSeconds: Int?
+        let connectOnSpeech: Bool?
     }
     func makePortablePreferencesBackup() -> Data? {
         let access = conversation.featureAccess
-        return try? JSONEncoder().encode(Preferences(version: 3,
+        return try? JSONEncoder().encode(Preferences(version: 4,
             excludedProviders: access.excludedPluginIDs.sorted(),
             automaticallyAllowNewPlugins: access.automaticallyAllowNewPlugins,
-            approvedProviders: access.approvedPluginIDs.sorted(), idleTimeoutSeconds: conversation.idleTimeout.rawValue))
+            approvedProviders: access.approvedPluginIDs.sorted(), idleTimeoutSeconds: conversation.idleTimeout.rawValue, connectOnSpeech: conversation.connectOnSpeech))
     }
     func restorePortablePreferences(from data: Data) { _ = restorePortablePreferencesReportingResult(from: data) }
     func restorePortablePreferencesReportingResult(from data: Data) -> Bool {
         guard !conversation.active, data.count <= 32_768,
               let value = try? JSONDecoder().decode(Preferences.self, from: data),
-              (1...3).contains(value.version),
+              (1...4).contains(value.version),
+              value.version < 4 || value.connectOnSpeech != nil,
               value.version == 1 || (value.automaticallyAllowNewPlugins != nil && value.approvedProviders != nil),
               [value.excludedProviders, value.approvedProviders ?? []].allSatisfy({ ids in
                   ids.count <= 256 && ids.allSatisfy { !$0.isEmpty && $0.utf8.count <= 128 }
               }) else { return false }
         let timeout: VoiceIdleTimeout
-        if value.version == 3 {
+        if value.version >= 3 {
             guard let seconds = value.idleTimeoutSeconds, let restored = VoiceIdleTimeout(rawValue: seconds) else { return false }
             timeout = restored
         } else { timeout = conversation.idleTimeout }
@@ -220,6 +228,8 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
             excludedPluginIDs: Set(value.excludedProviders),
             approvedPluginIDs: value.version == 1 ? [] : Set(value.approvedProviders ?? []))
         persistFeatureAccess()
+        conversation.connectOnSpeech = value.version == 4 ? value.connectOnSpeech ?? true : conversation.connectOnSpeech
+        storage.set(conversation.connectOnSpeech, forKey: "connectOnSpeech")
         conversation.idleTimeout = timeout
         storage.set(timeout.rawValue, forKey: "idleTimeoutSeconds")
         onPersistentPreferencesChange?(); onStateChange?()

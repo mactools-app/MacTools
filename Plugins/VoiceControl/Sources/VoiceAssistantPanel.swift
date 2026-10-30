@@ -83,7 +83,7 @@ private struct VoiceAssistantView: View {
     @State private var showsScope = false
     private var status: String {
         if !model.hasCredentials { return model.text(model.credentialStatus) }
-        if model.active && !model.connected { return model.text(model.status) }
+        if model.active && !model.connected && !model.listeningLocally { return model.text(model.status) }
         if let activity = model.activity { return activity }
         if model.muted { return model.text("麦克风已静音") }
         return model.text(model.speaking ? "正在回复" : model.status)
@@ -102,7 +102,7 @@ private struct VoiceAssistantView: View {
                 iconButton("关闭", symbol: "xmark") { presenter.dismiss() }
             }
             HStack(spacing: 8) {
-                if model.active && !model.connected {
+                if model.active && !model.connected && !model.listeningLocally {
                     ProgressView().controlSize(.mini)
                 } else {
                     Image(systemName: model.speaking ? "speaker.wave.2" : (model.muted ? "mic.slash" : "mic"))
