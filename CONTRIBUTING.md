@@ -88,6 +88,8 @@ Host 2.1.0 requires Trackpad Gestures and Middle Click package versions 2.0.2 or
 
 Shared filesystem metadata code lives in `Sources/MacToolsFileSystem`. Disk Clean, Storage Explorer, and Xcode Clean link this static module into their bundles; their core targets use it as a build dependency. Use `FileSystemDirectoryReader.readBatches` to bound enumeration memory for wide folders. Keep cleanup policy in the owning plugin and run the affected plugins' filesystem tests after changing the shared reader or parser.
 
+Installed application enumeration is shared by Launchpad and voice app control through `Sources/PluginSupport/InstalledApplicationScanner.swift`. Keep scans off the UI thread; voice issues opaque targets, revalidates the app before opening, and never accepts an application path supplied by the model. Voice owners expose only fixed self-controls declared through `PluginVoiceSelfActionProviding`, retaining canonical validation and native confirmation.
+
 ## Validation
 
 Keep a compact suite covering the main user flow and consequential boundaries such as data loss, permission checks, cancellation, or compatibility. Reuse existing coverage across layers. A past bug alone does not require a permanent test; omit unlikely combinations in settled code unless their recurrence would have a significant impact. See the [core test scope](docs/testing/core-tests.md).
