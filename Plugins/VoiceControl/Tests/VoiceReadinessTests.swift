@@ -162,11 +162,88 @@ final class VoiceReadinessTests: XCTestCase {
         XCTAssertEqual(metrics.voiceSeconds, 3.25)
     }
 
-    private func makeModel() async throws -> (VoiceConversation, ReadinessConnections, ReadinessAudio, ReadinessGrants) {
+    func testLocalSpeechConnectsOnceAndPreservesBufferedAudioInOrder() async throws {
+        let detector = ReadinessSpeechDetector()
+        let (model, factory, audio, _) = try await makeModel(detector: detector)
+        model.start()
+        await settle { model.listeningLocally }
+        XCTAssertTrue(model.capturing)
+        XCTAssertTrue(factory.connections.isEmpty)
+        let silence = Data(repeating: 1, count: 2400)
+        let onset = Data(repeating: 2, count: 2400)
+        let handshake = Data(repeating: 3, count: 2400)
+        audio.push(silence)
+        for _ in 0..<100 where await detector.processed == 0 { await Task.yield() }
+        XCTAssertTrue(factory.connections.isEmpty)
+        await detector.setSpeech(true)
+        audio.push(onset)
+        await settle { factory.connections.count == 1 }
+        let socket = try XCTUnwrap(factory.connections.first)
+        audio.push(handshake)
+        for _ in 0..<10 { await Task.yield() }
+        socket.feed(["type": "session.started"])
+        await settle { model.connected }
+        XCTAssertEqual(socket.inputAudio.reduce(Data(), +), silence + onset + handshake)
+        XCTAssertFalse(model.listeningLocally)
+        XCTAssertEqual(factory.connections.count, 1)
+        model.stop(); socket.cancel()
+    }
+
+    func testLocalIdleEndsCaptureWithoutOpeningOrAccountingForAPISession() async throws {
+        let (model, factory, audio, grants) = try await makeModel(detector: ReadinessSpeechDetector())
+        model.start()
+        await settle { model.listeningLocally }
+        model.stopIfIdle(at: .now.advanced(by: .seconds(61)))
+        XCTAssertFalse(model.active)
+        XCTAssertTrue(audio.stopped)
+        XCTAssertEqual(grants.ended.count, 1)
+        XCTAssertTrue(factory.connections.isEmpty)
+        XCTAssertTrue(model.recentSessionMetrics.isEmpty)
+    }
+
+    func testStopDuringLocalPreparationCannotConnectAfterCompletion() async throws {
+        let detector = ReadinessSpeechDetector(holdPreparation: true)
+        let (model, factory, audio, grants) = try await makeModel(detector: detector)
+        model.start()
+        await settle { model.capturing }
+        model.stop()
+        await detector.releasePreparation()
+        for _ in 0..<20 { await Task.yield() }
+        XCTAssertTrue(audio.stopped)
+        XCTAssertFalse(model.active)
+        XCTAssertFalse(model.listeningLocally)
+        XCTAssertEqual(grants.ended.count, 1)
+        XCTAssertTrue(factory.connections.isEmpty)
+    }
+
+    func testMuteInvalidatesInFlightSpeechAndRequiresFreshUnmutedInput() async throws {
+        let detector = ReadinessSpeechDetector()
+        await detector.holdDetection()
+        let (model, factory, audio, _) = try await makeModel(detector: detector)
+        model.start()
+        await settle { model.listeningLocally }
+        audio.push(Data(repeating: 1, count: 2400))
+        for _ in 0..<100 where await detector.processed == 0 { await Task.yield() }
+        model.toggleMute()
+        await detector.releaseDetection()
+        for _ in 0..<20 { await Task.yield() }
+        XCTAssertTrue(factory.connections.isEmpty)
+        model.toggleMute()
+        audio.push(Data(repeating: 2, count: 2400))
+        await settle { factory.connections.count == 1 }
+        let socket = try XCTUnwrap(factory.connections.first)
+        socket.feed(["type": "session.started"])
+        await settle { model.connected }
+        XCTAssertEqual(socket.inputAudio.reduce(Data(), +), Data(repeating: 2, count: 2400))
+        model.stop(); socket.cancel()
+    }
+
+    private func makeModel(detector: ReadinessSpeechDetector? = nil) async throws -> (VoiceConversation, ReadinessConnections, ReadinessAudio, ReadinessGrants) {
         let factory = ReadinessConnections(), audio = ReadinessAudio(), grants = ReadinessGrants()
         let model = VoiceConversation(context: .init(pluginID: "voice-control", storage: VoiceCredentialTestStorage()),
             audio: audio, requestMicrophone: { true }, secrets: VoiceCredentialTestSecrets(),
-            makeConnection: { _ in factory.make() })
+            makeConnection: { _ in factory.make() }, makeSpeechDetector: { detector ?? ReadinessSpeechDetector() })
+        model.connectOnSpeech = detector != nil
         let saved = await model.saveKey("sk-readiness-fixture-not-an-actual-api-key")
         XCTAssertTrue(saved)
         model.context = .init(begin: { _ in UUID() }, end: { grants.ended.append($0) },
@@ -198,9 +275,11 @@ final class VoiceReadinessTests: XCTestCase {
     private var waiter: CheckedContinuation<[String: Any], Error>?
     private var cancelled = false
     var outputs = 0
+    var inputAudio: [Data] = []
     func resume() {}
     func send(_ event: [String: Any]) async throws {
         if cancelled { throw URLError(.cancelled) }
+        if event["type"] as? String == "session.input_audio.append", let encoded = event["audio"] as? String, let data = Data(base64Encoded: encoded) { inputAudio.append(data) }
         if event["type"] as? String == "response.item.create" { outputs += 1 }
     }
     func call(_ id: String, name: String, arguments: String) {
@@ -230,6 +309,7 @@ final class VoiceReadinessTests: XCTestCase {
         continuation = pair.continuation
         return pair.stream
     }
+    func push(_ data: Data) { continuation?.yield(data) }
     func play(_ data: Data) throws { played += 1; playback?(true) }
     func finishPlayback() { playback?(false) }
     func stop() { stopped = true; continuation?.finish(); continuation = nil; playback?(false) }
@@ -237,4 +317,27 @@ final class VoiceReadinessTests: XCTestCase {
 @MainActor private final class ReadinessGrants {
     var ended: [UUID] = []
     var requests = 0
+}
+
+private actor ReadinessSpeechDetector: VoiceSpeechDetecting {
+    private var holdPreparation: Bool
+    private var preparation: CheckedContinuation<Void, Never>?
+    private var detection: CheckedContinuation<Bool, Never>?
+    private var holdingDetection = false
+    private var speech = false
+    private(set) var processed = 0
+    init(holdPreparation: Bool = false) { self.holdPreparation = holdPreparation }
+    func prepare() async throws {
+        if holdPreparation { await withCheckedContinuation { preparation = $0 } }
+    }
+    func releasePreparation() { holdPreparation = false; preparation?.resume(); preparation = nil }
+    func holdDetection() { holdingDetection = true }
+    func releaseDetection() { holdingDetection = false; speech = true; detection?.resume(returning: true); detection = nil }
+    func setSpeech(_ value: Bool) { speech = value }
+    func detectsSpeech(in pcm: Data) async throws -> Bool {
+        processed += 1
+        if holdingDetection { return await withCheckedContinuation { detection = $0 } }
+        return speech
+    }
+    func reset() {}
 }

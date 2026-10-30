@@ -7,6 +7,8 @@ import MacToolsPluginKit
 final class VoiceConversation: ObservableObject {
     @Published private(set) var active = false
     @Published private(set) var connected = false
+    @Published private(set) var listeningLocally = false
+    @Published var connectOnSpeech: Bool
     @Published private(set) var muted = false
     @Published private(set) var status = "准备就绪"
     @Published private(set) var turns: [VoiceTranscript.Turn] = []
@@ -40,6 +42,9 @@ final class VoiceConversation: ObservableObject {
     private let audio: any VoiceAudioIO
     private let requestMicrophone: () async -> Bool
     private var socket: (any VoiceConnection)?
+    private let makeSpeechDetector: () -> any VoiceSpeechDetecting
+    private var microphoneRevision = UUID()
+    private var maximumDurationTask: Task<Void, Never>?
     private let makeConnection: ((URLRequest) -> any VoiceConnection)?
     // Reuse transport resources, never an idle Live session. No request runs until Start.
     private let network: URLSession = {
@@ -79,8 +84,13 @@ final class VoiceConversation: ObservableObject {
              }
          },
          secrets: any VoiceSecretStoring = VoiceSecretStore(),
-         makeConnection: ((URLRequest) -> any VoiceConnection)? = nil) {
+         makeConnection: ((URLRequest) -> any VoiceConnection)? = nil,
+         makeSpeechDetector: (() -> any VoiceSpeechDetecting)? = nil) {
         self.audio = audio; self.requestMicrophone = requestMicrophone; self.makeConnection = makeConnection
+        self.makeSpeechDetector = makeSpeechDetector ?? {
+            VoiceSpeechDetector(modelURL: context.resourceBundle.url(forResource: "SileroVAD", withExtension: "mlmodelc"))
+        }
+        connectOnSpeech = context.storage.object(forKey: "connectOnSpeech") == nil || context.storage.bool(forKey: "connectOnSpeech")
         idleTimeout = VoiceIdleTimeout(rawValue: context.storage.integer(forKey: "idleTimeoutSeconds")) ?? .defaultValue
         let credentials = VoiceCredentialConfiguration(storage: context.storage, secrets: secrets)
         self.credentials = credentials
@@ -148,12 +158,10 @@ final class VoiceConversation: ObservableObject {
         let token = UUID(); epoch = token
         sessionMetrics = VoiceSessionMetrics(id: token); lastActivity = .now
         onChange?()
-        deadlineTask = Task { @MainActor [weak self] in
-            try? await Task.sleep(for: .seconds(15))
-            guard let self, epoch == token, active else { return }
-            if !connected { fail(startupTimeoutFailure); return }
-            try? await Task.sleep(for: .seconds(555))
-            guard epoch == token, active else { return }
+        armStartupDeadline(token: token)
+        maximumDurationTask = Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(570))
+            guard !Task.isCancelled, let self, epoch == token, active else { return }
             status = "对话已到时，请重新开始"; stop(keepingStatus: true)
         }
         startupTask = Task { @MainActor [weak self] in
@@ -185,34 +193,39 @@ final class VoiceConversation: ObservableObject {
                 guard granted else { throw VoiceFailure.microphone }
                 var request = URLRequest(url: URL(string: "wss://api.openai.com/v1/live/sessions")!)
                 request.setValue("Bearer \(key)", forHTTPHeaderField: "Authorization")
-                let socket = makeConnection?(request) ?? VoiceWebSocketConnection(network: network, request: request)
-                self.socket = socket; socket.resume()
-                // TLS/session setup overlaps local audio startup. Speech remains bounded in
-                // memory until session.started, then one audio task drains it in order.
                 let stream = try audio.start()
                 capturing = true; recordStartup("audioReady")
-                startupTimeoutFailure = .connection
-                status = "正在连接，可以开始说话"
-                consumeAudio(stream, token: token)
-                receiveTask = Task { @MainActor [weak self] in await self?.receive(token: token, socket: socket) }
-                try await send(["type": "session.start", "session": VoiceTools.configuration(providers: sessionProviders)], token: token)
+                let detector: (any VoiceSpeechDetecting)?
+                if connectOnSpeech {
+                    startupTimeoutFailure = .speechDetection
+                    let candidate = makeSpeechDetector()
+                    do { try await candidate.prepare() } catch { throw VoiceFailure.speechDetection }
+                    guard epoch == token, active else { return }
+                    detector = candidate
+                    listeningLocally = true; status = "正在本机聆听，说话后连接"
+                    deadlineTask?.cancel(); deadlineTask = nil
+                    lastActivity = .now
+                    startIdleTimer(token: token)
+                } else { detector = nil }
+                consumeAudio(stream, token: token, detector: detector, request: request)
+                if detector == nil { try await connect(request, token: token) }
             } catch { if epoch == token { fail(error) } }
         }
     }
 
     func toggleMute() {
         guard capturing else { return }
-        muted.toggle()
+        muted.toggle(); microphoneRevision = UUID()
         if muted { pendingInput = VoicePendingInput(); inputLevels = Array(repeating: 0, count: 24) }
     }
     func testSpeaker() { NSSound(named: "Glass")?.play() }
 
     func stop(keepingStatus: Bool = false) {
-        if active {
+        if active, socket != nil {
             recentSessionMetrics.append(sessionMetrics)
             recentSessionMetrics = Array(recentSessionMetrics.suffix(4))
         }
-        epoch = UUID(); active = false; connected = false; capturing = false; muted = false; speaking = false; activity = nil; startupTimeoutFailure = .connection
+        epoch = UUID(); active = false; connected = false; listeningLocally = false; capturing = false; muted = false; speaking = false; activity = nil; startupTimeoutFailure = .connection
         outputSpeechPending = false
         pendingInput = VoicePendingInput()
         inputLevels = Array(repeating: 0, count: 24); outputLevels = Array(repeating: 0, count: 24)
@@ -222,6 +235,7 @@ final class VoiceConversation: ObservableObject {
         let oldReceiver = receiveTask; receiveTask = nil
         audioTask?.cancel(); audioTask = nil
         toolTask?.cancel(); toolTask = nil
+        maximumDurationTask?.cancel(); maximumDurationTask = nil
         deadlineTask?.cancel(); deadlineTask = nil
         idleTask?.cancel(); idleTask = nil
         calls.removeAll(); delegations.removeAll(); handled.removeAll(); toolQueue.removeAll()
@@ -249,6 +263,7 @@ final class VoiceConversation: ObservableObject {
             case .credentials: "无法读取密钥，请检查 API 密钥设置。"
             case .microphone: "请在系统设置中允许麦克风访问"
             case .audio: "音频设备不可用，请检查麦克风和扬声器"
+            case .speechDetection: "本机语音检测不可用，请重新安装语音控制，或在设置中关闭说话后连接。"
             case .overloaded: "音频传输跟不上，已结束对话"
             default: "连接已中断，请检查网络、API 额度和模型权限后重试"
             }
@@ -267,26 +282,84 @@ final class VoiceConversation: ObservableObject {
         startupTimings[stage] = Double(elapsed.seconds) + Double(elapsed.attoseconds) / 1e18
     }
 
-    private func consumeAudio(_ stream: AsyncThrowingStream<Data, Error>, token: UUID) {
+    private func armStartupDeadline(token: UUID) {
+        deadlineTask?.cancel()
+        deadlineTask = Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(15))
+            guard !Task.isCancelled, let self, epoch == token, active, !connected else { return }
+            fail(startupTimeoutFailure)
+        }
+    }
+
+    private func connect(_ request: URLRequest, token: UUID) async throws {
+        guard epoch == token, active else { return }
+        listeningLocally = false; startupTimeoutFailure = .connection
+        status = "正在连接，可以继续说话"
+        armStartupDeadline(token: token)
+        let socket = makeConnection?(request) ?? VoiceWebSocketConnection(network: network, request: request)
+        self.socket = socket; socket.resume(); recordStartup("connectionRequested")
+        receiveTask = Task { @MainActor [weak self] in await self?.receive(token: token, socket: socket) }
+        try await send(["type": "session.start", "session": VoiceTools.configuration(providers: sessionProviders)], token: token)
+    }
+
+    private func startIdleTimer(token: UUID) {
+        idleTask?.cancel()
+        idleTask = Task { @MainActor [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(1))
+                guard !Task.isCancelled, let self, epoch == token, active else { return }
+                stopIfIdle()
+            }
+        }
+    }
+
+    private func consumeAudio(_ stream: AsyncThrowingStream<Data, Error>, token: UUID,
+                              detector: (any VoiceSpeechDetecting)?, request: URLRequest) {
         audioTask = Task { @MainActor [weak self] in
             guard let self else { return }
+            var detector = detector
+            var preRoll = VoiceSpeechPreRoll()
+            var revision = microphoneRevision
             do {
                 for try await data in stream {
                     guard epoch == token, active else { return }
                     let level = muted ? Float.zero : VoiceAudioMeter.level(data)
                     inputLevels = Array(inputLevels.dropFirst()) + [level]
+                    if let localDetector = detector {
+                        if revision != microphoneRevision {
+                            revision = microphoneRevision; preRoll = VoiceSpeechPreRoll()
+                            await localDetector.reset()
+                        }
+                        guard epoch == token, active else { return }
+                        if muted { continue }
+                        preRoll.append(data)
+                        let detected: Bool
+                        do { detected = try await localDetector.detectsSpeech(in: data) }
+                        catch { throw VoiceFailure.speechDetection }
+                        guard epoch == token, active else { return }
+                        guard revision == microphoneRevision, !muted else { continue }
+                        if detected {
+                            try pendingInput.append(preRoll.take())
+                            detector = nil
+                            try await connect(request, token: token)
+                        }
+                        continue
+                    }
                     let input = muted ? Data(count: data.count) : data
                     if !connected { try pendingInput.append(input); continue }
                     if level > 0 { recordStartup("firstInputAudio") }
-                    let queued = pendingInput.take()
-                    for chunk in queued {
-                        let buffered = muted ? Data(count: chunk.count) : chunk
-                        try await send(["type": "session.input_audio.append", "audio": buffered.base64EncodedString()], token: token)
-                    }
+                    try await flushPendingInput(token: token)
                     let current = muted ? Data(count: input.count) : input
                     try await send(["type": "session.input_audio.append", "audio": current.base64EncodedString()], token: token)
                 }
             } catch { if epoch == token, active { fail(error) } }
+        }
+    }
+
+    private func flushPendingInput(token: UUID) async throws {
+        for chunk in pendingInput.take() {
+            let buffered = muted ? Data(count: chunk.count) : chunk
+            try await send(["type": "session.input_audio.append", "audio": buffered.base64EncodedString()], token: token)
         }
     }
 
@@ -311,7 +384,7 @@ final class VoiceConversation: ObservableObject {
     }
 
     func stopIfIdle(at now: ContinuousClock.Instant = .now) {
-        guard active, connected, toolTask == nil, toolQueue.isEmpty, calls.isEmpty, delegations.isEmpty,
+        guard active, (connected || listeningLocally), toolTask == nil, toolQueue.isEmpty, calls.isEmpty, delegations.isEmpty,
               !(speaking && outputSpeechPending), lastActivity.duration(to: now) >= idleTimeout.duration else { return }
         status = "一段时间没有活动，对话已结束。重新开始即可继续。"
         stop(keepingStatus: true)
@@ -322,14 +395,11 @@ final class VoiceConversation: ObservableObject {
         case "session.started":
             guard !connected else { return }
             recordStartup("connected")
+            try await flushPendingInput(token: token)
+            guard epoch == token, active else { return }
             connected = true; status = "正在聆听"; lastActivity = .now; onChange?()
-            idleTask = Task { @MainActor [weak self] in
-                while !Task.isCancelled {
-                    try? await Task.sleep(for: .seconds(1))
-                    guard let self, epoch == token, active else { return }
-                    stopIfIdle()
-                }
-            }
+            deadlineTask?.cancel(); deadlineTask = nil
+            startIdleTimer(token: token)
         case "session.output_audio.delta":
             if let encoded = event["delta"] as? String, let data = Data(base64Encoded: encoded), !data.isEmpty {
                 guard data.count <= 480_000, data.count.isMultiple(of: 2) else { throw VoiceFailure.protocolError }
