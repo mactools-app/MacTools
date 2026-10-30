@@ -94,7 +94,7 @@ final class VoiceAudio: VoiceAudioIO {
         // input to match. Its default multichannel capture format can differ from
         // the speaker format; use the processed mono channel in both directions.
         engine.connect(engine.mainMixerNode, to: engine.outputNode, format: format)
-        let pair = AsyncThrowingStream<Data, Error>.makeStream(bufferingPolicy: .bufferingOldest(32))
+        let pair = AsyncThrowingStream<Data, Error>.makeStream(bufferingPolicy: .bufferingOldest(128))
         continuation = pair.continuation
         let capture = try VoiceCapture(input: format, continuation: pair.continuation)
         input.installTap(onBus: 0, bufferSize: 2400, format: format) { @Sendable [capture] buffer, _ in capture.append(buffer) }

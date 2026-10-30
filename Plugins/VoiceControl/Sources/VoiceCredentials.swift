@@ -2,7 +2,7 @@ import Foundation
 import MacToolsPluginKit
 
 enum VoiceFailure: Error {
-    case credentials, microphone, audio, connection, overloaded, protocolError
+    case speechDetection, credentials, microphone, audio, connection, overloaded, protocolError
 }
 
 enum VoiceCredentials {
