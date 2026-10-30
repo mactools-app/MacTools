@@ -82,13 +82,13 @@ final class VoiceFeatureAccessTests: XCTestCase {
         XCTAssertFalse(plugin.conversation.allowedProviders.contains { $0.id == "volume" })
     }
 
-    func testPolicyDraftCanBeCanceledAndBatchSelectionDoesNotChangeFuturePolicy() {
+    func testBatchSelectionDoesNotChangeAutomaticPolicy() {
         let plugin = makePlugin(storage: VoiceCredentialTestStorage())
+        plugin.setProviderAccess([:], automaticallyAllowNewPlugins: false)
         let draft = VoiceFeatureAccessDraft(providers: providers, featureAccess: plugin.conversation.featureAccess)
-        draft.setAutomaticallyAllowNewPlugins(false)
         draft.setAllowed(false, for: draft.providers)
-        XCTAssertTrue(plugin.conversation.featureAccess.automaticallyAllowNewPlugins, "Draft changes remain local until Done")
-        plugin.setProviderAccess(draft.changes, automaticallyAllowNewPlugins: draft.automaticPolicyChange)
+        XCTAssertEqual(plugin.conversation.allowedProviders.count, providers.count, "Draft changes remain local until Done")
+        plugin.setProviderAccess(draft.changes)
         XCTAssertFalse(plugin.conversation.featureAccess.automaticallyAllowNewPlugins)
         XCTAssertTrue(plugin.conversation.allowedProviders.isEmpty)
         plugin.setProviderAccess(Dictionary(uniqueKeysWithValues: providers.map { ($0.id, true) }))

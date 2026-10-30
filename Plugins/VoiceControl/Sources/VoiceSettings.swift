@@ -73,12 +73,23 @@ struct VoiceScopeSettings: View {
     @ObservedObject var model: VoiceConversation
     @State private var showsFeatures = false
     var body: some View {
-        HStack {
-            Text(voiceAccessSummary(model)).font(PluginSettingsTheme.Typography.rowTitle)
-            Spacer(minLength: 12)
-            Button(model.text("管理功能…")) { showsFeatures = true }
-                .buttonStyle(.bordered).controlSize(.small)
-                .accessibilityIdentifier("voice-control.manage-features")
+        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+            Toggle(model.text("自动允许新安装的插件"), isOn: Binding(
+                get: { model.featureAccess.automaticallyAllowNewPlugins },
+                set: { plugin.setProviderAccess([:], automaticallyAllowNewPlugins: $0) }))
+                .toggleStyle(.switch)
+                .font(PluginSettingsTheme.Typography.rowTitle)
+                .disabled(model.active || model.credentialBusy)
+                .accessibilityIdentifier("voice-control.automatically-allow-new-plugins")
+            Text(model.text("关闭后保留当前选择，新插件需手动允许。"))
+                .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+            HStack {
+                Text(voiceAccessSummary(model)).font(PluginSettingsTheme.Typography.rowTitle)
+                Spacer(minLength: 12)
+                Button(model.text("管理功能…")) { showsFeatures = true }
+                    .buttonStyle(.bordered).controlSize(.small)
+                    .accessibilityIdentifier("voice-control.manage-features")
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .sheet(isPresented: $showsFeatures) { VoiceFeatureAccessSheet(plugin: plugin, model: model) }
@@ -109,14 +120,7 @@ final class VoiceFeatureAccessDraft: ObservableObject {
     var changes: [String: Bool] {
         access.filter { originalAccess.isAllowed($0.key) != $0.value }
     }
-    var automaticPolicyChange: Bool? {
-        featureAccess.automaticallyAllowNewPlugins == originalAccess.automaticallyAllowNewPlugins
-            ? nil : featureAccess.automaticallyAllowNewPlugins
-    }
     func isAllowed(_ id: String) -> Bool { featureAccess.isAllowed(id) }
-    func setAutomaticallyAllowNewPlugins(_ allowed: Bool) {
-        featureAccess.setAutomaticallyAllowNewPlugins(allowed, currentPluginIDs: Set(providers.map(\.id)))
-    }
     func matches(_ query: String) -> [PluginVoiceProvider] {
         let search = query.trimmingCharacters(in: .whitespacesAndNewlines)
         return providers.filter { search.isEmpty || $0.title.localizedStandardContains(search) }
@@ -152,7 +156,7 @@ private struct VoiceFeatureAccessSheet: View {
                 Button(model.text("取消")) { dismiss() }
                     .accessibilityIdentifier("voice-control.features-cancel")
                 Button(model.text("完成")) {
-                    plugin.setProviderAccess(draft.changes, automaticallyAllowNewPlugins: draft.automaticPolicyChange)
+                    plugin.setProviderAccess(draft.changes)
                     dismiss()
                 }
                     .buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
@@ -161,17 +165,6 @@ private struct VoiceFeatureAccessSheet: View {
             }
             Text(String.localizedStringWithFormat(model.text("已允许 %lld 项，共 %lld 项"), draft.allowedCount, draft.providers.count))
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
-                Toggle(model.text("自动允许新安装的插件"), isOn: Binding(
-                    get: { draft.featureAccess.automaticallyAllowNewPlugins },
-                    set: { draft.setAutomaticallyAllowNewPlugins($0) }))
-                    .toggleStyle(.switch)
-                    .font(PluginSettingsTheme.Typography.rowTitle)
-                    .disabled(editingDisabled)
-                    .accessibilityIdentifier("voice-control.automatically-allow-new-plugins")
-                Text(model.text("关闭后保留当前选择，新插件需在此手动允许。"))
-                    .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-            }
             TextField("", text: $query, prompt: Text(model.text("搜索功能")))
                 .labelsHidden().textFieldStyle(.roundedBorder)
                 .accessibilityLabel(model.text("搜索功能"))
@@ -210,7 +203,7 @@ private struct VoiceFeatureAccessSheet: View {
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
         }
         .padding(PluginSettingsTheme.Spacing.pagePadding)
-        .frame(width: 480, height: 560)
+        .frame(width: 480, height: 500)
         .buttonStyle(.bordered).controlSize(.small)
         .onAppear { searchFocused = true }
         .onExitCommand { dismiss() }

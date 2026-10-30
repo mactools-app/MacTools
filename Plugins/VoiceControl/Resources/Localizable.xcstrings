@@ -6684,79 +6684,79 @@
         }
       }
     },
-    "关闭后保留当前选择，新插件需在此手动允许。": {
+    "关闭后保留当前选择，新插件需手动允许。": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "关闭后保留当前选择，新插件需在此手动允许。"
+            "value": "关闭后保留当前选择，新插件需手动允许。"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Turning this off keeps current selections. Allow new plugins here."
+            "value": "Current selections are kept when this is off. New plugins require manual approval."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "關閉後保留目前選擇，新外掛需在此手動允許。"
+            "value": "關閉後保留目前選擇，新外掛需手動允許。"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يؤدي إيقاف هذا الخيار إلى الاحتفاظ بالاختيارات الحالية. اسمح بالمكونات الإضافية الجديدة هنا."
+            "value": "يحتفظ إيقاف هذا الخيار بالاختيارات الحالية. تتطلب المكونات الإضافية الجديدة موافقة يدوية."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Beim Ausschalten bleibt die aktuelle Auswahl erhalten. Neue Plugins müssen hier zugelassen werden."
+            "value": "Beim Ausschalten bleibt die aktuelle Auswahl erhalten. Neue Plugins müssen manuell zugelassen werden."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Al desactivar esta opción se conservan las selecciones actuales. Permite los nuevos plugins aquí."
+            "value": "Al desactivar esta opción se conservan las selecciones actuales. Los nuevos plugins requieren aprobación manual."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "La désactivation conserve la sélection actuelle. Autorisez les nouveaux modules ici."
+            "value": "La désactivation conserve la sélection actuelle. Les nouveaux modules doivent être autorisés manuellement."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "オフにしても現在の選択は保持されます。新しいプラグインはここで許可してください。"
+            "value": "オフにしても現在の選択は保持されます。新しいプラグインは手動で許可してください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "꺼도 현재 선택은 유지됩니다. 새 플러그인은 여기에서 허용하세요."
+            "value": "꺼도 현재 선택은 유지됩니다. 새 플러그인은 수동으로 허용해야 합니다."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Desativar mantém as seleções atuais. Permita novos plugins aqui."
+            "value": "Desativar mantém as seleções atuais. Novos plugins exigem aprovação manual."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "При отключении текущий выбор сохраняется. Разрешайте новые плагины здесь."
+            "value": "При отключении текущий выбор сохраняется. Новые плагины нужно разрешать вручную."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kapatıldığında mevcut seçimler korunur. Yeni eklentilere buradan izin verin."
+            "value": "Kapatıldığında mevcut seçimler korunur. Yeni eklentiler için elle onay gerekir."
           }
         }
       }
