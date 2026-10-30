@@ -1,8 +1,10 @@
+import Foundation
 import MacToolsPluginKit
 import SwiftUI
 
 @MainActor
 struct VoiceKeySettings: View {
+    let plugin: VoiceControlPlugin
     @ObservedObject var model: VoiceConversation
     @State private var draftKey = ""
     @State private var editing = false
@@ -55,6 +57,25 @@ struct VoiceKeySettings: View {
                 Text(model.text(message)).font(PluginSettingsTheme.Typography.rowDescription)
                     .foregroundStyle(model.credentialError ? Color.red : Color.secondary)
             }
+            Divider().padding(.vertical, PluginSettingsTheme.Spacing.rowTitleDescription)
+            HStack {
+                Text(model.text("自动结束闲置对话"))
+                    .font(PluginSettingsTheme.Typography.rowTitle)
+                Spacer(minLength: 12)
+                Picker("", selection: Binding(get: { model.idleTimeout }, set: { plugin.setIdleTimeout($0) })) {
+                    ForEach(VoiceIdleTimeout.allCases, id: \.rawValue) { timeout in
+                        Text(timeout.duration.formatted(.units(allowed: [.minutes, .seconds], width: .wide)
+                            .locale(PluginRuntimeLocalization.locale))).tag(timeout)
+                    }
+                }
+                .labelsHidden().pickerStyle(.menu)
+                .frame(minWidth: 110, idealWidth: 150, maxWidth: 180)
+                .disabled(model.active || model.credentialBusy)
+                .accessibilityLabel(model.text("自动结束闲置对话"))
+                .accessibilityIdentifier("voice-control.idle-timeout")
+            }
+            Text(model.text("闲置时停止录音并断开连接，浮动面板保持打开。"))
+                .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .buttonStyle(.bordered).controlSize(.small)

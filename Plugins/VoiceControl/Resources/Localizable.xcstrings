@@ -6760,6 +6760,160 @@
           }
         }
       }
+    },
+    "自动结束闲置对话": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动结束闲置对话"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End inactive conversations after"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنهاء المحادثات غير النشطة بعد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inaktive Gespräche beenden nach"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finalizar conversaciones inactivas después de"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminer les conversations inactives après"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無操作の会話を終了するまでの時間"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대화가 비활성 상태일 때 종료 시간"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminar conversas inativas após"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершать неактивные разговоры через"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin olmayan konuşmaları bitirme süresi"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動結束閒置對話"
+          }
+        }
+      }
+    },
+    "闲置时停止录音并断开连接，浮动面板保持打开。": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "闲置时停止录音并断开连接，浮动面板保持打开。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stops recording and closes the connection when inactive. The floating panel stays open."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتوقف التسجيل ويُغلق الاتصال عند عدم النشاط. تبقى اللوحة العائمة مفتوحة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bei Inaktivität werden Aufnahme und Verbindung beendet. Das schwebende Fenster bleibt offen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detiene la grabación y cierra la conexión cuando no hay actividad. El panel flotante permanece abierto."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrête l’enregistrement et ferme la connexion en cas d’inactivité. Le panneau flottant reste ouvert."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無操作時に録音と接続を終了します。フローティングパネルは開いたままです。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "비활성 상태에서는 녹음과 연결을 종료합니다. 플로팅 패널은 열린 상태로 유지됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para a gravação e fecha a ligação quando não há atividade. O painel flutuante permanece aberto."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "При отсутствии активности запись и соединение прекращаются. Плавающая панель остаётся открытой."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlik olmadığında kayıt durur ve bağlantı kapanır. Yüzen panel açık kalır."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "閒置時停止錄音並中斷連線，浮動面板保持開啟。"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

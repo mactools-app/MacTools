@@ -98,20 +98,30 @@ final class VoiceFeatureAccessTests: XCTestCase {
     }
 
     func testPortablePreferencesPreserveManualApprovalsAndReadLegacyDefaults() throws {
-        let plugin = makePlugin(storage: VoiceCredentialTestStorage())
+        let storage = VoiceCredentialTestStorage()
+        let plugin = makePlugin(storage: storage)
+        XCTAssertEqual(plugin.conversation.idleTimeout, .oneMinute)
+        plugin.setIdleTimeout(.fiveMinutes)
+        XCTAssertEqual(makePlugin(storage: storage).conversation.idleTimeout, .fiveMinutes)
         plugin.setProviderAccess(["volume": false], automaticallyAllowNewPlugins: false)
         let data = try XCTUnwrap(plugin.makePortablePreferencesBackup())
         let copy = makePlugin(storage: VoiceCredentialTestStorage())
         XCTAssertTrue(copy.restorePortablePreferencesReportingResult(from: data))
         XCTAssertEqual(copy.conversation.featureAccess, plugin.conversation.featureAccess)
+        XCTAssertEqual(copy.conversation.idleTimeout, .fiveMinutes)
         XCTAssertFalse(copy.conversation.featureAccess.isAllowed("later"))
         let legacy = Data(#"{"version":1,"excludedProviders":["volume"]}"#.utf8)
         XCTAssertTrue(copy.restorePortablePreferencesReportingResult(from: legacy))
         XCTAssertTrue(copy.conversation.featureAccess.isAllowed("later"))
+        XCTAssertEqual(copy.conversation.idleTimeout, .fiveMinutes, "Older backups preserve the current idle choice")
         XCTAssertFalse(copy.conversation.featureAccess.isAllowed("volume"))
         let malformed = Data(#"{"version":2,"excludedProviders":[],"automaticallyAllowNewPlugins":false}"#.utf8)
         XCTAssertFalse(copy.restorePortablePreferencesReportingResult(from: malformed))
         XCTAssertFalse(copy.conversation.featureAccess.isAllowed("volume"), "Malformed backups must not change access")
+        let invalidTimeout = Data(#"{"version":3,"excludedProviders":[],"automaticallyAllowNewPlugins":true,"approvedProviders":[],"idleTimeoutSeconds":0}"#.utf8)
+        XCTAssertFalse(copy.restorePortablePreferencesReportingResult(from: invalidTimeout))
+        XCTAssertFalse(copy.conversation.featureAccess.isAllowed("volume"))
+        XCTAssertEqual(copy.conversation.idleTimeout, .fiveMinutes)
     }
 
     func testVoicePolicyControlsPreserveActiveGrantAndRequireApprovalToEnable() async throws {

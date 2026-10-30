@@ -98,8 +98,8 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
     var settingsPage: PluginSettingsPage? {
         .form(description: metadata.defaultDescription, sections: [
             .init(id: "credentials", title: conversation.text("OpenAI 连接"), systemImage: "key",
-                  footer: conversation.text("密钥仅保存在本机钥匙串，费用由你的 OpenAI 账户承担。")) { [conversation] _ in
-                VoiceKeySettings(model: conversation)
+                  footer: conversation.text("密钥仅保存在本机钥匙串，费用由你的 OpenAI 账户承担。")) { [weak self] _ in
+                if let self { VoiceKeySettings(plugin: self, model: conversation) }
             },
             .init(id: "scope", title: conversation.text("允许的功能"), systemImage: "checkmark.shield",
                   footer: conversation.text("对话音频和请求的功能数据会发送到 OpenAI，使用你的 API 额度。回复由 AI 生成；停止、锁屏或睡眠时结束录音。")) { [weak self] _ in
@@ -167,6 +167,12 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
         }
         commitFeatureAccess(updated)
     }
+    func setIdleTimeout(_ timeout: VoiceIdleTimeout) {
+        guard !conversation.active, !conversation.credentialBusy, conversation.idleTimeout != timeout else { return }
+        conversation.idleTimeout = timeout
+        storage.set(timeout.rawValue, forKey: "idleTimeoutSeconds")
+        onPersistentPreferencesChange?()
+    }
     private func commitFeatureAccess(_ updated: VoiceFeatureAccess) {
         guard updated != conversation.featureAccess else { return }
         conversation.featureAccess = updated
@@ -186,28 +192,36 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
         let excludedProviders: [String]
         let automaticallyAllowNewPlugins: Bool?
         let approvedProviders: [String]?
+        let idleTimeoutSeconds: Int?
     }
     func makePortablePreferencesBackup() -> Data? {
         let access = conversation.featureAccess
-        return try? JSONEncoder().encode(Preferences(version: 2,
+        return try? JSONEncoder().encode(Preferences(version: 3,
             excludedProviders: access.excludedPluginIDs.sorted(),
             automaticallyAllowNewPlugins: access.automaticallyAllowNewPlugins,
-            approvedProviders: access.approvedPluginIDs.sorted()))
+            approvedProviders: access.approvedPluginIDs.sorted(), idleTimeoutSeconds: conversation.idleTimeout.rawValue))
     }
     func restorePortablePreferences(from data: Data) { _ = restorePortablePreferencesReportingResult(from: data) }
     func restorePortablePreferencesReportingResult(from data: Data) -> Bool {
         guard !conversation.active, data.count <= 32_768,
               let value = try? JSONDecoder().decode(Preferences.self, from: data),
-              value.version == 1 || value.version == 2,
+              (1...3).contains(value.version),
               value.version == 1 || (value.automaticallyAllowNewPlugins != nil && value.approvedProviders != nil),
               [value.excludedProviders, value.approvedProviders ?? []].allSatisfy({ ids in
                   ids.count <= 256 && ids.allSatisfy { !$0.isEmpty && $0.utf8.count <= 128 }
               }) else { return false }
+        let timeout: VoiceIdleTimeout
+        if value.version == 3 {
+            guard let seconds = value.idleTimeoutSeconds, let restored = VoiceIdleTimeout(rawValue: seconds) else { return false }
+            timeout = restored
+        } else { timeout = conversation.idleTimeout }
         conversation.featureAccess = .init(
             automaticallyAllowNewPlugins: value.version == 1 ? true : value.automaticallyAllowNewPlugins ?? false,
             excludedPluginIDs: Set(value.excludedProviders),
             approvedPluginIDs: value.version == 1 ? [] : Set(value.approvedProviders ?? []))
         persistFeatureAccess()
+        conversation.idleTimeout = timeout
+        storage.set(timeout.rawValue, forKey: "idleTimeoutSeconds")
         onPersistentPreferencesChange?(); onStateChange?()
         return true
     }
