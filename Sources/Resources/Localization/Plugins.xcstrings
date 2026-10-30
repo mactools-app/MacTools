@@ -5184,7 +5184,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mercado de complementos abierto"
+            "value": "Abrir el mercado de complementos"
           }
         },
         "fr": {
@@ -5214,7 +5214,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Открытый магазин плагинов"
+            "value": "Открыть магазин плагинов"
           }
         },
         "tr": {
@@ -25869,6 +25869,83 @@
           "stringUnit": {
             "state": "translated",
             "value": "Klavye kısayolu kaydedilemedi."
+          }
+        }
+      }
+    },
+    "plugin.panel.empty.installDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ثبّت مكونات إضافية لإضافة محتوى"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installiere Plugins, um Inhalte hinzuzufügen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install plugins to add content"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instala complementos para añadir contenido"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installez des plugins pour ajouter du contenu"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プラグインをインストールして内容を追加"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플러그인을 설치하여 콘텐츠를 추가하세요"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instale plug-ins para adicionar conteúdo"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установите плагины, чтобы добавить содержимое"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İçerik eklemek için eklenti yükleyin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安装插件后即可添加内容"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安裝外掛後即可加入內容"
           }
         }
       }

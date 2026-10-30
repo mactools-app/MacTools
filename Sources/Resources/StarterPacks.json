@@ -20,9 +20,9 @@
         }
       },
       "summary": {
-        "zh": "查看系统状态，快速使用日常控制。",
+        "zh": "查看系统状态，控制休眠、音量和亮度。",
         "en": "Check your Mac and reach everyday controls.",
-        "zhHant": "查看系統狀態，快速使用日常控制。",
+        "zhHant": "查看系統狀態，控制睡眠、音量和亮度。",
         "translations": {
           "de": "Prüfe deinen Mac und greife auf alltägliche Funktionen zu.",
           "es": "Comprueba tu Mac y accede a los controles cotidianos.",
@@ -36,9 +36,9 @@
         }
       },
       "permission": {
-        "zh": "无需 macOS 权限",
+        "zh": "无需额外授权",
         "en": "No macOS permissions required",
-        "zhHant": "無需 macOS 權限",
+        "zhHant": "無須額外授權",
         "translations": {
           "de": "Keine macOS-Berechtigungen erforderlich",
           "es": "No requiere permisos de macOS",
@@ -52,9 +52,9 @@
         }
       },
       "setup": {
-        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
-        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
-        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+        "zh": "组合中的面板项目会添加到各自的默认位置，已有项目保持不变。之后可在面板编辑器中调整；清理和系统操作仍需手动运行。",
+        "en": "Panel items in this set are added to their default locations. Existing items stay put. You can adjust the layout later in the panel editor; cleanup and system actions still run only when you choose.",
+        "zhHant": "組合中的面板項目會加入各自的預設位置，已有項目保持不變。之後可在面板編輯器中調整；清理和系統動作仍需手動執行。"
       },
       "pluginIDs": [
         "system-status",
@@ -67,27 +67,33 @@
       "panelItems": [
         {
           "pluginID": "system-status",
-          "itemID": "widget"
+          "itemID": "widget",
+          "initialPlacement": "dashboard"
         },
         {
           "pluginID": "keep-awake",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "microphone-mute",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "system-mute",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "lock-screen",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "display-brightness",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         }
       ]
     },
@@ -111,9 +117,9 @@
         }
       },
       "summary": {
-        "zh": "排列窗口，快速切换应用和工作区。",
+        "zh": "整理窗口布局，快速切换应用和工作区。",
         "en": "Arrange windows and move between your apps.",
-        "zhHant": "排列視窗，快速切換 App 和工作區。",
+        "zhHant": "整理視窗佈局，快速切換 App 和工作區。",
         "translations": {
           "de": "Ordne Fenster an und wechsle zwischen deinen Apps.",
           "es": "Organiza ventanas y cambia entre tus apps.",
@@ -159,19 +165,23 @@
       "panelItems": [
         {
           "pluginID": "app-hotkey",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "stage-manager",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "auto-hide-dock",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "keep-awake",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         }
       ]
     },
@@ -195,9 +205,9 @@
         }
       },
       "summary": {
-        "zh": "找回复制内容，翻译文字，切换输入语言。",
+        "zh": "管理剪贴板、翻译文字，自动切换输入法。",
         "en": "Retrieve text, translate, and work across languages.",
-        "zhHant": "找回複製內容，翻譯文字，切換輸入語言。",
+        "zhHant": "管理剪貼簿、翻譯文字，自動切換輸入法。",
         "translations": {
           "de": "Rufe Texte ab, übersetze und arbeite in mehreren Sprachen.",
           "es": "Recupera texto, traduce y trabaja en distintos idiomas.",
@@ -227,9 +237,9 @@
         }
       },
       "setup": {
-        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
-        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
-        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+        "zh": "组合中的面板项目会添加到各自的默认位置，已有项目保持不变。之后可在面板编辑器中调整；清理和系统操作仍需手动运行。",
+        "en": "Panel items in this set are added to their default locations. Existing items stay put. You can adjust the layout later in the panel editor; cleanup and system actions still run only when you choose.",
+        "zhHant": "組合中的面板項目會加入各自的預設位置，已有項目保持不變。之後可在面板編輯器中調整；清理和系統動作仍需手動執行。"
       },
       "pluginIDs": [
         "clipboard",
@@ -242,23 +252,28 @@
       "panelItems": [
         {
           "pluginID": "clipboard",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "auto-input",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "translator",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "screenshot",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "app-hotkey",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         }
       ]
     },
@@ -282,9 +297,9 @@
         }
       },
       "summary": {
-        "zh": "管理通话音量，截取笔记，准备演示屏幕。",
+        "zh": "管理会议音量、查看日程，准备演示画面。",
         "en": "Manage calls, capture notes, and keep screens ready.",
-        "zhHant": "管理通話音量，擷取筆記，準備簡報螢幕。",
+        "zhHant": "管理會議音量、查看行程，準備簡報畫面。",
         "translations": {
           "de": "Verwalte Anrufe, halte Notizen fest und bereite Bildschirme vor.",
           "es": "Gestiona llamadas, captura notas y prepara las pantallas.",
@@ -314,9 +329,9 @@
         }
       },
       "setup": {
-        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
-        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
-        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+        "zh": "组合中的面板项目会添加到各自的默认位置，已有项目保持不变。之后可在面板编辑器中调整；清理和系统操作仍需手动运行。",
+        "en": "Panel items in this set are added to their default locations. Existing items stay put. You can adjust the layout later in the panel editor; cleanup and system actions still run only when you choose.",
+        "zhHant": "組合中的面板項目會加入各自的預設位置，已有項目保持不變。之後可在面板編輯器中調整；清理和系統動作仍需手動執行。"
       },
       "pluginIDs": [
         "calendar",
@@ -330,31 +345,38 @@
       "panelItems": [
         {
           "pluginID": "calendar",
-          "itemID": "widget"
+          "itemID": "widget",
+          "initialPlacement": "dashboard"
         },
         {
           "pluginID": "microphone-mute",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "app-volume",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "system-mute",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "keep-awake",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "screenshot",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "display-resolution",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         }
       ]
     },
@@ -378,9 +400,9 @@
         }
       },
       "summary": {
-        "zh": "调整显示器、光线和音量，连接 iPad。",
+        "zh": "调节显示器、色温和音量，连接 iPad。",
         "en": "Set up displays, lighting, audio, and an iPad.",
-        "zhHant": "調整顯示器、光線和音量，連接 iPad。",
+        "zhHant": "調整顯示器、色溫和音量，連接 iPad。",
         "translations": {
           "de": "Richte Displays, Beleuchtung, Audio und ein iPad ein.",
           "es": "Configura pantallas, iluminación, audio y un iPad.",
@@ -410,9 +432,9 @@
         }
       },
       "setup": {
-        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
-        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
-        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+        "zh": "组合中的面板项目会添加到各自的默认位置，已有项目保持不变。之后可在面板编辑器中调整；清理和系统操作仍需手动运行。",
+        "en": "Panel items in this set are added to their default locations. Existing items stay put. You can adjust the layout later in the panel editor; cleanup and system actions still run only when you choose.",
+        "zhHant": "組合中的面板項目會加入各自的預設位置，已有項目保持不變。之後可在面板編輯器中調整；清理和系統動作仍需手動執行。"
       },
       "pluginIDs": [
         "display-brightness",
@@ -426,31 +448,38 @@
       "panelItems": [
         {
           "pluginID": "display-brightness",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "display-resolution",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "display-volume",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "night-shift",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "display-true-color",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "sidecar",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "auto-hide-dock",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         }
       ]
     },
@@ -474,9 +503,9 @@
         }
       },
       "summary": {
-        "zh": "管理软件包、脚本、Shell 配置和开发缓存。",
+        "zh": "管理开发环境、常用脚本和软件包。",
         "en": "Manage packages, scripts, shell settings, and caches.",
-        "zhHant": "管理套件、指令稿、Shell 設定和開發快取。",
+        "zhHant": "管理開發環境、常用腳本和套件。",
         "translations": {
           "de": "Verwalte Pakete, Skripte, Shell-Einstellungen und Caches.",
           "es": "Gestiona paquetes, scripts, ajustes de shell y cachés.",
@@ -506,9 +535,9 @@
         }
       },
       "setup": {
-        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
-        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
-        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+        "zh": "组合中的面板项目会添加到各自的默认位置，已有项目保持不变。之后可在面板编辑器中调整；清理和系统操作仍需手动运行。",
+        "en": "Panel items in this set are added to their default locations. Existing items stay put. You can adjust the layout later in the panel editor; cleanup and system actions still run only when you choose.",
+        "zhHant": "組合中的面板項目會加入各自的預設位置，已有項目保持不變。之後可在面板編輯器中調整；清理和系統動作仍需手動執行。"
       },
       "pluginIDs": [
         "homebrew",
@@ -522,31 +551,38 @@
       "panelItems": [
         {
           "pluginID": "homebrew",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "saved-scripts",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "zsh-config",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "xcode-clean",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "ip-overview",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "clipboard",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "keep-awake",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         }
       ]
     },
@@ -570,9 +606,9 @@
         }
       },
       "summary": {
-        "zh": "查找大文件，检查清理项目，管理外置磁盘。",
+        "zh": "分析存储占用，清理缓存并管理外置磁盘。",
         "en": "Find large files and review cleanup tasks.",
-        "zhHant": "尋找大型檔案，檢查清理項目，管理外接磁碟。",
+        "zhHant": "分析儲存空間、清理快取並管理外接磁碟。",
         "translations": {
           "de": "Finde große Dateien und prüfe Bereinigungsaufgaben.",
           "es": "Encuentra archivos grandes y revisa tareas de limpieza.",
@@ -602,9 +638,9 @@
         }
       },
       "setup": {
-        "zh": "可选择将常用控制添加到面板；已有项目保留原位置。设置工具和清理操作由你手动使用。",
-        "en": "Optionally add recommended controls to a panel. Existing items stay put. Settings tools and cleanup actions remain manual.",
-        "zhHant": "可選擇將常用控制加入面板；已有項目保留原位置。設定工具和清理動作由你手動使用。"
+        "zh": "组合中的面板项目会添加到各自的默认位置，已有项目保持不变。之后可在面板编辑器中调整；清理和系统操作仍需手动运行。",
+        "en": "Panel items in this set are added to their default locations. Existing items stay put. You can adjust the layout later in the panel editor; cleanup and system actions still run only when you choose.",
+        "zhHant": "組合中的面板項目會加入各自的預設位置，已有項目保持不變。之後可在面板編輯器中調整；清理和系統動作仍需手動執行。"
       },
       "pluginIDs": [
         "com.mactools.plugin.storage-explorer",
@@ -616,19 +652,23 @@
       "panelItems": [
         {
           "pluginID": "disk-clean",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "xcode-clean",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "eject-disk",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         },
         {
           "pluginID": "empty-trash",
-          "itemID": "control"
+          "itemID": "control",
+          "initialPlacement": "featurePanel"
         }
       ]
     }

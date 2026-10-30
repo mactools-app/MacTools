@@ -1338,27 +1338,11 @@ struct MenuBarUnifiedPanelContent: View {
                 onItemDrop: dropItemOnPanel,
                 canUndoLayout: layoutEditingSession.canUndo(in: pluginHost, panelID: model.selectedTab.id),
                 editingFeedback: model.editingFeedback,
-                onUndoLayout: undoLayoutEdit,
-                panelWidth: model.contentWidth,
-                onChangeWidth: { if model.isEditingLayout { showsWidthPicker = true } }
+                onUndoLayout: undoLayoutEdit
             )
             .frame(maxWidth: .infinity)
             .frame(height: MenuBarPanelLayout.headerHeight)
             .padding(.horizontal, MenuBarPanelLayout.outerPadding)
-            .popover(isPresented: $showsWidthPicker, arrowEdge: .top) {
-                if model.isEditingLayout {
-                    PanelWidthPicker(preferredWidth: pluginHost.preferredMenuBarPanelWidth,
-                        maximumWidth: model.maximumWidth, onCommit: { width in
-                            guard model.isEditingLayout else { return }
-                            if let change = pluginHost.setMenuBarPanelWidth(width) {
-                                layoutEditingSession.didSaveLayoutChange(change)
-                            }
-                        })
-                    .background(MenuWindowAccessor { window in
-                        if let window { MenuBarPanelWindowRegistry.markEditingPopover(window) }
-                    }.allowsHitTesting(false))
-                }
-            }
             .popover(item: $iconPickerPanel, arrowEdge: .bottom) { panel in
                 iconPickerContent(panel)
             }
@@ -1378,7 +1362,9 @@ struct MenuBarUnifiedPanelContent: View {
                         if error == nil { layoutEditingSession.reset() }
                         return error
                     }
-                )
+                ) {
+                    panelWidthControl
+                }
                 .frame(height: MenuBarPanelLayout.editingActionBarHeight)
                 .popover(isPresented: $showsComponentLibrary, arrowEdge: .trailing) {
                     PanelComponentLibrary(pluginHost: pluginHost, panelID: model.selectedTab.id) { entry in
@@ -1434,6 +1420,33 @@ struct MenuBarUnifiedPanelContent: View {
         }
     }
 
+    private var panelWidthControl: some View {
+        let columnTitle = MenuBarPanelWidth.columnTitle(MenuBarPanelWidth.columns(
+            forSurfaceWidth: model.contentWidth - MenuBarPanelLayout.outerPadding * 2))
+        return MenuBarPanelEditingButton(title: MenuBarPanelWidth.title, emphasis: .standard) {
+            showsWidthPicker = true
+        }
+        .help(MenuBarPanelWidth.title)
+        .accessibilityLabel(MenuBarPanelWidth.title)
+        .accessibilityValue(columnTitle)
+        .accessibilityIdentifier("panel.width")
+        .popover(isPresented: $showsWidthPicker, arrowEdge: .bottom) {
+            if model.isEditingLayout {
+                PanelWidthPicker(preferredWidth: pluginHost.preferredMenuBarPanelWidth,
+                    maximumWidth: model.maximumWidth, onCommit: { width in
+                        guard model.isEditingLayout else { return }
+                        if let change = pluginHost.setMenuBarPanelWidth(width) {
+                            layoutEditingSession.didSaveLayoutChange(change)
+                        }
+                    })
+                .background(MenuWindowAccessor { window in
+                    if let window { MenuBarPanelWindowRegistry.markEditingPopover(window) }
+                }.allowsHitTesting(false))
+                .onExitCommand { showsWidthPicker = false }
+            }
+        }
+    }
+
     private func iconPickerContent(_ panel: MenuBarPanelDefinition) -> some View {
         PanelSymbolPicker(selected: panel.systemImage) { symbol in
             if var updated = pluginHost.menuBarPanels.first(where: { $0.id == panel.id }) {
@@ -1476,6 +1489,7 @@ struct MenuBarUnifiedPanelContent: View {
             ConfiguredMenuBarPanelsContent(
                 pluginHost: pluginHost, model: model, contentBodyHeight: contentBodyHeight,
                 onDismiss: onDismiss, onOpenSettings: onOpenSettings,
+                onEditLayout: toggleLayoutEditing,
                 onPresentDiskCleanConfiguration: onPresentDiskCleanConfiguration,
                 onPresentLaunchControlConfiguration: onPresentLaunchControlConfiguration
             )
@@ -1599,14 +1613,12 @@ struct MenuBarPanelHeader: View {
     let canUndoLayout: Bool
     let editingFeedback: MenuBarPanelEditingFeedback
     let onUndoLayout: () -> Void
-    var panelWidth: CGFloat = MenuBarPanelLayout.baseWidth
-    var onChangeWidth: () -> Void = {}
 
     var body: some View {
         if isEditingLayout {
             MenuBarPanelEditingControls(canUndoLayout: canUndoLayout, feedback: editingFeedback,
                 onUndoLayout: onUndoLayout, onDone: onEditLayout) {
-                    HStack(spacing: 4) { navigation; widthButton }
+                    navigation
                 }
         } else {
             ZStack {
@@ -1628,22 +1640,6 @@ struct MenuBarPanelHeader: View {
                 }
             }
         }
-    }
-
-    private var widthButton: some View {
-        Button(action: onChangeWidth) {
-            Label(MenuBarPanelWidth.columnTitle(MenuBarPanelWidth.columns(forSurfaceWidth:
-                panelWidth - MenuBarPanelLayout.outerPadding * 2)), systemImage: "arrow.left.and.right")
-                .font(PluginTypography.detail.font)
-                .fixedSize()
-        }
-            .buttonStyle(.bordered)
-            .controlSize(.small)
-            .help(MenuBarPanelWidth.title)
-            .accessibilityLabel(MenuBarPanelWidth.title)
-            .accessibilityValue(MenuBarPanelWidth.columnTitle(MenuBarPanelWidth.columns(forSurfaceWidth:
-                panelWidth - MenuBarPanelLayout.outerPadding * 2)))
-            .accessibilityIdentifier("panel.width")
     }
 
     private var navigation: some View {
@@ -1716,28 +1712,27 @@ private struct MenuBarPanelEditingHeaderLayout: Layout {
     }
 }
 
-struct MenuBarPanelEditingActionBar: View {
+struct MenuBarPanelEditingActionBar<WidthControl: View>: View {
     var onAddComponents: () -> Void = {}
     var canAddPanel = true
     var onAddPanel: () -> Void = {}
     var selectedPanel: MenuBarPanelDefinition?
     var onDeletePanel: (String) -> String? = { _ in nil }
+    @ViewBuilder let widthControl: WidthControl
     @State private var panelToDelete: MenuBarPanelDefinition?
 
     var body: some View {
         HStack(spacing: 6) {
-            MenuBarPanelEditingButton(title: FeatureL10n.string("添加组件"),
-                                      emphasis: .standard, action: onAddComponents)
-                .accessibilityIdentifier("panel.layout.add")
-            Spacer(minLength: 8)
-            MenuBarPanelEditingButton(title: FeatureL10n.string("删除面板"), emphasis: .standard,
-                                      role: .destructive, isEnabled: selectedPanel?.isDefault == false) {
-                panelToDelete = selectedPanel
+            ViewThatFits(in: .horizontal) {
+                addComponentsButton(compact: false)
+                addComponentsButton(compact: true)
             }
-            .accessibilityIdentifier("menuBarPanel.delete")
-            MenuBarPanelEditingButton(title: FeatureL10n.string("添加面板"), emphasis: .standard,
-                                      isEnabled: canAddPanel, action: onAddPanel)
-                .accessibilityIdentifier("menuBarPanel.add")
+            widthControl
+            Spacer(minLength: 8)
+            ViewThatFits(in: .horizontal) {
+                panelActions(compact: false)
+                panelActions(compact: true)
+            }
         }
         .padding(.horizontal, MenuBarPanelLayout.outerPadding)
         .padding(.vertical, MenuBarPanelLayout.editingActionBarVerticalPadding)
@@ -1754,6 +1749,33 @@ struct MenuBarPanelEditingActionBar: View {
             .onExitCommand { panelToDelete = nil }
         }
         .onChange(of: selectedPanel?.id) { _, _ in panelToDelete = nil }
+    }
+
+    private func addComponentsButton(compact: Bool) -> some View {
+        MenuBarPanelEditingButton(title: FeatureL10n.string("添加组件"),
+                                  systemImage: compact ? "square.grid.2x2" : nil,
+                                  emphasis: .standard, action: onAddComponents)
+            .labelStyle(.iconOnly)
+            .help(FeatureL10n.string("添加组件"))
+            .accessibilityIdentifier("panel.layout.add")
+    }
+
+    private func panelActions(compact: Bool) -> some View {
+        HStack(spacing: 6) {
+            MenuBarPanelEditingButton(title: FeatureL10n.string("删除面板"),
+                                      systemImage: compact ? "trash" : nil, emphasis: .standard,
+                                      role: .destructive, isEnabled: selectedPanel?.isDefault == false) {
+                panelToDelete = selectedPanel
+            }
+            .help(FeatureL10n.string("删除面板"))
+            .accessibilityIdentifier("menuBarPanel.delete")
+            MenuBarPanelEditingButton(title: FeatureL10n.string("添加面板"),
+                                      systemImage: compact ? "plus.rectangle" : nil, emphasis: .standard,
+                                      isEnabled: canAddPanel, action: onAddPanel)
+                .help(FeatureL10n.string("添加面板"))
+                .accessibilityIdentifier("menuBarPanel.add")
+        }
+        .labelStyle(.iconOnly)
     }
 }
 
@@ -1869,10 +1891,9 @@ struct MenuBarPanelEditingButton: View {
 
     var body: some View {
         Button(role: role, action: action) {
-            HStack(spacing: 5) {
-                if let systemImage {
-                    Image(systemName: systemImage).accessibilityHidden(true)
-                }
+            if let systemImage {
+                Label(title, systemImage: systemImage)
+            } else {
                 Text(title)
             }
         }

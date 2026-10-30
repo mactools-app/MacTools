@@ -86,6 +86,8 @@ Trackpad input is owned by the host through `TrackpadInputService` (host 2.1.0).
 
 Host 2.1.0 requires Trackpad Gestures and Middle Click package versions 2.0.2 or later, enforced before loading and installation. Publish these compatible packages before distributing the new host; older packages stay installed with update guidance and preserved preferences.
 
+Translator's private-IP HTTP support requires host 2.2.0 for the matching system-network exceptions. Keep the plugin's literal-address policy and the host's ATS ranges aligned; see the [network boundaries](docs/plugins/development-guidelines.md#safety-and-data). Publish the host support before distributing the updated Translator package to older installations.
+
 Shared filesystem metadata code lives in `Sources/MacToolsFileSystem`. Disk Clean, Storage Explorer, and Xcode Clean link this static module into their bundles; their core targets use it as a build dependency. Use `FileSystemDirectoryReader.readBatches` to bound enumeration memory for wide folders. Keep cleanup policy in the owning plugin and run the affected plugins' filesystem tests after changing the shared reader or parser.
 
 Installed application enumeration is shared by Launchpad and voice app control through `Sources/PluginSupport/InstalledApplicationScanner.swift`. Keep scans off the UI thread; voice issues opaque targets, revalidates the app before opening, and never accepts an application path supplied by the model. Voice owners expose only fixed self-controls declared through `PluginVoiceSelfActionProviding`, retaining canonical validation and native confirmation.

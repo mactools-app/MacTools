@@ -471,7 +471,7 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
             .sink { [weak self] _ in
                 DispatchQueue.main.async { [weak self] in
                     self?.settingsWindow?.title = Self.settingsWindowTitle
-                    self?.onboardingWindow?.title = FeatureL10n.string("MacTools 设置")
+                    self?.onboardingWindow?.title = FeatureL10n.string("工具组合")
                     self?.commandPalettePanel?.setAccessibilityTitle(Self.commandPaletteWindowTitle)
                     self?.commandPaletteState?.refreshLocalization()
                 }
@@ -527,7 +527,10 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
             contentRect: NSRect(x: 0, y: 0, width: 1000, height: 680),
             styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false
         )
-        window.title = FeatureL10n.string("MacTools 设置")
+        window.title = FeatureL10n.string("工具组合")
+        window.titleVisibility = .hidden
+        window.titlebarAppearsTransparent = true
+        window.titlebarSeparatorStyle = .none
         window.contentMinSize = NSSize(width: 900, height: 580)
         window.isReleasedWhenClosed = false
         window.delegate = self
@@ -706,11 +709,6 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
             pluginHost: pluginHost,
             sidebarPreferences: settingsSidebarPreferences
         )
-        navigationCoordinator.presentOnboarding = { [weak self] step in
-            guard let self, pluginHost.starterPacks.canResumeOnboarding || onboardingWindow != nil else { return false }
-            showOnboarding(step: step)
-            return true
-        }
         let window = MacToolsCommandWindow(
             contentRect: NSRect(origin: .zero, size: SettingsWindowLayout.defaultContentSize),
             styleMask: [
@@ -879,7 +877,9 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
     }
 
     func presentSettings(_ request: SettingsPresentationRequest) {
-        if case let .starterPacks(pack) = request, pluginHost.starterPacks.canResumeOnboarding || onboardingWindow != nil {
+        if case let .starterPacks(pack) = request,
+           settingsWindow?.isVisible != true,
+           pluginHost.starterPacks.canResumeOnboarding || onboardingWindow != nil {
             showOnboarding(pack: pack)
             return
         }
@@ -909,13 +909,11 @@ final class AppWindowRouter: NSObject, NSWindowDelegate {
             settingsNavigationCoordinator?.navigate(to: .plugins(.marketplace))
         case let .starterPacks(pack):
             pendingAppUpdateVersion = nil
-            pluginHost.starterPacks.resumeOnboarding()
-            if let pack, !pluginHost.starterPacks.isRunning {
-                pluginHost.starterPacks.includePackFromLink(pack)
+            let controller = pluginHost.starterPacks
+            if let pack, !controller.isRunning {
+                controller.includePackFromLink(pack)
             }
-            settingsNavigationCoordinator?.navigate(to: .starterPacks(
-                pluginHost.starterPacks.isRunning ? .results : pack == nil ? .choose : .review
-            ))
+            settingsNavigationCoordinator?.presentStarterPacks(pack == nil ? .choose : .review)
         case let .pluginMarketplaceDetail(target):
             pendingAppUpdateVersion = nil
             settingsNavigationCoordinator?.navigate(to: .marketplaceDetail(target))

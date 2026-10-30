@@ -44,7 +44,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
 
     private enum Defaults {
         static let isEnabled = true
-        static let showsMenuBarIcon = false
+        static let showsMenuBarIcon = true
         static let triggerWidth = Double(NotchHoverGeometry.defaultTriggerWidth)
         static let verticalTriggerReach = Double(NotchHoverGeometry.defaultVerticalTriggerReach)
         static let showDelay = 0.18

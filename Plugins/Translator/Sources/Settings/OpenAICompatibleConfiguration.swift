@@ -1,3 +1,4 @@
+import Darwin
 import Foundation
 import MacToolsPluginKit
 
@@ -127,16 +128,38 @@ struct OpenAICompatibleConfiguration: Equatable, Sendable {
             return true
         }
 
-        return scheme == "http" && isLoopbackHost(host)
+        return scheme == "http" && isLocalHTTPHost(host)
     }
 
-    private static func isLoopbackHost(_ host: String) -> Bool {
+    private static func isLocalHTTPHost(_ host: String) -> Bool {
         let normalizedHost = host
             .trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
             .lowercased()
-        return normalizedHost == "localhost"
+
+        if normalizedHost == "localhost"
             || normalizedHost == "127.0.0.1"
-            || normalizedHost == "::1"
+            || normalizedHost == "::1" {
+            return true
+        }
+
+        // Parse literal addresses without DNS or permissive numeric-host shorthand.
+        var ipv4 = in_addr()
+        if inet_pton(AF_INET, normalizedHost, &ipv4) == 1 {
+            // Darwin accepts leading zeros that URL loading may interpret as octal.
+            guard normalizedHost.split(separator: ".").allSatisfy({
+                $0.count == 1 || !$0.hasPrefix("0")
+            }) else { return false }
+            let address = UInt32(bigEndian: ipv4.s_addr)
+            return address & 0xff00_0000 == 0x0a00_0000       // 10.0.0.0/8
+                || address & 0xfff0_0000 == 0xac10_0000      // 172.16.0.0/12
+                || address & 0xffff_0000 == 0xc0a8_0000      // 192.168.0.0/16
+        }
+
+        var ipv6 = in6_addr()
+        guard inet_pton(AF_INET6, normalizedHost, &ipv6) == 1 else { return false }
+        // IPv6 unique local addresses (fc00::/7); mapped IPv4 and link-local addresses
+        // do not inherit this exception. Keep the host's ATS ranges aligned with it.
+        return withUnsafeBytes(of: ipv6) { $0[0] & 0xfe == 0xfc }
     }
 }
 

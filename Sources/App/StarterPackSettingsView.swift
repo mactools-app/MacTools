@@ -11,121 +11,50 @@ struct StarterPackSettingsView: View {
     var onRestore: (() -> Void)?
     var onOpenSettings: ((SettingsNavigationDestination) -> Void)?
     var onOpenPanel: ((String) -> Void)?
-    @State private var showsAllPacks = false
 
     var body: some View {
         SettingsPageScaffold {
-            if isOnboarding {
-                VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
-                    breadcrumb
-                    catalogStatus
+            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
+                if isComplete {
+                    completionPage
+                } else {
                     switch step {
-                    case .choose: onboardingChooser
-                    case .review: onboardingReview
+                    case .choose: setupChooser
+                    case .review: setupReview
                     case .results:
-                        if !controller.isRunning && controller.failedCount == 0 && !controller.wasStopped {
-                            onboardingReady
-                        } else {
-                            ScrollView { results }
-                        }
+                        stepIndicator
+                        ScrollView { results }
                     }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            } else {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
-                        breadcrumb
-                        catalogStatus
-                        switch step {
-                        case .choose: chooser
-                        case .review: review
-                        case .results: results
-                        }
+                    if step != .results || controller.isRunning {
+                        setupActions
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
-        }
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            if isOnboarding { onboardingFooter } else { footer }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
         .controlSize(.small)
+        .buttonStyle(.bordered)
         .task {
-            if isOnboarding, controller.selectedPacks.contains(where: { !StarterPack.recommendedForOnboarding.contains($0) }) {
-                showsAllPacks = true
-            }
-            if !host.visibleMenuBarPanels.contains(where: { $0.id == controller.draft.panelID }),
-               let first = host.visibleMenuBarPanels.first {
-                controller.updateDraft { $0.panelID = first.id }
-            }
             if host.pluginCatalogStatus.lastUpdatedAt == nil, !host.pluginCatalogStatus.isRefreshing {
                 await host.refreshPluginCatalog()
             }
         }
     }
 
-    private var footer: some View {
-        HStack {
-            Button(FeatureL10n.string(controller.canResumeOnboarding && !controller.isRunning ? "稍后设置" : "返回插件市场"), action: leaveSetup)
-                .settingsPointingHandCursor()
-                .accessibilityIdentifier("mactools.starter-packs.marketplace")
-            if step == .review {
-                Button(FeatureL10n.string("返回选择")) { navigation.navigate(to: .starterPacks(.choose)) }
-                    .settingsPointingHandCursor()
-            }
-            Spacer(minLength: 8)
-            if step == .choose {
-                Text(FeatureL10n.format("已选 %d 个组合 · %d 个插件", controller.selectedPacks.count, controller.selectedIDs.count))
-                    .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                Button(FeatureL10n.string("检查设置…")) {
-                    controller.reviewSelection()
-                    navigation.navigate(to: .starterPacks(.review))
-                }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(controller.selectedIDs.isEmpty || controller.isRunning)
-                    .accessibilityIdentifier("mactools.starter-packs.review")
-                    .settingsPointingHandCursor()
-            } else if step == .review {
-                Button(FeatureL10n.string("应用设置")) {
-                    if controller.apply() {
-                        navigation.navigate(to: .starterPacks(.results))
-                    }
-                }
-                .buttonStyle(.borderedProminent)
-                .disabled(!controller.canApply || host.isCatalogMutationActive
-                    || host.automaticPluginUpdateStatus.isActive)
-                .accessibilityIdentifier("mactools.starter-packs.apply")
-                .settingsPointingHandCursor()
-            }
-        }
-        .controlSize(.small)
-        .padding(PluginSettingsTheme.Spacing.rowHorizontal)
-        .background(SettingsStyle.contentBackground)
+    private var isComplete: Bool {
+        step == .results && controller.hasResults && !controller.isRunning
+            && controller.failedCount == 0 && !controller.wasStopped
+            && controller.setupMessages.isEmpty
+            && !controller.results.contains(where: { needsPermission($0.id) })
     }
 
-    private var breadcrumb: some View {
-        HStack(spacing: 8) {
-            if isOnboarding {
-                stepLabel("选择工具", active: step == .choose)
-                Image(systemName: "chevron.right")
-                stepLabel("检查设置", active: step == .review)
-                Image(systemName: "chevron.right")
-                stepLabel("完成", active: step == .results)
-            } else {
-                Button(FeatureL10n.string("插件市场"), action: leaveSetup)
-                    .buttonStyle(.link)
-                    .settingsPointingHandCursor()
-                Image(systemName: "chevron.right")
-                if step == .choose {
-                    Text(FeatureL10n.string("工具组合"))
-                } else {
-                    Button(FeatureL10n.string("工具组合")) { navigation.navigate(to: .starterPacks(.choose)) }
-                        .buttonStyle(.link)
-                        .settingsPointingHandCursor()
-                    Image(systemName: "chevron.right")
-                    Text(FeatureL10n.string(step == .review ? "检查设置" : controller.isRunning ? "正在设置" : "完成"))
-                }
-            }
+    private var stepIndicator: some View {
+        HStack(spacing: PluginSettingsTheme.Spacing.controlCluster) {
+            stepLabel("选择工具", number: 1, target: .choose)
+            stepConnector
+            stepLabel("检查设置", number: 2, target: .review)
+            stepConnector
+            stepLabel("完成", number: 3, target: .results)
         }
         .font(PluginSettingsTheme.Typography.rowDescription)
         .foregroundStyle(.secondary)
@@ -144,10 +73,32 @@ struct StarterPackSettingsView: View {
         if let onOpenSettings { onOpenSettings(destination) } else { navigation.navigate(to: destination) }
     }
 
-    private func stepLabel(_ key: String, active: Bool) -> some View {
-        Text(FeatureL10n.string(key))
-            .fontWeight(active ? .semibold : .regular)
-            .foregroundStyle(active ? Color.primary : Color.secondary)
+    private var stepConnector: some View {
+        Rectangle().fill(SettingsStyle.separator).frame(width: 24, height: 1)
+            .accessibilityHidden(true)
+    }
+
+    private func stepLabel(_ key: String, number: Int, target: StarterPackStep) -> some View {
+        let active = step == target
+        let completed = target == .choose && step != .choose || target == .review && step == .results
+        return HStack(spacing: PluginSettingsTheme.Spacing.controlCluster) {
+            ZStack {
+                Circle().fill(active ? Color.accentColor : SettingsStyle.recessedControlBackground)
+                if completed {
+                    Image(systemName: "checkmark").foregroundStyle(.tint)
+                } else {
+                    Text(number.formatted(.number.locale(PluginRuntimeLocalization.locale)))
+                        .foregroundStyle(active ? Color.white : .secondary)
+                }
+            }
+            .font(PluginSettingsTheme.Typography.statusBadge)
+            .frame(width: 24, height: 24)
+            .accessibilityHidden(true)
+            Text(FeatureL10n.string(key))
+                .fontWeight(active ? .semibold : .regular)
+                .foregroundStyle(active ? Color.primary : Color.secondary)
+        }
+        .accessibilityAddTraits(active ? [.isSelected] : [])
     }
 
     @ViewBuilder
@@ -184,67 +135,39 @@ struct StarterPackSettingsView: View {
             Text(title).font(PluginSettingsTheme.Typography.pageTitle)
             Text(description).font(PluginSettingsTheme.Typography.pageDescription).foregroundStyle(.secondary)
         }
+        .multilineTextAlignment(.leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    private var chooser: some View {
-        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
-            introduction(
-                FeatureL10n.string(controller.needsOnboarding ? "选择适合你的工具" : "为现有设置添加工具"),
-                FeatureL10n.string("可选择多个组合，在检查页面取消不需要的插件。")
-            )
-            HStack {
-                Button(FeatureL10n.string("选择所有组合")) { controller.selectAllPacks() }
-                    .settingsPointingHandCursor()
-                Button(FeatureL10n.string("清除选择")) { controller.clearSelection() }
-                    .settingsPointingHandCursor()
-            }
-            .buttonStyle(.borderless).foregroundStyle(.tint).disabled(controller.isRunning)
-            ViewThatFits(in: .horizontal) {
-                packChoices(columns: 3).frame(minWidth: 960)
-                packChoices(columns: 2).frame(minWidth: 620)
-                packChoices(columns: 1)
-            }
-            if controller.needsOnboarding && !isOnboarding {
-                HStack {
-                    Button(FeatureL10n.string("从空白开始")) {
-                        if controller.startEmpty() {
-                            navigation.navigate(to: .plugins(.marketplace))
-                        }
-                    }
-                    .help(FeatureL10n.string("返回插件市场"))
-                    .accessibilityIdentifier("mactools.starter-packs.start-empty")
-                    .settingsPointingHandCursor()
-                    Button(FeatureL10n.string("恢复备份…")) { navigation.requestPreferencesImport() }
-                        .settingsPointingHandCursor()
-                }
-                .buttonStyle(.borderless).foregroundStyle(.tint)
-                .disabled(controller.isRunning)
-            }
-        }
-    }
-
-    private func packChoices(columns: Int) -> some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: PluginSettingsTheme.Spacing.sectionHeaderContent), count: columns), alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
-            ForEach(isOnboarding && !showsAllPacks ? StarterPack.recommendedForOnboarding : StarterPack.allCases) { pack in packCard(pack) }
+    private var packChoices: some View {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 240), spacing: PluginSettingsTheme.Spacing.rowContentControl)], alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+            ForEach(StarterPack.allCases) { pack in packCard(pack) }
         }
     }
 
     private func packCard(_ pack: StarterPack) -> some View {
         Toggle(isOn: Binding(get: { controller.selectedPacks.contains(pack) }, set: { controller.selectPack(pack, isSelected: $0) })) {
-            VStack(alignment: .leading, spacing: isOnboarding ? PluginSettingsTheme.Spacing.controlCluster : PluginSettingsTheme.Spacing.sectionHeaderContent) {
-                HStack(alignment: .firstTextBaseline, spacing: 6) {
+            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+                HStack(spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
                     Image(systemName: PluginSystemImage.resolvedName(pack.symbol))
+                        .font(PluginSettingsTheme.Typography.pageTitle)
                         .foregroundStyle(.tint)
+                        .frame(width: PluginSettingsTheme.Size.metricIcon, height: PluginSettingsTheme.Size.metricIcon)
+                        .background(SettingsStyle.activeControlBackground, in: RoundedRectangle(cornerRadius: PluginSettingsTheme.Radius.control))
                         .accessibilityHidden(true)
-                    Text(pack.title).font(PluginSettingsTheme.Typography.emphasizedRowTitle)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Spacer(minLength: 4)
-                    Text(FeatureL10n.format("%d 个插件", pack.pluginIDs.count))
-                        .font(PluginSettingsTheme.Typography.statusBadge).foregroundStyle(.secondary)
-                        .fixedSize()
+                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+                        Text(pack.title).font(PluginSettingsTheme.Typography.emphasizedRowTitle)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Text(FeatureL10n.format("%d 个插件", pack.pluginIDs.count))
+                            .font(PluginSettingsTheme.Typography.statusBadge).foregroundStyle(.secondary)
+                    }
+                    Spacer(minLength: 0)
                 }
+                .padding(.trailing, PluginSettingsTheme.Size.rowIcon + PluginSettingsTheme.Spacing.controlCluster)
                 Text(pack.summary).font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                LazyVGrid(columns: [GridItem(.flexible(), alignment: .leading), GridItem(.flexible(), alignment: .leading)], alignment: .leading, spacing: 5) {
+                    .fixedSize(horizontal: false, vertical: true)
+                Divider()
+                LazyVGrid(columns: [GridItem(.flexible(), alignment: .leading), GridItem(.flexible(), alignment: .leading)], alignment: .leading, spacing: PluginSettingsTheme.Spacing.controlCluster) {
                     ForEach(pack.pluginIDs, id: \.self) { id in
                         HStack(alignment: .firstTextBaseline, spacing: 4) {
                             pluginIcon(id)
@@ -253,37 +176,21 @@ struct StarterPackSettingsView: View {
                         .font(PluginSettingsTheme.Typography.rowDescription)
                     }
                 }
+                Spacer(minLength: 0)
                 if controller.installedCount(in: pack) > 0 {
                     Text(FeatureL10n.format("已安装：%d / %d", controller.installedCount(in: pack), pack.pluginIDs.count))
                         .font(PluginSettingsTheme.Typography.statusBadge).foregroundStyle(.secondary)
                 }
                 Label(pack.permissionSummary, systemImage: "checkmark.shield")
-                    .font(isOnboarding ? PluginSettingsTheme.Typography.statusBadge : PluginSettingsTheme.Typography.rowDescription)
+                    .font(PluginSettingsTheme.Typography.statusBadge)
                     .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
-        .toggleStyle(SettingsSelectionToggleStyle(card: true, cardPadding: isOnboarding ? PluginSettingsTheme.Spacing.rowContentControl : PluginSettingsTheme.Spacing.rowHorizontal))
+        .toggleStyle(SettingsSelectionToggleStyle(card: true))
         .accessibilityLabel(Text(pack.title))
         .accessibilityHint(Text(([pack.summary] + pack.pluginIDs.map(pluginTitle) + [pack.permissionSummary]).joined(separator: ". ")))
         .accessibilityIdentifier("mactools.starter-packs.\(pack.rawValue)")
-        .disabled(controller.isRunning)
-    }
-
-    private var review: some View {
-        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
-            introduction(FeatureL10n.string("检查组合设置"), FeatureL10n.string("共享插件只显示一次。仅下载缺少的插件，保留现有设置、布局和快捷键。"))
-            reviewSummary
-            ViewThatFits(in: .horizontal) {
-                HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.section) {
-                    reviewConfiguration.frame(minWidth: 340, maxWidth: .infinity)
-                    if showsLayoutPreview { layoutPreview.frame(width: 260) }
-                }
-                VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
-                    reviewConfiguration
-                    if showsLayoutPreview { layoutPreview }
-                }
-            }
-        }
         .disabled(controller.isRunning)
     }
 
@@ -310,60 +217,23 @@ struct StarterPackSettingsView: View {
     }
 
     private var reviewConfiguration: some View {
-        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
-            ForEach(controller.candidateIDs, id: \.self) { id in
-                HStack {
-                    Toggle(isOn: selectionBinding(id)) {
-                        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
-                            Label { Text(pluginTitle(id)) } icon: { pluginIcon(id) }
-                                .font(PluginSettingsTheme.Typography.rowTitle)
-                            Text(pluginStatus(id)).font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                            if !isOnboarding {
-                                Text(StarterPack.allCases.filter { controller.selectedPacks.contains($0) && $0.pluginIDs.contains(id) }.map(\.title).joined(separator: " · "))
-                                    .font(PluginSettingsTheme.Typography.statusBadge).foregroundStyle(.secondary)
-                            }
-                        }
+        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
+            VStack(spacing: 0) {
+                ForEach(controller.candidateIDs, id: \.self) { id in
+                    if id != controller.candidateIDs.first {
+                        Divider().padding(.horizontal, PluginSettingsTheme.Spacing.rowHorizontal)
                     }
-                    .toggleStyle(SettingsSelectionToggleStyle())
-                    .accessibilityLabel(Text(pluginTitle(id)))
-                    .accessibilityIdentifier("mactools.starter-packs.plugin.\(id)")
-                    Spacer(minLength: 8)
-                    Button(FeatureL10n.string("详情")) { openSettings(.marketplaceDetail(.init(pluginID: id))) }
-                        .disabled(item(id) == nil)
-                        .settingsPointingHandCursor()
-                }
-                .padding(isOnboarding ? PluginSettingsTheme.Spacing.rowVertical : PluginSettingsTheme.Spacing.rowHorizontal)
-                .pluginSettingsCardBackground(.standard)
-            }
-            if !controller.recommendedPanelItems.isEmpty {
-                Toggle(FeatureL10n.string("将所选工具添加到面板"), isOn: draftBinding(\.addToPanel))
-                    .toggleStyle(SettingsSelectionToggleStyle())
-                if controller.draft.addToPanel {
-                    Picker(FeatureL10n.string("目标面板"), selection: draftBinding(\.panelID)) {
-                        ForEach(host.visibleMenuBarPanels) { panel in Text(panel.title).tag(panel.id) }
-                    }
-                    .frame(minWidth: 180, idealWidth: 240, maxWidth: 320)
-                    Text(FeatureL10n.string("已在任意面板中的工具将保留原位置，不会重复添加。"))
-                        .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+                    pluginSelectionRow(id)
                 }
             }
+            .pluginSettingsCardBackground(.standard)
             if controller.candidateIDs.contains("action-grid") {
-                if controller.canSeedGrid {
-                    Toggle(FeatureL10n.string("为操作网格添加左半屏、右半屏和最大化"), isOn: draftBinding(\.seedGrid))
-                        .toggleStyle(SettingsSelectionToggleStyle())
-                } else {
-                    Text(FeatureL10n.string("保留现有操作网格。选择窗口布局和操作网格后，可为全新网格添加常用操作。"))
-                        .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                }
-                if controller.draft.selectedPluginIDs.contains("action-grid"), !controller.hasGridShortcut {
-                    Toggle(FeatureL10n.string("使用 ⌃⌥Space 打开操作网格"), isOn: draftBinding(\.assignShortcut))
-                        .toggleStyle(SettingsSelectionToggleStyle())
-                    Text(FeatureL10n.string("如快捷键已被占用，将保留原绑定并提示你重新选择。"))
-                        .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                }
+                gridOptions
+                    .padding(PluginSettingsTheme.Spacing.rowHorizontal)
+                    .pluginSettingsCardBackground(.standard)
             }
             if !controller.selectedIDs.isEmpty {
-                Text(FeatureL10n.string("权限要求"))
+                Label(FeatureL10n.string("权限要求"), systemImage: "checkmark.shield")
                     .font(PluginSettingsTheme.Typography.sectionTitle).foregroundStyle(.secondary)
                 Text(controller.permissionIDs.isEmpty ? StarterPack.everyday.permissionSummary : controller.permissionIDs.map(permissionTitle).joined(separator: " · "))
                     .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
@@ -377,40 +247,17 @@ struct StarterPackSettingsView: View {
         return FeatureL10n.string(titles[id] ?? id)
     }
 
-    private var showsLayoutPreview: Bool {
-        (controller.draft.addToPanel && !controller.pendingPanelItems.isEmpty) || controller.candidateIDs.contains("action-grid")
-    }
-
-    private var layoutPreview: some View {
-        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
-            Label(FeatureL10n.string("布局更改"), systemImage: "rectangle.3.group")
-                .font(PluginSettingsTheme.Typography.sectionTitle).foregroundStyle(.secondary)
-            if controller.draft.addToPanel {
-                ForEach(controller.pendingPanelItems, id: \.self) { item in
-                    Label { Text(pluginTitle(item.pluginID)) } icon: { pluginIcon(item.pluginID) }
-                        .font(PluginSettingsTheme.Typography.rowDescription)
-                }
-            }
-            if controller.canSeedGrid && controller.draft.seedGrid {
-                StarterPackGridPreview(items: ["左半屏", "右半屏", "最大化"].enumerated().map {
-                    .init(slot: $0.offset, title: FeatureL10n.string($0.element), symbol: ["rectangle.lefthalf.filled", "rectangle.righthalf.filled", "rectangle.inset.filled"][$0.offset])
-                })
-            } else if controller.candidateIDs.contains("action-grid") {
-                Text(FeatureL10n.string("现有网格和快捷键保持不变。"))
-                    .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-            }
-        }
-        .padding(PluginSettingsTheme.Spacing.rowHorizontal)
-        .pluginSettingsCardBackground(.standard)
-    }
     private var results: some View {
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
             introduction(resultTitle, controller.isRunning
                 ? FeatureL10n.string("可继续浏览设置，安装会在后台进行。")
                 : FeatureL10n.format("已安装：%d · 未完成：%d", controller.installedCount, controller.results.count - controller.installedCount))
             if controller.isRunning {
-                ProgressView().controlSize(.small)
-                Text(controller.currentPluginID.map(pluginTitle) ?? "")
+                HStack(spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+                    ProgressView().controlSize(.small)
+                    Text(controller.currentPluginID.map(pluginTitle) ?? "")
+                        .font(PluginSettingsTheme.Typography.rowTitle)
+                }
                 if controller.stopRequested {
                     Text(FeatureL10n.string("当前插件完成后将停止，其余插件不会安装。"))
                         .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
@@ -419,23 +266,31 @@ struct StarterPackSettingsView: View {
                     .disabled(controller.stopRequested)
                     .settingsPointingHandCursor()
             }
-            ForEach(controller.results) { result in
-                HStack(alignment: .top) {
-                    Image(systemName: resultSymbol(result.outcome))
-                        .foregroundStyle(resultColor(result))
-                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
-                        Label { Text(pluginTitle(result.id)) } icon: { pluginIcon(result.id) }
-                            .font(PluginSettingsTheme.Typography.rowTitle)
-                        Text(resultDescription(result))
-                            .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+            VStack(spacing: 0) {
+                ForEach(controller.results) { result in
+                    if result.id != controller.results.first?.id {
+                        Divider().padding(.horizontal, PluginSettingsTheme.Spacing.rowHorizontal)
                     }
-                    Spacer()
-                    Button(FeatureL10n.string("详情")) {
-                        openSettings(.marketplaceDetail(.init(pluginID: result.id)))
-                    }.disabled(item(result.id) == nil)
-                        .settingsPointingHandCursor()
+                    HStack(alignment: .top) {
+                        Image(systemName: resultSymbol(result.outcome))
+                            .foregroundStyle(resultColor(result))
+                        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+                            Label { Text(pluginTitle(result.id)) } icon: { pluginIcon(result.id) }
+                                .font(PluginSettingsTheme.Typography.rowTitle)
+                            Text(resultDescription(result))
+                                .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        Button(FeatureL10n.string("详情")) {
+                            openSettings(.marketplaceDetail(.init(pluginID: result.id)))
+                        }.disabled(item(result.id) == nil)
+                            .settingsPointingHandCursor()
+                    }
+                    .padding(.horizontal, PluginSettingsTheme.Spacing.rowHorizontal)
+                    .padding(.vertical, PluginSettingsTheme.Spacing.rowVertical)
                 }
             }
+            .pluginSettingsCardBackground(.standard)
             ForEach(Array(controller.setupMessages.enumerated()), id: \.offset) { _, message in
                 Label(message, systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
             }
@@ -533,74 +388,88 @@ private extension StarterPackSettingsView {
         controller.didApplyPanelLayout && !host.panelEntries(in: controller.resultPanelID).isEmpty
     }
 
-    func onboardingColumns<Content: View>(showsAppliedSelection: Bool = false, @ViewBuilder content: () -> Content) -> some View {
-        HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.section + PluginSettingsTheme.Spacing.sectionHeaderContent) {
-            content().frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            StarterPackPanelPreview(controller: controller, panels: host.visibleMenuBarPanels, showsAppliedSelection: showsAppliedSelection)
-                .frame(width: StarterPackPanelPreview.preferredWidth)
-                .frame(maxHeight: .infinity, alignment: .top)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-    }
-
-    var onboardingChooser: some View {
-        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
-            introduction(FeatureL10n.string("选择适合你的工具"), FeatureL10n.string("可选择多个组合，在检查页面取消不需要的插件。"))
-            onboardingColumns {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
-                        packChoices(columns: 2)
-                        Button(FeatureL10n.string(showsAllPacks ? "显示推荐组合" : "浏览全部七个组合")) { showsAllPacks.toggle() }
-                            .buttonStyle(.link).settingsPointingHandCursor()
-                    }
-                    .padding(.trailing, PluginSettingsTheme.Stroke.standard)
-                }
-            }
-        }
-    }
-
-    var onboardingReview: some View {
-        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
-            introduction(FeatureL10n.string("检查组合设置"), FeatureL10n.string("保留需要的工具，共享插件只显示一次。"))
-            onboardingColumns {
-                VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
-                    reviewSummary
-                    ScrollView {
-                        LazyVStack(spacing: 0) {
-                            ForEach(controller.candidateIDs, id: \.self) { id in
-                                if id != controller.candidateIDs.first { Divider() }
-                                onboardingPluginRow(id)
+    func setupColumns<Header: View, Content: View>(
+        @ViewBuilder header: @escaping () -> Header,
+        @ViewBuilder content: @escaping () -> Content
+    ) -> some View {
+        let columnSpacing = PluginSettingsTheme.Spacing.section + PluginSettingsTheme.Spacing.sectionHeaderContent
+        let previewWidth = StarterPackPanelPreview.preferredWidth
+        return VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
+            stepIndicator
+            catalogStatus
+            GeometryReader { geometry in
+                if geometry.size.width >= 280 + columnSpacing + previewWidth {
+                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
+                        HStack(alignment: .firstTextBaseline, spacing: columnSpacing) {
+                            header().frame(maxWidth: .infinity, alignment: .leading)
+                            StarterPackPanelPreview.heading
+                                .frame(width: previewWidth, alignment: .leading)
+                        }
+                        HStack(alignment: .top, spacing: columnSpacing) {
+                            ScrollView {
+                                content()
+                                    .padding(PluginSettingsTheme.Spacing.controlCluster)
                             }
+                            .padding(-PluginSettingsTheme.Spacing.controlCluster)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                            StarterPackPanelPreview(controller: controller, panels: host.visibleMenuBarPanels)
+                                .frame(width: previewWidth)
+                                .frame(maxHeight: .infinity, alignment: .top)
                         }
                     }
-                    .frame(minHeight: 72, maxHeight: min(CGFloat(controller.candidateIDs.count) * 36, 360))
-                    .pluginSettingsCardBackground(.standard)
-                    .layoutPriority(-1)
-                    onboardingPanelOptions
-                    if !controller.selectedIDs.isEmpty {
-                        Label(controller.permissionIDs.isEmpty ? StarterPack.everyday.permissionSummary : controller.permissionIDs.map(permissionTitle).joined(separator: " · "), systemImage: "checkmark.shield")
-                            .font(PluginSettingsTheme.Typography.rowDescription)
-                            .foregroundStyle(.secondary)
-                            .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
+                            header()
+                            content()
+                            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
+                                StarterPackPanelPreview.heading
+                                StarterPackPanelPreview(controller: controller, panels: host.visibleMenuBarPanels)
+                            }
+                            .frame(width: previewWidth)
+                            .frame(maxWidth: .infinity)
+                        }
+                        .padding(PluginSettingsTheme.Spacing.controlCluster)
                     }
+                    .padding(-PluginSettingsTheme.Spacing.controlCluster)
                 }
             }
+        }
+    }
+
+    var setupChooser: some View {
+        setupColumns {
+            introduction(FeatureL10n.string("选择适合你的工具"), FeatureL10n.string("可选择多个组合，在检查页面取消不需要的插件。"))
+        } content: {
+            packChoices
+        }
+    }
+
+    var setupReview: some View {
+        setupColumns {
+            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
+                introduction(FeatureL10n.string("检查组合设置"), FeatureL10n.string("保留需要的工具，共享插件只显示一次。"))
+                reviewSummary
+            }
+        } content: {
+            reviewConfiguration
         }
         .disabled(controller.isRunning)
     }
 
-    func onboardingPluginRow(_ id: String) -> some View {
+    func pluginSelectionRow(_ id: String) -> some View {
         HStack(spacing: PluginSettingsTheme.Spacing.controlCluster) {
             Toggle(isOn: selectionBinding(id)) {
-                HStack(spacing: PluginSettingsTheme.Spacing.controlCluster) {
-                    Label { Text(pluginTitle(id)).lineLimit(1) } icon: { pluginIcon(id) }
-                        .font(PluginSettingsTheme.Typography.rowTitle)
-                        .help(pluginTitle(id))
-                    if item(id)?.canInstall != true {
+                HStack(alignment: .firstTextBaseline, spacing: PluginSettingsTheme.Spacing.controlCluster) {
+                    pluginIcon(id)
+                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+                        Text(pluginTitle(id)).lineLimit(1)
+                            .font(PluginSettingsTheme.Typography.rowTitle)
+                            .help(pluginTitle(id))
                         Text(pluginStatus(id))
-                            .font(PluginSettingsTheme.Typography.statusBadge)
+                            .font(PluginSettingsTheme.Typography.rowDescription)
                             .foregroundStyle(.secondary)
-                            .lineLimit(1)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 }
             }
@@ -608,208 +477,197 @@ private extension StarterPackSettingsView {
             .accessibilityLabel(Text(pluginTitle(id)))
             .accessibilityIdentifier("mactools.starter-packs.plugin.\(id)")
             Button(FeatureL10n.string("详情")) { openSettings(.marketplaceDetail(.init(pluginID: id))) }
-                .buttonStyle(.link)
+                .buttonStyle(.bordered)
                 .disabled(item(id) == nil)
                 .settingsPointingHandCursor()
         }
         .padding(.horizontal, PluginSettingsTheme.Spacing.rowHorizontal)
-        .padding(.vertical, PluginSettingsTheme.Spacing.controlCluster)
+        .padding(.vertical, PluginSettingsTheme.Spacing.rowVertical)
     }
 
-    var onboardingPanelOptions: some View {
-        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
-            if !controller.recommendedPanelItems.isEmpty {
-                Label(FeatureL10n.string("面板设置"), systemImage: "rectangle.topthird.inset.filled")
-                    .font(PluginSettingsTheme.Typography.sectionTitle)
-                    .foregroundStyle(.secondary)
-                Toggle(FeatureL10n.string("将所选工具添加到面板"), isOn: draftBinding(\.addToPanel))
-                    .toggleStyle(SettingsSelectionToggleStyle())
-                if controller.draft.addToPanel {
-                    Picker(FeatureL10n.string("目标面板"), selection: draftBinding(\.panelID)) {
-                        ForEach(host.visibleMenuBarPanels) { panel in Text(panel.title).tag(panel.id) }
-                    }
-                    .frame(minWidth: 180, idealWidth: 240, maxWidth: 320)
+    private var gridOptions: some View {
+        DisclosureGroup(FeatureL10n.string("操作网格选项")) {
+            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
+                if controller.canSeedGrid {
+                    Toggle(FeatureL10n.string("为操作网格添加左半屏、右半屏和最大化"), isOn: draftBinding(\.seedGrid))
+                        .toggleStyle(SettingsSelectionToggleStyle())
+                } else {
+                    Text(FeatureL10n.string("保留现有操作网格。选择窗口布局和操作网格后，可为全新网格添加常用操作。"))
+                        .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+                }
+                if controller.draft.selectedPluginIDs.contains("action-grid"), !controller.hasGridShortcut {
+                    Toggle(FeatureL10n.string("使用 ⌃⌥Space 打开操作网格"), isOn: draftBinding(\.assignShortcut))
+                        .toggleStyle(SettingsSelectionToggleStyle())
+                    Text(FeatureL10n.string("如快捷键已被占用，将保留原绑定并提示你重新选择。"))
+                        .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
                 }
             }
-            if controller.candidateIDs.contains("action-grid") {
-                DisclosureGroup(FeatureL10n.string("操作网格选项")) {
-                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
-                        if controller.canSeedGrid {
-                            Toggle(FeatureL10n.string("为操作网格添加左半屏、右半屏和最大化"), isOn: draftBinding(\.seedGrid))
-                                .toggleStyle(SettingsSelectionToggleStyle())
-                        } else {
-                            Text(FeatureL10n.string("保留现有操作网格。选择窗口布局和操作网格后，可为全新网格添加常用操作。"))
-                                .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                        }
-                        if controller.draft.selectedPluginIDs.contains("action-grid"), !controller.hasGridShortcut {
-                            Toggle(FeatureL10n.string("使用 ⌃⌥Space 打开操作网格"), isOn: draftBinding(\.assignShortcut))
-                                .toggleStyle(SettingsSelectionToggleStyle())
-                            Text(FeatureL10n.string("如快捷键已被占用，将保留原绑定并提示你重新选择。"))
-                                .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                        }
-                    }
-                    .padding(.top, PluginSettingsTheme.Spacing.sectionHeaderContent)
-                }
-            }
+            .padding(.top, PluginSettingsTheme.Spacing.sectionHeaderContent)
         }
         .fixedSize(horizontal: false, vertical: true)
     }
 
-    var onboardingFooter: some View {
+    var setupActions: some View {
         HStack(spacing: PluginSettingsTheme.Spacing.rowContentControl) {
-            if step == .choose {
-                Button(FeatureL10n.string("稍后设置"), action: leaveSetup)
-                    .buttonStyle(.borderless).foregroundStyle(.secondary)
-                    .settingsPointingHandCursor()
-                Button(FeatureL10n.string("从空白开始")) {
-                    if controller.startEmpty() { exitToMarketplace() }
+            if !isOnboarding {
+                Button(action: leaveSetup) {
+                    Label(FeatureL10n.string("返回插件市场"), systemImage: "chevron.left")
+                }
+                .buttonStyle(.borderless)
+                .settingsPointingHandCursor()
+                .accessibilityIdentifier("mactools.starter-packs.marketplace")
+            } else if step == .choose && controller.canResumeOnboarding {
+                Menu {
+                    Button(FeatureL10n.string("稍后设置"), action: leaveSetup)
+                    Button(FeatureL10n.string("从空白开始")) {
+                        if controller.startEmpty() { exitToMarketplace() }
+                    }
+                    .accessibilityIdentifier("mactools.starter-packs.start-empty")
+                    Divider()
+                    Button(FeatureL10n.string("恢复备份…")) { onRestore?() }
+                        .disabled(host.isImportingPreferences)
+                        .accessibilityIdentifier("mactools.starter-packs.restore")
+                } label: {
+                    Label(FeatureL10n.string("其他选项"), systemImage: "ellipsis.circle")
                 }
                 .disabled(controller.isRunning)
-                .buttonStyle(.borderless).foregroundStyle(.secondary)
-                .accessibilityIdentifier("mactools.starter-packs.start-empty")
-                .settingsPointingHandCursor()
-                Button(FeatureL10n.string("恢复备份…")) { onRestore?() }
-                    .buttonStyle(.borderless).foregroundStyle(.secondary)
-                    .disabled(controller.isRunning || host.isImportingPreferences)
-                    .accessibilityIdentifier("mactools.starter-packs.restore")
-                    .settingsPointingHandCursor()
-            } else if step == .review {
-                Button(FeatureL10n.string("返回选择")) { navigation.navigate(to: .starterPacks(.choose)) }
-                    .settingsPointingHandCursor()
-                Button(FeatureL10n.string("稍后设置"), action: leaveSetup)
-                    .buttonStyle(.borderless).foregroundStyle(.secondary)
-                    .settingsPointingHandCursor()
-            } else if !controller.isRunning && controller.failedCount == 0 && !controller.wasStopped {
-                Button(FeatureL10n.string("编辑选择")) { navigation.navigate(to: .starterPacks(.review)) }
-                    .buttonStyle(.borderless).foregroundStyle(.secondary)
-                    .settingsPointingHandCursor()
+                .menuStyle(.borderlessButton)
+                .fixedSize()
+                .foregroundStyle(.secondary)
             }
-            Spacer(minLength: 8)
+            Spacer(minLength: PluginSettingsTheme.Spacing.controlCluster)
             if step == .choose {
                 Text(FeatureL10n.format("已选 %d 个组合 · %d 个插件", controller.selectedPacks.count, controller.selectedIDs.count))
                     .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                Button(FeatureL10n.string("检查设置…")) {
+                Button(FeatureL10n.string("下一步")) {
                     controller.reviewSelection()
                     navigation.navigate(to: .starterPacks(.review))
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(controller.selectedIDs.isEmpty || controller.isRunning)
                 .accessibilityIdentifier("mactools.starter-packs.review")
+                .keyboardShortcut(.defaultAction)
                 .settingsPointingHandCursor()
             } else if step == .review {
+                Button(FeatureL10n.string("上一步")) { navigation.navigate(to: .starterPacks(.choose)) }
+                    .settingsPointingHandCursor()
                 Button(controller.missingIDs.isEmpty ? FeatureL10n.string("应用设置") : FeatureL10n.format("安装 %d 个插件", controller.missingIDs.count)) {
                     if controller.apply() { navigation.navigate(to: .starterPacks(.results)) }
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(!controller.canApply || host.isCatalogMutationActive || host.automaticPluginUpdateStatus.isActive)
                 .accessibilityIdentifier("mactools.starter-packs.apply")
+                .keyboardShortcut(.defaultAction)
                 .settingsPointingHandCursor()
-            } else if !controller.isRunning && controller.failedCount == 0 && !controller.wasStopped {
-                if canOpenResultPanel {
-                    Button(FeatureL10n.string("浏览插件市场")) {
-                        controller.showsProgress = false
-                        exitToMarketplace()
-                    }
-                    .settingsPointingHandCursor()
-                }
-                Button(FeatureL10n.string(canOpenResultPanel ? "打开面板" : "打开插件市场")) {
-                    controller.showsProgress = false
-                    if canOpenResultPanel {
-                        if let onOpenPanel { onOpenPanel(controller.resultPanelID) }
-                        else { host.menuBarPanelPresentationHandler?(controller.resultPanelID, false) }
-                    } else { exitToMarketplace() }
-                }
-                .buttonStyle(.borderedProminent)
-                .accessibilityIdentifier("mactools.starter-packs.open-panel")
-                .settingsPointingHandCursor()
-            } else {
+            } else if isOnboarding {
                 Button(FeatureL10n.string("返回插件市场"), action: leaveSetup)
                     .settingsPointingHandCursor()
             }
         }
         .buttonStyle(.bordered)
-        .controlSize(.small)
-        .padding(PluginSettingsTheme.Spacing.rowHorizontal)
-        .background(SettingsStyle.contentBackground)
-        .overlay(alignment: .top) { Divider() }
+        .controlSize(.regular)
+        .padding(.top, PluginSettingsTheme.Spacing.controlCluster)
     }
 
-    var onboardingReady: some View {
-        onboardingColumns(showsAppliedSelection: true) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
-                    Label {
-                        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+    var completionPage: some View {
+        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.section) {
+            stepIndicator
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(spacing: PluginSettingsTheme.Spacing.section) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: PluginSettingsTheme.Size.pageIcon))
+                            .foregroundStyle(.green)
+                            .accessibilityHidden(true)
+                        VStack(spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
                             Text(FeatureL10n.string("工具已就绪"))
                                 .font(PluginSettingsTheme.Typography.pageTitle)
                             Text(FeatureL10n.format("已就绪：%d 个插件", controller.installedCount))
-                                .font(PluginSettingsTheme.Typography.pageDescription).foregroundStyle(.secondary)
+                                .font(PluginSettingsTheme.Typography.pageDescription)
+                                .foregroundStyle(.secondary)
+                            Text(StarterPack.allCases.filter { controller.appliedPacks.contains($0) }.map(\.title).joined(separator: " · "))
+                                .font(PluginSettingsTheme.Typography.rowDescription)
+                                .foregroundStyle(.secondary)
                         }
-                    } icon: {
-                        Image(systemName: "checkmark.circle")
-                            .font(PluginSettingsTheme.Typography.pageTitle).foregroundStyle(.green)
-                    }
-                    ForEach(StarterPack.allCases.filter { controller.appliedPacks.contains($0) }) { pack in
-                        HStack {
-                            Image(systemName: PluginSystemImage.resolvedName(pack.symbol)).foregroundStyle(.tint)
-                            Text(pack.title).font(PluginSettingsTheme.Typography.rowTitle)
-                            Image(systemName: "checkmark").foregroundStyle(.green)
-                            Spacer(minLength: 0)
-                        }
-                    }
-                    Divider()
-                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
-                        Text(FeatureL10n.string(canOpenResultPanel ? "从菜单栏打开 MacTools" : "插件市场"))
-                            .font(PluginSettingsTheme.Typography.sectionTitle)
-                        Text(FeatureL10n.string(canOpenResultPanel
-                            ? "点击菜单栏中的 MacTools 图标，即可使用所选工具。"
-                            : "可在插件市场查看已安装的插件并打开设置。"))
-                            .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                    }
-                    Divider()
-                    VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
-                        Text(FeatureL10n.string("更多工具，随时添加"))
-                            .font(PluginSettingsTheme.Typography.sectionTitle)
-                        Text(FeatureL10n.string("可随时在插件市场安装更多插件，或选择全部七个工具组合。"))
-                            .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                        Text(FeatureL10n.string("设置 → 插件市场 → 工具组合"))
-                            .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
-                    }
-                    ForEach(Array(controller.setupMessages.enumerated()), id: \.offset) { _, message in
-                        Label(message, systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
-                    }
-                    if controller.results.contains(where: { needsPermission($0.id) }) {
-                        Button(FeatureL10n.string("打开权限设置")) { openSettings(.permissions) }
+                        completionGuidance
+                        Button(FeatureL10n.string("开始使用"), action: startUsing)
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.regular)
+                            .keyboardShortcut(.defaultAction)
                             .settingsPointingHandCursor()
+                            .accessibilityIdentifier("mactools.starter-packs.open-panel")
+                            .padding(.top, PluginSettingsTheme.Spacing.sectionHeaderContent)
                     }
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: 560)
+                    .padding(.vertical, PluginSettingsTheme.Spacing.pagePadding)
+                    .frame(maxWidth: .infinity, minHeight: geometry.size.height)
                 }
-                .padding(.vertical, PluginSettingsTheme.Spacing.section)
             }
         }
+        .accessibilityIdentifier("mactools.starter-packs.complete")
     }
-}
 
-private struct StarterPackGridPreview: View {
-    let items: [StarterPackGridPreviewItem]
-
-    var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 3), spacing: 6) {
-            ForEach(0..<9) { slot in
-                let item = items.first { $0.slot == slot }
-                VStack(spacing: 6) {
-                    Image(systemName: PluginSystemImage.resolvedName(item?.symbol ?? "plus"))
-                    Text(item?.title ?? " ")
-                        .font(PluginSettingsTheme.Typography.statusBadge)
-                        .lineLimit(2)
-                }
-                .foregroundStyle(item == nil ? Color.secondary : Color.primary)
-                .frame(maxWidth: .infinity, minHeight: 66)
-                .padding(4)
-                .pluginSettingsCardBackground(.recessed)
-                .help(item?.title ?? "")
+    private var completionGuidance: some View {
+        VStack(spacing: 0) {
+            if canOpenResultPanel {
+                completionGuideRow(
+                    title: FeatureL10n.string("从菜单栏打开 MacTools"),
+                    description: FeatureL10n.string("点击菜单栏中的 MacTools 图标，即可使用所选工具。"),
+                    symbol: "menubar.rectangle"
+                )
+                Divider().padding(.horizontal, PluginSettingsTheme.Spacing.rowHorizontal)
             }
+            completionGuideRow(
+                title: FeatureL10n.string("调整插件设置"),
+                description: FeatureL10n.string("在“设置”侧边栏的“插件设置”中选择插件，调整选项和快捷键。需要授权时，可在“权限”中查看指引。"),
+                symbol: "slider.horizontal.3"
+            )
+            Divider().padding(.horizontal, PluginSettingsTheme.Spacing.rowHorizontal)
+            completionGuideRow(
+                title: FeatureL10n.string("更多工具，随时添加"),
+                description: FeatureL10n.string("可随时在“插件市场”安装更多插件，或通过“插件组合”再次选择。"),
+                symbol: "shippingbox"
+            )
         }
+        .multilineTextAlignment(.leading)
+        .pluginSettingsCardBackground(.standard)
+    }
+
+    private func completionGuideRow(title: String, description: String, symbol: String) -> some View {
+        HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+            Image(systemName: symbol)
+                .font(PluginSettingsTheme.Typography.sectionTitle)
+                .foregroundStyle(.secondary)
+                .frame(width: PluginSettingsTheme.Size.rowIcon)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+                Text(title)
+                    .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
+                Text(description)
+                    .font(PluginSettingsTheme.Typography.rowDescription)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(PluginSettingsTheme.Spacing.rowHorizontal)
         .accessibilityElement(children: .combine)
+    }
+
+    func startUsing() {
+        controller.showsProgress = false
+        if canOpenResultPanel {
+            if let onOpenPanel {
+                onOpenPanel(controller.resultPanelID)
+            } else {
+                exitToMarketplace()
+                host.menuBarPanelPresentationHandler?(controller.resultPanelID, false)
+            }
+        } else {
+            exitToMarketplace()
+        }
     }
 }
 

@@ -64,6 +64,32 @@
 	<string>$(RIGHT_CLICK_CONFIGURATION_HOME_RELATIVE_PATH)</string>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>用于在系统日历中打开日期、读取 Apple“快捷指令”的图标、颜色和运行状态，并显示 macOS 退出登录、重新启动和关机确认。</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>10.0.0.0/8</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>172.16.0.0/12</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>192.168.0.0/16</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>fc00::/7</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 	<key>NSAudioCaptureUsageDescription</key>
 	<string>仅在调节应用独立音量时于本机实时处理系统音频，不会录制、保存或上传声音。</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>

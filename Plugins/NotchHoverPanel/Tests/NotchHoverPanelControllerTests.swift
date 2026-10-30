@@ -33,14 +33,21 @@ private final class TestState<Value> {
 
 @MainActor
 final class NotchHoverPanelControllerTests: XCTestCase {
-    func testMenuBarIconIsHiddenByDefault() {
-        let controller = makeController(storage: NotchHoverMemoryStorage())
+    func testMenuBarIconDefaultsToVisibleWithoutOverridingSavedPreferences() {
+        for savedPreference: Bool? in [nil, false, true] {
+            let storage = NotchHoverMemoryStorage()
+            storage.set(savedPreference, forKey: "notch-hover.show-menu-bar-icon")
+            let controller = makeController(storage: storage)
+            var requests: [Bool] = []
+            controller.requestAppMenuBarIconVisibility = { requests.append($0) }
 
-        XCTAssertTrue(controller.snapshot.isEnabled)
-        XCTAssertFalse(
-            controller.snapshot.showsMenuBarIcon,
-            "A freshly installed plugin should hide the host menu-bar icon."
-        )
+            controller.refresh()
+
+            XCTAssertTrue(controller.snapshot.isEnabled)
+            XCTAssertEqual(controller.snapshot.showsMenuBarIcon, savedPreference ?? true)
+            XCTAssertEqual(requests, [savedPreference ?? true])
+            XCTAssertEqual(storage.object(forKey: "notch-hover.show-menu-bar-icon") as? Bool, savedPreference)
+        }
     }
 
     func testMenuBarIconPreferenceRequestsHostVisibilityAndPersists() {
@@ -49,21 +56,22 @@ final class NotchHoverPanelControllerTests: XCTestCase {
         var requests: [Bool] = []
         controller.requestAppMenuBarIconVisibility = { requests.append($0) }
 
-        controller.setShowsMenuBarIcon(true)
+        controller.setShowsMenuBarIcon(false)
 
-        XCTAssertEqual(requests, [true])
-        XCTAssertTrue(controller.snapshot.showsMenuBarIcon)
-        XCTAssertTrue(storage.bool(forKey: "notch-hover.show-menu-bar-icon"))
+        XCTAssertEqual(requests, [false])
+        XCTAssertFalse(controller.snapshot.showsMenuBarIcon)
+        XCTAssertEqual(storage.object(forKey: "notch-hover.show-menu-bar-icon") as? Bool, false)
+        XCTAssertFalse(makeController(storage: storage).snapshot.showsMenuBarIcon)
 
         controller.setEnabled(false)
 
-        XCTAssertEqual(requests, [true, true], "Disabling the plugin must restore the host icon.")
+        XCTAssertEqual(requests, [false, true], "Disabling the plugin must restore the host icon.")
     }
 
     func testResetToDefaultsRestoresInitialPreferences() {
         let storage = NotchHoverMemoryStorage()
         let controller = makeController(storage: storage)
-        controller.setShowsMenuBarIcon(true)
+        controller.setShowsMenuBarIcon(false)
         controller.setTriggerWidth(NotchHoverGeometry.allowedTriggerWidthRange.upperBound)
         controller.setVerticalTriggerReach(NotchHoverGeometry.allowedVerticalTriggerReachRange.upperBound)
         controller.setShowDelay(0.8)
@@ -73,7 +81,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
 
         let snapshot = controller.snapshot
         XCTAssertTrue(snapshot.isEnabled)
-        XCTAssertFalse(snapshot.showsMenuBarIcon)
+        XCTAssertTrue(snapshot.showsMenuBarIcon)
         XCTAssertEqual(snapshot.triggerWidth, Double(NotchHoverGeometry.defaultTriggerWidth))
         XCTAssertEqual(
             snapshot.verticalTriggerReach,
@@ -81,7 +89,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
         )
         XCTAssertEqual(snapshot.showDelay, 0.18)
         XCTAssertEqual(snapshot.hideDelay, 0.28)
-        XCTAssertFalse(storage.bool(forKey: "notch-hover.show-menu-bar-icon"))
+        XCTAssertTrue(storage.bool(forKey: "notch-hover.show-menu-bar-icon"))
     }
 
     func testDisplayRemovalRestoresMenuBarIconVisibility() {
@@ -91,6 +99,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
             screensProvider: { screens.value },
             mouseLocationProvider: { .zero }
         )
+        controller.setShowsMenuBarIcon(false)
         var requests: [Bool] = []
         controller.requestAppMenuBarIconVisibility = { requests.append($0) }
 
@@ -99,7 +108,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
         XCTAssertEqual(
             requests,
             [false],
-            "With a supported display the host icon stays hidden by default."
+            "With a supported display the host icon follows the user's hidden preference."
         )
 
         screens.value = []
@@ -175,7 +184,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
     private func makeController(storage: NotchHoverMemoryStorage) -> NotchHoverPanelController {
         NotchHoverPanelController(
             storage: storage,
-            screensProvider: { [] },
+            screensProvider: { [Self.notchScreenSnapshot()] },
             mouseLocationProvider: { .zero }
         )
     }

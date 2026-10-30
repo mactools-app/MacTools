@@ -32,41 +32,47 @@ final class SettingsNavigationCoordinatorTests: XCTestCase {
         XCTAssertEqual(coordinator.destination, .plugins(.marketplace))
     }
 
-    func testStarterPackPresentationRequestsResultsOrSelectionInTheDedicatedWindow() {
-        let settings = SettingsNavigationCoordinator()
-        let onboarding = SettingsNavigationCoordinator(initialDestination: .starterPacks(.review))
-        settings.presentOnboarding = { step in
-            onboarding.navigate(to: .starterPacks(step))
-            return true
-        }
-        settings.presentStarterPacks(.results)
-        XCTAssertEqual(onboarding.destination, .starterPacks(.results))
-        XCTAssertEqual(settings.destination, .general)
+    func testStarterPackPresentationStaysInCurrentSettingsHistory() {
+        let settings = SettingsNavigationCoordinator(initialDestination: .plugins(.marketplace))
         settings.presentStarterPacks(.choose)
-        XCTAssertEqual(onboarding.destination, .starterPacks(.choose))
-        settings.presentOnboarding = nil
+        XCTAssertEqual(settings.destination, .starterPacks(.choose))
         settings.presentStarterPacks(.results)
         XCTAssertEqual(settings.destination, .starterPacks(.results))
+        settings.goBack()
+        XCTAssertEqual(settings.destination, .starterPacks(.choose))
+        settings.goBack()
+        XCTAssertEqual(settings.destination, .plugins(.marketplace))
     }
 
-    func testStarterPackSearchReusesOnboardingAndFallsBackToSettingsForExistingUsers() {
-        let settings = SettingsNavigationCoordinator()
-        let onboarding = SettingsNavigationCoordinator(initialDestination: .starterPacks(.choose))
-        settings.presentOnboarding = { _ in
-            onboarding.navigate(to: .starterPacks(.results))
-            return true
-        }
+    func testStarterPackSearchStaysInSettingsAndShowsRunningSetup() async {
+        let suite = "StarterPackNavigationTests-\(UUID().uuidString)"
+        let host = makePluginHostForTests(plugins: [], suiteName: suite, loadDynamicPluginsOnInit: false)
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+        var installed: Set<String> = []
+        let controller = StarterPackController(defaults: defaults, hasExistingSetup: false, services: StarterPackServices(
+            installedIDs: { installed }, isUsable: { installed.contains($0) }, isCatalogReady: { true },
+            install: { installed.insert($0) }, layout: { MenuBarPanelConfiguration() },
+            addPlacement: { _, _ in true }, gridState: { .empty }, seedGrid: { _ in true },
+            hasGridShortcut: { false }, assignGridShortcut: { nil }
+        ))
+        host.starterPacks = controller
+        let settings = SettingsNavigationCoordinator(pluginHost: host)
+        settings.navigate(to: .plugins(.marketplace))
         settings.presentUnifiedSearch(origin: .keyboard)
 
         XCTAssertTrue(settings.navigateFromSearch(to: .starterPacks(.choose), target: nil))
         XCTAssertFalse(settings.isUnifiedSearchPresented)
-        XCTAssertEqual(settings.destination, .general)
-        XCTAssertEqual(settings.history, [.general])
-        XCTAssertEqual(onboarding.destination, .starterPacks(.results))
-
-        settings.presentOnboarding = { _ in false }
-        XCTAssertTrue(settings.navigateFromSearch(to: .starterPacks(.choose), target: nil))
         XCTAssertEqual(settings.destination, .starterPacks(.choose))
+        settings.goBack()
+        XCTAssertEqual(settings.destination, .plugins(.marketplace))
+
+        XCTAssertTrue(controller.apply())
+        settings.presentUnifiedSearch(origin: .keyboard)
+        XCTAssertTrue(settings.navigateFromSearch(to: .starterPacks(.choose), target: nil))
+        XCTAssertFalse(settings.isUnifiedSearchPresented)
+        XCTAssertEqual(settings.destination, .starterPacks(.results))
+        await controller.waitForInstallation()
     }
 
     func testDirectPluginSettingsNavigationEndsPreviousVisibilityBeforeStartingNext() {
