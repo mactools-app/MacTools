@@ -96,13 +96,39 @@ final class VoiceReadinessTests: XCTestCase {
     }
 
     func testInactivityStopsWithoutDismissingOrAutomaticallyRestarting() async throws {
-        let (model, factory, audio, grants) = try await makeModel()
+        for timeout in [VoiceIdleTimeout.thirtySeconds, .fiveMinutes] {
+            let (model, factory, audio, grants) = try await makeModel()
+            model.idleTimeout = timeout
+            let socket = try await start(model, factory)
+            model.stopIfIdle(at: .now.advanced(by: timeout.duration - .seconds(1)))
+            XCTAssertTrue(model.active)
+            model.stopIfIdle(at: .now.advanced(by: timeout.duration + .seconds(1)))
+            XCTAssertFalse(model.active)
+            XCTAssertTrue(audio.stopped)
+            XCTAssertEqual(grants.ended.count, 1)
+            XCTAssertEqual(factory.connections.count, 1)
+            socket.cancel()
+        }
+    }
+
+    func testInactivityWaitsForBackendAndSpokenPlaybackToFinish() async throws {
+        let (model, factory, audio, _) = try await makeModel()
         let socket = try await start(model, factory)
-        model.stopIfIdle(at: .now.advanced(by: .seconds(240)))
+        socket.feed(["type": "response.event", "event": ["type": "response.created", "response": ["id": "thinking"]]])
+        socket.feed(["type": "session.usage.updated", "usage": ["seconds": 1.0]])
+        await settle { model.sessionMetrics.voiceSeconds == 1 }
+        model.stopIfIdle(at: .now.advanced(by: .seconds(120)))
+        XCTAssertTrue(model.active, "Pending delegated work keeps its conversation")
+        socket.feed(["type": "response.event", "event": ["type": "response.completed", "response": ["id": "thinking"]]])
+        socket.feed(["type": "session.output_audio.delta", "delta": Data([0, 64, 0, 64]).base64EncodedString()])
+        await settle { audio.played == 1 }
+        model.stopIfIdle(at: .now.advanced(by: .seconds(120)))
+        XCTAssertTrue(model.active, "Queued spoken audio must finish before idle closure")
+        audio.finishPlayback()
+        model.stopIfIdle(at: .now.advanced(by: .seconds(59)))
+        XCTAssertTrue(model.active, "The idle interval starts after speech playback finishes")
+        model.stopIfIdle(at: .now.advanced(by: .seconds(61)))
         XCTAssertFalse(model.active)
-        XCTAssertTrue(audio.stopped)
-        XCTAssertEqual(grants.ended.count, 1)
-        XCTAssertEqual(factory.connections.count, 1)
         socket.cancel()
     }
 
@@ -205,6 +231,7 @@ final class VoiceReadinessTests: XCTestCase {
         return pair.stream
     }
     func play(_ data: Data) throws { played += 1; playback?(true) }
+    func finishPlayback() { playback?(false) }
     func stop() { stopped = true; continuation?.finish(); continuation = nil; playback?(false) }
 }
 @MainActor private final class ReadinessGrants {

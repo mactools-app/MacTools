@@ -18,6 +18,7 @@ final class VoiceConversation: ObservableObject {
     }
     @Published private(set) var speaking = false
     @Published private(set) var activity: String?
+    @Published var idleTimeout: VoiceIdleTimeout
     @Published var featureAccess = VoiceFeatureAccess()
     var excludedPluginIDs: Set<String> {
         get { featureAccess.excludedPluginIDs }
@@ -54,6 +55,7 @@ final class VoiceConversation: ObservableObject {
     private var startupTask: Task<Void, Never>?
     private var idleTask: Task<Void, Never>?
     private var lastActivity = ContinuousClock.now
+    private var outputSpeechPending = false
     private(set) var sessionMetrics = VoiceSessionMetrics(id: UUID())
     private(set) var recentSessionMetrics: [VoiceSessionMetrics] = []
     private var tools: VoiceTools?
@@ -79,12 +81,20 @@ final class VoiceConversation: ObservableObject {
          secrets: any VoiceSecretStoring = VoiceSecretStore(),
          makeConnection: ((URLRequest) -> any VoiceConnection)? = nil) {
         self.audio = audio; self.requestMicrophone = requestMicrophone; self.makeConnection = makeConnection
+        idleTimeout = VoiceIdleTimeout(rawValue: context.storage.integer(forKey: "idleTimeoutSeconds")) ?? .defaultValue
         let credentials = VoiceCredentialConfiguration(storage: context.storage, secrets: secrets)
         self.credentials = credentials
         hasCredentials = credentials.isConfigured
         credentialStatus = Self.credentialStatus(for: credentials)
         localization = PluginLocalization(bundle: context.resourceBundle)
-        audio.observePlayback { [weak self] playing in self?.speaking = playing && self?.active == true }
+        audio.observePlayback { [weak self] playing in
+            guard let self else { return }
+            if !playing, outputSpeechPending {
+                if active { lastActivity = .now }
+                outputSpeechPending = false
+            }
+            speaking = playing && active
+        }
         audio.observeOutputLevel { [weak self] level in
             guard let self, active else { return }
             outputLevels = Array(outputLevels.dropFirst()) + [level]
@@ -162,6 +172,7 @@ final class VoiceConversation: ObservableObject {
                 tools?.onActivity = { [weak self] title in
                     guard let self, epoch == token, active else { return }
                     activity = title
+                    lastActivity = .now
                 }
                 startupTimeoutFailure = .credentials
                 let key = try await credentials.loadForConversation()
@@ -202,6 +213,7 @@ final class VoiceConversation: ObservableObject {
             recentSessionMetrics = Array(recentSessionMetrics.suffix(4))
         }
         epoch = UUID(); active = false; connected = false; capturing = false; muted = false; speaking = false; activity = nil; startupTimeoutFailure = .connection
+        outputSpeechPending = false
         pendingInput = VoicePendingInput()
         inputLevels = Array(repeating: 0, count: 24); outputLevels = Array(repeating: 0, count: 24)
         tools?.stop(); tools = nil
@@ -299,8 +311,8 @@ final class VoiceConversation: ObservableObject {
     }
 
     func stopIfIdle(at now: ContinuousClock.Instant = .now) {
-        guard active, connected, toolTask == nil,
-              lastActivity.duration(to: now) >= .seconds(120) else { return }
+        guard active, connected, toolTask == nil, toolQueue.isEmpty, calls.isEmpty, delegations.isEmpty,
+              !(speaking && outputSpeechPending), lastActivity.duration(to: now) >= idleTimeout.duration else { return }
         status = "一段时间没有活动，对话已结束。重新开始即可继续。"
         stop(keepingStatus: true)
     }
@@ -313,7 +325,7 @@ final class VoiceConversation: ObservableObject {
             connected = true; status = "正在聆听"; lastActivity = .now; onChange?()
             idleTask = Task { @MainActor [weak self] in
                 while !Task.isCancelled {
-                    try? await Task.sleep(for: .seconds(10))
+                    try? await Task.sleep(for: .seconds(1))
                     guard let self, epoch == token, active else { return }
                     stopIfIdle()
                 }
@@ -323,7 +335,7 @@ final class VoiceConversation: ObservableObject {
                 guard data.count <= 480_000, data.count.isMultiple(of: 2) else { throw VoiceFailure.protocolError }
                 recordStartup("firstOutputAudio")
                 if VoiceAudioMeter.level(data) > 0.05 {
-                    recordStartup("firstOutputSpeech"); lastActivity = .now
+                    recordStartup("firstOutputSpeech"); lastActivity = .now; outputSpeechPending = true
                 }
                 try audio.play(data)
             }
@@ -349,6 +361,7 @@ final class VoiceConversation: ObservableObject {
             let delegation = event["delegation_id"] as? String ?? ""
             if nested["type"] as? String == "response.created", let response = nested["response"] as? [String: Any], let id = response["id"] as? String {
                 guard calls.count < 32 else { throw VoiceFailure.overloaded }
+                lastActivity = .now
                 delegations[delegation] = id; calls[id] = []
             } else if nested["type"] as? String == "response.output_item.done",
                       let item = nested["item"] as? [String: Any], item["type"] as? String == "function_call",
@@ -358,6 +371,7 @@ final class VoiceConversation: ObservableObject {
                 calls[id, default: []].append(["call_id": callID, "name": name, "arguments": args])
             } else if nested["type"] as? String == "response.completed",
                       let response = nested["response"] as? [String: Any], let id = response["id"] as? String {
+                lastActivity = .now
                 let pending = calls.removeValue(forKey: id) ?? []
                 delegations = delegations.filter { $0.value != id }
                 guard !pending.isEmpty else { return }
