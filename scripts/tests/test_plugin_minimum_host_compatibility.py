@@ -27,6 +27,7 @@ NEW_API_MINIMUM_HOSTS = {
     "PluginVoiceQuery": "2.2.1",
     "PluginVoiceQueryProviding": "2.2.1",
     "PluginVoiceParameterizedActionProviding": "2.2.1",
+    "PluginVoiceSelfActionProviding": "2.2.1",
     "PluginVoiceControlHostContext": "2.2.1",
     "PluginVoiceControlHostContextConsuming": "2.2.1",
     ".microphone": "2.2.1",
