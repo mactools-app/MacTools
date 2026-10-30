@@ -169,7 +169,10 @@ final class VoiceConversation: ObservableObject {
                 }
                 sessionProviders = context.providers().filter { !excludedPluginIDs.contains($0.id) }
                 tools = VoiceTools(context: context, sessionID: grant)
-                tools?.onActivity = { [weak self] title in self?.activity = title }
+                tools?.onActivity = { [weak self] title in
+                    guard let self, epoch == token, active else { return }
+                    activity = title
+                }
                 startupTimeoutFailure = .credentials
                 let key = try await credentials.loadForConversation()
                 guard epoch == token, active else { return }
@@ -291,7 +294,12 @@ final class VoiceConversation: ObservableObject {
                 let event = try await socket.receive()
                 if epoch == token, active {
                     sessionMetrics.observe(event)
-                    try await handle(event, token: token)
+                    do { try await handle(event, token: token) }
+                    catch {
+                        // A rejected service command can leave a healthy socket. Stop
+                        // locally, then keep this receiver alive for the close accounting.
+                        fail(error)
+                    }
                 } else if let index = recentSessionMetrics.firstIndex(where: { $0.id == token }) {
                     recentSessionMetrics[index].observe(event)
                 }
