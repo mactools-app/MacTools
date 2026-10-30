@@ -6221,6 +6221,391 @@
           }
         }
       }
+    },
+    "API 额度不足，请检查 OpenAI 账户余额和用量限制。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API quota exhausted. Check your OpenAI balance and usage limits."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نفدت حصة API. تحقّق من رصيد OpenAI وحدود الاستخدام."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API-Kontingent aufgebraucht. OpenAI-Guthaben und Nutzungslimits prüfen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuota de API agotada. Comprueba tu saldo de OpenAI y los límites de uso."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quota API épuisé. Vérifiez votre solde OpenAI et vos limites d’utilisation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "APIの利用枠が不足しています。OpenAIの残高と利用上限を確認してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API 할당량이 소진되었습니다. OpenAI 잔액과 사용 한도를 확인하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quota da API esgotada. Verifique o saldo OpenAI e os limites de utilização."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Квота API исчерпана. Проверьте баланс OpenAI и лимиты использования."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API kotası tükendi. OpenAI bakiyenizi ve kullanım sınırlarınızı kontrol edin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API 额度不足，请检查 OpenAI 账户余额和用量限制。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API 額度不足，請檢查 OpenAI 帳號餘額和用量限制。"
+          }
+        }
+      }
+    },
+    "请求过于频繁，请稍后重新开始对话。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Too many requests. Try starting the conversation again shortly."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلبات كثيرة جدًا. حاول بدء المحادثة مجددًا بعد قليل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu viele Anfragen. Das Gespräch in Kürze erneut starten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demasiadas solicitudes. Vuelve a iniciar la conversación dentro de poco."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trop de requêtes. Réessayez de démarrer la conversation dans un instant."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "リクエストが多すぎます。しばらくしてから会話を再開してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "요청이 너무 많습니다. 잠시 후 대화를 다시 시작하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demasiados pedidos. Tente iniciar a conversa novamente em breve."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Слишком много запросов. Попробуйте начать разговор чуть позже."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çok fazla istek var. Biraz sonra konuşmayı yeniden başlatın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请求过于频繁，请稍后重新开始对话。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請求過於頻繁，請稍後重新開始對話。"
+          }
+        }
+      }
+    },
+    "当前 API 项目无法访问所需模型，请检查权限。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your API project cannot access a required model. Check model permissions."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتعذّر على مشروع API الوصول إلى نموذج مطلوب. تحقّق من الأذونات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das API-Projekt hat keinen Zugriff auf ein benötigtes Modell. Berechtigungen prüfen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu proyecto de API no puede acceder a un modelo necesario. Comprueba los permisos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre projet API ne peut pas accéder à un modèle requis. Vérifiez les autorisations."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "APIプロジェクトが必要なモデルにアクセスできません。権限を確認してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API 프로젝트에서 필요한 모델에 액세스할 수 없습니다. 모델 권한을 확인하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O projeto API não tem acesso a um modelo necessário. Verifique as permissões."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "У проекта API нет доступа к нужной модели. Проверьте разрешения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API projeniz gerekli bir modele erişemiyor. Model izinlerini kontrol edin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前 API 项目无法访问所需模型，请检查权限。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目前 API 專案無法存取所需模型，請檢查權限。"
+          }
+        }
+      }
+    },
+    "一段时间没有活动，对话已结束。重新开始即可继续。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conversation ended after inactivity. Start again to continue."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتهت المحادثة بسبب عدم النشاط. ابدأ مجددًا للمتابعة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gespräch wegen Inaktivität beendet. Zum Fortfahren erneut starten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La conversación terminó por inactividad. Iníciala de nuevo para continuar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conversation terminée après une période d’inactivité. Redémarrez pour continuer."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "しばらく操作がなかったため会話を終了しました。再開して続けてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "일정 시간 활동이 없어 대화가 종료되었습니다. 다시 시작하여 계속하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conversa terminada por inatividade. Inicie novamente para continuar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разговор завершён из-за бездействия. Начните снова, чтобы продолжить."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareketsizlik nedeniyle konuşma sona erdi. Devam etmek için yeniden başlatın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一段时间没有活动，对话已结束。重新开始即可继续。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一段時間沒有活動，對話已結束。重新開始即可繼續。"
+          }
+        }
+      }
+    },
+    "语音服务已结束此对话，请重新开始。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The voice service ended this conversation. Start a new conversation."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أنهت خدمة الصوت هذه المحادثة. ابدأ محادثة جديدة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Sprachdienst hat dieses Gespräch beendet. Ein neues Gespräch starten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El servicio de voz terminó esta conversación. Inicia una nueva."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le service vocal a terminé cette conversation. Démarrez une nouvelle conversation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声サービスがこの会話を終了しました。新しい会話を開始してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "음성 서비스에서 이 대화를 종료했습니다. 새 대화를 시작하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O serviço de voz terminou esta conversa. Inicie uma nova conversa."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Голосовой сервис завершил разговор. Начните новый разговор."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses hizmeti bu konuşmayı sonlandırdı. Yeni bir konuşma başlatın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音服务已结束此对话，请重新开始。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "語音服務已結束此對話，請重新開始。"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
