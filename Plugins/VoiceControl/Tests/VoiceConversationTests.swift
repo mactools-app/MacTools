@@ -30,6 +30,26 @@ final class VoiceConversationTests: XCTestCase {
         XCTAssertFalse(model.connected)
     }
 
+    func testStopWhileAwaitingMicrophoneCannotRestartCapture() async {
+        var permission: CheckedContinuation<Bool, Never>?
+        let model = VoiceConversation(context: .init(pluginID: "voice-control", storage: VoiceCredentialTestStorage()),
+            audio: NoCaptureAudio(), requestMicrophone: { await withCheckedContinuation { permission = $0 } },
+            secrets: VoiceCredentialTestSecrets())
+        let saved = await model.saveKey("sk-unit-test-fixture-not-a-real-key")
+        XCTAssertTrue(saved)
+        var revoked = false
+        model.context = .init(begin: { _ in UUID() }, end: { _ in revoked = true }, request: { _, _ in .init() })
+        model.start()
+        for _ in 0..<100 where permission == nil { await Task.yield() }
+        XCTAssertNotNil(permission)
+        model.stop()
+        permission?.resume(returning: true)
+        for _ in 0..<10 { await Task.yield() }
+        XCTAssertTrue(revoked)
+        XCTAssertFalse(model.active)
+        XCTAssertFalse(model.capturing)
+    }
+
     private func makeModel() async -> VoiceConversation {
         let model = VoiceConversation(context: .init(pluginID: "voice-control", storage: VoiceCredentialTestStorage()),
             audio: NoCaptureAudio(), requestMicrophone: { false }, secrets: VoiceCredentialTestSecrets())
