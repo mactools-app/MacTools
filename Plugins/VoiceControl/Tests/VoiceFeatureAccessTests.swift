@@ -1,3 +1,4 @@
+import Foundation
 import MacToolsPluginKit
 import XCTest
 @testable import VoiceControlPlugin
@@ -113,10 +114,50 @@ final class VoiceFeatureAccessTests: XCTestCase {
         XCTAssertFalse(copy.conversation.featureAccess.isAllowed("volume"), "Malformed backups must not change access")
     }
 
+    func testVoicePolicyControlsPreserveActiveGrantAndRequireApprovalToEnable() async throws {
+        let storage = VoiceCredentialTestStorage()
+        let context = PluginRuntimeContext(pluginID: "voice-control", storage: storage)
+        var permission: CheckedContinuation<Bool, Never>?
+        let model = VoiceConversation(context: context, audio: FeatureAccessNoAudio(),
+            requestMicrophone: { await withCheckedContinuation { permission = $0 } }, secrets: VoiceCredentialTestSecrets())
+        let plugin = VoiceControlPlugin(context: context, conversation: model)
+        var available = providers
+        plugin.voiceControlHostContext = .init(providers: { available }, begin: { _ in UUID() },
+            end: { _ in }, request: { _, _ in .init() })
+        let saved = await model.saveKey("sk-unit-test-fixture-not-a-real-key")
+        XCTAssertTrue(saved)
+        var backups = 0
+        plugin.onPersistentPreferencesChange = { backups += 1 }
+        model.start()
+        defer { model.stop(); permission?.resume(returning: false) }
+        for _ in 0..<100 where permission == nil { await Task.yield() }
+        XCTAssertNotNil(permission)
+        let original = Set(model.allowedProviders.map(\.id))
+        let enable = try XCTUnwrap(plugin.actionDefinitions.first { $0.confirmation != nil })
+        XCTAssertEqual(enable.risk, .confirmationRequired)
+        let disable = try XCTUnwrap(plugin.actionDefinitions.first { $0.confirmation == nil })
+        let handle = try plugin.beginAction(.init(reference: .init(key: disable.key), source: .test, mode: .foreground))
+        guard case .succeeded = await handle.result() else { return XCTFail("Expected a saved policy change") }
+        XCTAssertFalse(model.featureAccess.automaticallyAllowNewPlugins)
+        XCTAssertTrue(model.active)
+        available.append(.init(id: "later", title: "Later Plugin"))
+        XCTAssertEqual(Set(model.allowedProviders.map(\.id)), original)
+        XCTAssertFalse(model.featureAccess.isAllowed("later"))
+        XCTAssertEqual(backups, 1)
+        XCTAssertFalse(storage.bool(forKey: "automaticallyAllowNewPlugins"))
+    }
+
     private func makePlugin(storage: VoiceCredentialTestStorage) -> VoiceControlPlugin {
         let plugin = VoiceControlPlugin(context: .init(pluginID: "voice-control", storage: storage))
         plugin.voiceControlHostContext = .init(providers: { [providers] in providers },
             begin: { _ in nil }, end: { _ in }, request: { _, _ in .init(status: "sessionEnded") })
         return plugin
     }
+}
+
+@MainActor
+private final class FeatureAccessNoAudio: VoiceAudioIO {
+    func start() throws -> AsyncThrowingStream<Data, Error> { XCTFail("No microphone capture expected"); throw VoiceFailure.audio }
+    func play(_ data: Data) throws { XCTFail("No playback expected") }
+    func stop() {}
 }

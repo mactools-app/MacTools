@@ -24554,7 +24554,115 @@
       },
       "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control",
       "product": {
-        "actions": null,
+        "actions": {
+          "providers": [
+            {
+              "dynamicTemplates": [],
+              "id": "voice-control",
+              "kind": "static",
+              "staticActions": [
+                {
+                  "automaticEligible": false,
+                  "description": {
+                    "ar": "ستتوفر المكونات الإضافية الجديدة تلقائيًا في المحادثات اللاحقة. تحتفظ المكونات المحظورة وهذه المحادثة بإعدادات الوصول الحالية.",
+                    "de": "Neue Plugins werden in künftigen Gesprächen automatisch verfügbar. Gesperrte Plugins und dieses Gespräch behalten ihre bisherigen Zugriffsrechte.",
+                    "en": "New plugins will be available automatically in future conversations. Blocked plugins and this conversation keep their current access.",
+                    "es": "Los nuevos plugins estarán disponibles automáticamente en futuras conversaciones. Los plugins bloqueados y esta conversación conservarán su acceso actual.",
+                    "fr": "Les nouveaux modules seront disponibles automatiquement lors des prochaines conversations. Les modules bloqués et cette conversation conservent leurs accès actuels.",
+                    "ja": "新しいプラグインは今後の会話で自動的に利用可能になります。拒否したプラグインと現在の会話のアクセス権は変わりません。",
+                    "ko": "이후 대화에서 새 플러그인이 자동으로 허용됩니다. 차단된 플러그인과 현재 대화의 접근 권한은 유지됩니다.",
+                    "pt": "Novos plugins ficarão disponíveis automaticamente nas próximas conversas. Os plugins bloqueados e esta conversa mantêm o acesso atual.",
+                    "ru": "Новые плагины будут доступны автоматически в будущих разговорах. Доступ заблокированных плагинов и текущего разговора не изменится.",
+                    "tr": "Yeni eklentiler sonraki konuşmalarda otomatik olarak kullanılabilir. Engellenen eklentilerin ve bu konuşmanın erişimi değişmez.",
+                    "zh-Hans": "新插件将在后续对话中自动可用，已禁止的插件和当前对话不受影响。",
+                    "zh-Hant": "新外掛將在後續對話中自動可用，已禁止的外掛與目前對話不受影響。"
+                  },
+                  "externalInvocation": "unavailable",
+                  "id": "automatic-plugin-access-on",
+                  "keywords": [
+                    "new plugins",
+                    "automatic access",
+                    "automatically allow",
+                    "future plugin permissions"
+                  ],
+                  "parameters": [],
+                  "permissionIDs": [],
+                  "risk": "confirmationRequired",
+                  "surfaces": [
+                    "unified-search",
+                    "global-shortcut",
+                    "action-grid",
+                    "manual"
+                  ],
+                  "systemImage": "checkmark.shield",
+                  "title": {
+                    "ar": "السماح تلقائيًا بالمكونات الإضافية المثبّتة حديثًا",
+                    "de": "Neu installierte Plugins automatisch zulassen",
+                    "en": "Automatically allow newly installed plugins",
+                    "es": "Permitir automáticamente los plugins recién instalados",
+                    "fr": "Autoriser automatiquement les nouveaux modules installés",
+                    "ja": "新しくインストールしたプラグインを自動的に許可",
+                    "ko": "새로 설치한 플러그인 자동 허용",
+                    "pt": "Permitir automaticamente os plugins recém-instalados",
+                    "ru": "Автоматически разрешать новые плагины",
+                    "tr": "Yeni yüklenen eklentilere otomatik izin ver",
+                    "zh-Hans": "自动允许新安装的插件",
+                    "zh-Hant": "自動允許新安裝的外掛"
+                  }
+                },
+                {
+                  "automaticEligible": false,
+                  "description": {
+                    "ar": "تتطلب المكونات الإضافية الجديدة موافقة يدوية. تحتفظ الاختيارات الحالية والمحادثة الجارية بإعدادات الوصول.",
+                    "de": "Neue Plugins müssen manuell zugelassen werden. Die aktuelle Auswahl und das laufende Gespräch behalten ihre Zugriffsrechte.",
+                    "en": "New plugins require manual approval. Current selections and the ongoing conversation keep their access.",
+                    "es": "Los nuevos plugins requieren aprobación manual. Las selecciones actuales y la conversación en curso conservan su acceso.",
+                    "fr": "Les nouveaux modules doivent être autorisés manuellement. La sélection actuelle et la conversation en cours conservent leurs accès.",
+                    "ja": "新しいプラグインは手動で許可してください。現在の選択と進行中の会話のアクセス権は変わりません。",
+                    "ko": "새 플러그인은 수동으로 허용해야 합니다. 현재 선택과 진행 중인 대화의 접근 권한은 유지됩니다.",
+                    "pt": "Novos plugins exigem aprovação manual. As seleções atuais e a conversa em curso mantêm o acesso.",
+                    "ru": "Новые плагины нужно разрешать вручную. Доступ текущего выбора и текущего разговора не изменится.",
+                    "tr": "Yeni eklentiler için elle onay gerekir. Mevcut seçimlerin ve devam eden konuşmanın erişimi değişmez.",
+                    "zh-Hans": "新插件需手动允许，当前选择和正在进行的对话不受影响。",
+                    "zh-Hant": "新外掛需手動允許，目前選擇與正在進行的對話不受影響。"
+                  },
+                  "externalInvocation": "unavailable",
+                  "id": "automatic-plugin-access-off",
+                  "keywords": [
+                    "new plugins",
+                    "automatic access",
+                    "automatically allow",
+                    "future plugin permissions"
+                  ],
+                  "parameters": [],
+                  "permissionIDs": [],
+                  "risk": "safe",
+                  "surfaces": [
+                    "unified-search",
+                    "global-shortcut",
+                    "action-grid",
+                    "manual"
+                  ],
+                  "systemImage": "checkmark.shield",
+                  "title": {
+                    "ar": "إيقاف السماح التلقائي بالمكونات الإضافية الجديدة",
+                    "de": "Neue Plugins nicht mehr automatisch zulassen",
+                    "en": "Stop automatically allowing new plugins",
+                    "es": "Dejar de permitir automáticamente los nuevos plugins",
+                    "fr": "Ne plus autoriser automatiquement les nouveaux modules",
+                    "ja": "新しいプラグインの自動許可を停止",
+                    "ko": "새 플러그인 자동 허용 중지",
+                    "pt": "Deixar de permitir novos plugins automaticamente",
+                    "ru": "Не разрешать новые плагины автоматически",
+                    "tr": "Yeni eklentilere otomatik izin vermeyi durdur",
+                    "zh-Hans": "停止自动允许新安装的插件",
+                    "zh-Hant": "停止自動允許新安裝的外掛"
+                  }
+                }
+              ]
+            }
+          ]
+        },
         "discovery": {
           "alternativePluginIDs": [],
           "goalCategories": [

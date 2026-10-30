@@ -17,6 +17,7 @@ public final class VoiceControlPluginFactory: NSObject, MacToolsPluginBundleFact
 @MainActor
 final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
     PluginVoiceControlHostContextConsuming, PluginApplicationActivityStateHandling, PluginGroupedShortcutSettingsProviding,
+    PluginActionProviding, PluginActionExposureProviding, PluginVoiceSelfActionProviding,
     PluginPortablePreferencesProviding, PluginPortablePreferencesRestorationReporting,
     PluginPersistentPreferencesChangeSignaling {
     let conversation: VoiceConversation
@@ -36,9 +37,9 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
         .init(id: "voice-control", title: conversation.text("语音控制"), iconName: "waveform", iconTint: .purple,
               order: 102, defaultDescription: conversation.text("通过语音对话控制已启用的 MacTools 功能"))
     }
-    init(context: PluginRuntimeContext) {
+    init(context: PluginRuntimeContext, conversation providedConversation: VoiceConversation? = nil) {
         storage = context.storage
-        conversation = VoiceConversation(context: context)
+        conversation = providedConversation ?? VoiceConversation(context: context)
         conversation.featureAccess = .init(
             automaticallyAllowNewPlugins: storage.object(forKey: "automaticallyAllowNewPlugins") == nil
                 ? true : storage.bool(forKey: "automaticallyAllowNewPlugins"),
@@ -115,6 +116,54 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
     func handleSettingsAction(_ action: PluginSettingsAction) {
         if case .invoke(controlID: "test-speaker") = action { conversation.testSpeaker() }
     }
+
+    private enum AccessAction {
+        static let enable = "automatic-plugin-access-on"
+        static let disable = "automatic-plugin-access-off"
+    }
+    var voiceSelfActionIDs: Set<String> { [AccessAction.enable, AccessAction.disable] }
+    var actionDefinitions: [ActionDefinition] {
+        [true, false].map { enabled in
+            .init(key: .init(providerID: metadata.id, actionID: enabled ? AccessAction.enable : AccessAction.disable),
+                  title: conversation.text(enabled ? "自动允许新安装的插件" : "停止自动允许新安装的插件"),
+                  description: conversation.text(enabled
+                      ? "新插件将在后续对话中自动可用，已禁止的插件和当前对话不受影响。"
+                      : "新插件需手动允许，当前选择和正在进行的对话不受影响。"),
+                  keywords: ["new plugins", "automatic access", "automatically allow", "future plugin permissions"],
+                  systemImage: "checkmark.shield",
+                  risk: enabled ? .confirmationRequired : .safe,
+                  confirmation: enabled ? .init(title: conversation.text("自动允许新安装的插件"),
+                      message: conversation.text("新插件将在后续对话中自动可用，已禁止的插件和当前对话不受影响。"),
+                      confirmButtonTitle: conversation.text("开启")) : nil,
+                  capabilities: [.foregroundInteractive])
+        }
+    }
+    var actionCatalogEntries: [ActionCatalogEntry] {
+        actionDefinitions.map { .init(reference: .init(key: $0.key), title: $0.title, subtitle: metadata.title) }
+    }
+    func exposurePolicy(for reference: ActionReference, on surface: ActionExposureSurface) -> ActionExposurePolicy {
+        guard reference.key.providerID == metadata.id else { return .excluded }
+        guard surface.rawValue == "voice-control" else { return .automatic }
+        return voiceSelfActionIDs.contains(reference.key.actionID) ? .automatic : .excluded
+    }
+    func actionAvailability(for reference: ActionReference) -> ActionAvailability {
+        guard reference.key.providerID == metadata.id, voiceSelfActionIDs.contains(reference.key.actionID),
+              reference.parameters.entries.isEmpty, allowsRecording, !conversation.credentialBusy else {
+            return .init(isAvailable: false)
+        }
+        return .available
+    }
+    func beginAction(_ invocation: ActionInvocation) throws -> ActionExecutionHandle {
+        let reference = invocation.reference
+        return .init { [weak self] in
+            guard let self, actionAvailability(for: reference).isAvailable else { return .cancelled }
+            var updated = conversation.featureAccess
+            updated.setAutomaticallyAllowNewPlugins(reference.key.actionID == AccessAction.enable,
+                currentPluginIDs: Set(conversation.context?.providers().map(\.id) ?? []))
+            commitFeatureAccess(updated)
+            return .succeeded(message: conversation.text("已保存，新插件的访问策略将在后续对话生效。"))
+        }
+    }
     func setProviderAccess(_ access: [String: Bool], automaticallyAllowNewPlugins: Bool? = nil) {
         guard !conversation.active, !conversation.credentialBusy else { return }
         let available = Set(conversation.context?.providers().map(\.id) ?? [])
@@ -126,6 +175,9 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
             guard updated.isAllowed(id) != allowed else { continue }
             updated.setAllowed(allowed, for: [id])
         }
+        commitFeatureAccess(updated)
+    }
+    private func commitFeatureAccess(_ updated: VoiceFeatureAccess) {
         guard updated != conversation.featureAccess else { return }
         conversation.featureAccess = updated
         persistFeatureAccess()
