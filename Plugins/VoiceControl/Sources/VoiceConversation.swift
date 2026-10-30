@@ -18,10 +18,14 @@ final class VoiceConversation: ObservableObject {
     }
     @Published private(set) var speaking = false
     @Published private(set) var activity: String?
-    @Published var excludedPluginIDs: Set<String> = []
+    @Published var featureAccess = VoiceFeatureAccess()
+    var excludedPluginIDs: Set<String> {
+        get { featureAccess.excludedPluginIDs }
+        set { featureAccess.excludedPluginIDs = newValue }
+    }
     private(set) var sessionProviders: [PluginVoiceProvider] = []
     var allowedProviders: [PluginVoiceProvider] {
-        active ? sessionProviders : context?.providers().filter { !excludedPluginIDs.contains($0.id) } ?? []
+        active ? sessionProviders : context?.providers().filter { featureAccess.isAllowed($0.id) } ?? []
     }
     @Published private(set) var credentialPath: String?
     @Published private(set) var credentialStatus: String
@@ -164,10 +168,12 @@ final class VoiceConversation: ObservableObject {
                 guard let context else {
                     status = "请更新并重新启动 MacTools 后重试"; stop(keepingStatus: true); return
                 }
-                guard let grant = context.beginSession(excludingPluginIDs: excludedPluginIDs) else {
+                let providers = context.providers()
+                let exclusions = featureAccess.exclusions(for: Set(providers.map(\.id)))
+                guard let grant = context.beginSession(excludingPluginIDs: exclusions) else {
                     status = "请更新并重新启动 MacTools 后重试"; stop(keepingStatus: true); return
                 }
-                sessionProviders = context.providers().filter { !excludedPluginIDs.contains($0.id) }
+                sessionProviders = providers.filter { featureAccess.isAllowed($0.id) }
                 tools = VoiceTools(context: context, sessionID: grant)
                 tools?.onActivity = { [weak self] title in
                     guard let self, epoch == token, active else { return }
