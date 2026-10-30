@@ -309,7 +309,7 @@ final class VoiceConversation: ObservableObject {
     }
 
     func stopIfIdle(at now: ContinuousClock.Instant = .now) {
-        guard active, connected, !speaking, toolTask == nil,
+        guard active, connected, toolTask == nil,
               lastActivity.duration(to: now) >= .seconds(120) else { return }
         status = "一段时间没有活动，对话已结束。重新开始即可继续。"
         stop(keepingStatus: true)
@@ -330,7 +330,11 @@ final class VoiceConversation: ObservableObject {
             }
         case "session.output_audio.delta":
             if let encoded = event["delta"] as? String, let data = Data(base64Encoded: encoded), !data.isEmpty {
-                recordStartup("firstOutputAudio"); lastActivity = .now
+                guard data.count <= 480_000, data.count.isMultiple(of: 2) else { throw VoiceFailure.protocolError }
+                recordStartup("firstOutputAudio")
+                if VoiceAudioMeter.level(data) > 0.05 {
+                    recordStartup("firstOutputSpeech"); lastActivity = .now
+                }
                 try audio.play(data)
             }
         case "session.input_transcript.delta", "session.output_transcript.delta":

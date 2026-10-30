@@ -72,6 +72,7 @@ final class VoiceAudio: VoiceAudioIO {
     private var outputTapInstalled = false
     private var configurationObserver: NSObjectProtocol?
     private var queuedFrames = 0
+    private var queuedSpeechFrames = 0
     private var playbackObserver: ((Bool) -> Void)?
     private var outputLevelObserver: ((Float) -> Void)?
     func observePlayback(_ observer: @escaping (Bool) -> Void) { playbackObserver = observer }
@@ -129,20 +130,24 @@ final class VoiceAudio: VoiceAudioIO {
               let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(frames)),
               let samples = buffer.floatChannelData?[0] else { throw VoiceFailure.overloaded }
         buffer.frameLength = AVAudioFrameCount(frames)
+        var sum: Float = 0
         data.withUnsafeBytes { bytes in
             for i in 0..<frames {
                 let sample = UInt16(bytes[i * 2]) | UInt16(bytes[i * 2 + 1]) << 8
                 samples[i] = Float(Int16(bitPattern: sample)) / 32768
+                sum += samples[i] * samples[i]
             }
         }
         queuedFrames += frames
-        playbackObserver?(true)
+        let hasSpeech = VoiceAudioMeter.normalized(rms: sqrt(sum / Float(frames))) > 0.05
+        if hasSpeech { queuedSpeechFrames += frames; playbackObserver?(true) }
         let generation = playbackGeneration
         player.scheduleBuffer(buffer, completionCallbackType: .dataPlayedBack) { @Sendable [weak self] _ in
             Task { @MainActor [weak self] in
                 guard let self, self.playbackGeneration == generation else { return }
                 self.queuedFrames = max(0, self.queuedFrames - frames)
-                if self.queuedFrames == 0 { self.playbackObserver?(false) }
+                if hasSpeech { self.queuedSpeechFrames = max(0, self.queuedSpeechFrames - frames) }
+                if self.queuedSpeechFrames == 0 { self.playbackObserver?(false) }
             }
         }
     }
@@ -155,7 +160,7 @@ final class VoiceAudio: VoiceAudioIO {
         if outputTapInstalled { engine.mainMixerNode.removeTap(onBus: 0); outputTapInstalled = false }
         player.stop(); engine.stop()
         if engine.attachedNodes.contains(player) { engine.detach(player) }
-        queuedFrames = 0; playbackGeneration = UUID()
+        queuedFrames = 0; queuedSpeechFrames = 0; playbackGeneration = UUID()
         playbackObserver?(false)
         outputLevelObserver?(0)
     }

@@ -106,6 +106,20 @@ final class VoiceReadinessTests: XCTestCase {
         socket.cancel()
     }
 
+    func testSilentOutputIsNotSpeechAndCannotPreventInactivityStop() async throws {
+        let (model, factory, audio, _) = try await makeModel()
+        let socket = try await start(model, factory)
+        socket.feed(["type": "session.output_audio.delta", "delta": Data(count: 4800).base64EncodedString()])
+        await settle { audio.played == 1 }
+        XCTAssertNotNil(model.startupTimings["firstOutputAudio"])
+        XCTAssertNil(model.startupTimings["firstOutputSpeech"])
+        // A queued buffer can still be draining even when it contains no speech.
+        XCTAssertTrue(model.speaking)
+        model.stopIfIdle(at: .now.advanced(by: .seconds(240)))
+        XCTAssertFalse(model.active)
+        socket.cancel()
+    }
+
     func testUsageDeduplicatesBackendResponsesAndRequiresFinalCloseUsage() {
         var metrics = VoiceSessionMetrics(id: UUID())
         metrics.observe(["type": "session.usage.updated", "usage": ["seconds": 3.0]])
@@ -182,14 +196,16 @@ final class VoiceReadinessTests: XCTestCase {
     var stopped = false
     var played = 0
     private var continuation: AsyncThrowingStream<Data, Error>.Continuation?
+    private var playback: ((Bool) -> Void)?
+    func observePlayback(_ observer: @escaping (Bool) -> Void) { playback = observer }
     func start() throws -> AsyncThrowingStream<Data, Error> {
         stopped = false
         let pair = AsyncThrowingStream<Data, Error>.makeStream()
         continuation = pair.continuation
         return pair.stream
     }
-    func play(_ data: Data) throws { played += 1 }
-    func stop() { stopped = true; continuation?.finish(); continuation = nil }
+    func play(_ data: Data) throws { played += 1; playback?(true) }
+    func stop() { stopped = true; continuation?.finish(); continuation = nil; playback?(false) }
 }
 @MainActor private final class ReadinessGrants {
     var ended: [UUID] = []
