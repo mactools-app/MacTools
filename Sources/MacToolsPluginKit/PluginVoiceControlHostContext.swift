@@ -72,6 +72,13 @@ public protocol PluginVoiceParameterizedActionProviding: AnyObject {
     var voiceParameterizedActionIDs: Set<String> { get }
 }
 
+/// A voice-session owner may expose only explicitly declared fixed canonical self controls.
+/// Native action validation and confirmation remain authoritative.
+@MainActor
+public protocol PluginVoiceSelfActionProviding: AnyObject {
+    var voiceSelfActionIDs: Set<String> { get }
+}
+
 @MainActor
 public struct PluginVoiceControlHostContext {
     public let providers: () -> [PluginVoiceProvider]
