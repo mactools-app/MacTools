@@ -88,7 +88,7 @@ struct VoiceScopeSettings: View {
 @MainActor
 private func voiceAccessSummary(_ model: VoiceConversation) -> String {
     let providers = model.context?.providers() ?? []
-    let allowed = providers.filter { !model.excludedPluginIDs.contains($0.id) }.count
+    let allowed = providers.filter { model.featureAccess.isAllowed($0.id) }.count
     return String.localizedStringWithFormat(model.text("已允许 %lld 项，共 %lld 项"), allowed, providers.count)
 }
 
@@ -96,29 +96,34 @@ private func voiceAccessSummary(_ model: VoiceConversation) -> String {
 @MainActor
 final class VoiceFeatureAccessDraft: ObservableObject {
     let providers: [PluginVoiceProvider]
-    private let originalExcludedPluginIDs: Set<String>
-    @Published private(set) var excludedPluginIDs: Set<String>
+    private let originalAccess: VoiceFeatureAccess
+    @Published private(set) var featureAccess: VoiceFeatureAccess
 
-    init(providers: [PluginVoiceProvider], excludedPluginIDs: Set<String>) {
+    init(providers: [PluginVoiceProvider], featureAccess: VoiceFeatureAccess) {
         self.providers = providers.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
-        originalExcludedPluginIDs = excludedPluginIDs
-        self.excludedPluginIDs = excludedPluginIDs
+        originalAccess = featureAccess
+        self.featureAccess = featureAccess
     }
     var allowedCount: Int { providers.filter { isAllowed($0.id) }.count }
     var access: [String: Bool] { Dictionary(uniqueKeysWithValues: providers.map { ($0.id, isAllowed($0.id)) }) }
     var changes: [String: Bool] {
-        access.filter { originalExcludedPluginIDs.contains($0.key) == $0.value }
+        access.filter { originalAccess.isAllowed($0.key) != $0.value }
     }
-    func isAllowed(_ id: String) -> Bool { !excludedPluginIDs.contains(id) }
+    var automaticPolicyChange: Bool? {
+        featureAccess.automaticallyAllowNewPlugins == originalAccess.automaticallyAllowNewPlugins
+            ? nil : featureAccess.automaticallyAllowNewPlugins
+    }
+    func isAllowed(_ id: String) -> Bool { featureAccess.isAllowed(id) }
+    func setAutomaticallyAllowNewPlugins(_ allowed: Bool) {
+        featureAccess.setAutomaticallyAllowNewPlugins(allowed, currentPluginIDs: Set(providers.map(\.id)))
+    }
     func matches(_ query: String) -> [PluginVoiceProvider] {
         let search = query.trimmingCharacters(in: .whitespacesAndNewlines)
         return providers.filter { search.isEmpty || $0.title.localizedStandardContains(search) }
     }
     func setAllowed(_ allowed: Bool, for providers: [PluginVoiceProvider]) {
-        var excluded = excludedPluginIDs
-        let ids = Set(providers.map(\.id))
-        if allowed { excluded.subtract(ids) } else { excluded.formUnion(ids) }
-        if excluded != excludedPluginIDs { excludedPluginIDs = excluded }
+        guard providers.contains(where: { isAllowed($0.id) != allowed }) else { return }
+        featureAccess.setAllowed(allowed, for: Set(providers.map(\.id)))
     }
 }
 
@@ -134,7 +139,7 @@ private struct VoiceFeatureAccessSheet: View {
         self.plugin = plugin
         self.model = model
         _draft = StateObject(wrappedValue: VoiceFeatureAccessDraft(
-            providers: model.context?.providers() ?? [], excludedPluginIDs: model.excludedPluginIDs))
+            providers: model.context?.providers() ?? [], featureAccess: model.featureAccess))
     }
     private var editingDisabled: Bool { model.active || model.credentialBusy }
     var body: some View {
@@ -147,7 +152,7 @@ private struct VoiceFeatureAccessSheet: View {
                 Button(model.text("取消")) { dismiss() }
                     .accessibilityIdentifier("voice-control.features-cancel")
                 Button(model.text("完成")) {
-                    plugin.setProviderAccess(draft.changes)
+                    plugin.setProviderAccess(draft.changes, automaticallyAllowNewPlugins: draft.automaticPolicyChange)
                     dismiss()
                 }
                     .buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
@@ -156,6 +161,17 @@ private struct VoiceFeatureAccessSheet: View {
             }
             Text(String.localizedStringWithFormat(model.text("已允许 %lld 项，共 %lld 项"), draft.allowedCount, draft.providers.count))
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+                Toggle(model.text("自动允许新安装的插件"), isOn: Binding(
+                    get: { draft.featureAccess.automaticallyAllowNewPlugins },
+                    set: { draft.setAutomaticallyAllowNewPlugins($0) }))
+                    .toggleStyle(.switch)
+                    .font(PluginSettingsTheme.Typography.rowTitle)
+                    .disabled(editingDisabled)
+                    .accessibilityIdentifier("voice-control.automatically-allow-new-plugins")
+                Text(model.text("关闭后保留当前选择，新插件需在此手动允许。"))
+                    .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+            }
             TextField("", text: $query, prompt: Text(model.text("搜索功能")))
                 .labelsHidden().textFieldStyle(.roundedBorder)
                 .accessibilityLabel(model.text("搜索功能"))
@@ -194,7 +210,7 @@ private struct VoiceFeatureAccessSheet: View {
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
         }
         .padding(PluginSettingsTheme.Spacing.pagePadding)
-        .frame(width: 480, height: 500)
+        .frame(width: 480, height: 560)
         .buttonStyle(.bordered).controlSize(.small)
         .onAppear { searchFocused = true }
         .onExitCommand { dismiss() }

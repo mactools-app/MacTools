@@ -30,6 +30,21 @@ final class VoiceConversationTests: XCTestCase {
         XCTAssertFalse(model.connected)
     }
 
+    func testManualApprovalExcludesNewProvidersFromHostGrantBeforeAudioSetup() async {
+        let model = await makeModel()
+        model.featureAccess = .init(automaticallyAllowNewPlugins: false,
+            excludedPluginIDs: ["blocked"], approvedPluginIDs: ["existing"])
+        var exclusions: Set<String>?
+        model.context = .init(providers: { [
+            .init(id: "existing", title: "Existing"), .init(id: "new", title: "New"),
+            .init(id: "blocked", title: "Blocked")
+        ] }, begin: { exclusions = $0; return nil }, end: { _ in }, request: { _, _ in .init() })
+        model.start()
+        for _ in 0..<100 where exclusions == nil { await Task.yield() }
+        XCTAssertEqual(exclusions, ["new", "blocked"])
+        XCTAssertFalse(model.active)
+    }
+
     func testStopWhileAwaitingMicrophoneCannotRestartCapture() async {
         var permission: CheckedContinuation<Bool, Never>?
         let model = VoiceConversation(context: .init(pluginID: "voice-control", storage: VoiceCredentialTestStorage()),

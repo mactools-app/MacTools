@@ -39,7 +39,11 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
     init(context: PluginRuntimeContext) {
         storage = context.storage
         conversation = VoiceConversation(context: context)
-        conversation.excludedPluginIDs = Set(storage.stringArray(forKey: "excludedProviders") ?? [])
+        conversation.featureAccess = .init(
+            automaticallyAllowNewPlugins: storage.object(forKey: "automaticallyAllowNewPlugins") == nil
+                ? true : storage.bool(forKey: "automaticallyAllowNewPlugins"),
+            excludedPluginIDs: Set(storage.stringArray(forKey: "excludedProviders") ?? []),
+            approvedPluginIDs: Set(storage.stringArray(forKey: "approvedProviders") ?? []))
         assistant = VoiceAssistantPanel(conversation: conversation)
         assistant.openSettings = { [weak self] in self?.requestSettingsPresentation?() }
         conversation.onChange = { [weak self] in self?.onStateChange?() }
@@ -111,32 +115,57 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
     func handleSettingsAction(_ action: PluginSettingsAction) {
         if case .invoke(controlID: "test-speaker") = action { conversation.testSpeaker() }
     }
-    func setProviderAccess(_ access: [String: Bool]) {
-        guard !conversation.active, !conversation.credentialBusy, !access.isEmpty else { return }
+    func setProviderAccess(_ access: [String: Bool], automaticallyAllowNewPlugins: Bool? = nil) {
+        guard !conversation.active, !conversation.credentialBusy else { return }
         let available = Set(conversation.context?.providers().map(\.id) ?? [])
-        var excluded = conversation.excludedPluginIDs
-        for (id, allowed) in access where available.contains(id) {
-            if allowed { excluded.remove(id) } else { excluded.insert(id) }
+        var updated = conversation.featureAccess
+        if let automaticallyAllowNewPlugins {
+            updated.setAutomaticallyAllowNewPlugins(automaticallyAllowNewPlugins, currentPluginIDs: available)
         }
-        guard excluded != conversation.excludedPluginIDs else { return }
-        conversation.excludedPluginIDs = excluded
-        storage.set(excluded.sorted(), forKey: "excludedProviders")
+        for (id, allowed) in access where available.contains(id) {
+            guard updated.isAllowed(id) != allowed else { continue }
+            updated.setAllowed(allowed, for: [id])
+        }
+        guard updated != conversation.featureAccess else { return }
+        conversation.featureAccess = updated
+        persistFeatureAccess()
         // Access affects the next session, not host commands or panel declarations.
         // Notify backup once per edit session without rebuilding the host UI.
         onPersistentPreferencesChange?()
     }
-    private struct Preferences: Codable { let version: Int; let excludedProviders: [String] }
+    private func persistFeatureAccess() {
+        let access = conversation.featureAccess
+        storage.set(access.excludedPluginIDs.sorted(), forKey: "excludedProviders")
+        storage.set(access.automaticallyAllowNewPlugins, forKey: "automaticallyAllowNewPlugins")
+        storage.set(access.approvedPluginIDs.sorted(), forKey: "approvedProviders")
+    }
+    private struct Preferences: Codable {
+        let version: Int
+        let excludedProviders: [String]
+        let automaticallyAllowNewPlugins: Bool?
+        let approvedProviders: [String]?
+    }
     func makePortablePreferencesBackup() -> Data? {
-        try? JSONEncoder().encode(Preferences(version: 1, excludedProviders: conversation.excludedPluginIDs.sorted()))
+        let access = conversation.featureAccess
+        return try? JSONEncoder().encode(Preferences(version: 2,
+            excludedProviders: access.excludedPluginIDs.sorted(),
+            automaticallyAllowNewPlugins: access.automaticallyAllowNewPlugins,
+            approvedProviders: access.approvedPluginIDs.sorted()))
     }
     func restorePortablePreferences(from data: Data) { _ = restorePortablePreferencesReportingResult(from: data) }
     func restorePortablePreferencesReportingResult(from data: Data) -> Bool {
-        guard !conversation.active, data.count <= 16_384,
-              let value = try? JSONDecoder().decode(Preferences.self, from: data), value.version == 1,
-              value.excludedProviders.count <= 256,
-              value.excludedProviders.allSatisfy({ !$0.isEmpty && $0.utf8.count <= 128 }) else { return false }
-        conversation.excludedPluginIDs = Set(value.excludedProviders)
-        storage.set(conversation.excludedPluginIDs.sorted(), forKey: "excludedProviders")
+        guard !conversation.active, data.count <= 32_768,
+              let value = try? JSONDecoder().decode(Preferences.self, from: data),
+              value.version == 1 || value.version == 2,
+              value.version == 1 || (value.automaticallyAllowNewPlugins != nil && value.approvedProviders != nil),
+              [value.excludedProviders, value.approvedProviders ?? []].allSatisfy({ ids in
+                  ids.count <= 256 && ids.allSatisfy { !$0.isEmpty && $0.utf8.count <= 128 }
+              }) else { return false }
+        conversation.featureAccess = .init(
+            automaticallyAllowNewPlugins: value.version == 1 ? true : value.automaticallyAllowNewPlugins ?? false,
+            excludedPluginIDs: Set(value.excludedProviders),
+            approvedPluginIDs: value.version == 1 ? [] : Set(value.approvedProviders ?? []))
+        persistFeatureAccess()
         onPersistentPreferencesChange?(); onStateChange?()
         return true
     }

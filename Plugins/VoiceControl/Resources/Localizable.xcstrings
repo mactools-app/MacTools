@@ -6606,6 +6606,160 @@
           }
         }
       }
+    },
+    "自动允许新安装的插件": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动允许新安装的插件"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatically allow newly installed plugins"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動允許新安裝的外掛"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح تلقائيًا بالمكونات الإضافية المثبّتة حديثًا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neu installierte Plugins automatisch zulassen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir automáticamente los plugins recién instalados"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser automatiquement les nouveaux modules installés"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新しくインストールしたプラグインを自動的に許可"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "새로 설치한 플러그인 자동 허용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir automaticamente os plugins recém-instalados"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматически разрешать новые плагины"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni yüklenen eklentilere otomatik izin ver"
+          }
+        }
+      }
+    },
+    "关闭后保留当前选择，新插件需在此手动允许。": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭后保留当前选择，新插件需在此手动允许。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turning this off keeps current selections. Allow new plugins here."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關閉後保留目前選擇，新外掛需在此手動允許。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يؤدي إيقاف هذا الخيار إلى الاحتفاظ بالاختيارات الحالية. اسمح بالمكونات الإضافية الجديدة هنا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beim Ausschalten bleibt die aktuelle Auswahl erhalten. Neue Plugins müssen hier zugelassen werden."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Al desactivar esta opción se conservan las selecciones actuales. Permite los nuevos plugins aquí."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La désactivation conserve la sélection actuelle. Autorisez les nouveaux modules ici."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オフにしても現在の選択は保持されます。新しいプラグインはここで許可してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "꺼도 현재 선택은 유지됩니다. 새 플러그인은 여기에서 허용하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desativar mantém as seleções atuais. Permita novos plugins aqui."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "При отключении текущий выбор сохраняется. Разрешайте новые плагины здесь."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapatıldığında mevcut seçimler korunur. Yeni eklentilere buradan izin verin."
+          }
+        }
+      }
     }
   },
   "version": "1.0"
