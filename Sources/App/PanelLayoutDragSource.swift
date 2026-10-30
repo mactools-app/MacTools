@@ -14,7 +14,6 @@ struct PanelLayoutDragSource: NSViewRepresentable {
     let nativeSource: PanelLayoutNativeDragSource
     let begin: () -> String?
     let end: (String) -> Void
-    @Environment(\.menuBarPanelTheme) private var theme
 
     func makeNSView(context: Context) -> PanelLayoutDragSourceView {
         let view = PanelLayoutDragSourceView()
@@ -27,8 +26,6 @@ struct PanelLayoutDragSource: NSViewRepresentable {
         view.title = title
         view.icon = icon
         view.toolTip = FeatureL10n.string("拖移以移动")
-        view.handleColor = NSColor(showsControls ? theme.accent : theme.text.secondary)
-        view.handleBackgroundColor = NSColor(theme.surfaces.panel)
         view.controlLabels = .localized
         view.showsControls = showsControls
         view.isDraggable = isDraggable
@@ -49,28 +46,14 @@ struct PanelLayoutDragSource: NSViewRepresentable {
 final class PanelLayoutDragSourceView: NSView {
     var title = ""
     var icon = ""
-    var handleColor: NSColor = .secondaryLabelColor {
-        didSet {
-            if !handleColor.isEqual(oldValue) { handleImage = nil; needsDisplay = true }
-        }
-    }
-    var handleBackgroundColor: NSColor = .windowBackgroundColor {
-        didSet { if !handleBackgroundColor.isEqual(oldValue) { needsDisplay = true } }
-    }
-    private var handleImage: NSImage?
-    private var handleSize = CGSize.zero
     var showsControls = false {
         didSet {
             if showsControls != oldValue { updateTrackingAreas() }
         }
     }
-    var isDraggable = true {
-        didSet {
-            if isDraggable != oldValue { updateTrackingAreas(); needsDisplay = true }
-        }
-    }
+    var isDraggable = true
     var rightToLeft = false {
-        didSet { if rightToLeft != oldValue { updateTrackingAreas(); needsDisplay = true } }
+        didSet { if rightToLeft != oldValue { updateTrackingAreas() } }
     }
     var controlLabels: PanelLayoutControlLabels = .localized {
         didSet { if controlLabels != oldValue { updateTrackingAreas() } }
@@ -93,26 +76,6 @@ final class PanelLayoutDragSourceView: NSView {
 
     override var isFlipped: Bool { true }
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
-
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        guard isDraggable, bounds.width >= 72, bounds.height >= 24 else { return }
-        let x = rightToLeft ? bounds.width - 13 : 1
-        let centerY = min(bounds.midY, 24)
-        handleBackgroundColor.setFill()
-        NSBezierPath(roundedRect: CGRect(x: x, y: centerY - 10, width: 12, height: 20), xRadius: 3, yRadius: 3).fill()
-        if handleImage == nil {
-            handleImage = NSImage(systemSymbolName: "line.3.horizontal", accessibilityDescription: nil)?
-                .withSymbolConfiguration(.init(paletteColors: [handleColor]))
-        }
-        handleImage?.draw(in: CGRect(x: x + 1, y: centerY - 3, width: 10, height: 6), from: .zero,
-                  operation: .sourceOver, fraction: 1, respectFlipped: true, hints: nil)
-    }
-
-    /// Match the adaptive, centered toolbar; its remaining card area stays draggable.
-    var menuFrame: CGRect {
-        PanelLayoutItemControlsLayout(size: bounds.size, labels: controlLabels).frame(in: bounds)
-    }
 
     override func hitTest(_ point: NSPoint) -> NSView? {
         let local = convert(point, from: superview)
@@ -157,7 +120,6 @@ final class PanelLayoutDragSourceView: NSView {
 
     override func layout() {
         super.layout()
-        if handleSize != bounds.size { handleSize = bounds.size; needsDisplay = true }
         updateTrackingAreas()
         hover?.trackingView?.scheduleRefresh()
     }

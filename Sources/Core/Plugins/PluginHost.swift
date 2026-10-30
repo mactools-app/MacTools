@@ -3339,30 +3339,6 @@ final class PluginHost: ObservableObject {
         .init(key: .init(providerID: "action-grid", actionID: "show"))
     }
 
-    var starterPackGridPreview: [StarterPackGridPreviewItem] {
-        let storage = UserDefaultsPluginStorage(pluginID: "action-grid", userDefaults: shortcutStore.userDefaults)
-        guard let data = storage.object(forKey: "layout.v1") as? Data, data.count <= 64 * 1_024,
-              let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let entries = object["entries"] as? [[String: Any]], entries.count <= 9 else { return [] }
-        var slots = Set<Int>()
-        return entries.enumerated().compactMap { offset, entry in
-            let slot = entry["slot"] as? Int ?? offset
-            guard (0..<9).contains(slot), slots.insert(slot).inserted else { return nil }
-            let customTitle = entry["customTitle"] as? String
-            if let folder = entry["folder"] as? [String: Any] {
-                return .init(slot: slot, title: customTitle ?? FeatureL10n.string("文件夹"),
-                             symbol: folder["systemImage"] as? String ?? "folder")
-            }
-            let item = (entry["reference"] as? [String: Any]).flatMap { value -> ActionSurfaceCatalogItem? in
-                guard let data = try? JSONSerialization.data(withJSONObject: value),
-                      let reference = try? JSONDecoder().decode(ActionReference.self, from: data) else { return nil }
-                return actionSurfaceItem(for: reference)
-            }
-            return .init(slot: slot, title: customTitle ?? item?.title ?? FeatureL10n.string("不可用操作"),
-                         symbol: item?.systemImage ?? "questionmark.square")
-        }
-    }
-
     /// Inspect the persisted grid as well as portable preferences: a portable
     /// export may omit local-only entries, which must still be preserved.
     private var starterPackGridState: StarterPackGridState {

@@ -204,6 +204,7 @@ struct ComponentPanelContent: View {
     let contentBodyHeight: CGFloat
     let isPanelVisible: Bool
     let onDismiss: () -> Void
+    let onEditLayout: () -> Void
     var panelID: String = MenuBarPanelDefinition.componentsID
     var suppliedItems: [PluginPanelWidgetSnapshot]? = nil
     var embedded = false
@@ -369,11 +370,9 @@ struct ComponentPanelContent: View {
 
     private var emptyState: some View {
         PanelPluginEmptyState(
-            tab: .components,
+            systemImage: MenuBarPanelTab.components.systemImage,
             pluginHost: pluginHost,
-            onInstall: {
-                pluginHost.presentPluginMarketplace()
-            }
+            onEditLayout: onEditLayout
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

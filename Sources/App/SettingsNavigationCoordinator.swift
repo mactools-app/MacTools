@@ -237,7 +237,6 @@ final class SettingsNavigationCoordinator: ObservableObject {
 
     @Published private(set) var destination: SettingsNavigationDestination
     @Published var preferencesImportRequestID: UUID?
-    var presentOnboarding: ((StarterPackStep) -> Bool)?
     @Published private(set) var searchFocusRequest: SettingsSearchFocusRequest?
     @Published private(set) var aboutUpdateActionRequest: AboutUpdateActionRequest?
     @Published private(set) var isUnifiedSearchPresented = false
@@ -264,6 +263,7 @@ final class SettingsNavigationCoordinator: ObservableObject {
     private let isMarketplaceDetailAvailable: (MarketplacePluginDetailTarget) -> Bool
     private let isAutomationWorkflowAvailable: (UUID) -> Bool
     private let selectPluginSettingsPane: (FeatureSettingsPane) -> Bool
+    private let prepareStarterPackPresentation: (StarterPackStep) -> StarterPackStep
     private var nextSearchFocusRequestID: UInt = 0
     private var nextAboutUpdateActionRequestID: UInt = 0
     private var nextSearchRevealRequestID: UInt = 0
@@ -313,7 +313,12 @@ final class SettingsNavigationCoordinator: ObservableObject {
             isAutomationWorkflowAvailable: { workflowID in
                 pluginHost.automationController.workflows.contains { $0.id == workflowID }
             },
-            selectPluginSettingsPane: { pluginHost.selectFeatureSettingsPane($0) }
+            selectPluginSettingsPane: { pluginHost.selectFeatureSettingsPane($0) },
+            prepareStarterPackPresentation: { step in
+                let controller = pluginHost.starterPacks
+                controller.resumeOnboarding()
+                return controller.isRunning ? .results : step
+            }
         )
     }
 
@@ -328,7 +333,8 @@ final class SettingsNavigationCoordinator: ObservableObject {
         isPluginManagementAvailable: @escaping (String) -> Bool = { _ in true },
         isMarketplaceDetailAvailable: @escaping (MarketplacePluginDetailTarget) -> Bool = { _ in true },
         isAutomationWorkflowAvailable: @escaping (UUID) -> Bool = { _ in true },
-        selectPluginSettingsPane: @escaping (FeatureSettingsPane) -> Bool = { _ in true }
+        selectPluginSettingsPane: @escaping (FeatureSettingsPane) -> Bool = { _ in true },
+        prepareStarterPackPresentation: @escaping (StarterPackStep) -> StarterPackStep = { $0 }
     ) {
         self.destination = initialDestination
         self.history = [initialDestination]
@@ -343,6 +349,7 @@ final class SettingsNavigationCoordinator: ObservableObject {
         self.isMarketplaceDetailAvailable = isMarketplaceDetailAvailable
         self.isAutomationWorkflowAvailable = isAutomationWorkflowAvailable
         self.selectPluginSettingsPane = selectPluginSettingsPane
+        self.prepareStarterPackPresentation = prepareStarterPackPresentation
     }
 
     var canGoBack: Bool {
@@ -391,7 +398,7 @@ final class SettingsNavigationCoordinator: ObservableObject {
     }
 
     func presentStarterPacks(_ step: StarterPackStep) {
-        if presentOnboarding?(step) != true { navigate(to: .starterPacks(step)) }
+        navigate(to: .starterPacks(prepareStarterPackPresentation(step)))
     }
 
     @discardableResult

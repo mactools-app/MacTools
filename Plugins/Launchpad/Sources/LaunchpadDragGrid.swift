@@ -1445,7 +1445,15 @@ final class LaunchpadGridCellView: NSView {
             )
             NSGraphicsContext.saveGraphicsState()
             NSBezierPath(roundedRect: rect, xRadius: cornerR, yRadius: cornerR).addClip()
-            icon.draw(in: rect, from: .zero, operation: .sourceOver, fraction: 1)
+            // Keep child icons upright in the cell's top-left-origin coordinate system.
+            icon.draw(
+                in: rect,
+                from: .zero,
+                operation: .sourceOver,
+                fraction: 1,
+                respectFlipped: true,
+                hints: nil
+            )
             NSGraphicsContext.restoreGraphicsState()
         }
     }

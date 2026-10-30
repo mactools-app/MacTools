@@ -128,6 +128,8 @@ See [presentation subscriptions](presentation-performance.md) for implementation
 
 Follow [LICENSING.md](../../LICENSING.md), retain third-party notices, and declare required system access accurately before installation.
 
+Translator accepts HTTP for its existing loopback hosts and literal private IP addresses: IPv4 `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, and IPv6 `fc00::/7`. Other endpoints require HTTPS; DNS names are not resolved to infer a private-network exception. HTTP sends translation text and credentials without encryption. Redirects must retain the configured scheme, host, and effective port. Private-IP HTTP packages require host 2.2.0, which declares matching ATS address-range exceptions; do not replace these with a global arbitrary-load exception. Backup restores retain endpoint settings without granting access to destination credentials.
+
 Shared raw trackpad input uses the host-injected `TrackpadInputService` capability (host 2.1.0). Do not create a separate native multitouch driver in a plugin. See [Trackpad Scale](trackpad-scale.md) for pressure limitations, subscription ownership, and hardware validation.
 
 ## Review references

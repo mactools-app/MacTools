@@ -41,7 +41,12 @@ final class StarterPackControllerTests: XCTestCase {
         let fixture = Fixture()
         let first = StarterPackController(defaults: store, hasExistingSetup: false, services: fixture.services)
         first.selectPack(.windows, isSelected: true)
-        first.updateDraft { $0.selectedPluginIDs.remove("keep-awake"); $0.seedGrid = true }
+        first.updateDraft {
+            $0.selectedPluginIDs.remove("keep-awake")
+            $0.seedGrid = true
+            $0.addToPanel = false
+            $0.panelID = MenuBarPanelDefinition.featuresID
+        }
         store.set(Data(), forKey: MenuBarPanelStore.storageKey)
 
         let reopened = StarterPackController(defaults: store, hasExistingSetup: true, services: fixture.services)
@@ -49,6 +54,8 @@ final class StarterPackControllerTests: XCTestCase {
         XCTAssertEqual(reopened.selectedPacks, [.everyday, .windows])
         XCTAssertFalse(reopened.selectedIDs.contains("keep-awake"))
         XCTAssertTrue(reopened.draft.seedGrid)
+        XCTAssertTrue(reopened.draft.addToPanel)
+        XCTAssertNil(reopened.draft.panelID)
         reopened.deferOnboarding()
 
         let deferred = StarterPackController(defaults: store, hasExistingSetup: true, services: fixture.services)
@@ -98,16 +105,25 @@ final class StarterPackControllerTests: XCTestCase {
     func testOnlyMissingPluginsInstallAndExistingPlacementsKeepTheirIdentity() async {
         let fixture = Fixture()
         fixture.installed = ["system-status", "keep-awake"]
+        let customPanel = MenuBarPanelDefinition(id: "work", name: "Work", systemImage: "briefcase")
+        fixture.layout.panels.append(customPanel)
         let existing = MenuBarPanelPlacement(item: .init(pluginID: "keep-awake", itemID: "control"))
-        fixture.layout.placementsByPanelID[MenuBarPanelDefinition.featuresID] = [existing]
+        let copy = MenuBarPanelPlacement(item: existing.item)
+        fixture.layout.placementsByPanelID[customPanel.id] = [existing, copy]
         let controller = StarterPackController(defaults: defaults(), hasExistingSetup: true, services: fixture.services)
         controller.selectPack(.everyday, isSelected: true)
         controller.updateDraft { $0.panelID = MenuBarPanelDefinition.featuresID; $0.addToPanel = true }
+        let preview = controller.panelItemsByPanelID()
+        XCTAssertEqual(preview[customPanel.id], [existing.item, copy.item])
+        XCTAssertEqual(preview[MenuBarPanelDefinition.featuresID]?.count, 5)
         controller.apply()
         await controller.waitForInstallation()
         XCTAssertEqual(fixture.installs, ["microphone-mute", "system-mute", "lock-screen", "display-brightness"])
-        XCTAssertEqual(fixture.layout.placementsByPanelID[MenuBarPanelDefinition.featuresID]?.first, existing)
-        XCTAssertEqual(fixture.layout.placementsByPanelID.values.flatMap { $0 }.count, 6)
+        XCTAssertEqual(fixture.layout.placementsByPanelID[customPanel.id], [existing, copy])
+        XCTAssertEqual(fixture.layout.placementsByPanelID[MenuBarPanelDefinition.featuresID]?.count, 5)
+        XCTAssertNil(fixture.layout.placementsByPanelID[MenuBarPanelDefinition.componentsID])
+        XCTAssertEqual(controller.panelItemsByPanelID(showsAppliedSelection: true), preview)
+        XCTAssertEqual(controller.resultPanelID, MenuBarPanelDefinition.featuresID)
         XCTAssertFalse(controller.hasChanges)
         controller.apply()
         await controller.waitForInstallation()
@@ -126,10 +142,57 @@ final class StarterPackControllerTests: XCTestCase {
         XCTAssertFalse(store.bool(forKey: StarterPackController.onboardingKey))
 
         fixture.catalogReady = true
+        XCTAssertNil(controller.draft.panelID)
+        let preview = controller.panelItemsByPanelID()
+        XCTAssertEqual(preview[MenuBarPanelDefinition.componentsID], [.init(pluginID: "system-status", itemID: "widget")])
+        XCTAssertEqual(preview[MenuBarPanelDefinition.featuresID]?.count, 5)
         XCTAssertTrue(controller.apply())
         await controller.waitForInstallation()
         XCTAssertEqual(fixture.installed, Set(StarterPack.everyday.pluginIDs))
+        XCTAssertEqual(controller.panelItemsByPanelID(showsAppliedSelection: true), preview)
+        XCTAssertEqual(controller.resultPanelID, MenuBarPanelDefinition.componentsID)
         XCTAssertFalse(controller.needsOnboarding)
+    }
+
+    func testHiddenDefaultPanelFallsBackToFirstVisiblePanel() async {
+        let fixture = Fixture()
+        fixture.layout.panels[0].isHidden = true
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: fixture.services)
+        let preview = controller.panelItemsByPanelID()
+        XCTAssertEqual(Set(preview.keys), [MenuBarPanelDefinition.featuresID])
+        XCTAssertEqual(preview[MenuBarPanelDefinition.featuresID]?.count, 6)
+        XCTAssertTrue(controller.apply())
+        await controller.waitForInstallation()
+        XCTAssertEqual(controller.panelItemsByPanelID(showsAppliedSelection: true), preview)
+        XCTAssertEqual(controller.resultPanelID, MenuBarPanelDefinition.featuresID)
+    }
+
+    func testSavedDraftPreservesExplicitTargetAndSupportsDefaultRouting() throws {
+        let previous = Data(#"{"selectedPluginIDs":["keep-awake"],"addToPanel":true,"panelID":"features","seedGrid":false,"assignShortcut":false}"#.utf8)
+        let restored = try JSONDecoder().decode(StarterPackDraft.self, from: previous)
+        XCTAssertEqual(restored.panelID, MenuBarPanelDefinition.featuresID)
+        let fresh = StarterPackDraft(selectedPluginIDs: ["keep-awake"])
+        let encoded = try JSONEncoder().encode(fresh)
+        XCTAssertNil(try JSONDecoder().decode(StarterPackDraft.self, from: encoded).panelID)
+    }
+
+    func testAppliedPreviewExcludesFailedPlacementsAndUnusablePlugins() async {
+        let fixture = Fixture()
+        fixture.unusable = ["microphone-mute"]
+        var services = fixture.services
+        let addPlacement = services.addPlacement
+        services.addPlacement = { item, panel in
+            item.pluginID != "system-status" && addPlacement(item, panel)
+        }
+        let controller = StarterPackController(defaults: defaults(), hasExistingSetup: false, services: services)
+        XCTAssertTrue(controller.apply())
+        await controller.waitForInstallation()
+        let preview = controller.panelItemsByPanelID(showsAppliedSelection: true)
+        XCTAssertNil(preview[MenuBarPanelDefinition.componentsID])
+        XCTAssertEqual(Set(preview[MenuBarPanelDefinition.featuresID, default: []].map(\.pluginID)),
+                       ["keep-awake", "system-mute", "lock-screen", "display-brightness"])
+        XCTAssertEqual(controller.resultPanelID, MenuBarPanelDefinition.featuresID)
+        XCTAssertEqual(controller.setupMessages.count, 1)
     }
 
     func testInstalledToolsCanBeAddedToPanelsWithoutACatalog() async {
@@ -153,6 +216,7 @@ final class StarterPackControllerTests: XCTestCase {
         await controller.waitForInstallation()
         XCTAssertEqual(fixture.installs.count, 6)
         XCTAssertTrue(fixture.layout.placementsByPanelID.isEmpty)
+        XCTAssertTrue(controller.panelItemsByPanelID(showsAppliedSelection: true).isEmpty)
     }
 
     func testInstalledPackageThatCannotLoadReportsItsErrorWithoutAddingControls() async {
@@ -217,7 +281,7 @@ final class StarterPackControllerTests: XCTestCase {
         XCTAssertTrue(reopened.needsOnboarding)
         XCTAssertEqual(reopened.selectedPacks, [.everyday, .windows])
         XCTAssertEqual(reopened.selectedIDs, selectedIDs)
-        XCTAssertFalse(reopened.draft.addToPanel)
+        XCTAssertTrue(reopened.draft.addToPanel)
         XCTAssertTrue(reopened.canApply)
 
         XCTAssertTrue(reopened.startEmpty())
@@ -289,14 +353,14 @@ final class StarterPackControllerTests: XCTestCase {
         XCTAssertFalse(fixture.shortcut)
     }
 
-    func testCombinedPacksInstallSharedPluginsOnceAndKeepExistingLayoutByDefault() async {
+    func testCombinedPacksInstallSharedPluginsOnceAndUseDefaultLocations() async {
         let fixture = Fixture()
         fixture.installed = ["keep-awake"]
         let controller = StarterPackController(defaults: defaults(), hasExistingSetup: true, services: fixture.services)
         controller.selectPack(.everyday, isSelected: true)
         controller.selectPack(.windows, isSelected: true)
         XCTAssertEqual(controller.selectedIDs.count, 12)
-        XCTAssertFalse(controller.draft.addToPanel)
+        XCTAssertTrue(controller.draft.addToPanel)
         controller.updateDraft { $0.selectedPluginIDs.remove("system-mute") }
         controller.selectPack(.meetings, isSelected: true)
         XCTAssertFalse(controller.selectedIDs.contains("system-mute"))
@@ -308,7 +372,8 @@ final class StarterPackControllerTests: XCTestCase {
         await controller.waitForInstallation()
         XCTAssertEqual(Set(fixture.installs), Set(StarterPack.windows.pluginIDs).subtracting(["keep-awake"]))
         XCTAssertEqual(fixture.installs.count, Set(fixture.installs).count)
-        XCTAssertTrue(fixture.layout.placementsByPanelID.isEmpty)
+        XCTAssertEqual(controller.panelItemsByPanelID(showsAppliedSelection: true),
+                       [MenuBarPanelDefinition.featuresID: StarterPack.windows.panelItems])
         XCTAssertTrue(fixture.seeded.isEmpty)
     }
 

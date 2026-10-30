@@ -10,6 +10,8 @@ final class OpenAICompatibleConfigurationTests: XCTestCase {
             ("https://gateway.example.com/v1/", "https://gateway.example.com/v1/chat/completions"),
             ("https://gateway.example.com/openai/v1/chat/completions", "https://gateway.example.com/openai/v1/chat/completions"),
             ("https://provider.example.com/api/v4/chat/completions", "https://provider.example.com/api/v4/chat/completions"),
+            ("http://10.0.0.10:8000/gateway/v1/chat/completions", "http://10.0.0.10:8000/gateway/v1/chat/completions"),
+            ("http://[fd12:3456::1]:8000/gateway/v1/", "http://[fd12:3456::1]:8000/gateway/v1/chat/completions"),
         ]
         for (baseURL, expected) in cases {
             let configuration = OpenAICompatibleConfiguration(baseURL: baseURL)
@@ -40,6 +42,29 @@ final class OpenAICompatibleConfigurationTests: XCTestCase {
             let configuration = OpenAICompatibleConfiguration(baseURL: baseURL)
             XCTAssertNil(configuration.validationError, baseURL)
             XCTAssertTrue(try configuration.endpointURL().absoluteString.contains("/v1/chat/completions"), baseURL)
+        }
+    }
+
+    func testHTTPAllowsOnlyPrivateLiteralAddressRanges() throws {
+        let allowedHosts = [
+            "10.0.0.1", "10.255.255.254", "172.16.0.1", "172.31.255.254",
+            "192.168.0.1", "192.168.255.254", "[fc00::1]", "[FD12:3456::1]",
+        ]
+        for host in allowedHosts {
+            let configuration = OpenAICompatibleConfiguration(baseURL: "http://\(host):8000")
+            XCTAssertNil(configuration.validationError, host)
+            XCTAssertNoThrow(try configuration.endpointURL(), host)
+        }
+
+        let rejectedHosts = [
+            "11.0.0.1", "172.15.255.254", "172.32.0.1", "192.169.0.1",
+            "100.64.0.1", "169.254.1.1", "[fe80::1]", "[2001:db8::1]", "[::ffff:10.0.0.1]",
+            "10.0.0.1.example.com", "gateway.local", "gateway", "10.1", "010.0.0.1", "0x0a000001",
+        ]
+        for host in rejectedHosts {
+            let configuration = OpenAICompatibleConfiguration(baseURL: "http://\(host):8000")
+            XCTAssertEqual(configuration.validationError, .invalidBaseURL, host)
+            XCTAssertThrowsError(try configuration.endpointURL(), host)
         }
     }
 

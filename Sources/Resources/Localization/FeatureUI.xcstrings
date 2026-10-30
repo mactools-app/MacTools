@@ -84,73 +84,73 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wait for starter pack setup to finish before restoring a backup."
+            "value": "Wait for the plugin set installation to finish before restoring a backup."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "请等待工具组合设置完成后再恢复备份。"
+            "value": "请等待插件组合安装完成后再恢复备份。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "請等待工具組合設定完成後再還原備份。"
+            "value": "請等待外掛組合安裝完成後再還原備份。"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Warte, bis die Einrichtung der Starterpakete abgeschlossen ist, bevor du ein Backup wiederherstellst."
+            "value": "Warte, bis die Plugin-Sammlung installiert ist, bevor du ein Backup wiederherstellst."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Espera a que termine la configuración de los paquetes antes de restaurar una copia de seguridad."
+            "value": "Espera a que termine la instalación del conjunto antes de restaurar una copia de seguridad."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Attendez la fin de la configuration des packs avant de restaurer une sauvegarde."
+            "value": "Attendez la fin de l’installation de l’ensemble de modules avant de restaurer une sauvegarde."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aguarde a conclusão da configuração dos pacotes antes de restaurar um backup."
+            "value": "Aguarde a instalação do conjunto de plugins terminar antes de restaurar um backup."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Дождитесь завершения настройки наборов, прежде чем восстанавливать резервную копию."
+            "value": "Дождитесь завершения установки набора плагинов, прежде чем восстанавливать резервную копию."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "スターターパックの設定が完了してからバックアップを復元してください。"
+            "value": "プラグインセットのインストールが完了してからバックアップを復元してください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "스타터 팩 설정이 완료된 후 백업을 복원하세요."
+            "value": "플러그인 모음 설치가 완료된 후 백업을 복원하세요."
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "انتظر حتى يكتمل إعداد الحزم قبل استعادة نسخة احتياطية."
+            "value": "انتظر حتى يكتمل تثبيت مجموعة الإضافات قبل استعادة نسخة احتياطية."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Yedeği geri yüklemeden önce başlangıç paketlerinin kurulumunun tamamlanmasını bekleyin."
+            "value": "Yedeği geri yüklemeden önce eklenti grubunun yüklenmesinin tamamlanmasını bekleyin."
           }
         }
       }
@@ -8092,13 +8092,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Add content in Edit Panels"
+            "value": "Choose Edit Panel to add content"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "İçerik eklemek için Panelleri Düzenle'yi kullanın"
+            "value": "İçerik eklemek için “Paneli Düzenle”yi seçin"
           }
         },
         "zh-Hans": {
@@ -8110,25 +8110,25 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "أضف محتوى من «تعديل التخطيط»"
+            "value": "اختر «تعديل اللوحة» لإضافة محتوى"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Unter „Layout bearbeiten“ Inhalte hinzufügen"
+            "value": "Unter „Panel bearbeiten“ Inhalte hinzufügen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Añade contenido al editar los paneles"
+            "value": "Elige «Editar panel» para añadir contenido"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ajoutez du contenu via « Modifier la disposition »"
+            "value": "Choisissez « Modifier le panneau » pour ajouter du contenu"
           }
         },
         "ja": {
@@ -8140,19 +8140,19 @@
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "‘레이아웃 편집’에서 콘텐츠 추가"
+            "value": "‘패널 편집’에서 콘텐츠를 추가하세요"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Adicionar conteúdo em Editar painéis"
+            "value": "Selecione “Editar painel” para adicionar conteúdo"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Добавьте содержимое в разделе «Редактировать панели»"
+            "value": "Выберите «Редактировать панель», чтобы добавить содержимое"
           }
         },
         "zh-Hant": {
@@ -36917,73 +36917,73 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择适合你的工具"
+            "value": "选择插件组合"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose tools for your Mac"
+            "value": "Choose plugin sets"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "選擇適合你的工具"
+            "value": "選擇外掛組合"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tools für deinen Mac auswählen"
+            "value": "Plugin-Sammlungen auswählen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Elige herramientas para tu Mac"
+            "value": "Elige conjuntos de plugins"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choisissez des outils pour votre Mac"
+            "value": "Choisissez des ensembles de modules"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Escolha ferramentas para o seu Mac"
+            "value": "Escolha conjuntos de plugins"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Выберите инструменты для Mac"
+            "value": "Выберите наборы плагинов"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Macで使うツールを選択"
+            "value": "プラグインセットを選択"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mac에서 사용할 도구 선택"
+            "value": "플러그인 모음 선택"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "اختر أدوات لجهاز Mac"
+            "value": "اختر مجموعات الإضافات"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mac’iniz için araçlar seçin"
+            "value": "Eklenti gruplarını seçin"
           }
         }
       }
@@ -36994,7 +36994,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "可选择多个组合，在检查页面取消不需要的插件。"
+            "value": "选择一个或多个组合，下一步可调整具体插件。"
           }
         },
         "en": {
@@ -37006,7 +37006,7 @@
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "可選擇多個組合，在檢查頁面取消不需要的外掛。"
+            "value": "選擇一個或多個組合，下一步可調整個別外掛。"
           }
         },
         "de": {
@@ -37302,150 +37302,73 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "检查组合设置"
+            "value": "确认所选插件"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Review your combined setup"
+            "value": "Review selected plugins"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "檢查組合設定"
+            "value": "確認所選外掛"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kombinierte Konfiguration prüfen"
+            "value": "Ausgewählte Plugins prüfen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Revisar la configuración combinada"
+            "value": "Revisa los plugins seleccionados"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vérifier la configuration combinée"
+            "value": "Vérifiez les modules sélectionnés"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Revisar a configuração combinada"
+            "value": "Revise os plugins selecionados"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Проверьте общие настройки"
+            "value": "Проверьте выбранные плагины"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "組み合わせた設定を確認"
+            "value": "選択したプラグインを確認"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "조합한 설정 검토"
+            "value": "선택한 플러그인 확인"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "مراجعة الإعداد المجمّع"
+            "value": "راجع الإضافات المحددة"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Birleşik kurulumu incele"
-          }
-        }
-      }
-    },
-    "共享插件只显示一次。仅下载缺少的插件，保留现有设置、布局和快捷键。": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "共享插件只显示一次。仅下载缺少的插件，保留现有设置、布局和快捷键。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Shared plugins appear once. Only download missing plugins; keep existing settings, layouts, and shortcuts."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "共用外掛只顯示一次。僅下載缺少的外掛，保留現有設定、佈局和快捷鍵。"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gemeinsame Plugins erscheinen nur einmal. Nur fehlende Plugins werden geladen; Einstellungen, Layouts und Kurzbefehle bleiben erhalten."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Los plugins compartidos aparecen una sola vez. Solo se descargan los que faltan; se conservan los ajustes, las distribuciones y los atajos."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Les plugins communs n’apparaissent qu’une fois. Seuls les plugins manquants sont téléchargés ; les réglages, dispositions et raccourcis sont conservés."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Os plugins compartilhados aparecem apenas uma vez. Apenas os plugins ausentes são baixados; ajustes, layouts e atalhos são mantidos."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Общие плагины показаны один раз. Загружаются только недостающие плагины; настройки, макеты и сочетания клавиш сохраняются."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "共通のプラグインは1回だけ表示されます。不足しているプラグインのみダウンロードし、既存の設定、レイアウト、ショートカットを保持します。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "공통 플러그인은 한 번만 표시됩니다. 없는 플러그인만 다운로드하며 기존 설정, 레이아웃, 단축키를 유지합니다."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تظهر الإضافات المشتركة مرة واحدة. تُنزّل الإضافات الناقصة فقط مع الاحتفاظ بالإعدادات والتخطيطات والاختصارات الحالية."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ortak eklentiler yalnızca bir kez görünür. Yalnızca eksik eklentiler indirilir; mevcut ayarlar, düzenler ve kestirmeler korunur."
+            "value": "Seçilen eklentileri inceleyin"
           }
         }
       }
@@ -37456,7 +37379,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "权限要求"
+            "value": "所需权限"
           }
         },
         "en": {
@@ -37468,7 +37391,7 @@
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "權限要求"
+            "value": "所需權限"
           }
         },
         "ar": {
@@ -40382,7 +40305,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "检查设置"
+            "value": "确认插件"
           }
         },
         "en": {
@@ -40394,7 +40317,7 @@
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "檢查設定"
+            "value": "確認外掛"
           }
         },
         "de": {
@@ -40424,7 +40347,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Проверить"
+            "value": "Проверка"
           }
         },
         "ja": {
@@ -40536,73 +40459,73 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择常用工具组合，安装前检查设置，之后可随时自定。"
+            "value": "按使用场景选择插件组合，确认后批量安装。"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose a starter pack. Review the setup before installing, and customize it anytime."
+            "value": "Choose plugins by use case, review your selection, and install them together."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "選擇常用工具組合，安裝前檢查設定，之後可隨時自訂。"
+            "value": "依使用情境選擇外掛組合，確認後批次安裝。"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wähle ein Starter-Paket. Prüfe die Konfiguration vor der Installation und passe sie jederzeit an."
+            "value": "Wähle Plugins nach Einsatzzweck, prüfe deine Auswahl und installiere sie gemeinsam."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Elige un paquete inicial. Revisa la configuración antes de instalar y personalízala cuando quieras."
+            "value": "Elige plugins por uso, revisa tu selección e instálalos juntos."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choisissez un pack de démarrage. Vérifiez la configuration avant l’installation et personnalisez-la à tout moment."
+            "value": "Choisissez les modules selon vos besoins, vérifiez votre sélection et installez-les ensemble."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Escolha um pacote inicial. Revise a configuração antes de instalar e personalize quando quiser."
+            "value": "Escolha plugins por finalidade, revise sua seleção e instale-os juntos."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Выберите стартовый набор. Проверьте настройки перед установкой; их можно изменить в любое время."
+            "value": "Выберите плагины по задачам, проверьте выбор и установите их вместе."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "スターターパックを選択します。インストール前に設定を確認し、後からいつでも変更できます。"
+            "value": "用途に合ったプラグインを選び、内容を確認してまとめてインストールします。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "시작 팩을 선택하세요. 설치 전에 설정을 검토하고 언제든지 변경할 수 있습니다."
+            "value": "용도에 맞는 플러그인을 선택하고 확인한 후 한 번에 설치하세요."
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "اختر حزمة بدء. راجع الإعداد قبل التثبيت وخصصه في أي وقت."
+            "value": "اختر الإضافات حسب الاستخدام، وراجع اختيارك، ثم ثبّتها معًا."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bir başlangıç paketi seçin. Yüklemeden önce kurulumu inceleyin ve dilediğiniz zaman özelleştirin."
+            "value": "Eklentileri kullanım amacına göre seçin, seçiminizi inceleyin ve birlikte yükleyin."
           }
         }
       }
@@ -40613,7 +40536,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "从空白开始"
+            "value": "暂不安装插件"
           }
         },
         "en": {
@@ -40625,7 +40548,7 @@
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "從空白開始"
+            "value": "暫不安裝外掛"
           }
         },
         "de": {
@@ -40834,237 +40757,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kurulumu incele…"
-          }
-        }
-      }
-    },
-    "将所选工具添加到面板": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "将所选工具添加到面板"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add selected tools to a panel"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "將所選工具加入面板"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ausgewählte Tools zu einem Panel hinzufügen"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Añadir las herramientas seleccionadas a un panel"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajouter les outils sélectionnés à un panneau"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Adicionar ferramentas selecionadas a um painel"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Добавить выбранные инструменты на панель"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選択したツールをパネルに追加"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "선택한 도구를 패널에 추가"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "إضافة الأدوات المحددة إلى لوحة"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seçilen araçları bir panele ekle"
-          }
-        }
-      }
-    },
-    "目标面板": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "目标面板"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Destination panel"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "目標面板"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zielpanel"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Panel de destino"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Panneau de destination"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Painel de destino"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Панель назначения"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "追加先のパネル"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "대상 패널"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اللوحة المستهدفة"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hedef panel"
-          }
-        }
-      }
-    },
-    "已在任意面板中的工具将保留原位置，不会重复添加。": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已在任意面板中的工具将保留原位置，不会重复添加。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tools already in any panel keep their position and are not added again."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已在任何面板中的工具將保留原位置，不會重複加入。"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tools, die bereits in einem Panel liegen, behalten ihre Position und werden nicht erneut hinzugefügt."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Las herramientas que ya están en un panel conservan su posición y no se añaden de nuevo."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Les outils déjà présents dans un panneau gardent leur position et ne sont pas ajoutés à nouveau."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "As ferramentas que já estão em um painel mantêm a posição e não são adicionadas novamente."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Инструменты, уже добавленные на панель, сохранят своё положение и не будут добавлены повторно."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "すでにパネルにあるツールは位置を保持し、重複して追加されません。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "패널에 이미 있는 도구는 위치를 유지하며 중복해서 추가되지 않습니다."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تحتفظ الأدوات الموجودة في أي لوحة بمواضعها ولا تُضاف مرة أخرى."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Herhangi bir panelde bulunan araçlar konumlarını korur ve yeniden eklenmez."
           }
         }
       }
@@ -41537,73 +41229,73 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "正在设置工具组合…"
+            "value": "正在安装插件组合…"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Setting up starter pack…"
+            "value": "Installing plugin set…"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "正在設定工具組合⋯"
+            "value": "正在安裝外掛組合…"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Starter-Paket wird eingerichtet…"
+            "value": "Plugin-Sammlung wird installiert…"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configurando el paquete inicial…"
+            "value": "Instalando el conjunto de plugins…"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configuration du pack de démarrage…"
+            "value": "Installation de l’ensemble de modules…"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configurando o pacote inicial…"
+            "value": "Instalando o conjunto de plugins…"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Настройка стартового набора…"
+            "value": "Установка набора плагинов…"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "スターターパックを設定中…"
+            "value": "プラグインセットをインストール中…"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "시작 팩 설정 중…"
+            "value": "플러그인 모음 설치 중…"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "جارٍ إعداد حزمة البدء…"
+            "value": "جارٍ تثبيت مجموعة الإضافات…"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Başlangıç paketi kuruluyor…"
+            "value": "Eklenti grubu yükleniyor…"
           }
         }
       }
@@ -42384,73 +42076,73 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "工具组合设置已结束"
+            "value": "插件组合安装已结束"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Starter pack setup finished"
+            "value": "Plugin set installation finished"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "工具組合設定已結束"
+            "value": "外掛組合安裝已結束"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Einrichtung des Starter-Pakets beendet"
+            "value": "Installation der Plugin-Sammlung beendet"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configuración del paquete inicial finalizada"
+            "value": "Instalación del conjunto de plugins finalizada"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configuration du pack de démarrage achevée"
+            "value": "Installation de l’ensemble de modules terminée"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configuração do pacote inicial finalizada"
+            "value": "Instalação do conjunto de plugins concluída"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Настройка стартового набора закончена"
+            "value": "Установка набора плагинов завершена"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "スターターパックの設定が終了しました"
+            "value": "プラグインセットのインストールが終了しました"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "시작 팩 설정이 끝났습니다"
+            "value": "플러그인 모음 설치가 끝났습니다"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "انتهى إعداد حزمة البدء"
+            "value": "انتهى تثبيت مجموعة الإضافات"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Başlangıç paketi kurulumu sona erdi"
+            "value": "Eklenti grubunun yüklenmesi tamamlandı"
           }
         }
       }
@@ -42538,73 +42230,73 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "工具组合"
+            "value": "插件组合"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Starter Packs"
+            "value": "Plugin Sets"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "工具組合"
+            "value": "外掛組合"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Starter-Pakete"
+            "value": "Plugin-Sammlungen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Paquetes iniciales"
+            "value": "Conjuntos de plugins"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Packs de démarrage"
+            "value": "Ensembles de modules"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pacotes iniciais"
+            "value": "Conjuntos de plugins"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Стартовые наборы"
+            "value": "Наборы плагинов"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "スターターパック"
+            "value": "プラグインセット"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "시작 팩"
+            "value": "플러그인 모음"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "حزم البدء"
+            "value": "مجموعات الإضافات"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Başlangıç paketleri"
+            "value": "Eklenti grupları"
           }
         }
       }
@@ -42615,73 +42307,73 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "工具组合…"
+            "value": "插件组合…"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Starter Packs…"
+            "value": "Plugin Sets…"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "工具組合⋯"
+            "value": "外掛組合…"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Starter-Pakete…"
+            "value": "Plugin-Sammlungen…"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Paquetes iniciales…"
+            "value": "Conjuntos de plugins…"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Packs de démarrage…"
+            "value": "Ensembles de modules…"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pacotes iniciais…"
+            "value": "Conjuntos de plugins…"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Стартовые наборы…"
+            "value": "Наборы плагинов…"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "スターターパック…"
+            "value": "プラグインセット…"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "시작 팩…"
+            "value": "플러그인 모음…"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "حزم البدء…"
+            "value": "مجموعات الإضافات…"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Başlangıç paketleri…"
+            "value": "Eklenti grupları…"
           }
         }
       }
@@ -44697,7 +44389,7 @@
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "選擇工具"
+            "value": "選擇組合"
           }
         },
         "de": {
@@ -44757,7 +44449,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择工具"
+            "value": "选择组合"
           }
         }
       }
@@ -45071,149 +44763,73 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "More tools, whenever you need them"
+            "value": "Add more plugins anytime"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "更多工具，隨時加入"
+            "value": "更多外掛，隨時加入"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Weitere Tools jederzeit hinzufügen"
+            "value": "Weitere Plugins jederzeit hinzufügen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Más herramientas cuando las necesites"
+            "value": "Añade más plugins cuando quieras"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Plus d’outils, à tout moment"
+            "value": "Ajoutez des modules à tout moment"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mais ferramentas quando precisar"
+            "value": "Adicione mais plugins quando quiser"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Больше инструментов в любое время"
+            "value": "Добавляйте плагины в любое время"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "必要なときにツールを追加"
+            "value": "いつでもプラグインを追加"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "필요할 때 도구 추가"
+            "value": "언제든 플러그인 추가"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "المزيد من الأدوات وقتما تحتاج"
+            "value": "أضف المزيد من الإضافات في أي وقت"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "İhtiyacınız olduğunda daha fazla araç"
+            "value": "İstediğiniz zaman eklenti ekleyin"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "更多工具，随时添加"
-          }
-        }
-      }
-    },
-    "可随时在插件市场安装更多插件，或选择全部七个工具组合。": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Install more plugins or revisit all seven starter packs anytime in Marketplace."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "可隨時在外掛模組市場安裝更多外掛模組，或選擇全部七個工具組合。"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Im Marktplatz können Sie jederzeit weitere Plugins installieren oder alle sieben Starterpakete ansehen."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instala más plugins o vuelve a los siete packs iniciales en el mercado cuando quieras."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Installez d’autres modules ou retrouvez les sept packs de démarrage à tout moment dans le catalogue."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instale mais plugins ou reveja os sete pacotes iniciais a qualquer momento no catálogo."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "В каталоге можно в любое время установить новые плагины или выбрать любой из семи наборов."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "マーケットプレイスでは、いつでもプラグインを追加したり、7つのスターターパックを選び直したりできます。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "마켓플레이스에서 언제든 플러그인을 더 설치하거나 7개 스타터 팩을 다시 살펴볼 수 있습니다."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يمكنك تثبيت المزيد من الإضافات أو استعراض حزم البداية السبع في أي وقت من المتجر."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mağazadan istediğiniz zaman daha fazla eklenti yükleyebilir veya yedi başlangıç paketini yeniden inceleyebilirsiniz."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "可随时在插件市场安装更多插件，或选择全部七个工具组合。"
+            "value": "更多插件，随时添加"
           }
         }
       }
@@ -45294,82 +44910,6 @@
         }
       }
     },
-    "设置 → 插件市场 → 工具组合": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings → Marketplace → Starter Packs"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "設定 → 外掛模組市場 → 工具組合"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Einstellungen → Marktplatz → Starterpakete"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes → Mercado → Packs iniciales"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Réglages → Catalogue → Packs de démarrage"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes → Catálogo → Pacotes iniciais"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Настройки → Каталог → Наборы"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "設定 → マーケットプレイス → スターターパック"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "설정 → 마켓플레이스 → 스타터 팩"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الإعدادات ← المتجر ← حزم البداية"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ayarlar → Mağaza → Başlangıç paketleri"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "设置 → 插件市场 → 工具组合"
-          }
-        }
-      }
-    },
     "设置预览": {
       "localizations": {
         "en": {
@@ -45381,7 +44921,7 @@
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "設定預覽"
+            "value": "面板預覽"
           }
         },
         "de": {
@@ -45441,7 +44981,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "设置预览"
+            "value": "面板预览"
           }
         }
       }
@@ -45457,7 +44997,7 @@
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "面板保持不變。"
+            "value": "尚未選擇要加入面板的工具。"
           }
         },
         "de": {
@@ -45517,7 +45057,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "面板保持不变。"
+            "value": "未选择要添加到面板的工具。"
           }
         }
       }
@@ -45609,7 +45149,7 @@
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "也包含"
+            "value": "其他所選工具"
           }
         },
         "de": {
@@ -45669,7 +45209,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "也包含"
+            "value": "其他所选工具"
           }
         }
       }
@@ -46290,73 +45830,73 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "工具已就绪"
+            "value": "插件已就绪"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your tools are ready"
+            "value": "Your plugins are ready"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "工具已就緒"
+            "value": "外掛已就緒"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Deine Werkzeuge sind bereit"
+            "value": "Deine Plugins sind bereit"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tus herramientas están listas"
+            "value": "Tus plugins están listos"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vos outils sont prêts"
+            "value": "Vos modules sont prêts"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Suas ferramentas estão prontas"
+            "value": "Seus plugins estão prontos"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Инструменты готовы"
+            "value": "Плагины готовы"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ツールの準備ができました"
+            "value": "プラグインの準備ができました"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "도구가 준비되었습니다"
+            "value": "플러그인이 준비되었습니다"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "أدواتك جاهزة"
+            "value": "إضافاتك جاهزة"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Araçlarınız hazır"
+            "value": "Eklentileriniz hazır"
           }
         }
       }
@@ -46367,7 +45907,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "已就绪：%d 个插件"
+            "value": "%d 个插件已准备就绪"
           }
         },
         "en": {
@@ -46379,7 +45919,7 @@
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "已就緒：%d 個外掛模組"
+            "value": "%d 個外掛已準備就緒"
           }
         },
         "de": {
@@ -46521,73 +46061,73 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "点击菜单栏中的 MacTools 图标，即可使用所选工具。"
+            "value": "点击菜单栏中的 MacTools 图标，查看已添加的组件和功能。"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Click MacTools in the menu bar to use your selected tools."
+            "value": "Click the MacTools icon in the menu bar to access the widgets and controls you added."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "按一下選單列中的 MacTools 圖像，即可使用所選工具。"
+            "value": "按一下選單列中的 MacTools 圖像，查看已加入的元件和功能。"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Klicke in der Menüleiste auf MacTools, um deine ausgewählten Werkzeuge zu verwenden."
+            "value": "Klicke auf das MacTools-Symbol in der Menüleiste, um auf deine hinzugefügten Widgets und Steuerelemente zuzugreifen."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Haz clic en MacTools en la barra de menús para usar las herramientas seleccionadas."
+            "value": "Haz clic en el icono de MacTools en la barra de menús para acceder a los widgets y controles que has añadido."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cliquez sur MacTools dans la barre des menus pour utiliser les outils sélectionnés."
+            "value": "Cliquez sur l’icône MacTools dans la barre des menus pour accéder aux widgets et commandes que vous avez ajoutés."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Clique no MacTools na barra de menus para usar as ferramentas selecionadas."
+            "value": "Clique no ícone do MacTools na barra de menus para acessar os widgets e controles que você adicionou."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Нажмите значок MacTools в строке меню, чтобы использовать выбранные инструменты."
+            "value": "Нажмите значок MacTools в строке меню, чтобы открыть добавленные виджеты и элементы управления."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "メニューバーのMacToolsをクリックして、選択したツールを使えます。"
+            "value": "メニューバーのMacToolsアイコンをクリックして、追加したウィジェットやコントロールを利用できます。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "메뉴 막대의 MacTools 아이콘을 클릭하여 선택한 도구를 사용하세요."
+            "value": "메뉴 막대의 MacTools 아이콘을 클릭하여 추가한 위젯과 컨트롤을 사용하세요."
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "انقر على MacTools في شريط القوائم لاستخدام أدواتك المختارة."
+            "value": "انقر على أيقونة MacTools في شريط القوائم للوصول إلى الأدوات المصغّرة وعناصر التحكم التي أضفتها."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Seçtiğiniz araçları kullanmak için menü çubuğundaki MacTools’a tıklayın."
+            "value": "Eklediğiniz araç takımlarına ve denetimlere erişmek için menü çubuğundaki MacTools simgesine tıklayın."
           }
         }
       }
@@ -46675,7 +46215,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "示例面板，数值仅供参考。"
+            "value": "示例布局，实际内容随设备和设置变化。"
           }
         },
         "en": {
@@ -46687,7 +46227,7 @@
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "範例面板，數值僅供參考。"
+            "value": "範例佈局，實際內容依裝置與設定而變。"
           }
         },
         "de": {
@@ -46752,7 +46292,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "保留需要的工具，共享插件只显示一次。"
+            "value": "保留需要的插件，重复项目已自动合并。"
           }
         },
         "en": {
@@ -46764,7 +46304,7 @@
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "保留需要的工具，共用外掛模組只顯示一次。"
+            "value": "保留需要的外掛，重複項目已自動合併。"
           }
         },
         "de": {
@@ -46819,6 +46359,1546 @@
           "stringUnit": {
             "state": "translated",
             "value": "İhtiyacınız olan araçları tutun. Ortak eklentiler yalnızca bir kez eklenir."
+          }
+        }
+      }
+    },
+    "下一步": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下一步"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下一步"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weiter"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuer"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продолжить"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "続ける"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "계속"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متابعة"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devam"
+          }
+        }
+      }
+    },
+    "上一步": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上一步"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上一步"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurück"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atrás"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retour"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voltar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Назад"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "戻る"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "뒤로"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رجوع"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri"
+          }
+        }
+      }
+    },
+    "开始使用": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始使用"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get Started"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開始使用"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loslegen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empezar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencer"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Começar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Начать"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使い始める"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시작하기"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البدء"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlayın"
+          }
+        }
+      }
+    },
+    "其他选项": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他选项"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other Options"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他選項"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weitere Optionen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otras opciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autres options"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outras opções"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Другие варианты"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "その他のオプション"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기타 옵션"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خيارات أخرى"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer Seçenekler"
+          }
+        }
+      }
+    },
+    "starterPack.preview.lock": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القفل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sperren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bloquear"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verrouiller"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ロック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "잠금"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bloquear"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заблокировать"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilitle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "锁定"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鎖定"
+          }
+        }
+      }
+    },
+    "starterPack.preview.lock.subtitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قفل الشاشة على الفور."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sperren Sie den Bildschirm sofort."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock the screen immediately."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bloquea la pantalla inmediatamente."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verrouillez l'écran immédiatement."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "すぐに画面をロックします。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "즉시 화면을 잠급니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bloqueie a tela imediatamente."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Немедленно заблокируйте экран."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranı hemen kilitler."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即锁定屏幕"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即鎖定螢幕"
+          }
+        }
+      }
+    },
+    "starterPack.preview.empty": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فارغ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leer"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empty"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vacío"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vide"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "空"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "비어 있음"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vazio"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пусто"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boşalt"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清空"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清空"
+          }
+        }
+      }
+    },
+    "starterPack.preview.eject": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخراج"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswerfen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eject"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expulsar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Éjecter"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "イジェクト"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "꺼내기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejetar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Извлечь"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "推出"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "推出"
+          }
+        }
+      }
+    },
+    "starterPack.preview.manage": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إدارة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verwalten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manage"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gestionar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gérer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "管理"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "관리하다"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerenciar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Управление"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yönet"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "管理"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "管理"
+          }
+        }
+      }
+    },
+    "starterPack.preview.edit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحرير"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bearbeiten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifier"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編集"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "수정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzenle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編輯"
+          }
+        }
+      }
+    },
+    "starterPack.preview.check": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحقق"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prüfen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprobar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "チェック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verificar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверить"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrol Et"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检测"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢測"
+          }
+        }
+      }
+    },
+    "starterPack.preview.capture": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقاط لقطة شاشة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bildschirmfoto aufnehmen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture Screenshot"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tomar captura"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prendre une capture"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリーンショットを撮影"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스크린샷 캡처"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturar tela"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сделать снимок экрана"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Görüntüsü Yakala"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "截图"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "截圖"
+          }
+        }
+      }
+    },
+    "starterPack.preview.keepAwake.subtitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أبقِ Mac مستيقظًا، مع خيار إبقاء الشاشة مضاءة أو إبقاء أدوات الشاشة قيد التشغيل. يتطلب تشغيل MacBook بغطاء مغلق توصيله بالطاقة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hält den Mac wach; optional bleibt das Display an oder Bildschirmtools funktionieren weiter. Der Betrieb eines MacBook mit geschlossenem Deckel erfordert Netzstrom."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the Mac awake; optionally keep the display on or keep screen-based tools working. Closed-lid MacBook operation requires a power connection."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén el Mac activo; opcionalmente, conserva la pantalla encendida o las herramientas de pantalla funcionando. El uso del MacBook con la tapa cerrada requiere alimentación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Garde le Mac actif ; permet aussi de garder l’écran allumé ou les outils liés à l’écran opérationnels. L’utilisation du MacBook couvercle fermé nécessite le secteur."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Macをスリープさせず、必要に応じてディスプレイをオンのままにするか画面ツールを動作させます。MacBookを閉じた状態で使用するには電源接続が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac을 깨운 상태로 두고, 선택적으로 디스플레이를 켜 두거나 화면 도구를 계속 작동시킵니다. MacBook을 덮개를 닫은 상태로 사용하려면 전원 연결이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantenha o Mac ativo; opcionalmente, mantenha a tela ligada ou as ferramentas de tela funcionando. O uso do MacBook com a tampa fechada requer energia conectada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не даёт Mac уснуть; при необходимости не гасит экран или сохраняет работу экранных инструментов. Для работы MacBook с закрытой крышкой требуется питание от сети."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'i uyanık tutar; isterseniz ekranı açık tutar veya ekran araçlarını çalışır tutar. MacBook'un kapak kapalı çalışması için güç bağlantısı gerekir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持 Mac 唤醒；可选保持屏幕常亮或让屏幕工具继续工作。MacBook 合盖运行要求连接电源"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持 Mac 喚醒；可選保持螢幕常亮或讓螢幕工具繼續運作。MacBook 闔蓋運作要求連接電源"
+          }
+        }
+      }
+    },
+    "starterPack.preview.unmuted": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم إعادة الصوت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stummschaltung aufgehoben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unmuted"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activé"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ミュート解除"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "음소거 해제됨"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativado o som"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включить звук"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesi Açık"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未静音"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未靜音"
+          }
+        }
+      }
+    },
+    "starterPack.preview.hotkey.subtitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد روابط بعد. قم بتكوينها في الإعدادات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Bindungen. Konfigurieren Sie sie in den Einstellungen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No bindings yet. Configure them in Settings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no hay enlaces. Configúrelos en Configuración."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune liaison pour l'instant. Configurez-les dans Paramètres."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "まだバインディングがありません。 [設定] で設定します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "아직 바인딩이 없습니다. 설정에서 구성하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nenhuma ligação ainda. Configure-os em Configurações."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Привязок пока нет. Настройте их в настройках."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz atama yok. Ayarlar'dan yapılandırın."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无绑定，前往设置配置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暫無綁定，前往設定配置"
+          }
+        }
+      }
+    },
+    "starterPack.preview.autoInput.subtitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تذكّر التطبيقات مفعّل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Erinnerung ist aktiviert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App memory is on"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memoria por app activada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mémorisation par app activée"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリごとの記憶はオンです"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱별 기억이 켜져 있음"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memória por app ativada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запоминание для приложений включено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama belleği açık"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动记忆已开启"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動記憶已開啟"
+          }
+        }
+      }
+    },
+    "starterPack.preview.processes": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العمليات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prozesse"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Procesos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processus"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プロセス"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "프로세스"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Процессы"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşlemler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "进程"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "進程"
+          }
+        }
+      }
+    },
+    "调整插件设置": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "调整插件设置"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjust plugin settings"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "調整外掛設定"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plugin-Einstellungen anpassen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustar la configuración de los complementos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajuster les paramètres des modules"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustar configurações dos plug-ins"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройка плагинов"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プラグインの設定を調整"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플러그인 설정 조정"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضبط إعدادات الإضافات"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklenti ayarlarını düzenleyin"
+          }
+        }
+      }
+    },
+    "在“设置”侧边栏的“插件设置”中选择插件，调整选项和快捷键。需要授权时，可在“权限”中查看指引。": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在“设置”侧边栏的“插件设置”中选择插件，调整选项和快捷键。需要授权时，可在“权限”中查看指引。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a plugin under “Plugin Settings” in the Settings sidebar to adjust options and keyboard shortcuts. If permissions are required, see “Permissions” for guidance."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在「設定」側邊欄的「外掛設定」中選擇外掛，調整選項和鍵盤快速鍵。需要授權時，可在「權限」中查看指引。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wähle in der Seitenleiste der Einstellungen unter „Plugin-Einstellungen“ ein Plugin aus, um Optionen und Tastaturkurzbefehle anzupassen. Hinweise zu erforderlichen Berechtigungen findest du unter „Berechtigungen“."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecciona un complemento en «Configuración del complemento», en la barra lateral de Configuración, para ajustar sus opciones y atajos de teclado. Si se requieren permisos, consulta las indicaciones en «Permisos»."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dans la barre latérale des paramètres, sélectionnez un module sous « Paramètres du plug-in » pour régler ses options et raccourcis clavier. Si des autorisations sont nécessaires, consultez « Autorisations » pour obtenir de l’aide."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecione um plug-in em “Configurações do plug-in”, na barra lateral de Configurações, para ajustar opções e atalhos de teclado. Se forem necessárias permissões, consulte as orientações em “Permissões”."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите плагин в разделе «Настройки плагина» на боковой панели настроек, чтобы изменить параметры и сочетания клавиш. Если нужны разрешения, откройте раздел «Разрешения» и следуйте инструкциям."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「設定」のサイドバーの「プラグイン設定」でプラグインを選び、オプションやキーボードショートカットを調整できます。アクセス権が必要な場合は、「アクセス権」で案内を確認してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정 사이드바의 “플러그인 설정”에서 플러그인을 선택하여 옵션과 키보드 단축키를 조정할 수 있습니다. 권한이 필요하면 “권한”에서 안내를 확인하세요."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر إضافة ضمن «إعدادات البرنامج المساعد» في الشريط الجانبي للإعدادات لضبط الخيارات واختصارات لوحة المفاتيح. إذا كانت الأذونات مطلوبة، فراجع الإرشادات في «الأذونات»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçenekleri ve klavye kestirmelerini düzenlemek için Ayarlar kenar çubuğundaki “Eklenti Ayarları” bölümünden bir eklenti seçin. İzin gerekiyorsa “İzinler” bölümündeki yönergeleri izleyin."
+          }
+        }
+      }
+    },
+    "可随时在“插件市场”安装更多插件，或通过“插件组合”再次选择。": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可随时在“插件市场”安装更多插件，或通过“插件组合”再次选择。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install more plugins anytime in “Marketplace”, or return to “Plugin Sets” to make another selection."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可隨時在「外掛市場」安裝更多外掛，或透過「外掛組合」再次選擇。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du kannst jederzeit weitere Plugins im „Plugin-Marktplatz“ installieren oder unter „Plugin-Sammlungen“ eine neue Auswahl treffen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puedes instalar más complementos en cualquier momento en «Catálogo de complementos» o volver a elegir en «Conjuntos de plugins»."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous pouvez installer d’autres modules à tout moment dans « Catalogue de plugins » ou faire une nouvelle sélection dans « Ensembles de modules »."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Você pode instalar mais plug-ins a qualquer momento no “Catálogo de plug-ins” ou fazer uma nova seleção em “Conjuntos de plugins”."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вы можете в любое время установить дополнительные плагины в разделе «Каталог плагинов» или выбрать их снова в разделе «Наборы плагинов»."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「マーケットプレイス」からいつでもプラグインを追加できます。「プラグインセット」で選び直すこともできます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "언제든 “마켓플레이스”에서 플러그인을 더 설치하거나 “플러그인 모음”에서 다시 선택할 수 있습니다."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يمكنك تثبيت المزيد من الإضافات في أي وقت من «سوق الإضافات»، أو الاختيار مجددًا من «مجموعات الإضافات»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstediğiniz zaman “Mağaza”dan daha fazla eklenti yükleyebilir veya “Eklenti grupları”ndan yeniden seçim yapabilirsiniz."
           }
         }
       }

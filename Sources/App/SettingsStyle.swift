@@ -81,12 +81,17 @@ struct SettingsSelectionToggleStyle: ToggleStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         Toggle(isOn: configuration.$isOn) {
-            HStack(alignment: .top, spacing: 8) {
-                Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
-                    .font(PluginSettingsTheme.Typography.rowIcon)
-                    .foregroundStyle(configuration.isOn ? Color.accentColor : .secondary)
-                    .accessibilityHidden(true)
-                configuration.label.frame(maxWidth: .infinity, alignment: .leading)
+            Group {
+                if card {
+                    configuration.label
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        .overlay(alignment: .topTrailing) { indicator(isSelected: configuration.isOn) }
+                } else {
+                    HStack(alignment: .firstTextBaseline, spacing: PluginSettingsTheme.Spacing.controlCluster) {
+                        indicator(isSelected: configuration.isOn)
+                        configuration.label.frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
             }
             .padding(card ? cardPadding : 0)
             .frame(maxWidth: .infinity, maxHeight: card ? .infinity : nil, alignment: .topLeading)
@@ -95,26 +100,47 @@ struct SettingsSelectionToggleStyle: ToggleStyle {
         .toggleStyle(.button)
         .buttonStyle(SettingsSelectionButtonStyle(isSelected: configuration.isOn, card: card))
     }
+
+    private func indicator(isSelected: Bool) -> some View {
+        Image(systemName: isSelected ? "checkmark.square.fill" : "square")
+            .font(PluginSettingsTheme.Typography.rowTitle)
+            .foregroundStyle(isSelected ? Color.accentColor : .secondary)
+            .accessibilityHidden(true)
+    }
 }
 
 private struct SettingsSelectionButtonStyle: ButtonStyle {
     let isSelected: Bool
     let card: Bool
     @Environment(\.isEnabled) private var isEnabled
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.colorSchemeContrast) private var contrast
     @State private var isHovered = false
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .background {
-                if card { Color.clear.pluginSettingsCardBackground(.standard) }
+                if card {
+                    Color.clear.pluginSettingsCardBackground(.standard)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: PluginSettingsTheme.Radius.card)
+                                .fill(isSelected ? SettingsStyle.activeControlBackground
+                                    : isEnabled && (isHovered || configuration.isPressed)
+                                        ? PluginSettingsTheme.Palette.sidebarHoverBackground : .clear)
+                        }
+                }
             }
             .overlay {
                 RoundedRectangle(cornerRadius: PluginSettingsTheme.Radius.card)
                     .strokeBorder(card && isSelected ? Color.accentColor
-                        : isEnabled && (isHovered || configuration.isPressed) ? SettingsStyle.cardBorder : .clear,
-                        lineWidth: PluginSettingsTheme.Stroke.standard)
+                        : card || isEnabled && (isHovered || configuration.isPressed) ? SettingsStyle.cardBorder : .clear,
+                        lineWidth: contrast == .increased || isSelected
+                            ? PluginSettingsTheme.Stroke.standard : PluginSettingsTheme.Stroke.hairline)
                     .allowsHitTesting(false)
             }
+            .opacity(!isEnabled ? 0.5 : configuration.isPressed ? 0.8 : 1)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.16), value: isHovered)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.16), value: isSelected)
             .onHover { isHovered = $0 }
             .settingsPointingHandCursor()
     }

@@ -623,61 +623,61 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "تعديل التخطيط"
+            "value": "تعديل اللوحة"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Layout bearbeiten"
+            "value": "Panel bearbeiten"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Edit Panels"
+            "value": "Edit Panel"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Editar disposición"
+            "value": "Editar panel"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Modifier la disposition"
+            "value": "Modifier le panneau"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "レイアウトを編集"
+            "value": "パネルを編集"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "레이아웃 편집"
+            "value": "패널 편집"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Editar disposição"
+            "value": "Editar painel"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Изменить порядок"
+            "value": "Редактировать панель"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Panelleri Düzenle"
+            "value": "Paneli Düzenle"
           }
         },
         "zh-Hans": {
