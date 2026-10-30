@@ -15,7 +15,50 @@ final class VoiceReadinessTests: XCTestCase {
         XCTAssertEqual(grants.ended.count, 1)
         XCTAssertEqual(factory.connections.count, 1)
         XCTAssertEqual(model.status, VoiceServiceFailure.quota.message)
-        socket.cancel()
+        socket.feed(["type": "session.closed", "reason": "close_requested", "usage": ["seconds": 2.5]])
+        await settle { model.recentSessionMetrics.last?.finalized == true }
+        XCTAssertEqual(model.recentSessionMetrics.last?.voiceSeconds, 2.5)
+        XCTAssertEqual(model.recentSessionMetrics.last?.finalized, true)
+    }
+
+    func testOldPendingToolCannotClearNewConversationActivity() async throws {
+        let (model, factory, _, _) = try await makeModel()
+        var pending: [CheckedContinuation<PluginVoiceReply, Never>] = []
+        var completed = 0
+        var currentTitle = ""
+        model.context = .init(begin: { _ in UUID() }, end: { _ in }, request: { _, request in
+            switch request {
+            case .search:
+                return .init(capabilities: [.init(id: "fixture", kind: .action, title: currentTitle,
+                    pluginTitle: "Fixture", description: "Fixture action")])
+            case .perform:
+                let result = await withCheckedContinuation { pending.append($0) }
+                completed += 1
+                return result
+            }
+        })
+        let old = try await start(model, factory)
+        currentTitle = "Previous action"
+        old.call("discover-old", name: "discover_capabilities", arguments: "{\"query\":\"fixture\"}")
+        await settle { old.outputs == 1 }
+        old.call("perform-old", name: "perform_capability", arguments: "{\"capabilityID\":\"fixture\",\"parameters\":[]}")
+        await settle { pending.count == 1 }
+        model.stop()
+        let current = try await start(model, factory)
+        currentTitle = "Current action"
+        current.call("discover-new", name: "discover_capabilities", arguments: "{\"query\":\"fixture\"}")
+        await settle { current.outputs == 1 }
+        current.call("perform-new", name: "perform_capability", arguments: "{\"capabilityID\":\"fixture\",\"parameters\":[]}")
+        await settle { pending.count == 2 }
+        guard pending.count == 2 else { model.stop(); old.cancel(); current.cancel(); return XCTFail("Host requests did not suspend") }
+        XCTAssertEqual(model.activity, "Current action")
+        pending[0].resume(returning: .init(status: "sessionEnded"))
+        await settle { completed == 1 }
+        for _ in 0..<10 { await Task.yield() }
+        XCTAssertEqual(model.activity, "Current action")
+        pending[1].resume(returning: .init())
+        await settle { current.outputs == 2 }
+        model.stop(); old.cancel(); current.cancel()
     }
 
     func testDisconnectStopsCaptureAndRequiresExplicitRestart() async throws {
@@ -114,8 +157,17 @@ final class VoiceReadinessTests: XCTestCase {
     private var events: [[String: Any]] = []
     private var waiter: CheckedContinuation<[String: Any], Error>?
     private var cancelled = false
+    var outputs = 0
     func resume() {}
-    func send(_ event: [String: Any]) async throws { if cancelled { throw URLError(.cancelled) } }
+    func send(_ event: [String: Any]) async throws {
+        if cancelled { throw URLError(.cancelled) }
+        if event["type"] as? String == "response.item.create" { outputs += 1 }
+    }
+    func call(_ id: String, name: String, arguments: String) {
+        feed(["type": "response.event", "event": ["type": "response.output_item.done", "response_id": id,
+            "item": ["type": "function_call", "call_id": id, "name": name, "arguments": arguments]]])
+        feed(["type": "response.event", "event": ["type": "response.completed", "response": ["id": id]]])
+    }
     func receive() async throws -> [String: Any] {
         if !events.isEmpty { return events.removeFirst() }
         if cancelled { throw URLError(.cancelled) }
