@@ -11,7 +11,7 @@ final class VoiceCredentialsTests: XCTestCase {
     func testOwnKeyIsRequiredAndSavedOnlyInSecretStore() async throws {
         let storage = VoiceCredentialTestStorage()
         let secrets = VoiceCredentialTestSecrets()
-        let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: [:])
+        let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets)
         XCTAssertFalse(credentials.isConfigured)
         await assertUnreadable(credentials)
         try await credentials.save("  \(userKey)\n")
@@ -19,20 +19,15 @@ final class VoiceCredentialsTests: XCTestCase {
         try await assertKey(credentials, equals: userKey)
         XCTAssertEqual(credentials.source, .keychain)
         XCTAssertFalse(storage.values.values.contains { ($0 as? String) == userKey })
-        let reloaded = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: [:])
+        let reloaded = VoiceCredentialConfiguration(storage: storage, secrets: secrets)
         try await assertKey(reloaded, equals: userKey)
     }
 
-    func testExplicitUserKeyNeverFallsBackToDevelopmentKey() async throws {
+    func testMissingOrRemovedUserKeyNeverFallsBack() async throws {
         let storage = VoiceCredentialTestStorage()
         let secrets = VoiceCredentialTestSecrets()
-        let environment = ["OPENAI_API_KEY": developmentKey]
-        let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: environment)
-        #if DEBUG
-        try await assertKey(credentials, equals: developmentKey)
-        #else
+        let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets)
         await assertUnreadable(credentials)
-        #endif
         try await credentials.save(userKey)
         try await assertKey(credentials, equals: userKey)
         secrets.key = nil
@@ -43,7 +38,7 @@ final class VoiceCredentialsTests: XCTestCase {
         try await credentials.forget()
         XCTAssertFalse(credentials.isConfigured)
         await assertUnreadable(credentials)
-        let reloaded = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: environment)
+        let reloaded = VoiceCredentialConfiguration(storage: storage, secrets: secrets)
         XCTAssertFalse(reloaded.isConfigured)
         await assertUnreadable(reloaded)
     }
@@ -51,7 +46,7 @@ final class VoiceCredentialsTests: XCTestCase {
     func testFailedSecretChangesPreservePreviousConfiguration() async throws {
         let storage = VoiceCredentialTestStorage()
         let secrets = VoiceCredentialTestSecrets()
-        let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: [:])
+        let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets)
         try await credentials.save(userKey)
         do { try await credentials.save("invalid"); XCTFail("Invalid keys must be rejected") } catch {}
         try await assertKey(credentials, equals: userKey)
@@ -71,27 +66,19 @@ final class VoiceCredentialsTests: XCTestCase {
         do { _ = try await credentials.loadForConversation(); XCTFail("No credential may be returned") } catch {}
     }
 
-    #if DEBUG
-    func testChosenFileOverridesDevelopmentEnvironmentAndDoesNotImportKey() async throws {
-        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-        defer { try? FileManager.default.removeItem(at: directory) }
-        let file = directory.appendingPathComponent(".env.local")
-        try "OPENAI_API_KEY=\(userKey)\n".write(to: file, atomically: true, encoding: .utf8)
+    func testLegacyFileReferenceIsRemovedWithoutLoadingOrImporting() async throws {
         let storage = VoiceCredentialTestStorage()
-        storage.set(file.path, forKey: "credentialFile") // Existing prototype settings migrate without importing secrets.
+        storage.set("/unread-prototype-key-file", forKey: "credentialFile")
+        storage.set("file", forKey: "credentialSource")
         let secrets = VoiceCredentialTestSecrets()
-        let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets, environment: ["OPENAI_API_KEY": developmentKey])
-        XCTAssertEqual(credentials.source, .file)
-        try await assertKey(credentials, equals: userKey)
-        let loaded = try await credentials.loadForConversation()
-        XCTAssertEqual(loaded, userKey)
+        let credentials = VoiceCredentialConfiguration(storage: storage, secrets: secrets)
+        XCTAssertFalse(credentials.isConfigured)
+        XCTAssertEqual(credentials.source, .none)
+        XCTAssertNil(storage.object(forKey: "credentialFile"))
         XCTAssertNil(secrets.key)
-        try await credentials.forget()
-        XCTAssertTrue(FileManager.default.fileExists(atPath: file.path))
         await assertUnreadable(credentials)
     }
-    #endif
+
 }
 
 @MainActor final class VoiceCredentialTestStorage: PluginStorage {
