@@ -1,6 +1,6 @@
 # Voice capability ownership
 
-Voice Control discovers host-issued capability IDs and uses them within one explicit conversation grant. Provider exclusions are applied before a grant is created. Stopping or replacing the conversation revokes its issued IDs and cancels pending requests.
+Voice Assistant discovers host-issued capability IDs and uses them within one explicit conversation grant. Provider exclusions are applied before a grant is created. Stopping or replacing the conversation revokes its issued IDs and cancels pending requests.
 
 The host supplies an **Applications** entry independently of installed plugins. It shares Launchpad's off-main scanner for standard application folders and includes running top-level applications elsewhere. Discovery returns bounded matching names and opaque targets, without application paths. Opening revalidates the executable bundle and filesystem identity, waits for native launch completion, and activates an existing instance without hiding it. An excluded Applications entry cannot discover or open apps.
 
