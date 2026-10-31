@@ -6,7 +6,7 @@ Run `python3 scripts/plugins/generate-preferences-backup-inventory.py` after cha
 Declarations describe supported field boundaries. Runtime availability and export/restore failures are reported separately.
 See [the backup contract](preferences-backup.md) for exclusions and recovery limits.
 
-localOnly: 2; none: 25; partial: 35; portable: 7.
+localOnly: 2; none: 25; partial: 36; portable: 7.
 
 | Plugin | ID | Coverage | Exclusion codes |
 | --- | --- | --- | --- |
@@ -75,6 +75,7 @@ localOnly: 2; none: 25; partial: 35; portable: 7.
 | [Trackpad Gestures](../../Plugins/TrackpadGestures) | `trackpad-gestures` | partial | permissions |
 | [Trackpad Scale](../../Plugins/TrackpadScale) | `trackpad-scale` | partial | device-state |
 | [Translator](../../Plugins/Translator) | `translator` | partial | credentials, permissions, private-content |
+| [Voice Assistant](../../Plugins/VoiceControl) | `voice-control` | partial | credentials, permissions, history, private-content |
 | [Window Layouts](../../Plugins/WindowLayouts) | `window-layouts` | partial | external-authorization |
 | [Window Switcher](../../Plugins/WindowSwitcher) | `window-switcher` | partial | device-state |
 | [Xcode Cleanup](../../Plugins/XcodeClean) | `xcode-clean` | none | — |
