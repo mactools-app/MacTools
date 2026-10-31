@@ -376,6 +376,7 @@ final class PluginHost: ObservableObject {
 
     private let builtInPlugins: [any MacToolsPlugin]
     private var deactivatedPluginInstances = Set<ObjectIdentifier>()
+    private var voiceControlContextOwner: ObjectIdentifier?
     private let shortcutStore: ShortcutStore
     private let pluginOrderingStore: PluginOrderingStore
     let menuBarPanelStore: MenuBarPanelStore
@@ -3521,8 +3522,10 @@ final class PluginHost: ObservableObject {
                 actionExecutionConsumer.actionExecutionHostContext = makePluginActionExecutionHostContext()
             }
             if let voiceConsumer = plugin as? any PluginVoiceControlHostContextConsuming,
-               pluginID == "voice-control" {
+               pluginID == "voice-control",
+               voiceControlContextOwner != ObjectIdentifier(plugin) || voiceConsumer.voiceControlHostContext == nil {
                 voiceConsumer.voiceControlHostContext = voiceControlRouter.context(owner: pluginID)
+                voiceControlContextOwner = ObjectIdentifier(plugin)
             }
             if let activityStateHandling = plugin as? any PluginApplicationActivityStateHandling {
                 guardPluginCall(plugin, operation: "set application activity state") {

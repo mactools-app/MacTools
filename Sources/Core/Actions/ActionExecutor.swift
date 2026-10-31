@@ -281,13 +281,15 @@ final class ActionExecutor {
     func execute(
         _ invocation: ActionInvocation,
         confirmationService overrideConfirmationService: (any ActionConfirmationRequesting)? = nil,
-        exposureSurface: ActionExposureSurface? = nil
+        exposureSurface: ActionExposureSurface? = nil,
+        admissionCheck: (@MainActor () -> Bool)? = nil
     ) async -> ActionExecutionOutcome {
         switch await prepare(
             invocation,
             confirmationService: overrideConfirmationService,
             expectedDefinition: nil,
-            exposureSurface: exposureSurface
+            exposureSurface: exposureSurface,
+            admissionCheck: admissionCheck
         ) {
         case let .prepared(execution):
             return await executionOutcome(
@@ -507,7 +509,8 @@ final class ActionExecutor {
         _ invocation: ActionInvocation,
         confirmationService overrideConfirmationService: (any ActionConfirmationRequesting)?,
         expectedDefinition: ActionDefinition?,
-        exposureSurface: ActionExposureSurface? = nil
+        exposureSurface: ActionExposureSurface? = nil,
+        admissionCheck: (@MainActor () -> Bool)? = nil
     ) async -> PreparationOutcome {
         guard !Task.isCancelled else {
             return .completed(.cancelled)
@@ -629,6 +632,12 @@ final class ActionExecutor {
 
         if admitted.definition.capabilities.contains(.changesDisplayConfiguration) {
             presentationPreparation()
+        }
+
+        // Caller-owned authorization may change while approval or serialization waits.
+        guard admissionCheck?() != false else {
+            concurrencyLease.release()
+            return .completed(.cancelled)
         }
 
         let handle: ActionExecutionHandle
