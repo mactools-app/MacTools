@@ -263,7 +263,7 @@ final class VoiceConversation: ObservableObject {
             case .credentials: "无法读取密钥，请检查 API 密钥设置。"
             case .microphone: "请在系统设置中允许麦克风访问"
             case .audio: "音频设备不可用，请检查麦克风和扬声器"
-            case .speechDetection: "本机语音检测不可用，请重新安装语音控制，或在设置中关闭说话后连接。"
+            case .speechDetection: "本机语音检测不可用，请重新安装语音助手，或在设置中关闭说话后连接。"
             case .overloaded: "音频传输跟不上，已结束对话"
             default: "连接已中断，请检查网络、API 额度和模型权限后重试"
             }
