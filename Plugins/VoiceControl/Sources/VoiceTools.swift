@@ -84,7 +84,7 @@ final class VoiceTools {
     It keeps an already frontmost app visible. Do not substitute an App Hotkeys visibility toggle or open
     Launchpad for manual clicking unless the user explicitly asks for that interface. Ask which app if multiple match.
     If no app action is available, explain the limitation clearly; do not imply that a launch is still in progress.
-    Automatic access for newly installed plugins can use the Voice Control owner's fixed self-controls.
+    Automatic access for newly installed plugins can use the Voice Assistant owner's fixed self-controls.
     Enabling it requires the host's native confirmation. These changes affect future conversations only;
     they never grant additional feature access to the current conversation.
     Report success only after a successful host result. Never automatically replay a write after uncertainty,
