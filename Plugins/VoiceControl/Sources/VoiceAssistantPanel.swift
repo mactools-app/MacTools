@@ -19,7 +19,7 @@ final class VoiceAssistantPanel: ObservableObject {
             let panel = AssistantWindow(contentRect: .zero, styleMask: PluginPanelPresentation.styleMask,
                                         backing: .buffered, defer: false)
             PluginPanelPresentation.configure(panel)
-            panel.title = conversation.text("语音控制")
+            panel.title = conversation.text("语音助手")
             panel.identifier = NSUserInterfaceItemIdentifier("voice-control.assistant")
             panel.level = .floating
             panel.isOpaque = false; panel.backgroundColor = .clear; panel.hasShadow = true
@@ -50,7 +50,7 @@ final class VoiceAssistantPanel: ObservableObject {
         panel?.contentView = nil
         panel = nil
     }
-    func refreshLocalization() { panel?.title = conversation.text("语音控制") }
+    func refreshLocalization() { panel?.title = conversation.text("语音助手") }
     func toggleExpanded() { expanded.toggle(); resize() }
     private func resize() {
         guard let panel else { return }
@@ -92,7 +92,7 @@ private struct VoiceAssistantView: View {
         let _ = runtimeLocale.revision
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Label(model.text("语音控制"), systemImage: "waveform")
+                Label(model.text("语音助手"), systemImage: "waveform")
                     .font(PluginTypography.sectionTitle.font)
                 Spacer()
                 iconButton("设置", symbol: "gearshape") { model.stop(); presenter.openSettings?() }

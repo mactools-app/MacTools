@@ -1926,79 +1926,79 @@
         }
       }
     },
-    "语音控制": {
+    "语音助手": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "语音控制"
+            "value": "语音助手"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Voice Control"
+            "value": "Voice Assistant"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "التحكم الصوتي"
+            "value": "المساعد الصوتي"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sprachsteuerung"
+            "value": "Sprachassistent"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Control por voz"
+            "value": "Asistente de voz"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Commande vocale"
+            "value": "Assistant vocal"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "音声コントロール"
+            "value": "音声アシスタント"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "음성 제어"
+            "value": "음성 도우미"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Controlo por voz"
+            "value": "Assistente de voz"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Голосовое управление"
+            "value": "Голосовой помощник"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sesle kontrol"
+            "value": "Sesli Asistan"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "語音控制"
+            "value": "語音助手"
           }
         }
       }
@@ -7223,79 +7223,79 @@
         }
       }
     },
-    "本机语音检测不可用，请重新安装语音控制，或在设置中关闭说话后连接。": {
+    "本机语音检测不可用，请重新安装语音助手，或在设置中关闭说话后连接。": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "本机语音检测不可用，请重新安装语音控制，或在设置中关闭说话后连接。"
+            "value": "本机语音检测不可用，请重新安装语音助手，或在设置中关闭说话后连接。"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Local speech detection is unavailable. Reinstall Voice Control or turn off Connect when I speak in settings."
+            "value": "Local speech detection is unavailable. Reinstall Voice Assistant or turn off Connect when I speak in settings."
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "اكتشاف الكلام المحلي غير متاح. أعد تثبيت التحكم الصوتي أو أوقف الاتصال عند التحدث في الإعدادات."
+            "value": "اكتشاف الكلام المحلي غير متاح. أعد تثبيت المساعد الصوتي أو أوقف الاتصال عند التحدث في الإعدادات."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lokale Spracherkennung ist nicht verfügbar. Sprachsteuerung erneut installieren oder „Beim Sprechen verbinden“ in den Einstellungen ausschalten."
+            "value": "Lokale Spracherkennung ist nicht verfügbar. Installiere den Sprachassistenten erneut oder deaktiviere „Beim Sprechen verbinden“ in den Einstellungen."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "La detección local de voz no está disponible. Reinstala Control por voz o desactiva Conectar al hablar en ajustes."
+            "value": "La detección local de voz no está disponible. Vuelve a instalar el Asistente de voz o desactiva Conectar al hablar en ajustes."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "La détection locale de parole est indisponible. Réinstallez Commande vocale ou désactivez Se connecter quand je parle dans les réglages."
+            "value": "La détection locale de parole est indisponible. Réinstallez l’Assistant vocal ou désactivez Se connecter quand je parle dans les réglages."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ローカル音声検出を利用できません。音声コントロールを再インストールするか、設定で「話し始めたら接続」をオフにしてください。"
+            "value": "ローカル音声検出を利用できません。音声アシスタントを再インストールするか、設定で「話し始めたら接続」をオフにしてください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "로컬 음성 감지를 사용할 수 없습니다. 음성 제어를 다시 설치하거나 설정에서 말할 때 연결을 끄세요."
+            "value": "로컬 음성 감지를 사용할 수 없습니다. 음성 도우미를 다시 설치하거나 설정에서 말할 때 연결을 끄세요."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "A deteção local de voz está indisponível. Reinstale o Controlo por voz ou desative Ligar quando eu falar nas definições."
+            "value": "A deteção local de voz está indisponível. Reinstale o Assistente de voz ou desative Ligar quando eu falar nas definições."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Локальное обнаружение речи недоступно. Переустановите Голосовое управление или отключите «Подключаться, когда я говорю» в настройках."
+            "value": "Локальное обнаружение речи недоступно. Переустановите «Голосовой помощник» или отключите «Подключаться, когда я говорю» в настройках."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Yerel konuşma algılama kullanılamıyor. Sesle Denetim’i yeniden yükleyin veya ayarlardan Konuştuğumda bağlan seçeneğini kapatın."
+            "value": "Yerel konuşma algılama kullanılamıyor. Sesli Asistan’ı yeniden yükleyin veya ayarlardan Konuştuğumda bağlan seçeneğini kapatın."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "本機語音偵測無法使用，請重新安裝語音控制，或在設定中關閉說話後連線。"
+            "value": "本機語音偵測無法使用，請重新安裝語音助手，或在設定中關閉說話後連線。"
           }
         }
       }

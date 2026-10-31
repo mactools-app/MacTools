@@ -34,7 +34,7 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
         set { conversation.context = newValue }
     }
     var metadata: PluginMetadata {
-        .init(id: "voice-control", title: conversation.text("语音控制"), iconName: "waveform", iconTint: .purple,
+        .init(id: "voice-control", title: conversation.text("语音助手"), iconName: "waveform", iconTint: .purple,
               order: 102, defaultDescription: conversation.text("通过语音对话控制已启用的 MacTools 功能"))
     }
     init(context: PluginRuntimeContext, conversation providedConversation: VoiceConversation? = nil) {

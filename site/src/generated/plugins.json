@@ -24500,55 +24500,55 @@
         "settings": "form"
       },
       "category": "productivity",
-      "displayName": "语音控制",
+      "displayName": "语音助手",
       "id": "voice-control",
       "localizedMetadata": {
         "ar": {
-          "displayName": "التحكم الصوتي",
+          "displayName": "المساعد الصوتي",
           "summary": "تحكّم في ميزات MacTools المفعّلة بالمحادثة الصوتية"
         },
         "de": {
-          "displayName": "Sprachsteuerung",
+          "displayName": "Sprachassistent",
           "summary": "Aktivierte MacTools-Funktionen per Sprachgespräch steuern"
         },
         "en": {
-          "displayName": "Voice Control",
+          "displayName": "Voice Assistant",
           "summary": "Control enabled MacTools features through voice conversation"
         },
         "es": {
-          "displayName": "Control por voz",
+          "displayName": "Asistente de voz",
           "summary": "Controla las funciones activadas de MacTools con la voz"
         },
         "fr": {
-          "displayName": "Commande vocale",
+          "displayName": "Assistant vocal",
           "summary": "Contrôlez les fonctions MacTools activées par la voix"
         },
         "ja": {
-          "displayName": "音声コントロール",
+          "displayName": "音声アシスタント",
           "summary": "音声会話で有効なMacTools機能を操作"
         },
         "ko": {
-          "displayName": "음성 제어",
+          "displayName": "음성 도우미",
           "summary": "음성 대화로 활성화된 MacTools 기능 제어"
         },
         "pt": {
-          "displayName": "Controlo por voz",
+          "displayName": "Assistente de voz",
           "summary": "Controle as funções ativas do MacTools por voz"
         },
         "ru": {
-          "displayName": "Голосовое управление",
+          "displayName": "Голосовой помощник",
           "summary": "Управляйте включёнными функциями MacTools голосом"
         },
         "tr": {
-          "displayName": "Sesle kontrol",
+          "displayName": "Sesli Asistan",
           "summary": "Etkin MacTools özelliklerini sesli sohbetle kontrol edin"
         },
         "zh-Hans": {
-          "displayName": "语音控制",
+          "displayName": "语音助手",
           "summary": "通过语音对话控制已启用的 MacTools 功能"
         },
         "zh-Hant": {
-          "displayName": "語音控制",
+          "displayName": "語音助手",
           "summary": "透過語音對話控制已啟用的 MacTools 功能"
         }
       },
@@ -24671,43 +24671,57 @@
           "keywords": [
             "voice",
             "brightness",
-            "OpenAI"
+            "OpenAI",
+            "assistant",
+            "voice assistant"
           ],
           "localizedSynonyms": {
             "ar": [
+              "المساعد الصوتي",
               "التحكم الصوتي"
             ],
             "de": [
+              "Sprachassistent",
               "Sprachsteuerung"
             ],
             "en": [
+              "Voice Assistant",
               "Voice Control"
             ],
             "es": [
+              "Asistente de voz",
               "Control por voz"
             ],
             "fr": [
+              "Assistant vocal",
               "Commande vocale"
             ],
             "ja": [
+              "音声アシスタント",
               "音声コントロール"
             ],
             "ko": [
+              "음성 도우미",
               "음성 제어"
             ],
             "pt": [
+              "Assistente de voz",
               "Controle por voz"
             ],
             "ru": [
+              "Голосовой помощник",
               "Голосовое управление"
             ],
             "tr": [
+              "Sesli Asistan",
               "Sesle kontrol"
             ],
             "zh-Hans": [
+              "语音助手",
               "语音控制"
             ],
             "zh-Hant": [
+              "語音助手",
               "語音控制"
             ]
           },
@@ -24718,18 +24732,18 @@
             {
               "id": "primary-use",
               "title": {
-                "ar": "التحكم الصوتي",
-                "de": "Sprachsteuerung",
-                "en": "Voice Control",
-                "es": "Control por voz",
-                "fr": "Commande vocale",
-                "ja": "音声コントロール",
-                "ko": "음성 제어",
-                "pt": "Controlo por voz",
-                "ru": "Голосовое управление",
-                "tr": "Sesle kontrol",
-                "zh-Hans": "语音控制",
-                "zh-Hant": "語音控制"
+                "ar": "المساعد الصوتي",
+                "de": "Sprachassistent",
+                "en": "Voice Assistant",
+                "es": "Asistente de voz",
+                "fr": "Assistant vocal",
+                "ja": "音声アシスタント",
+                "ko": "음성 도우미",
+                "pt": "Assistente de voz",
+                "ru": "Голосовой помощник",
+                "tr": "Sesli Asistan",
+                "zh-Hans": "语音助手",
+                "zh-Hant": "語音助手"
               }
             }
           ]
