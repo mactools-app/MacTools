@@ -29,6 +29,7 @@ final class VoiceControlRouter {
     private let plugins: () -> [any MacToolsPlugin]
     private let openFeature: (String) -> Void
     private let applications: any VoiceApplicationControlling
+    private let now: () -> ContinuousClock.Instant
     // A colon cannot occur in an installable plugin ID, so this host entry cannot collide.
     static let applicationProviderID = "host:applications"
     private var contexts: [String: UUID] = [:]
@@ -39,10 +40,12 @@ final class VoiceControlRouter {
     init(registry: ActionRegistry, executor: ActionExecutor,
          confirmation: any ActionConfirmationRequesting,
          plugins: @escaping () -> [any MacToolsPlugin], openFeature: @escaping (String) -> Void,
-         applications: (any VoiceApplicationControlling)? = nil) {
+         applications: (any VoiceApplicationControlling)? = nil,
+         now: @escaping () -> ContinuousClock.Instant = { .now }) {
         self.registry = registry; self.executor = executor; self.confirmation = confirmation
         self.plugins = plugins; self.openFeature = openFeature
         self.applications = applications ?? SystemVoiceApplicationController()
+        self.now = now
     }
 
     func context(owner: String) -> PluginVoiceControlHostContext {
@@ -68,7 +71,7 @@ final class VoiceControlRouter {
                 $0.metadata.id != owner || ($0 as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.isEmpty == false
             }.map(\.metadata.id)).union([Self.applicationProviderID]).subtracting(excluded)
             self.grants[id] = Grant(owner: owner, ownerIdentity: identity, contextID: contextID, allowedPluginIDs: allowed,
-                                    expires: .now.advanced(by: .seconds(600)))
+                                    expires: self.now().advanced(by: .seconds(600)))
             return id
         }, end: { [weak self] id in
             guard self?.grants[id]?.owner == owner else { return }
@@ -102,8 +105,25 @@ final class VoiceControlRouter {
 
     private func valid(_ id: UUID) -> Bool {
         guard let grant = grants[id] else { return false }
-        return .now < grant.expires && !Task.isCancelled && contexts[grant.owner] == grant.contextID
+        return now() < grant.expires && !Task.isCancelled && contexts[grant.owner] == grant.contextID
             && plugins().contains { $0.metadata.id == grant.owner && ObjectIdentifier($0) == grant.ownerIdentity }
+    }
+
+    private func canAdmitAction(_ binding: Binding, sessionID: UUID) -> Bool {
+        guard valid(sessionID),
+              grants[sessionID]?.allowedPluginIDs.contains(binding.pluginID) == true,
+              let plugin = plugins().first(where: { $0.metadata.id == binding.pluginID }),
+              ObjectIdentifier(plugin) == binding.identity,
+              case let .action(reference, _, parameterized) = binding.operation else { return false }
+        if binding.pluginID == grants[sessionID]?.owner {
+            guard !parameterized,
+                  (plugin as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.contains(reference.key.actionID) == true else {
+                return false
+            }
+        }
+        return parameterized
+            ? (plugin as? any PluginVoiceParameterizedActionProviding)?.voiceParameterizedActionIDs.contains(reference.key.actionID) == true
+            : registry.catalogEntries.contains { $0.reference == reference }
     }
 
     private func route(_ request: PluginVoiceRequest, sessionID: UUID) async -> PluginVoiceReply {
@@ -148,7 +168,9 @@ final class VoiceControlRouter {
                     ? ActionReference(key: reference.key, schemaVersion: reference.schemaVersion, parameters: parameters)
                     : reference
                 guard registry.exposurePolicy(for: target, on: surface) != .excluded else { return .init(status: "unavailable") }
-                let result = await executor.execute(ActionInvocation(reference: target, source: .manual, mode: .foreground), exposureSurface: surface)
+                let result = await executor.execute(
+                    ActionInvocation(reference: target, source: .manual, mode: .foreground), exposureSurface: surface,
+                    admissionCheck: { [weak self] in self?.canAdmitAction(binding, sessionID: sessionID) == true })
                 guard valid(sessionID) else { return .init(status: "sessionEnded") }
                 switch result {
                 case let .completed(.succeeded(message)): return .init(message: message)
