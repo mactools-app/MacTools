@@ -415,7 +415,7 @@ struct PowerStatusComponentView: View {
     }
 
     private var batteryLevelBar: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: PowerStatusLayout.batteryBarLabelSpacing) {
             HStack {
                 Image(systemName: batteryIconName)
                     .font(.system(size: 12, weight: .medium))
@@ -434,19 +434,69 @@ struct PowerStatusComponentView: View {
                     .monospacedDigit()
             }
 
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 3, style: .continuous)
-                        .fill(theme.surfaces.track)
-                        .frame(height: 6)
+            batteryLevelTrack
+        }
+    }
 
-                    RoundedRectangle(cornerRadius: 3, style: .continuous)
+    /// A recessed capsule track with a tinted, gradient-filled level and a
+    /// bright edge marker at the current level.
+    private var batteryLevelTrack: some View {
+        let progress = min(max(CGFloat(viewModel.snapshot.batteryPercent) / 100, 0), 1)
+        let height = PowerStatusLayout.batteryTrackHeight
+
+        return GeometryReader { geo in
+            let fillWidth = geo.size.width * progress
+            ZStack(alignment: .leading) {
+                Capsule(style: .continuous)
+                    .fill(theme.surfaces.track)
+
+                Capsule(style: .continuous)
+                    .fill(batteryTint.opacity(0.14))
+
+                Capsule(style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                batteryTint.opacity(0.45),
+                                batteryTint.opacity(0.95)
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .overlay {
+                        Capsule(style: .continuous)
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(0.24),
+                                        Color.white.opacity(0.02)
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                    }
+                    .frame(width: fillWidth)
+
+                if progress > 0.005, progress < 0.995 {
+                    Capsule(style: .continuous)
+                        .fill(batteryTint.opacity(0.45))
+                        .frame(width: 6)
+                        .blur(radius: 2)
+                        .offset(x: fillWidth - 3)
+
+                    Capsule(style: .continuous)
                         .fill(batteryTint)
-                        .frame(width: max(0, geo.size.width * CGFloat(viewModel.snapshot.batteryPercent) / 100), height: 6)
+                        .frame(width: 2, height: height - 2)
+                        .brightness(0.3)
+                        .offset(x: fillWidth - 1)
                 }
             }
-            .frame(height: 6)
+            .frame(height: height)
         }
+        .frame(height: height)
+        .accessibilityHidden(true)
     }
 
     private var batteryTint: Color {
@@ -496,7 +546,10 @@ enum PowerStatusLayout {
 
     static let headerRowHeight: CGFloat = 22
     static let metricRowHeight: CGFloat = 17
-    static let batteryBarHeight: CGFloat = 26
+    /// Label row, spacing, and the level track inside the battery group.
+    static let batteryBarLabelSpacing: CGFloat = 6
+    static let batteryTrackHeight: CGFloat = 14
+    static let batteryBarHeight: CGFloat = 36
     static let miniMetricRowHeight: CGFloat = 31
     static let appEnergyRowHeight: CGFloat = 20
     static let appEnergyHeaderHeight: CGFloat = 22
