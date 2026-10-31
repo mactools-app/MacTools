@@ -71,7 +71,7 @@
     "panelItems": [
       "widget"
     ],
-    "settings": "none"
+    "settings": "form"
   },
   "permissions": [],
   "category": "monitoring",
@@ -181,7 +181,9 @@
     "dataObserved": [
       "container-service-state"
     ],
-    "dataPersisted": [],
+    "dataPersisted": [
+      "plugin-configuration"
+    ],
     "retention": {
       "policy": "none"
     },

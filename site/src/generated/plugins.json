@@ -7032,7 +7032,7 @@
         "panelItems": [
           "widget"
         ],
-        "settings": "none"
+        "settings": "form"
       },
       "category": "monitoring",
       "displayName": "Apple Container状态",
@@ -7221,7 +7221,9 @@
           "dataObserved": [
             "container-service-state"
           ],
-          "dataPersisted": [],
+          "dataPersisted": [
+            "plugin-configuration"
+          ],
           "diagnosticExportsContainUserData": false,
           "networkDomains": [],
           "networkUse": "none",

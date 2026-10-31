@@ -7,6 +7,8 @@ import MacToolsPluginKit
 @MainActor
 public final class ContainerIndicatorController: ObservableObject {
     public static let pollInterval: TimeInterval = 5
+    /// At the five-second poll this covers roughly twelve minutes of history.
+    public static let performanceHistoryLimit = 150
 
     @Published public private(set) var snapshot: ContainerSnapshot = .unavailable
     @Published public private(set) var commandPath: String?
@@ -16,16 +18,39 @@ public final class ContainerIndicatorController: ObservableObject {
     /// the follow-up refresh so the user can still read what went wrong.
     @Published public private(set) var operationErrorMessage: String?
     @Published public private(set) var checkErrorMessage: String?
+    /// Retained live samples per running container, oldest first. The detail
+    /// window charts them; entries disappear as soon as a container stops.
+    @Published public private(set) var performanceHistory: [String: [ContainerPerformance]] = [:]
 
     public var lastErrorMessage: String? {
         operationErrorMessage ?? checkErrorMessage
     }
 
+    /// Retained live readings stay visible when a refresh fails, so the detail
+    /// window uses this to label them instead of presenting them as current.
+    /// An inconclusive service check keeps the last entries on screen just like
+    /// a failed stats read does.
+    public var retainedDataWarning: String? {
+        if let statsFailure = snapshot.statsFailure {
+            return statsFailure
+        }
+        guard snapshot.status == .unknown else { return nil }
+        return checkErrorMessage ?? localization.string(
+            "panel.error.commandFailed",
+            defaultValue: "命令执行失败"
+        )
+    }
+
     public var onStateChange: (() -> Void)?
+    /// The terminal chosen in settings. The launcher falls back to the system
+    /// default if the app has since been removed.
+    public var terminalApplication: ContainerTerminalApplication = .systemDefault
 
     private let commandRunner: any ContainerCommandRunning
     private let commandPathProvider: () -> String?
     private let localization: PluginLocalization
+    private let terminalLauncher: any ContainerTerminalLaunching
+    private let now: () -> Date
     private var pollTask: Task<Void, Never>?
     /// The single refresh currently allowed to publish. Superseding it or
     /// hiding the panel cancels it, which also terminates the CLI command it
@@ -34,17 +59,26 @@ public final class ContainerIndicatorController: ObservableObject {
     /// Identifies the newest refresh; older ones compare against it and drop
     /// the results they gathered before being replaced.
     private var refreshGeneration: UInt64 = 0
+    /// Previous cumulative counters and the moment they were read. Live rates
+    /// only exist as a delta, and the baseline is dropped whenever monitoring
+    /// pauses so a long gap never turns into an averaged "current" value.
+    private var previousStats: [String: ContainerStatsCounters] = [:]
+    private var previousStatsAt: Date?
     public private(set) var isMonitoring = false
 
     public init(
         commandRunner: any ContainerCommandRunning = ContainerCommandRunner(),
         localization: PluginLocalization = PluginLocalization(bundle: .main),
-        commandPathProvider: @escaping () -> String? = { ContainerExecutableLocator.locate() }
+        commandPathProvider: @escaping () -> String? = { ContainerExecutableLocator.locate() },
+        terminalLauncher: any ContainerTerminalLaunching = ContainerTerminalLauncher(),
+        now: @escaping () -> Date = Date.init
     ) {
         self.commandRunner = commandRunner
         self.localization = localization
         self.commandPath = commandPathProvider()
         self.commandPathProvider = commandPathProvider
+        self.terminalLauncher = terminalLauncher
+        self.now = now
     }
 
     public var isCommandAvailable: Bool {
@@ -101,6 +135,13 @@ public final class ContainerIndicatorController: ObservableObject {
         isMonitoring = false
         pollTask?.cancel()
         pollTask = nil
+        // A paused monitor has no usable baseline: rates computed across the
+        // gap would describe an average instead of the current load.
+        previousStats = [:]
+        previousStatsAt = nil
+        // The chart has no honest way to bridge the pause: a resumed line
+        // would describe a gap it never sampled.
+        performanceHistory = [:]
         // Cancelling the refresh also cancels the CLI command it is waiting on,
         // so a hidden panel never leaves a `container` process running behind it.
         cancelInFlightRefresh()
@@ -184,6 +225,8 @@ public final class ContainerIndicatorController: ObservableObject {
 
         guard status == .running else {
             isChecking = false
+            previousStats = [:]
+            previousStatsAt = nil
             if status == .unknown {
                 checkErrorMessage = failureDetail(
                     exitCode: statusResult.exitCode,
@@ -200,7 +243,7 @@ public final class ContainerIndicatorController: ObservableObject {
                     status: status,
                     containers: keepsEntries ? previous.containers : [],
                     machines: keepsEntries ? previous.machines : [],
-                    updatedAt: Date()
+                    updatedAt: now()
                 ),
                 generation: generation
             )
@@ -293,6 +336,74 @@ public final class ContainerIndicatorController: ObservableObject {
             }
         }
 
+        // Live counters come from one stats read for every running container.
+        // The command samples twice internally, so a refresh takes about two
+        // seconds longer while anything runs; with nothing running it is
+        // skipped entirely.
+        var statsFailure: String?
+        if containers.contains(where: \.isRunning) {
+            let statsResult = try? await commandRunner.run(
+                executable: path,
+                arguments: ["stats", "--format", "json", "--no-stream"]
+            )
+            guard isCurrent(generation: generation) else { return }
+
+            if statsResult?.exitCode == 0 {
+                let counters = ContainerIndicatorParser.stats(
+                    fromJSON: statsResult?.standardOutput ?? ""
+                )
+                let sampledAt = now()
+                let elapsed = previousStatsAt.map { sampledAt.timeIntervalSince($0) } ?? 0
+                containers = containers.map { container in
+                    guard container.isRunning else { return container }
+                    guard let current = counters[container.id] else {
+                        return container.withPerformance(nil)
+                    }
+                    return container.withPerformance(
+                        ContainerIndicatorStatsMath.performance(
+                            previous: previousStats[container.id],
+                            current: current,
+                            elapsed: elapsed,
+                            // 100% means every core the container was given is
+                            // busy, matching the "CPU N 核" line above it.
+                            cores: max(1, container.cpus),
+                            sampledAt: sampledAt
+                        )
+                    )
+                }
+                previousStats = counters
+                previousStatsAt = sampledAt
+                recordPerformanceHistory(containers)
+            } else {
+                statsFailure = listFailureMessage(
+                    label: localization.string(
+                        "panel.error.statsReadFailed",
+                        defaultValue: "性能数据读取失败"
+                    ),
+                    exitCode: statsResult?.exitCode,
+                    standardError: statsResult?.standardError ?? ""
+                )
+                // A failed read keeps the numbers already on screen; the card
+                // marks them as stale with the warning line.
+                let previousPerformance = Dictionary(
+                    uniqueKeysWithValues: previous.containers.compactMap { container in
+                        container.performance.map { (container.id, $0) }
+                    }
+                )
+                containers = containers.map { container in
+                    guard container.performance == nil,
+                          let performance = previousPerformance[container.id] else {
+                        return container
+                    }
+                    return container.withPerformance(performance)
+                }
+            }
+        } else {
+            previousStats = [:]
+            previousStatsAt = nil
+            performanceHistory = [:]
+        }
+
         isChecking = false
         checkErrorMessage = nil
         publish(
@@ -300,12 +411,32 @@ public final class ContainerIndicatorController: ObservableObject {
                 status: .running,
                 containers: containers,
                 machines: machines,
-                updatedAt: Date(),
+                updatedAt: now(),
                 containersFailure: containersFailure,
-                machinesFailure: machinesFailure
+                machinesFailure: machinesFailure,
+                statsFailure: statsFailure
             ),
             generation: generation
         )
+    }
+
+    /// Appends the newest sample per running container and drops entries for
+    /// containers that stopped, so the charts only ever describe what is live.
+    private func recordPerformanceHistory(_ containers: [ContainerInstance]) {
+        var history = performanceHistory
+        var runningIDs: Set<String> = []
+        for container in containers where container.isRunning {
+            runningIDs.insert(container.id)
+            guard let performance = container.performance else { continue }
+            var samples = history[container.id, default: []]
+            samples.append(performance)
+            if samples.count > Self.performanceHistoryLimit {
+                samples.removeFirst(samples.count - Self.performanceHistoryLimit)
+            }
+            history[container.id] = samples
+        }
+        history = history.filter { runningIDs.contains($0.key) }
+        performanceHistory = history
     }
 
     // MARK: - Operations
@@ -341,6 +472,48 @@ public final class ContainerIndicatorController: ObservableObject {
             ["machine", "stop", id],
             ["machine", "run", "-n", id, "-d"],
         ])
+    }
+
+    // MARK: - Terminal
+
+    /// Opens an interactive shell in the user's default terminal. The CLI must
+    /// run in a real TTY, so the launcher hands a `.command` script to
+    /// LaunchServices instead of spawning the process here.
+    public func openTerminal(target: ContainerTerminalTarget) {
+        resolveCommandPathIfNeeded()
+        guard let path = commandPath else {
+            operationErrorMessage = localization.string(
+                "panel.error.terminalUnavailable",
+                defaultValue: "container 命令不可用"
+            )
+            onStateChange?()
+            return
+        }
+
+        operationErrorMessage = nil
+        let application = terminalApplication
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await self.terminalLauncher.launch(
+                    target: target,
+                    executable: path,
+                    application: application
+                )
+            } catch ContainerTerminalLaunchError.invalidIdentifier {
+                self.operationErrorMessage = self.localization.string(
+                    "panel.error.terminalInvalidIdentifier",
+                    defaultValue: "容器标识无效"
+                )
+                self.onStateChange?()
+            } catch {
+                self.operationErrorMessage = self.localization.string(
+                    "panel.error.terminalOpenFailed",
+                    defaultValue: "无法打开终端"
+                )
+                self.onStateChange?()
+            }
+        }
     }
 
     /// Runs a command sequence as one operation: it stops at the first failure
@@ -409,7 +582,7 @@ public final class ContainerIndicatorController: ObservableObject {
             status: status,
             containers: snapshot.containers,
             machines: snapshot.machines,
-            updatedAt: Date()
+            updatedAt: now()
         )
     }
 
