@@ -20,6 +20,7 @@ private final class PermissionNotificationObserver: @unchecked Sendable {
 }
 
 enum HostPermissionKind: String, CaseIterable, Hashable, Sendable {
+    case microphone
     case accessibility
     case inputMonitoring
     case screenRecording
@@ -45,6 +46,7 @@ enum HostPermissionKind: String, CaseIterable, Hashable, Sendable {
         }
 
         return switch pluginKind {
+        case .microphone: .microphone
         case .accessibility: .accessibility
         case .inputMonitoring: .inputMonitoring
         case .calendarFullAccess: .calendarFullAccess
@@ -56,6 +58,7 @@ enum HostPermissionKind: String, CaseIterable, Hashable, Sendable {
 
     var sortOrder: Int {
         switch self {
+        case .microphone: 8
         case .accessibility: 0
         case .inputMonitoring: 1
         case .screenRecording: 2
@@ -369,7 +372,7 @@ final class PermissionCoordinator: ObservableObject {
             guidanceHandler(kind, sourceFrame)
         case .calendarFullAccess,
              .systemAudioRecording,
-             .finderExtension:
+             .finderExtension, .microphone:
             pendingActivationRefreshCount = kind == .systemAudioRecording ? 2 : 1
             activationRefreshTarget = target
             specializedActionHandler(target.pluginID, target.permissionID)
@@ -410,7 +413,7 @@ final class PermissionFlowGuidancePresenter {
             SystemSettings.open(.privacy(anchor: .privacyCalendars))
         case .systemAudioRecording:
             SystemSettings.open(.privacy(anchor: .privacyAudioCapture))
-        case .finderExtension:
+        case .finderExtension, .microphone:
             break
         }
     }

@@ -564,6 +564,8 @@ private func permissionTitle(for kind: HostPermissionKind) -> String {
             key: "permission_flow.pane.full_disk_access",
             defaultValue: "完全磁盘访问"
         )
+    case .microphone:
+        AppL10n.settings("permissions.kind.microphone", defaultValue: "麦克风")
     case .finderExtension:
         AppL10n.settings("permissions.kind.finderExtension", defaultValue: "Finder 扩展")
     }
@@ -587,6 +589,7 @@ private func permissionSystemImage(for kind: HostPermissionKind) -> String {
     case .systemAudioRecording: "waveform.badge.mic"
     case .fullDiskAccess: "externaldrive.badge.checkmark"
     case .finderExtension: "puzzlepiece.extension"
+    case .microphone: "mic"
     }
 }
 
@@ -595,7 +598,7 @@ private func permissionActionTitle(for item: PermissionCenterItem) -> String {
         return AppL10n.settings("permissions.recheck", defaultValue: "重新检查")
     }
     switch item.kind {
-    case .calendarFullAccess, .systemAudioRecording:
+    case .calendarFullAccess, .systemAudioRecording, .microphone:
         return AppL10n.plugins("plugin.permission.requestAuthorization", defaultValue: "请求授权")
     case .automation, .finderExtension:
         return AppL10n.plugins("plugin.permission.openSettings", defaultValue: "打开设置")

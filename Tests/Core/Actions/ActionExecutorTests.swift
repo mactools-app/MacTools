@@ -260,6 +260,46 @@ final class ActionExecutorTests: XCTestCase {
         XCTAssertEqual(secondOutcome, .completed(.succeeded()))
     }
 
+    func testAdmissionCheckRejectsQueuedInvocationAndReleasesLease() async {
+        let registry = ActionRegistry()
+        let provider = ActionExecutorTestProvider()
+        let definition = makeActionDefinition(
+            risk: .confirmationRequired,
+            confirmation: .init(title: "Confirm", message: "Continue?", confirmButtonTitle: "Continue"),
+            concurrencyPolicy: .serialize,
+            timeout: 86_400
+        )
+        var pending: CheckedContinuation<ActionExecutionResult, Never>?
+        provider.operation = { await withCheckedContinuation { pending = $0 } }
+        registry.synchronize([provider.registration(definition: definition)])
+        let secondApproved = expectation(description: "Queued command approved")
+        var approvals = 0
+        let confirmation = ActionExecutorConfirmationService {
+            approvals += 1
+            if approvals == 2 { secondApproved.fulfill() }
+            return true
+        }
+        let executor = ActionExecutor(registry: registry, confirmationService: confirmation)
+        let invocation = ActionInvocation(reference: .init(key: definition.key), source: .manual, mode: .foreground)
+        let first = Task { await executor.execute(invocation) }
+        while pending == nil { await Task.yield() }
+        var authorized = true
+        let second = Task { await executor.execute(invocation, admissionCheck: { authorized }) }
+        await fulfillment(of: [secondApproved], timeout: 2)
+        authorized = false
+        pending?.resume(returning: .succeeded())
+        let firstOutcome = await first.value
+        let secondOutcome = await second.value
+        XCTAssertEqual(firstOutcome, .completed(.succeeded()))
+        XCTAssertEqual(secondOutcome, .completed(.cancelled))
+        XCTAssertEqual(provider.beginCount, 1)
+
+        provider.operation = { .succeeded() }
+        let next = await executor.execute(invocation, admissionCheck: { true })
+        XCTAssertEqual(next, .completed(.succeeded()))
+        XCTAssertEqual(provider.beginCount, 2)
+    }
+
     func testSuccessfulExecutionReturnsProviderResult() async {
         let registry = ActionRegistry()
         let provider = ActionExecutorTestProvider()

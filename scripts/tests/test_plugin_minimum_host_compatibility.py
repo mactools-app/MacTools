@@ -20,6 +20,18 @@ PLUGIN_INTERFACES = REPO_ROOT / "Sources/MacToolsPluginKit/PluginInterfaces.swif
 PLUGIN_SETTINGS_MODELS = REPO_ROOT / "Sources/MacToolsPluginKit/PluginSettingsModels.swift"
 APP_VERSION_CONFIG = REPO_ROOT / "Configs/AppVersion.xcconfig"
 NEW_API_MINIMUM_HOSTS = {
+    "PluginVoiceProvider": "2.2.1",
+    "PluginVoiceCapability": "2.2.1",
+    "PluginVoiceRequest": "2.2.1",
+    "PluginVoiceReply": "2.2.1",
+    "PluginVoiceQuery": "2.2.1",
+    "PluginVoiceQueryProviding": "2.2.1",
+    "PluginVoiceParameterizedActionProviding": "2.2.1",
+    "PluginVoiceSelfActionProviding": "2.2.1",
+    "PluginVoiceControlHostContext": "2.2.1",
+    "PluginVoiceControlHostContextConsuming": "2.2.1",
+    ".microphone": "2.2.1",
+
     "PluginAppMenuBarIconVisibilityControlling": "2.2.0",
     "PluginMenuBarPanelPresentationRequest": "2.2.0",
     "PluginMenuBarPanelPresenting": "2.2.0",
@@ -341,6 +353,13 @@ class PluginMinimumHostCompatibilityTests(unittest.TestCase):
             violations += minimum_host_violations(manifest["id"], declared, source)
 
         self.assertEqual(violations, [], "\n".join(violations))
+
+    def test_voice_bridge_public_types_require_host_2_2_1(self) -> None:
+        source = PLUGIN_INTERFACES.with_name("PluginVoiceControlHostContext.swift").read_text(encoding="utf-8")
+        for symbol in public_top_level_type_names(source):
+            with self.subTest(symbol=symbol):
+                self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), "2.2.1")
+                self.assertTrue(minimum_host_violations("probe", "2.2.0", symbol))
 
     def test_plugin_permission_kind_preserves_released_case_order(self) -> None:
         source = PLUGIN_MODELS.read_text(encoding="utf-8")

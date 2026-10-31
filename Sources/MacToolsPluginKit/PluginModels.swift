@@ -71,6 +71,7 @@ public enum PluginPermissionKind {
     case automation
     case screenRecording
     case finderExtension
+    case microphone
 }
 
 public enum SettingsDestination: Hashable {

@@ -1,6 +1,7 @@
 
 core:
   sources:
+    - ../../Sources/PluginSupport/InstalledApplicationScanner.swift
     - ../../Sources/PluginSupport/PortablePreferencesStore.swift
     - ../../Sources/PluginSupport/PortableApplicationReference.swift
     - ../../Sources/PluginSupport/PortablePreferencesValidation.swift
