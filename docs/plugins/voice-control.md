@@ -1,4 +1,4 @@
-# Voice Control integration
+# Voice Assistant integration
 
 The optional voice bridge requires host 2.2.1. Existing PluginKit v7 protocols and stored layouts remain unchanged. The assistant is a plugin; the host owns capability discovery, session grants, native confirmation, and canonical action execution.
 
