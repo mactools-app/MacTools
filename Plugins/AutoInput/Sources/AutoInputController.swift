@@ -206,6 +206,8 @@ final class AutoInputController: ObservableObject {
     private var appliedHUDReminderPreferences: AutoInputHUDReminderPreferences
     private var restoreStandardFunctionKeys: Bool?
     private var appliedStandardFunctionKeys: Bool?
+    private var keyboardModeRetryTask: Task<Void, Never>?
+    private let keyboardModeRetryDelays: [Duration]
 
     var currentSourceID: String? {
         sourceController.currentSourceID
@@ -223,7 +225,8 @@ final class AutoInputController: ObservableObject {
         applicationNotificationCenter: NotificationCenter = .default,
         now: @escaping () -> TimeInterval = { ProcessInfo.processInfo.systemUptime },
         switchErrorMessage: @escaping () -> String = { "无法切换输入法" },
-        keyboardModeErrorMessage: @escaping () -> String = { "无法更改顶部按键用途" }
+        keyboardModeErrorMessage: @escaping () -> String = { "无法更改顶部按键用途" },
+        keyboardModeRetryDelays: [Duration] = [.milliseconds(400), .milliseconds(1_200)]
     ) {
         self.store = store
         self.sourceController = sourceController
@@ -237,6 +240,7 @@ final class AutoInputController: ObservableObject {
         self.now = now
         self.switchErrorMessage = switchErrorMessage
         self.keyboardModeErrorMessage = keyboardModeErrorMessage
+        self.keyboardModeRetryDelays = keyboardModeRetryDelays
         self.sources = sourceController.sources
         self.isAccessibilityGranted = accessibilityCheck.isTrusted
         self.appliedHUDReminderPreferences = AutoInputHUDReminderPreferences(
@@ -262,6 +266,9 @@ final class AutoInputController: ObservableObject {
             if wasDeferred { self.reconcileActiveServices(processCurrentApplication: false) }
             self.handleApplicationActivated(application)
         }
+        applicationMonitor.onSystemDidResume = { [weak self] in
+            self?.handleSystemDidResume()
+        }
         focusObserver.onEditableFocusChanged = { [weak self] focus in
             self?.handleEditableFocusChanged(focus)
         }
@@ -278,6 +285,7 @@ final class AutoInputController: ObservableObject {
         defersAutomaticActionsUntilApplicationActivation = false
         guard isStarted else { return }
         operationGeneration += 1
+        cancelKeyboardModeRetry()
         restoreStandardFunctionKeysIfNeeded()
         stopFocusMonitoring()
         stopApplicationMonitoring()
@@ -288,6 +296,7 @@ final class AutoInputController: ObservableObject {
         inputSourceOwnerBundleIdentifier = nil
         sourceController.onSourcesChanged = nil
         applicationMonitor.onApplicationActivated = nil
+        applicationMonitor.onSystemDidResume = nil
         focusObserver.onEditableFocusChanged = nil
         focusObserver.onAccessibilityInvalidated = nil
         removeApplicationActivationObserver()
@@ -413,6 +422,9 @@ final class AutoInputController: ObservableObject {
     }
 
     private func handleApplicationActivated(_ application: AutoInputApplication) {
+        // A fresh activation supersedes a pending retry: the desired mode is derived again
+        // right below, so the retry would only duplicate this work.
+        cancelKeyboardModeRetry()
         applyKeyboardMode(for: application.bundleIdentifier)
         let applicationIdentifier = hudApplicationIdentifier(
             processIdentifier: application.processIdentifier,
@@ -639,7 +651,10 @@ final class AutoInputController: ObservableObject {
         if restoreStandardFunctionKeys == nil {
             restoreStandardFunctionKeys = functionKeyController.isStandardFunctionKeysEnabled
         }
-        guard appliedStandardFunctionKeys != isEnabled else { return }
+        // Always re-assert the mode instead of trusting an earlier write. The live HID value
+        // can drift away from the value applied earlier — sleep, another utility, or a lost
+        // preference flush all change it — and a stale comparison would leave the top row on
+        // the wrong mode until the plugin is restarted.
         guard functionKeyController.setStandardFunctionKeysEnabled(isEnabled) else {
             logger.error("Failed to apply the standard function key mode")
             if appliedStandardFunctionKeys == nil {
@@ -648,6 +663,7 @@ final class AutoInputController: ObservableObject {
             }
             keyboardModeError = keyboardModeErrorMessage()
             onStateChange?()
+            scheduleKeyboardModeRetry()
             return
         }
         appliedStandardFunctionKeys = isEnabled
@@ -662,17 +678,65 @@ final class AutoInputController: ObservableObject {
             clearKeyboardModeErrorIfNeeded()
             return
         }
-        if functionKeyController.isStandardFunctionKeysEnabled != originalValue,
-           !functionKeyController.setStandardFunctionKeysEnabled(originalValue) {
+        // Restore unconditionally. The persisted preference can already read the original
+        // value while the live HID mode still uses the rule's mode, and skipping the write
+        // in that case is what leaves the top row on F1–F12 after switching away from a
+        // rule that asked for it.
+        guard functionKeyController.setStandardFunctionKeysEnabled(originalValue) else {
             // Keep the original value so a later refresh can retry the restore.
             logger.error("Failed to restore the standard function key preference")
             keyboardModeError = keyboardModeErrorMessage()
             onStateChange?()
+            scheduleKeyboardModeRetry()
             return
         }
         appliedStandardFunctionKeys = nil
         restoreStandardFunctionKeys = nil
         clearKeyboardModeErrorIfNeeded()
+    }
+
+    /// Retries a failed keyboard-mode change a couple of times so a transient HID failure
+    /// does not leave the top row in the wrong mode until the next application switch.
+    private func scheduleKeyboardModeRetry() {
+        guard keyboardModeRetryTask == nil, !keyboardModeRetryDelays.isEmpty else { return }
+        let delays = keyboardModeRetryDelays
+        keyboardModeRetryTask = Task { @MainActor [weak self] in
+            defer { self?.keyboardModeRetryTask = nil }
+            for delay in delays {
+                try? await Task.sleep(for: delay)
+                guard let self, !Task.isCancelled else { return }
+                self.reconcileKeyboardMode()
+                guard self.keyboardModeError != nil else { return }
+            }
+        }
+    }
+
+    private func cancelKeyboardModeRetry() {
+        keyboardModeRetryTask?.cancel()
+        keyboardModeRetryTask = nil
+    }
+
+    /// Re-derives the wanted mode from the current configuration and frontmost application.
+    /// Retries and resume handling go through this instead of replaying a cached decision,
+    /// because the rules or the frontmost application can change while a retry is pending.
+    private func reconcileKeyboardMode() {
+        guard isStarted, isInteractive, !defersAutomaticActionsUntilApplicationActivation
+        else { return }
+        guard store.hasKeyboardModeRules else {
+            restoreStandardFunctionKeysIfNeeded()
+            return
+        }
+        guard let application = applicationMonitor.frontmostApplication ?? currentApplication
+        else { return }
+        applyKeyboardMode(for: application.bundleIdentifier)
+    }
+
+    /// Waking up or unlocking can reset the top row without an application activation, so
+    /// the current rule is applied again to keep the mode the user configured.
+    private func handleSystemDidResume() {
+        guard keyboardModeActive || appliedStandardFunctionKeys != nil else { return }
+        cancelKeyboardModeRetry()
+        reconcileKeyboardMode()
     }
 
     private func clearKeyboardModeErrorIfNeeded() {
