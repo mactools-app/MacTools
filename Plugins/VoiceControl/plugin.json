@@ -588,6 +588,13 @@
                 "isRequired": false,
                 "privacy": "sensitive",
                 "portability": "localOnly"
+              },
+              {
+                "id": "scope",
+                "kind": "string",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
               }
             ],
             "permissionIDs": [

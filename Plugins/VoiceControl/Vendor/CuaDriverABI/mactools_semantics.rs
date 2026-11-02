@@ -7,7 +7,7 @@ use std::{sync::Arc, time::{Duration, Instant}};
 const ATTRIBUTES: &[&str] = &["AXRole", "AXSubrole", "AXIdentifier", "AXDOMIdentifier",
     "AXTitle", "AXDescription", "AXHelp", "AXValue", "AXPlaceholderValue", "AXIndex", "AXEnabled", "AXURL", "AXValueDescription"];
 struct Anchor { element: RetainedElement, attributes: Vec<Option<String>>, actions: Vec<String> }
-pub struct ControlStamp { chain: Vec<Anchor>, context: Vec<Anchor> }
+pub struct ControlStamp { chain: Vec<Anchor>, context: Vec<Anchor>, window: u32, toolbar: bool }
 
 unsafe fn attribute(ptr: AXUIElementRef, name: &str, deadline: Instant) -> Option<Option<String>> {
     if Instant::now() >= deadline { return None; }
@@ -31,13 +31,23 @@ unsafe fn attribute(ptr: AXUIElementRef, name: &str, deadline: Instant) -> Optio
     Some(Some(text))
 }
 
-unsafe fn anchor(element: RetainedElement, deadline: Instant) -> Option<Anchor> {
+unsafe fn anchor(element: RetainedElement, deadline: Instant, content: bool) -> Option<Anchor> {
     if Instant::now() >= deadline { return None; }
     let ptr = element.as_ptr() as AXUIElementRef;
     if ptr.is_null() || CFGetTypeID(ptr as _) != AXUIElementGetTypeID() { return None; }
     AXUIElementSetMessagingTimeout(ptr, 0.025);
+    if !super::mactools_native::observation_allows(ptr) { return None; }
+    let role = attribute(ptr, "AXRole", deadline)??;
+    if !super::mactools_native::classified_role(Some(&role)) { return None; }
+    if super::mactools_native::skips_observation_role(&role) { return None; }
     if !super::mactools_native::control_security(ptr).ok()? { return None; }
-    let attributes = ATTRIBUTES.iter().map(|name| attribute(ptr, name, deadline)).collect::<Option<Vec<_>>>()?;
+    // Ancestors above the toolbar carry structural identity only, never values.
+    if !content {
+        let mut attributes = vec![None; ATTRIBUTES.len()]; attributes[0] = Some(role);
+        return Some(Anchor { element, attributes, actions: Vec::new() });
+    }
+    let mut attributes = vec![Some(role)];
+    attributes.extend(ATTRIBUTES.iter().skip(1).map(|name| attribute(ptr, name, deadline)).collect::<Option<Vec<_>>>()?);
     if attributes[0].as_deref().unwrap_or("").is_empty() || Instant::now() >= deadline { return None; }
     let mut actions = copy_action_names(ptr); actions.sort();
     Some(Anchor { element, attributes, actions })
@@ -62,9 +72,12 @@ unsafe fn context(element: &RetainedElement, depth: usize, output: &mut Vec<Anch
         if output.len() >= 24 || Instant::now() >= deadline { return None; }
         let ptr = child.as_ptr() as AXUIElementRef;
         AXUIElementSetMessagingTimeout(ptr, 0.025);
+        let role = copy_string_attr(ptr, "AXRole")?;
+        if !super::mactools_native::classified_role(Some(&role)) { return None; }
+        if super::mactools_native::skips_observation_role(&role) { continue; }
         // Protected sibling contents never enter the semantic snapshot.
         if !super::mactools_native::control_security(ptr).ok()? { continue; }
-        let node = anchor(child, deadline)?;
+        let node = anchor(child, deadline, true)?;
         let role = node.attributes[0].as_deref().unwrap_or("");
         if matches!(role, "AXGroup" | "AXRow" | "AXCell") {
             if depth == 0 { return None; }
@@ -76,13 +89,21 @@ unsafe fn context(element: &RetainedElement, depth: usize, output: &mut Vec<Anch
 }
 
 impl ControlStamp {
+    /// A complete retained chain is the proof; unknown/web ancestry is never trusted.
+    pub fn trusts_native_readback(&self) -> bool {
+        native_ancestry(&self.chain.iter().map(|a| a.attributes[0].as_deref().unwrap_or("")).collect::<Vec<_>>())
+    }
+
     unsafe fn capture(ptr: usize, deadline: Instant) -> Option<Self> {
         if Instant::now() >= deadline { return None; }
+        let (approved_window, toolbar) = super::mactools_native::observation_scope()?;
         let mut chain = Vec::new();
         let mut current = RetainedElement::retain(ptr);
+        let mut toolbar_seen = false;
         for _ in 0..12 {
-            let node = anchor(current, deadline)?;
+            let node = anchor(current, deadline, !toolbar || !toolbar_seen)?;
             let window = node.attributes[0].as_deref() == Some("AXWindow");
+            toolbar_seen |= node.attributes[0].as_deref() == Some("AXToolbar");
             let parent = if window { None } else {
                 if Instant::now() >= deadline { return None; }
                 let parent = copy_element_attr(node.element.as_ptr() as _, "AXParent")?;
@@ -90,16 +111,20 @@ impl ControlStamp {
             };
             chain.push(node);
             if window {
+                if toolbar && !toolbar_seen { return None; }
                 let mut nearby = Vec::new();
                 // A cell's unchanged button is not the identity of its recycled row.
                 // Prefer the row context, including peer cells, over an inner layout group.
-                let container = chain.iter().skip(1).find(|n| n.attributes[0].as_deref() == Some("AXRow"))
-                    .or_else(|| chain.iter().skip(1).find(|n| matches!(n.attributes[0].as_deref(),
+                let candidates = if toolbar {
+                    &chain[..=chain.iter().position(|n| n.attributes[0].as_deref() == Some("AXToolbar"))?]
+                } else { &chain[1..] };
+                let container = candidates.iter().find(|n| n.attributes[0].as_deref() == Some("AXRow"))
+                    .or_else(|| candidates.iter().find(|n| matches!(n.attributes[0].as_deref(),
                         Some("AXGroup" | "AXCell" | "AXToolbar"))));
                 if let Some(container) = container {
                     context(&container.element, 2, &mut nearby, deadline)?;
                 }
-                return Some(Self { chain, context: nearby });
+                return Some(Self { chain, context: nearby, window: approved_window, toolbar });
             }
             current = parent?;
         }
@@ -133,7 +158,10 @@ impl ControlStamp {
     /// Verify that the retained native object and its context still describe the observation.
     pub unsafe fn matches_current(&self) -> bool {
         let Some(first) = self.chain.first() else { return false; };
-        let Some(current) = Self::capture(first.element.as_ptr(), Instant::now() + Duration::from_millis(250)) else { return false; };
+        let current = super::mactools_native::observe(self.window, self.toolbar, || {
+            Self::capture(first.element.as_ptr(), Instant::now() + Duration::from_millis(250))
+        });
+        let Some(current) = current else { return false; };
         fn equal(old: &[Anchor], new: &[Anchor]) -> bool {
             old.len() == new.len() && old.iter().zip(new).all(|(a,b)| unsafe {
                 CFEqual(a.element.as_ptr() as _, b.element.as_ptr() as _) != 0
@@ -141,6 +169,27 @@ impl ControlStamp {
             })
         }
         equal(&self.chain, &current.chain) && equal(&self.context, &current.context)
+    }
+}
+
+fn native_ancestry(roles: &[&str]) -> bool {
+    roles.last() == Some(&"AXWindow") && roles.iter().all(|role| {
+        let normalized: String = role.chars().filter(|c| c.is_ascii_alphanumeric()).flat_map(char::to_lowercase).collect();
+        !normalized.is_empty() && normalized != "axunknown" && normalized != "document"
+            && !normalized.contains("webarea") && !normalized.contains("documentweb")
+    })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::native_ancestry;
+    #[test] fn only_complete_native_ancestry_can_confirm_readback() {
+        assert!(native_ancestry(&["AXTextField", "AXGroup", "AXWindow"]));
+        for roles in [vec!["AXTextField", "AXWebArea", "AXWindow"],
+            vec!["AXTextField", "AXUnknown", "AXWindow"], vec!["AXTextField", "AXDocumentWeb", "AXWindow"],
+            vec!["AXTextField", "AXGroup"], vec!["AXTextField", "", "AXWindow"]] {
+            assert!(!native_ancestry(&roles));
+        }
     }
 }
 

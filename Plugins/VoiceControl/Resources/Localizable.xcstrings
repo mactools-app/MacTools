@@ -9378,6 +9378,160 @@
           }
         }
       }
+    },
+    "读取所选窗口的应用控件，不会点击或输入。请求的应用数据会发送到 OpenAI。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read controls in the selected window without clicking or typing. Requested app data is sent to OpenAI."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讀取所選視窗的應用程式控制項，不會點擊或輸入。請求的應用程式資料會傳送至 OpenAI。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قراءة عناصر التحكم في النافذة المحددة دون النقر أو الكتابة. تُرسل بيانات التطبيق المطلوبة إلى OpenAI."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steuerelemente im ausgewählten Fenster lesen, ohne zu klicken oder zu tippen. Angeforderte App-Daten werden an OpenAI gesendet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leer los controles de la ventana seleccionada sin hacer clic ni escribir. Los datos solicitados de la app se envían a OpenAI."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lire les commandes de la fenêtre sélectionnée sans cliquer ni saisir de texte. Les données demandées sont envoyées à OpenAI."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択したウインドウの操作項目を読み取ります。クリックや入力は行いません。要求されたアプリのデータはOpenAIに送信されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선택한 윈도우의 컨트롤을 읽습니다. 클릭하거나 입력하지 않습니다. 요청한 앱 데이터는 OpenAI로 전송됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ler os controlos da janela selecionada sem clicar nem escrever. Os dados pedidos da aplicação são enviados para a OpenAI."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прочитать элементы управления выбранного окна без нажатий и ввода. Запрошенные данные приложения отправляются в OpenAI."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili penceredeki denetimleri tıklamadan veya yazmadan okuyun. İstenen uygulama verileri OpenAI’a gönderilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读取所选窗口的应用控件，不会点击或输入。请求的应用数据会发送到 OpenAI。"
+          }
+        }
+      }
+    },
+    "将操作指定控件。操作后的控件数据会发送到 OpenAI。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interact with the specified control. Control data after the action is sent to OpenAI."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "將操作指定控制項。操作後的控制項資料會傳送至 OpenAI。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التفاعل مع عنصر التحكم المحدد. تُرسل بيانات عناصر التحكم بعد الإجراء إلى OpenAI."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das angegebene Steuerelement bedienen. Daten der Steuerelemente nach der Aktion werden an OpenAI gesendet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interactuar con el control indicado. Los datos de los controles tras la acción se envían a OpenAI."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agir sur la commande indiquée. Les données des commandes après l’action sont envoyées à OpenAI."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指定した操作項目を操作します。操作後の項目データはOpenAIに送信されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지정한 컨트롤을 조작합니다. 작업 후 컨트롤 데이터는 OpenAI로 전송됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interagir com o controlo indicado. Os dados dos controlos após a ação são enviados para a OpenAI."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполнить действие с указанным элементом управления. Данные элементов после действия отправляются в OpenAI."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belirtilen denetimle etkileşime geçin. İşlem sonrasındaki denetim verileri OpenAI’a gönderilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将操作指定控件。操作后的控件数据会发送到 OpenAI。"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

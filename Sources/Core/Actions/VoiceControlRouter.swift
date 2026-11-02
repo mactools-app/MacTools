@@ -186,6 +186,14 @@ final class VoiceControlRouter {
                 case let .completed(.succeeded(message)): return .init(message: message)
                 case .completed(.cancelled): return .init(status: "cancelled")
                 case let .completed(.failed(message)): return .init(status: "failedOrUncertain", message: message)
+                case let .rejected(.unavailable(reason)):
+                    return .init(status: "unavailable", message: reason ?? "The action is currently unavailable. Rediscover or clarify; do not retry a write.")
+                case .rejected(.confirmationDenied):
+                    return .init(status: "cancelled", message: "The user declined approval. No action was started.")
+                case .rejected(.confirmationTimedOut):
+                    return .init(status: "unavailable", message: "Approval expired. Ask before requesting a new approval; do not retry a write.")
+                case .rejected(.confirmationUnavailable):
+                    return .init(status: "unavailable", message: "A specific native approval could not be prepared. Inspect a fresh, narrower target before requesting input; do not retry the write.")
                 case .rejected: return .init(status: "unavailable", message: "The host rejected this action. Rediscover or clarify; do not retry a write.")
                 }
             case let .query(expected):

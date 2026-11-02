@@ -8,7 +8,7 @@ struct VoiceComputerSettings: View {
     @ObservedObject var model: VoiceConversation
     var body: some View {
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
-            Toggle(model.text("允许电脑交互"), isOn: .init(get: { plugin.computerUse.enabled }, set: plugin.setComputerInteraction))
+            Toggle(model.text("允许电脑交互"), isOn: .init(get: { plugin.computerUse.enabled }, set: { plugin.setComputerInteraction($0) }))
                 .toggleStyle(.switch).disabled(model.active || model.credentialBusy)
                 .accessibilityIdentifier("voice-control.computer-interaction")
             Text(model.text("支持复制文本、打开和搜索网页，以及按请求操作应用控件。应用交互需要辅助功能权限并逐次确认。"))

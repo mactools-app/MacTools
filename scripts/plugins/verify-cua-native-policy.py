@@ -43,7 +43,8 @@ def verify(products: Path, library: Path) -> None:
                 deadline = time.monotonic() + 10
                 while not state.exists():
                     if time.monotonic() > deadline or fixture.poll() is not None:
-                        raise RuntimeError("Owned native fixture did not start")
+                        details = (scratch / "fixture.log").read_text(errors="replace")
+                        raise RuntimeError(f"Owned native fixture did not start (exit={fixture.poll()}):\n" + details)
                     time.sleep(0.05)
                 subprocess.run([str(scratch / "probe"), str(library), str(fixture.pid), str(state)], env=environment, check=True, timeout=30)
                 deadline = time.monotonic() + 3
@@ -62,7 +63,7 @@ def verify(products: Path, library: Path) -> None:
                     except subprocess.TimeoutExpired:
                         fixture.kill()
                         fixture.wait(timeout=5)
-        print("PASS: secure exclusion, distinct approvals, no keep-awake assertion, stale control/row/URL refusal, and fresh single effects.")
+        print("PASS: secure exclusion, distinct approvals, no keep-awake assertion, stale control/row/URL refusal, foreign-window exclusion, incomplete-scope refusal, unverified web echoes, and fresh single effects.")
 
 
 if __name__ == "__main__":

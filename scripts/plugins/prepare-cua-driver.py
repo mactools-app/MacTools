@@ -155,7 +155,7 @@ def prepare(destination: Path, archive: Path | None = None) -> None:
         os.replace(temporary_library, library)
         for name in FILES[1:]:
             shutil.copy2(destination / "upstream-release" / name, destination / name)
-        data = {"input_key": key, "source_commit": SOURCE_COMMIT, "policy_version": 1,
+        data = {"input_key": key, "source_commit": SOURCE_COMMIT, "policy_version": 2,
             "library_sha256": hashlib.sha256(library.read_bytes()).hexdigest(), "targets": list(TARGETS), "rust": RUST_TOOLCHAIN}
         temporary_manifest = destination / "native-build.pending.json"
         temporary_manifest.write_text(json.dumps(data, indent=2) + "\n")

@@ -135,7 +135,7 @@ private final class CuaSymbols: @unchecked Sendable {
         let compatible = try symbol("cua_driver_abi_is_compatible_v1", as: Compatible.self)
         guard compatible(1, 1) else { throw ComputerUseError.unavailable("Cua ABI 1.1 is required.") }
         let policy = try symbol("cua_driver_mactools_policy_v1", as: (@convention(c) () -> UInt32).self)
-        guard policy() == 1 else { throw ComputerUseError.unavailable("The native-only Cua policy is required.") }
+        guard policy() == 2 else { throw ComputerUseError.unavailable("The current native-only Cua policy is required. Update Voice Assistant.") }
         create = try symbol("cua_driver_create_v1", as: Create.self)
         destroy = try symbol("cua_driver_destroy_v1", as: Destroy.self)
         invoke = try symbol("cua_driver_invoke_v1", as: Invoke.self)

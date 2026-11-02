@@ -13,6 +13,8 @@ final class ComputerUseControllerTests: XCTestCase {
         let result = try await controller.perform("inspect-app", parameters: .init(["app": .string("Fixture")]), inspectionTarget: environment.target)
         XCTAssertFalse(result.message.contains("private-value"))
         XCTAssertFalse(result.message.contains("unclassified-value"))
+        XCTAssertFalse(result.message.contains("unknown-role-value"))
+        XCTAssertFalse(result.message.contains("missing-role-value"))
         let payload = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(result.message.utf8)) as? [String: Any])
         let id = try XCTUnwrap(payload["observationID"] as? String)
         do {
@@ -71,6 +73,53 @@ final class ComputerUseControllerTests: XCTestCase {
             "observationID": .string(ambiguousID), "controlID": .string("s00000001:1")])))
         let calls = await runtime.calls
         XCTAssertFalse(calls.contains("click"))
+    }
+
+    func testIncompleteProofBlocksInputAndToolbarScopeSurvivesFollowUp() async throws {
+        let runtime = ComputerFixtureRuntime()
+        let environment = ComputerFixtureEnvironment()
+        let controller = ComputerUseController(runtime: runtime, environment: environment)
+        for proof in [false, nil] as [Bool?] {
+            await runtime.useCompleteness(proof)
+            let read = try await controller.perform("inspect-app", parameters: .init(["app": .string("Fixture")]), inspectionTarget: environment.target)
+            let state = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(read.message.utf8)) as? [String: Any])
+            XCTAssertEqual(state["complete"] as? Bool, false)
+            let click = try ActionParameterSet(["observationID": .string(try XCTUnwrap(state["observationID"] as? String)), "controlID": .string("s00000001:1")])
+            XCTAssertThrowsError(try controller.prepareApproval("click-control", parameters: click))
+            do { _ = try await controller.perform("click-control", parameters: click); XCTFail("Incomplete observations cannot dispatch") }
+            catch ComputerUseError.unavailable {}
+        }
+        let refusedCalls = await runtime.calls
+        XCTAssertFalse(refusedCalls.contains("click"))
+        await runtime.useCompleteness(true)
+        let read = try await controller.perform("inspect-app", parameters: .init(["app": .string("Fixture"), "scope": .string("toolbar")]), inspectionTarget: environment.target)
+        let state = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(read.message.utf8)) as? [String: Any])
+        let click = try ActionParameterSet(["observationID": .string(try XCTUnwrap(state["observationID"] as? String)), "controlID": .string("s00000001:1")])
+        _ = try controller.prepareApproval("click-control", parameters: click)
+        _ = try await controller.perform("click-control", parameters: click)
+        let scopes = await runtime.scopes
+        XCTAssertEqual(Array(scopes.suffix(2)), ["toolbar", "toolbar"])
+    }
+
+    func testNativeErrorsExplainReadRefusalsButKeepWriteFailuresUncertain() async throws {
+        let runtime = ComputerFixtureRuntime()
+        let environment = ComputerFixtureEnvironment()
+        let controller = ComputerUseController(runtime: runtime, environment: environment)
+        let reason = "Fixture provider refused inspection"
+        await runtime.failNext("get_window_state", reason: reason)
+        do {
+            _ = try await controller.perform("inspect-app", parameters: .init(["app": .string("Fixture")]), inspectionTarget: environment.target)
+            XCTFail("An explicit read refusal must be reported")
+        } catch ComputerUseError.unavailable(let message) { XCTAssertTrue(message.contains(reason)) }
+        let read = try await controller.perform("inspect-app", parameters: .init(["app": .string("Fixture")]), inspectionTarget: environment.target)
+        let state = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(read.message.utf8)) as? [String: Any])
+        await runtime.failNext("set_value", reason: "Fixture write result is uncertain")
+        do {
+            _ = try await controller.perform("set-control-value", parameters: .init([
+                "observationID": .string(try XCTUnwrap(state["observationID"] as? String)),
+                "controlID": .string("s00000001:1"), "value": .string("must remain uncertain")]))
+            XCTFail("A native error is not a confirmed write")
+        } catch ComputerUseError.unverified {}
     }
 
     func testNativeClipboardAndBrowserActionsValidateInputsWithoutStartingCua() async throws {
@@ -167,6 +216,11 @@ private actor ComputerFixtureRuntime: CuaRuntimeCalling {
     private var pendingData = Data()
     private var protectedFixtures = false
     private var duplicateContexts: [String?]?
+    private var completeness: Bool? = true
+    private var failures: [String: String] = [:]
+    func failNext(_ tool: String, reason: String) { failures[tool] = reason }
+    var scopes: [String] = []
+    func useCompleteness(_ proof: Bool?) { completeness = proof }
     func useDuplicateControls(_ contexts: [String?]) { duplicateContexts = contexts }
     func useProtectedFixtures() { protectedFixtures = true }
     var waiting: Bool { pending != nil }
@@ -175,25 +229,42 @@ private actor ComputerFixtureRuntime: CuaRuntimeCalling {
     func shutdown() {}
     func invoke(_ tool: String, arguments: Data) async throws -> Data {
         calls.append(tool)
+        if let failure = failures.removeValue(forKey: tool) {
+            return try JSONSerialization.data(withJSONObject: ["isError": true, "content": [["type": "text", "text": failure]]])
+        }
+        let arguments = try JSONSerialization.jsonObject(with: arguments) as? [String: Any] ?? [:]
+        let scope = arguments["mactools_scope"] as? String ?? "window"
+        if tool == "get_window_state" { scopes.append(scope) }
+        func response(_ structured: [String: Any]) throws -> Data {
+            var value = structured
+            if tool == "get_window_state" {
+                value["mactools_scope"] = scope
+                value["truncated"] = false
+                value["mactools_complete"] = completeness
+            }
+            return try JSONSerialization.data(withJSONObject: ["structuredContent": value])
+        }
         let structured: [String: Any]
         if tool == "get_window_state" {
             if let duplicateContexts {
                 let elements: [[String: Any]] = duplicateContexts.enumerated().map { index, context in
-                    var element: [String: Any] = ["element_token": "s00000001:\(index + 1)", "role": "AXButton", "label": "Delete", "security_checked": true, "secure": false]
+                    var element: [String: Any] = ["element_token": "s00000001:\(index + 1)", "role": "AXButton", "label": "Delete", "security_checked": true, "secure": false, "native_input_ready": true]
                     if let context { element["context"] = context }
                     return element
                 }
-                return try JSONSerialization.data(withJSONObject: ["structuredContent": ["pid": 123, "window_id": 456, "elements": elements]])
+                return try response(["pid": 123, "window_id": 456, "elements": elements])
             }
-            structured = ["pid": 123, "window_id": 456, "elements": [["element_token": "s00000001:1", "role": "AXTextField", "label": "Field", "value": "fixture", "security_checked": true, "secure": false]]]
+            structured = ["pid": 123, "window_id": 456, "elements": [["element_token": "s00000001:1", "role": "AXTextField", "label": "Field", "value": "fixture", "security_checked": true, "secure": false, "native_input_ready": true]]]
             if protectedFixtures {
-                return try JSONSerialization.data(withJSONObject: ["structuredContent": ["pid": 123, "window_id": 456, "elements": [
+                return try response(["pid": 123, "window_id": 456, "elements": [
                     ["element_token": "s00000001:2", "role": "AXTextField", "value": "private-value", "security_checked": true, "secure": true],
-                    ["element_token": "s00000001:3", "role": "AXTextField", "value": "unclassified-value"]
-                ]]])
+                    ["element_token": "s00000001:3", "role": "AXTextField", "value": "unclassified-value"],
+                    ["element_token": "s00000001:4", "role": "AXUnknown", "value": "unknown-role-value", "security_checked": true, "secure": false, "native_input_ready": true],
+                    ["element_token": "s00000001:5", "value": "missing-role-value", "security_checked": true, "secure": false, "native_input_ready": true]
+                ]])
             }
         } else { structured = ["effect": tool == "set_value" ? "confirmed" : "dispatched"] }
-        let data = try JSONSerialization.data(withJSONObject: ["structuredContent": structured])
+        let data = try response(structured)
         if tool == "get_window_state", blockRead {
             blockRead = false; pendingData = data
             return try await withCheckedThrowingContinuation { pending = $0 }

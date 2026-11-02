@@ -24943,6 +24943,13 @@
                       "kind": "integer",
                       "portability": "localOnly",
                       "privacy": "sensitive"
+                    },
+                    {
+                      "id": "scope",
+                      "isRequired": false,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
                     }
                   ],
                   "permissionIDs": [

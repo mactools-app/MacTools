@@ -1,4 +1,5 @@
 import AppKit
+import ApplicationServices
 import Foundation
 import IOKit.pwr_mgt
 import MacToolsPluginKit
@@ -21,13 +22,68 @@ import MacToolsPluginKit
         let controller = ComputerUseController(runtime: runtime, environment: SystemComputerUseEnvironment())
         let pid = Int32(CommandLine.arguments[2])!
         let app = NSRunningApplication(processIdentifier: pid)!
-        let params = try ActionParameterSet(["app": .string(app.localizedName!)])
+        let root = AXUIElementCreateApplication(pid)
+        var roots: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(root, kAXChildrenAttribute as CFString, &roots) == .success,
+              let children = roots as? [AXUIElement], children.contains(where: { child in
+                  var role: CFTypeRef?
+                  return AXUIElementCopyAttributeValue(child, kAXRoleAttribute as CFString, &role) == .success
+                      && role as? String == "AXSheet"
+              }) else { fatalError("Fixture must expose the unapproved application-root sheet") }
+        let fixtureState = URL(fileURLWithPath: CommandLine.arguments[3])
+        let initial = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
+        let params = try ActionParameterSet(["app": .string(app.localizedName!), "windowID": .integer(Int64(initial["windowID"] as! Int))])
+        func waitFor(_ key: String, _ expected: Bool) async throws {
+            for _ in 0..<100 {
+                let state = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
+                if state[key] as? Bool == expected { return }
+                try await Task.sleep(for: .milliseconds(20))
+            }
+            fatalError("Fixture did not reach \(key)=\(expected)")
+        }
+        let directory = fixtureState.deletingLastPathComponent()
+        let toolbarParams = try ActionParameterSet(["app": .string(app.localizedName!),
+            "windowID": .integer(Int64(initial["windowID"] as! Int)), "scope": .string("toolbar")])
+        _ = try controller.prepareApproval("inspect-app", parameters: toolbarParams)
+        let toolbarRead = try await controller.perform("inspect-app", parameters: toolbarParams,
+            inspectionTarget: controller.preparedInspectionTarget(toolbarParams))
+        let toolbarState = try JSONSerialization.jsonObject(with: Data(toolbarRead.message.utf8)) as! [String: Any]
+        let toolbarControls = toolbarState["controls"] as! [[String: Any]]
+        guard toolbarState["complete"] as? Bool == true,
+              toolbarControls.contains(where: { $0["role"] as? String == "AXToolbar" }),
+              toolbarControls.contains(where: { $0["label"] as? String == "Fixture toolbar button" && $0["native_input_ready"] as? Bool == true }),
+              !toolbarRead.message.contains("EXCLUDED-") else {
+            FileHandle.standardError.write(Data((toolbarRead.message + "\n").utf8))
+            fatalError("Toolbar scope did not preserve native controls and exclude page/context content")
+        }
+        let toolbarAfter = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
+        guard toolbarAfter["scopedReads"] as? Int == initial["scopedReads"] as? Int else { fatalError("Toolbar semantic capture read excluded content") }
+        let toolbarButton = toolbarControls.first { $0["label"] as? String == "Fixture toolbar button" }!
+        let toolbarClick = try ActionParameterSet(["observationID": .string(toolbarState["observationID"] as! String),
+            "controlID": .string(toolbarButton["element_token"] as! String)])
+        _ = try controller.prepareApproval("click-control", parameters: toolbarClick)
+        try Data().write(to: directory.appendingPathComponent("protect-toolbar"))
+        try await waitFor("toolbarProtected", true)
+        do { _ = try await controller.perform("click-control", parameters: toolbarClick); fatalError("Protected toolbar ancestor permitted input") }
+        catch ComputerUseError.staleObservation {}
+        catch ComputerUseError.unverified {
+            // AppKit may expose inherited protection on the addressed control,
+            // causing an earlier native refusal. The counter must prove zero input.
+        }
+        let protectedAfter = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
+        guard protectedAfter["toolbarClicks"] as? Int == 0 else { fatalError("Protected toolbar received native input") }
+        try FileManager.default.removeItem(at: directory.appendingPathComponent("protect-toolbar"))
+        try await waitFor("toolbarProtected", false)
         let approval = try controller.prepareApproval("inspect-app", parameters: params)
         guard approval.summary.contains("MacTools Native Policy Fixture") || approval.summary.contains("#") else { fatalError("Missing native window context") }
+        FileHandle.standardError.write(Data("Native fixture: initial inspection\n".utf8))
         let observed = try await controller.perform("inspect-app", parameters: params,
             inspectionTarget: controller.preparedInspectionTarget(params))
         Self.assertNoCuaSleepAssertion()
-        guard !observed.message.contains("DO-NOT-READ-MACTOOLS"), !observed.message.contains("Fixture protected field") else { fatalError("Protected field escaped") }
+        guard !observed.message.contains("DO-NOT-READ-MACTOOLS"), !observed.message.contains("Fixture protected field"),
+              !observed.message.contains("UNAPPROVED-WINDOW-CONTENT") else { fatalError("Private field escaped") }
+        let scoped = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
+        guard scoped["foreignReads"] as? Int == initial["foreignReads"] as? Int else { fatalError("Unapproved window values were read") }
         var state = try JSONSerialization.jsonObject(with: Data(observed.message.utf8)) as! [String: Any]
         var controls = state["controls"] as! [[String: Any]]
         guard let staleBox = controls.first(where: { ($0["context"] as? String)?.contains("First item") == true && $0["role"] as? String == "AXCheckBox" }) else {
@@ -42,7 +98,6 @@ import MacToolsPluginKit
         let pendingApproval = try controller.prepareApproval("click-control", parameters: staleClick)
         guard pendingApproval.summary.contains("First item"), otherApproval.summary.contains("Other item"),
               pendingApproval.summary != otherApproval.summary else { fatalError("Identical labels need distinct visible row approvals") }
-        let fixtureState = URL(fileURLWithPath: CommandLine.arguments[3])
         try Data().write(to: fixtureState.deletingLastPathComponent().appendingPathComponent("change-control"))
         var changed = false
         for _ in 0..<100 {
@@ -60,6 +115,7 @@ import MacToolsPluginKit
         guard untouched["clicks"] as? Int == 0 else { fatalError("Stale control received native input") }
         // Keep the same button title/object, but recycle the surrounding row to a new item.
         _ = try controller.prepareApproval("inspect-app", parameters: params)
+        FileHandle.standardError.write(Data("Native fixture: row inspection\n".utf8))
         let rowRead = try await controller.perform("inspect-app", parameters: params, inspectionTarget: controller.preparedInspectionTarget(params))
         let rowState = try JSONSerialization.jsonObject(with: Data(rowRead.message.utf8)) as! [String: Any]
         let rowControls = rowState["controls"] as! [[String: Any]]
@@ -84,6 +140,7 @@ import MacToolsPluginKit
         guard rowUntouched["clicks"] as? Int == 0 else { fatalError("Recycled row received native input") }
         // A native destination change must not pass under identical visible label/context.
         _ = try controller.prepareApproval("inspect-app", parameters: params)
+        FileHandle.standardError.write(Data("Native fixture: URL inspection\n".utf8))
         let urlRead = try await controller.perform("inspect-app", parameters: params, inspectionTarget: controller.preparedInspectionTarget(params))
         let urlState = try JSONSerialization.jsonObject(with: Data(urlRead.message.utf8)) as! [String: Any]
         let urlControls = urlState["controls"] as! [[String: Any]]
@@ -106,7 +163,27 @@ import MacToolsPluginKit
         } catch ComputerUseError.staleObservation {}
         let urlUntouched = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
         guard urlUntouched["clicks"] as? Int == 0 else { fatalError("Changed native URL received input") }
+        // Revalidation must reject a newly exposed foreign child before its value is read.
         _ = try controller.prepareApproval("inspect-app", parameters: params)
+        let foreignRead = try await controller.perform("inspect-app", parameters: params, inspectionTarget: controller.preparedInspectionTarget(params))
+        let foreignState = try JSONSerialization.jsonObject(with: Data(foreignRead.message.utf8)) as! [String: Any]
+        let foreignBox = (foreignState["controls"] as! [[String: Any]]).first {
+            $0["role"] as? String == "AXCheckBox" && ($0["context"] as? String)?.contains("Second item") == true
+        }!
+        let foreignClick = try ActionParameterSet(["observationID": .string(foreignState["observationID"] as! String),
+            "controlID": .string(foreignBox["element_token"] as! String)])
+        _ = try controller.prepareApproval("click-control", parameters: foreignClick)
+        try Data().write(to: directory.appendingPathComponent("attach-foreign"))
+        try await waitFor("foreignAttached", true)
+        do { _ = try await controller.perform("click-control", parameters: foreignClick); fatalError("Foreign contextual child permitted input") }
+        catch ComputerUseError.staleObservation {}
+        let foreignAfter = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
+        guard foreignAfter["foreignReads"] as? Int == initial["foreignReads"] as? Int,
+              foreignAfter["clicks"] as? Int == 0 else { fatalError("Revalidation read or acted through a foreign window") }
+        try FileManager.default.removeItem(at: directory.appendingPathComponent("attach-foreign"))
+        try await waitFor("foreignAttached", false)
+        _ = try controller.prepareApproval("inspect-app", parameters: params)
+        FileHandle.standardError.write(Data("Native fixture: fresh inspection\n".utf8))
         let fresh = try await controller.perform("inspect-app", parameters: params, inspectionTarget: controller.preparedInspectionTarget(params))
         state = try JSONSerialization.jsonObject(with: Data(fresh.message.utf8)) as! [String: Any]
         controls = state["controls"] as! [[String: Any]]
@@ -116,6 +193,7 @@ import MacToolsPluginKit
             "controlID": .string(control), "value": .string("Native policy: 茶 ✅")])
         let writeApproval = try controller.prepareApproval("set-control-value", parameters: write)
         guard writeApproval.summary.contains("Native policy: 茶 ✅") else { fatalError("Missing proposed text") }
+        FileHandle.standardError.write(Data("Native fixture: native value write\n".utf8))
         let outcome = try await controller.perform("set-control-value", parameters: write)
         print("Controller native-write verified: \(outcome.verified)")
         let after = (try JSONSerialization.jsonObject(with: Data(outcome.message.utf8)) as! [String: Any])["observation"] as! [String: Any]
@@ -132,8 +210,57 @@ import MacToolsPluginKit
             // Background AXPress can report an uncertain acknowledgement after dispatch.
             // The fixture's independent counter below must still establish exactly one effect.
         }
+        // A web field's AX echo is not proof that the app accepted its value.
+        _ = try controller.prepareApproval("inspect-app", parameters: params)
+        FileHandle.standardError.write(Data("Native fixture: echo inspection\n".utf8))
+        let echoRead = try await controller.perform("inspect-app", parameters: params, inspectionTarget: controller.preparedInspectionTarget(params))
+        let echoState = try JSONSerialization.jsonObject(with: Data(echoRead.message.utf8)) as! [String: Any]
+        let echoField = (echoState["controls"] as! [[String: Any]]).first { $0["label"] as? String == "Fixture echo field" }!
+        let echoWrite = try ActionParameterSet(["observationID": .string(echoState["observationID"] as! String),
+            "controlID": .string(echoField["element_token"] as! String), "value": .string("AX echo only")])
+        _ = try controller.prepareApproval("set-control-value", parameters: echoWrite)
+        FileHandle.standardError.write(Data("Native fixture: web echo write\n".utf8))
+        let echoOutcome = try await controller.perform("set-control-value", parameters: echoWrite)
+        guard !echoOutcome.verified else { fatalError("Web AX echo was promoted to verified") }
+        let echoAfter = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
+        guard echoAfter["echoAppValue"] as? String == "Original app value" else { fatalError("Echo fixture unexpectedly changed application state") }
+        // A depth-pruned branch invalidates completeness even below the node cap.
+        try Data().write(to: fixtureState.deletingLastPathComponent().appendingPathComponent("add-deep"))
+        for _ in 0..<100 {
+            let state = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
+            if state["deepShown"] as? Bool == true { break }
+            try await Task.sleep(for: .milliseconds(20))
+        }
+        _ = try controller.prepareApproval("inspect-app", parameters: params)
+        FileHandle.standardError.write(Data("Native fixture: depth inspection\n".utf8))
+        let deepRead = try await controller.perform("inspect-app", parameters: params, inspectionTarget: controller.preparedInspectionTarget(params))
+        let deepState = try JSONSerialization.jsonObject(with: Data(deepRead.message.utf8)) as! [String: Any]
+        guard deepState["complete"] as? Bool == false else { fatalError("Depth-limited scope was reported complete") }
+        let deepBox = (deepState["controls"] as! [[String: Any]]).first { $0["role"] as? String == "AXCheckBox" }!
+        let deepClick = try ActionParameterSet(["observationID": .string(deepState["observationID"] as! String),
+            "controlID": .string(deepBox["element_token"] as! String)])
+        do { _ = try controller.prepareApproval("click-control", parameters: deepClick); fatalError("Incomplete scope prepared approval") }
+        catch ComputerUseError.unavailable {}
+        do { _ = try await controller.perform("click-control", parameters: deepClick); fatalError("Incomplete scope dispatched") }
+        catch ComputerUseError.unavailable {}
+        try FileManager.default.removeItem(at: directory.appendingPathComponent("add-deep"))
+        try await waitFor("deepShown", false)
+        try Data().write(to: directory.appendingPathComponent("add-unknown"))
+        try await waitFor("unknownShown", true)
+        for missing in [false, true] {
+            if missing {
+                try Data().write(to: directory.appendingPathComponent("missing-role"))
+                try await waitFor("missingRole", true)
+            }
+            _ = try controller.prepareApproval("inspect-app", parameters: params)
+            let unknownRead = try await controller.perform("inspect-app", parameters: params, inspectionTarget: controller.preparedInspectionTarget(params))
+            let unknownState = try JSONSerialization.jsonObject(with: Data(unknownRead.message.utf8)) as! [String: Any]
+            let after = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
+            guard unknownState["complete"] as? Bool == false, !unknownRead.message.contains("UNCLASSIFIED-CONTENT"),
+                  after["unknownReads"] as? Int == 0 else { fatalError("Unknown or missing role content was read or reported complete") }
+        }
         await runtime.shutdown()
         Self.assertNoCuaSleepAssertion()
-        print("Native exact-window read/write/click passed; protected control omitted; distinct approvals, no sleep assertion, and stale control/row/URL zero-dispatch passed.")
+        print("Native exact-window effects, protected/unknown exclusion, scoped toolbar/context reads, stale control/row/URL/foreign-child zero-dispatch, depth refusal, no sleep assertion, and unverified web echoes passed.")
     }
 }

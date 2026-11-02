@@ -96,6 +96,19 @@ final class VoiceControlRouterTests: XCTestCase {
         XCTAssertEqual(value.payload, "{\"value\":35}")
     }
 
+    func testUnavailableReasonReachesVoiceWithoutStartingInput() async throws {
+        let fixture = Fixture()
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search(""), sessionID: session)
+        let command = try XCTUnwrap(reply.capabilities.first { $0.kind == .action })
+        fixture.plugin.unavailableReason = "Fixture requires a narrower observation"
+        let result = await context.request(.perform(capabilityID: command.id, parameters: .empty), sessionID: session)
+        XCTAssertEqual(result.status, "unavailable")
+        XCTAssertEqual(result.message, fixture.plugin.unavailableReason)
+        XCTAssertEqual(fixture.plugin.executions, 0)
+    }
+
     func testRevokedContextCannotCreateAnotherSession() throws {
         let fixture = Fixture()
         let context = fixture.router.context(owner: "voice-control")
@@ -342,7 +355,7 @@ private final class Fixture {
     func register() {
         registry.synchronize([plugin, owner].map { provider in .init(providerID: provider.metadata.id, identity: ObjectIdentifier(provider),
             definitions: provider.actionDefinitions, catalogEntries: provider.actionCatalogEntries,
-            availability: { _ in .available }, exposurePolicy: { _, _ in provider.excluded ? .excluded : .automatic }, begin: { invocation in
+            availability: { _ in provider.unavailableReason.map { .unavailable($0) } ?? .available }, exposurePolicy: { _, _ in provider.excluded ? .excluded : .automatic }, begin: { invocation in
                 .success(ActionExecutionHandle { provider.executions += 1; return .succeeded() })
             }) })
     }
@@ -360,6 +373,7 @@ private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
     var shortcutBindingResolver: ((String) -> ShortcutBinding?)?
+    var unavailableReason: String?
     var excluded = false
     var parameterized = false
     var allowsParameterizedVoice = true
