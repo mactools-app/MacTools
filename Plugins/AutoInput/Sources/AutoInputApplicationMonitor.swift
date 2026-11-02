@@ -4,6 +4,8 @@ import Foundation
 @MainActor
 protocol AutoInputApplicationMonitoring: AnyObject {
     var onApplicationActivated: ((AutoInputApplication) -> Void)? { get set }
+    /// Called after the Mac wakes or the session becomes active again.
+    var onSystemDidResume: (() -> Void)? { get set }
     var frontmostApplication: AutoInputApplication? { get }
 
     func start()
@@ -13,9 +15,10 @@ protocol AutoInputApplicationMonitoring: AnyObject {
 @MainActor
 final class WorkspaceAutoInputApplicationMonitor: AutoInputApplicationMonitoring {
     var onApplicationActivated: ((AutoInputApplication) -> Void)?
+    var onSystemDidResume: (() -> Void)?
 
     private let notificationCenter: NotificationCenter
-    private var observer: NSObjectProtocol?
+    private var observers: [NSObjectProtocol] = []
 
     init(notificationCenter: NotificationCenter = NSWorkspace.shared.notificationCenter) {
         self.notificationCenter = notificationCenter
@@ -26,8 +29,8 @@ final class WorkspaceAutoInputApplicationMonitor: AutoInputApplicationMonitoring
     }
 
     func start() {
-        guard observer == nil else { return }
-        observer = notificationCenter.addObserver(
+        guard observers.isEmpty else { return }
+        observers.append(notificationCenter.addObserver(
             forName: NSWorkspace.didActivateApplicationNotification,
             object: nil,
             queue: .main
@@ -42,13 +45,24 @@ final class WorkspaceAutoInputApplicationMonitor: AutoInputApplicationMonitoring
             DispatchQueue.main.async { [weak self] in
                 self?.onApplicationActivated?(snapshot)
             }
+        })
+        for name in [NSWorkspace.didWakeNotification, NSWorkspace.sessionDidBecomeActiveNotification] {
+            observers.append(notificationCenter.addObserver(
+                forName: name,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                DispatchQueue.main.async { [weak self] in
+                    self?.onSystemDidResume?()
+                }
+            })
         }
     }
 
     func stop() {
-        guard let observer else { return }
-        notificationCenter.removeObserver(observer)
-        self.observer = nil
+        guard !observers.isEmpty else { return }
+        observers.forEach { notificationCenter.removeObserver($0) }
+        observers.removeAll()
     }
 
     private nonisolated static func snapshot(_ application: NSRunningApplication) -> AutoInputApplication? {
