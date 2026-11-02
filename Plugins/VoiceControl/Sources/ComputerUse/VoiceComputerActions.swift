@@ -6,6 +6,14 @@ extension VoiceControlPlugin {
     func actionConfirmation(for reference: ActionReference) -> ActionConfirmationPreparation? {
         guard let definition = actionDefinitions.first(where: { $0.key == reference.key }),
               actionAvailability(for: reference).isAvailable else { return nil }
+        let action = String(reference.key.actionID.dropFirst("computer-".count))
+        if ComputerTaskController.actions.contains(action) {
+            guard let approval = try? computerTasks.approval(action, reference.parameters),
+                  let confirmation = definition.confirmation else { return nil }
+            return .init(confirmation: .init(title: confirmation.title,
+                message: approval.summary + "\n\n" + confirmation.message,
+                confirmButtonTitle: confirmation.confirmButtonTitle), contextIdentity: approval.identity)
+        }
         guard Self.computerUIActionIDs.contains(reference.key.actionID), reference.key.actionID != "computer-inspect-app" else {
             return definition.confirmation.map { .init(confirmation: $0, contextIdentity: "fixed") }
         }
@@ -41,7 +49,7 @@ extension VoiceControlPlugin {
                       message: conversation.text("此操作可能读取应用内容或更改控件。请求的应用数据会发送到 OpenAI。"),
                       confirmButtonTitle: conversation.text("允许")) : nil,
                   capabilities: [.foregroundInteractive, .cancellable], executionTimeoutSeconds: 15)
-        }
+        } + computerTaskDefinitions
     }
 
     func computerActionAvailability(_ reference: ActionReference) -> ActionAvailability {
@@ -52,6 +60,9 @@ extension VoiceControlPlugin {
                   definition.parameters.contains { $0.id == entry.name && $0.kind.accepts(entry.value) }
               }), definition.parameters.allSatisfy({ !$0.isRequired || reference.parameters[$0.id] != nil }) else {
             return .unavailable("Computer interaction is disabled or parameters are invalid.")
+        }
+        if ComputerTaskController.actions.contains(String(reference.key.actionID.dropFirst("computer-".count))) {
+            return computerTaskAvailability(reference)
         }
         if reference.key.actionID == "computer-inspect-app", !canReadAppContent {
             return .unavailable("To read app controls, enable Allow reading app content in Voice Assistant settings and start a conversation. Only the user can grant this setup consent.")
@@ -67,7 +78,8 @@ extension VoiceControlPlugin {
         return .available
     }
 
-    static let computerUIActionIDs: Set<String> = ["computer-inspect-app", "computer-set-control-value", "computer-click-control", "computer-scroll-control"]
+    static let computerUIActionIDs: Set<String> = ["computer-inspect-app", "computer-set-control-value", "computer-click-control", "computer-scroll-control",
+        "computer-task-begin", "computer-task-observe", "computer-task-step"]
 
     private static func computerKeywords(_ id: String) -> [String] {
         switch id {

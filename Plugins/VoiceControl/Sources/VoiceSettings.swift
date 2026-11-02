@@ -12,7 +12,7 @@ struct VoiceComputerSettings: View {
             Toggle(model.text("允许电脑交互"), isOn: .init(get: { plugin.computerUse.enabled }, set: { plugin.setComputerInteraction($0) }))
                 .toggleStyle(.switch).disabled(model.active || model.credentialBusy)
                 .accessibilityIdentifier("voice-control.computer-interaction")
-            Text(model.text("支持复制文本、打开和搜索网页。操作应用控件需要辅助功能权限；点击、输入和滚动需逐次确认。"))
+            Text(model.text("支持网页、剪贴板和应用操作。多步任务按应用范围批准，命令另行确认。"))
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             Divider()
@@ -22,7 +22,7 @@ struct VoiceComputerSettings: View {
                 .toggleStyle(.switch)
                 .disabled(model.credentialBusy || (!plugin.allowsAppReading && (model.active || !plugin.computerUse.enabled)))
                 .accessibilityIdentifier("voice-control.app-reading-consent")
-            Text(model.text("开启后，对话期间可按请求读取应用控件和内容并发送到 OpenAI，无需逐次确认。点击、输入和滚动仍需确认。"))
+            Text(model.text("对话期间可按请求读取应用内容并发送到 OpenAI。多步任务和命令须另行批准。"))
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
         }

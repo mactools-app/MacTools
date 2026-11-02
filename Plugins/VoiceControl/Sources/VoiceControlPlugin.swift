@@ -25,6 +25,7 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
     let conversation: VoiceConversation
     let assistant: VoiceAssistantPanel
     let computerUse: ComputerUseController
+    let computerTasks: ComputerTaskController
     @Published private(set) var allowsAppReading: Bool
     private let storage: any PluginStorage
     private var allowsRecording = true
@@ -48,6 +49,7 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
         conversation = providedConversation ?? VoiceConversation(context: context)
         let library = context.resourceBundle.bundleURL.appendingPathComponent("Contents/Frameworks/libcua_driver_sdk.dylib")
         computerUse = ComputerUseController(runtime: CuaRuntime(libraryURL: library), environment: SystemComputerUseEnvironment())
+        computerTasks = ComputerTaskController(computer: computerUse)
         computerUse.enabled = storage.object(forKey: "computerInteractionEnabled") == nil
             ? true : storage.bool(forKey: "computerInteractionEnabled")
         conversation.featureAccess = .init(
@@ -58,8 +60,10 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
         assistant = VoiceAssistantPanel(conversation: conversation)
         assistant.openSettings = { [weak self] in self?.requestSettingsPresentation?() }
         conversation.onChange = { [weak self] in self?.onStateChange?() }
-        conversation.onStop = { [weak self] in self?.computerUse.stop() }
+        conversation.onStop = { [weak self] in self?.computerTasks.stop() }
         computerUse.onInspectionActivity = { [weak model = self.conversation] app in model?.setReadingApp(app) }
+        computerTasks.onProgress = { [weak model = self.conversation] task in model?.setComputerTask(task) }
+        assistant.cancelComputerTask = { [weak self] in self?.computerTasks.stop() }
     }
     var panelItems: [PluginPanelItem] {
         [.row(id: "conversation", initialPlacement: .featurePanel,
@@ -109,7 +113,7 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
         }
     }
     func refresh() { onStateChange?() }
-    func deactivate(reason: PluginDeactivationReason) { assistant.tearDown(); computerUse.stop() }
+    func deactivate(reason: PluginDeactivationReason) { assistant.tearDown(); computerTasks.stop() }
     func applicationActivityStateDidChange(_ state: PluginApplicationActivityState) {
         allowsRecording = state.allowsBackgroundWork
         if !allowsRecording { conversation.stop() }
@@ -184,6 +188,21 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
         let reference = invocation.reference
         let revision = conversation.sessionRevision
         if reference.key.actionID.hasPrefix("computer-") {
+            let computerAction = String(reference.key.actionID.dropFirst("computer-".count))
+            if ComputerTaskController.actions.contains(computerAction) {
+                guard actionAvailability(for: reference).isAvailable else { throw ComputerUseError.unavailable("This operation requires an active conversation and its declared permissions.") }
+                let admission = try computerTasks.admission(computerAction, reference.parameters)
+                return .init { [weak self] in
+                    guard let self, !Task.isCancelled, conversation.sessionRevision == revision,
+                          actionAvailability(for: reference).isAvailable else { return .cancelled }
+                    do {
+                        let result = try await computerTasks.perform(computerAction, reference.parameters, admission: admission)
+                        guard !Task.isCancelled, conversation.sessionRevision == revision else { return .cancelled }
+                        return .succeeded(message: result)
+                    } catch is CancellationError { return .cancelled }
+                    catch { return .failed(message: error.localizedDescription) }
+                }
+            }
             // Setup consent replaces read dialogs, not target binding or host admission.
             let inspectionTarget: ComputerUseTarget?
             if reference.key.actionID == "computer-inspect-app" {
@@ -215,7 +234,7 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
     }
     func setComputerInteraction(_ enabled: Bool) {
         guard !conversation.active, !conversation.credentialBusy else { return }
-        computerUse.stop()
+        computerTasks.stop()
         computerUse.enabled = enabled
         storage.set(enabled, forKey: "computerInteractionEnabled")
         onStateChange?()
@@ -224,7 +243,7 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
     func setAppReadingConsent(_ allowed: Bool) {
         guard !conversation.credentialBusy, allowed != allowsAppReading,
               !allowed || (!conversation.active && computerUse.enabled) else { return }
-        if conversation.active { conversation.stop() } else { computerUse.stop() }
+        if conversation.active { conversation.stop() } else { computerTasks.stop() }
         allowsAppReading = allowed
         storage.set(allowed ? 1 : 0, forKey: "computerReadConsentVersion")
         onStateChange?()

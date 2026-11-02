@@ -10,6 +10,7 @@ final class VoiceAssistantPanel: ObservableObject {
     private var panel: AssistantWindow?
     let conversation: VoiceConversation
     var openSettings: (() -> Void)?
+    var cancelComputerTask: (() -> Void)?
 
     init(conversation: VoiceConversation) { self.conversation = conversation }
     func toggle() { visible ? dismiss() : present() }
@@ -52,9 +53,10 @@ final class VoiceAssistantPanel: ObservableObject {
     }
     func refreshLocalization() { panel?.title = conversation.text("语音助手") }
     func toggleExpanded() { expanded.toggle(); resize() }
+    func refreshTaskLayout() { resize() }
     private func resize() {
         guard let panel else { return }
-        let size = expanded ? NSSize(width: 440, height: 520) : NSSize(width: 380, height: 290)
+        let size = expanded ? NSSize(width: 440, height: 520) : NSSize(width: 380, height: conversation.computerTask == nil ? 290 : 320)
         let top = panel.frame.maxY
         var frame = NSRect(origin: panel.frame.origin, size: size)
         if top > 0 { frame.origin.y = top - size.height }
@@ -113,6 +115,14 @@ private struct VoiceAssistantView: View {
                     .accessibilityIdentifier("voice-control.assistant-status")
                     .accessibilityAddTraits(.updatesFrequently)
                 Spacer(minLength: 0)
+            }
+            if let task = model.computerTask {
+                HStack(spacing: 8) {
+                    Text(task).font(PluginTypography.caption.font).lineLimit(2)
+                    Spacer(minLength: 0)
+                    Button(model.text("停止任务")) { presenter.cancelComputerTask?() }
+                        .buttonStyle(.bordered).controlSize(.small)
+                }.accessibilityIdentifier("voice-control.computer-task")
             }
             if presenter.expanded {
                 HStack {
@@ -174,6 +184,7 @@ private struct VoiceAssistantView: View {
         .environment(\.locale, runtimeLocale.locale)
         .environment(\.layoutDirection, runtimeLocale.locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight)
         .onChange(of: runtimeLocale.revision) { _, _ in presenter.refreshLocalization() }
+        .onChange(of: model.computerTask) { _, _ in presenter.refreshTaskLayout() }
         .accessibilityIdentifier("voice-control.assistant")
     }
 

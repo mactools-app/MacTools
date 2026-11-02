@@ -10071,6 +10071,930 @@
           }
         }
       }
+    },
+    "执行电脑任务": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدء مهمة على الكمبيوتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Computeraufgabe starten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start computer task"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar tarea en el ordenador"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Démarrer une tâche sur le Mac"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コンピュータタスクを開始"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컴퓨터 작업 시작"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar tarefa no computador"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Начать задачу на компьютере"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilgisayar görevi başlat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "执行电脑任务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行電腦任務"
+          }
+        }
+      }
+    },
+    "观察电脑任务": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مراقبة مهمة الكمبيوتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Computeraufgabe beobachten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observe computer task"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observar tarea del ordenador"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observer la tâche sur le Mac"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コンピュータタスクを確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컴퓨터 작업 관찰"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observar tarefa no computador"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Наблюдать за задачей"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilgisayar görevini gözlemle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "观察电脑任务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "觀察電腦任務"
+          }
+        }
+      }
+    },
+    "执行任务步骤": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنفيذ خطوة من المهمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufgabenschritt ausführen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perform task step"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecutar paso de la tarea"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécuter une étape"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "タスクのステップを実行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "작업 단계 실행"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executar etapa da tarefa"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполнить шаг задачи"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görev adımını çalıştır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "执行任务步骤"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行任務步驟"
+          }
+        }
+      }
+    },
+    "结束电脑任务": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنهاء مهمة الكمبيوتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Computeraufgabe beenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End computer task"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finalizar tarea del ordenador"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminer la tâche sur le Mac"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コンピュータタスクを終了"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컴퓨터 작업 종료"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminar tarefa no computador"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершить задачу"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilgisayar görevini bitir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结束电脑任务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "結束電腦任務"
+          }
+        }
+      }
+    },
+    "运行命令": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل أمر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehl ausführen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run command"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecutar comando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécuter une commande"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コマンドを実行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "명령 실행"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executar comando"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполнить команду"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komut çalıştır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行命令"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行命令"
+          }
+        }
+      }
+    },
+    "查看命令结果": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض نتيجة الأمر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehlsergebnis lesen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read command result"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver resultado del comando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lire le résultat de la commande"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コマンド結果を確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "명령 결과 확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver resultado do comando"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Посмотреть результат команды"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komut sonucunu oku"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看命令结果"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢視命令結果"
+          }
+        }
+      }
+    },
+    "停止命令": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف الأمر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehl stoppen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop command"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detener comando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter la commande"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コマンドを停止"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "명령 중지"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parar comando"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остановить команду"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komutu durdur"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止命令"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止命令"
+          }
+        }
+      }
+    },
+    "停止任务": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف المهمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufgabe stoppen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop task"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detener tarea"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter la tâche"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "タスクを停止"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "작업 중지"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parar tarefa"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остановить задачу"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görevi durdur"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止任务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止任務"
+          }
+        }
+      }
+    },
+    "允许在列出的应用中执行多步操作，包括菜单、快捷键和文字输入。操作可能修改应用数据或执行应用命令。授权最多持续五分钟或四十步；停止任务或结束对话会撤销授权。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بخطوات متعددة داخل التطبيقات المدرجة، بما فيها القوائم والاختصارات وإدخال النص. قد تتغير بيانات التطبيقات أو تُنفّذ أوامرها. ينتهي الإذن بعد خمس دقائق أو أربعين خطوة، أو عند إيقاف المهمة أو المحادثة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mehrere Schritte in den aufgeführten Apps erlauben, einschließlich Menüs, Tastenkürzeln und Texteingabe. Dabei können App-Daten geändert oder App-Befehle ausgeführt werden. Die Erlaubnis endet nach fünf Minuten oder vierzig Schritten sowie beim Stoppen der Aufgabe oder des Gesprächs."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow multiple steps in the listed apps, including menus, keyboard shortcuts and text input. Actions may change app data or execute app commands. Authorization lasts up to five minutes or forty steps; stopping the task or conversation revokes it."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir varios pasos en las apps indicadas, incluidos menús, atajos y entrada de texto. Las acciones pueden modificar datos o ejecutar comandos de las apps. La autorización termina a los cinco minutos o cuarenta pasos, o al detener la tarea o conversación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser plusieurs étapes dans les apps indiquées, dont les menus, raccourcis clavier et saisies de texte. Les actions peuvent modifier des données ou exécuter des commandes. L’autorisation prend fin après cinq minutes ou quarante étapes, ou à l’arrêt de la tâche ou de la conversation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "表示されたアプリでメニュー、ショートカット、文字入力などの複数ステップを許可します。データの変更やアプリのコマンド実行を伴う場合があります。許可は最大5分または40ステップで終了し、タスクや会話の停止でも取り消されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "목록의 앱에서 메뉴, 단축키, 텍스트 입력을 포함한 여러 단계를 허용합니다. 앱 데이터가 바뀌거나 앱 명령이 실행될 수 있습니다. 권한은 최대 5분 또는 40단계 동안 유지되며 작업이나 대화를 중지하면 해제됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir várias etapas nos apps listados, incluindo menus, atalhos e entrada de texto. As ações podem alterar dados ou executar comandos dos apps. A autorização termina após cinco minutos ou quarenta etapas, ou ao parar a tarefa ou conversa."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить несколько шагов в указанных приложениях, включая меню, сочетания клавиш и ввод текста. Действия могут изменять данные или выполнять команды приложений. Разрешение действует до пяти минут или сорока шагов и отзывается при остановке задачи или разговора."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listelenen uygulamalarda menüler, kısayollar ve metin girişi dahil birden çok adıma izin verin. İşlemler uygulama verilerini değiştirebilir veya komutlarını çalıştırabilir. İzin en fazla beş dakika veya kırk adım sürer; görev veya konuşma durdurulunca iptal edilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许在列出的应用中执行多步操作，包括菜单、快捷键和文字输入。操作可能修改应用数据或执行应用命令。授权最多持续五分钟或四十步；停止任务或结束对话会撤销授权。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許在列出的應用程式中執行多步操作，包括選單、快捷鍵和文字輸入。操作可能修改資料或執行應用程式命令。授權最多持續五分鐘或四十步；停止任務或結束對話會撤銷授權。"
+          }
+        }
+      }
+    },
+    "此命令将以你的用户权限在显示的目录中运行，输出会发送到 OpenAI。停止对话会取消此命令。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيعمل هذا الأمر بصلاحيات حسابك في المجلد المعروض، وسيُرسل ناتجه إلى OpenAI. إيقاف المحادثة يلغي الأمر."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Befehl wird mit deinen Benutzerrechten im angezeigten Ordner ausgeführt. Die Ausgabe wird an OpenAI gesendet. Das Stoppen des Gesprächs bricht den Befehl ab."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This command runs with your user permissions in the shown directory. Its output is sent to OpenAI. Stopping the conversation cancels the command."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este comando se ejecutará con tus permisos en la carpeta indicada. Su salida se enviará a OpenAI. Detener la conversación cancela el comando."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette commande s’exécute avec vos droits dans le dossier indiqué. Sa sortie est envoyée à OpenAI. Arrêter la conversation annule la commande."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このコマンドは表示されたフォルダでユーザー権限により実行され、出力はOpenAIに送信されます。会話を停止するとコマンドをキャンセルします。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 명령은 표시된 폴더에서 사용자 권한으로 실행되며 출력은 OpenAI로 전송됩니다. 대화를 중지하면 명령이 취소됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este comando será executado com suas permissões na pasta indicada. A saída será enviada à OpenAI. Parar a conversa cancela o comando."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Команда выполняется с вашими правами в указанной папке. Её вывод отправляется в OpenAI. Остановка разговора отменяет команду."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu komut gösterilen klasörde kullanıcı izinlerinizle çalışır. Çıktısı OpenAI’a gönderilir. Konuşmayı durdurmak komutu iptal eder."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此命令将以你的用户权限在显示的目录中运行，输出会发送到 OpenAI。停止对话会取消此命令。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此命令將以你的使用者權限在顯示的目錄中執行，輸出會傳送到 OpenAI。停止對話會取消此命令。"
+          }
+        }
+      }
+    },
+    "支持网页、剪贴板和应用操作。多步任务按应用范围批准，命令另行确认。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يدعم صفحات الويب والحافظة والتطبيقات. تُعتمد المهام متعددة الخطوات حسب التطبيقات، وتُؤكّد الأوامر بشكل منفصل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unterstützt Webseiten, Zwischenablage und Apps. Mehrstufige Aufgaben werden pro App-Bereich genehmigt, Befehle separat bestätigt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supports web pages, the clipboard and app interaction. Approve multi-step tasks for specific apps; commands require separate confirmation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compatible con páginas web, portapapeles y apps. Autoriza tareas de varios pasos por app; los comandos se confirman por separado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prend en charge les pages web, le presse-papiers et les apps. Autorisez les tâches par app ; les commandes ont une confirmation distincte."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Webページ、クリップボード、アプリ操作に対応。複数ステップのタスクはアプリ範囲ごとに承認し、コマンドは個別に確認します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "웹 페이지, 클립보드 및 앱 조작을 지원합니다. 여러 단계 작업은 앱 범위별로 승인하고 명령은 별도로 확인합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compatível com páginas web, área de transferência e apps. Aprove tarefas por app; comandos exigem confirmação separada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поддерживает веб-страницы, буфер обмена и приложения. Многошаговые задачи одобряются для выбранных приложений; команды подтверждаются отдельно."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Web sayfalarını, panoyu ve uygulamaları destekler. Çok adımlı görevleri uygulama kapsamıyla onaylayın; komutlar ayrıca onaylanır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持网页、剪贴板和应用操作。多步任务按应用范围批准，命令另行确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支援網頁、剪貼簿和應用程式操作。多步任務按應用程式範圍批准，命令另行確認。"
+          }
+        }
+      }
+    },
+    "对话期间可按请求读取应用内容并发送到 OpenAI。多步任务和命令须另行批准。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يمكن قراءة محتوى التطبيقات المطلوب وإرساله إلى OpenAI أثناء المحادثات. تحتاج المهام متعددة الخطوات والأوامر إلى إذن منفصل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Während Gesprächen können angeforderte App-Inhalte gelesen und an OpenAI gesendet werden. Mehrstufige Aufgaben und Befehle benötigen eine eigene Genehmigung."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "During conversations, requested app content can be read and sent to OpenAI. Multi-step tasks and commands require separate approval."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durante la conversación se puede leer el contenido solicitado de las apps y enviarlo a OpenAI. Las tareas y comandos requieren autorización aparte."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pendant les conversations, le contenu demandé peut être lu et envoyé à OpenAI. Les tâches à plusieurs étapes et commandes nécessitent une autorisation distincte."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "会話中、要求されたアプリ内容を読み取りOpenAIへ送信できます。複数ステップのタスクやコマンドには別途承認が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대화 중 요청한 앱 내용을 읽어 OpenAI에 보낼 수 있습니다. 여러 단계 작업과 명령은 별도 승인이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durante conversas, o conteúdo solicitado dos apps pode ser lido e enviado à OpenAI. Tarefas e comandos exigem aprovação separada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Во время разговора запрошенное содержимое приложений может считываться и отправляться в OpenAI. Для многошаговых задач и команд нужно отдельное разрешение."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konuşmalarda istenen uygulama içeriği okunup OpenAI’a gönderilebilir. Çok adımlı görevler ve komutlar ayrıca onay gerektirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话期间可按请求读取应用内容并发送到 OpenAI。多步任务和命令须另行批准。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "對話期間可按要求讀取應用程式內容並傳送到 OpenAI。多步任務和命令須另行批准。"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

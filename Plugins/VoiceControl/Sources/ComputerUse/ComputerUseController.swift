@@ -253,6 +253,9 @@ final class ComputerUseController {
         }
         return observation
     }
+    func observedTarget(_ parameters: ActionParameterSet) throws -> ComputerUseTarget {
+        try currentObservation(parameters).target
+    }
     private func inspectionScope(_ parameters: ActionParameterSet) throws -> InspectionScope {
         guard let value = parameters["scope"] else { return .window }
         guard case let .string(raw) = value, let scope = InspectionScope(rawValue: raw) else {
