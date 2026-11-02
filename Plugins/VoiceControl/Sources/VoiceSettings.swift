@@ -4,16 +4,33 @@ import SwiftUI
 
 @MainActor
 struct VoiceComputerSettings: View {
-    let plugin: VoiceControlPlugin
+    @ObservedObject var plugin: VoiceControlPlugin
     @ObservedObject var model: VoiceConversation
+    @State private var showsReadingConsent = false
     var body: some View {
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
             Toggle(model.text("允许电脑交互"), isOn: .init(get: { plugin.computerUse.enabled }, set: { plugin.setComputerInteraction($0) }))
                 .toggleStyle(.switch).disabled(model.active || model.credentialBusy)
                 .accessibilityIdentifier("voice-control.computer-interaction")
-            Text(model.text("支持复制文本、打开和搜索网页，以及按请求操作应用控件。应用交互需要辅助功能权限并逐次确认。"))
+            Text(model.text("支持复制文本、打开和搜索网页。操作应用控件需要辅助功能权限；点击、输入和滚动需逐次确认。"))
                 .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
+            Divider()
+            Toggle(model.text("允许读取应用内容"), isOn: .init(get: { plugin.allowsAppReading }, set: {
+                if $0 { showsReadingConsent = true } else { plugin.setAppReadingConsent(false) }
+            }))
+                .toggleStyle(.switch)
+                .disabled(model.credentialBusy || (!plugin.allowsAppReading && (model.active || !plugin.computerUse.enabled)))
+                .accessibilityIdentifier("voice-control.app-reading-consent")
+            Text(model.text("开启后，对话期间可按请求读取应用控件和内容并发送到 OpenAI，无需逐次确认。点击、输入和滚动仍需确认。"))
+                .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .alert(model.text("允许读取应用内容？"), isPresented: $showsReadingConsent) {
+            Button(model.text("允许读取")) { plugin.setAppReadingConsent(true) }
+            Button(model.text("取消"), role: .cancel) {}
+        } message: {
+            Text(model.text("语音助手将在对话期间读取你指定应用的控件和内容，并将请求的数据发送到 OpenAI。停止、关闭助手或撤销此设置会结束读取。点击、输入和滚动仍需确认。"))
         }
     }
 }

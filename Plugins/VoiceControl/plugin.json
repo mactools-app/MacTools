@@ -372,7 +372,8 @@
     "dataPersisted": [
       "api-key-in-local-keychain",
       "excluded-plugin-ids",
-      "computer-interaction-enabled"
+      "computer-interaction-enabled",
+      "app-reading-consent"
     ],
     "retention": {
       "policy": "user-controlled"
@@ -600,7 +601,7 @@
             "permissionIDs": [
               "accessibility"
             ],
-            "risk": "confirmationRequired",
+            "risk": "safe",
             "surfaces": [
               "manual"
             ],

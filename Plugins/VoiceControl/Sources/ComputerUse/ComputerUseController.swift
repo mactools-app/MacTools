@@ -30,6 +30,7 @@ final class ComputerUseController {
     private var busy = false
     private var shutdownTask: Task<Void, Never>?
     var enabled = true
+    var onInspectionActivity: ((String?) -> Void)?
 
     init(runtime: any CuaRuntimeCalling, environment: any ComputerUseEnvironment,
          now: @escaping () -> Date = Date.init) {
@@ -37,6 +38,7 @@ final class ComputerUseController {
     }
 
     func stop() {
+        onInspectionActivity?(nil)
         revision = UUID()
         observation = nil
         preparedInspection = nil
@@ -181,6 +183,8 @@ final class ComputerUseController {
 
     private func inspect(_ target: ComputerUseTarget, scope: InspectionScope, revision token: UUID) async throws -> String {
         guard environment.isCurrent(target) else { throw ComputerUseError.staleObservation }
+        onInspectionActivity?(target.name)
+        defer { onInspectionActivity?(nil) }
         let state = try await call("get_window_state", ["pid": target.pid, "window_id": target.windowID,
             "include_screenshot": false, "include_accessibility_tree": true, "tree_format": "elements",
             "mactools_scope": scope.rawValue,

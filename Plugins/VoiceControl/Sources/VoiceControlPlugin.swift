@@ -16,7 +16,7 @@ public final class VoiceControlPluginFactory: NSObject, MacToolsPluginBundleFact
 }
 
 @MainActor
-final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
+final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettingsPresenting,
     PluginVoiceControlHostContextConsuming, PluginApplicationActivityStateHandling, PluginGroupedShortcutSettingsProviding,
     PluginActionProviding, PluginActionExposureProviding, PluginVoiceSelfActionProviding,
     PluginVoiceSelfParameterizedActionProviding, PluginActionPermissionProviding, PluginActionConfirmationProviding,
@@ -25,6 +25,7 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
     let conversation: VoiceConversation
     let assistant: VoiceAssistantPanel
     let computerUse: ComputerUseController
+    @Published private(set) var allowsAppReading: Bool
     private let storage: any PluginStorage
     private var allowsRecording = true
     var onStateChange: (() -> Void)?
@@ -42,6 +43,8 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
     }
     init(context: PluginRuntimeContext, conversation providedConversation: VoiceConversation? = nil) {
         storage = context.storage
+        // Device-local consent must never be inferred from the older feature switch.
+        allowsAppReading = context.storage.integer(forKey: "computerReadConsentVersion") == 1
         conversation = providedConversation ?? VoiceConversation(context: context)
         let library = context.resourceBundle.bundleURL.appendingPathComponent("Contents/Frameworks/libcua_driver_sdk.dylib")
         computerUse = ComputerUseController(runtime: CuaRuntime(libraryURL: library), environment: SystemComputerUseEnvironment())
@@ -56,6 +59,7 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
         assistant.openSettings = { [weak self] in self?.requestSettingsPresentation?() }
         conversation.onChange = { [weak self] in self?.onStateChange?() }
         conversation.onStop = { [weak self] in self?.computerUse.stop() }
+        computerUse.onInspectionActivity = { [weak model = self.conversation] app in model?.setReadingApp(app) }
     }
     var panelItems: [PluginPanelItem] {
         [.row(id: "conversation", initialPlacement: .featurePanel,
@@ -180,8 +184,13 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
         let reference = invocation.reference
         let revision = conversation.sessionRevision
         if reference.key.actionID.hasPrefix("computer-") {
-            // Capture the exact approved window before the asynchronous handle can yield.
-            let inspectionTarget = computerUse.preparedInspectionTarget(reference.parameters)
+            // Setup consent replaces read dialogs, not target binding or host admission.
+            let inspectionTarget: ComputerUseTarget?
+            if reference.key.actionID == "computer-inspect-app" {
+                guard actionAvailability(for: reference).isAvailable else { throw ComputerUseError.unavailable("App reading is not authorized for this conversation.") }
+                _ = try computerUse.prepareApproval("inspect-app", parameters: reference.parameters)
+                inspectionTarget = computerUse.preparedInspectionTarget(reference.parameters)
+            } else { inspectionTarget = nil }
             return .init { [weak self] in
                 guard let self, !Task.isCancelled, conversation.sessionRevision == revision,
                       actionAvailability(for: reference).isAvailable else { return .cancelled }
@@ -209,6 +218,15 @@ final class VoiceControlPlugin: MacToolsPlugin, PluginSettingsPresenting,
         computerUse.stop()
         computerUse.enabled = enabled
         storage.set(enabled, forKey: "computerInteractionEnabled")
+        onStateChange?()
+    }
+    var canReadAppContent: Bool { allowsAppReading && computerUse.enabled && allowsRecording && conversation.active }
+    func setAppReadingConsent(_ allowed: Bool) {
+        guard !conversation.credentialBusy, allowed != allowsAppReading,
+              !allowed || (!conversation.active && computerUse.enabled) else { return }
+        if conversation.active { conversation.stop() } else { computerUse.stop() }
+        allowsAppReading = allowed
+        storage.set(allowed ? 1 : 0, forKey: "computerReadConsentVersion")
         onStateChange?()
     }
     func setProviderAccess(_ access: [String: Bool], automaticallyAllowNewPlugins: Bool? = nil) {

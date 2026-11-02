@@ -183,6 +183,8 @@ final class ComputerUseControllerTests: XCTestCase {
         await runtime.blockNextRead()
         let environment = ComputerFixtureEnvironment()
         let controller = ComputerUseController(runtime: runtime, environment: environment)
+        var readingApp: String?
+        controller.onInspectionActivity = { readingApp = $0 }
         let task = Task { try await controller.perform("inspect-app", parameters: .init(["app": .string("Fixture")]), inspectionTarget: environment.target) }
         for _ in 0..<1000 {
             if await runtime.waiting { break }
@@ -190,10 +192,13 @@ final class ComputerUseControllerTests: XCTestCase {
         }
         let waiting = await runtime.waiting
         XCTAssertTrue(waiting)
+        XCTAssertEqual(readingApp, environment.target.name)
         controller.stop()
+        XCTAssertNil(readingApp)
         await runtime.releaseRead()
         do { _ = try await task.value; XCTFail("A stopped request cannot publish an observation") }
         catch is CancellationError {}
+        XCTAssertNil(readingApp)
     }
 }
 

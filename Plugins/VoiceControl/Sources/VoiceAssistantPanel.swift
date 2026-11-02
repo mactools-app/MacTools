@@ -83,6 +83,7 @@ private struct VoiceAssistantView: View {
     @State private var showsScope = false
     private var status: String {
         if !model.hasCredentials { return model.text(model.credentialStatus) }
+        if let app = model.readingApp { return String(format: model.text("正在读取 %@"), app) }
         if model.active && !model.connected && !model.listeningLocally { return model.text(model.status) }
         if let activity = model.activity { return activity }
         if model.muted { return model.text("麦克风已静音") }
@@ -109,6 +110,7 @@ private struct VoiceAssistantView: View {
                         .foregroundStyle(model.active ? Color.accentColor : .secondary)
                 }
                 Text(status).font(PluginTypography.detail.font).lineLimit(2)
+                    .accessibilityIdentifier("voice-control.assistant-status")
                     .accessibilityAddTraits(.updatesFrequently)
                 Spacer(minLength: 0)
             }

@@ -24955,7 +24955,7 @@
                   "permissionIDs": [
                     "accessibility"
                   ],
-                  "risk": "confirmationRequired",
+                  "risk": "safe",
                   "surfaces": [
                     "manual"
                   ],
@@ -25320,7 +25320,8 @@
           "dataPersisted": [
             "api-key-in-local-keychain",
             "excluded-plugin-ids",
-            "computer-interaction-enabled"
+            "computer-interaction-enabled",
+            "app-reading-consent"
           ],
           "diagnosticExportsContainUserData": false,
           "networkDomains": [

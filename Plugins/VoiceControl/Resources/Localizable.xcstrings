@@ -9532,6 +9532,545 @@
           }
         }
       }
+    },
+    "支持复制文本、打开和搜索网页。操作应用控件需要辅助功能权限；点击、输入和滚动需逐次确认。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انسخ النص وافتح الصفحات وابحث على الويب. يتطلب التحكم في التطبيقات إذن تسهيلات الاستخدام؛ وتتطلب النقرات والكتابة والتمرير تأكيدًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text kopieren, Seiten öffnen und das Web durchsuchen. App-Steuerelemente benötigen Bedienungshilfen-Zugriff; Klicks, Texteingaben und Scrollen müssen bestätigt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy text, open pages and search the web. App controls require Accessibility access; clicks, typing and scrolling require confirmation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copia texto, abre páginas y busca en la web. Los controles de las apps requieren acceso de Accesibilidad; los clics, la escritura y el desplazamiento requieren confirmación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiez du texte, ouvrez des pages et recherchez sur le Web. Les commandes des apps nécessitent l’accès Accessibilité ; les clics, la saisie et le défilement nécessitent une confirmation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テキストのコピー、ページの表示、Web 検索に対応します。アプリの操作にはアクセシビリティの許可が必要で、クリック、入力、スクロールには毎回確認が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "텍스트 복사, 페이지 열기, 웹 검색을 지원합니다. 앱 제어에는 손쉬운 사용 권한이 필요하며 클릭, 입력 및 스크롤은 매번 확인해야 합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copie texto, abra páginas e pesquise na web. Os controles dos apps exigem acesso de Acessibilidade; cliques, digitação e rolagem exigem confirmação."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Копируйте текст, открывайте страницы и ищите в интернете. Для управления приложениями нужен доступ «Универсальный доступ»; нажатия, ввод и прокрутка требуют подтверждения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metin kopyalayın, sayfalar açın ve web’de arama yapın. Uygulama denetimleri Erişilebilirlik izni gerektirir; tıklama, yazma ve kaydırma için onay gerekir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持复制文本、打开和搜索网页。操作应用控件需要辅助功能权限；点击、输入和滚动需逐次确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支援複製文字、開啟和搜尋網頁。操作應用程式控制項需要輔助使用權限；點擊、輸入和捲動需逐次確認。"
+          }
+        }
+      }
+    },
+    "允许读取应用内容": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بقراءة محتوى التطبيقات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lesen von App-Inhalten erlauben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow reading app content"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir leer contenido de apps"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser la lecture du contenu des apps"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリ内容の読み取りを許可"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 콘텐츠 읽기 허용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir a leitura do conteúdo dos apps"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить чтение содержимого приложений"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama içeriğinin okunmasına izin ver"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许读取应用内容"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許讀取應用程式內容"
+          }
+        }
+      }
+    },
+    "开启后，对话期间可按请求读取应用控件和内容并发送到 OpenAI，无需逐次确认。点击、输入和滚动仍需确认。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أثناء المحادثات، يمكن قراءة عناصر التحكم والمحتوى المطلوب وإرساله إلى OpenAI دون طلب تأكيد متكرر. تظل النقرات والكتابة والتمرير بحاجة إلى تأكيد."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Während Gesprächen können angeforderte App-Steuerelemente und Inhalte ohne wiederholte Rückfragen gelesen und an OpenAI gesendet werden. Klicks, Texteingaben und Scrollen müssen weiterhin bestätigt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "During conversations, requested app controls and content can be read and sent to OpenAI without repeated prompts. Clicks, typing and scrolling still require confirmation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durante las conversaciones, se podrán leer los controles y contenidos solicitados de las apps y enviarlos a OpenAI sin avisos repetidos. Los clics, la escritura y el desplazamiento seguirán requiriendo confirmación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pendant les conversations, les commandes et contenus demandés peuvent être lus et envoyés à OpenAI sans confirmations répétées. Les clics, la saisie et le défilement nécessitent toujours une confirmation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "会話中は、指定したアプリのコントロールや内容を読み取り、OpenAI に送信できます。読み取りのたびに確認する必要はありません。クリック、入力、スクロールには引き続き確認が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대화 중 요청한 앱의 제어 항목과 콘텐츠를 반복 확인 없이 읽고 OpenAI로 보낼 수 있습니다. 클릭, 입력 및 스크롤은 계속 확인이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durante as conversas, os controles e conteúdos solicitados dos apps podem ser lidos e enviados à OpenAI sem avisos repetidos. Cliques, digitação e rolagem continuam exigindo confirmação."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Во время разговора запрошенные элементы управления и содержимое приложений можно читать и отправлять в OpenAI без повторных запросов. Нажатия, ввод и прокрутка по-прежнему требуют подтверждения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görüşmeler sırasında istenen uygulama denetimleri ve içerikleri tekrar onay istenmeden okunup OpenAI’a gönderilebilir. Tıklama, yazma ve kaydırma yine onay gerektirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启后，对话期间可按请求读取应用控件和内容并发送到 OpenAI，无需逐次确认。点击、输入和滚动仍需确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟後，對話期間可依要求讀取應用程式控制項和內容並傳送至 OpenAI，無需逐次確認。點擊、輸入和捲動仍需確認。"
+          }
+        }
+      }
+    },
+    "允许读取应用内容？": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بقراءة محتوى التطبيقات؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lesen von App-Inhalten erlauben?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow reading app content?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Permitir leer contenido de apps?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser la lecture du contenu des apps ?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリ内容の読み取りを許可しますか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 콘텐츠 읽기를 허용할까요?"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir a leitura do conteúdo dos apps?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить чтение содержимого приложений?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama içeriğinin okunmasına izin verilsin mi?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许读取应用内容？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許讀取應用程式內容？"
+          }
+        }
+      }
+    },
+    "允许读取": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالقراءة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lesen erlauben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Reading"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir lectura"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser la lecture"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "読み取りを許可"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "읽기 허용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir leitura"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить чтение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okumaya İzin Ver"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许读取"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許讀取"
+          }
+        }
+      }
+    },
+    "语音助手将在对话期间读取你指定应用的控件和内容，并将请求的数据发送到 OpenAI。停止、关闭助手或撤销此设置会结束读取。点击、输入和滚动仍需确认。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيقرأ المساعد الصوتي عناصر التحكم والمحتوى في التطبيقات التي تطلبها أثناء المحادثات، ويرسل البيانات المطلوبة إلى OpenAI. أوقف المساعد أو أغلقه أو ألغِ هذا الإعداد لإنهاء القراءة. تظل النقرات والكتابة والتمرير بحاجة إلى تأكيد."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Sprachassistent liest während Gesprächen Steuerelemente und Inhalte der angeforderten Apps und sendet die angeforderten Daten an OpenAI. Mit Stopp, dem Schließen des Assistenten oder dem Widerruf dieser Einstellung endet das Lesen. Klicks, Texteingaben und Scrollen müssen weiterhin bestätigt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voice Assistant will read controls and content in the apps you request during conversations and send the requested data to OpenAI. Stop, dismiss the assistant or revoke this setting to end reading. Clicks, typing and scrolling still require confirmation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El asistente de voz leerá los controles y contenidos de las apps que solicites durante las conversaciones y enviará los datos solicitados a OpenAI. Detén o cierra el asistente, o revoca este ajuste, para finalizar la lectura. Los clics, la escritura y el desplazamiento seguirán requiriendo confirmación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’assistant vocal lira les commandes et contenus des apps demandées pendant les conversations et enverra les données demandées à OpenAI. Arrêtez ou fermez l’assistant, ou révoquez ce réglage, pour terminer la lecture. Les clics, la saisie et le défilement nécessitent toujours une confirmation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声アシスタントは会話中に指定されたアプリのコントロールや内容を読み取り、要求されたデータを OpenAI に送信します。停止、アシスタントを閉じる、またはこの設定の取り消しで読み取りを終了します。クリック、入力、スクロールには引き続き確認が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "음성 어시스턴트가 대화 중 요청한 앱의 제어 항목과 콘텐츠를 읽고 요청한 데이터를 OpenAI로 보냅니다. 중지하거나 어시스턴트를 닫거나 이 설정을 해제하면 읽기가 종료됩니다. 클릭, 입력 및 스크롤은 계속 확인이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Assistente de Voz lerá os controles e conteúdos dos apps solicitados durante as conversas e enviará os dados solicitados à OpenAI. Pare ou feche o assistente, ou revogue este ajuste, para encerrar a leitura. Cliques, digitação e rolagem continuam exigindo confirmação."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Во время разговора голосовой помощник будет читать элементы управления и содержимое указанных приложений и отправлять запрошенные данные в OpenAI. Остановите или закройте помощника либо отключите эту настройку, чтобы завершить чтение. Нажатия, ввод и прокрутка по-прежнему требуют подтверждения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesli Asistan görüşmeler sırasında istediğiniz uygulamaların denetimlerini ve içeriklerini okur ve istenen verileri OpenAI’a gönderir. Okumayı sonlandırmak için asistanı durdurun veya kapatın ya da bu ayarı iptal edin. Tıklama, yazma ve kaydırma yine onay gerektirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音助手将在对话期间读取你指定应用的控件和内容，并将请求的数据发送到 OpenAI。停止、关闭助手或撤销此设置会结束读取。点击、输入和滚动仍需确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "語音助手將在對話期間讀取你指定應用程式的控制項和內容，並將要求的資料傳送至 OpenAI。停止、關閉助手或撤銷此設定會結束讀取。點擊、輸入和捲動仍需確認。"
+          }
+        }
+      }
+    },
+    "正在读取 %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ قراءة %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ wird gelesen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leyendo %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lecture de %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ を読み取り中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 읽는 중"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lendo %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чтение %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ okunuyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在读取 %@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在讀取 %@"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

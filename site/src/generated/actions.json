@@ -6305,7 +6305,7 @@
         "permissionIDs": [
           "accessibility"
         ],
-        "risk": "confirmationRequired",
+        "risk": "safe",
         "surfaces": [
           "manual"
         ],

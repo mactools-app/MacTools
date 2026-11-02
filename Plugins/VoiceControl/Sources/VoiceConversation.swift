@@ -21,6 +21,7 @@ final class VoiceConversation: ObservableObject {
     }
     @Published private(set) var speaking = false
     @Published private(set) var activity: String?
+    @Published private(set) var readingApp: String?
     @Published var idleTimeout: VoiceIdleTimeout
     @Published var featureAccess = VoiceFeatureAccess()
     var excludedPluginIDs: Set<String> {
@@ -115,6 +116,7 @@ final class VoiceConversation: ObservableObject {
     }
     deinit { network.invalidateAndCancel() }
     func text(_ value: String) -> String { localization.string(value, defaultValue: value) }
+    func setReadingApp(_ app: String?) { readingApp = active ? app : nil }
     private static func credentialStatus(for credentials: VoiceCredentialConfiguration) -> String {
         guard credentials.isConfigured else { return "请添加你自己的 OpenAI API 密钥" }
         return switch credentials.source {
@@ -229,7 +231,7 @@ final class VoiceConversation: ObservableObject {
             recentSessionMetrics.append(sessionMetrics)
             recentSessionMetrics = Array(recentSessionMetrics.suffix(4))
         }
-        epoch = UUID(); active = false; connected = false; listeningLocally = false; capturing = false; muted = false; speaking = false; activity = nil; startupTimeoutFailure = .connection
+        epoch = UUID(); active = false; connected = false; listeningLocally = false; capturing = false; muted = false; speaking = false; activity = nil; readingApp = nil; startupTimeoutFailure = .connection
         microphoneRevision = microphone.setMuted(true)
         outputSpeechPending = false
         pendingInput = VoicePendingInput()
