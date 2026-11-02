@@ -24728,6 +24728,448 @@
                     "zh-Hans": "停止自动允许新安装的插件",
                     "zh-Hant": "停止自動允許新安裝的外掛"
                   }
+                },
+                {
+                  "automaticEligible": false,
+                  "description": {
+                    "ar": "نسخ النص",
+                    "de": "Text kopieren",
+                    "en": "Copy text",
+                    "es": "Copiar texto",
+                    "fr": "Copier le texte",
+                    "ja": "テキストをコピー",
+                    "ko": "텍스트 복사",
+                    "pt": "Copiar texto",
+                    "ru": "Скопировать текст",
+                    "tr": "Metni kopyala",
+                    "zh-Hans": "复制文本",
+                    "zh-Hant": "複製文字"
+                  },
+                  "externalInvocation": "unavailable",
+                  "id": "computer-copy-text",
+                  "keywords": [
+                    "computer",
+                    "browser",
+                    "clipboard",
+                    "app controls"
+                  ],
+                  "parameters": [
+                    {
+                      "id": "text",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    }
+                  ],
+                  "permissionIDs": [],
+                  "risk": "safe",
+                  "surfaces": [
+                    "manual"
+                  ],
+                  "systemImage": "cursorarrow",
+                  "title": {
+                    "ar": "نسخ النص",
+                    "de": "Text kopieren",
+                    "en": "Copy text",
+                    "es": "Copiar texto",
+                    "fr": "Copier le texte",
+                    "ja": "テキストをコピー",
+                    "ko": "텍스트 복사",
+                    "pt": "Copiar texto",
+                    "ru": "Скопировать текст",
+                    "tr": "Metni kopyala",
+                    "zh-Hans": "复制文本",
+                    "zh-Hant": "複製文字"
+                  }
+                },
+                {
+                  "automaticEligible": false,
+                  "description": {
+                    "ar": "فتح صفحة ويب",
+                    "de": "Webseite öffnen",
+                    "en": "Open web page",
+                    "es": "Abrir página web",
+                    "fr": "Ouvrir une page web",
+                    "ja": "Webページを開く",
+                    "ko": "웹 페이지 열기",
+                    "pt": "Abrir página Web",
+                    "ru": "Открыть веб-страницу",
+                    "tr": "Web sayfasını aç",
+                    "zh-Hans": "打开网页",
+                    "zh-Hant": "開啟網頁"
+                  },
+                  "externalInvocation": "unavailable",
+                  "id": "computer-open-url",
+                  "keywords": [
+                    "computer",
+                    "browser",
+                    "clipboard",
+                    "app controls"
+                  ],
+                  "parameters": [
+                    {
+                      "id": "url",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    },
+                    {
+                      "id": "browser",
+                      "isRequired": false,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    }
+                  ],
+                  "permissionIDs": [],
+                  "risk": "safe",
+                  "surfaces": [
+                    "manual"
+                  ],
+                  "systemImage": "cursorarrow",
+                  "title": {
+                    "ar": "فتح صفحة ويب",
+                    "de": "Webseite öffnen",
+                    "en": "Open web page",
+                    "es": "Abrir página web",
+                    "fr": "Ouvrir une page web",
+                    "ja": "Webページを開く",
+                    "ko": "웹 페이지 열기",
+                    "pt": "Abrir página Web",
+                    "ru": "Открыть веб-страницу",
+                    "tr": "Web sayfasını aç",
+                    "zh-Hans": "打开网页",
+                    "zh-Hant": "開啟網頁"
+                  }
+                },
+                {
+                  "automaticEligible": false,
+                  "description": {
+                    "ar": "البحث في الويب",
+                    "de": "Im Web suchen",
+                    "en": "Search the web",
+                    "es": "Buscar en la web",
+                    "fr": "Rechercher sur le Web",
+                    "ja": "Webで検索",
+                    "ko": "웹 검색",
+                    "pt": "Pesquisar na Web",
+                    "ru": "Поиск в интернете",
+                    "tr": "Web’de ara",
+                    "zh-Hans": "搜索网页",
+                    "zh-Hant": "搜尋網頁"
+                  },
+                  "externalInvocation": "unavailable",
+                  "id": "computer-search-web",
+                  "keywords": [
+                    "computer",
+                    "browser",
+                    "clipboard",
+                    "app controls"
+                  ],
+                  "parameters": [
+                    {
+                      "id": "query",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    },
+                    {
+                      "id": "browser",
+                      "isRequired": false,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    }
+                  ],
+                  "permissionIDs": [],
+                  "risk": "safe",
+                  "surfaces": [
+                    "manual"
+                  ],
+                  "systemImage": "cursorarrow",
+                  "title": {
+                    "ar": "البحث في الويب",
+                    "de": "Im Web suchen",
+                    "en": "Search the web",
+                    "es": "Buscar en la web",
+                    "fr": "Rechercher sur le Web",
+                    "ja": "Webで検索",
+                    "ko": "웹 검색",
+                    "pt": "Pesquisar na Web",
+                    "ru": "Поиск в интернете",
+                    "tr": "Web’de ara",
+                    "zh-Hans": "搜索网页",
+                    "zh-Hant": "搜尋網頁"
+                  }
+                },
+                {
+                  "automaticEligible": false,
+                  "description": {
+                    "ar": "فحص عناصر التطبيق",
+                    "de": "App-Steuerelemente prüfen",
+                    "en": "Inspect application controls",
+                    "es": "Inspeccionar controles de una app",
+                    "fr": "Inspecter les commandes d’une app",
+                    "ja": "アプリのコントロールを確認",
+                    "ko": "앱 컨트롤 확인",
+                    "pt": "Inspecionar controlos da aplicação",
+                    "ru": "Просмотреть элементы приложения",
+                    "tr": "Uygulama denetimlerini incele",
+                    "zh-Hans": "查看应用控件",
+                    "zh-Hant": "檢視應用程式控制項"
+                  },
+                  "externalInvocation": "unavailable",
+                  "id": "computer-inspect-app",
+                  "keywords": [
+                    "computer",
+                    "browser",
+                    "clipboard",
+                    "app controls"
+                  ],
+                  "parameters": [
+                    {
+                      "id": "app",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    },
+                    {
+                      "id": "windowID",
+                      "isRequired": false,
+                      "kind": "integer",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    }
+                  ],
+                  "permissionIDs": [
+                    "accessibility"
+                  ],
+                  "risk": "confirmationRequired",
+                  "surfaces": [
+                    "manual"
+                  ],
+                  "systemImage": "cursorarrow",
+                  "title": {
+                    "ar": "فحص عناصر التطبيق",
+                    "de": "App-Steuerelemente prüfen",
+                    "en": "Inspect application controls",
+                    "es": "Inspeccionar controles de una app",
+                    "fr": "Inspecter les commandes d’une app",
+                    "ja": "アプリのコントロールを確認",
+                    "ko": "앱 컨트롤 확인",
+                    "pt": "Inspecionar controlos da aplicação",
+                    "ru": "Просмотреть элементы приложения",
+                    "tr": "Uygulama denetimlerini incele",
+                    "zh-Hans": "查看应用控件",
+                    "zh-Hant": "檢視應用程式控制項"
+                  }
+                },
+                {
+                  "automaticEligible": false,
+                  "description": {
+                    "ar": "تعيين قيمة عنصر",
+                    "de": "Steuerelement ausfüllen",
+                    "en": "Set control value",
+                    "es": "Establecer valor de un control",
+                    "fr": "Définir la valeur d’une commande",
+                    "ja": "コントロールの値を設定",
+                    "ko": "컨트롤 값 설정",
+                    "pt": "Definir valor de um controlo",
+                    "ru": "Задать значение элемента",
+                    "tr": "Denetim değerini ayarla",
+                    "zh-Hans": "填写应用控件",
+                    "zh-Hant": "填寫應用程式控制項"
+                  },
+                  "externalInvocation": "unavailable",
+                  "id": "computer-set-control-value",
+                  "keywords": [
+                    "computer",
+                    "browser",
+                    "clipboard",
+                    "app controls"
+                  ],
+                  "parameters": [
+                    {
+                      "id": "observationID",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    },
+                    {
+                      "id": "controlID",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    },
+                    {
+                      "id": "value",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    }
+                  ],
+                  "permissionIDs": [
+                    "accessibility"
+                  ],
+                  "risk": "confirmationRequired",
+                  "surfaces": [
+                    "manual"
+                  ],
+                  "systemImage": "cursorarrow",
+                  "title": {
+                    "ar": "تعيين قيمة عنصر",
+                    "de": "Steuerelement ausfüllen",
+                    "en": "Set control value",
+                    "es": "Establecer valor de un control",
+                    "fr": "Définir la valeur d’une commande",
+                    "ja": "コントロールの値を設定",
+                    "ko": "컨트롤 값 설정",
+                    "pt": "Definir valor de um controlo",
+                    "ru": "Задать значение элемента",
+                    "tr": "Denetim değerini ayarla",
+                    "zh-Hans": "填写应用控件",
+                    "zh-Hant": "填寫應用程式控制項"
+                  }
+                },
+                {
+                  "automaticEligible": false,
+                  "description": {
+                    "ar": "النقر على عنصر",
+                    "de": "Steuerelement anklicken",
+                    "en": "Click control",
+                    "es": "Pulsar un control",
+                    "fr": "Cliquer sur une commande",
+                    "ja": "コントロールをクリック",
+                    "ko": "컨트롤 클릭",
+                    "pt": "Clicar num controlo",
+                    "ru": "Нажать элемент",
+                    "tr": "Denetime tıkla",
+                    "zh-Hans": "点击应用控件",
+                    "zh-Hant": "點擊應用程式控制項"
+                  },
+                  "externalInvocation": "unavailable",
+                  "id": "computer-click-control",
+                  "keywords": [
+                    "computer",
+                    "browser",
+                    "clipboard",
+                    "app controls"
+                  ],
+                  "parameters": [
+                    {
+                      "id": "observationID",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    },
+                    {
+                      "id": "controlID",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    }
+                  ],
+                  "permissionIDs": [
+                    "accessibility"
+                  ],
+                  "risk": "confirmationRequired",
+                  "surfaces": [
+                    "manual"
+                  ],
+                  "systemImage": "cursorarrow",
+                  "title": {
+                    "ar": "النقر على عنصر",
+                    "de": "Steuerelement anklicken",
+                    "en": "Click control",
+                    "es": "Pulsar un control",
+                    "fr": "Cliquer sur une commande",
+                    "ja": "コントロールをクリック",
+                    "ko": "컨트롤 클릭",
+                    "pt": "Clicar num controlo",
+                    "ru": "Нажать элемент",
+                    "tr": "Denetime tıkla",
+                    "zh-Hans": "点击应用控件",
+                    "zh-Hant": "點擊應用程式控制項"
+                  }
+                },
+                {
+                  "automaticEligible": false,
+                  "description": {
+                    "ar": "تمرير عنصر",
+                    "de": "Steuerelement scrollen",
+                    "en": "Scroll control",
+                    "es": "Desplazar un control",
+                    "fr": "Faire défiler une commande",
+                    "ja": "コントロールをスクロール",
+                    "ko": "컨트롤 스크롤",
+                    "pt": "Deslocar um controlo",
+                    "ru": "Прокрутить элемент",
+                    "tr": "Denetimi kaydır",
+                    "zh-Hans": "滚动应用控件",
+                    "zh-Hant": "捲動應用程式控制項"
+                  },
+                  "externalInvocation": "unavailable",
+                  "id": "computer-scroll-control",
+                  "keywords": [
+                    "computer",
+                    "browser",
+                    "clipboard",
+                    "app controls"
+                  ],
+                  "parameters": [
+                    {
+                      "id": "observationID",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    },
+                    {
+                      "id": "controlID",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    },
+                    {
+                      "id": "direction",
+                      "isRequired": true,
+                      "kind": "string",
+                      "portability": "localOnly",
+                      "privacy": "sensitive"
+                    }
+                  ],
+                  "permissionIDs": [
+                    "accessibility"
+                  ],
+                  "risk": "confirmationRequired",
+                  "surfaces": [
+                    "manual"
+                  ],
+                  "systemImage": "cursorarrow",
+                  "title": {
+                    "ar": "تمرير عنصر",
+                    "de": "Steuerelement scrollen",
+                    "en": "Scroll control",
+                    "es": "Desplazar un control",
+                    "fr": "Faire défiler une commande",
+                    "ja": "コントロールをスクロール",
+                    "ko": "컨트롤 스크롤",
+                    "pt": "Deslocar um controlo",
+                    "ru": "Прокрутить элемент",
+                    "tr": "Denetimi kaydır",
+                    "zh-Hans": "滚动应用控件",
+                    "zh-Hant": "捲動應用程式控制項"
+                  }
                 }
               ]
             }
@@ -24864,11 +25306,14 @@
             "microphone-audio",
             "conversation-transcript",
             "plugin-command-metadata",
-            "requested-plugin-state"
+            "requested-plugin-state",
+            "requested-app-accessibility-content",
+            "requested-clipboard-text"
           ],
           "dataPersisted": [
             "api-key-in-local-keychain",
-            "excluded-plugin-ids"
+            "excluded-plugin-ids",
+            "computer-interaction-enabled"
           ],
           "diagnosticExportsContainUserData": false,
           "networkDomains": [
@@ -24899,7 +25344,8 @@
           "hardware": [],
           "minimumMacOSVersion": "14.0",
           "permissionIDs": [
-            "microphone"
+            "microphone",
+            "accessibility"
           ],
           "requiresRelaunch": false,
           "setupComplexity": "simple"
@@ -24945,7 +25391,7 @@
       "releaseNotesURL": null,
       "route": "/plugins/voice-control/",
       "summary": "通过语音对话控制已启用的 MacTools 功能",
-      "version": "0.1.0"
+      "version": "0.2.0"
     },
     {
       "capabilities": {

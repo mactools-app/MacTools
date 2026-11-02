@@ -94,6 +94,8 @@ Shared filesystem metadata code lives in `Sources/MacToolsFileSystem`. Disk Clea
 
 Installed application enumeration is shared by Launchpad and voice app control through `Sources/PluginSupport/InstalledApplicationScanner.swift`. Keep scans off the UI thread; voice issues opaque targets, revalidates the app before opening, and never accepts an application path supplied by the model. Voice owners expose only fixed self-controls declared through `PluginVoiceSelfActionProviding`, retaining canonical validation and native confirmation.
 
+Voice Assistant also bundles the pinned in-process Cua SDK for requested app interactions. Its separately declared parameterized self-actions require host 2.2.2 and preserve canonical admission checks. See [the integration guide](docs/plugins/voice-control.md#bundled-computer-interaction) for SDK preparation, permissions, lifecycle, verification, and the no-helper boundary.
+
 ## Validation
 
 Keep a compact suite covering the main user flow and consequential boundaries such as data loss, permission checks, cancellation, or compatibility. Reuse existing coverage across layers. A past bug alone does not require a permanent test; omit unlikely combinations in settled code unless their recurrence would have a significant impact. See the [core test scope](docs/testing/core-tests.md).
@@ -153,3 +155,5 @@ Releases are maintainer-owned. Feature PRs should not pre-bump plugin versions, 
 Plugin release preparation regenerates website plugin data after version bumps and includes it in the release commit, including with `--skip-check`. Keep this generated data synchronized so Pages can deploy the signed plugin catalog.
 
 For an agent-assisted readiness review, use the repository skill [`mactools-release-preflight`](.agents/skills/mactools-release-preflight/SKILL.md). It consolidates pending changelog fragments and reports PluginKit compatibility, old/new app and plugin behavior, release scope, and remaining prerequisites; other changes and release execution require separate user instructions.
+
+The Voice Assistant bundle builds its pinned Cua SDK with the official Rust 1.97.1 toolchain. Install it with `rustup toolchain install 1.97.1 --profile minimal --target aarch64-apple-darwin,x86_64-apple-darwin`. The build caches the universal native library under `build/Dependencies/CuaDriver/`; it never installs a Cua app, CLI, or daemon.

@@ -1,0 +1,332 @@
+--- a/crates/cua-driver-sdk/src/abi.rs
++++ b/crates/cua-driver-sdk/src/abi.rs
+@@ -487,6 +487,7 @@
+ 
+ fn spawn_completion<F>(
+     executor: tokio::runtime::Handle,
++    drain: bool,
+     future: F,
+     callback: CuaDriverCompletionV1,
+     context: *mut c_void,
+@@ -499,9 +500,14 @@
+         state: state.clone(),
+     });
+     let context = context as usize;
++    #[cfg(target_os = "macos")]
++    let epoch = platform_macos::tools::mactools_native::current_epoch();
+     executor.spawn(async move {
+         // A nested task converts a native panic into a JoinError so it cannot
+         // unwind through either the callback or the exported C function.
++        #[cfg(target_os = "macos")]
++        let mut work = tokio::spawn(platform_macos::tools::mactools_native::scope(epoch, future));
++        #[cfg(not(target_os = "macos"))]
+         let mut work = tokio::spawn(future);
+         let completed = tokio::select! {
+             joined = &mut work => match joined {
+@@ -516,7 +522,13 @@
+                 )),
+             },
+             _ = state.cancelled() => {
+-                work.abort();
++                if drain {
++                    // Admitted mutations must retain their lifecycle guard until native work ends.
++                    let _ = (&mut work).await;
++                } else {
++                    // Preserve cancellation of read-only publishers before snapshot publication.
++                    work.abort();
++                }
+                 Err(AbiFailure::new(
+                     CuaDriverStatus::Cancelled,
+                     "Cua Driver operation was cancelled",
+@@ -569,6 +581,10 @@
+             std::cmp::Ordering::Less | std::cmp::Ordering::Equal
+         )
+ }
++
++#[no_mangle]
++/// Private embedding-policy version; not part of the upstream ABI.
++pub extern "C" fn cua_driver_mactools_policy_v1() -> u32 { 1 }
+ 
+ #[no_mangle]
+ /// Free and clear a buffer returned by this ABI. Repeated calls are harmless.
+@@ -616,6 +632,8 @@
+         };
+         let runtime_options = runtime_options_from_abi(options)?;
+         let runtime = DriverRuntime::create(runtime_options).map_err(runtime_create_failure)?;
++        #[cfg(target_os = "macos")]
++        platform_macos::tools::mactools_native::reset();
+         *out_handle = Box::into_raw(Box::new(CuaDriverHandle { runtime }));
+         Ok(())
+     })
+@@ -764,6 +782,7 @@
+         let executor = abi_executor()?.handle().clone();
+         *out_operation = spawn_completion(
+             executor,
++            matches!(name.as_str(), "set_value" | "click" | "scroll"),
+             async move {
+                 let result = runtime.invoke(&name, arguments).await.ok_or_else(|| {
+                     AbiFailure::new(
+@@ -928,6 +947,7 @@
+         let executor = abi_executor()?.handle().clone();
+         *out_operation = spawn_completion(
+             executor,
++            matches!(name.as_str(), "set_value" | "click" | "scroll"),
+             async move {
+                 let result = session.invoke(&name, arguments).await.ok_or_else(|| {
+                     AbiFailure::new(
+@@ -973,6 +993,7 @@
+         let executor = abi_executor()?.handle().clone();
+         *out_operation = spawn_completion(
+             executor,
++            true,
+             async move {
+                 runtime.shutdown().await;
+                 Ok("null".into())
+@@ -989,6 +1010,8 @@
+ pub unsafe extern "C" fn cua_driver_operation_cancel_v1(operation: *mut CuaDriverOperation) {
+     let _ = catch_unwind(AssertUnwindSafe(|| {
+         if let Some(operation) = operation.as_ref() {
++            #[cfg(target_os = "macos")]
++            platform_macos::tools::mactools_native::cancel_pending();
+             operation.state.cancel();
+         }
+     }));
+@@ -1729,26 +1752,42 @@
+ 
+     #[tokio::test]
+     async fn cancellation_completes_once_and_release_is_idempotent() {
+-        let (sender, receiver) = oneshot::channel();
++        let (sender, mut receiver) = oneshot::channel();
++        let (entered, started) = oneshot::channel();
++        let (release, blocked) = std::sync::mpsc::channel();
++        let finished = Arc::new(AtomicBool::new(false));
++        let worker_finished = finished.clone();
+         let context = Box::into_raw(Box::new(CallbackContext { sender })).cast::<c_void>();
+         let mut operation = spawn_completion(
+             abi_executor().unwrap().handle().clone(),
+-            async {
+-                tokio::time::sleep(Duration::from_secs(30)).await;
+-                Ok("never".into())
++            true,
++            async move {
++                tokio::task::spawn_blocking(move || {
++                    entered.send(()).unwrap();
++                    blocked.recv().unwrap();
++                    worker_finished.store(true, Ordering::Release);
++                }).await.unwrap();
++                Ok("drained".into())
+             },
+             rust_completion,
+             context,
+         )
+         .unwrap();
++        started.await.unwrap();
+         unsafe {
+             cua_driver_operation_cancel_v1(operation);
+         }
++        // The worker is deliberately held. Cancellation must not publish completion
++        // while that admitted native work still owns the lifecycle guard.
++        let early = tokio::time::timeout(Duration::from_millis(100), &mut receiver).await;
++        release.send(()).unwrap();
++        assert!(early.is_err(), "completion escaped before the native worker drained");
+         let completed = tokio::time::timeout(Duration::from_secs(1), receiver)
+             .await
+             .unwrap()
+             .unwrap();
+         assert_eq!(completed.status, CuaDriverStatus::Cancelled);
++        assert!(finished.load(Ordering::Acquire));
+         unsafe {
+             cua_driver_operation_release_v1(&mut operation);
+             cua_driver_operation_release_v1(&mut operation);
+--- a/crates/cua-driver-sdk/src/tests/snapshot_lifecycle.rs
++++ b/crates/cua-driver-sdk/src/tests/snapshot_lifecycle.rs
+@@ -313,9 +313,7 @@
+                 let id = cache.publish(
+                     731_348,
+                     u64::from(window),
+-                    AxSnapshot {
+-                        elements: vec![*ptr],
+-                    },
++                    unsafe { AxSnapshot::from_retained_elements(vec![*ptr]) },
+                 );
+                 if window == 0 {
+                     *oldest = Some(token_for(id, 0));
+--- a/crates/platform-macos/src/lib.rs
++++ b/crates/platform-macos/src/lib.rs
+@@ -165,9 +165,8 @@
+         // that will never arrive. Unconditional: emission depends on the
+         // registry write path, not on the overlay or on graphic access.
+         cua_driver_core::cursor_hook::declare_cursor_hook_emitter();
+-        // Keep the display awake while tools run, so the screen saver and
+-        // display sleep do not lock the session mid-task.
+-        display_awake::install();
++        // MacTools owns sleep/lock policy through explicit host capabilities.
++        // Do not install Cua's process-global implicit display-awake hook.
+         let mut r = ToolRegistry::new_with_protected_consent_provider(provider);
+         tools::register_all(
+             &mut r,
+--- a/crates/platform-macos/src/ax/snapshot.rs
++++ b/crates/platform-macos/src/ax/snapshot.rs
+@@ -3,12 +3,16 @@
+ use core_foundation::base::{CFRelease, CFRetain, CFTypeRef};
+ use cua_driver_core::snapshot_store::{SnapshotPayload, SnapshotStore};
+ 
+-pub struct RetainedElement(usize);
++use crate::tools::mactools_semantics::ControlStamp;
++use std::{sync::Arc, time::{Duration, Instant}};
++pub struct RetainedElement(usize, Option<Arc<ControlStamp>>);
+ 
+ impl RetainedElement {
+     pub fn as_ptr(&self) -> usize {
+         self.0
+     }
++
++    pub(crate) fn semantics(&self) -> Option<&Arc<ControlStamp>> { self.1.as_ref() }
+ 
+     /// Take a +1 reference on an AX element pointer (0 is kept as null).
+     ///
+@@ -19,13 +23,15 @@
+         if ptr != 0 {
+             unsafe { CFRetain(ptr as AXUIElementRef as CFTypeRef) };
+         }
+-        Self(ptr)
++        Self(ptr, None)
+     }
+ }
+ 
+ impl Clone for RetainedElement {
+     fn clone(&self) -> Self {
+-        unsafe { Self::retain(self.0) }
++        let mut retained = unsafe { Self::retain(self.0) };
++        retained.1 = self.1.clone();
++        retained
+     }
+ }
+ 
+@@ -39,11 +45,22 @@
+ 
+ pub struct AxSnapshot {
+     pub elements: Vec<usize>,
++    semantics: Vec<Option<Arc<ControlStamp>>>,
+ }
+ 
+ impl AxSnapshot {
++    /// Own pre-retained CF objects for lifecycle fixtures, without native mutation admission.
++    /// Safety: each nonzero pointer must carry one valid owned CF reference.
++    pub unsafe fn from_retained_elements(elements: Vec<usize>) -> Self {
++        Self { semantics: elements.iter().map(|_| None).collect(), elements }
++    }
++
+     pub fn from_nodes(nodes: &[AXNode]) -> Self {
++        // One shared bound for semantic preparation across the entire observation.
++        let deadline = Instant::now() + Duration::from_millis(500);
+         Self {
++            semantics: nodes.iter().filter(|node| node.element_index.is_some())
++                .map(|node| unsafe { crate::tools::mactools_semantics::capture_observed(node, deadline) }).collect(),
+             elements: nodes
+                 .iter()
+                 .filter(|node| node.element_index.is_some())
+@@ -61,7 +78,11 @@
+     fn retain(&self, index: usize) -> Option<RetainedElement> {
+         self.elements
+             .get(index)
+-            .map(|ptr| unsafe { RetainedElement::retain(*ptr) })
++            .map(|ptr| unsafe {
++                let mut element = RetainedElement::retain(*ptr);
++                element.1 = self.semantics.get(index).cloned().flatten();
++                element
++            })
+     }
+ }
+ 
+@@ -101,6 +122,7 @@
+         unsafe { CFRetain(ptr as CFTypeRef) };
+         AxSnapshot {
+             elements: vec![ptr],
++            semantics: vec![None],
+         }
+     }
+ 
+--- a/crates/platform-macos/src/ax/tree.rs
++++ b/crates/platform-macos/src/ax/tree.rs
+@@ -455,6 +455,8 @@
+     set_messaging_timeout(element);
+ 
+     let role = copy_string_attr(element, "AXRole").unwrap_or_else(|| "AXUnknown".into());
++    // Never read or publish values/tokens for protected or unclassifiable controls.
++    if !crate::tools::mactools_native::control_allowed(element) { return; }
+ 
+     let in_web_content = in_web_content || is_web_content_role(&role);
+     if in_web_content && !include_web_content {
+--- a/crates/platform-macos/src/tools/click.rs
++++ b/crates/platform-macos/src/tools/click.rs
+@@ -384,6 +384,8 @@
+     }
+ 
+     async fn invoke(&self, args: Value) -> ToolResult {
++        // MacTools exposes only exact-target, in-process native operations.
++        return super::mactools_native::invoke(&self.state, "click", &args).await;
+         use cua_driver_core::tool_args::ArgsExt;
+ 
+         // ── Window-less screen-absolute branch (scope="desktop") ──────
+--- a/crates/platform-macos/src/tools/get_window_state.rs
++++ b/crates/platform-macos/src/tools/get_window_state.rs
+@@ -614,7 +614,7 @@
+         // alongside for back-compat with existing text-parsing callers
+         // (Hermes' regex parser, Codex, Claude Code) and is signalled as
+         // preferred-for-back-compat-only via the `_note` field below.
+-        let elements_json: Vec<serde_json::Value> = match (snapshot_id, tree_result.as_ref()) {
++        let mut elements_json: Vec<serde_json::Value> = match (snapshot_id, tree_result.as_ref()) {
+             (Some(sid), Some(r)) => build_elements_array_with_token(&r.nodes, Some(sid)),
+             (None, Some(r)) if scope_matched && observation_only => {
+                 build_observation_elements_array(&r.nodes)
+@@ -622,6 +622,7 @@
+             (None, Some(r)) if scope_matched => build_elements_array_with_token(&r.nodes, None),
+             _ => Vec::new(),
+         };
++        super::mactools_native::annotate_observation(&self.state, pid, &mut elements_json);
+         let elements_json = cua_driver_core::element_query::project_elements_for_query(
+             elements_json,
+             query.as_deref(),
+@@ -1113,6 +1114,8 @@
+         .map(|[x, y, w, h]| serde_json::json!({ "x": x, "y": y, "w": w, "h": h }));
+     let mut entry = serde_json::json!({
+         "role": node.role,
++        "security_checked": true,
++        "secure": false,
+         "depth": node.depth,
+     });
+     if let Some(idx) = node.element_index {
+--- a/crates/platform-macos/src/tools/mod.rs
++++ b/crates/platform-macos/src/tools/mod.rs
+@@ -18,6 +18,8 @@
+ mod right_click;
+ mod scroll;
+ mod set_value;
++pub mod mactools_native;
++pub mod mactools_semantics;
+ mod set_window_frame;
+ mod type_text;
+ // `screenshot` / `screenshot_compat` modules removed in PR #1692 —
+--- a/crates/platform-macos/src/tools/scroll.rs
++++ b/crates/platform-macos/src/tools/scroll.rs
+@@ -121,6 +121,8 @@
+     }
+ 
+     async fn invoke(&self, args: Value) -> ToolResult {
++        // MacTools exposes only exact-target, in-process native operations.
++        return super::mactools_native::invoke(&self.state, "scroll", &args).await;
+         use cua_driver_core::tool_args::ArgsExt;
+         if args.opt_str("scope").as_deref() == Some("desktop")
+             && args.get("pid").is_none()
+--- a/crates/platform-macos/src/tools/set_value.rs
++++ b/crates/platform-macos/src/tools/set_value.rs
+@@ -81,6 +81,8 @@
+     }
+ 
+     async fn invoke(&self, args: Value) -> ToolResult {
++        // MacTools exposes only exact-target, in-process native operations.
++        return super::mactools_native::invoke(&self.state, "set_value", &args).await;
+         use cua_driver_core::tool_args::ArgsExt;
+         let pid = match super::target_pid(&self.state, &args) {
+             Ok(v) => v,

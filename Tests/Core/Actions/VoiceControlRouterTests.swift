@@ -248,6 +248,32 @@ final class VoiceControlRouterTests: XCTestCase {
         XCTAssertTrue(fixture.applications.opened.isEmpty)
     }
 
+    func testParameterizedOwnerActionsNeedSeparateOptInAndCanBeRevokedDuringApproval() async throws {
+        let fixture = Fixture()
+        fixture.owner.parameterized = true
+        fixture.owner.voiceSelfActionIDs = ["change"]
+        fixture.owner.confirmAction = true
+        fixture.register()
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession(excludingPluginIDs: ["fixture"]))
+        let before = await context.request(.search("fixture"), sessionID: session)
+        XCTAssertTrue(before.capabilities.isEmpty)
+        fixture.owner.voiceSelfParameterizedActionIDs = ["change"]
+        let reply = await context.request(.search("fixture"), sessionID: session)
+        XCTAssertEqual(reply.capabilities.count, 1)
+        let command = try XCTUnwrap(reply.capabilities.first)
+        fixture.confirmation.operation = { fixture.owner.voiceSelfParameterizedActionIDs = []; return true }
+        let parameters = try ActionParameterSet(["value": .integer(35)])
+        let cancelled = await context.request(.perform(capabilityID: command.id, parameters: parameters), sessionID: session)
+        XCTAssertEqual(cancelled.status, "cancelled")
+        XCTAssertEqual(fixture.owner.executions, 0)
+        fixture.owner.voiceSelfParameterizedActionIDs = ["change"]
+        fixture.confirmation.operation = { true }
+        let result = await context.request(.perform(capabilityID: command.id, parameters: parameters), sessionID: session)
+        XCTAssertEqual(result.status, "ok")
+        XCTAssertEqual(fixture.owner.executions, 1)
+    }
+
     func testOwnerExposesOnlyDeclaredFixedSelfControlsWithCanonicalApproval() async throws {
         let fixture = Fixture()
         fixture.owner.voiceSelfActionIDs = ["change"]
@@ -324,7 +350,7 @@ private final class Fixture {
 
 @MainActor
 private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
-    PluginVoiceQueryProviding, PluginVoiceParameterizedActionProviding, PluginVoiceSelfActionProviding,
+    PluginVoiceQueryProviding, PluginVoiceSelfParameterizedActionProviding, PluginVoiceSelfActionProviding,
     PluginVoiceControlHostContextConsuming {
     let metadata: PluginMetadata
     init(id: String = "fixture") {
@@ -345,6 +371,7 @@ private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     var contextDeliveries = 0
     var voiceParameterizedActionIDs: Set<String> { parameterized && allowsParameterizedVoice ? ["change"] : [] }
     var voiceSelfActionIDs: Set<String> = []
+    var voiceSelfParameterizedActionIDs: Set<String> = []
     var actionDefinitions: [ActionDefinition] {
         [.init(key: .init(providerID: metadata.id, actionID: "change"), title: "Change fixture",
                description: "A fixture command", systemImage: "bolt",

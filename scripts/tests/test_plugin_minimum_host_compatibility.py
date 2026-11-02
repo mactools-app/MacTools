@@ -20,6 +20,8 @@ PLUGIN_INTERFACES = REPO_ROOT / "Sources/MacToolsPluginKit/PluginInterfaces.swif
 PLUGIN_SETTINGS_MODELS = REPO_ROOT / "Sources/MacToolsPluginKit/PluginSettingsModels.swift"
 APP_VERSION_CONFIG = REPO_ROOT / "Configs/AppVersion.xcconfig"
 NEW_API_MINIMUM_HOSTS = {
+    "ActionConfirmationPreparation": "2.2.2",
+    "PluginActionConfirmationProviding": "2.2.2",
     "PluginVoiceProvider": "2.2.1",
     "PluginVoiceCapability": "2.2.1",
     "PluginVoiceRequest": "2.2.1",
@@ -28,6 +30,7 @@ NEW_API_MINIMUM_HOSTS = {
     "PluginVoiceQueryProviding": "2.2.1",
     "PluginVoiceParameterizedActionProviding": "2.2.1",
     "PluginVoiceSelfActionProviding": "2.2.1",
+    "PluginVoiceSelfParameterizedActionProviding": "2.2.2",
     "PluginVoiceControlHostContext": "2.2.1",
     "PluginVoiceControlHostContextConsuming": "2.2.1",
     ".microphone": "2.2.1",
@@ -355,12 +358,14 @@ class PluginMinimumHostCompatibilityTests(unittest.TestCase):
 
         self.assertEqual(violations, [], "\n".join(violations))
 
-    def test_voice_bridge_public_types_require_host_2_2_1(self) -> None:
+    def test_voice_bridge_public_types_have_recorded_minimum_hosts(self) -> None:
         source = PLUGIN_INTERFACES.with_name("PluginVoiceControlHostContext.swift").read_text(encoding="utf-8")
         for symbol in public_top_level_type_names(source):
             with self.subTest(symbol=symbol):
-                self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), "2.2.1")
-                self.assertTrue(minimum_host_violations("probe", "2.2.0", symbol))
+                expected = "2.2.2" if symbol == "PluginVoiceSelfParameterizedActionProviding" else "2.2.1"
+                previous = "2.2.1" if expected == "2.2.2" else "2.2.0"
+                self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), expected)
+                self.assertTrue(minimum_host_violations("probe", previous, symbol))
 
     def test_plugin_permission_kind_preserves_released_case_order(self) -> None:
         source = PLUGIN_MODELS.read_text(encoding="utf-8")

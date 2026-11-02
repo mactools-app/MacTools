@@ -79,6 +79,14 @@ public protocol PluginVoiceSelfActionProviding: AnyObject {
     var voiceSelfActionIDs: Set<String> { get }
 }
 
+/// Separate opt-in for a session owner's parameterized canonical actions.
+/// IDs must also be declared through PluginVoiceParameterizedActionProviding.
+/// This grants no access to owner queries, feature navigation, or unlisted actions.
+@MainActor
+public protocol PluginVoiceSelfParameterizedActionProviding: PluginVoiceParameterizedActionProviding {
+    var voiceSelfParameterizedActionIDs: Set<String> { get }
+}
+
 @MainActor
 public struct PluginVoiceControlHostContext {
     public let providers: () -> [PluginVoiceProvider]

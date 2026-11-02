@@ -42,6 +42,7 @@ struct ActionProviderRegistration {
     let catalogEntries: [ActionCatalogEntry]
     let executionRevision: () -> UInt64
     let availability: (ActionReference) -> ActionAvailability
+    let confirmation: ((ActionReference) -> ActionConfirmationPreparation?)?
     let exposurePolicy: (ActionReference, ActionExposureSurface) -> ActionExposurePolicy
     let migrate: (ActionReference, Int) -> ActionReference?
     let begin: (ActionInvocation) -> Result<ActionExecutionHandle, ActionRegistryError>
@@ -53,6 +54,7 @@ struct ActionProviderRegistration {
         catalogEntries: [ActionCatalogEntry],
         executionRevision: @escaping () -> UInt64 = { 0 },
         availability: @escaping (ActionReference) -> ActionAvailability,
+        confirmation: ((ActionReference) -> ActionConfirmationPreparation?)? = nil,
         exposurePolicy: @escaping (
             ActionReference,
             ActionExposureSurface
@@ -68,6 +70,7 @@ struct ActionProviderRegistration {
         self.catalogEntries = catalogEntries
         self.executionRevision = executionRevision
         self.availability = availability
+        self.confirmation = confirmation
         self.exposurePolicy = exposurePolicy
         self.migrate = migrate
         self.begin = begin
@@ -197,6 +200,7 @@ final class ActionRegistry: ObservableObject {
                     catalogEntries: acceptedCatalog,
                     executionRevision: registration.executionRevision,
                     availability: registration.availability,
+                    confirmation: registration.confirmation,
                     exposurePolicy: registration.exposurePolicy,
                     migrate: registration.migrate,
                     begin: registration.begin
@@ -263,6 +267,15 @@ final class ActionRegistry: ObservableObject {
             schemaByID[entry.name]?.privacy == .publicValue
                 && schemaByID[entry.name]?.portability == .portable
         } ? .portable : .knownNonPortable
+    }
+
+    func confirmationPreparation(for reference: ActionReference) -> ActionConfirmationPreparation? {
+        guard case let .success(action) = registeredAction(for: reference),
+              let provider = providers[reference.key.providerID] else { return nil }
+        if let resolver = provider.registration.confirmation { return resolver(reference) }
+        return action.definition.confirmation.map {
+            .init(confirmation: $0, contextIdentity: "fixed")
+        }
     }
 
     static func containsSensitiveParameters(

@@ -275,6 +275,25 @@ public struct ActionExecutionCapabilities: OptionSet, Hashable, Codable, Sendabl
     }
 }
 
+/// A request-specific prompt and opaque identity, revalidated after approval.
+/// Identity binds the resolved target and must not contain secret values.
+public struct ActionConfirmationPreparation: Equatable, Sendable {
+    public let confirmation: ActionConfirmation
+    public let contextIdentity: String
+
+    public init(confirmation: ActionConfirmation, contextIdentity: String) {
+        self.confirmation = confirmation
+        self.contextIdentity = contextIdentity
+    }
+}
+
+/// Optional companion contract; existing provider witness tables remain unchanged.
+@MainActor
+public protocol PluginActionConfirmationProviding: AnyObject {
+    /// Return nil when a concrete request cannot safely be described or revalidated.
+    func actionConfirmation(for reference: ActionReference) -> ActionConfirmationPreparation?
+}
+
 public struct ActionConfirmation: Hashable, Codable, Sendable {
     public let title: String
     public let message: String

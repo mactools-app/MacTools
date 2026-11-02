@@ -155,6 +155,9 @@ jobs:
           scripts/plugins/verify-plugin-catalog-key-pair.sh \
             --public-key-base64 "$PLUGIN_CATALOG_PUBLIC_KEY"
 
+      - name: Install native Voice Assistant SDK toolchain
+        run: rustup toolchain install 1.97.1 --profile minimal --target aarch64-apple-darwin,x86_64-apple-darwin
+
       - name: Show Xcode version
         if: steps.nightly_gate.outputs.decision == 'publish'
         run: xcodebuild -version

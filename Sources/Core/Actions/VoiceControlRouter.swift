@@ -37,6 +37,18 @@ final class VoiceControlRouter {
     private var operations: [UUID: (UUID, Task<PluginVoiceReply, Never>)] = [:]
     private let surface = ActionExposureSurface(rawValue: "voice-control")
 
+    private func hasSelfActions(_ plugin: any MacToolsPlugin) -> Bool {
+        (plugin as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.isEmpty == false
+            || (plugin as? any PluginVoiceSelfParameterizedActionProviding)?.voiceSelfParameterizedActionIDs.isEmpty == false
+    }
+
+    private func allowsSelfAction(_ plugin: any MacToolsPlugin, id: String, parameterized: Bool) -> Bool {
+        if parameterized {
+            return (plugin as? any PluginVoiceSelfParameterizedActionProviding)?.voiceSelfParameterizedActionIDs.contains(id) == true
+        }
+        return (plugin as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.contains(id) == true
+    }
+
     init(registry: ActionRegistry, executor: ActionExecutor,
          confirmation: any ActionConfirmationRequesting,
          plugins: @escaping () -> [any MacToolsPlugin], openFeature: @escaping (String) -> Void,
@@ -56,7 +68,7 @@ final class VoiceControlRouter {
         return PluginVoiceControlHostContext(providers: { [weak self] in
             guard let self else { return [] }
             return self.plugins().filter {
-                $0.metadata.id != owner || ($0 as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.isEmpty == false
+                $0.metadata.id != owner || self.hasSelfActions($0)
             }.map {
                 PluginVoiceProvider(id: $0.metadata.id, title: $0.metadata.title)
             } + [.init(id: Self.applicationProviderID,
@@ -68,7 +80,7 @@ final class VoiceControlRouter {
             self.endSessions(owner: owner)
             let id = UUID()
             let allowed = Set(self.plugins().filter {
-                $0.metadata.id != owner || ($0 as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.isEmpty == false
+                $0.metadata.id != owner || self.hasSelfActions($0)
             }.map(\.metadata.id)).union([Self.applicationProviderID]).subtracting(excluded)
             self.grants[id] = Grant(owner: owner, ownerIdentity: identity, contextID: contextID, allowedPluginIDs: allowed,
                                     expires: self.now().advanced(by: .seconds(600)))
@@ -116,8 +128,7 @@ final class VoiceControlRouter {
               ObjectIdentifier(plugin) == binding.identity,
               case let .action(reference, _, parameterized) = binding.operation else { return false }
         if binding.pluginID == grants[sessionID]?.owner {
-            guard !parameterized,
-                  (plugin as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.contains(reference.key.actionID) == true else {
+            guard allowsSelfAction(plugin, id: reference.key.actionID, parameterized: parameterized) else {
                 return false
             }
         }
@@ -154,8 +165,7 @@ final class VoiceControlRouter {
             case .application: return .init(status: "unavailable")
             case let .action(reference, expected, parameterized):
                 if binding.pluginID == grants[sessionID]?.owner {
-                    guard !parameterized,
-                          (plugin as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.contains(reference.key.actionID) == true else {
+                    guard allowsSelfAction(plugin, id: reference.key.actionID, parameterized: parameterized) else {
                         return .init(status: "unavailable")
                     }
                 }
@@ -246,11 +256,11 @@ final class VoiceControlRouter {
                     confirm: definition.confirmation != nil || definition.risk == .confirmationRequired,
                     operation: .action(entry.reference, definition, parameterized: false))
             }
-            if selfActions != nil { continue }
             if let provider = plugin as? any PluginVoiceParameterizedActionProviding,
                let actionProvider = plugin as? any PluginActionProviding {
                 for definition in actionProvider.actionDefinitions where provider.voiceParameterizedActionIDs.contains(definition.key.actionID)
                     && definition.key.providerID == pluginID {
+                    if selfActions != nil && !allowsSelfAction(plugin, id: definition.key.actionID, parameterized: true) { continue }
                     let reference = ActionReference(key: definition.key, schemaVersion: definition.parameterSchemaVersion)
                     guard registry.definition(for: definition.key) == definition else { continue }
                     add(plugin, kind: .action, title: definition.title,
@@ -260,6 +270,7 @@ final class VoiceControlRouter {
                         operation: .action(reference, definition, parameterized: true))
                 }
             }
+            if selfActions != nil { continue }
             if let provider = plugin as? any PluginVoiceQueryProviding {
                 for query in provider.voiceQueries {
                     add(plugin, kind: .query, title: query.title, description: query.description,

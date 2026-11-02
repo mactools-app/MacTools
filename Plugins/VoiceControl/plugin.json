@@ -138,10 +138,108 @@
       "pt": "Novos plugins exigem aprovação manual. As seleções atuais e a conversa em curso mantêm o acesso.",
       "ru": "Новые плагины нужно разрешать вручную. Доступ текущего выбора и текущего разговора не изменится.",
       "tr": "Yeni eklentiler için elle onay gerekir. Mevcut seçimlerin ve devam eden konuşmanın erişimi değişmez."
+    },
+    "action.computer-copy-text.title": {
+      "ar": "نسخ النص",
+      "de": "Text kopieren",
+      "en": "Copy text",
+      "es": "Copiar texto",
+      "fr": "Copier le texte",
+      "ja": "テキストをコピー",
+      "ko": "텍스트 복사",
+      "pt": "Copiar texto",
+      "ru": "Скопировать текст",
+      "zh-Hans": "复制文本",
+      "zh-Hant": "複製文字",
+      "tr": "Metni kopyala"
+    },
+    "action.computer-open-url.title": {
+      "ar": "فتح صفحة ويب",
+      "de": "Webseite öffnen",
+      "en": "Open web page",
+      "es": "Abrir página web",
+      "fr": "Ouvrir une page web",
+      "ja": "Webページを開く",
+      "ko": "웹 페이지 열기",
+      "pt": "Abrir página Web",
+      "ru": "Открыть веб-страницу",
+      "zh-Hans": "打开网页",
+      "zh-Hant": "開啟網頁",
+      "tr": "Web sayfasını aç"
+    },
+    "action.computer-search-web.title": {
+      "ar": "البحث في الويب",
+      "de": "Im Web suchen",
+      "en": "Search the web",
+      "es": "Buscar en la web",
+      "fr": "Rechercher sur le Web",
+      "ja": "Webで検索",
+      "ko": "웹 검색",
+      "pt": "Pesquisar na Web",
+      "ru": "Поиск в интернете",
+      "zh-Hans": "搜索网页",
+      "zh-Hant": "搜尋網頁",
+      "tr": "Web’de ara"
+    },
+    "action.computer-inspect-app.title": {
+      "ar": "فحص عناصر التطبيق",
+      "de": "App-Steuerelemente prüfen",
+      "en": "Inspect application controls",
+      "es": "Inspeccionar controles de una app",
+      "fr": "Inspecter les commandes d’une app",
+      "ja": "アプリのコントロールを確認",
+      "ko": "앱 컨트롤 확인",
+      "pt": "Inspecionar controlos da aplicação",
+      "ru": "Просмотреть элементы приложения",
+      "zh-Hans": "查看应用控件",
+      "zh-Hant": "檢視應用程式控制項",
+      "tr": "Uygulama denetimlerini incele"
+    },
+    "action.computer-set-control-value.title": {
+      "ar": "تعيين قيمة عنصر",
+      "de": "Steuerelement ausfüllen",
+      "en": "Set control value",
+      "es": "Establecer valor de un control",
+      "fr": "Définir la valeur d’une commande",
+      "ja": "コントロールの値を設定",
+      "ko": "컨트롤 값 설정",
+      "pt": "Definir valor de um controlo",
+      "ru": "Задать значение элемента",
+      "zh-Hans": "填写应用控件",
+      "zh-Hant": "填寫應用程式控制項",
+      "tr": "Denetim değerini ayarla"
+    },
+    "action.computer-click-control.title": {
+      "ar": "النقر على عنصر",
+      "de": "Steuerelement anklicken",
+      "en": "Click control",
+      "es": "Pulsar un control",
+      "fr": "Cliquer sur une commande",
+      "ja": "コントロールをクリック",
+      "ko": "컨트롤 클릭",
+      "pt": "Clicar num controlo",
+      "ru": "Нажать элемент",
+      "zh-Hans": "点击应用控件",
+      "zh-Hant": "點擊應用程式控制項",
+      "tr": "Denetime tıkla"
+    },
+    "action.computer-scroll-control.title": {
+      "ar": "تمرير عنصر",
+      "de": "Steuerelement scrollen",
+      "en": "Scroll control",
+      "es": "Desplazar un control",
+      "fr": "Faire défiler une commande",
+      "ja": "コントロールをスクロール",
+      "ko": "컨트롤 스크롤",
+      "pt": "Deslocar um controlo",
+      "ru": "Прокрутить элемент",
+      "zh-Hans": "滚动应用控件",
+      "zh-Hant": "捲動應用程式控制項",
+      "tr": "Denetimi kaydır"
     }
   },
-  "version": "0.1.0",
-  "minHostVersion": "2.2.1",
+  "version": "0.2.0",
+  "minHostVersion": "2.2.2",
   "pluginKitVersion": 7,
   "bundleRelativePath": "VoiceControl.bundle",
   "factoryClass": "VoiceControlPlugin.VoiceControlPluginFactory",
@@ -156,7 +254,8 @@
     "settings": "form"
   },
   "permissions": [
-    "microphone"
+    "microphone",
+    "accessibility"
   ],
   "category": "productivity",
   "presentation": {
@@ -255,7 +354,8 @@
     "applications": [],
     "executables": [],
     "permissionIDs": [
-      "microphone"
+      "microphone",
+      "accessibility"
     ],
     "setupComplexity": "simple",
     "requiresRelaunch": false
@@ -265,11 +365,14 @@
       "microphone-audio",
       "conversation-transcript",
       "plugin-command-metadata",
-      "requested-plugin-state"
+      "requested-plugin-state",
+      "requested-app-accessibility-content",
+      "requested-clipboard-text"
     ],
     "dataPersisted": [
       "api-key-in-local-keychain",
-      "excluded-plugin-ids"
+      "excluded-plugin-ids",
+      "computer-interaction-enabled"
     ],
     "retention": {
       "policy": "user-controlled"
@@ -361,10 +464,275 @@
             ],
             "automaticEligible": false,
             "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-copy-text",
+            "title": "@productStrings.action.computer-copy-text.title",
+            "description": "@productStrings.action.computer-copy-text.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "text",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-open-url",
+            "title": "@productStrings.action.computer-open-url.title",
+            "description": "@productStrings.action.computer-open-url.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "url",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "browser",
+                "kind": "string",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-search-web",
+            "title": "@productStrings.action.computer-search-web.title",
+            "description": "@productStrings.action.computer-search-web.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "query",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "browser",
+                "kind": "string",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-inspect-app",
+            "title": "@productStrings.action.computer-inspect-app.title",
+            "description": "@productStrings.action.computer-inspect-app.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "app",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "windowID",
+                "kind": "integer",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [
+              "accessibility"
+            ],
+            "risk": "confirmationRequired",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-set-control-value",
+            "title": "@productStrings.action.computer-set-control-value.title",
+            "description": "@productStrings.action.computer-set-control-value.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "observationID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "controlID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "value",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [
+              "accessibility"
+            ],
+            "risk": "confirmationRequired",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-click-control",
+            "title": "@productStrings.action.computer-click-control.title",
+            "description": "@productStrings.action.computer-click-control.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "observationID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "controlID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [
+              "accessibility"
+            ],
+            "risk": "confirmationRequired",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-scroll-control",
+            "title": "@productStrings.action.computer-scroll-control.title",
+            "description": "@productStrings.action.computer-scroll-control.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "observationID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "controlID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "direction",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [
+              "accessibility"
+            ],
+            "risk": "confirmationRequired",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
           }
         ],
         "dynamicTemplates": []
       }
+    ]
+  },
+  "package": {
+    "signPaths": [
+      "VoiceControl.bundle/Contents/Frameworks/libcua_driver_sdk.dylib"
     ]
   }
 }

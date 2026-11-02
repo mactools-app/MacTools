@@ -1,3 +1,21 @@
 settings:
   base:
     OTHER_LDFLAGS: -framework AVFoundation -framework Security -framework CoreML
+    SWIFT_INCLUDE_PATHS: "$(SRCROOT)/Plugins/VoiceControl/Vendor/CuaDriverABI"
+bundle:
+  postBuildScripts:
+    - name: Embed in-process Cua SDK
+      basedOnDependencyAnalysis: false
+      script: |
+        set -euo pipefail
+        sdk="$SRCROOT/build/Dependencies/CuaDriver/0.38.0"
+        /usr/bin/python3 "$SRCROOT/scripts/plugins/prepare-cua-driver.py" --destination "$sdk"
+        destination="$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Frameworks"
+        mkdir -p "$destination"
+        cp "$sdk/libcua_driver_sdk.dylib" "$destination/"
+        resources="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/CuaDriver"
+        mkdir -p "$resources"
+        cp "$sdk/LICENSE" "$sdk/THIRD_PARTY_NOTICES.md" "$resources/"
+        if [ "${CODE_SIGNING_ALLOWED:-YES}" != "NO" ]; then
+          /usr/bin/codesign --force --sign "${EXPANDED_CODE_SIGN_IDENTITY:--}" "$destination/libcua_driver_sdk.dylib"
+        fi

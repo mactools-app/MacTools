@@ -5,6 +5,7 @@ import MacToolsPluginKit
 
 @MainActor
 final class VoiceConversation: ObservableObject {
+    var onStop: (() -> Void)?
     @Published private(set) var active = false
     @Published private(set) var connected = false
     @Published private(set) var listeningLocally = false
@@ -234,6 +235,7 @@ final class VoiceConversation: ObservableObject {
         pendingInput = VoicePendingInput()
         inputLevels = Array(repeating: 0, count: 24); outputLevels = Array(repeating: 0, count: 24)
         tools?.stop(); tools = nil
+        onStop?()
         audio.stop()
         startupTask?.cancel(); startupTask = nil
         let oldReceiver = receiveTask; receiveTask = nil

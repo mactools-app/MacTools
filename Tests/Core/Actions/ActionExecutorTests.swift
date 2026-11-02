@@ -4,6 +4,26 @@ import XCTest
 
 @MainActor
 final class ActionExecutorTests: XCTestCase {
+    func testRequestSpecificApprovalIsRevalidatedBeforeBeginning() async {
+        let registry = ActionRegistry()
+        let provider = ActionExecutorTestProvider()
+        let prompt = ActionConfirmation(title: "Replace text", message: "Editor · Document · Subject → tea", confirmButtonTitle: "Allow")
+        let definition = makeActionDefinition(risk: .confirmationRequired, confirmation: prompt)
+        var target = "window-A"
+        provider.confirmation = { _ in .init(confirmation: prompt, contextIdentity: target) }
+        registry.synchronize([provider.registration(definition: definition)])
+        let reference = ActionReference(key: definition.key)
+        let approval = ActionExecutorConfirmationService { target = "window-B"; return true }
+        let result = await ActionExecutor(registry: registry, confirmationService: approval).execute(
+            .init(reference: reference, source: .manual, mode: .foreground))
+        XCTAssertEqual(result, .rejected(.providerChanged))
+        XCTAssertEqual(provider.beginCount, 0)
+        let accepted = await ActionExecutor(registry: registry, confirmationService: ApprovedActionConfirmationService()).execute(
+            .init(reference: reference, source: .manual, mode: .foreground))
+        XCTAssertEqual(accepted, .completed(.succeeded()))
+        XCTAssertEqual(provider.beginCount, 1)
+    }
+
     func testExecutorAppliesAvailabilityModeAndExternalPoliciesBeforeBegin() async {
         let registry = ActionRegistry()
         let provider = ActionExecutorTestProvider()
@@ -471,6 +491,7 @@ final class ActionExecutorTestProvider {
     var executionRevision: UInt64 = 0
     var didCancel = false
     var onBegin: (() -> Void)?
+    var confirmation: ((ActionReference) -> ActionConfirmationPreparation?)?
 
     func registration(definition: ActionDefinition) -> ActionProviderRegistration {
         ActionProviderRegistration(
@@ -487,6 +508,7 @@ final class ActionExecutorTestProvider {
             availability: { [weak self] _ in
                 self?.availability ?? .unavailable("missing")
             },
+            confirmation: confirmation,
             exposurePolicy: { [weak self] _, _ in
                 self?.exposurePolicy ?? .excluded
             },
