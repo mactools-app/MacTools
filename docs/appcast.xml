@@ -5,75 +5,70 @@
         <description>Latest release metadata for MacTools.</description>
         <language>en</language>
         <item>
-            <title>Version 2.1.0</title>
-            <link>https://github.com/mactools-app/MacTools/releases/tag/v2.1.0</link>
-            <sparkle:version>73</sparkle:version>
-            <sparkle:shortVersionString>2.1.0</sparkle:shortVersionString>
+            <title>Version 2.2.0</title>
+            <link>https://github.com/mactools-app/MacTools/releases/tag/v2.2.0</link>
+            <sparkle:version>74</sparkle:version>
+            <sparkle:shortVersionString>2.2.0</sparkle:shortVersionString>
             <description sparkle:format="markdown"><![CDATA[## App Updates
 
 ### Added
 
-- Arrange controls and widgets in aligned columns with drag previews, labeled editing actions, and adjustable widths. Panel and item widths are included in settings backups.
-- Combine seven starter packs during first-launch setup, with panel previews, plugin choices, and a setup checklist. Resume unfinished setup, restore a backup safely, or start empty while preserving settings.
+- Added system-network support for private IP address ranges used by local model services, while retaining public-network transport protections.
+- MacTools can open its panel below the Dynamic Island and restores its menu-bar icon when the hover plugin is disabled or no compatible display is connected.
+- Open installed or running applications directly by voice without assigning hotkeys. Asking for an already active app keeps it visible.
+- Control enabled plugins by voice with native approvals and microphone permission guidance. Conversations survive plugin refreshes, while stopped or expired sessions cannot start waiting commands.
 
 ### Changed
 
-- Startup and plugin refresh stay responsive, with custom menu bar icons finishing preparation after the app becomes available.
-- Plugin details show installation feedback and setup guidance, and plugin updates block conflicting actions. Search opens details directly while keeping usable title matches ahead of capability suggestions.
-- Trackpad plugins share input during weighing, recover after interruptions, and wait for fingers to lift before gestures resume. Stopped gestures stay stopped during updates.
+- Plugin Sets now open inside Settings and finish with clear tips for using and configuring plugins. Refined previews use each component’s default panel while preserving existing layouts.
+- Import now clarifies that selecting Shortcuts resets omitted bindings to defaults. Unselected categories and local data are preserved.
+- Empty panels now link to plugin installation when no plugins are installed, or directly to panel editing when plugins are available, replacing the tool-pack shortcut.
 
 ### Fixed
 
-- Expanded panel details remain visible after scrolling.
-- Opening or returning to plugin settings refreshes permission guidance without restarting every plugin's background work.
-- Plugin search now matches Turkish capitalization and German sharp-S spellings consistently.
-- Upgrading panel layouts no longer creates false cloud settings conflicts.
-- MacTools 2.1.0 requires Middle Click and Trackpad Gestures 2.0.2 or later to prevent input conflicts. Older packages keep settings and update guidance, including during interrupted migration recovery.
-- Keep Trackpad Scale calibration across measurements and app restarts when the trackpad provides a stable device identity.
+- Preferences Backup now shows plugin coverage, exclusions, and restore results. Failed exports preserve the last good automatic or cloud backup, and dependent shortcuts follow successfully included definitions.
+- Imported prompt shortcuts apply only when their template definitions restore successfully.
+- Panel editing keeps navigation centered, places Panel Width after Add Widgets, and removes redundant drag controls.
 
 ## Plugin Updates
 
 ### Added
 
-- Appearance, Night Shift, Microphone Mute, and Auto Hide Dock now offer compact switches in the panel editor on MacTools 2.1.0 or later.
-- Auto Input fixed rules can now set a per-app keyboard mode: follow the system, use standard F1–F12 function keys, or keep the MacBook top-row shortcuts. The choice applies while the app is frontmost.
-- Container Indicator monitors the Apple container service in one panel card, listing containers and virtual machines with CPU, memory, and storage details plus start, stop, and restart controls.
-- Key Stats counts key presses and trackpad use, shows today’s counts on a MacBook Pro keyboard, and charts daily and seven-day usage. Counts reset at midnight; the last seven days stay on device.
-- Power Status shows live power flow, AC input, battery charge and discharge, health, temperature, cycles, and time estimates, with grouped voltage, current, and capacity readings.
-- Power Status now has a collapsible temperature and power section that shows readings for the processor, GPU, memory, storage, mainboard, and battery. The Neural Engine row is hidden on M1 and M2 Macs.
-- Power Status now lists the five apps using the most energy while the panel is open, based on per-process energy counters.
-- Region recordings can zoom toward clicks and scrolling in the saved video. Processing shows progress and can keep the original movie instead.
-- Screenshot adds Spotlight to highlight details in copied, saved, and pinned images. Rectangles, ellipses, and spotlight regions can be selected, moved, resized, and undone after drawing.
-- Trackpad Scale automatically tares finger contact and captures stable readings, keeping results visible after sampling stops. Automatic capture can be disabled; manual Tare is available in Calibration and with ⌘T.
-- Trackpad Scale offers known-weight calibration that stays consistent through brief pressure changes, with an accuracy warning beside the reading.
-- Experimental Trackpad Scale estimates weight on built-in Force Touch trackpads, with stability feedback and restart controls. Middle Click and Trackpad Gestures pause until sampling stops and fingers lift.
+- Translator now accepts private IPv4 and IPv6 HTTP endpoints, preserves custom endpoint paths, and restricts redirects to the configured service. Requires MacTools 2.2.0 or later.
+- The Apple Container card now shows live CPU, memory, and disk usage. Containers gain a configuration window with CPU, memory, and disk I/O charts plus terminal access, and machines can open a terminal too.
+- New Dynamic Island Hover Panel plugin opens MacTools from the Dynamic Island. The main menu-bar icon stays visible by default, with an option to hide it; saved visibility preferences are preserved.
+- Change automatic access for new plugins by voice, with confirmation before enabling. Changes affect future conversations, and stopping cancels pending changes.
+- New Voice Assistant offers a persistent panel with live captions, audio meters, and global shortcuts. Keys stay in Keychain; feature access supports search, batch changes, and cancelable edits.
+- Voice Assistant ends idle conversations after a configurable timeout, defaulting to one minute. Replies and tasks finish before the timer starts, and the floating panel stays open.
+- Voice Assistant can wait for speech on your Mac before connecting, preserving your opening words while reducing unused API time. Connect when I speak is enabled by default and can be changed in settings.
+- Choose whether newly installed plugins are automatically available from the main Voice Assistant settings page. Automatic access is on by default; current choices are kept when switching to manual approval.
+- Voice Assistant groups connection, conversation, and feature access settings. Model and pricing details explain billed connected silence and free local speech detection, with official links and speaker troubleshooting.
+- Ask for fresh brightness, system, power, appearance, Keep Awake, Night Shift, and mute status. Brightness commands verify their target and distinguish hardware readings from software dimming without undoing adjustments.
+- Voice Assistant reports audible speech and session usage, recovers from interrupted connections, and immediately stops recording and feature access when stopped.
 
 ### Changed
 
-- Improved plugin discovery across all 12 locales with capability terms such as TipTap, smooth scrolling, launch agents, device batteries, and system monitoring.
-- Brightness reads keep startup and refresh responsive. Monitors that cannot report their current brightness can still use hardware brightness controls.
-- Screenshot keeps recognized text layout, tolerates noisy scrolling frames, adds pinned-image controls, and never overwrites saved files. Cancelling Save As returns to the selection.
-- Screenshot adds opaque fills for rectangles and ellipses and strengthens mosaic redaction against text recovery.
-
-### Removed
-
-- Screenshot removes blur redaction; use mosaic or opaque fills to conceal content.
+- Power Status collapses high-energy apps by default and samples only while expanded. The battery bar is easier to read, and power flow rows show draw without repeating wattage in the header.
 
 ### Fixed
 
-- Auto Input no longer stalls MacTools during startup or focus changes involving unresponsive apps. Focus tracking recovers when an app quits during a switch.
-- Display volume updates no longer freeze Settings.
-- Hide Active App on Dock Click no longer hides an app newly selected in the Dock when mouse-event delivery is delayed.
-- Window Layouts keeps a window in place when an application ignores an incremental resize.
-- Clipboard History now shows saved image previews reliably on first selection when image details load at the same time.
-- Dock Lock now treats a missing Dock orientation preference as macOS’s default bottom position.
-- Middle Click recovers when another MacTools process releases trackpad input and preserves held-click release when weighing starts. Reconnection stops while disabled or paused.
-- On macOS 14 and 15, screenshots, scrolling capture, and recordings keep menu and popover shadows.
-- Closing text recognition chosen from the mode bar now ends the capture instead of showing annotation tools. Recognized line counts exclude layout blank lines, and the result panel stays on screen.
+- Backups now include more plugin settings, custom layouts, and stable app mappings. Private prompt text and launch-item notes require a separate opt-in; local data and permissions stay on your Mac.
+- Fixed upside-down app icons in Launchpad folder previews, including when dragging a folder.
+- Per-app keyboard modes now reliably switch the top row back to the Mac shortcuts or F1–F12 mode when apps change, after waking the Mac, or when a system write briefly fails.
+- AI settings transfer preserves verified local credentials and excluded private text, including large prompts and legacy Translator keys. Imported services need local key setup before accessing saved credentials.
+- Importing Clipboard preferences preserves local history across app restarts.
+- AI Assistant and Translator back up saved disabled service drafts without requiring complete settings. Drafts stay disabled after import.
+- Imports preserve unrelated prompt and Launch Control drafts, restored input rules, and included prompt shortcuts. AI prompt edits wait for recovery to finish, and Translator rejects unusable restored services.
+- Imported app volumes affect new playback while current playback keeps its gain; later edits preserve other live routes. Usage refresh intervals and low-battery warnings resume with restored settings and permission.
+- Clipboard History creates separate snippets when using New Snippet repeatedly, preserving previously saved snippets.
+
+### Security
+
+- Voice Assistant discards muted and outdated buffered audio, and delayed failures from an old connection no longer stop a new conversation.
 ]]></description>
             <sparkle:fullReleaseNotesLink>https://github.com/mactools-app/MacTools/releases</sparkle:fullReleaseNotesLink>
-            <pubDate>Fri, 23 Oct 2026 12:37:36 +0000</pubDate>
-            <enclosure url="https://github.com/mactools-app/MacTools/releases/download/v2.1.0/MacTools.dmg" length="14552434" type="application/octet-stream" sparkle:edSignature="iCYsFpx8kAfWxkjCJ9WildMFyH9gqfmKJ+XJE2Q+MTAEjC27yJfL/J9eCdnCSjGeWEM9J4EpBuDv7qrD+jaZDg==" />
+            <pubDate>Mon, 02 Nov 2026 10:05:45 +0000</pubDate>
+            <enclosure url="https://github.com/mactools-app/MacTools/releases/download/v2.2.0/MacTools.dmg" length="14537000" type="application/octet-stream" sparkle:edSignature="fKfjJmzZFKQ3SjJg9quDXm/IAMG4Alg0tQhlYeG9+6uKSNpKygNJ2rnmm0fx7rxFyp/2craJFfzHn3ZprFUeBQ==" />
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
         </item>
     </channel>
