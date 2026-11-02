@@ -3,4 +3,4 @@ release: plugin
 type: added
 plugin: voice-control
 ---
-Voice Assistant can complete approved multi-step app tasks using menus and keyboard input, and run separately approved commands with live output and cancellation.
+Voice Assistant can complete approved app tasks using menus and keyboard input, report missing setup, and run separately approved commands with output and cancellation.

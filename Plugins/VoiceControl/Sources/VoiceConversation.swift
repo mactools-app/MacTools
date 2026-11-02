@@ -40,6 +40,7 @@ final class VoiceConversation: ObservableObject {
     @Published private(set) var credentialBusy = false
     var context: PluginVoiceControlHostContext? { didSet { if active { stop() } } }
     var onChange: (() -> Void)?
+    var computerTaskSetupBlocker: (() -> String?)?
     let localization: PluginLocalization
     private let credentials: VoiceCredentialConfiguration
     private let audio: any VoiceAudioIO
@@ -190,6 +191,10 @@ final class VoiceConversation: ObservableObject {
                     activity = title
                     lastActivity = .now
                 }
+                if sessionProviders.contains(where: { $0.id == "voice-control" }) {
+                    await tools?.prepareTaskCapabilities()
+                    guard epoch == token, active else { return }
+                }
                 startupTimeoutFailure = .credentials
                 let key = try await credentials.loadForConversation()
                 guard epoch == token, active else { return }
@@ -309,7 +314,10 @@ final class VoiceConversation: ObservableObject {
         let socket = makeConnection?(request) ?? VoiceWebSocketConnection(network: network, request: request)
         self.socket = socket; socket.resume(); recordStartup("connectionRequested")
         receiveTask = Task { @MainActor [weak self] in await self?.receive(token: token, socket: socket) }
-        try await send(["type": "session.start", "session": VoiceTools.configuration(providers: sessionProviders)], token: token)
+        guard let tools else { throw VoiceFailure.protocolError }
+        let configuration = tools.configuration(providers: sessionProviders,
+            taskUnavailableReason: computerTaskSetupBlocker?())
+        try await send(["type": "session.start", "session": configuration], token: token)
     }
 
     private func startIdleTimer(token: UUID) {

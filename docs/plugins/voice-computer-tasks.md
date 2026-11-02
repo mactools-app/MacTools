@@ -10,6 +10,8 @@ These canonical actions use the existing discovered-capability bridge and host e
 
 The existing voice/backend connection follows OpenAI's [GPT-Live tool continuation flow](https://developers.openai.com/api/docs/guides/live-delegation). This layer supplies composable local tools and task state without introducing another model service.
 
+At conversation startup, local host discovery exposes the allowed general task capabilities as typed backend functions, each mapped to its actual host-issued session ID. These use the existing canonical host executor and approvals, without a second dispatch path or SDK change. Discovery creates no API session or app-content read by itself. The session also reports missing computer-interaction, app-reading-consent or Accessibility setup. A chooser is not a substitute for a requested app effect; when setup is missing, explain how the user can enable it instead of opening a manager or bypassing consent with a command.
+
 | Action | Behavior |
 | --- | --- |
 | `computer-task-begin` | Approve a goal and JSON array of running app names/bundle IDs; return task and app IDs pinned to process lifetimes. |

@@ -61,6 +61,7 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
         assistant.openSettings = { [weak self] in self?.requestSettingsPresentation?() }
         conversation.onChange = { [weak self] in self?.onStateChange?() }
         conversation.onStop = { [weak self] in self?.computerTasks.stop() }
+        conversation.computerTaskSetupBlocker = { [weak self] in self?.computerTaskSetupBlocker }
         computerUse.onInspectionActivity = { [weak model = self.conversation] app in model?.setReadingApp(app) }
         computerTasks.onProgress = { [weak model = self.conversation] task in model?.setComputerTask(task) }
         assistant.cancelComputerTask = { [weak self] in self?.computerTasks.stop() }

@@ -33,9 +33,17 @@ extension VoiceControlPlugin {
     func computerTaskAvailability(_ reference: ActionReference) -> ActionAvailability {
         guard conversation.active else { return .unavailable("Start a conversation before using computer tasks or command sessions.") }
         if reference.key.actionID.hasPrefix("computer-task-"), reference.key.actionID != "computer-task-finish" {
-            guard canReadAppContent else { return .unavailable("Enable Allow reading app content in Voice Assistant settings first.") }
-            guard AXIsProcessTrusted() else { return .unavailable("Grant Accessibility permission before interacting with apps.") }
+            if let blocker = computerTaskSetupBlocker { return .unavailable(blocker) }
         }
         return .available
+    }
+
+    var computerTaskSetupBlocker: String? {
+        guard computerUse.enabled else { return "Enable Computer interaction in Voice Assistant settings first." }
+        guard allowsAppReading else {
+            return "Stop the conversation, then enable Allow reading app content in Voice Assistant settings > Computer interaction and start a new conversation. Only the user can grant this setup consent."
+        }
+        guard AXIsProcessTrusted() else { return "Grant MacTools Accessibility permission in macOS settings before interacting with apps." }
+        return nil
     }
 }
