@@ -66,7 +66,18 @@ def native_build_key() -> str:
 
 def build_environment(destination: Path) -> dict[str, str]:
     environment = {key: os.environ[key] for key in ("PATH", "HOME", "USER", "LOGNAME", "TMPDIR", "DEVELOPER_DIR") if key in os.environ}
+    # Cargo's C dependencies must use the selected Xcode SDK even when Xcode
+    # invokes this script with a PATH entry named only "cc". The absolute
+    # toolchain path also makes cc-rs add its explicit Apple sysroot flags.
+    def xcode_tool(*arguments: str) -> str:
+        return subprocess.check_output(["/usr/bin/xcrun", "--sdk", "macosx", *arguments],
+            env=environment, text=True).strip()
+
+    sdk = xcode_tool("--show-sdk-path")
+    clang = xcode_tool("--find", "clang")
+    clangxx = xcode_tool("--find", "clang++")
     environment.update(CARGO_HOME=str(destination / "cargo"), CARGO_TARGET_DIR=str(destination / "target"),
+        SDKROOT=sdk, CC=clang, CXX=clangxx,
         MACOSX_DEPLOYMENT_TARGET="14.0", GIT_CONFIG_GLOBAL="/dev/null", GIT_CONFIG_NOSYSTEM="1",
         GIT_TERMINAL_PROMPT="0", GIT_CONFIG_COUNT="1", GIT_CONFIG_KEY_0="credential.helper", GIT_CONFIG_VALUE_0="",
         CARGO_PROFILE_RELEASE_STRIP="none", CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_STRIP="none",
