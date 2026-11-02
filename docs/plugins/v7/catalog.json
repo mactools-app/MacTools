@@ -1,6 +1,6 @@
 {
   "catalogID" : "com.ggbond.mactools.plugins",
-  "generatedAt" : "2026-10-23T11:47:28Z",
+  "generatedAt" : "2026-11-02T09:14:10Z",
   "minimumHostVersion" : "1.2.1",
   "pluginKitVersion" : 7,
   "plugins" : [
@@ -236,14 +236,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "e65ecfe94cd4d0ca5097a8378ea207657481692cfc4bf2073b1a8baf204db74f",
-        "size" : 553625,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/action-grid.mactoolsplugin.zip"
+        "sha256" : "db136e79f430c36a13897b427b44c85b2a4fabd574b30a81a2c3983c346bb3fc",
+        "size" : 553655,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/action-grid.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "portable"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -320,7 +326,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -351,7 +357,7 @@
         ]
       },
       "summary" : "在指针附近打开用户配置的常用操作网格。",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -708,14 +714,21 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "777c953adaac5fe567e7731c3dc19a89689877ecc5c77c871be6a120c147244a",
-        "size" : 947539,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/activity-bar.mactoolsplugin.zip"
+        "sha256" : "9f2a91488455713a22cb4b485fee7290c134d6ff131fbbfd18a4f0ee2557c7f5",
+        "size" : 1025837,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/activity-bar.mactoolsplugin.zip"
       },
       "permissions" : [
         "inputMonitoring"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "local-activation",
+          "history"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -798,7 +811,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -829,7 +842,7 @@
         ]
       },
       "summary" : "统计输入、前台应用使用时长和 AI 编程活动",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -1234,15 +1247,23 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "c5ea358de1a324428e57d5ea2ccf6e33a34e437d3c5926da880351aa2277fec6",
-        "size" : 1010177,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/ai-assistant.mactoolsplugin.zip"
+        "sha256" : "5e71aed855f68da4299f4b558796abd2963ae54050af2cfe85111f6978eea3b5",
+        "size" : 1148664,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/ai-assistant.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility",
         "automation"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "credentials",
+          "permissions",
+          "private-content"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -1292,7 +1313,8 @@
           "ai-requests"
         ],
         "dataPersisted" : [
-          "plugin-configuration"
+          "plugin-configuration",
+          "custom-prompt-text"
         ],
         "diagnosticExportsContainUserData" : false,
         "networkDomains" : [
@@ -1320,7 +1342,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -1382,7 +1404,7 @@
         ]
       },
       "summary" : "划词调用 AI 翻译、总结、润色等",
-      "version" : "0.2.0"
+      "version" : "0.3.0"
     },
     {
       "capabilities" : {
@@ -1549,14 +1571,22 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "382d1e61cfb36204087415f39743047fbdc3c85f3a522b66082d4c434de847c4",
-        "size" : 505871,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/ai-usage.mactoolsplugin.zip"
+        "sha256" : "7ab824f195457deb77fc29546294560a9f8a154c38120efa7fcdb9aa0efe3f66",
+        "size" : 517725,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/ai-usage.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "credentials",
+          "permissions",
+          "history"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -1635,7 +1665,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -1666,7 +1696,7 @@
         ]
       },
       "summary" : "查看 Codex 与 Claude Code 订阅额度和重置时间",
-      "version" : "1.1.0"
+      "version" : "1.2.0"
     },
     {
       "actions" : {
@@ -1699,13 +1729,13 @@
                   "installed",
                   "applications"
                 ],
-                "localOnlyIdentity" : true,
+                "localOnlyIdentity" : false,
                 "parameters" : [
                   {
                     "id" : "entryID",
                     "isRequired" : true,
                     "kind" : "string",
-                    "portability" : "localOnly"
+                    "portability" : "portable"
                   }
                 ],
                 "parameterSummary" : {
@@ -1734,7 +1764,8 @@
                   "automatic-rule",
                   "action-grid",
                   "trackpad-gesture",
-                  "manual"
+                  "manual",
+                  "app-intent"
                 ],
                 "title" : {
                   "ar" : "فتح التطبيق",
@@ -1909,14 +1940,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "e33bb3b99cc1bfc4529d6e836341e520c01fb1c2bd163c7ca0eab8c0205f35e3",
-        "size" : 194903,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/app-hotkey.mactoolsplugin.zip"
+        "sha256" : "3b44365e619a4afbd4d477356b4fd634ea66fd138439d8b205e95917a3d83dce",
+        "size" : 350998,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/app-hotkey.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "application-paths"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -1994,7 +2031,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -2025,7 +2062,7 @@
         ]
       },
       "summary" : "为常用应用绑定全局快捷键，快速打开或切换到前台",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -2303,14 +2340,21 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "b2d78f6098588279b99bbb4b21add53a160b442524aed5dca0e95be00b984e26",
-        "size" : 314457,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/app-volume.mactoolsplugin.zip"
+        "sha256" : "fbb7e92723d6b5e6c569964325a213d74c46385ad2b9169ac34edfb7f1cdd318",
+        "size" : 350971,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/app-volume.mactoolsplugin.zip"
       },
       "permissions" : [
         "system-audio-recording"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "permissions",
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -2389,7 +2433,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -2453,7 +2497,7 @@
         ]
       },
       "summary" : "分别调节正在播放音频的应用音量",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -2811,16 +2855,22 @@
           "summary" : "切換系統亮色與深色外觀"
         }
       },
-      "minimumHostVersion" : "2.1.0",
+      "minimumHostVersion" : "2.2.0",
       "package" : {
-        "sha256" : "36832bb6dc1fce75d768001c7a8e4ff6ad4d0ed97ea1037d0f2ceb3b4ab8caa8",
-        "size" : 130050,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/appearance.mactoolsplugin.zip"
+        "sha256" : "d1faffc7cf4478ed14051d38b50e4eaa631df7c51aa433f290d0ee4b8b3cfe91",
+        "size" : 141081,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/appearance.mactoolsplugin.zip"
       },
       "permissions" : [
         "automation"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -2866,7 +2916,8 @@
       "privacy" : {
         "allowsUserConfiguredDomains" : false,
         "dataObserved" : [
-          "system-appearance"
+          "system-appearance",
+          "requested-plugin-state"
         ],
         "dataPersisted" : [
 
@@ -2897,7 +2948,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -2934,7 +2985,7 @@
         }
       },
       "summary" : "切换系统亮色与深色外观",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -3182,14 +3233,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "8cbb323ca369c8051afce7b9a7a2053ed4988cdae7d8ecf0791d5154157e6021",
-        "size" : 749864,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/apple-shortcuts.mactoolsplugin.zip"
+        "sha256" : "88c38ab8398628c4764209bb967825c5320d44a85ad8d7f9689100b6b042a07a",
+        "size" : 749904,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/apple-shortcuts.mactoolsplugin.zip"
       },
       "permissions" : [
         "automation"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "private-content"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -3267,7 +3324,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
           {
@@ -3331,7 +3388,7 @@
         ]
       },
       "summary" : "发现并运行现有的 Apple 快捷指令。",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -3636,14 +3693,20 @@
       },
       "minimumHostVersion" : "2.1.0",
       "package" : {
-        "sha256" : "b698f18992763975d2ec3d99d58c7e3017aefc0bac85ee0a02813f23993c011d",
-        "size" : 100046,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/auto-hide-dock.mactoolsplugin.zip"
+        "sha256" : "1c545e88816e843108e6c436306aaf876284cec498df0340e75713666e3bf257",
+        "size" : 100055,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/auto-hide-dock.mactoolsplugin.zip"
       },
       "permissions" : [
         "automation"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -3720,7 +3783,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -3751,7 +3814,7 @@
         ]
       },
       "summary" : "自动隐藏程序坞，提供更干净的桌面环境",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -4151,14 +4214,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "cd4e3f73fb1253cab496569b39014dc81c514f4a966a4c8a11b5a86e659673a5",
-        "size" : 127783,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/auto-hide-menu-bar.mactoolsplugin.zip"
+        "sha256" : "d6b5034d800011612b772151225dad17f021cb43d53a2a95bb14eb198bcb3496",
+        "size" : 127813,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/auto-hide-menu-bar.mactoolsplugin.zip"
       },
       "permissions" : [
         "automation"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -4235,7 +4304,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -4266,7 +4335,7 @@
         ]
       },
       "summary" : "自动隐藏菜单栏，提供更完整的屏幕显示空间",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -4658,14 +4727,20 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "31df65668561ef4b2511520c12c4cbf9222e39f08b12154532a43ac741b89724",
-        "size" : 771531,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/auto-input.mactoolsplugin.zip"
+        "sha256" : "f64b11ad793af833bd87b3a105cbce2cc6d9392586adfc5e41c087c1a940287b",
+        "size" : 885091,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/auto-input.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "application-paths"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -4743,7 +4818,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -4804,7 +4879,7 @@
         ]
       },
       "summary" : "按应用记住并自动切换输入法",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -5283,14 +5358,21 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "68bc9800631b00a4b58027a27f48e5a67c1a66e6c3ff94f9186bba2184ad6f70",
-        "size" : 313345,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/battery-charge-limit.mactoolsplugin.zip"
+        "sha256" : "6ea68380a3c1603ca0c5f19a6b1381cda2205051273af4189b4ae3210b56023b",
+        "size" : 399584,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/battery-charge-limit.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "local-activation",
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -5367,7 +5449,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -5459,7 +5541,7 @@
         ]
       },
       "summary" : "设置电池充电上限，达到上限后停止充电；不自动恢复，由用户决定何时继续充电",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "capabilities" : {
@@ -5621,15 +5703,22 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "f7641606c6c13beb72367be9d8435361b94a555841a4a514df713e0f9d5b5316",
-        "size" : 603761,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/calendar.mactoolsplugin.zip"
+        "sha256" : "6b3ce0dcb1ef7e41e1fd09144c7ec4990f3fe3a09dbab323d2304660466e7991",
+        "size" : 692488,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/calendar.mactoolsplugin.zip"
       },
       "permissions" : [
         "calendarFullAccess",
         "automation"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "permissions",
+          "private-content"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -5706,7 +5795,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -5768,7 +5857,7 @@
         ]
       },
       "summary" : "查看日期、节假日和系统日程",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -6469,14 +6558,21 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "8711e27655e01daa3064fc85865c7d87caab7f4914188a15562610c28b799ced",
-        "size" : 6136705,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/clipboard.mactoolsplugin.zip"
+        "sha256" : "3d467fa4eb408d55ca44bcb38e73ea789676d990235c45af50514b9edc111e60",
+        "size" : 6226574,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/clipboard.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "private-content",
+          "local-activation"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools/blob/main/docs/superpowers/specs/2026-08-19-clipboard-history.md",
         "examples" : [
@@ -6528,7 +6624,8 @@
         ],
         "dataPersisted" : [
           "encrypted-clipboard-history",
-          "local-encryption-key"
+          "local-encryption-key",
+          "plugin-configuration"
         ],
         "diagnosticExportsContainUserData" : false,
         "networkDomains" : [
@@ -6556,7 +6653,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -6652,7 +6749,7 @@
         }
       },
       "summary" : "搜索历史记录并管理可重复使用的片段和已存项目。",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -6860,14 +6957,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "f433a08093942d409e643e43378fbf53743a1f89b8c0280feca55e27239165a0",
-        "size" : 80592,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/clipboard-clear.mactoolsplugin.zip"
+        "sha256" : "9506a48f759364281e95692796a38d04c1e40ef27a21405dcb569cb98b915cbd",
+        "size" : 80619,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/clipboard-clear.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -6944,7 +7047,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -6975,7 +7078,7 @@
         ]
       },
       "summary" : "一键清空当前剪贴板内容",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -7213,14 +7316,22 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "6c37870d64c7f31fa5a5a64feff211b9a413dff8f8eadba957b40e9e0bd97e72",
-        "size" : 397084,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/cloudflare-r2.mactoolsplugin.zip"
+        "sha256" : "5a4322bd0135180b1fa338938646552404d10bdefda1933f387f507ca4cbf174",
+        "size" : 487929,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/cloudflare-r2.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "credentials",
+          "local-activation",
+          "history"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -7298,7 +7409,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -7359,7 +7470,7 @@
         ]
       },
       "summary" : "上传文件到 Cloudflare R2",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "capabilities" : {
@@ -7539,14 +7650,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "6de4af7d26689cebe3f85c5c1799cdfda3ffd7e98d01eae36e8e3fae9428bd7d",
-        "size" : 1465916,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/com.mactools.plugin.storage-explorer.mactoolsplugin.zip"
+        "sha256" : "2595a40e4e5f8302941e24b8d62a7fa5518bd768766bebd92d541ba095aff5fa",
+        "size" : 1465947,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/com.mactools.plugin.storage-explorer.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -7639,7 +7756,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -7670,14 +7787,14 @@
         ]
       },
       "summary" : "以层级视图直观分析磁盘占用，找出大文件，在审阅确认后移至废纸篓",
-      "version" : "1.1.0"
+      "version" : "1.2.0"
     },
     {
       "capabilities" : {
         "panelItems" : [
           "widget"
         ],
-        "settings" : "none"
+        "settings" : "form"
       },
       "category" : "monitoring",
       "discovery" : {
@@ -7824,14 +7941,20 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "5f34bf1c6ea57e92be39afb381d0b0d49a952b29c5fe12427d8df5b06afd20e4",
-        "size" : 420655,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/container-indicator.mactoolsplugin.zip"
+        "sha256" : "579f92db5755bdd8a3d9a9ebbd860ffd1d115f0fa0aaebe0a20bb8e7d6edbd53",
+        "size" : 791971,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/container-indicator.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -7880,7 +8003,7 @@
           "container-service-state"
         ],
         "dataPersisted" : [
-
+          "plugin-configuration"
         ],
         "diagnosticExportsContainUserData" : false,
         "networkDomains" : [
@@ -7908,7 +8031,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -7969,7 +8092,7 @@
         ]
       },
       "summary" : "查看并控制 container 服务、容器与虚拟机",
-      "version" : "1.0.0"
+      "version" : "1.1.0"
     },
     {
       "capabilities" : {
@@ -8125,14 +8248,21 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "a63e988162602107cba5f5633592bd660748b8225e3f5267ac72d301ce14763d",
-        "size" : 1283928,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/device-battery.mactoolsplugin.zip"
+        "sha256" : "d92896f2cd1d3600c15aff4abefc8f9ec9b004c14d0ef234cb83732ad44d1b33",
+        "size" : 1361684,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/device-battery.mactoolsplugin.zip"
       },
       "permissions" : [
         "inputMonitoring"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state",
+          "permissions"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -8209,7 +8339,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -8240,7 +8370,7 @@
         ]
       },
       "summary" : "查看 Mac、Apple 移动设备、蓝牙外设和雷柏/迈从鼠标电量",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -8490,14 +8620,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "6c3efad85a78e7236c0fbccdd933c616333558b22aeeb2a70afcef200f9d2490",
-        "size" : 1823236,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/disk-clean.mactoolsplugin.zip"
+        "sha256" : "73b23ed4f9cc514e4ea763086ee288a94529f9e31e621cefd13ddd0b2019a62d",
+        "size" : 1823264,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/disk-clean.mactoolsplugin.zip"
       },
       "permissions" : [
         "full-disk-access"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "local-policy"
+        ],
+        "status" : "localOnly"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -8591,7 +8727,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -8622,7 +8758,7 @@
         ]
       },
       "summary" : "扫描系统缓存、开发产物与残留安装包，默认移到废纸篓，执行前校验路径安全",
-      "version" : "3.1.0"
+      "version" : "3.2.0"
     },
     {
       "actions" : {
@@ -8867,6 +9003,72 @@
                   "zh-Hans" : "恢复内建显示屏",
                   "zh-Hant" : "恢復內建顯示螢幕"
                 }
+              },
+              {
+                "automaticEligible" : false,
+                "description" : {
+                  "ar" : "ضبط سطوع الشاشة",
+                  "de" : "Bildschirmhelligkeit einstellen",
+                  "en" : "Set a selected display to an absolute brightness percentage.",
+                  "es" : "Ajustar brillo de pantalla",
+                  "fr" : "Régler la luminosité",
+                  "ja" : "明るさを設定",
+                  "ko" : "디스플레이 밝기 설정",
+                  "pt" : "Definir brilho do monitor",
+                  "ru" : "Задать яркость дисплея",
+                  "tr" : "Seçilen ekranı mutlak bir parlaklık yüzdesine ayarlayın.",
+                  "zh-Hans" : "将指定显示器调节到目标百分比",
+                  "zh-Hant" : "將指定顯示器調整到目標百分比"
+                },
+                "externalInvocation" : "unavailable",
+                "id" : "set-brightness",
+                "keywords" : [
+                  "brightness",
+                  "display",
+                  "percent"
+                ],
+                "parameters" : [
+                  {
+                    "id" : "display-id",
+                    "isRequired" : true,
+                    "kind" : "string",
+                    "portability" : "localOnly"
+                  },
+                  {
+                    "id" : "generation",
+                    "isRequired" : true,
+                    "kind" : "string",
+                    "portability" : "localOnly"
+                  },
+                  {
+                    "id" : "percent",
+                    "isRequired" : true,
+                    "kind" : "double",
+                    "portability" : "portable"
+                  }
+                ],
+                "permissionIDs" : [
+
+                ],
+                "risk" : "safe",
+                "surfaces" : [
+                  "manual"
+                ],
+                "systemImage" : "sun.max",
+                "title" : {
+                  "ar" : "ضبط سطوع الشاشة",
+                  "de" : "Bildschirmhelligkeit einstellen",
+                  "en" : "Set Display Brightness",
+                  "es" : "Ajustar brillo de pantalla",
+                  "fr" : "Régler la luminosité",
+                  "ja" : "明るさを設定",
+                  "ko" : "디스플레이 밝기 설정",
+                  "pt" : "Definir brilho do monitor",
+                  "ru" : "Задать яркость дисплея",
+                  "tr" : "Ekran parlaklığını ayarla",
+                  "zh-Hans" : "设置显示器亮度",
+                  "zh-Hant" : "設定顯示器亮度"
+                }
               }
             ]
           }
@@ -9017,16 +9219,22 @@
           "summary" : "快速調節每個顯示器的亮度"
         }
       },
-      "minimumHostVersion" : "2.0.1",
+      "minimumHostVersion" : "2.2.0",
       "package" : {
-        "sha256" : "4ec315511048ceb9c4bf498c7b814e7b91310809a5f9a39013c82a81a191b952",
-        "size" : 576116,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/display-brightness.mactoolsplugin.zip"
+        "sha256" : "2b2e1835fc66c8734a2ad479b7c85acfa63f0e3845b8ab9eb2eeda282fa6f14d",
+        "size" : 707857,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/display-brightness.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -9103,7 +9311,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -9164,7 +9372,7 @@
         ]
       },
       "summary" : "快速调节每个显示器的亮度",
-      "version" : "2.1.0"
+      "version" : "2.1.1"
     },
     {
       "actions" : {
@@ -9422,14 +9630,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "ad02e0f443e79a60de2840271886cb46f8194cdbb2b9620a15d7ae8ed1c465f4",
-        "size" : 174402,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/display-resolution.mactoolsplugin.zip"
+        "sha256" : "0406a634af09cfee60b58d947ef2c3dd4780d2af514ac44916eb7604151bf68f",
+        "size" : 174430,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/display-resolution.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -9506,7 +9720,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -9567,7 +9781,7 @@
         ]
       },
       "summary" : "查看并切换每个显示器的分辨率",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -9790,14 +10004,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "d5686b339b87629c83da087e1c9ede4daea0acc9a64b5e27e981146222b4ca46",
-        "size" : 87263,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/display-sleep.mactoolsplugin.zip"
+        "sha256" : "3a32f61dd00806037e45a216e929e6f34066f1b3f7cf5dd0f772ffbb311f2bc6",
+        "size" : 87297,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/display-sleep.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -9874,7 +10094,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -9905,7 +10125,7 @@
         ]
       },
       "summary" : "一键让所有显示器立即进入休眠",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -10199,14 +10419,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "000b3e304e44b1c28b6ae897102cab97fca5a5916d2ff072a70446dbeaa034dc",
-        "size" : 91119,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/display-true-color.mactoolsplugin.zip"
+        "sha256" : "aa642fc8c49ad2c2cc0948d9358b0b392e97765f81212b831ff81a62222b58f5",
+        "size" : 91140,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/display-true-color.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -10283,7 +10509,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -10314,7 +10540,7 @@
         ]
       },
       "summary" : "自动调节显示器颜色以适应环境光",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -10608,14 +10834,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "544ce659323e861ba6bf4edae5769f60433ea189ab1db9bcec9920ead1c41efb",
-        "size" : 382304,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/display-volume.mactoolsplugin.zip"
+        "sha256" : "abfd2dd8cf77347777942c68f8eae9acdd458d4514f9074d8bc00b7e20d4879c",
+        "size" : 463129,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/display-volume.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -10692,7 +10924,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -10752,7 +10984,7 @@
         ]
       },
       "summary" : "快速调节每个显示器的音量",
-      "version" : "1.1.0"
+      "version" : "1.2.0"
     },
     {
       "capabilities" : {
@@ -10895,15 +11127,21 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "69b28c4ea64fb3b05b8ac967991eb15e2a6f1963aa21a1c483d3f259484fb5a7",
-        "size" : 176205,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/dock-click-minimize.mactoolsplugin.zip"
+        "sha256" : "bbe543494be2395a5b6551d09a1a65b79c5511fe61c27215489585f850fa4faa",
+        "size" : 264891,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/dock-click-minimize.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility",
         "inputMonitoring"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "portable"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -10980,7 +11218,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -11042,7 +11280,7 @@
         ]
       },
       "summary" : "点击活跃 App 的程序坞图标即可将其隐藏（如 Windows）。",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -11334,14 +11572,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "ec5092f6affb1d2c77a150a2922734ff61f39a861cb285bced4ad3d09fa41567",
-        "size" : 120268,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/dock-lock.mactoolsplugin.zip"
+        "sha256" : "5e417757c74f9d74eccb69d520f38996bcc2725c5f5f4763f1dce4e1b2740245",
+        "size" : 210537,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/dock-lock.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "portable"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -11418,7 +11662,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -11479,7 +11723,7 @@
         ]
       },
       "summary" : "防止程序坞在多显示器之间意外移动",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "capabilities" : {
@@ -11662,14 +11906,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "1478a9bc2332e7c81dbb5bfdc76f3813d3a17bb9b0a6ab0f72755160c6f057e7",
-        "size" : 296936,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/duo-status.mactoolsplugin.zip"
+        "sha256" : "04924e77a984cbf1af7a152c7d85bf98195c3176eace01cb5aa9d76ef4641911",
+        "size" : 383231,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/duo-status.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools/blob/main/docs/plugins/duo-status.md",
         "examples" : [
@@ -11750,7 +12000,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -11781,7 +12031,7 @@
         ]
       },
       "summary" : "通过独立图标或应用主图标查看电量、网络与输出音量状态",
-      "version" : "1.1.0"
+      "version" : "1.2.0"
     },
     {
       "actions" : {
@@ -12007,14 +12257,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "f5ae8b100e1d6bd6e4b0f8cada1d49cd09bc083505e407f7e7cea5e94227ab4b",
-        "size" : 161918,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/eject-disk.mactoolsplugin.zip"
+        "sha256" : "9ae8777cbca3389ec3322cf4bb3b0d889eb802ea9256cb4bc7070e07624e1683",
+        "size" : 161941,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/eject-disk.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -12091,7 +12347,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -12122,7 +12378,7 @@
         ]
       },
       "summary" : "推出所有可移动磁盘",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -12330,14 +12586,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "4db51c2b72266c8804ad0a62204ecf1a78497e02366832eaf0325a75b003d953",
-        "size" : 124786,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/empty-trash.mactoolsplugin.zip"
+        "sha256" : "57c8b815f680f43506b1c42d943928912b1a0a180fde540ee8a2b1c5e9b25c69",
+        "size" : 124816,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/empty-trash.mactoolsplugin.zip"
       },
       "permissions" : [
         "automation"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -12414,7 +12676,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -12445,7 +12707,7 @@
         ]
       },
       "summary" : "清空废纸篓中的所有项目",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -12716,14 +12978,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "50024a8b41128504879e71e30240ac92472b88ce8abc05f249c3f3f1efccc35a",
-        "size" : 447991,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/fan-control.mactoolsplugin.zip"
+        "sha256" : "a0fd9f26bbb680c81571e72c233522b5ca45330c0a42d7b13e153f1b2ae9e601",
+        "size" : 448031,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/fan-control.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -12800,7 +13068,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -12892,7 +13160,7 @@
         ]
       },
       "summary" : "管理风扇转速预设，支持自动、全速和自定义策略",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -13105,14 +13373,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "66a141ff60e1bf3badc6cb15386188d2d501ea2793172e2ee7c9aed39df47871",
-        "size" : 241063,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/fix-damaged-app.mactoolsplugin.zip"
+        "sha256" : "33915fad81c00c04f6c9c8b264cd6194ffcbe98a0e1edcb07ad10482d779776a",
+        "size" : 330183,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/fix-damaged-app.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "portable"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -13189,7 +13463,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -13220,7 +13494,7 @@
         ]
       },
       "summary" : "移除隔离属性，解决「已损坏」或「不受信任」提示",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -13509,14 +13783,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "abde6d919820ff5d829c7491bd2d14ae45fe18625bda212503cd19b82bbbd020",
-        "size" : 208045,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/hide-notch.mactoolsplugin.zip"
+        "sha256" : "a5752d5d47af7e76befaf3c9d0ad6cf738e761831f04071af9dfaf73cf28fb36",
+        "size" : 285240,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/hide-notch.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -13593,7 +13873,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -13624,7 +13904,7 @@
         ]
       },
       "summary" : "自动遮挡刘海屏顶部区域",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -14045,14 +14325,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "4361b458997592074cd99f0e0b8b0243e4b899b3c67acd2eb27b0d693544e2c6",
-        "size" : 986482,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/homebrew.mactoolsplugin.zip"
+        "sha256" : "45d5af8e74cfa7d4777adaeb3500aedc551141fc63876db3ac7b6fd02815929f",
+        "size" : 986500,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/homebrew.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -14132,7 +14418,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -14193,7 +14479,7 @@
         ]
       },
       "summary" : "管理 Homebrew 包、库仓库并执行系统诊断",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "capabilities" : {
@@ -14524,15 +14810,21 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "2340eefe6ce938266682925d0cc6410315989d26f4b2545685173c936598cb56",
-        "size" : 551690,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/input-remapping.mactoolsplugin.zip"
+        "sha256" : "28ec8b48166d7fa8d5f16b457e364feb34171ef93df66ed92b5c4a50ef3112e3",
+        "size" : 582136,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/input-remapping.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility",
         "inputMonitoring"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "external-authorization"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -14609,7 +14901,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -14671,7 +14963,7 @@
         ]
       },
       "summary" : "将输入映射为操作",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -14990,14 +15282,21 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "b929171be1a71008f904f6a91f7d00f5df7658ac9237b5cb3b1380dd6b5382de",
-        "size" : 1135316,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/ip-overview.mactoolsplugin.zip"
+        "sha256" : "0180400162838c62ee88a5afb82b3ca69d0f8650bc45e23a4bfe3787507ab912",
+        "size" : 1207875,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/ip-overview.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "history",
+          "local-policy"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -15105,7 +15404,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -15156,7 +15455,7 @@
         }
       },
       "summary" : "查看出口 IP、本地 IP、归属地与网络测速摘要",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -15562,16 +15861,22 @@
           "summary" : "保持 Mac 喚醒；可選保持螢幕常亮或讓螢幕工具繼續運作。MacBook 闔蓋運作要求連接電源"
         }
       },
-      "minimumHostVersion" : "1.3.1",
+      "minimumHostVersion" : "2.2.0",
       "package" : {
-        "sha256" : "919647ff64b4e224f04d1d2d2ca3c2d1b4f69001e5893465b0a2e061e54af45b",
-        "size" : 290354,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/keep-awake.mactoolsplugin.zip"
+        "sha256" : "7116e467384c250a6fe0f23fbeef76916b3211c849bf19ffe44285082ebab8ed",
+        "size" : 395983,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/keep-awake.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "local-activation"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -15617,7 +15922,8 @@
       "privacy" : {
         "allowsUserConfiguredDomains" : false,
         "dataObserved" : [
-          "system-state"
+          "system-state",
+          "requested-plugin-state"
         ],
         "dataPersisted" : [
           "plugin-configuration"
@@ -15648,7 +15954,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -15679,7 +15985,7 @@
         ]
       },
       "summary" : "保持 Mac 唤醒；可选保持屏幕常亮或让屏幕工具继续工作。MacBook 合盖运行要求连接电源",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "capabilities" : {
@@ -15836,14 +16142,21 @@
       },
       "minimumHostVersion" : "2.1.0",
       "package" : {
-        "sha256" : "e780af3488b50b491ce0045afc62affa36c5889533ae714cc46899e06935142c",
-        "size" : 655940,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/key-stats.mactoolsplugin.zip"
+        "sha256" : "9d546f8733ca59b271373ad6bb3726aa21f37e5e081d6f860b77c1ac42ccc32e",
+        "size" : 655998,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/key-stats.mactoolsplugin.zip"
       },
       "permissions" : [
         "inputMonitoring"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "local-activation",
+          "history"
+        ],
+        "status" : "localOnly"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -15922,7 +16235,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -15953,7 +16266,7 @@
         ]
       },
       "summary" : "统计每个按键与触控板的使用次数，保留近七天数据",
-      "version" : "1.0.0"
+      "version" : "1.1.0"
     },
     {
       "actions" : {
@@ -16374,14 +16687,22 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "1504c07afbccd9b20b49685ea53f3f9b4bb66b05d8e3652f6a9bf66d923892f3",
-        "size" : 716857,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/launch-control.mactoolsplugin.zip"
+        "sha256" : "2afd59deea17c5040889b534801d934fa9f87a008baa80741b7a10032030a5a3",
+        "size" : 897336,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/launch-control.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "private-content",
+          "local-activation",
+          "local-policy"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -16430,7 +16751,8 @@
           "productivity-state"
         ],
         "dataPersisted" : [
-          "plugin-configuration"
+          "plugin-configuration",
+          "user-notes"
         ],
         "diagnosticExportsContainUserData" : false,
         "networkDomains" : [
@@ -16458,7 +16780,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -16489,7 +16811,7 @@
         ]
       },
       "summary" : "查看和管理 launchctl 启动项",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -16748,14 +17070,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "453e2c0fd6a96669c8047406835c7b1ec6b2d638c7abf5068f384de834837c4c",
-        "size" : 1044039,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/launchpad.mactoolsplugin.zip"
+        "sha256" : "b95846d6f0db41bea0694913268d1a96d1aea6725b1bd2b8f3ef0cadc72ef310",
+        "size" : 1236193,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/launchpad.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "application-paths"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -16832,7 +17160,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -16863,7 +17191,7 @@
         ]
       },
       "summary" : "用全局热键或菜单栏打开应用网格，搜索并启动。",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -17074,14 +17402,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "4d01b22ed777962a1f5d2c88aee859720194147f91a8447b6744006e62bba580",
-        "size" : 85313,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/lock-screen.mactoolsplugin.zip"
+        "sha256" : "08d78f583be611932c0a0a9b6dc75ddec6a7ad8f0442eb49f6fe2949d76c788c",
+        "size" : 85345,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/lock-screen.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -17158,7 +17492,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -17189,7 +17523,7 @@
         ]
       },
       "summary" : "一键立即锁定屏幕，进入密码解锁界面",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -17920,14 +18254,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "2991c621fea5cb3a7f5098ac573df0157caafdad9bdd8e9afb051e06cdb76d1b",
-        "size" : 2384544,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/mac-settings.mactoolsplugin.zip"
+        "sha256" : "bfa610b21bcca4a73e59bd68b15c2eafd33ed805a35f7400e3be96c9dab01dc9",
+        "size" : 2384578,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/mac-settings.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools/blob/main/docs/plugins/mac-settings.md",
         "examples" : [
@@ -18029,7 +18369,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -18095,7 +18435,7 @@
         }
       },
       "summary" : "搜索并集中调整当前 Mac 的常用设置",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -18349,15 +18689,21 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "0dca1aecfc412155ba8fad4b194168076fd00a214f9bc57ae5332aaf45c06906",
-        "size" : 878856,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/menu-bar-hidden.mactoolsplugin.zip"
+        "sha256" : "b8f0141b9aaf63c387d89abce0a7de81f2968f1dd242353bb1cd40df89c36dcc",
+        "size" : 989526,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/menu-bar-hidden.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility",
         "screen-recording"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools/blob/main/docs/plugins/menu-bar-hidden.md",
         "examples" : [
@@ -18438,7 +18784,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -18500,7 +18846,7 @@
         ]
       },
       "summary" : "菜单栏图标隐藏功能的设置与弹窗界面",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -18802,14 +19148,20 @@
       },
       "minimumHostVersion" : "2.1.0",
       "package" : {
-        "sha256" : "6ddd357e3c768e3c8acf78c6fdf0e65b2dcd1a392f3cc45fdee40abb4604fb8e",
-        "size" : 90727,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/microphone-mute.mactoolsplugin.zip"
+        "sha256" : "6798feb4e6f38ee3b392d987c48edfd4bdef1c8d46b7d0e79609b7320ff7d399",
+        "size" : 90752,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/microphone-mute.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -18886,7 +19238,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -18917,7 +19269,7 @@
         ]
       },
       "summary" : "快速静音或恢复默认麦克风输入",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -19165,14 +19517,20 @@
       },
       "minimumHostVersion" : "2.1.0",
       "package" : {
-        "sha256" : "72fcc8d588512ad138aac6ddf4b3195bab6026fb6395a8bfe71908e16946786e",
-        "size" : 187675,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/middle-click.mactoolsplugin.zip"
+        "sha256" : "fb6d38f5b1ef355ef022f9925b41a39c323b1b7d95b602255cac47fc3f875a81",
+        "size" : 275024,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/middle-click.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "portable"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -19249,7 +19607,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -19310,7 +19668,7 @@
         ]
       },
       "summary" : "触控板轻点 → 模拟鼠标中键",
-      "version" : "2.0.2"
+      "version" : "2.1.0"
     },
     {
       "capabilities" : {
@@ -19500,15 +19858,21 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "52a26c44c782fa48e17ff84a1c1a16672e7a975ceb045d8fe3936c7c89f0ab18",
-        "size" : 254519,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/mouse-enhancer.mactoolsplugin.zip"
+        "sha256" : "d03069ab073b1564021a9f56d99b30e36d0f962b905d78c7f04d3f3334832c35",
+        "size" : 338849,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/mouse-enhancer.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility",
         "inputMonitoring"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -19585,7 +19949,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -19647,7 +20011,7 @@
         ]
       },
       "summary" : "分别调整鼠标与触控板的滚动方向",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -19934,16 +20298,22 @@
           "summary" : "降低藍光，使螢幕顏色更暖"
         }
       },
-      "minimumHostVersion" : "2.1.0",
+      "minimumHostVersion" : "2.2.0",
       "package" : {
-        "sha256" : "22a54441b211ea82a354dd4f9845d8087639c656de23e326e36a99e8a6c9a74a",
-        "size" : 97636,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/night-shift.mactoolsplugin.zip"
+        "sha256" : "d93d52d4f499866ece11693290fdd095c1656d9272a9e2aeb91980309dec0864",
+        "size" : 110114,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/night-shift.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -19989,7 +20359,8 @@
       "privacy" : {
         "allowsUserConfiguredDomains" : false,
         "dataObserved" : [
-          "display-state"
+          "display-state",
+          "requested-plugin-state"
         ],
         "dataPersisted" : [
 
@@ -20020,7 +20391,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -20051,7 +20422,270 @@
         ]
       },
       "summary" : "降低蓝光，使屏幕颜色更暖",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
+    },
+    {
+      "capabilities" : {
+        "panelItems" : [
+          "row"
+        ],
+        "settings" : "form"
+      },
+      "category" : "display",
+      "discovery" : {
+        "alternativePluginIDs" : [
+
+        ],
+        "goalCategories" : [
+          "display"
+        ],
+        "keywords" : [
+          "dynamic island",
+          "hover",
+          "panel",
+          "menu bar",
+          "灵动岛",
+          "悬停",
+          "面板"
+        ],
+        "localizedSynonyms" : {
+          "ar" : [
+            "لوحة تحويم Dynamic Island"
+          ],
+          "de" : [
+            "Dynamic-Island-Schwebepanel"
+          ],
+          "en" : [
+            "Dynamic Island Hover Panel"
+          ],
+          "es" : [
+            "Panel al pasar por Dynamic Island"
+          ],
+          "fr" : [
+            "Panneau de survol de Dynamic Island"
+          ],
+          "ja" : [
+            "Dynamic Island ホバーパネル"
+          ],
+          "ko" : [
+            "Dynamic Island 호버 패널"
+          ],
+          "pt" : [
+            "Painel ao passar no Dynamic Island"
+          ],
+          "ru" : [
+            "Панель при наведении на Dynamic Island"
+          ],
+          "tr" : [
+            "Dynamic Island Üzerine Gelme Paneli"
+          ],
+          "zh-Hans" : [
+            "灵动岛悬浮面板"
+          ],
+          "zh-Hant" : [
+            "靈動島懸浮面板"
+          ]
+        },
+        "relatedPluginIDs" : [
+
+        ],
+        "useCases" : [
+          {
+            "id" : "primary-use",
+            "title" : {
+              "ar" : "لوحة تحويم Dynamic Island",
+              "de" : "Dynamic-Island-Schwebepanel",
+              "en" : "Dynamic Island Hover Panel",
+              "es" : "Panel al pasar por Dynamic Island",
+              "fr" : "Panneau de survol de Dynamic Island",
+              "ja" : "Dynamic Island ホバーパネル",
+              "ko" : "Dynamic Island 호버 패널",
+              "pt" : "Painel ao passar no Dynamic Island",
+              "ru" : "Панель при наведении на Dynamic Island",
+              "tr" : "Dynamic Island Üzerine Gelme Paneli",
+              "zh-Hans" : "灵动岛悬浮面板",
+              "zh-Hant" : "靈動島懸浮面板"
+            }
+          }
+        ]
+      },
+      "displayName" : "灵动岛悬浮面板",
+      "id" : "notch-hover-panel",
+      "localizedMetadata" : {
+        "ar" : {
+          "displayName" : "لوحة تحويم Dynamic Island",
+          "summary" : "أظهر لوحة MacTools عند تمرير المؤشر بجانب Dynamic Island أو التحرك لأعلى من أسفله."
+        },
+        "de" : {
+          "displayName" : "Dynamic-Island-Schwebepanel",
+          "summary" : "MacTools-Bedienfeld einblenden, wenn der Zeiger neben der Dynamic Island schwebt oder von direkt darunter nach oben bewegt wird."
+        },
+        "en" : {
+          "displayName" : "Dynamic Island Hover Panel",
+          "summary" : "Slide out the MacTools panel when the pointer hovers beside the Dynamic Island or moves up from directly below it."
+        },
+        "es" : {
+          "displayName" : "Panel al pasar por Dynamic Island",
+          "summary" : "Muestra el panel de MacTools al pasar el puntero junto a Dynamic Island o moverlo hacia arriba desde justo debajo."
+        },
+        "fr" : {
+          "displayName" : "Panneau de survol de Dynamic Island",
+          "summary" : "Affichez le panneau MacTools lorsque le pointeur survole le bord de Dynamic Island ou remonte depuis juste en dessous."
+        },
+        "ja" : {
+          "displayName" : "Dynamic Island ホバーパネル",
+          "summary" : "ポインタを Dynamic Island の横に重ねるか、真下から上へ動かすと MacTools パネルを表示します。"
+        },
+        "ko" : {
+          "displayName" : "Dynamic Island 호버 패널",
+          "summary" : "포인터를 Dynamic Island 옆에 올리거나 바로 아래에서 위로 이동하면 MacTools 패널을 표시합니다."
+        },
+        "pt" : {
+          "displayName" : "Painel ao passar no Dynamic Island",
+          "summary" : "Mostre o painel do MacTools ao passar o ponteiro ao lado do Dynamic Island ou movê-lo para cima a partir de baixo dele."
+        },
+        "ru" : {
+          "displayName" : "Панель при наведении на Dynamic Island",
+          "summary" : "Показывать панель MacTools при наведении курсора рядом с Dynamic Island или движении вверх из-под него."
+        },
+        "tr" : {
+          "displayName" : "Dynamic Island Üzerine Gelme Paneli",
+          "summary" : "İmleci Dynamic Island'ın yanına getirdiğinizde veya hemen altından yukarı hareket ettirdiğinizde MacTools panelini gösterin."
+        },
+        "zh-Hans" : {
+          "displayName" : "灵动岛悬浮面板",
+          "summary" : "鼠标悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板"
+        },
+        "zh-Hant" : {
+          "displayName" : "靈動島懸浮面板",
+          "summary" : "滑鼠懸停靈動島兩側，或從靈動島正下方往上移動時滑出 MacTools 面板"
+        }
+      },
+      "minimumHostVersion" : "2.2.0",
+      "package" : {
+        "sha256" : "7c90b470cc9ff58914a6ca271c17a562ebf1f1c80711452c832955bb86a0d8ae",
+        "size" : 162399,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/notch-hover-panel.mactoolsplugin.zip"
+      },
+      "permissions" : [
+
+      ],
+      "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
+      "presentation" : {
+        "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
+        "examples" : [
+          {
+            "id" : "primary-use",
+            "text" : {
+              "ar" : "أظهر لوحة MacTools عند تمرير المؤشر بجانب Dynamic Island أو التحرك لأعلى من أسفله.",
+              "de" : "MacTools-Bedienfeld einblenden, wenn der Zeiger neben der Dynamic Island schwebt oder von direkt darunter nach oben bewegt wird.",
+              "en" : "Slide out the MacTools panel when the pointer hovers beside the Dynamic Island or moves up from directly below it.",
+              "es" : "Muestra el panel de MacTools al pasar el puntero junto a Dynamic Island o moverlo hacia arriba desde justo debajo.",
+              "fr" : "Affichez le panneau MacTools lorsque le pointeur survole le bord de Dynamic Island ou remonte depuis juste en dessous.",
+              "ja" : "ポインタを Dynamic Island の横に重ねるか、真下から上へ動かすと MacTools パネルを表示します。",
+              "ko" : "포인터를 Dynamic Island 옆에 올리거나 바로 아래에서 위로 이동하면 MacTools 패널을 표시합니다.",
+              "pt" : "Mostre o painel do MacTools ao passar o ponteiro ao lado do Dynamic Island ou movê-lo para cima a partir de baixo dele.",
+              "ru" : "Показывать панель MacTools при наведении курсора рядом с Dynamic Island или движении вверх из-под него.",
+              "tr" : "İmleci Dynamic Island'ın yanına getirdiğinizde veya hemen altından yukarı hareket ettirdiğinizde MacTools panelini gösterin.",
+              "zh-Hans" : "鼠标悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板",
+              "zh-Hant" : "滑鼠懸停靈動島兩側，或從靈動島正下方往上移動時滑出 MacTools 面板"
+            }
+          }
+        ],
+        "license" : "GPL-3.0-only",
+        "longDescription" : {
+          "ar" : "أظهر لوحة MacTools عند تمرير المؤشر بجانب Dynamic Island أو التحرك لأعلى من أسفله.",
+          "de" : "MacTools-Bedienfeld einblenden, wenn der Zeiger neben der Dynamic Island schwebt oder von direkt darunter nach oben bewegt wird.",
+          "en" : "Slide out the MacTools panel when the pointer hovers beside the Dynamic Island or moves up from directly below it.",
+          "es" : "Muestra el panel de MacTools al pasar el puntero junto a Dynamic Island o moverlo hacia arriba desde justo debajo.",
+          "fr" : "Affichez le panneau MacTools lorsque le pointeur survole le bord de Dynamic Island ou remonte depuis juste en dessous.",
+          "ja" : "ポインタを Dynamic Island の横に重ねるか、真下から上へ動かすと MacTools パネルを表示します。",
+          "ko" : "포인터를 Dynamic Island 옆에 올리거나 바로 아래에서 위로 이동하면 MacTools 패널을 표시합니다.",
+          "pt" : "Mostre o painel do MacTools ao passar o ponteiro ao lado do Dynamic Island ou movê-lo para cima a partir de baixo dele.",
+          "ru" : "Показывать панель MacTools при наведении курсора рядом с Dynamic Island или движении вверх из-под него.",
+          "tr" : "İmleci Dynamic Island'ın yanına getirdiğinizde veya hemen altından yukarı hareket ettirdiğinizde MacTools panelini gösterin.",
+          "zh-Hans" : "鼠标悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板",
+          "zh-Hant" : "滑鼠懸停靈動島兩側，或從靈動島正下方往上移動時滑出 MacTools 面板"
+        },
+        "publisher" : "MacTools",
+        "screenshots" : [
+
+        ],
+        "supportURL" : "https://github.com/ggbond268/MacTools/issues"
+      },
+      "privacy" : {
+        "allowsUserConfiguredDomains" : false,
+        "dataObserved" : [
+          "pointer-events",
+          "display-state"
+        ],
+        "dataPersisted" : [
+          "plugin-configuration"
+        ],
+        "diagnosticExportsContainUserData" : false,
+        "networkDomains" : [
+
+        ],
+        "networkUse" : "none",
+        "processesSensitiveUserContent" : false,
+        "retention" : {
+          "policy" : "user-controlled"
+        },
+        "telemetry" : "none"
+      },
+      "relationships" : {
+        "includedPackIDs" : [
+
+        ],
+        "relatedPluginIDs" : [
+
+        ],
+        "suggestedRecipeIDs" : [
+
+        ],
+        "supersedesPluginIDs" : [
+
+        ]
+      },
+      "releaseChannel" : null,
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
+      "requirements" : {
+        "applications" : [
+
+        ],
+        "architectures" : [
+          "arm64",
+          "x86_64"
+        ],
+        "executables" : [
+
+        ],
+        "hardware" : [
+
+        ],
+        "minimumMacOSVersion" : "14.0",
+        "permissionIDs" : [
+
+        ],
+        "requiresRelaunch" : false,
+        "setupComplexity" : "none"
+      },
+      "setup" : {
+        "optionalSurfaces" : [
+
+        ],
+        "steps" : [
+
+        ]
+      },
+      "summary" : "鼠标悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板",
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -20261,14 +20895,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "8b6d067705b00ca60871af95b847de854d9851031fb533f502769da53606b7cb",
-        "size" : 224907,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/physical-clean-mode.mactoolsplugin.zip"
+        "sha256" : "88859596873b2ee52a0f249c15805e0793a7326371dfb81d3323ae76497dc656",
+        "size" : 224925,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/physical-clean-mode.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -20345,7 +20985,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -20406,7 +21046,7 @@
         ]
       },
       "summary" : "屏幕全黑并临时禁用键盘输入",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "capabilities" : {
@@ -20544,16 +21184,22 @@
           "summary" : "即時查看系統功耗、電池狀態和充電資訊"
         }
       },
-      "minimumHostVersion" : "2.0.1",
+      "minimumHostVersion" : "2.2.0",
       "package" : {
-        "sha256" : "9e4d2b2f2bdc0a79df1140757baf6c3d35b9ea663e99ad972e44f293d99cef0a",
-        "size" : 508207,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/power-status.mactoolsplugin.zip"
+        "sha256" : "c35050527ec9236b5987fe600dbd19661afe4304d5b7effe7a71f46c998ba9a0",
+        "size" : 548450,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/power-status.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -20631,7 +21277,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -20662,7 +21308,7 @@
         ]
       },
       "summary" : "实时查看系统功耗、电池状态和充电信息",
-      "version" : "1.0.0"
+      "version" : "1.0.1"
     },
     {
       "actions" : {
@@ -20882,14 +21528,20 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "a7f06000d31ebfc44015bc9824f3da5bf4462961bb54f9da0a99ddcfc6d44646",
-        "size" : 230185,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/quit-apps.mactoolsplugin.zip"
+        "sha256" : "161413999dd90a2394fa9528dd84a045480246bf9248ce00c775ca708b3a5ee0",
+        "size" : 230211,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/quit-apps.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -20966,7 +21618,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -20997,7 +21649,7 @@
         ]
       },
       "summary" : "选择并退出正在运行的应用，或一键退出全部",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "capabilities" : {
@@ -21225,14 +21877,21 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "0aa375680a517ee69823abc9bbf60b46b4cfa002847ecc8cf0c6b82c547a4d21",
-        "size" : 231854,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/right-click.mactoolsplugin.zip"
+        "sha256" : "9ea6addc5f16ac1c3f0e2b1fd0d47553134a6fc4cc7eb6ee73a877a0e14eaae8",
+        "size" : 319360,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/right-click.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "application-paths",
+          "local-activation"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -21309,7 +21968,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -21370,7 +22029,7 @@
         ]
       },
       "summary" : "为 Finder 右键菜单添加新建文件夹和路径复制",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -21609,14 +22268,21 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "7a43feba40d0176927a96bd94bf910e302971161b8f9c5e553fc1ec38c8794df",
-        "size" : 675254,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/saved-scripts.mactoolsplugin.zip"
+        "sha256" : "bd5834762cc0864bd40af8f7be812c6553b299265ef3eb47956927474655e6c3",
+        "size" : 675306,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/saved-scripts.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "private-content",
+          "external-authorization"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -21697,7 +22363,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -21728,7 +22394,7 @@
         ]
       },
       "summary" : "保存并运行 AppleScript 和 Shell 脚本。",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -22107,14 +22773,21 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "dde4ba9b4aaf038a413a44c512c7513da98e9cc5b8f321e69c45c8bb37072c8a",
-        "size" : 899577,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/screenshot.mactoolsplugin.zip"
+        "sha256" : "5d12c61c97c26f1d4321fef7b89b52a91e3dd8f222ec176b0dc21fd855e5a238",
+        "size" : 979441,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/screenshot.mactoolsplugin.zip"
       },
       "permissions" : [
         "screen-recording"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "private-content",
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools/blob/main/docs/plugins/screenshot.md",
         "examples" : [
@@ -22228,7 +22901,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -22293,7 +22966,7 @@
         }
       },
       "summary" : "区域和窗口截图、标注、文字与二维码识别、贴图、滚动截图和录屏。",
-      "version" : "1.1.0"
+      "version" : "1.2.0"
     },
     {
       "actions" : {
@@ -22657,14 +23330,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "4e7bf93bf1176c40dafcc40a988b1a5e26a1afe3df26bd1bde15f9d1d694337f",
-        "size" : 611684,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/sidecar.mactoolsplugin.zip"
+        "sha256" : "6fa6272761b8db2e3a23c451d156c23d123d7b304ad7342ee556dbe90f338148",
+        "size" : 611732,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/sidecar.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -22741,7 +23420,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -22802,7 +23481,7 @@
         ]
       },
       "summary" : "连接附近可用的 Sidecar 显示器作为扩展显示器",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -23007,14 +23686,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "a5a1e98f16588957b299077c68f28e9c35dca06c558c5214ea26eac699e74108",
-        "size" : 236909,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/siri.mactoolsplugin.zip"
+        "sha256" : "ff0ed89fdce187e2dc06b87e436a720faaedd59b7e12d7d68b38540ab490fbe4",
+        "size" : 236935,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/siri.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -23092,7 +23777,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
           {
@@ -23126,7 +23811,7 @@
         ]
       },
       "summary" : "从命令面板向 Siri 发送消息",
-      "version" : "1.1.0"
+      "version" : "1.2.0"
     },
     {
       "actions" : {
@@ -23417,14 +24102,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "6a441d053cc6622840ca876ddf419a9f8d002cdafb3168c72989d5affa383850",
-        "size" : 93157,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/stage-manager.mactoolsplugin.zip"
+        "sha256" : "991a88d91726b766f534aa00b3ab14f8a3a26acc8e0b19bd69844bd5daadad9c",
+        "size" : 93184,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/stage-manager.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -23501,7 +24192,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -23532,7 +24223,7 @@
         ]
       },
       "summary" : "开启台前调度，集中显示当前窗口并把其他窗口收纳到侧边",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "capabilities" : {
@@ -23768,14 +24459,20 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "ebf07555de856eb1748f9cbcea54b61f4cd57987f681b3247b3cfea4fbcbe989",
-        "size" : 573640,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/system-data.mactoolsplugin.zip"
+        "sha256" : "14f2f1f0d7002698db735023894f8687a684fbc96baa6bc4d23717f3a5a6b09e",
+        "size" : 655230,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/system-data.mactoolsplugin.zip"
       },
       "permissions" : [
         "full-disk-access"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "history"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -23825,7 +24522,7 @@
           "file-sizes"
         ],
         "dataPersisted" : [
-
+          "plugin-configuration"
         ],
         "diagnosticExportsContainUserData" : false,
         "networkDomains" : [
@@ -23854,7 +24551,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -23885,7 +24582,7 @@
         ]
       },
       "summary" : "分类汇总 macOS 系统数据的真实占用，在 Finder 中快速定位",
-      "version" : "1.1.0"
+      "version" : "1.2.0"
     },
     {
       "actions" : {
@@ -24172,16 +24869,22 @@
           "summary" : "快速靜音或恢復系統音頻輸出"
         }
       },
-      "minimumHostVersion" : "1.3.1",
+      "minimumHostVersion" : "2.2.0",
       "package" : {
-        "sha256" : "d3b5ad26383823b5811d37358fc564f02a208a2cbbae679d4025ae045db5ebd1",
-        "size" : 87129,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/system-mute.mactoolsplugin.zip"
+        "sha256" : "e0873a8dd1e29e4aa3a95e8da58e59abcc9f7e1d1128adf4c6ac29e816b010ab",
+        "size" : 97664,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/system-mute.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -24227,7 +24930,8 @@
       "privacy" : {
         "allowsUserConfiguredDomains" : false,
         "dataObserved" : [
-          "audio-state"
+          "audio-state",
+          "requested-plugin-state"
         ],
         "dataPersisted" : [
 
@@ -24258,7 +24962,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -24289,7 +24993,7 @@
         ]
       },
       "summary" : "快速静音或恢复系统音频输出",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -24664,14 +25368,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "a9b091df3c5b9ad37b69393f9fb9a8ea1055a234caeaa0d06067a8d911f811b1",
-        "size" : 118769,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/system-power.mactoolsplugin.zip"
+        "sha256" : "b69e0d6efbb81bd875b1a67fdc4c93fa8c146bb438420920a9088b4d873aa7c4",
+        "size" : 118793,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/system-power.mactoolsplugin.zip"
       },
       "permissions" : [
         "automation"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -24751,7 +25461,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -24782,7 +25492,7 @@
         ]
       },
       "summary" : "让 Mac 睡眠、退出登录、重新启动或关机",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -25033,14 +25743,20 @@
       },
       "minimumHostVersion" : "1.3.1",
       "package" : {
-        "sha256" : "d448dec9af720ced349faa5846043c3615689c48226361bd36ae3e4238349b42",
-        "size" : 512096,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/system-soft-restart.mactoolsplugin.zip"
+        "sha256" : "05b24a528d31149f0f00003bed46950fdb338e0da8c55e14053fe11ec9b8d37a",
+        "size" : 592649,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/system-soft-restart.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "portable"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -25117,7 +25833,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -25148,7 +25864,7 @@
         ]
       },
       "summary" : "重启 macOS 用户服务，尝试恢复常见运行时异常",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -25456,16 +26172,22 @@
           "summary" : "實時查看系統狀態"
         }
       },
-      "minimumHostVersion" : "2.0.1",
+      "minimumHostVersion" : "2.2.0",
       "package" : {
-        "sha256" : "cbb14f845ca207b4b47e62c4754fabb8d27362c814ccc9b9e115290604a742a9",
-        "size" : 1763915,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/system-status.mactoolsplugin.zip"
+        "sha256" : "a2e98688334e0d1bb68a80ff63444ef304e632a32f7dcb83203450b627cf5d97",
+        "size" : 1786294,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/system-status.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "portable"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -25557,7 +26279,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -25588,7 +26310,7 @@
         ]
       },
       "summary" : "实时查看系统状态",
-      "version" : "2.1.0"
+      "version" : "2.1.1"
     },
     {
       "capabilities" : {
@@ -25780,15 +26502,21 @@
       },
       "minimumHostVersion" : "2.1.0",
       "package" : {
-        "sha256" : "2d09fd2efed5a8cace176eb396396b6fb3cc869dc622cc414facd6a118ee5ef9",
-        "size" : 1641040,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/trackpad-gestures.mactoolsplugin.zip"
+        "sha256" : "fbcd6b8f770fe9be84a630c9a070af042d1aad45f970e2318487af0e16330705",
+        "size" : 1653927,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/trackpad-gestures.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility",
         "inputMonitoring"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "permissions"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -25865,7 +26593,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -25927,7 +26655,7 @@
         ]
       },
       "summary" : "将自定义触控板手势映射为 MacTools 操作、快捷键或中键点击",
-      "version" : "2.0.2"
+      "version" : "2.1.0"
     },
     {
       "capabilities" : {
@@ -26066,14 +26794,20 @@
       },
       "minimumHostVersion" : "2.1.0",
       "package" : {
-        "sha256" : "504f40c6177432e612af018b6009ac06c9b8a5d75653606f7ee7c0bea4dd81a7",
-        "size" : 350952,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/trackpad-scale.mactoolsplugin.zip"
+        "sha256" : "c4ef1a78640359ccdc921615726bf65011a07bd4bc4834f3d7012c376cdc1c74",
+        "size" : 434970,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/trackpad-scale.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -26150,7 +26884,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -26211,7 +26945,7 @@
         ]
       },
       "summary" : "用内置 Force Touch 触控板估算小物件重量（实验性）",
-      "version" : "1.0.0"
+      "version" : "1.1.0"
     },
     {
       "actions" : {
@@ -26525,11 +27259,11 @@
           "summary" : "透過快速鍵翻譯選取文字或截圖區域。"
         }
       },
-      "minimumHostVersion" : "2.0.1",
+      "minimumHostVersion" : "2.2.0",
       "package" : {
-        "sha256" : "40d859d078005980b1e36bdb18628f63d4f824cca7880aee7880153dde3ca329",
-        "size" : 840046,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/translator.mactoolsplugin.zip"
+        "sha256" : "f51cc8c51bfe544404d59b35d69ffe82b41197245b79edcb0e2babdc6c0bb596",
+        "size" : 992783,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/translator.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility",
@@ -26537,6 +27271,14 @@
         "screen-recording"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "credentials",
+          "permissions",
+          "private-content"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -26587,7 +27329,8 @@
           "translation-requests"
         ],
         "dataPersisted" : [
-          "plugin-configuration"
+          "plugin-configuration",
+          "custom-prompt-text"
         ],
         "diagnosticExportsContainUserData" : false,
         "networkDomains" : [
@@ -26615,7 +27358,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -26678,7 +27421,435 @@
         ]
       },
       "summary" : "划词与截图快捷键翻译",
-      "version" : "1.1.0"
+      "version" : "1.2.0"
+    },
+    {
+      "actions" : {
+        "providers" : [
+          {
+            "dynamicTemplates" : [
+
+            ],
+            "id" : "voice-control",
+            "kind" : "static",
+            "staticActions" : [
+              {
+                "automaticEligible" : false,
+                "description" : {
+                  "ar" : "ستتوفر المكونات الإضافية الجديدة تلقائيًا في المحادثات اللاحقة. تحتفظ المكونات المحظورة وهذه المحادثة بإعدادات الوصول الحالية.",
+                  "de" : "Neue Plugins werden in künftigen Gesprächen automatisch verfügbar. Gesperrte Plugins und dieses Gespräch behalten ihre bisherigen Zugriffsrechte.",
+                  "en" : "New plugins will be available automatically in future conversations. Blocked plugins and this conversation keep their current access.",
+                  "es" : "Los nuevos plugins estarán disponibles automáticamente en futuras conversaciones. Los plugins bloqueados y esta conversación conservarán su acceso actual.",
+                  "fr" : "Les nouveaux modules seront disponibles automatiquement lors des prochaines conversations. Les modules bloqués et cette conversation conservent leurs accès actuels.",
+                  "ja" : "新しいプラグインは今後の会話で自動的に利用可能になります。拒否したプラグインと現在の会話のアクセス権は変わりません。",
+                  "ko" : "이후 대화에서 새 플러그인이 자동으로 허용됩니다. 차단된 플러그인과 현재 대화의 접근 권한은 유지됩니다.",
+                  "pt" : "Novos plugins ficarão disponíveis automaticamente nas próximas conversas. Os plugins bloqueados e esta conversa mantêm o acesso atual.",
+                  "ru" : "Новые плагины будут доступны автоматически в будущих разговорах. Доступ заблокированных плагинов и текущего разговора не изменится.",
+                  "tr" : "Yeni eklentiler sonraki konuşmalarda otomatik olarak kullanılabilir. Engellenen eklentilerin ve bu konuşmanın erişimi değişmez.",
+                  "zh-Hans" : "新插件将在后续对话中自动可用，已禁止的插件和当前对话不受影响。",
+                  "zh-Hant" : "新外掛將在後續對話中自動可用，已禁止的外掛與目前對話不受影響。"
+                },
+                "externalInvocation" : "unavailable",
+                "id" : "automatic-plugin-access-on",
+                "keywords" : [
+                  "new plugins",
+                  "automatic access",
+                  "automatically allow",
+                  "future plugin permissions"
+                ],
+                "parameters" : [
+
+                ],
+                "permissionIDs" : [
+
+                ],
+                "risk" : "confirmationRequired",
+                "surfaces" : [
+                  "unified-search",
+                  "global-shortcut",
+                  "action-grid",
+                  "manual"
+                ],
+                "systemImage" : "checkmark.shield",
+                "title" : {
+                  "ar" : "السماح تلقائيًا بالمكونات الإضافية المثبّتة حديثًا",
+                  "de" : "Neu installierte Plugins automatisch zulassen",
+                  "en" : "Automatically allow newly installed plugins",
+                  "es" : "Permitir automáticamente los plugins recién instalados",
+                  "fr" : "Autoriser automatiquement les nouveaux modules installés",
+                  "ja" : "新しくインストールしたプラグインを自動的に許可",
+                  "ko" : "새로 설치한 플러그인 자동 허용",
+                  "pt" : "Permitir automaticamente os plugins recém-instalados",
+                  "ru" : "Автоматически разрешать новые плагины",
+                  "tr" : "Yeni yüklenen eklentilere otomatik izin ver",
+                  "zh-Hans" : "自动允许新安装的插件",
+                  "zh-Hant" : "自動允許新安裝的外掛"
+                }
+              },
+              {
+                "automaticEligible" : false,
+                "description" : {
+                  "ar" : "تتطلب المكونات الإضافية الجديدة موافقة يدوية. تحتفظ الاختيارات الحالية والمحادثة الجارية بإعدادات الوصول.",
+                  "de" : "Neue Plugins müssen manuell zugelassen werden. Die aktuelle Auswahl und das laufende Gespräch behalten ihre Zugriffsrechte.",
+                  "en" : "New plugins require manual approval. Current selections and the ongoing conversation keep their access.",
+                  "es" : "Los nuevos plugins requieren aprobación manual. Las selecciones actuales y la conversación en curso conservan su acceso.",
+                  "fr" : "Les nouveaux modules doivent être autorisés manuellement. La sélection actuelle et la conversation en cours conservent leurs accès.",
+                  "ja" : "新しいプラグインは手動で許可してください。現在の選択と進行中の会話のアクセス権は変わりません。",
+                  "ko" : "새 플러그인은 수동으로 허용해야 합니다. 현재 선택과 진행 중인 대화의 접근 권한은 유지됩니다.",
+                  "pt" : "Novos plugins exigem aprovação manual. As seleções atuais e a conversa em curso mantêm o acesso.",
+                  "ru" : "Новые плагины нужно разрешать вручную. Доступ текущего выбора и текущего разговора не изменится.",
+                  "tr" : "Yeni eklentiler için elle onay gerekir. Mevcut seçimlerin ve devam eden konuşmanın erişimi değişmez.",
+                  "zh-Hans" : "新插件需手动允许，当前选择和正在进行的对话不受影响。",
+                  "zh-Hant" : "新外掛需手動允許，目前選擇與正在進行的對話不受影響。"
+                },
+                "externalInvocation" : "unavailable",
+                "id" : "automatic-plugin-access-off",
+                "keywords" : [
+                  "new plugins",
+                  "automatic access",
+                  "automatically allow",
+                  "future plugin permissions"
+                ],
+                "parameters" : [
+
+                ],
+                "permissionIDs" : [
+
+                ],
+                "risk" : "safe",
+                "surfaces" : [
+                  "unified-search",
+                  "global-shortcut",
+                  "action-grid",
+                  "manual"
+                ],
+                "systemImage" : "checkmark.shield",
+                "title" : {
+                  "ar" : "إيقاف السماح التلقائي بالمكونات الإضافية الجديدة",
+                  "de" : "Neue Plugins nicht mehr automatisch zulassen",
+                  "en" : "Stop automatically allowing new plugins",
+                  "es" : "Dejar de permitir automáticamente los nuevos plugins",
+                  "fr" : "Ne plus autoriser automatiquement les nouveaux modules",
+                  "ja" : "新しいプラグインの自動許可を停止",
+                  "ko" : "새 플러그인 자동 허용 중지",
+                  "pt" : "Deixar de permitir novos plugins automaticamente",
+                  "ru" : "Не разрешать новые плагины автоматически",
+                  "tr" : "Yeni eklentilere otomatik izin vermeyi durdur",
+                  "zh-Hans" : "停止自动允许新安装的插件",
+                  "zh-Hant" : "停止自動允許新安裝的外掛"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "capabilities" : {
+        "panelItems" : [
+          "row"
+        ],
+        "settings" : "form"
+      },
+      "category" : "productivity",
+      "discovery" : {
+        "alternativePluginIDs" : [
+
+        ],
+        "goalCategories" : [
+          "productivity"
+        ],
+        "keywords" : [
+          "voice",
+          "brightness",
+          "OpenAI",
+          "assistant",
+          "voice assistant"
+        ],
+        "localizedSynonyms" : {
+          "ar" : [
+            "المساعد الصوتي",
+            "التحكم الصوتي"
+          ],
+          "de" : [
+            "Sprachassistent",
+            "Sprachsteuerung"
+          ],
+          "en" : [
+            "Voice Assistant",
+            "Voice Control"
+          ],
+          "es" : [
+            "Asistente de voz",
+            "Control por voz"
+          ],
+          "fr" : [
+            "Assistant vocal",
+            "Commande vocale"
+          ],
+          "ja" : [
+            "音声アシスタント",
+            "音声コントロール"
+          ],
+          "ko" : [
+            "음성 도우미",
+            "음성 제어"
+          ],
+          "pt" : [
+            "Assistente de voz",
+            "Controle por voz"
+          ],
+          "ru" : [
+            "Голосовой помощник",
+            "Голосовое управление"
+          ],
+          "tr" : [
+            "Sesli Asistan",
+            "Sesle kontrol"
+          ],
+          "zh-Hans" : [
+            "语音助手",
+            "语音控制"
+          ],
+          "zh-Hant" : [
+            "語音助手",
+            "語音控制"
+          ]
+        },
+        "relatedPluginIDs" : [
+          "display-brightness"
+        ],
+        "useCases" : [
+          {
+            "id" : "primary-use",
+            "title" : {
+              "ar" : "المساعد الصوتي",
+              "de" : "Sprachassistent",
+              "en" : "Voice Assistant",
+              "es" : "Asistente de voz",
+              "fr" : "Assistant vocal",
+              "ja" : "音声アシスタント",
+              "ko" : "음성 도우미",
+              "pt" : "Assistente de voz",
+              "ru" : "Голосовой помощник",
+              "tr" : "Sesli Asistan",
+              "zh-Hans" : "语音助手",
+              "zh-Hant" : "語音助手"
+            }
+          }
+        ]
+      },
+      "displayName" : "语音助手",
+      "id" : "voice-control",
+      "localizedMetadata" : {
+        "ar" : {
+          "displayName" : "المساعد الصوتي",
+          "summary" : "تحكّم في ميزات MacTools المفعّلة بالمحادثة الصوتية"
+        },
+        "de" : {
+          "displayName" : "Sprachassistent",
+          "summary" : "Aktivierte MacTools-Funktionen per Sprachgespräch steuern"
+        },
+        "en" : {
+          "displayName" : "Voice Assistant",
+          "summary" : "Control enabled MacTools features through voice conversation"
+        },
+        "es" : {
+          "displayName" : "Asistente de voz",
+          "summary" : "Controla las funciones activadas de MacTools con la voz"
+        },
+        "fr" : {
+          "displayName" : "Assistant vocal",
+          "summary" : "Contrôlez les fonctions MacTools activées par la voix"
+        },
+        "ja" : {
+          "displayName" : "音声アシスタント",
+          "summary" : "音声会話で有効なMacTools機能を操作"
+        },
+        "ko" : {
+          "displayName" : "음성 도우미",
+          "summary" : "음성 대화로 활성화된 MacTools 기능 제어"
+        },
+        "pt" : {
+          "displayName" : "Assistente de voz",
+          "summary" : "Controle as funções ativas do MacTools por voz"
+        },
+        "ru" : {
+          "displayName" : "Голосовой помощник",
+          "summary" : "Управляйте включёнными функциями MacTools голосом"
+        },
+        "tr" : {
+          "displayName" : "Sesli Asistan",
+          "summary" : "Etkin MacTools özelliklerini sesli sohbetle kontrol edin"
+        },
+        "zh-Hans" : {
+          "displayName" : "语音助手",
+          "summary" : "通过语音对话控制已启用的 MacTools 功能"
+        },
+        "zh-Hant" : {
+          "displayName" : "語音助手",
+          "summary" : "透過語音對話控制已啟用的 MacTools 功能"
+        }
+      },
+      "minimumHostVersion" : "2.2.0",
+      "package" : {
+        "sha256" : "f326606841f99387ba35cf24ab9a9c25afc462257b462721c6e0b2248ad37361",
+        "size" : 1707267,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/voice-control.mactoolsplugin.zip"
+      },
+      "permissions" : [
+        "microphone"
+      ],
+      "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "credentials",
+          "permissions",
+          "history",
+          "private-content"
+        ],
+        "status" : "partial"
+      },
+      "presentation" : {
+        "documentationURL" : "https://github.com/mactools-app/MacTools/blob/main/docs/plugins/voice-control.md",
+        "examples" : [
+          {
+            "id" : "primary-use",
+            "text" : {
+              "ar" : "تحكّم في ميزات MacTools المفعّلة بالمحادثة الصوتية",
+              "de" : "Aktivierte MacTools-Funktionen per Sprachgespräch steuern",
+              "en" : "Control enabled MacTools features through voice conversation",
+              "es" : "Controla las funciones activadas de MacTools con la voz",
+              "fr" : "Contrôlez les fonctions MacTools activées par la voix",
+              "ja" : "音声会話で有効なMacTools機能を操作",
+              "ko" : "음성 대화로 활성화된 MacTools 기능 제어",
+              "pt" : "Controle as funções ativas do MacTools por voz",
+              "ru" : "Управляйте включёнными функциями MacTools голосом",
+              "tr" : "Etkin MacTools özelliklerini sesli sohbetle kontrol edin",
+              "zh-Hans" : "通过语音对话控制已启用的 MacTools 功能",
+              "zh-Hant" : "透過語音對話控制已啟用的 MacTools 功能"
+            }
+          }
+        ],
+        "license" : "GPL-3.0-only",
+        "longDescription" : {
+          "ar" : "تحكّم في ميزات MacTools المفعّلة بالمحادثة الصوتية",
+          "de" : "Aktivierte MacTools-Funktionen per Sprachgespräch steuern",
+          "en" : "Control enabled MacTools features through voice conversation",
+          "es" : "Controla las funciones activadas de MacTools con la voz",
+          "fr" : "Contrôlez les fonctions MacTools activées par la voix",
+          "ja" : "音声会話で有効なMacTools機能を操作",
+          "ko" : "음성 대화로 활성화된 MacTools 기능 제어",
+          "pt" : "Controle as funções ativas do MacTools por voz",
+          "ru" : "Управляйте включёнными функциями MacTools голосом",
+          "tr" : "Etkin MacTools özelliklerini sesli sohbetle kontrol edin",
+          "zh-Hans" : "通过语音对话控制已启用的 MacTools 功能",
+          "zh-Hant" : "透過語音對話控制已啟用的 MacTools 功能"
+        },
+        "publisher" : "MacTools",
+        "screenshots" : [
+
+        ],
+        "supportURL" : "https://github.com/mactools-app/MacTools/issues"
+      },
+      "privacy" : {
+        "allowsUserConfiguredDomains" : false,
+        "dataObserved" : [
+          "microphone-audio",
+          "conversation-transcript",
+          "plugin-command-metadata",
+          "requested-plugin-state"
+        ],
+        "dataPersisted" : [
+          "api-key-in-local-keychain",
+          "excluded-plugin-ids"
+        ],
+        "diagnosticExportsContainUserData" : false,
+        "networkDomains" : [
+          "api.openai.com"
+        ],
+        "networkUse" : "required",
+        "processesSensitiveUserContent" : true,
+        "retention" : {
+          "policy" : "user-controlled"
+        },
+        "telemetry" : "none"
+      },
+      "relationships" : {
+        "includedPackIDs" : [
+
+        ],
+        "relatedPluginIDs" : [
+          "display-brightness"
+        ],
+        "suggestedRecipeIDs" : [
+
+        ],
+        "supersedesPluginIDs" : [
+
+        ]
+      },
+      "releaseChannel" : null,
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
+      "requirements" : {
+        "applications" : [
+
+        ],
+        "architectures" : [
+          "arm64",
+          "x86_64"
+        ],
+        "executables" : [
+
+        ],
+        "hardware" : [
+
+        ],
+        "minimumMacOSVersion" : "14.0",
+        "permissionIDs" : [
+          "microphone"
+        ],
+        "requiresRelaunch" : false,
+        "setupComplexity" : "simple"
+      },
+      "setup" : {
+        "optionalSurfaces" : [
+
+        ],
+        "steps" : [
+          {
+            "description" : {
+              "ar" : "تُحاسب المكالمات على حساب OpenAI الخاص بك. تُحفظ المفاتيح في سلسلة مفاتيح هذا الـMac فقط، ولا تُضمّن في التطبيق أو الشفرة المصدرية.",
+              "de" : "Abrechnung über dein OpenAI-Konto. Schlüssel bleiben im Schlüsselbund dieses Macs und werden weder mit der App noch dem Quellcode verteilt.",
+              "en" : "Usage is billed to your own OpenAI account. Keys saved here stay in this Mac’s Keychain and are not included in the app or source code.",
+              "es" : "El uso se factura a tu cuenta de OpenAI. Las claves solo se guardan en el Llavero de este Mac y no se incluyen en la app ni en el código.",
+              "fr" : "L’utilisation est facturée à votre compte OpenAI. Les clés restent dans le trousseau de ce Mac et ne sont incluses ni dans l’app ni dans le code source.",
+              "ja" : "料金は自分のOpenAIアカウントに請求されます。キーはこのMacのキーチェーンにのみ保存され、アプリやソースコードには含まれません。",
+              "ko" : "사용 요금은 본인의 OpenAI 계정에 청구됩니다. 키는 이 Mac의 키체인에만 저장되며 앱이나 소스 코드에 포함되지 않습니다.",
+              "pt" : "A utilização é cobrada à sua conta OpenAI. As chaves ficam apenas nas Chaves deste Mac e não são incluídas na aplicação nem no código-fonte.",
+              "ru" : "Использование оплачивается с вашего аккаунта OpenAI. Ключи хранятся только в Связке ключей этого Mac и не входят в приложение или исходный код.",
+              "tr" : "Kullanım kendi OpenAI hesabınıza faturalandırılır. Anahtarlar yalnızca bu Mac’in Anahtar Zinciri’nde saklanır; uygulamaya veya kaynak koda eklenmez.",
+              "zh-Hans" : "使用你自己的 OpenAI 账户计费。在这里保存的密钥仅存于本机钥匙串，不会包含在 App 或开源代码中。",
+              "zh-Hant" : "使用你自己的 OpenAI 帳號計費。在這裡儲存的金鑰僅存於本機鑰匙圈，不會包含在 App 或開放原始碼中。"
+            },
+            "id" : "configure-credentials",
+            "title" : {
+              "ar" : "مفتاح OpenAI API الخاص بك",
+              "de" : "Dein OpenAI-API-Schlüssel",
+              "en" : "Your OpenAI API key",
+              "es" : "Tu clave de API de OpenAI",
+              "fr" : "Votre clé API OpenAI",
+              "ja" : "自分のOpenAI APIキー",
+              "ko" : "내 OpenAI API 키",
+              "pt" : "A sua chave API OpenAI",
+              "ru" : "Ваш ключ API OpenAI",
+              "tr" : "OpenAI API anahtarınız",
+              "zh-Hans" : "你的 OpenAI API 密钥",
+              "zh-Hant" : "你的 OpenAI API 金鑰"
+            }
+          }
+        ]
+      },
+      "summary" : "通过语音对话控制已启用的 MacTools 功能",
+      "version" : "0.1.0"
     },
     {
       "actions" : {
@@ -29369,14 +30540,20 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "9a0a62aa559953b4d45dc5a48b2d58f12bcf33ead6b54f535dcca5d1309ca40f",
-        "size" : 1088033,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/window-layouts.mactoolsplugin.zip"
+        "sha256" : "24dac3a0c06168139c0304eb1ddb5abf9883d3d4f2bb847b1a149e8e41b7fd9d",
+        "size" : 1132137,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/window-layouts.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "external-authorization"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -29454,7 +30631,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -29515,7 +30692,7 @@
         ]
       },
       "summary" : "移动聚焦窗口并调整其大小",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -29840,14 +31017,20 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "57fe3b38b0112cce9593dd07313b6a71b79956b31cd5c4a04214af89cd319c41",
-        "size" : 1506992,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/window-switcher.mactoolsplugin.zip"
+        "sha256" : "4a73ec069e856babcc0ccd9325cba9e61f14a328b21ece8f0cd36483d23146ae",
+        "size" : 1609034,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/window-switcher.mactoolsplugin.zip"
       },
       "permissions" : [
         "accessibility"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+          "device-state"
+        ],
+        "status" : "partial"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -29927,7 +31110,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -30006,7 +31189,7 @@
         }
       },
       "summary" : "用可配置快捷键快速切换正在运行的窗口",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "actions" : {
@@ -30243,14 +31426,20 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "fe6d12f988b040f30dc6a1f7ce63ccaede815801b6daac6126aa4dfcda44cb91",
-        "size" : 557825,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/xcode-clean.mactoolsplugin.zip"
+        "sha256" : "e479056adcc2a8499ea9e3f1bc3d40af9810964d711a95e83ba0ac884f724e60",
+        "size" : 557868,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/xcode-clean.mactoolsplugin.zip"
       },
       "permissions" : [
 
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -30328,7 +31517,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -30359,7 +31548,7 @@
         ]
       },
       "summary" : "分类清理 Xcode DerivedData、设备支持、归档与缓存",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     },
     {
       "capabilities" : {
@@ -30538,14 +31727,20 @@
       },
       "minimumHostVersion" : "2.0.1",
       "package" : {
-        "sha256" : "735d2a78a5c4fef48659c8efd32ea10c20e2470d2ae6468609829607b5b65617",
-        "size" : 508097,
-        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.1.0/zsh-config.mactoolsplugin.zip"
+        "sha256" : "53b4499a8973d21621b379a039c34ef561d8ebb83f03feb9e4848e7f446d2394",
+        "size" : 508135,
+        "url" : "https://github.com/mactools-app/MacTools/releases/download/plugins-2.2.0/zsh-config.mactoolsplugin.zip"
       },
       "permissions" : [
         "automation"
       ],
       "pluginKitVersion" : 7,
+      "preferencesBackup" : {
+        "exclusions" : [
+
+        ],
+        "status" : "none"
+      },
       "presentation" : {
         "documentationURL" : "https://github.com/ggbond268/MacTools#plugins-and-settings",
         "examples" : [
@@ -30638,7 +31833,7 @@
         ]
       },
       "releaseChannel" : null,
-      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.1.0",
+      "releaseNotesURL" : "https://github.com/mactools-app/MacTools/releases/tag/plugins-2.2.0",
       "requirements" : {
         "applications" : [
 
@@ -30669,7 +31864,7 @@
         ]
       },
       "summary" : "快速编辑 ~/.zshrc 等 zsh 配置文件，支持内联编辑和常用片段快速插入",
-      "version" : "2.1.0"
+      "version" : "2.2.0"
     }
   ],
   "revoked" : [
@@ -30678,6 +31873,6 @@
   "schemaVersion" : 3,
   "signature" : {
     "algorithm" : "ed25519",
-    "value" : "rKVguNRrMGWPxf32W6yxuUeCwIfOY4wUWa/jZXd4nn6SI9hr5N7OmIi1cUJB0NgXpFs19oLdXiQQVHBuAo8lAQ=="
+    "value" : "e2knbZnwtuJHFu46Ktv4Ry/kebdflKFxYz3jvxKwvh0Q6PTNDH1LfZxHGlNlsgTElkBu2oOlQMJxHcQvEu9eCw=="
   }
 }

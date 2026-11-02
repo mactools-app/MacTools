@@ -58,7 +58,7 @@
     "setup.requirements.title": "@standardSetup.requirements.title",
     "setup.requirements.description": "@standardSetup.requirements.description"
   },
-  "version": "1.0.0",
+  "version": "1.1.0",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "ContainerIndicator.bundle",

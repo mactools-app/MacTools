@@ -238,7 +238,7 @@
       "tr": "Denetimi kaydır"
     }
   },
-  "version": "0.2.0",
+  "version": "0.1.0",
   "minHostVersion": "2.2.2",
   "pluginKitVersion": 7,
   "bundleRelativePath": "VoiceControl.bundle",

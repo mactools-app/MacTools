@@ -73,7 +73,7 @@
     "discovery.browser-caches": "@localizable.category.browsers.title",
     "discovery.logs-and-diagnostic-reports": "@localizable.category.logs.title"
   },
-  "version": "3.1.0",
+  "version": "3.2.0",
   "minHostVersion": "1.3.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "DiskClean.bundle",

@@ -144,7 +144,7 @@
     "discovery.modifier-drag": "@localizable.settings.modifierDrag.sectionTitle",
     "discovery.centered-window-guides": "@localizable.settings.centeredGuides.title"
   },
-  "version": "2.1.0",
+  "version": "2.2.0",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "WindowLayouts.bundle",

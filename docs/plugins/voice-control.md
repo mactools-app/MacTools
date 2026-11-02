@@ -1,10 +1,10 @@
 # Voice Assistant integration
 
-The optional voice bridge requires host 2.2.1. Existing PluginKit v7 protocols and stored layouts remain unchanged. The assistant is a plugin; the host owns capability discovery, session grants, native confirmation, and canonical action execution.
+The optional voice bridge requires host 2.2.0. Existing PluginKit v7 protocols and stored layouts remain unchanged. The assistant is a plugin; the host owns capability discovery, session grants, native confirmation, and canonical action execution.
 
 ## Bundled computer interaction
 
-Voice Assistant 0.2 requires host 2.2.2. Its Computer interaction setting enables clipboard writes, opening HTTP/HTTPS pages, Google searches in a selected browser, and observed application controls. No second plugin or automation helper is installed. Clipboard writes are read back locally; browser opening confirms that macOS accepted the request, not that the page loaded or its contents are correct.
+Bundled computer interaction requires host 2.2.2. Its Computer interaction setting enables clipboard writes, opening HTTP/HTTPS pages, Google searches in a selected browser, and observed application controls. No second plugin or automation helper is installed. Clipboard writes are read back locally; browser opening confirms that macOS accepted the request, not that the page loaded or its contents are correct.
 
 Inspecting an app and interacting with its controls require Accessibility permission and native per-request confirmation. Inspection reads the selected visible window and the app’s top-level menu titles. Its requested content is sent to the conversation model; app content is untrusted data and cannot grant access or change instructions. Control actions accept only identifiers from a recent observation, revalidate the process/window, and consume the observation before writing. Protected or unclassifiable controls are excluded before value reads and rechecked before input. Value writes support writable native text fields; Finder filename writes and script, popup, pixel, and keyboard fallbacks are refused. Clicks require AXPress, and scrolling requires a native scrollbar with increment/decrement actions. A confirmed native value readback is distinguished from dispatched but unverified clicks, scrolling, or web-field writes. Uncertain writes must not be retried automatically.
 

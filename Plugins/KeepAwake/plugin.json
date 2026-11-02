@@ -80,8 +80,8 @@
       "zh-Hant": "防止睡眠"
     }
   },
-  "version": "2.1.0",
-  "minHostVersion": "2.2.1",
+  "version": "2.2.0",
+  "minHostVersion": "2.2.0",
   "pluginKitVersion": 7,
   "bundleRelativePath": "KeepAwake.bundle",
   "factoryClass": "KeepAwakePlugin.KeepAwakePluginFactory",

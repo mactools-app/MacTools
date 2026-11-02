@@ -73,7 +73,7 @@
     "discovery.environment-variable": "@localizable.snippet.export.title",
     "discovery.path-directory": "@localizable.snippet.path.title"
   },
-  "version": "2.1.0",
+  "version": "2.2.0",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "ZshConfig.bundle",

@@ -22,18 +22,18 @@ APP_VERSION_CONFIG = REPO_ROOT / "Configs/AppVersion.xcconfig"
 NEW_API_MINIMUM_HOSTS = {
     "ActionConfirmationPreparation": "2.2.2",
     "PluginActionConfirmationProviding": "2.2.2",
-    "PluginVoiceProvider": "2.2.1",
-    "PluginVoiceCapability": "2.2.1",
-    "PluginVoiceRequest": "2.2.1",
-    "PluginVoiceReply": "2.2.1",
-    "PluginVoiceQuery": "2.2.1",
-    "PluginVoiceQueryProviding": "2.2.1",
-    "PluginVoiceParameterizedActionProviding": "2.2.1",
-    "PluginVoiceSelfActionProviding": "2.2.1",
+    "PluginVoiceProvider": "2.2.0",
+    "PluginVoiceCapability": "2.2.0",
+    "PluginVoiceRequest": "2.2.0",
+    "PluginVoiceReply": "2.2.0",
+    "PluginVoiceQuery": "2.2.0",
+    "PluginVoiceQueryProviding": "2.2.0",
+    "PluginVoiceParameterizedActionProviding": "2.2.0",
+    "PluginVoiceSelfActionProviding": "2.2.0",
     "PluginVoiceSelfParameterizedActionProviding": "2.2.2",
-    "PluginVoiceControlHostContext": "2.2.1",
-    "PluginVoiceControlHostContextConsuming": "2.2.1",
-    ".microphone": "2.2.1",
+    "PluginVoiceControlHostContext": "2.2.0",
+    "PluginVoiceControlHostContextConsuming": "2.2.0",
+    ".microphone": "2.2.0",
 
     "PluginAppMenuBarIconVisibilityControlling": "2.2.0",
     "PluginMenuBarPanelPresentationRequest": "2.2.0",
@@ -362,8 +362,8 @@ class PluginMinimumHostCompatibilityTests(unittest.TestCase):
         source = PLUGIN_INTERFACES.with_name("PluginVoiceControlHostContext.swift").read_text(encoding="utf-8")
         for symbol in public_top_level_type_names(source):
             with self.subTest(symbol=symbol):
-                expected = "2.2.2" if symbol == "PluginVoiceSelfParameterizedActionProviding" else "2.2.1"
-                previous = "2.2.1" if expected == "2.2.2" else "2.2.0"
+                expected = "2.2.2" if symbol == "PluginVoiceSelfParameterizedActionProviding" else "2.2.0"
+                previous = "2.2.0" if expected == "2.2.2" else "2.1.0"
                 self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), expected)
                 self.assertTrue(minimum_host_violations("probe", previous, symbol))
 
