@@ -7,6 +7,42 @@ All notable changes to this project are documented here. The format follows
 Pending release notes live in `changes/unreleased/*.md` and are compiled during
 the app and plugin release processes.
 
+## [plugins-2.2.0] - 2026-11-02
+
+### Added
+
+- Translator now accepts private IPv4 and IPv6 HTTP endpoints, preserves custom endpoint paths, and restricts redirects to the configured service. Requires MacTools 2.2.0 or later.
+- The Apple Container card now shows live CPU, memory, and disk usage. Containers gain a configuration window with CPU, memory, and disk I/O charts plus terminal access, and machines can open a terminal too.
+- New Dynamic Island Hover Panel plugin opens MacTools from the Dynamic Island. The main menu-bar icon stays visible by default, with an option to hide it; saved visibility preferences are preserved.
+- Change automatic access for new plugins by voice, with confirmation before enabling. Changes affect future conversations, and stopping cancels pending changes.
+- New Voice Assistant offers a persistent panel with live captions, audio meters, and global shortcuts. Keys stay in Keychain; feature access supports search, batch changes, and cancelable edits.
+- Voice Assistant ends idle conversations after a configurable timeout, defaulting to one minute. Replies and tasks finish before the timer starts, and the floating panel stays open.
+- Voice Assistant can wait for speech on your Mac before connecting, preserving your opening words while reducing unused API time. Connect when I speak is enabled by default and can be changed in settings.
+- Choose whether newly installed plugins are automatically available from the main Voice Assistant settings page. Automatic access is on by default; current choices are kept when switching to manual approval.
+- Voice Assistant groups connection, conversation, and feature access settings. Model and pricing details explain billed connected silence and free local speech detection, with official links and speaker troubleshooting.
+- Ask for fresh brightness, system, power, appearance, Keep Awake, Night Shift, and mute status. Brightness commands verify their target and distinguish hardware readings from software dimming without undoing adjustments.
+- Voice Assistant reports audible speech and session usage, recovers from interrupted connections, and immediately stops recording and feature access when stopped.
+
+### Changed
+
+- Power Status collapses high-energy apps by default and samples only while expanded. The battery bar is easier to read, and power flow rows show draw without repeating wattage in the header.
+
+### Fixed
+
+- Backups now include more plugin settings, custom layouts, and stable app mappings. Private prompt text and launch-item notes require a separate opt-in; local data and permissions stay on your Mac.
+- Fixed upside-down app icons in Launchpad folder previews, including when dragging a folder.
+- Per-app keyboard modes now reliably switch the top row back to the Mac shortcuts or F1–F12 mode when apps change, after waking the Mac, or when a system write briefly fails.
+- AI settings transfer preserves verified local credentials and excluded private text, including large prompts and legacy Translator keys. Imported services need local key setup before accessing saved credentials.
+- Importing Clipboard preferences preserves local history across app restarts.
+- AI Assistant and Translator back up saved disabled service drafts without requiring complete settings. Drafts stay disabled after import.
+- Imports preserve unrelated prompt and Launch Control drafts, restored input rules, and included prompt shortcuts. AI prompt edits wait for recovery to finish, and Translator rejects unusable restored services.
+- Imported app volumes affect new playback while current playback keeps its gain; later edits preserve other live routes. Usage refresh intervals and low-battery warnings resume with restored settings and permission.
+- Clipboard History creates separate snippets when using New Snippet repeatedly, preserving previously saved snippets.
+
+### Security
+
+- Voice Assistant discards muted and outdated buffered audio, and delayed failures from an old connection no longer stop a new conversation.
+
 ## [v2.1.0] - 2026-10-23
 
 ### Added

@@ -100,7 +100,7 @@
       "zh-Hant": "五指點擊"
     }
   },
-  "version": "2.0.2",
+  "version": "2.1.0",
   "minHostVersion": "2.1.0",
   "pluginKitVersion": 7,
   "bundleRelativePath": "MiddleClick.bundle",

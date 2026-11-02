@@ -60,7 +60,7 @@
     "discovery.lunar-calendar": "@localizable.settings.alternateCalendar.chinese",
     "discovery.recent-events": "@localizable.agenda.title"
   },
-  "version": "2.1.0",
+  "version": "2.2.0",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "Calendar.bundle",

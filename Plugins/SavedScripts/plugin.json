@@ -71,7 +71,7 @@
     },
     "discovery.script-library": "@localizable.settings.library.title"
   },
-  "version": "2.1.0",
+  "version": "2.2.0",
   "minHostVersion": "1.3.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "SavedScripts.bundle",

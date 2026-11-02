@@ -62,7 +62,7 @@
     "action.set-enabled.parameter-summary": "@standardAction.set-enabled.description",
     "discovery.show-dock": "@localizable.action.show.title"
   },
-  "version": "2.1.0",
+  "version": "2.2.0",
   "minHostVersion": "2.1.0",
   "pluginKitVersion": 7,
   "bundleRelativePath": "AutoHideDock.bundle",

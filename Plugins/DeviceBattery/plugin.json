@@ -57,7 +57,7 @@
     "summary": "@summary",
     "discovery.low-battery-notifications": "@localizable.settings.notification.title"
   },
-  "version": "2.1.0",
+  "version": "2.2.0",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "DeviceBattery.bundle",
