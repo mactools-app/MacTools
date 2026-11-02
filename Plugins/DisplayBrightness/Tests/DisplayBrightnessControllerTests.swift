@@ -6,6 +6,30 @@ import MacToolsPluginKit
 
 @MainActor
 final class DisplayBrightnessControllerTests: XCTestCase {
+    func testShadeObservationKeepsPresentationOnMainAndSkipsInFlightWrites() async {
+        let display = makeTestDisplay(id: 42, name: "Shade Display")
+        let backend = ScriptedBrightnessBackend(display: display, results: [.success(())],
+            suspendsFirstWrite: true, kind: .shade)
+        let controller = makeController(display: display, backend: backend)
+        controller.refresh()
+        let initial = await controller.observeBrightness(for: display.id)
+        XCTAssertEqual(initial?.value, 1)
+        XCTAssertTrue(backend.readWasOnMainThread, "Shade reads refresh overlays and must retain main-actor ordering")
+        let write = Task { await controller.setBrightnessAndWait(0.4, for: display.id) }
+        await waitUntil { backend.firstWriteStarted }
+        let readsBeforeObservation = backend.readCount
+        let pending = await controller.observeBrightness(for: display.id)
+        XCTAssertNil(pending?.value)
+        XCTAssertEqual(pending?.isPendingWrite, true)
+        XCTAssertEqual(backend.readCount, readsBeforeObservation, "A voice query must not enqueue stale Shade presentation during a write")
+        backend.releaseFirstWrite()
+        let result = await write.value
+        XCTAssertEqual(result, .succeeded)
+        let current = await controller.observeBrightness(for: display.id)
+        XCTAssertEqual(current?.value, 0.4)
+        XCTAssertTrue(backend.readWasOnMainThread)
+    }
+
     func testSystemBuilderPreservesSoftwareFallbackWhenMainDisplayChanges() async {
         let display = makeTestDisplay(id: 19, name: "Apple Display", vendorNumber: 0x610)
         let provider = MutableDisplayProvider(displays: [display])
@@ -186,6 +210,43 @@ final class DisplayBrightnessControllerTests: XCTestCase {
         XCTAssertEqual(controller.snapshot().displays.first?.isReady, true)
         await controller.waitForScheduledReadsForTests()
         XCTAssertEqual(controller.snapshot().displays.first?.brightness, 0.7)
+    }
+
+    func testVoiceObservationStartingDuringWriteRemainsUnverifiedAfterWriteCompletes() async {
+        let display = makeTestDisplay(id: 35, name: "External Display")
+        let backend = ScriptedBrightnessBackend(display: display, results: [.success(())], suspendsFirstWrite: true)
+        let controller = makeController(display: display, backend: backend)
+        controller.refresh()
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        let write = Task { await controller.setBrightnessAndWait(0.8, for: display.id) }
+        await waitUntil { backend.firstWriteStarted }
+        backend.suspendNextRead()
+        defer { backend.releaseRead(); backend.releaseFirstWrite(); controller.cancelOutstandingWrites() }
+        let read = Task { await controller.observeBrightness(for: display.id) }
+        await waitUntil { backend.readStarted }
+        backend.releaseFirstWrite()
+        let writeResult = await write.value
+        XCTAssertEqual(writeResult, .succeeded)
+        backend.releaseRead()
+        let observation = await read.value
+        XCTAssertFalse(observation?.isHardwareReadback == true, "A read overlapping a write must remain unverified even after the write completes")
+    }
+
+    func testVoiceObservationCrossingWriteIsNotVerified() async {
+        let display = makeTestDisplay(id: 34, name: "External Display")
+        let backend = BlockingReadBrightnessBackend(display: display)
+        let controller = makeController(display: display, backend: backend)
+        controller.refresh()
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        backend.suspendNextRead()
+        defer { backend.releaseRead(); controller.cancelOutstandingWrites() }
+        let read = Task { await controller.observeBrightness(for: display.id) }
+        await waitUntil { backend.readStarted }
+        let write = await controller.setBrightnessAndWait(0.8, for: display.id)
+        XCTAssertEqual(write, .succeeded)
+        backend.releaseRead()
+        let observation = await read.value
+        XCTAssertNil(observation)
     }
 
     func testInitialHardwareReadKeepsMainThreadResponsiveAndControlsPending() async {
@@ -597,12 +658,17 @@ private final class ScriptedBrightnessBackend: DisplayBrightnessBackend, @unchec
 
     private let lock = NSLock()
     private let firstWriteGate = DispatchSemaphore(value: 0)
+    private let readGate = DispatchSemaphore(value: 0)
+    private var suspendRead = false
+    private var startedRead = false
     private var brightness = 1.0
     private var results: [Result<Void, Error>]
     private let suspendsFirstWrite: Bool
     private var didStartFirstWrite = false
     private var writes: [Double] = []
     private var cleanups = 0
+    private var reads = 0
+    private var lastReadOnMainThread = false
 
     init(
         display: DisplayInfo,
@@ -634,10 +700,20 @@ private final class ScriptedBrightnessBackend: DisplayBrightnessBackend, @unchec
         return cleanups
     }
 
+    var readStarted: Bool { lock.withLock { startedRead } }
+    var readCount: Int { lock.withLock { reads } }
+    var readWasOnMainThread: Bool { lock.withLock { lastReadOnMainThread } }
+    func suspendNextRead() { lock.withLock { suspendRead = true; startedRead = false } }
+    func releaseRead() { readGate.signal() }
     func readBrightness() throws -> Double {
-        lock.lock()
-        defer { lock.unlock() }
-        return brightness
+        let snapshot = lock.withLock { () -> (Double, Bool) in
+            let suspend = suspendRead
+            suspendRead = false; startedRead = true
+            reads += 1; lastReadOnMainThread = Thread.isMainThread
+            return (brightness, suspend)
+        }
+        if snapshot.1 { readGate.wait() }
+        return snapshot.0
     }
 
     func writeBrightness(_ value: Double) throws {

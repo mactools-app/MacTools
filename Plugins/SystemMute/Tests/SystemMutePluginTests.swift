@@ -4,8 +4,20 @@ import MacToolsPluginKit
 
 @MainActor
 final class SystemMutePluginTests: XCTestCase {
+    func testVoiceDistinguishesFreshMuteStateFromUnavailableDevice() async throws {
+        let controller = MockController(muteState: false)
+        let plugin = SystemMutePlugin(controller: controller)
+        controller.muteState = true
+        let value = try JSONSerialization.jsonObject(with: Data(try await plugin.readVoiceQuery(id: "system-output-state").utf8)) as? [String: Any]
+        XCTAssertEqual(value?["muted"] as? Bool, true)
+        controller.observationAvailable = false
+        do { _ = try await plugin.readVoiceQuery(id: "system-output-state"); XCTFail("Unavailable must not be reported as unmuted") }
+        catch {}
+    }
+
     private final class MockController: SystemAudioControlling {
         var muteState: Bool
+        var observationAvailable = true
         var setMuteResult: Bool
 
         init(muteState: Bool, setMuteResult: Bool = true) {
@@ -14,6 +26,7 @@ final class SystemMutePluginTests: XCTestCase {
         }
 
         func readMuteState() -> Bool { muteState }
+        func observedMuteState() -> Bool? { observationAvailable ? muteState : nil }
         func setMuteState(_ muted: Bool) -> Bool {
             if setMuteResult {
                 muteState = muted

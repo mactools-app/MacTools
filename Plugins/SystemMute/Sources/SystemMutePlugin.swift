@@ -21,10 +21,20 @@ private struct SystemMutePluginProvider: PluginProvider {
 
 protocol SystemAudioControlling {
     func readMuteState() -> Bool
+    func observedMuteState() -> Bool?
     func setMuteState(_ muted: Bool) -> Bool
 }
 
+extension SystemAudioControlling {
+    func observedMuteState() -> Bool? { readMuteState() }
+}
+
 struct CoreAudioSystemOutputController: SystemAudioControlling {
+    func observedMuteState() -> Bool? {
+        guard let deviceID = Self.defaultOutputDeviceID() else { return nil }
+        return Self.getMuteState(deviceID: deviceID)
+    }
+
     func readMuteState() -> Bool {
         guard let deviceID = Self.defaultOutputDeviceID() else { return false }
         return Self.getMuteState(deviceID: deviceID) ?? false
@@ -319,5 +329,19 @@ final class SystemMutePlugin: MacToolsPlugin, PluginActionProviding {
         }
         onStateChange?()
         return success
+    }
+}
+
+
+@MainActor
+extension SystemMutePlugin: PluginVoiceQueryProviding {
+    var voiceQueries: [PluginVoiceQuery] {
+        [.init(id: "system-output-state", title: metadata.title, description: "Fresh mute state of the default system output. Unsupported devices are reported as unavailable.")]
+    }
+    func readVoiceQuery(id: String) async throws -> String {
+        guard id == "system-output-state" else { throw CocoaError(.featureUnsupported) }
+        guard let muted = controller.observedMuteState() else { throw CocoaError(.featureUnsupported) }
+        let value: [String: Any] = ["sampledAt": Date.now.ISO8601Format(), "muted": muted]
+        return String(decoding: try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]), as: UTF8.self)
     }
 }

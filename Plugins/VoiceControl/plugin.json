@@ -1,0 +1,370 @@
+{
+  "id": "voice-control",
+  "displayName": "语音助手",
+  "summary": "通过语音对话控制已启用的 MacTools 功能",
+  "localizedMetadata": {
+    "ar": {
+      "displayName": "المساعد الصوتي",
+      "summary": "تحكّم في ميزات MacTools المفعّلة بالمحادثة الصوتية"
+    },
+    "de": {
+      "displayName": "Sprachassistent",
+      "summary": "Aktivierte MacTools-Funktionen per Sprachgespräch steuern"
+    },
+    "en": {
+      "displayName": "Voice Assistant",
+      "summary": "Control enabled MacTools features through voice conversation"
+    },
+    "es": {
+      "displayName": "Asistente de voz",
+      "summary": "Controla las funciones activadas de MacTools con la voz"
+    },
+    "fr": {
+      "displayName": "Assistant vocal",
+      "summary": "Contrôlez les fonctions MacTools activées par la voix"
+    },
+    "ja": {
+      "displayName": "音声アシスタント",
+      "summary": "音声会話で有効なMacTools機能を操作"
+    },
+    "ko": {
+      "displayName": "음성 도우미",
+      "summary": "음성 대화로 활성화된 MacTools 기능 제어"
+    },
+    "pt": {
+      "displayName": "Assistente de voz",
+      "summary": "Controle as funções ativas do MacTools por voz"
+    },
+    "ru": {
+      "displayName": "Голосовой помощник",
+      "summary": "Управляйте включёнными функциями MacTools голосом"
+    },
+    "zh-Hans": {
+      "displayName": "语音助手",
+      "summary": "通过语音对话控制已启用的 MacTools 功能"
+    },
+    "zh-Hant": {
+      "displayName": "語音助手",
+      "summary": "透過語音對話控制已啟用的 MacTools 功能"
+    },
+    "tr": {
+      "displayName": "Sesli Asistan",
+      "summary": "Etkin MacTools özelliklerini sesli sohbetle kontrol edin"
+    }
+  },
+  "productStrings": {
+    "display-name": "@displayName",
+    "summary": "@summary",
+    "setup-title": {
+      "ar": "مفتاح OpenAI API الخاص بك",
+      "de": "Dein OpenAI-API-Schlüssel",
+      "en": "Your OpenAI API key",
+      "es": "Tu clave de API de OpenAI",
+      "fr": "Votre clé API OpenAI",
+      "ja": "自分のOpenAI APIキー",
+      "ko": "내 OpenAI API 키",
+      "pt": "A sua chave API OpenAI",
+      "ru": "Ваш ключ API OpenAI",
+      "tr": "OpenAI API anahtarınız",
+      "zh-Hans": "你的 OpenAI API 密钥",
+      "zh-Hant": "你的 OpenAI API 金鑰"
+    },
+    "setup-description": {
+      "ar": "تُحاسب المكالمات على حساب OpenAI الخاص بك. تُحفظ المفاتيح في سلسلة مفاتيح هذا الـMac فقط، ولا تُضمّن في التطبيق أو الشفرة المصدرية.",
+      "de": "Abrechnung über dein OpenAI-Konto. Schlüssel bleiben im Schlüsselbund dieses Macs und werden weder mit der App noch dem Quellcode verteilt.",
+      "en": "Usage is billed to your own OpenAI account. Keys saved here stay in this Mac’s Keychain and are not included in the app or source code.",
+      "es": "El uso se factura a tu cuenta de OpenAI. Las claves solo se guardan en el Llavero de este Mac y no se incluyen en la app ni en el código.",
+      "fr": "L’utilisation est facturée à votre compte OpenAI. Les clés restent dans le trousseau de ce Mac et ne sont incluses ni dans l’app ni dans le code source.",
+      "ja": "料金は自分のOpenAIアカウントに請求されます。キーはこのMacのキーチェーンにのみ保存され、アプリやソースコードには含まれません。",
+      "ko": "사용 요금은 본인의 OpenAI 계정에 청구됩니다. 키는 이 Mac의 키체인에만 저장되며 앱이나 소스 코드에 포함되지 않습니다.",
+      "pt": "A utilização é cobrada à sua conta OpenAI. As chaves ficam apenas nas Chaves deste Mac e não são incluídas na aplicação nem no código-fonte.",
+      "ru": "Использование оплачивается с вашего аккаунта OpenAI. Ключи хранятся только в Связке ключей этого Mac и не входят в приложение или исходный код.",
+      "tr": "Kullanım kendi OpenAI hesabınıza faturalandırılır. Anahtarlar yalnızca bu Mac’in Anahtar Zinciri’nde saklanır; uygulamaya veya kaynak koda eklenmez.",
+      "zh-Hans": "使用你自己的 OpenAI 账户计费。在这里保存的密钥仅存于本机钥匙串，不会包含在 App 或开源代码中。",
+      "zh-Hant": "使用你自己的 OpenAI 帳號計費。在這裡儲存的金鑰僅存於本機鑰匙圈，不會包含在 App 或開放原始碼中。"
+    },
+    "action.automatic-plugin-access-on.title": {
+      "zh-Hans": "自动允许新安装的插件",
+      "en": "Automatically allow newly installed plugins",
+      "zh-Hant": "自動允許新安裝的外掛",
+      "ar": "السماح تلقائيًا بالمكونات الإضافية المثبّتة حديثًا",
+      "de": "Neu installierte Plugins automatisch zulassen",
+      "es": "Permitir automáticamente los plugins recién instalados",
+      "fr": "Autoriser automatiquement les nouveaux modules installés",
+      "ja": "新しくインストールしたプラグインを自動的に許可",
+      "ko": "새로 설치한 플러그인 자동 허용",
+      "pt": "Permitir automaticamente os plugins recém-instalados",
+      "ru": "Автоматически разрешать новые плагины",
+      "tr": "Yeni yüklenen eklentilere otomatik izin ver"
+    },
+    "action.automatic-plugin-access-off.title": {
+      "zh-Hans": "停止自动允许新安装的插件",
+      "en": "Stop automatically allowing new plugins",
+      "zh-Hant": "停止自動允許新安裝的外掛",
+      "ar": "إيقاف السماح التلقائي بالمكونات الإضافية الجديدة",
+      "de": "Neue Plugins nicht mehr automatisch zulassen",
+      "es": "Dejar de permitir automáticamente los nuevos plugins",
+      "fr": "Ne plus autoriser automatiquement les nouveaux modules",
+      "ja": "新しいプラグインの自動許可を停止",
+      "ko": "새 플러그인 자동 허용 중지",
+      "pt": "Deixar de permitir novos plugins automaticamente",
+      "ru": "Не разрешать новые плагины автоматически",
+      "tr": "Yeni eklentilere otomatik izin vermeyi durdur"
+    },
+    "action.automatic-plugin-access-on.description": {
+      "zh-Hans": "新插件将在后续对话中自动可用，已禁止的插件和当前对话不受影响。",
+      "en": "New plugins will be available automatically in future conversations. Blocked plugins and this conversation keep their current access.",
+      "zh-Hant": "新外掛將在後續對話中自動可用，已禁止的外掛與目前對話不受影響。",
+      "ar": "ستتوفر المكونات الإضافية الجديدة تلقائيًا في المحادثات اللاحقة. تحتفظ المكونات المحظورة وهذه المحادثة بإعدادات الوصول الحالية.",
+      "de": "Neue Plugins werden in künftigen Gesprächen automatisch verfügbar. Gesperrte Plugins und dieses Gespräch behalten ihre bisherigen Zugriffsrechte.",
+      "es": "Los nuevos plugins estarán disponibles automáticamente en futuras conversaciones. Los plugins bloqueados y esta conversación conservarán su acceso actual.",
+      "fr": "Les nouveaux modules seront disponibles automatiquement lors des prochaines conversations. Les modules bloqués et cette conversation conservent leurs accès actuels.",
+      "ja": "新しいプラグインは今後の会話で自動的に利用可能になります。拒否したプラグインと現在の会話のアクセス権は変わりません。",
+      "ko": "이후 대화에서 새 플러그인이 자동으로 허용됩니다. 차단된 플러그인과 현재 대화의 접근 권한은 유지됩니다.",
+      "pt": "Novos plugins ficarão disponíveis automaticamente nas próximas conversas. Os plugins bloqueados e esta conversa mantêm o acesso atual.",
+      "ru": "Новые плагины будут доступны автоматически в будущих разговорах. Доступ заблокированных плагинов и текущего разговора не изменится.",
+      "tr": "Yeni eklentiler sonraki konuşmalarda otomatik olarak kullanılabilir. Engellenen eklentilerin ve bu konuşmanın erişimi değişmez."
+    },
+    "action.automatic-plugin-access-off.description": {
+      "zh-Hans": "新插件需手动允许，当前选择和正在进行的对话不受影响。",
+      "en": "New plugins require manual approval. Current selections and the ongoing conversation keep their access.",
+      "zh-Hant": "新外掛需手動允許，目前選擇與正在進行的對話不受影響。",
+      "ar": "تتطلب المكونات الإضافية الجديدة موافقة يدوية. تحتفظ الاختيارات الحالية والمحادثة الجارية بإعدادات الوصول.",
+      "de": "Neue Plugins müssen manuell zugelassen werden. Die aktuelle Auswahl und das laufende Gespräch behalten ihre Zugriffsrechte.",
+      "es": "Los nuevos plugins requieren aprobación manual. Las selecciones actuales y la conversación en curso conservan su acceso.",
+      "fr": "Les nouveaux modules doivent être autorisés manuellement. La sélection actuelle et la conversation en cours conservent leurs accès.",
+      "ja": "新しいプラグインは手動で許可してください。現在の選択と進行中の会話のアクセス権は変わりません。",
+      "ko": "새 플러그인은 수동으로 허용해야 합니다. 현재 선택과 진행 중인 대화의 접근 권한은 유지됩니다.",
+      "pt": "Novos plugins exigem aprovação manual. As seleções atuais e a conversa em curso mantêm o acesso.",
+      "ru": "Новые плагины нужно разрешать вручную. Доступ текущего выбора и текущего разговора не изменится.",
+      "tr": "Yeni eklentiler için elle onay gerekir. Mevcut seçimlerin ve devam eden konuşmanın erişimi değişmez."
+    }
+  },
+  "version": "0.1.0",
+  "minHostVersion": "2.2.1",
+  "pluginKitVersion": 7,
+  "bundleRelativePath": "VoiceControl.bundle",
+  "factoryClass": "VoiceControlPlugin.VoiceControlPluginFactory",
+  "build": {
+    "project": "../../MacTools.xcodeproj",
+    "scheme": "VoiceControlPlugin"
+  },
+  "capabilities": {
+    "panelItems": [
+      "row"
+    ],
+    "settings": "form"
+  },
+  "permissions": [
+    "microphone"
+  ],
+  "category": "productivity",
+  "presentation": {
+    "longDescription": "@productStrings.summary",
+    "examples": [
+      {
+        "id": "primary-use",
+        "text": "@productStrings.summary"
+      }
+    ],
+    "screenshots": [],
+    "documentationURL": "https://github.com/mactools-app/MacTools/blob/main/docs/plugins/voice-control.md",
+    "supportURL": "https://github.com/mactools-app/MacTools/issues",
+    "publisher": "MacTools",
+    "license": "GPL-3.0-only"
+  },
+  "discovery": {
+    "keywords": [
+      "voice",
+      "brightness",
+      "OpenAI",
+      "assistant",
+      "voice assistant"
+    ],
+    "localizedSynonyms": {
+      "ar": [
+        "المساعد الصوتي",
+        "التحكم الصوتي"
+      ],
+      "de": [
+        "Sprachassistent",
+        "Sprachsteuerung"
+      ],
+      "en": [
+        "Voice Assistant",
+        "Voice Control"
+      ],
+      "es": [
+        "Asistente de voz",
+        "Control por voz"
+      ],
+      "fr": [
+        "Assistant vocal",
+        "Commande vocale"
+      ],
+      "ja": [
+        "音声アシスタント",
+        "音声コントロール"
+      ],
+      "ko": [
+        "음성 도우미",
+        "음성 제어"
+      ],
+      "pt": [
+        "Assistente de voz",
+        "Controle por voz"
+      ],
+      "ru": [
+        "Голосовой помощник",
+        "Голосовое управление"
+      ],
+      "zh-Hans": [
+        "语音助手",
+        "语音控制"
+      ],
+      "zh-Hant": [
+        "語音助手",
+        "語音控制"
+      ],
+      "tr": [
+        "Sesli Asistan",
+        "Sesle kontrol"
+      ]
+    },
+    "useCases": [
+      {
+        "id": "primary-use",
+        "title": "@productStrings.display-name"
+      }
+    ],
+    "goalCategories": [
+      "productivity"
+    ],
+    "relatedPluginIDs": [
+      "display-brightness"
+    ],
+    "alternativePluginIDs": []
+  },
+  "requirements": {
+    "minimumMacOSVersion": "14.0",
+    "architectures": [
+      "arm64",
+      "x86_64"
+    ],
+    "hardware": [],
+    "applications": [],
+    "executables": [],
+    "permissionIDs": [
+      "microphone"
+    ],
+    "setupComplexity": "simple",
+    "requiresRelaunch": false
+  },
+  "privacy": {
+    "dataObserved": [
+      "microphone-audio",
+      "conversation-transcript",
+      "plugin-command-metadata",
+      "requested-plugin-state"
+    ],
+    "dataPersisted": [
+      "api-key-in-local-keychain",
+      "excluded-plugin-ids"
+    ],
+    "retention": {
+      "policy": "user-controlled"
+    },
+    "networkUse": "required",
+    "networkDomains": [
+      "api.openai.com"
+    ],
+    "allowsUserConfiguredDomains": false,
+    "telemetry": "none",
+    "processesSensitiveUserContent": true,
+    "diagnosticExportsContainUserData": false
+  },
+  "setup": {
+    "steps": [
+      {
+        "id": "configure-credentials",
+        "title": "@productStrings.setup-title",
+        "description": "@productStrings.setup-description"
+      }
+    ],
+    "optionalSurfaces": []
+  },
+  "relationships": {
+    "relatedPluginIDs": [
+      "display-brightness"
+    ],
+    "includedPackIDs": [],
+    "suggestedRecipeIDs": [],
+    "supersedesPluginIDs": []
+  },
+  "preferencesBackup": {
+    "status": "partial",
+    "exclusions": [
+      "credentials",
+      "permissions",
+      "history",
+      "private-content"
+    ]
+  },
+  "actions": {
+    "providers": [
+      {
+        "id": "voice-control",
+        "kind": "static",
+        "staticActions": [
+          {
+            "id": "automatic-plugin-access-on",
+            "title": "@productStrings.action.automatic-plugin-access-on.title",
+            "description": "@productStrings.action.automatic-plugin-access-on.description",
+            "keywords": [
+              "new plugins",
+              "automatic access",
+              "automatically allow",
+              "future plugin permissions"
+            ],
+            "systemImage": "checkmark.shield",
+            "parameters": [],
+            "permissionIDs": [],
+            "risk": "confirmationRequired",
+            "surfaces": [
+              "unified-search",
+              "global-shortcut",
+              "action-grid",
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "automatic-plugin-access-off",
+            "title": "@productStrings.action.automatic-plugin-access-off.title",
+            "description": "@productStrings.action.automatic-plugin-access-off.description",
+            "keywords": [
+              "new plugins",
+              "automatic access",
+              "automatically allow",
+              "future plugin permissions"
+            ],
+            "systemImage": "checkmark.shield",
+            "parameters": [],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "unified-search",
+              "global-shortcut",
+              "action-grid",
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          }
+        ],
+        "dynamicTemplates": []
+      }
+    ]
+  }
+}

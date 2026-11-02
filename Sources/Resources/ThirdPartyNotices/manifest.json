@@ -245,6 +245,22 @@
         "Plugins/AIUsage/Resources/ClaudeLogo.svg"
       ],
       "licenseFile": "Sources/Resources/ThirdPartyNotices/cc-bar-LICENSE.txt"
+    },
+    {
+      "id": "silero-vad-coreml",
+      "name": "Silero VAD v6.0.0 (FluidInference Core ML conversion)",
+      "repository": "https://huggingface.co/FluidInference/silero-vad-coreml",
+      "revision": "b419383c55c110e2c9271fa6ee0ea83d03c70d96",
+      "license": "MIT",
+      "gpl3Compatibility": "compatible",
+      "relationship": "asset",
+      "products": [
+        "plugin:voice-control"
+      ],
+      "paths": [
+        "Plugins/VoiceControl/Resources/SileroVAD.mlpackage"
+      ],
+      "licenseFile": "Sources/Resources/ThirdPartyNotices/SileroVAD-LICENSE.txt"
     }
   ]
 }

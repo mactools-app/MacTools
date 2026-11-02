@@ -78,10 +78,38 @@
       "tr": "Yazılımla parlaklık",
       "zh-Hans": "软件亮度",
       "zh-Hant": "軟體亮度"
+    },
+    "set-brightness-title": {
+      "en": "Set Display Brightness",
+      "zh-Hans": "设置显示器亮度",
+      "zh-Hant": "設定顯示器亮度",
+      "ar": "ضبط سطوع الشاشة",
+      "de": "Bildschirmhelligkeit einstellen",
+      "es": "Ajustar brillo de pantalla",
+      "fr": "Régler la luminosité",
+      "ja": "明るさを設定",
+      "ko": "디스플레이 밝기 설정",
+      "pt": "Definir brilho do monitor",
+      "ru": "Задать яркость дисплея",
+      "tr": "Ekran parlaklığını ayarla"
+    },
+    "set-brightness-description": {
+      "en": "Set a selected display to an absolute brightness percentage.",
+      "zh-Hans": "将指定显示器调节到目标百分比",
+      "zh-Hant": "將指定顯示器調整到目標百分比",
+      "ar": "ضبط سطوع الشاشة",
+      "de": "Bildschirmhelligkeit einstellen",
+      "es": "Ajustar brillo de pantalla",
+      "fr": "Régler la luminosité",
+      "ja": "明るさを設定",
+      "ko": "디스플레이 밝기 설정",
+      "pt": "Definir brilho do monitor",
+      "ru": "Задать яркость дисплея",
+      "tr": "Seçilen ekranı mutlak bir parlaklık yüzdesine ayarlayın."
     }
   },
-  "version": "2.1.0",
-  "minHostVersion": "2.0.1",
+  "version": "2.1.1",
+  "minHostVersion": "2.2.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "DisplayBrightness.bundle",
   "factoryClass": "DisplayBrightnessPlugin.DisplayBrightnessPluginFactory",
@@ -338,6 +366,44 @@
               "manual"
             ],
             "automaticEligible": true,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "set-brightness",
+            "title": "@productStrings.set-brightness-title",
+            "description": "@productStrings.set-brightness-description",
+            "keywords": [
+              "brightness",
+              "display",
+              "percent"
+            ],
+            "systemImage": "sun.max",
+            "parameters": [
+              {
+                "id": "display-id",
+                "kind": "string",
+                "isRequired": true,
+                "portability": "localOnly"
+              },
+              {
+                "id": "generation",
+                "kind": "string",
+                "isRequired": true,
+                "portability": "localOnly"
+              },
+              {
+                "id": "percent",
+                "kind": "double",
+                "isRequired": true,
+                "portability": "portable"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
             "externalInvocation": "unavailable"
           }
         ],

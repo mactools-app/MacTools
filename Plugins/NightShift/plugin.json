@@ -62,7 +62,7 @@
     "action.set-enabled.parameter-summary": "@standardAction.set-enabled.description"
   },
   "version": "2.1.0",
-  "minHostVersion": "2.1.0",
+  "minHostVersion": "2.2.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "NightShift.bundle",
   "factoryClass": "NightShiftPlugin.NightShiftPluginFactory",
@@ -164,7 +164,8 @@
   },
   "privacy": {
     "dataObserved": [
-      "display-state"
+      "display-state",
+      "requested-plugin-state"
     ],
     "dataPersisted": [],
     "retention": {

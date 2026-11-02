@@ -497,3 +497,26 @@ final class KeepAwakeMemoryStorage: PluginStorage {
         values.removeValue(forKey: legacyKey)
     }
 }
+
+
+@MainActor
+final class KeepAwakeVoiceTests: XCTestCase {
+    func testVoiceReportsSessionLifecycleWithoutStartingAnotherSession() async throws {
+        let factory = KeepAwakeSessionFactory()
+        let plugin = factory.makePlugin(storage: KeepAwakeMemoryStorage())
+        func state() async throws -> [String: Any] {
+            let text = try await plugin.readVoiceQuery(id: "keep-awake-state")
+            return try XCTUnwrap(JSONSerialization.jsonObject(with: Data(text.utf8)) as? [String: Any])
+        }
+        let idle = try await state()
+        XCTAssertEqual(idle["enabled"] as? Bool, false)
+        XCTAssertTrue(factory.sessions.isEmpty)
+        plugin.handleAction(.setSwitch(true))
+        let running = try await state()
+        XCTAssertEqual(running["enabled"] as? Bool, true)
+        XCTAssertEqual(factory.sessions.count, 1)
+        plugin.handleAction(.setSwitch(false))
+        let stopped = try await state()
+        XCTAssertEqual(stopped["enabled"] as? Bool, false)
+    }
+}

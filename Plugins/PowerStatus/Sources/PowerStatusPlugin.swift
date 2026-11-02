@@ -135,3 +135,32 @@ final class PowerStatusPlugin: MacToolsPlugin {
         return "\(viewModel.snapshot.powerSourceText(localization)) · \(power)"
     }
 }
+
+
+extension PowerStatusPlugin: PluginVoiceQueryProviding {
+    var voiceQueries: [PluginVoiceQuery] {
+        [.init(id: "power-state", title: metadata.title,
+               description: "Fresh battery percentage, charging state, AC connection and measured power. No application energy list or other private content.")]
+    }
+    func readVoiceQuery(id: String) async throws -> String {
+        guard id == "power-state" else { throw VoicePowerStateError.unknownQuery }
+        let sample = PowerStatusSampler.readSnapshot()
+        let value = VoicePowerState(sampledAt: Date.now.ISO8601Format(), available: sample.isDataAvailable,
+            batteryPercent: sample.isDataAvailable ? sample.batteryPercent : nil,
+            charging: sample.isDataAvailable ? sample.isCharging : nil,
+            onAC: sample.isDataAvailable ? sample.isOnAC : nil,
+            systemPowerWatts: sample.systemPowerW, acInputWatts: sample.acInputW)
+        return String(decoding: try JSONEncoder().encode(value), as: UTF8.self)
+    }
+}
+
+private enum VoicePowerStateError: Error { case unknownQuery }
+private struct VoicePowerState: Encodable {
+    let sampledAt: String
+    let available: Bool
+    let batteryPercent: Int?
+    let charging: Bool?
+    let onAC: Bool?
+    let systemPowerWatts: Double?
+    let acInputWatts: Double?
+}

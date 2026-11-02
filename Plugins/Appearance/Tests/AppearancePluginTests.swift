@@ -4,6 +4,20 @@ import MacToolsPluginKit
 
 @MainActor
 final class AppearancePluginTests: XCTestCase {
+    private final class VoiceAppearanceController: SystemAppearanceControlling {
+        var snapshot = SystemAppearanceSnapshot(mode: .auto, isDark: false)
+        func read() throws -> SystemAppearanceSnapshot { snapshot }
+        func setMode(_ mode: SystemAppearanceMode) throws { XCTFail("A voice query must not write appearance") }
+    }
+    func testVoiceReadsFreshPolicyAndRenderedTheme() async throws {
+        let controller = VoiceAppearanceController()
+        let plugin = AppearancePlugin(appearanceController: controller)
+        controller.snapshot = .init(mode: .auto, isDark: true)
+        let value = try JSONSerialization.jsonObject(with: Data(try await plugin.readVoiceQuery(id: "appearance-state").utf8)) as? [String: Any]
+        XCTAssertEqual(value?["mode"] as? String, "auto")
+        XCTAssertEqual(value?["isDark"] as? Bool, true)
+    }
+
     func testManifestActionsMatchRuntimePolicy() throws {
         let plugin = AppearancePlugin()
 

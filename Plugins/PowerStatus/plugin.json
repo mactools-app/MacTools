@@ -56,8 +56,8 @@
     "display-name": "@displayName",
     "summary": "@summary"
   },
-  "version": "1.0.0",
-  "minHostVersion": "2.0.1",
+  "version": "1.0.1",
+  "minHostVersion": "2.2.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "PowerStatus.bundle",
   "factoryClass": "PowerStatusPlugin.PowerStatusPluginFactory",

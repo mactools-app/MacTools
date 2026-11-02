@@ -243,3 +243,17 @@ final class NightShiftPlugin: MacToolsPlugin, PluginPanelCompactSwitchProviding,
         return success
     }
 }
+
+
+@MainActor
+extension NightShiftPlugin: PluginVoiceQueryProviding {
+    var voiceQueries: [PluginVoiceQuery] {
+        [.init(id: "night-shift-state", title: metadata.title, description: "Fresh Night Shift enabled state. Unavailable hardware is reported as unavailable, never disabled.")]
+    }
+    func readVoiceQuery(id: String) async throws -> String {
+        guard id == "night-shift-state" else { throw CocoaError(.featureUnsupported) }
+        guard let enabled = controller.observedStatus() else { throw CocoaError(.featureUnsupported) }
+        let value: [String: Any] = ["sampledAt": Date.now.ISO8601Format(), "enabled": enabled]
+        return String(decoding: try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]), as: UTF8.self)
+    }
+}

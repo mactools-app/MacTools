@@ -1,0 +1,21 @@
+{
+  "repository": "FluidInference/silero-vad-coreml",
+  "revision": "b419383c55c110e2c9271fa6ee0ea83d03c70d96",
+  "files": [
+    {
+      "path": "silero-vad-unified-v6.0.0.mlpackage/Data/com.apple.CoreML/model.mlmodel",
+      "bytes": 22122,
+      "sha256": "532a63e7db357d739761635285c295b6d440a07d081951e914351efc1f6fd8d9"
+    },
+    {
+      "path": "silero-vad-unified-v6.0.0.mlpackage/Data/com.apple.CoreML/weights/weight.bin",
+      "bytes": 882304,
+      "sha256": "853cf34740d3f5061f977ebe2976f7c921b064261c9c4753b3a1196f2dba42b4"
+    },
+    {
+      "path": "silero-vad-unified-v6.0.0.mlpackage/Manifest.json",
+      "bytes": 617,
+      "sha256": "277a653e3968df81c0b3a5eca8f8cf8a19cb46578f83e15d08dfb769abfdf8f9"
+    }
+  ]
+}

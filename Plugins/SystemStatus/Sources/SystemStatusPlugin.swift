@@ -1249,3 +1249,39 @@ private struct SystemStatusCircularProgress: View {
         }
     }
 }
+
+
+extension SystemStatusPlugin: PluginVoiceQueryProviding {
+    var voiceQueries: [PluginVoiceQuery] {
+        [.init(id: "system-state", title: metadata.title,
+               description: "Fresh CPU usage/load, memory usage, disk free space and battery level. Does not include application names, files or network addresses.")]
+    }
+    func readVoiceQuery(id: String) async throws -> String {
+        guard id == "system-state" else { throw VoiceSystemStateError.unknownQuery }
+        // A short-lived sampler leaves the user's widget demand and collectors unchanged.
+        let sampler = SystemStatusSampler(localization: localization)
+        let demand: SystemStatusSamplingDemand = [.cpuUsage, .cpuLoad, .memoryUsage, .diskCapacity, .battery]
+        await sampler.setDemand(demand)
+        _ = await sampler.collectFast(referenceDate: .now, demand: demand)
+        try await Task.sleep(for: .milliseconds(250))
+        let fast = await sampler.collectFast(referenceDate: .now, demand: demand)
+        let slow = await sampler.collectSlow(demand: demand)
+        try Task.checkCancellation()
+        let value = VoiceSystemState(sampledAt: Date.now.ISO8601Format(),
+            cpuUsagePercent: fast.cpu.usage.map { $0 * 100 }, loadAverageOneMinute: fast.cpu.loadAverage1Minute,
+            memoryUsedBytes: fast.memory.usedBytes, memoryTotalBytes: fast.memory.totalBytes,
+            diskFreeBytes: slow.disk.freeBytes, batteryLevelPercent: slow.battery.level.map { $0 * 100 })
+        return String(decoding: try JSONEncoder().encode(value), as: UTF8.self)
+    }
+}
+
+private enum VoiceSystemStateError: Error { case unknownQuery }
+private struct VoiceSystemState: Encodable {
+    let sampledAt: String
+    let cpuUsagePercent: Double?
+    let loadAverageOneMinute: Double?
+    let memoryUsedBytes: UInt64?
+    let memoryTotalBytes: UInt64?
+    let diskFreeBytes: UInt64?
+    let batteryLevelPercent: Double?
+}

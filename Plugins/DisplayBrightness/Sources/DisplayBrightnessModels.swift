@@ -2,11 +2,21 @@ import CoreGraphics
 import Foundation
 import MacToolsPluginKit
 
-enum DisplayBrightnessBackendKind: Equatable {
+enum DisplayBrightnessBackendKind: String, Equatable, Sendable {
     case appleNative
     case ddc
     case gamma
     case shade
+}
+
+/// Fresh backend data is distinct from the optimistic slider snapshot.
+struct DisplayBrightnessObservation: Sendable {
+    let value: Double?
+    let backend: DisplayBrightnessBackendKind
+    let isPendingWrite: Bool
+    var isHardwareReadback: Bool {
+        value != nil && !isPendingWrite && (backend == .appleNative || backend == .ddc)
+    }
 }
 
 struct DisplayBrightnessDisplay: Identifiable, Equatable {
@@ -94,10 +104,12 @@ protocol DisplayBrightnessControlling: AnyObject {
         for displayID: CGDirectDisplayID
     ) async -> DisplayBrightnessWriteResult
     func cancelOutstandingWrites()
+    func observeBrightness(for displayID: CGDirectDisplayID) async -> DisplayBrightnessObservation?
 }
 
 extension DisplayBrightnessControlling {
     func cancelOutstandingWrites() {}
+    func observeBrightness(for displayID: CGDirectDisplayID) async -> DisplayBrightnessObservation? { nil }
 }
 
 protocol DisplayBrightnessBackend: AnyObject, Sendable {

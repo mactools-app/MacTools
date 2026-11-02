@@ -4,6 +4,17 @@ import MacToolsPluginKit
 
 @MainActor
 final class NightShiftPluginTests: XCTestCase {
+    func testVoiceDistinguishesFreshStatusFromUnavailableReadback() async throws {
+        let client = MockCoreBrightnessClient(enabled: false)
+        let plugin = NightShiftPlugin(controller: CBNightShiftController(client: client))
+        client.enabled = true
+        let value = try JSONSerialization.jsonObject(with: Data(try await plugin.readVoiceQuery(id: "night-shift-state").utf8)) as? [String: Any]
+        XCTAssertEqual(value?["enabled"] as? Bool, true)
+        client.enabled = nil
+        do { _ = try await plugin.readVoiceQuery(id: "night-shift-state"); XCTFail("Unavailable must not be reported as disabled") }
+        catch {}
+    }
+
 
     private final class MockController: NightShiftControlling {
         var status: Bool

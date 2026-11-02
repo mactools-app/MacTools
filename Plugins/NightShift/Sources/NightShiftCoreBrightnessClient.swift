@@ -12,7 +12,12 @@ private enum NightShiftObjectiveCABI {
 @MainActor
 protocol NightShiftControlling {
     func getStatus() -> Bool
+    func observedStatus() -> Bool?
     func setEnabled(_ enabled: Bool) -> Bool
+}
+
+extension NightShiftControlling {
+    func observedStatus() -> Bool? { getStatus() }
 }
 
 @MainActor
@@ -36,6 +41,8 @@ final class CBNightShiftController: NightShiftControlling {
     func getStatus() -> Bool {
         client?.isEnabled() ?? false
     }
+
+    func observedStatus() -> Bool? { client?.isEnabled() }
 
     func setEnabled(_ enabled: Bool) -> Bool {
         guard let client,

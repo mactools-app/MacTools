@@ -357,3 +357,17 @@ final class AppearancePlugin: MacToolsPlugin, PluginPanelCompactSwitchProviding,
         }
     }
 }
+
+
+@MainActor
+extension AppearancePlugin: PluginVoiceQueryProviding {
+    var voiceQueries: [PluginVoiceQuery] {
+        [.init(id: "appearance-state", title: metadata.title, description: "Fresh system appearance policy (automatic, light or dark) and the currently rendered theme.")]
+    }
+    func readVoiceQuery(id: String) async throws -> String {
+        guard id == "appearance-state" else { throw CocoaError(.featureUnsupported) }
+        let snapshot = try appearanceController.read()
+        let value: [String: Any] = ["sampledAt": Date.now.ISO8601Format(), "mode": snapshot.mode.rawValue, "isDark": snapshot.isDark]
+        return String(decoding: try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]), as: UTF8.self)
+    }
+}

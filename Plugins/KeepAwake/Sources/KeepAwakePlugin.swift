@@ -1682,3 +1682,20 @@ extension KeepAwakePlugin: PluginPortablePreferencesProviding, PluginPortablePre
         return true
     }
 }
+
+
+@MainActor
+extension KeepAwakePlugin: PluginVoiceQueryProviding {
+    var voiceQueries: [PluginVoiceQuery] {
+        [.init(id: "keep-awake-state", title: metadata.title, description: "Current Keep Awake session, scheduled end, remaining seconds and actual display sleep prevention.")]
+    }
+    func readVoiceQuery(id: String) async throws -> String {
+        guard id == "keep-awake-state" else { throw CocoaError(.featureUnsupported) }
+        let now = Date.now
+        let value: [String: Any] = ["sampledAt": now.ISO8601Format(), "enabled": session != nil,
+            "scheduledEnd": scheduledEndDate.map { $0.ISO8601Format() } as Any? ?? NSNull(),
+            "secondsRemaining": scheduledEndDate.map { max(0, $0.timeIntervalSince(now)) } as Any? ?? NSNull(),
+            "preventsDisplaySleep": session?.isPreventingDisplaySleep ?? false]
+        return String(decoding: try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]), as: UTF8.self)
+    }
+}
