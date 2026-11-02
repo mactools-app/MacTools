@@ -7,6 +7,27 @@ All notable changes to this project are documented here. The format follows
 Pending release notes live in `changes/unreleased/*.md` and are compiled during
 the app and plugin release processes.
 
+## [v2.2.0] - 2026-11-02
+
+### Added
+
+- Added system-network support for private IP address ranges used by local model services, while retaining public-network transport protections.
+- MacTools can open its panel below the Dynamic Island and restores its menu-bar icon when the hover plugin is disabled or no compatible display is connected.
+- Open installed or running applications directly by voice without assigning hotkeys. Asking for an already active app keeps it visible.
+- Control enabled plugins by voice with native approvals and microphone permission guidance. Conversations survive plugin refreshes, while stopped or expired sessions cannot start waiting commands.
+
+### Changed
+
+- Plugin Sets now open inside Settings and finish with clear tips for using and configuring plugins. Refined previews use each component’s default panel while preserving existing layouts.
+- Import now clarifies that selecting Shortcuts resets omitted bindings to defaults. Unselected categories and local data are preserved.
+- Empty panels now link to plugin installation when no plugins are installed, or directly to panel editing when plugins are available, replacing the tool-pack shortcut.
+
+### Fixed
+
+- Preferences Backup now shows plugin coverage, exclusions, and restore results. Failed exports preserve the last good automatic or cloud backup, and dependent shortcuts follow successfully included definitions.
+- Imported prompt shortcuts apply only when their template definitions restore successfully.
+- Panel editing keeps navigation centered, places Panel Width after Add Widgets, and removes redundant drag controls.
+
 ## [plugins-2.2.0] - 2026-11-02
 
 ### Added
