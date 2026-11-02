@@ -8,21 +8,150 @@ public enum ContainerServiceStatus: String, Sendable, Equatable {
     case unknown
 }
 
+/// Static configuration reported by `container list`, shown in the detail
+/// window. Every field is optional in the CLI output, so the parser keeps
+/// neutral defaults instead of failing the whole entry.
+public struct ContainerConfiguration: Hashable, Sendable {
+    public let command: String
+    public let workingDirectory: String
+    public let user: String
+    /// Environment variable names only. Values stay out of the UI because
+    /// `container inspect` exposes secrets such as database passwords.
+    public let environmentKeys: [String]
+    public let ports: [String]
+    public let mounts: [String]
+    public let networks: [String]
+    public let hostname: String
+    public let dnsDomain: String
+    public let dnsServers: [String]
+    public let platform: String
+    public let runtimeHandler: String
+    public let readOnly: Bool
+    public let rosetta: Bool
+    public let ssh: Bool
+    public let imageDigest: String
+    public let createdAt: Date?
+    /// Optional storage quota from `configuration.resources.storage`.
+    public let storageQuotaBytes: Int?
+
+    public static let empty = ContainerConfiguration(
+        command: "",
+        workingDirectory: "",
+        user: "",
+        environmentKeys: [],
+        ports: [],
+        mounts: [],
+        networks: [],
+        hostname: "",
+        dnsDomain: "",
+        dnsServers: [],
+        platform: "",
+        runtimeHandler: "",
+        readOnly: false,
+        rosetta: false,
+        ssh: false,
+        imageDigest: "",
+        createdAt: nil,
+        storageQuotaBytes: nil
+    )
+
+    public init(
+        command: String,
+        workingDirectory: String,
+        user: String,
+        environmentKeys: [String],
+        ports: [String],
+        mounts: [String],
+        networks: [String],
+        hostname: String,
+        dnsDomain: String,
+        dnsServers: [String],
+        platform: String,
+        runtimeHandler: String,
+        readOnly: Bool,
+        rosetta: Bool,
+        ssh: Bool,
+        imageDigest: String,
+        createdAt: Date?,
+        storageQuotaBytes: Int?
+    ) {
+        self.command = command
+        self.workingDirectory = workingDirectory
+        self.user = user
+        self.environmentKeys = environmentKeys
+        self.ports = ports
+        self.mounts = mounts
+        self.networks = networks
+        self.hostname = hostname
+        self.dnsDomain = dnsDomain
+        self.dnsServers = dnsServers
+        self.platform = platform
+        self.runtimeHandler = runtimeHandler
+        self.readOnly = readOnly
+        self.rosetta = rosetta
+        self.ssh = ssh
+        self.imageDigest = imageDigest
+        self.createdAt = createdAt
+        self.storageQuotaBytes = storageQuotaBytes
+    }
+}
+
+/// One reduced sample of a running container's live resource usage. Rates are
+/// nil until two daemon samples exist (or when a counter reset), so the card
+/// can show "—" instead of a fabricated zero.
+public struct ContainerPerformance: Hashable, Sendable {
+    /// Percentage of the container's configured CPU allotment, so 100% means
+    /// every configured core is busy.
+    public let cpuPercent: Double?
+    public let memoryBytes: Int?
+    public let memoryLimitBytes: Int?
+    public let diskReadBytesPerSecond: Double?
+    public let diskWriteBytesPerSecond: Double?
+    public let sampledAt: Date
+
+    public var diskTotalBytesPerSecond: Double? {
+        guard let read = diskReadBytesPerSecond,
+              let write = diskWriteBytesPerSecond else {
+            return nil
+        }
+        return read + write
+    }
+
+    public init(
+        cpuPercent: Double?,
+        memoryBytes: Int?,
+        memoryLimitBytes: Int?,
+        diskReadBytesPerSecond: Double?,
+        diskWriteBytesPerSecond: Double?,
+        sampledAt: Date
+    ) {
+        self.cpuPercent = cpuPercent
+        self.memoryBytes = memoryBytes
+        self.memoryLimitBytes = memoryLimitBytes
+        self.diskReadBytesPerSecond = diskReadBytesPerSecond
+        self.diskWriteBytesPerSecond = diskWriteBytesPerSecond
+        self.sampledAt = sampledAt
+    }
+}
+
 /// A container instance reported by `container list`.
 public struct ContainerInstance: Identifiable, Hashable, Sendable {
     public let id: String
-    public let name: String
-    public let statusText: String
-    public let image: String
+    public var name: String
+    public var statusText: String
+    public var image: String
     /// Configured core count from `configuration.resources.cpus`.
-    public let cpus: Int
+    public var cpus: Int
     /// Configured memory limit from `configuration.resources.memoryInBytes`.
-    public let memoryBytes: Int
+    public var memoryBytes: Int
     /// Container platform architecture, used to pick the matching image size.
-    public let architecture: String
+    public var architecture: String
     /// On-disk size of the matching image variant, resolved from
     /// `container image list`; nil while no match is available.
-    public let imageStorageBytes: Int?
+    public var imageStorageBytes: Int?
+    public var configuration: ContainerConfiguration
+    /// Latest live sample; only running containers receive one.
+    public var performance: ContainerPerformance?
 
     public var isRunning: Bool {
         statusText.lowercased() == "running"
@@ -36,7 +165,9 @@ public struct ContainerInstance: Identifiable, Hashable, Sendable {
         cpus: Int = 0,
         memoryBytes: Int = 0,
         architecture: String = "",
-        imageStorageBytes: Int? = nil
+        imageStorageBytes: Int? = nil,
+        configuration: ContainerConfiguration = .empty,
+        performance: ContainerPerformance? = nil
     ) {
         self.id = id
         self.name = name
@@ -46,20 +177,22 @@ public struct ContainerInstance: Identifiable, Hashable, Sendable {
         self.memoryBytes = memoryBytes
         self.architecture = architecture
         self.imageStorageBytes = imageStorageBytes
+        self.configuration = configuration
+        self.performance = performance
     }
 
     /// Returns a copy carrying the resolved image storage size.
     public func withImageStorage(_ bytes: Int?) -> ContainerInstance {
-        ContainerInstance(
-            id: id,
-            name: name,
-            statusText: statusText,
-            image: image,
-            cpus: cpus,
-            memoryBytes: memoryBytes,
-            architecture: architecture,
-            imageStorageBytes: bytes
-        )
+        var copy = self
+        copy.imageStorageBytes = bytes
+        return copy
+    }
+
+    /// Returns a copy carrying the latest live sample.
+    public func withPerformance(_ performance: ContainerPerformance?) -> ContainerInstance {
+        var copy = self
+        copy.performance = performance
+        return copy
     }
 }
 
@@ -118,7 +251,8 @@ public struct ContainerMachine: Identifiable, Hashable, Sendable {
     }
 }
 
-/// Byte sizes rendered for panel copy: whole units below GB, one decimal above.
+/// Byte sizes and live rates rendered for panel copy: whole units below GB,
+/// one decimal above.
 public enum ContainerIndicatorFormatting {
     private static let units = ["B", "KB", "MB", "GB", "TB"]
 
@@ -134,6 +268,23 @@ public enum ContainerIndicatorFormatting {
             return String(format: "%.1f %@", value, units[index])
         }
         return String(format: "%.0f %@", value, units[index])
+    }
+
+    /// Throughput for the live line, e.g. `1.2 MB/s`.
+    public static func rate(_ bytesPerSecond: Double) -> String {
+        guard bytesPerSecond.isFinite, bytesPerSecond > 0 else { return "0 B/s" }
+        if bytesPerSecond >= 1024 * 1024 {
+            return String(format: "%.1f MB/s", bytesPerSecond / (1024 * 1024))
+        }
+        if bytesPerSecond >= 1024 {
+            return String(format: "%.0f KB/s", bytesPerSecond / 1024)
+        }
+        return String(format: "%.0f B/s", bytesPerSecond)
+    }
+
+    public static func percent(_ value: Double) -> String {
+        guard value.isFinite else { return "-" }
+        return String(format: "%.0f%%", max(0, value))
     }
 
     /// The full image reference while it fits; once it is too long for the
@@ -157,6 +308,9 @@ public struct ContainerSnapshot: Equatable, Sendable {
     public let containersFailure: String?
     /// Same as `containersFailure`, for `container machine list`.
     public let machinesFailure: String?
+    /// Why the latest `container stats` read failed. The live numbers then come
+    /// from the previous sample, so the card marks them as stale.
+    public let statsFailure: String?
 
     public static let unavailable = ContainerSnapshot(
         status: .unknown,
@@ -171,7 +325,8 @@ public struct ContainerSnapshot: Equatable, Sendable {
         machines: [ContainerMachine],
         updatedAt: Date?,
         containersFailure: String? = nil,
-        machinesFailure: String? = nil
+        machinesFailure: String? = nil,
+        statsFailure: String? = nil
     ) {
         self.status = status
         self.containers = containers
@@ -179,6 +334,7 @@ public struct ContainerSnapshot: Equatable, Sendable {
         self.updatedAt = updatedAt
         self.containersFailure = containersFailure
         self.machinesFailure = machinesFailure
+        self.statsFailure = statsFailure
     }
 
     public var runningContainerCount: Int {
@@ -214,7 +370,7 @@ public enum ContainerIndicatorParser {
             return []
         }
 
-        return entries.compactMap { entry in
+        return entries.compactMap { entry -> ContainerInstance? in
             guard let id = entry["id"] as? String else { return nil }
 
             let configuration = entry["configuration"] as? [String: Any]
@@ -233,9 +389,36 @@ public enum ContainerIndicatorParser {
                 image: imageReference,
                 cpus: resources?["cpus"] as? Int ?? 0,
                 memoryBytes: resources?["memoryInBytes"] as? Int ?? 0,
-                architecture: platform?["architecture"] as? String ?? ""
+                architecture: platform?["architecture"] as? String ?? "",
+                configuration: Self.configuration(from: configuration)
             )
         }
+    }
+
+    /// Reads the cumulative counters from `container stats --format json`.
+    /// CPU percentage and throughput are derived later from two samples.
+    public static func stats(fromJSON output: String) -> [String: ContainerStatsCounters] {
+        guard let data = output.data(using: .utf8),
+              let entries = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] else {
+            return [:]
+        }
+
+        var counters: [String: ContainerStatsCounters] = [:]
+        for entry in entries {
+            guard let id = entry["id"] as? String else { continue }
+            counters[id] = ContainerStatsCounters(
+                id: id,
+                cpuUsageUsec: unsigned(entry["cpuUsageUsec"]),
+                memoryUsageBytes: unsigned(entry["memoryUsageBytes"]),
+                memoryLimitBytes: unsigned(entry["memoryLimitBytes"]),
+                blockReadBytes: unsigned(entry["blockReadBytes"]),
+                blockWriteBytes: unsigned(entry["blockWriteBytes"]),
+                networkRxBytes: unsigned(entry["networkRxBytes"]),
+                networkTxBytes: unsigned(entry["networkTxBytes"]),
+                numProcesses: unsigned(entry["numProcesses"])
+            )
+        }
+        return counters
     }
 
     public static func machines(fromJSON output: String) -> [ContainerMachine] {
@@ -244,7 +427,7 @@ public enum ContainerIndicatorParser {
             return []
         }
 
-        return entries.compactMap { entry in
+        return entries.compactMap { entry -> ContainerMachine? in
             guard let id = entry["id"] as? String else { return nil }
 
             return ContainerMachine(
@@ -299,5 +482,120 @@ public enum ContainerIndicatorParser {
             }
         }
         return result
+    }
+
+    // MARK: - Configuration
+
+    private static func configuration(from configuration: [String: Any]?) -> ContainerConfiguration {
+        guard let configuration else { return .empty }
+
+        let initProcess = configuration["initProcess"] as? [String: Any] ?? [:]
+        let executable = initProcess["executable"] as? String ?? ""
+        let arguments = initProcess["arguments"] as? [String] ?? []
+        let command = ([executable] + arguments)
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
+
+        let environment = initProcess["environment"] as? [String] ?? []
+        let environmentKeys = environment.compactMap { item in
+            item.split(separator: "=", maxSplits: 1).first.map(String.init)
+        }
+
+        let networks = configuration["networks"] as? [[String: Any]] ?? []
+        let networkNames = networks.compactMap { $0["network"] as? String }
+        let networkOptions = networks.first?["options"] as? [String: Any] ?? [:]
+
+        let dns = configuration["dns"] as? [String: Any] ?? [:]
+        let platform = configuration["platform"] as? [String: Any] ?? [:]
+        let platformOS = platform["os"] as? String ?? ""
+        let platformArchitecture = platform["architecture"] as? String ?? ""
+
+        let image = configuration["image"] as? [String: Any] ?? [:]
+        let descriptor = image["descriptor"] as? [String: Any] ?? [:]
+
+        let resources = configuration["resources"] as? [String: Any] ?? [:]
+
+        return ContainerConfiguration(
+            command: command,
+            workingDirectory: initProcess["workingDirectory"] as? String ?? "",
+            user: userDescription(initProcess["user"]),
+            environmentKeys: environmentKeys,
+            ports: portDescriptions(configuration["publishedPorts"]),
+            mounts: mountDescriptions(configuration["mounts"]),
+            networks: networkNames,
+            hostname: networkOptions["hostname"] as? String ?? "",
+            dnsDomain: dns["domain"] as? String ?? "",
+            dnsServers: dns["nameservers"] as? [String] ?? [],
+            platform: [platformOS, platformArchitecture]
+                .filter { !$0.isEmpty }
+                .joined(separator: "/"),
+            runtimeHandler: configuration["runtimeHandler"] as? String ?? "",
+            readOnly: configuration["readOnly"] as? Bool ?? false,
+            rosetta: configuration["rosetta"] as? Bool ?? false,
+            ssh: configuration["ssh"] as? Bool ?? false,
+            imageDigest: descriptor["digest"] as? String ?? "",
+            createdAt: date(configuration["creationDate"]),
+            storageQuotaBytes: integer(resources["storage"])
+        )
+    }
+
+    /// `user` is either `{id: {uid, gid}}` or `{raw: {userString}}`.
+    private static func userDescription(_ value: Any?) -> String {
+        guard let user = value as? [String: Any] else { return "" }
+        if let raw = user["raw"] as? [String: Any],
+           let userString = raw["userString"] as? String,
+           !userString.isEmpty {
+            return userString
+        }
+        if let id = user["id"] as? [String: Any],
+           let uid = integer(id["uid"]),
+           let gid = integer(id["gid"]) {
+            return "\(uid):\(gid)"
+        }
+        return ""
+    }
+
+    private static func portDescriptions(_ value: Any?) -> [String] {
+        guard let ports = value as? [[String: Any]] else { return [] }
+        return ports.map { port in
+            let hostAddress = port["hostAddress"] as? String ?? ""
+            let hostPort = integer(port["hostPort"]) ?? 0
+            let containerPort = integer(port["containerPort"]) ?? 0
+            let proto = port["proto"] as? String ?? "tcp"
+            let host = hostAddress.isEmpty ? "\(hostPort)" : "\(hostAddress):\(hostPort)"
+            return "\(host) → \(containerPort)/\(proto)"
+        }
+    }
+
+    private static func mountDescriptions(_ value: Any?) -> [String] {
+        guard let mounts = value as? [[String: Any]] else { return [] }
+        return mounts.map { mount in
+            let source = mount["source"] as? String ?? ""
+            let destination = mount["destination"] as? String ?? ""
+            if source.isEmpty { return destination }
+            if destination.isEmpty { return source }
+            return "\(source) → \(destination)"
+        }
+    }
+
+    private static func date(_ value: Any?) -> Date? {
+        guard let string = value as? String else { return nil }
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        if let date = formatter.date(from: string) {
+            return date
+        }
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter.date(from: string)
+    }
+
+    private static func integer(_ value: Any?) -> Int? {
+        guard let number = value as? NSNumber else { return nil }
+        return number.intValue
+    }
+
+    private static func unsigned(_ value: Any?) -> UInt64? {
+        guard let number = value as? NSNumber else { return nil }
+        return number.uint64Value
     }
 }

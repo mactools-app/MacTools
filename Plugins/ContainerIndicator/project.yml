@@ -1,0 +1,3 @@
+settings:
+  base:
+    OTHER_LDFLAGS: -framework Charts

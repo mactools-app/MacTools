@@ -29,6 +29,7 @@ struct ContainerIndicatorWidgetCard: View {
     let localization: PluginLocalization
     let pluginTitle: String
     let reportContentHeight: (CGFloat) -> Void
+    let openDetails: (ContainerInstance) -> Void
 
     @Environment(\.pluginComponentTheme) private var theme
 
@@ -141,6 +142,9 @@ struct ContainerIndicatorWidgetCard: View {
             if let failure = state.snapshot.containersFailure {
                 failureText(failure)
             }
+            if let failure = state.snapshot.statsFailure {
+                failureText(failure)
+            }
             if state.snapshot.containers.isEmpty {
                 // A failed read reports itself; only a healthy empty list
                 // falls back to the empty message.
@@ -159,10 +163,15 @@ struct ContainerIndicatorWidgetCard: View {
                                 memoryBytes: container.memoryBytes,
                                 storageBytes: container.imageStorageBytes
                             ),
+                            performance: container.performance,
                             isRunning: container.isRunning,
                             startAction: { state.startContainer(id: container.id) },
                             stopAction: { state.stopContainer(id: container.id) },
-                            restartAction: { state.restartContainer(id: container.id) }
+                            restartAction: { state.restartContainer(id: container.id) },
+                            terminalAction: {
+                                state.openTerminal(target: .container(id: container.id))
+                            },
+                            detailsAction: { openDetails(container) }
                         )
                     }
                 }
@@ -200,7 +209,11 @@ struct ContainerIndicatorWidgetCard: View {
                             isRunning: machine.isRunning,
                             startAction: { state.startMachine(id: machine.id) },
                             stopAction: { state.stopMachine(id: machine.id) },
-                            restartAction: { state.restartMachine(id: machine.id) }
+                            restartAction: { state.restartMachine(id: machine.id) },
+                            terminalAction: {
+                                state.openTerminal(target: .machine(id: machine.id))
+                            },
+                            detailsAction: nil
                         )
                     }
                 }
@@ -215,20 +228,38 @@ struct ContainerIndicatorWidgetCard: View {
         title: String,
         subtitle: String?,
         resources: String?,
+        performance: ContainerPerformance? = nil,
         isRunning: Bool,
         startAction: @escaping () -> Void,
         stopAction: @escaping () -> Void,
-        restartAction: @escaping () -> Void
+        restartAction: @escaping () -> Void,
+        terminalAction: @escaping () -> Void,
+        detailsAction: (() -> Void)?
     ) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 8) {
                 VStack(alignment: .leading, spacing: 2) {
-                    // All three lines share one size; hierarchy comes from the
+                    // Every line shares one size; hierarchy comes from the
                     // primary/secondary colors instead of type scale.
-                    Text(title)
-                        .font(PluginTypography.detail.font)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
+                    HStack(spacing: 4) {
+                        Text(title)
+                            .font(PluginTypography.detail.font)
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                        if let detailsAction {
+                            Button(action: detailsAction) {
+                                Image(systemName: "info.circle")
+                                    .font(PluginTypography.caption.font)
+                            }
+                            .buttonStyle(.plain)
+                            .foregroundStyle(theme.text.tertiary)
+                            .contentShape(Rectangle())
+                            .help(localization.string("panel.action.details", defaultValue: "查看配置"))
+                            .accessibilityLabel(
+                                localization.string("panel.action.details", defaultValue: "查看配置")
+                            )
+                        }
+                    }
                     if let subtitle, !subtitle.isEmpty {
                         ImageReferenceLine(reference: subtitle)
                             .foregroundStyle(theme.text.secondary)
@@ -239,6 +270,12 @@ struct ContainerIndicatorWidgetCard: View {
                 statusBadge(isRunning: isRunning)
 
                 if isRunning {
+                    rowButton(
+                        systemName: "terminal",
+                        help: localization.string("panel.action.terminal", defaultValue: "打开终端"),
+                        isEnabled: true,
+                        action: terminalAction
+                    )
                     rowButton(
                         systemName: "stop.fill",
                         help: localization.string("panel.action.stop", defaultValue: "停止"),
@@ -261,19 +298,55 @@ struct ContainerIndicatorWidgetCard: View {
                 }
             }
 
-            // Full row width so CPU, memory, and storage never compete with
-            // the badge and lifecycle buttons for space.
+            // Full row width so configuration and live numbers never compete
+            // with the badge and lifecycle buttons for space.
             if let resources {
-                Text(resources)
-                    .font(PluginTypography.detail.font)
-                    .foregroundStyle(theme.text.secondary)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
+                prefixedLine(
+                    prefix: localization.string("panel.detail.configPrefix", defaultValue: "配置"),
+                    value: resources
+                )
+            }
+            if isRunning, let performance {
+                prefixedLine(
+                    prefix: localization.string("panel.detail.livePrefix", defaultValue: "实时"),
+                    value: liveLine(performance)
+                )
             }
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
         .background(PluginComponentCardBackground(cornerRadius: 8))
+    }
+
+    /// Prefixes a detail line so the configured values and the live readings
+    /// are never mistaken for each other.
+    private func prefixedLine(prefix: String, value: String) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 6) {
+            Text(prefix)
+                .foregroundStyle(theme.text.tertiary)
+                .fixedSize()
+            Text(value)
+                .foregroundStyle(theme.text.secondary)
+                .lineLimit(1)
+                .truncationMode(.tail)
+        }
+        .font(PluginTypography.detail.font)
+    }
+
+    /// One-line live summary. Rates are nil until the second sample, so the
+    /// first refresh after opening the panel shows a placeholder instead of a
+    /// fabricated zero.
+    private func liveLine(_ performance: ContainerPerformance) -> String {
+        let cpu = performance.cpuPercent.map(ContainerIndicatorFormatting.percent) ?? "—"
+        let memory = performance.memoryBytes.map(ContainerIndicatorFormatting.bytes) ?? "—"
+        let disk = performance.diskTotalBytesPerSecond.map(ContainerIndicatorFormatting.rate) ?? "—"
+        return localization.format(
+            "panel.detail.liveFormat",
+            defaultValue: "CPU %1$@ · 内存 %2$@ · 磁盘 %3$@",
+            cpu,
+            memory,
+            disk
+        )
     }
 
     /// One-line CPU/memory/storage summary; hidden when the CLI reported no
