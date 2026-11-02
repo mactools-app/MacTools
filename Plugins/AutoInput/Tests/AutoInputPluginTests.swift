@@ -545,6 +545,36 @@ final class AutoInputControllerTests: XCTestCase {
         XCTAssertNil(fixture.controller.keyboardModeError)
     }
 
+    func testKeyboardModeRetryStaysBoundedWhenAnAppSwitchCancelsAPendingRetry() async throws {
+        let fixture = makeFixture(
+            currentSourceID: "en",
+            keyboardModeRetryDelays: [.milliseconds(30)]
+        )
+        fixture.store.upsertRule(makeRule(
+            bundleID: fixture.app.bundleIdentifier,
+            sourceID: "zh",
+            keyboardMode: .standardFunctionKeys
+        ))
+        fixture.functionKeys.writeResult = false
+
+        fixture.controller.start()
+
+        // The writer keeps failing, so the switch cancels the still-pending first chain and
+        // starts a new one. The cancelled chain must not clear the new chain's handle:
+        // otherwise the next failure would spawn yet another chain and keep retrying.
+        fixture.applications.activate(fixture.app)
+        var attempts = 0
+        while fixture.functionKeys.writes.count < 3, attempts < 100 {
+            attempts += 1
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        // Leave enough time for a wrongly spawned replacement chain to write again.
+        try await Task.sleep(for: .milliseconds(300))
+
+        XCTAssertEqual(fixture.functionKeys.writes.count, 3)
+        XCTAssertNotNil(fixture.controller.keyboardModeError)
+    }
+
     private func makeFixture(
         currentSourceID: String,
         accessibilityGranted: Bool = false,

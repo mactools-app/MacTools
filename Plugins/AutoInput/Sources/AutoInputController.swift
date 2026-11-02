@@ -206,8 +206,17 @@ final class AutoInputController: ObservableObject {
     private var appliedHUDReminderPreferences: AutoInputHUDReminderPreferences
     private var restoreStandardFunctionKeys: Bool?
     private var appliedStandardFunctionKeys: Bool?
-    private var keyboardModeRetryTask: Task<Void, Never>?
+    private var keyboardModeRetry: KeyboardModeRetry?
     private let keyboardModeRetryDelays: [Duration]
+
+    /// Identifies one pending keyboard-mode retry chain. The identifier is generated when
+    /// the chain is created so a chain that resumes after being cancelled cannot clear a
+    /// newer chain's handle; an older chain clearing the handle again is what lets further
+    /// failures spawn more chains and turn the retry into repeated main-thread system calls.
+    private struct KeyboardModeRetry {
+        let id: UUID
+        let task: Task<Void, Never>
+    }
 
     var currentSourceID: String? {
         sourceController.currentSourceID
@@ -698,10 +707,11 @@ final class AutoInputController: ObservableObject {
     /// Retries a failed keyboard-mode change a couple of times so a transient HID failure
     /// does not leave the top row in the wrong mode until the next application switch.
     private func scheduleKeyboardModeRetry() {
-        guard keyboardModeRetryTask == nil, !keyboardModeRetryDelays.isEmpty else { return }
+        guard keyboardModeRetry == nil, !keyboardModeRetryDelays.isEmpty else { return }
+        let identifier = UUID()
         let delays = keyboardModeRetryDelays
-        keyboardModeRetryTask = Task { @MainActor [weak self] in
-            defer { self?.keyboardModeRetryTask = nil }
+        let task = Task { @MainActor [weak self] in
+            defer { self?.finishKeyboardModeRetry(identifier) }
             for delay in delays {
                 try? await Task.sleep(for: delay)
                 guard let self, !Task.isCancelled else { return }
@@ -709,11 +719,21 @@ final class AutoInputController: ObservableObject {
                 guard self.keyboardModeError != nil else { return }
             }
         }
+        keyboardModeRetry = KeyboardModeRetry(id: identifier, task: task)
+    }
+
+    private func finishKeyboardModeRetry(_ identifier: UUID) {
+        guard keyboardModeRetry?.id == identifier else {
+            // A newer chain owns the handle now, so this cancelled or finished chain
+            // must leave it in place instead of enabling another chain.
+            return
+        }
+        keyboardModeRetry = nil
     }
 
     private func cancelKeyboardModeRetry() {
-        keyboardModeRetryTask?.cancel()
-        keyboardModeRetryTask = nil
+        keyboardModeRetry?.task.cancel()
+        keyboardModeRetry = nil
     }
 
     /// Re-derives the wanted mode from the current configuration and frontmost application.
