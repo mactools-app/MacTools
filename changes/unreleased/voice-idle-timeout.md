@@ -1,6 +1,6 @@
 ---
 release: plugin
-type: changed
+type: added
 ---
 
-Voice Assistant now ends inactive conversations after a configurable interval, defaulting to one minute. The floating panel stays open, and ongoing replies or tasks finish before the idle countdown begins.
+Voice Assistant ends idle conversations after a configurable timeout, defaulting to one minute. Replies and tasks finish before the timer starts, and the floating panel stays open.

@@ -1,6 +1,6 @@
 ---
 release: plugin
-type: changed
+type: added
 ---
 
-Voice Assistant settings show voice and command models, per-second voice pricing, and official pricing links. Billing details explain silent connected time and free local speech detection.
+Voice Assistant groups connection, conversation, and feature access settings. Model and pricing details explain billed connected silence and free local speech detection, with official links and speaker troubleshooting.

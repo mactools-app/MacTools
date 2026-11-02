@@ -141,7 +141,7 @@
     }
   },
   "version": "0.1.0",
-  "minHostVersion": "2.2.1",
+  "minHostVersion": "2.2.0",
   "pluginKitVersion": 7,
   "bundleRelativePath": "VoiceControl.bundle",
   "factoryClass": "VoiceControlPlugin.VoiceControlPluginFactory",

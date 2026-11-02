@@ -1,6 +1,7 @@
 ---
 release: plugin
 type: changed
+area: Power Status
 ---
 
-Power Status now keeps the high energy apps list collapsed by default and samples it only while expanded, reducing background work when the panel is open.
+Power Status collapses high-energy apps by default and samples only while expanded. The battery bar is easier to read, and power flow rows show draw without repeating wattage in the header.

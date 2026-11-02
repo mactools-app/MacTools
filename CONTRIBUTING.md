@@ -68,7 +68,7 @@ Stable plugin publication reuses one aggregate `Release` build for package signi
 
 Ordinary plugins do not need root `project.yml` edits. Put necessary build overrides in the plugin's own `project.yml`; app extensions such as Finder Sync must be embedded by the host.
 
-Voice state queries require host 2.2.1 or later. Declare only the state the query reads, preserve unavailable observations, and use native approval for private content; see [Voice Assistant](docs/plugins/voice-control.md).
+Voice state queries require host 2.2.0 or later. Declare only the state the query reads, preserve unavailable observations, and use native approval for private content; see [Voice Assistant](docs/plugins/voice-control.md).
 
 ## Development standards
 

@@ -2,4 +2,5 @@
 release: plugin
 type: added
 ---
-Add fresh voice queries for brightness, system metrics, power, appearance, Keep Awake, Night Shift, and system mute. Brightness changes validate the target display and report hardware readback separately.
+
+Ask for fresh brightness, system, power, appearance, Keep Awake, Night Shift, and mute status. Brightness commands verify their target and distinguish hardware readings from software dimming without undoing adjustments.

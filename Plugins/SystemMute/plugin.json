@@ -62,7 +62,7 @@
     "action.set-enabled.parameter-summary": "@standardAction.set-enabled.description"
   },
   "version": "2.1.0",
-  "minHostVersion": "2.2.1",
+  "minHostVersion": "2.2.0",
   "pluginKitVersion": 7,
   "bundleRelativePath": "SystemMute.bundle",
   "factoryClass": "SystemMutePlugin.SystemMutePluginFactory",

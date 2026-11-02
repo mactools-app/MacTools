@@ -1,5 +1,6 @@
 ---
 release: plugin
-type: fixed
+type: added
 ---
-Improve voice recovery, audible speech status, idle shutdown, and final usage accounting. Stop ends recording and feature access immediately.
+
+Voice Assistant reports audible speech and session usage, recovers from interrupted connections, and immediately stops recording and feature access when stopped.

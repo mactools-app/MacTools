@@ -4,4 +4,4 @@ type: added
 area: Menu Bar Panel
 ---
 
-Hosts can now present the menu-bar panel below an explicit screen anchor with a slide-in animation, and plugins can hide the main menu-bar icon with an automatic restore.
+MacTools can open its panel below the Dynamic Island and restores its menu-bar icon when the hover plugin is disabled or no compatible display is connected.
