@@ -1,6 +1,7 @@
 import AppKit
 import ApplicationServices
 import Foundation
+import Darwin
 import IOKit.pwr_mgt
 import MacToolsPluginKit
 @main struct Probe {
@@ -74,6 +75,56 @@ import MacToolsPluginKit
         guard protectedAfter["toolbarClicks"] as? Int == 0 else { fatalError("Protected toolbar received native input") }
         try FileManager.default.removeItem(at: directory.appendingPathComponent("protect-toolbar"))
         try await waitFor("toolbarProtected", false)
+        // Retain every toolbar object while switching the window's document, then
+        // switch only the address peer outside the target's inner layout group.
+        for (flag, stateKey) in [("change-document", "documentChanged"),
+                                 ("change-toolbar-destination", "toolbarDestinationChanged")] {
+            _ = try controller.prepareApproval("inspect-app", parameters: toolbarParams)
+            let read = try await controller.perform("inspect-app", parameters: toolbarParams,
+                inspectionTarget: controller.preparedInspectionTarget(toolbarParams))
+            let state = try JSONSerialization.jsonObject(with: Data(read.message.utf8)) as! [String: Any]
+            let controls = state["controls"] as! [[String: Any]]
+            let button = controls.first { $0["label"] as? String == "Fixture toolbar button" }!
+            let click = try ActionParameterSet(["observationID": .string(state["observationID"] as! String),
+                "controlID": .string(button["element_token"] as! String)])
+            _ = try controller.prepareApproval("click-control", parameters: click)
+            try Data().write(to: directory.appendingPathComponent(flag))
+            try await waitFor(stateKey, true)
+            do { _ = try await controller.perform("click-control", parameters: click); fatalError("Changed toolbar document permitted input") }
+            catch ComputerUseError.staleObservation {}
+            let after = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
+            guard after["toolbarClicks"] as? Int == 0,
+                  after["scopedReads"] as? Int == initial["scopedReads"] as? Int else {
+                fatalError("Stale toolbar input or excluded content read")
+            }
+            try FileManager.default.removeItem(at: directory.appendingPathComponent(flag))
+            try await waitFor(stateKey, false)
+        }
+        // The probe-only interposer fails B's real AX action-list IPC. A remains
+        // readable, but its apparently unique label must not permit approval.
+        try Data().write(to: directory.appendingPathComponent("add-failed-peer"))
+        try await waitFor("ambiguousShown", true)
+        _ = try controller.prepareApproval("inspect-app", parameters: params)
+        let failedRead = try await controller.perform("inspect-app", parameters: params,
+            inspectionTarget: controller.preparedInspectionTarget(params))
+        let failedState = try JSONSerialization.jsonObject(with: Data(failedRead.message.utf8)) as! [String: Any]
+        let failedControls = failedState["controls"] as! [[String: Any]]
+        let readablePeer = failedControls.first { $0["label"] as? String == "Fixture ambiguous action" }!
+        let image = dlopen(nil, RTLD_NOW)!
+        let address = dlsym(image, "mactools_fixture_failed_action_reads")!
+        let failureCount = unsafeBitCast(address, to: (@convention(c) () -> UInt32).self)
+        guard failureCount() > 0, failedState["complete"] as? Bool == false else { fatalError("Failed peer read was reported complete") }
+        dlclose(image)
+        do {
+            _ = try controller.prepareApproval("click-control", parameters: .init([
+                "observationID": .string(failedState["observationID"] as! String),
+                "controlID": .string(readablePeer["element_token"] as! String)]))
+            fatalError("Missing ambiguous peer permitted approval")
+        } catch ComputerUseError.unavailable {}
+        let refusedPeer = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
+        guard refusedPeer["ambiguousClicks"] as? Int == 0 else { fatalError("Ambiguous control received input") }
+        try FileManager.default.removeItem(at: directory.appendingPathComponent("add-failed-peer"))
+        try await waitFor("ambiguousShown", false)
         let approval = try controller.prepareApproval("inspect-app", parameters: params)
         guard approval.summary.contains("MacTools Native Policy Fixture") || approval.summary.contains("#") else { fatalError("Missing native window context") }
         FileHandle.standardError.write(Data("Native fixture: initial inspection\n".utf8))
@@ -261,6 +312,6 @@ import MacToolsPluginKit
         }
         await runtime.shutdown()
         Self.assertNoCuaSleepAssertion()
-        print("Native exact-window effects, protected/unknown exclusion, scoped toolbar/context reads, stale control/row/URL/foreign-child zero-dispatch, depth refusal, no sleep assertion, and unverified web echoes passed.")
+        print("Native exact-window effects, protected/unknown exclusion, scoped toolbar/context reads, fault-injected peer completeness, stale toolbar document/address and control/row/URL/foreign-child zero-dispatch, depth refusal, no sleep assertion, and unverified web echoes passed.")
     }
 }

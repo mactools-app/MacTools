@@ -33,4 +33,4 @@ CuaDriverStatus cua_driver_shutdown_v1(CuaDriverHandle *p, CuaDriverCompletionV1
 }
 void cua_driver_operation_cancel_v1(CuaDriverOperation *p) {}
 void cua_driver_operation_release_v1(CuaDriverOperation **p) { free(*p); *p = NULL; }
-uint32_t cua_driver_mactools_policy_v1(void) { return 2; }
+uint32_t cua_driver_mactools_policy_v1(void) { return 3; }

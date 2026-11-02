@@ -5,7 +5,7 @@ use core_foundation::{array::CFArray, base::{CFEqual, CFGetTypeID, CFRelease, CF
 use std::{sync::Arc, time::{Duration, Instant}};
 
 const ATTRIBUTES: &[&str] = &["AXRole", "AXSubrole", "AXIdentifier", "AXDOMIdentifier",
-    "AXTitle", "AXDescription", "AXHelp", "AXValue", "AXPlaceholderValue", "AXIndex", "AXEnabled", "AXURL", "AXValueDescription"];
+    "AXTitle", "AXDescription", "AXHelp", "AXValue", "AXPlaceholderValue", "AXIndex", "AXEnabled", "AXURL", "AXValueDescription", "AXDocument"];
 struct Anchor { element: RetainedElement, attributes: Vec<Option<String>>, actions: Vec<String> }
 pub struct ControlStamp { chain: Vec<Anchor>, context: Vec<Anchor>, window: u32, toolbar: bool }
 
@@ -41,15 +41,23 @@ unsafe fn anchor(element: RetainedElement, deadline: Instant, content: bool) -> 
     if !super::mactools_native::classified_role(Some(&role)) { return None; }
     if super::mactools_native::skips_observation_role(&role) { return None; }
     if !super::mactools_native::control_security(ptr).ok()? { return None; }
-    // Ancestors above the toolbar carry structural identity only, never values.
+    // Above the toolbar retain identity, never page values or contextual contents.
+    // The window title/document can change while its native toolbar objects survive.
     if !content {
-        let mut attributes = vec![None; ATTRIBUTES.len()]; attributes[0] = Some(role);
+        let mut attributes = vec![None; ATTRIBUTES.len()];
+        attributes[2] = attribute(ptr, "AXIdentifier", deadline)?;
+        if role == "AXWindow" {
+            for index in [4, 11, 13] { attributes[index] = attribute(ptr, ATTRIBUTES[index], deadline)?; }
+        }
+        attributes[0] = Some(role);
         return Some(Anchor { element, attributes, actions: Vec::new() });
     }
     let mut attributes = vec![Some(role)];
     attributes.extend(ATTRIBUTES.iter().skip(1).map(|name| attribute(ptr, name, deadline)).collect::<Option<Vec<_>>>()?);
     if attributes[0].as_deref().unwrap_or("").is_empty() || Instant::now() >= deadline { return None; }
-    let mut actions = copy_action_names(ptr); actions.sort();
+    let mut actions = copy_action_names(ptr);
+    if super::mactools_native::observation_incomplete() { return None; }
+    actions.sort();
     Some(Anchor { element, attributes, actions })
 }
 
@@ -118,9 +126,14 @@ impl ControlStamp {
                 let candidates = if toolbar {
                     &chain[..=chain.iter().position(|n| n.attributes[0].as_deref() == Some("AXToolbar"))?]
                 } else { &chain[1..] };
-                let container = candidates.iter().find(|n| n.attributes[0].as_deref() == Some("AXRow"))
-                    .or_else(|| candidates.iter().find(|n| matches!(n.attributes[0].as_deref(),
-                        Some("AXGroup" | "AXCell" | "AXToolbar"))));
+                let container = if toolbar {
+                    // A button's inner layout group alone cannot identify the active page.
+                    candidates.iter().find(|n| n.attributes[0].as_deref() == Some("AXToolbar"))
+                } else {
+                    candidates.iter().find(|n| n.attributes[0].as_deref() == Some("AXRow"))
+                        .or_else(|| candidates.iter().find(|n| matches!(n.attributes[0].as_deref(),
+                            Some("AXGroup" | "AXCell"))))
+                };
                 if let Some(container) = container {
                     context(&container.element, 2, &mut nearby, deadline)?;
                 }

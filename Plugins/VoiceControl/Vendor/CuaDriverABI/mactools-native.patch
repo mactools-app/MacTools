@@ -1,3 +1,88 @@
+--- a/crates/platform-macos/src/ax/bindings.rs
++++ b/crates/platform-macos/src/ax/bindings.rs
+@@ -171,6 +171,7 @@
+     let attr = CFStr::new(attr_name);
+     let mut value: CFTypeRef = std::ptr::null();
+     let err = AXUIElementCopyAttributeValue(element, attr.as_concrete_TypeRef(), &mut value);
++    crate::tools::mactools_native::observation_attribute_read(err, !value.is_null());
+     if err != kAXErrorSuccess || value.is_null() {
+         return None;
+     }
+@@ -194,6 +195,7 @@
+     let attr = CFStr::new("AXURL");
+     let mut value: CFTypeRef = std::ptr::null();
+     let err = AXUIElementCopyAttributeValue(element, attr.as_concrete_TypeRef(), &mut value);
++    crate::tools::mactools_native::observation_attribute_read(err, !value.is_null());
+     if err != kAXErrorSuccess || value.is_null() {
+         return None;
+     }
+@@ -218,6 +220,7 @@
+     let attr = CFStr::new(attr_name);
+     let mut value: CFTypeRef = std::ptr::null();
+     let err = AXUIElementCopyAttributeValue(element, attr.as_concrete_TypeRef(), &mut value);
++    crate::tools::mactools_native::observation_attribute_read(err, !value.is_null());
+     if err != kAXErrorSuccess || value.is_null() {
+         return None;
+     }
+@@ -244,6 +247,7 @@
+     let attr = CFStr::new(attr_name);
+     let mut value: CFTypeRef = std::ptr::null();
+     let err = AXUIElementCopyAttributeValue(element, attr.as_concrete_TypeRef(), &mut value);
++    crate::tools::mactools_native::observation_attribute_read(err, !value.is_null());
+     if err != kAXErrorSuccess || value.is_null() {
+         return None;
+     }
+@@ -287,6 +291,7 @@
+     let attr = CFStr::new(attr_name);
+     let mut value: CFTypeRef = std::ptr::null();
+     let err = AXUIElementCopyAttributeValue(element, attr.as_concrete_TypeRef(), &mut value);
++    crate::tools::mactools_native::observation_attribute_read(err, !value.is_null());
+     if err != kAXErrorSuccess || value.is_null() {
+         return None;
+     }
+@@ -362,6 +367,7 @@
+     let attr = CFStr::new(attr_name);
+     let mut value: CFTypeRef = std::ptr::null();
+     let err = AXUIElementCopyAttributeValue(element, attr.as_concrete_TypeRef(), &mut value);
++    crate::tools::mactools_native::observation_attribute_read(err, !value.is_null());
+     if err != kAXErrorSuccess || value.is_null() {
+         return None;
+     }
+@@ -378,17 +384,26 @@
+ pub unsafe fn copy_action_names(element: AXUIElementRef) -> Vec<String> {
+     let mut names: CFArrayRef = std::ptr::null_mut();
+     let err = AXUIElementCopyActionNames(element, &mut names);
++    crate::tools::mactools_native::observation_action_read(err, !names.is_null());
+     if err != kAXErrorSuccess || names.is_null() {
+         return vec![];
+     }
+-    // Use CFArray<CFStr> (the typed wrapper) to satisfy FromVoid bound.
+-    let arr = CFArray::<CFStr>::wrap_under_create_rule(names);
+-    (0..arr.len())
+-        .filter_map(|i| {
+-            let cf = arr.get(i)?;
+-            Some(cf.to_string())
+-        })
+-        .collect()
++    if core_foundation::base::CFGetTypeID(names as _) != CFArray::<CFTypeRef>::type_id() {
++        CFRelease(names as _);
++        crate::tools::mactools_native::mark_observation_incomplete();
++        return vec![];
++    }
++    let arr = CFArray::<CFTypeRef>::wrap_under_create_rule(names);
++    let mut actions = Vec::new();
++    for value in arr.iter() {
++        let value = *value;
++        if value.is_null() || core_foundation::base::CFGetTypeID(value) != CFStr::type_id() {
++            crate::tools::mactools_native::mark_observation_incomplete();
++            return vec![];
++        }
++        actions.push(CFStr::wrap_under_get_rule(value as _).to_string());
++    }
++    actions
+ }
+ 
+ /// Read the on-screen center of an AX element (AXPosition + AXSize → center).
 --- a/crates/cua-driver-sdk/src/abi.rs
 +++ b/crates/cua-driver-sdk/src/abi.rs
 @@ -487,6 +487,7 @@
@@ -45,7 +130,7 @@
 +
 +#[no_mangle]
 +/// Private embedding-policy version; not part of the upstream ABI.
-+pub extern "C" fn cua_driver_mactools_policy_v1() -> u32 { 2 }
++pub extern "C" fn cua_driver_mactools_policy_v1() -> u32 { 3 }
  
  #[no_mangle]
  /// Free and clear a buffer returned by this ABI. Repeated calls are harmless.

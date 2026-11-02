@@ -22,6 +22,15 @@ pub fn observation_incomplete() -> bool { OBSERVATION.get().is_some_and(|p| p.in
 pub fn mark_observation_incomplete() {
     if let Some(mut policy) = OBSERVATION.get() { policy.incomplete = true; OBSERVATION.set(Some(policy)); }
 }
+/// Optional metadata may be absent, but IPC failures cannot prove completeness.
+pub fn observation_attribute_read(status: AXError, has_value: bool) {
+    if status != kAXErrorAttributeUnsupported && status != kAXErrorNoValue
+        && (status != kAXErrorSuccess || !has_value) { mark_observation_incomplete(); }
+}
+/// An action-list failure is not a successfully observed empty action list.
+pub fn observation_action_read(status: AXError, has_value: bool) {
+    if status != kAXErrorSuccess || !has_value { mark_observation_incomplete(); }
+}
 pub fn toolbar_observation() -> bool { OBSERVATION.get().is_some_and(|p| p.toolbar) }
 pub fn observation_scope() -> Option<(u32, bool)> { OBSERVATION.get().map(|p| (p.window, p.toolbar)) }
 pub fn classified_role(role: Option<&str>) -> bool {
@@ -85,6 +94,7 @@ pub(crate) unsafe fn optional_attribute(element: AXUIElementRef, name: &str) -> 
     let name = CFString::new(name);
     let mut value = std::ptr::null();
     let status = AXUIElementCopyAttributeValue(element, name.as_concrete_TypeRef(), &mut value);
+    observation_attribute_read(status, !value.is_null());
     if status == kAXErrorAttributeUnsupported || status == kAXErrorNoValue { return Ok(std::ptr::null()); }
     if status != kAXErrorSuccess || value.is_null() { return Err(()); }
     Ok(value)
@@ -104,13 +114,18 @@ pub unsafe fn control_security(element: AXUIElementRef) -> Result<bool, ()> {
         }
         if CFString::wrap_under_create_rule(subrole as _).to_string() == "AXSecureTextField" { return Ok(false); }
     }
-    let protected = optional_attribute(element, "AXProtectedContent")?;
-    if protected.is_null() { return Ok(true); }
-    if core_foundation::base::CFGetTypeID(protected) != CFBoolean::type_id() {
-        CFRelease(protected); return Err(());
+    // AppKit's isAccessibilityProtectedContent maps to AXContainsProtectedContent.
+    // Also honor the older embedding-specific spelling used by custom AX providers.
+    for name in ["AXContainsProtectedContent", "AXProtectedContent"] {
+        let protected = optional_attribute(element, name)?;
+        if protected.is_null() { continue; }
+        if core_foundation::base::CFGetTypeID(protected) != CFBoolean::type_id() {
+            CFRelease(protected); return Err(());
+        }
+        let is_protected: bool = CFBoolean::wrap_under_create_rule(protected as _).into();
+        if is_protected { return Ok(false); }
     }
-    let is_protected: bool = CFBoolean::wrap_under_create_rule(protected as _).into();
-    Ok(!is_protected)
+    Ok(true)
 }
 
 fn text_role(role: &str) -> bool { matches!(role, "AXTextField" | "AXTextArea") }
@@ -230,6 +245,24 @@ fn stale_control() -> ToolResult {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test] fn failed_native_reads_make_the_observation_incomplete() {
+        for (status, has_value, incomplete) in [(kAXErrorSuccess, true, false),
+            (kAXErrorSuccess, false, true), (-25204, false, true),
+            (kAXErrorAttributeUnsupported, false, false), (kAXErrorNoValue, false, false)] {
+            observe(1, false, || {
+                observation_attribute_read(status, has_value);
+                assert_eq!(observation_incomplete(), incomplete);
+            });
+        }
+        for (status, has_value, incomplete) in [(kAXErrorSuccess, true, false),
+            (kAXErrorSuccess, false, true), (-25204, false, true),
+            (kAXErrorActionUnsupported, false, true)] {
+            observe(1, false, || {
+                observation_action_read(status, has_value);
+                assert_eq!(observation_incomplete(), incomplete);
+            });
+        }
+    }
     #[test] fn failed_child_read_cannot_prove_an_empty_complete_scope() {
         observe(1, false, || unsafe {
             let missing = AXUIElementCreateApplication(i32::MAX);

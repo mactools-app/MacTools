@@ -25,7 +25,10 @@ def verify(products: Path, library: Path) -> None:
         environment.update(PATH="/usr/bin:/bin:/usr/sbin:/sbin", CFFIXED_USER_HOME=str(scratch / "profile"))
         fixture_sources = ROOT / "scripts/fixtures/cua-native-policy"
         source = ROOT / "Plugins/VoiceControl/Sources/ComputerUse"
+        fault_library = scratch / "failed-action-read.dylib"
         commands = [
+            ["/usr/bin/xcrun", "clang", "-dynamiclib", "-std=c11", "-framework", "ApplicationServices",
+             "-framework", "CoreFoundation", str(fixture_sources / "FailedActionRead.c"), "-o", str(fault_library)],
             ["/usr/bin/xcrun", "swiftc", "-parse-as-library", "-module-cache-path", str(scratch / "modules"),
              str(fixture_sources / "Fixture.swift"), "-o", str(scratch / "fixture")],
             ["/usr/bin/xcrun", "swiftc", "-parse-as-library", "-module-cache-path", str(scratch / "modules"),
@@ -46,7 +49,8 @@ def verify(products: Path, library: Path) -> None:
                         details = (scratch / "fixture.log").read_text(errors="replace")
                         raise RuntimeError(f"Owned native fixture did not start (exit={fixture.poll()}):\n" + details)
                     time.sleep(0.05)
-                subprocess.run([str(scratch / "probe"), str(library), str(fixture.pid), str(state)], env=environment, check=True, timeout=30)
+                probe_environment = dict(environment, DYLD_INSERT_LIBRARIES=str(fault_library), MACTOOLS_POLICY_FIXTURE_PID=str(fixture.pid))
+                subprocess.run([str(scratch / "probe"), str(library), str(fixture.pid), str(state)], env=probe_environment, check=True, timeout=45)
                 deadline = time.monotonic() + 3
                 while True:
                     result = json.loads(state.read_text())
@@ -63,7 +67,7 @@ def verify(products: Path, library: Path) -> None:
                     except subprocess.TimeoutExpired:
                         fixture.kill()
                         fixture.wait(timeout=5)
-        print("PASS: secure exclusion, distinct approvals, no keep-awake assertion, stale control/row/URL refusal, foreign-window exclusion, incomplete-scope refusal, unverified web echoes, and fresh single effects.")
+        print("PASS: secure exclusion, distinct approvals, no keep-awake assertion, fault-injected peer refusal, stale toolbar document/address and control/row/URL refusal, foreign-window exclusion, incomplete-scope refusal, unverified web echoes, and fresh single effects.")
 
 
 if __name__ == "__main__":

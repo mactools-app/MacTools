@@ -46,6 +46,11 @@ import Foundation
     var toolbarOuter: NSView!
     var toolbarProtected = false
     var toolbarClicks = 0
+    let toolbarDestination = NSTextField(string: "https://example.com/document-a")
+    var documentChanged = false
+    var toolbarDestinationChanged = false
+    var ambiguousButtons: [NSButton] = []
+    var ambiguousClicks = 0
     var unknownReads = 0
     var unknown: UnknownField?
     var deepRoot: NSView?
@@ -134,7 +139,7 @@ import Foundation
         toolbar.setAccessibilityRole(.toolbar); toolbar.setAccessibilityParent(outer)
         let inner = NSView(frame: outer.bounds)
         inner.setAccessibilityElement(true); inner.setAccessibilityRole(.group); inner.setAccessibilityParent(toolbar)
-        let tool = NSButton(title: "Fixture toolbar button", target: nil, action: nil)
+        let tool = NSButton(title: "Fixture toolbar button", target: self, action: #selector(clickedToolbar))
         tool.setAccessibilityParent(inner)
         let page = AuditedField(string: "EXCLUDED-PAGE-CONTENT")
         page.setAccessibilityRole(NSAccessibility.Role(rawValue: "AXWebArea")); page.setAccessibilityParent(inner)
@@ -143,7 +148,15 @@ import Foundation
         for field in [page, outside] { field.read = { [weak self] in self?.scopedReads += 1; self?.save() } }
         inner.addSubview(tool); inner.addSubview(page)
         inner.setAccessibilityChildren(NSAccessibility.unignoredChildren(from: [tool, page]))
-        toolbar.addSubview(inner); toolbar.setAccessibilityChildren([inner])
+        let address = NSView(frame: outer.bounds)
+        address.setAccessibilityElement(true); address.setAccessibilityRole(.group); address.setAccessibilityParent(toolbar)
+        toolbarDestination.frame = NSRect(x: 0, y: 0, width: 480, height: 24)
+        toolbarDestination.setAccessibilityElement(true)
+        toolbarDestination.setAccessibilityRole(.textField)
+        toolbarDestination.setAccessibilityLabel("Fixture toolbar destination")
+        toolbarDestination.setAccessibilityParent(address)
+        address.addSubview(toolbarDestination); address.setAccessibilityChildren([toolbarDestination])
+        toolbar.addSubview(inner); toolbar.addSubview(address); toolbar.setAccessibilityChildren([inner, address])
         outer.addSubview(toolbar); outer.addSubview(outside)
         outer.setAccessibilityChildren([toolbar] + NSAccessibility.unignoredChildren(from: [outside]))
         window.contentView!.addSubview(outer)
@@ -166,7 +179,26 @@ import Foundation
 
     private func update() {
         let directory = output.deletingLastPathComponent()
+        let showAmbiguous = FileManager.default.fileExists(atPath: directory.appendingPathComponent("add-failed-peer").path)
+        if showAmbiguous, ambiguousButtons.isEmpty {
+            for index in 0..<2 {
+                let button = NSButton(title: "Fixture ambiguous action", target: self, action: #selector(clickedAmbiguous))
+                button.frame = NSRect(x: CGFloat(20 + index * 250), y: 10, width: 240, height: 24)
+                button.setAccessibilityIdentifier(index == 0 ? "mactools-readable-peer" : "mactools-ambiguous-peer")
+                button.setAccessibilityParent(window)
+                window.contentView!.addSubview(button); ambiguousButtons.append(button)
+            }
+        } else if !showAmbiguous, !ambiguousButtons.isEmpty {
+            ambiguousButtons.forEach { $0.removeFromSuperview() }; ambiguousButtons.removeAll()
+        }
+        documentChanged = FileManager.default.fileExists(atPath: directory.appendingPathComponent("change-document").path)
+        window.title = documentChanged ? "MacTools Native Policy Fixture — Document B" : "MacTools Native Policy Fixture"
+        toolbarDestinationChanged = FileManager.default.fileExists(atPath: directory.appendingPathComponent("change-toolbar-destination").path)
+        let destination = toolbarDestinationChanged ? "https://example.com/document-b" : "https://example.com/document-a"
+        toolbarDestination.stringValue = destination
+        toolbarDestination.setAccessibilityURL(URL(string: destination))
         toolbarProtected = FileManager.default.fileExists(atPath: directory.appendingPathComponent("protect-toolbar").path)
+        NSAccessibility.setMayContainProtectedContent(toolbarProtected)
         toolbarOuter.setAccessibilityProtectedContent(toolbarProtected)
         let attachForeign = FileManager.default.fileExists(atPath: directory.appendingPathComponent("attach-foreign").path)
         if attachForeign != foreignAttached {
@@ -217,6 +249,8 @@ import Foundation
 
     @objc func clicked() { clicks += 1; save() }
     @objc func clickedOther() { otherClicks += 1; save() }
+    @objc func clickedToolbar() { toolbarClicks += 1; save() }
+    @objc func clickedAmbiguous() { ambiguousClicks += 1; save() }
     @objc func save() {
         let data = try! JSONSerialization.data(withJSONObject: ["pid": ProcessInfo.processInfo.processIdentifier,
             "note": note.stringValue, "checked": receipt.state == .on, "clicks": clicks,
@@ -225,6 +259,8 @@ import Foundation
             "deepShown": deepRoot != nil, "foreignAttached": foreignAttached, "scopedReads": scopedReads,
             "toolbarProtected": toolbarProtected,
             "toolbarClicks": toolbarClicks,
+            "documentChanged": documentChanged, "toolbarDestinationChanged": toolbarDestinationChanged,
+            "ambiguousShown": !ambiguousButtons.isEmpty, "ambiguousClicks": ambiguousClicks,
             "unknownShown": unknown != nil, "unknownReads": unknownReads, "missingRole": unknown?.missingRole ?? false])
         try! data.write(to: output, options: .atomic)
     }
