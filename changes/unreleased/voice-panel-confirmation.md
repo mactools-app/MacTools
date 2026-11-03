@@ -3,4 +3,4 @@ release: plugin
 type: added
 plugin: voice-control
 ---
-Review actions in the Voice Assistant panel and confirm or cancel by voice or button. Spoken replies are transcribed only after speech ends, with the model and additional usage disclosed in settings.
+Confirm or cancel in the Voice Assistant panel by voice or button. Allow later app actions and commands for this conversation or until MacTools quits, with a visible scope and Revoke control.

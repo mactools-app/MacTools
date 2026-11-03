@@ -5,6 +5,38 @@ import XCTest
 
 @MainActor
 final class VoiceApprovalsTests: XCTestCase {
+    func testExtendedApprovalCoversLaterRequestsButNotButtonOnlyConsent() async {
+        let approvals = VoiceApprovals(makeDetector: { ApprovalDetector() }) { _ in XCTFail("No transcription needed"); return "confirm" }
+        let first = request()
+        let response = Task { await approvals.confirm(first) }
+        await settle { approvals.pending != nil }
+        approvals.resolve(true, requestID: first.id, scope: .process)
+        let accepted = await response.value
+        XCTAssertTrue(accepted)
+        let later = await approvals.confirm(.init(title: "Run command", message: "printf fixture", confirmButtonTitle: "Allow", allowsSpokenConfirmation: true))
+        XCTAssertTrue(later)
+        XCTAssertNil(approvals.pending)
+        let protectedRequest = request(voice: false)
+        let protectedReply = Task { await approvals.confirm(protectedRequest) }
+        await settle { approvals.pending != nil }
+        XCTAssertEqual(approvals.pending?.id, protectedRequest.id)
+        approvals.resolve(false, requestID: protectedRequest.id)
+        let declined = await protectedReply.value
+        XCTAssertFalse(declined)
+        approvals.revokeExtendedApproval()
+        approvals.resolve(true, requestID: first.id, scope: .process)
+        XCTAssertEqual(approvals.scope, .once, "A retired UI choice cannot restore a revoked grant")
+        let buttonOnly = request(voice: false)
+        let buttonReply = Task { await approvals.confirm(buttonOnly) }
+        await settle { approvals.pending != nil }
+        approvals.resolve(true, requestID: buttonOnly.id, scope: .process)
+        let buttonAccepted = await buttonReply.value
+        XCTAssertTrue(buttonAccepted)
+        XCTAssertEqual(approvals.scope, .once, "Button-only consent never grants broader action approval")
+        let fresh = VoiceApprovals(makeDetector: { ApprovalDetector() }) { _ in "confirm" }
+        XCTAssertEqual(fresh.scope, .once, "No approval is restored into a new process/plugin instance")
+    }
+
     func testCompletedDecisionsRejectNegationsAndAdditionalInstructions() {
         for text in ["Confirm.", "Yes, quit it.", "确认", "確認", "Sí", "Onayla"] { XCTAssertEqual(VoiceApprovalDecision.parse(text), true) }
         for text in ["Cancel", "İptal", "No, open Safari instead", "Yes, don't do it", "确认，不要执行"] {

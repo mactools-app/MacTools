@@ -255,7 +255,7 @@ final class VoiceConversation: ObservableObject {
         }
         epoch = UUID(); active = false; connected = false; listeningLocally = false; capturing = false; muted = false; speaking = false; activity = nil; readingApp = nil; computerTask = nil; startupTimeoutFailure = .connection
         approvalAnnouncementTask?.cancel(); approvalAnnouncementTask = nil
-        approvals.cancel(); approvals.setMuted(false)
+        approvals.endConversation(); approvals.setMuted(false)
         microphoneRevision = microphone.setMuted(true)
         outputSpeechPending = false
         pendingInput = VoicePendingInput()

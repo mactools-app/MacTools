@@ -6,6 +6,24 @@ import XCTest
 
 @MainActor
 final class VoiceReadinessTests: XCTestCase {
+    func testConversationStopResetsOnlyConversationApproval() async throws {
+        let (model, factory, _, _) = try await makeModel()
+        var socket = try await start(model, factory)
+        for scope in [VoiceApprovals.Scope.conversation, .process] {
+            if !model.active { socket = try await start(model, factory) }
+            let request = PluginVoiceConfirmationRequest(title: "Fixture", message: "Fixture", confirmButtonTitle: "Allow", allowsSpokenConfirmation: true)
+            let response = Task { await model.approvals.confirm(request) }
+            await settle { model.approvals.pending != nil }
+            model.approvals.resolve(true, requestID: request.id, scope: scope)
+            let accepted = await response.value
+            XCTAssertTrue(accepted)
+            model.stop(); socket.cancel()
+            XCTAssertEqual(model.approvals.scope, scope == .conversation ? .once : .process)
+        }
+        model.approvals.revokeExtendedApproval()
+        XCTAssertEqual(model.approvals.scope, .once)
+    }
+
     func testApprovalReplyCannotBecomeAQueuedWriteAndStopDeclinesPendingAction() async throws {
         let (model, factory, audio, _) = try await makeModel()
         let capability = PluginVoiceCapability(id: "approve-fixture", kind: .action, title: "Fixture", pluginTitle: "Fixture", description: "Fixture action")

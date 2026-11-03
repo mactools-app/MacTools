@@ -50,7 +50,9 @@ struct VoiceApprovalCapture {
 
 @MainActor
 final class VoiceApprovals: ObservableObject {
+    enum Scope: Equatable { case once, conversation, process }
     @Published private(set) var pending: PluginVoiceConfirmationRequest?
+    @Published private(set) var scope: Scope = .once
     @Published private(set) var listening = false
     @Published private(set) var hint = ""
     var onPresent: ((PluginVoiceConfirmationRequest) -> Void)?
@@ -87,6 +89,8 @@ final class VoiceApprovals: ObservableObject {
 
     func confirm(_ request: PluginVoiceConfirmationRequest) async -> Bool {
         guard pending == nil, !Task.isCancelled else { return false }
+        // Button-only consent changes never inherit broader action approval.
+        if scope != .once && request.allowsSpokenConfirmation { return true }
         return await withTaskCancellationHandler {
             await withCheckedContinuation { continuation in
                 guard !Task.isCancelled else { continuation.resume(returning: false); return }
@@ -118,8 +122,9 @@ final class VoiceApprovals: ObservableObject {
         } onCancel: { Task { @MainActor [weak self] in self?.resolve(false, requestID: request.id) } }
     }
 
-    func resolve(_ approved: Bool, requestID: UUID) {
+    func resolve(_ approved: Bool, requestID: UUID, scope: Scope = .once) {
         guard pending?.id == requestID else { return }
+        if approved, pending?.allowsSpokenConfirmation == true, scope != .once { self.scope = scope }
         let response = continuation; continuation = nil
         pending = nil; listening = false; hint = ""; revision = UUID(); capture = .init(); detector = nil
         settlingPlayback = false; preArm.removeAll(); preArmSpeech = false; replyInProgress = false; recognizing = false
@@ -128,6 +133,11 @@ final class VoiceApprovals: ObservableObject {
         onResolve?(); response?.resume(returning: approved)
     }
     func cancel() { if let pending { resolve(false, requestID: pending.id) } }
+    func endConversation() {
+        cancel()
+        if scope == .conversation { scope = .once }
+    }
+    func revokeExtendedApproval() { scope = .once; cancel() }
 
     func playbackChanged(_ playing: Bool) {
         guard self.playing != playing else { return }

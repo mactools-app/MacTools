@@ -60,11 +60,12 @@ final class VoiceAssistantPanel: ObservableObject {
     private func resize() {
         guard let panel else { return }
         let confirming = conversation.approvals.pending != nil
+        let extendedApprovalHeight: CGFloat = conversation.approvals.scope == .once ? 0 : 32
         let size = expanded ? NSSize(width: 440, height: confirming ? 580 : 520)
             : NSSize(width: 380, height: confirming ? 460 : conversation.computerTask == nil ? 290 : 320)
         let top = panel.frame.maxY
-        var frame = NSRect(origin: panel.frame.origin, size: size)
-        if top > 0 { frame.origin.y = top - size.height }
+        var frame = NSRect(origin: panel.frame.origin, size: NSSize(width: size.width, height: size.height + extendedApprovalHeight))
+        if top > 0 { frame.origin.y = top - frame.height }
         if let screen = panel.screen ?? NSScreen.main {
             frame.origin.x = max(screen.visibleFrame.minX, min(frame.minX, screen.visibleFrame.maxX - frame.width))
             frame.origin.y = max(screen.visibleFrame.minY, min(frame.minY, screen.visibleFrame.maxY - frame.height))
@@ -126,6 +127,18 @@ private struct VoiceAssistantView: View {
                     .accessibilityAddTraits(.updatesFrequently)
                 Spacer(minLength: 0)
             }
+            if approvals.scope != .once {
+                HStack {
+                    Label(model.text(approvals.scope == .conversation ? "本次对话已允许所有操作" : "MacTools 退出前已允许所有操作"), systemImage: "checkmark.shield")
+                        .font(PluginTypography.caption.font).lineLimit(2)
+                    Spacer(minLength: 8)
+                    Button(model.text("撤销")) {
+                        approvals.revokeExtendedApproval(); model.stop()
+                    }.buttonStyle(.bordered).controlSize(.small)
+                        .help(model.text("撤销允许并停止当前对话"))
+                        .accessibilityIdentifier("voice-control.approval-revoke")
+                }.accessibilityIdentifier("voice-control.approval-scope")
+            }
             if let task = model.computerTask {
                 HStack(spacing: 8) {
                     Text(task).font(PluginTypography.caption.font).lineLimit(2)
@@ -145,6 +158,21 @@ private struct VoiceAssistantView: View {
                     Text(model.text(approvals.hint)).font(PluginTypography.caption.font).foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                         .accessibilityIdentifier("voice-control.confirmation-hint")
+                    if request.allowsSpokenConfirmation {
+                        Menu(model.text("允许后续操作…")) {
+                            Section(model.text("应用操作与命令")) {
+                                Button(model.text("本次对话允许所有操作")) {
+                                    approvals.resolve(true, requestID: request.id, scope: .conversation)
+                                }
+                                Button(model.text("MacTools 退出前允许所有操作")) {
+                                    approvals.resolve(true, requestID: request.id, scope: .process)
+                                }
+                            }
+                        }.controlSize(.small)
+                            .fixedSize()
+                            .help(model.text("允许后续应用操作与命令，不再逐项询问。仅在本机内存中保留。"))
+                            .accessibilityIdentifier("voice-control.approval-options")
+                    }
                     HStack {
                         Button(model.text("取消")) { approvals.resolve(false, requestID: request.id) }
                             .accessibilityIdentifier("voice-control.confirmation-cancel")
@@ -220,6 +248,7 @@ private struct VoiceAssistantView: View {
         .onChange(of: runtimeLocale.revision) { _, _ in presenter.refreshLocalization() }
         .onChange(of: model.computerTask) { _, _ in presenter.refreshTaskLayout() }
         .onChange(of: approvals.pending) { _, _ in presenter.refreshTaskLayout() }
+        .onChange(of: approvals.scope) { _, _ in presenter.refreshTaskLayout() }
         .accessibilityIdentifier("voice-control.assistant")
     }
 
