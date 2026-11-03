@@ -10,6 +10,7 @@ private func taskWindowNumber(_ element: AXUIElement, _ number: UnsafeMutablePoi
 final class ComputerTaskNativeInput: @unchecked Sendable {
     typealias AttributeReader = @Sendable (AXUIElement, CFString, UnsafeMutablePointer<CFTypeRef?>) -> AXError
     typealias TimeoutSetter = @Sendable (AXUIElement, Float) -> AXError
+    typealias MenuActionPerformer = @Sendable (AXUIElement, CFString) -> AXError
     private struct Menu {
         let target: ComputerUseTarget
         let element: AXUIElement
@@ -21,14 +22,17 @@ final class ComputerTaskNativeInput: @unchecked Sendable {
     private var generation = UUID()
     private let copyAttribute: AttributeReader
     private let setMessagingTimeout: TimeoutSetter
+    private let performMenuAction: MenuActionPerformer
     private let now: @Sendable () -> Date
     // Accessed only on queue, including cleanup.
     private var observedMenus: [String: Menu] = [:]
 
     init(copyAttribute: @escaping AttributeReader = { AXUIElementCopyAttributeValue($0, $1, $2) },
          setMessagingTimeout: @escaping TimeoutSetter = { AXUIElementSetMessagingTimeout($0, $1) },
+         performMenuAction: @escaping MenuActionPerformer = { AXUIElementPerformAction($0, $1) },
          now: @escaping @Sendable () -> Date = { Date() }) {
-        self.copyAttribute = copyAttribute; self.setMessagingTimeout = setMessagingTimeout; self.now = now
+        self.copyAttribute = copyAttribute; self.setMessagingTimeout = setMessagingTimeout
+        self.performMenuAction = performMenuAction; self.now = now
     }
 
     func stop() {
@@ -79,6 +83,7 @@ final class ComputerTaskNativeInput: @unchecked Sendable {
             func walk(_ parent: AXUIElement, prefix: [String], depth: Int) throws {
                 try self.check(epoch, target)
                 guard rows.count < 180, depth < 8, self.now() < deadline else { complete = false; return }
+                guard try self.safe(parent, checking: validate) else { throw ComputerUseError.staleObservation }
                 guard let children = self.children(parent) else { complete = false; return }
                 for child in children {
                     try self.check(epoch, target)
@@ -130,7 +135,7 @@ final class ComputerTaskNativeInput: @unchecked Sendable {
                     guard self.hasWindowFocus(app, target: target, expected: window) else { throw ComputerUseError.staleObservation }
                 }
                 try validate()
-                guard AXUIElementPerformAction(current, kAXPressAction as CFString) == .success else { throw ComputerUseError.unverified }
+                guard self.performMenuAction(current, kAXPressAction as CFString) == .success else { throw ComputerUseError.unverified }
                 return
             }
             let app = AXUIElementCreateApplication(target.pid)
@@ -254,12 +259,13 @@ final class ComputerTaskNativeInput: @unchecked Sendable {
         var node = root
         for title in path {
             try validate()
+            guard try safe(node, checking: validate) else { throw ComputerUseError.staleObservation }
             guard let direct = children(node) else { throw ComputerUseError.staleObservation }
             var candidates: [AXUIElement] = []
             for child in direct {
                 try validate()
                 if string(child, kAXRoleAttribute) == kAXMenuRole {
-                    try validate()
+                    guard try safe(child, checking: validate) else { throw ComputerUseError.staleObservation }
                     guard let nested = children(child) else { throw ComputerUseError.staleObservation }
                     candidates += nested
                 } else { candidates.append(child) }

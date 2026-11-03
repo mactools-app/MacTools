@@ -5,6 +5,53 @@ import XCTest
 
 @MainActor
 final class ComputerTaskMenuTests: XCTestCase {
+    func testNormalMenuObservationAndDispatch() async throws {
+        let fixture = MenuReadFixture()
+        let native = ComputerTaskNativeInput(copyAttribute: { fixture.read($0, $1, $2) },
+            setMessagingTimeout: { _, _ in .success }, performMenuAction: { fixture.press($0, $1) })
+        defer { native.stop() }
+        let target = ComputerUseTarget(pid: getpid(), windowID: 0, name: "Owned menu fixture",
+            launched: try XCTUnwrap(ComputerTaskNativeInput.launchDate(getpid())))
+        let result = try await native.menus(target, path: ["File"])
+        let menuID = try entryID(result)
+        try await native.input(.menu(menuID), target: target)
+        XCTAssertEqual(fixture.presses, 1)
+    }
+
+    func testMenuContainersRefuseReadsAndDispatchWhenSecurityChanges() async throws {
+        for container in ["bar", "menu"] {
+            for fault in ["protected", "unknown", "unreadable"] {
+                let fixture = MenuReadFixture()
+                let native = ComputerTaskNativeInput(copyAttribute: { fixture.read($0, $1, $2) },
+                    setMessagingTimeout: { _, _ in .success }, performMenuAction: { fixture.press($0, $1) })
+                defer { native.stop() }
+                let target = ComputerUseTarget(pid: getpid(), windowID: 0, name: "Owned menu fixture",
+                    launched: try XCTUnwrap(ComputerTaskNativeInput.launchDate(getpid())))
+                let result = try await native.menus(target, path: ["File"])
+                let menuID = try entryID(result)
+                fixture.reject(container: container, fault: fault)
+                do {
+                    try await native.input(.menu(menuID), target: target)
+                    XCTFail("A changed parent must prevent menu dispatch")
+                } catch ComputerUseError.staleObservation { }
+                do {
+                    _ = try await native.menus(target, path: container == "bar" ? [] : ["File", "Entry"])
+                    XCTFail("Unsafe parents must prevent descendant observations")
+                } catch ComputerUseError.staleObservation { }
+                XCTAssertEqual(fixture.presses, 0)
+                XCTAssertEqual(fixture.rejectedChildReads, 0, "Refuse the parent before enumerating its contents")
+            }
+        }
+    }
+
+    private func entryID(_ result: String) throws -> String {
+        let value = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(result.utf8)) as? [String: Any])
+        XCTAssertEqual(value["complete"] as? Bool, true)
+        let items = try XCTUnwrap(value["items"] as? [[String: Any]])
+        let entry = try XCTUnwrap(items.first { $0["path"] as? [String] == ["File", "Entry"] })
+        return try XCTUnwrap(entry["menuID"] as? String)
+    }
+
     func testMenuResolutionHonorsStopAndDeadlineBetweenAttributeReads() async throws {
         for mode in ["normal", "stop", "deadline", "walk-deadline"] {
             let fixture = MenuReadFixture()
@@ -46,8 +93,20 @@ private final class MenuReadFixture: @unchecked Sendable {
     private var interrupted = false
     private var after = 0
     private var onEntry: (@Sendable () -> Void)?
+    private var rejection: (AXUIElement, String)?
+    private var rejectedReads = 0
+    private var pressCount = 0
     var date: Date { lock.withLock { clock } }
     var readsAfterInterruption: Int { lock.withLock { after } }
+    var rejectedChildReads: Int { lock.withLock { rejectedReads } }
+    var presses: Int { lock.withLock { pressCount } }
+    func reject(container: String, fault: String) {
+        lock.withLock { rejection = (container == "bar" ? bar : menu, fault) }
+    }
+    func press(_ element: AXUIElement, _ action: CFString) -> AXError {
+        lock.withLock { pressCount += 1 }
+        return .success
+    }
     func arm(_ action: @escaping @Sendable () -> Void) { lock.withLock { onEntry = action } }
     func interrupt(expired: Bool) {
         lock.withLock { interrupted = true; if expired { clock = clock.addingTimeInterval(3) } }
@@ -55,6 +114,11 @@ private final class MenuReadFixture: @unchecked Sendable {
     func read(_ element: AXUIElement, _ attribute: CFString, _ raw: UnsafeMutablePointer<CFTypeRef?>) -> AXError {
         let name = attribute as String
         let entry = entries.firstIndex { CFEqual($0, element) }
+        let fault = lock.withLock { () -> String? in
+            guard let rejection, CFEqual(rejection.0, element) else { return nil }
+            if name == kAXChildrenAttribute { rejectedReads += 1 }
+            return rejection.1
+        }
         let action = lock.withLock { () -> (@Sendable () -> Void)? in
             if interrupted { after += 1 }
             guard name == kAXRoleAttribute, entry != nil else { return nil }
@@ -70,13 +134,19 @@ private final class MenuReadFixture: @unchecked Sendable {
             return .success
         }
         if name == kAXRoleAttribute {
-            raw.pointee = (CFEqual(element, menu) ? kAXMenuRole : kAXMenuItemRole) as CFString
+            raw.pointee = (fault == "unknown" ? kAXUnknownRole : CFEqual(element, bar) ? kAXMenuBarRole
+                : CFEqual(element, menu) ? kAXMenuRole : kAXMenuItemRole) as CFString
             return .success
+        }
+        if name == "AXContainsProtectedContent", let fault {
+            if fault == "unreadable" { return .cannotComplete }
+            raw.pointee = kCFBooleanTrue; return .success
         }
         if name == kAXTitleAttribute {
             raw.pointee = (CFEqual(element, file) ? "File" : entry == 0 ? "Entry" : "Other") as CFString
             return .success
         }
+        if name == kAXEnabledAttribute { raw.pointee = kCFBooleanTrue; return .success }
         return .attributeUnsupported
     }
 }

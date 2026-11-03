@@ -3,4 +3,4 @@ release: plugin
 plugin: voice-control
 type: security
 ---
-Voice Assistant skips app-protected controls when sending keyboard or text input.
+Voice Assistant skips protected app content when reading menus or sending keyboard and text input.
