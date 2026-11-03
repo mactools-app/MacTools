@@ -287,7 +287,7 @@ final class LaunchpadPlugin:
                 ],
                 systemImage: metadata.iconName,
                 externalInvocationPolicy: .allowed,
-                capabilities: [.foregroundInteractive]
+                capabilities: [.foregroundInteractive, .opensInterface]
             ),
         ]
     }

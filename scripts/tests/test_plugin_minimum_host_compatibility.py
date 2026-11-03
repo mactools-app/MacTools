@@ -36,6 +36,9 @@ NEW_API_MINIMUM_HOSTS = {
     "PluginVoiceControlHostContext": "2.2.0",
     "PluginVoiceControlHostContextConsuming": "2.2.0",
     ".microphone": "2.2.0",
+    ".opensInterface": "2.2.4",
+    "PluginVoiceFunction": "2.2.4",
+    "PluginVoiceFunctionProviding": "2.2.4",
 
     "PluginAppMenuBarIconVisibilityControlling": "2.2.0",
     "PluginMenuBarPanelPresentationRequest": "2.2.0",
@@ -373,6 +376,14 @@ class PluginMinimumHostCompatibilityTests(unittest.TestCase):
             with self.subTest(symbol=symbol):
                 self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), "2.2.3")
                 self.assertTrue(minimum_host_violations("probe", "2.2.2", symbol))
+
+    def test_semantic_voice_function_contract_records_minimum_host(self) -> None:
+        source = PLUGIN_INTERFACES.with_name("PluginVoiceFunctions.swift").read_text(encoding="utf-8")
+        for symbol in public_top_level_type_names(source):
+            with self.subTest(symbol=symbol):
+                self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), "2.2.4")
+                self.assertTrue(minimum_host_violations("probe", "2.2.3", symbol))
+        self.assertTrue(minimum_host_violations("probe", "2.2.3", ".opensInterface"))
 
     def test_plugin_permission_kind_preserves_released_case_order(self) -> None:
         source = PLUGIN_MODELS.read_text(encoding="utf-8")

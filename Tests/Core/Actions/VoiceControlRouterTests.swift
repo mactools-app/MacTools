@@ -5,6 +5,40 @@ import XCTest
 
 @MainActor
 final class VoiceControlRouterTests: XCTestCase {
+    func testInterfaceActionsAreDistinctAndCannotReportAnOperationCompleted() async throws {
+        let fixture = Fixture()
+        fixture.plugin.interfaceOnly = true; fixture.register()
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search("fixture"), sessionID: session)
+        let picker = try XCTUnwrap(reply.capabilities.first { $0.title == "Change fixture" })
+        XCTAssertEqual(picker.kind, .feature)
+        XCTAssertFalse(reply.capabilities.contains { $0.kind == .action })
+        let result = await context.request(.perform(capabilityID: picker.id, parameters: .empty), sessionID: session)
+        XCTAssertEqual(result.status, "interfaceOpened")
+        XCTAssertEqual(fixture.plugin.executions, 1)
+        fixture.plugin.interfaceOnly = false; fixture.register()
+        let stale = await context.request(.perform(capabilityID: picker.id, parameters: .empty), sessionID: session)
+        XCTAssertEqual(stale.status, "staleCapability")
+        XCTAssertEqual(fixture.plugin.executions, 1)
+    }
+
+    func testFunctionMetadataNamesOnlyIssuedCanonicalActions() async throws {
+        let fixture = Fixture()
+        fixture.plugin.voiceFunctions = [.init(actionID: "change", name: "fixture_change"),
+            .init(actionID: "unlisted", name: "invented_write")]
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search("fixture"), sessionID: session)
+        let action = try XCTUnwrap(reply.capabilities.first { $0.kind == .action })
+        let json = try JSONSerialization.jsonObject(with: Data(try XCTUnwrap(reply.payload).utf8)) as? [String: Any]
+        let names = try XCTUnwrap(json?["voiceFunctions"] as? [String: String])
+        XCTAssertEqual(names, [action.id: "fixture_change"])
+        fixture.plugin.voiceFunctions = [.init(actionID: "change", name: "one"), .init(actionID: "change", name: "two")]
+        let ambiguous = await context.request(.search("fixture"), sessionID: session)
+        XCTAssertNil(ambiguous.payload)
+    }
+
     func testEnablingFuturePluginAccessRequiresPanelButtons() async throws {
         let owner = PanelVoiceFixturePlugin(id: "voice-control")
         owner.actionID = "automatic-plugin-access-on"
@@ -411,7 +445,7 @@ private final class Fixture {
 @MainActor
 private class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     PluginVoiceQueryProviding, PluginVoiceSelfParameterizedActionProviding, PluginVoiceSelfActionProviding,
-    PluginVoiceControlHostContextConsuming {
+    PluginVoiceControlHostContextConsuming, PluginVoiceFunctionProviding {
     let metadata: PluginMetadata
     init(id: String = "fixture") {
         metadata = PluginMetadata(id: id, title: "Fixture", iconName: "bolt", iconTint: .blue,
@@ -425,6 +459,8 @@ private class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     var parameterized = false
     var allowsParameterizedVoice = true
     var confirmAction = false
+    var interfaceOnly = false
+    var voiceFunctions: [PluginVoiceFunction] = []
     var actionID = "change"
     var privateQuery = false
     var executions = 0
@@ -439,7 +475,8 @@ private class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
                description: "A fixture command", systemImage: "bolt",
                parameters: parameterized ? [.init(id: "value", title: "Value", kind: .integer)] : [],
                risk: confirmAction ? .confirmationRequired : .safe,
-               confirmation: confirmAction ? prompt : nil, capabilities: [.foregroundInteractive])]
+               confirmation: confirmAction ? prompt : nil,
+               capabilities: interfaceOnly ? [.foregroundInteractive, .opensInterface] : [.foregroundInteractive])]
     }
     var actionCatalogEntries: [ActionCatalogEntry] {
         parameterized ? [] : [.init(reference: .init(key: actionDefinitions[0].key), title: "Change fixture")]

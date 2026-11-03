@@ -106,7 +106,7 @@ final class WindowSwitcherPluginTests: XCTestCase {
         let definition = try XCTUnwrap(plugin.actionDefinitions.first)
 
         XCTAssertEqual(definition.key.actionID, WindowSwitcherConstants.shortcutActionID)
-        XCTAssertEqual(definition.capabilities, [.foregroundInteractive])
+        XCTAssertEqual(definition.capabilities, [.foregroundInteractive, .opensInterface])
         XCTAssertEqual(definition.externalInvocationPolicy, .unavailable)
         XCTAssertEqual(
             plugin.permissionRequirementIDs(for: definition.key),

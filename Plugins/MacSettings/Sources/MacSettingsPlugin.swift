@@ -330,7 +330,7 @@ final class MacSettingsPlugin:
                     confirmButtonTitle: MacSettingsStrings.text("Open Preview")
                 ),
                 externalInvocationPolicy: .allowed,
-                capabilities: [.foregroundInteractive]
+                capabilities: [.foregroundInteractive, .opensInterface]
             ),
             ActionDefinition(
                 key: ActionKey(providerID: metadata.id, actionID: ActionID.undo),
@@ -832,7 +832,7 @@ final class MacSettingsPlugin:
             systemImage: metadata.iconName,
             parameters: parameters,
             externalInvocationPolicy: .allowed,
-            capabilities: [.foregroundInteractive]
+            capabilities: [.foregroundInteractive, .opensInterface]
         )
     }
 

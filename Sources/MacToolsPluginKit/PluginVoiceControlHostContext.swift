@@ -35,7 +35,8 @@ public struct PluginVoiceReply: Codable, Sendable {
     public let capabilities: [PluginVoiceCapability]
     public let status: String
     public let message: String?
-    /// A bounded JSON object supplied by a query provider, treated as data.
+    /// Bounded JSON data. Queries supply untrusted content; discovery may supply host-bound
+    /// `voiceFunctions` names keyed by issued capability IDs (host 2.2.4 and later).
     public let payload: String?
 
     public init(capabilities: [PluginVoiceCapability] = [], status: String = "ok",

@@ -276,13 +276,13 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
                 keywords: [metadata.title, "Window Switcher"],
                 systemImage: metadata.iconName,
                 externalInvocationPolicy: .unavailable,
-                capabilities: [.foregroundInteractive]
+                capabilities: [.foregroundInteractive, .opensInterface]
             ),
             ActionDefinition(
                 key: ActionKey(providerID: metadata.id, actionID: WindowSwitcherConstants.currentAppActionID),
                 title: localization.string("action.currentApp.title", defaultValue: "当前应用窗口"), description: localization.string("action.currentApp.description", defaultValue: "搜索和选择当前应用的窗口。"),
                 keywords: [metadata.title, "Current App Windows"], systemImage: metadata.iconName,
-                externalInvocationPolicy: .unavailable, capabilities: [.foregroundInteractive]
+                externalInvocationPolicy: .unavailable, capabilities: [.foregroundInteractive, .opensInterface]
             ),
         ]
     }

@@ -69,7 +69,7 @@ final class ActionGridPluginTests: XCTestCase {
         let definition = try XCTUnwrap(plugin.actionDefinitions.first)
 
         XCTAssertEqual(definition.key, ActionGridPlugin.showActionKey)
-        XCTAssertEqual(definition.capabilities, [.foregroundInteractive])
+        XCTAssertEqual(definition.capabilities, [.foregroundInteractive, .opensInterface])
         XCTAssertEqual(definition.externalInvocationPolicy, .allowed)
         XCTAssertTrue(plugin.actionAvailability(for: ActionReference(key: definition.key)).isAvailable)
 

@@ -190,7 +190,7 @@ final class QuitAppsPluginTests: XCTestCase {
         let definition = try XCTUnwrap(plugin.actionDefinitions.first)
         let reference = try XCTUnwrap(plugin.actionCatalogEntries.first?.reference)
 
-        XCTAssertEqual(definition.capabilities, [.foregroundInteractive])
+        XCTAssertEqual(definition.capabilities, [.foregroundInteractive, .opensInterface])
         XCTAssertEqual(definition.externalInvocationPolicy, .unavailable)
 
         let result = try await plugin.beginAction(

@@ -72,6 +72,8 @@ Voice state queries require host 2.2.0 or later. Declare only the state the quer
 
 General Voice Assistant tasks and managed commands retain the host executor and concrete approval boundary. New primitives must preserve scoped app identities, cancellation, bounded work and observed-result reporting; see [computer tasks](docs/plugins/voice-computer-tasks.md). The optional in-panel voice approval companion requires host 2.2.3 or later and retains the same host admission checks.
 
+Actions that only open a picker, panel or preview must declare `.opensInterface` (host 2.2.4). They remain callable as explicit interface navigation, rather than being reported as completed app operations. `PluginVoiceFunctionProviding` can publish stable semantic names for canonical voice actions; it grants no additional exposure or authority.
+
 ## Development standards
 
 Follow the [plugin development standards](docs/plugins/development-guidelines.md) and the adjacent implementation. The common requirements are:

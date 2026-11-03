@@ -19,7 +19,7 @@ public final class VoiceControlPluginFactory: NSObject, MacToolsPluginBundleFact
 final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettingsPresenting,
     PluginVoiceControlHostContextConsuming, PluginApplicationActivityStateHandling, PluginGroupedShortcutSettingsProviding,
     PluginActionProviding, PluginActionExposureProviding, PluginVoiceSelfActionProviding,
-    PluginVoiceConfirmationPresenting,
+    PluginVoiceConfirmationPresenting, PluginVoiceFunctionProviding,
     PluginVoiceSelfParameterizedActionProviding, PluginActionPermissionProviding, PluginActionConfirmationProviding,
     PluginPortablePreferencesProviding, PluginPortablePreferencesRestorationReporting,
     PluginPersistentPreferencesChangeSignaling {
@@ -98,6 +98,11 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
         guard allowsRecording, conversation.active, conversation.connected, !Task.isCancelled else { return false }
         assistant.present()
         return await conversation.approvals.confirm(request)
+    }
+    var voiceFunctions: [PluginVoiceFunction] {
+        computerTaskDefinitions.map {
+            .init(actionID: $0.key.actionID, name: $0.key.actionID.replacingOccurrences(of: "-", with: "_"))
+        }
     }
     var permissionRequirements: [PluginPermissionRequirement] {
         [.init(id: "microphone", kind: .microphone, title: conversation.text("麦克风"),

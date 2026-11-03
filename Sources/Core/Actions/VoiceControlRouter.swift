@@ -201,7 +201,11 @@ final class VoiceControlRouter {
                     admissionCheck: { [weak self] in self?.canAdmitAction(binding, sessionID: sessionID) == true })
                 guard valid(sessionID) else { return .init(status: "sessionEnded") }
                 switch result {
-                case let .completed(.succeeded(message)): return .init(message: message)
+                case let .completed(.succeeded(message)):
+                    if expected.capabilities.contains(.opensInterface) {
+                        return .init(status: "interfaceOpened", message: "Opened only the requested interface. No application operation was completed or verified. For an action goal, continue with the general computer task tools; do not hand a chooser back to the user.")
+                    }
+                    return .init(message: message)
                 case .completed(.cancelled): return .init(status: "cancelled")
                 case let .completed(.failed(message)): return .init(status: "failedOrUncertain", message: message)
                 case let .rejected(.unavailable(reason)):
@@ -244,7 +248,7 @@ final class VoiceControlRouter {
             case .feature:
                 guard parameters.entries.isEmpty else { return .init(status: "invalidParameters") }
                 openFeature(binding.pluginID)
-                return .init(message: "Opened the feature. Any review or selection must be completed in its native interface.")
+                return .init(status: "interfaceOpened", message: "Opened only the requested feature interface. No application operation was completed or verified. For an action goal, continue with the general computer task tools; do not hand a chooser back to the user.")
             }
         }
     }
@@ -253,9 +257,10 @@ final class VoiceControlRouter {
         guard query.utf8.count <= 256, let grant = grants[sessionID] else { return .init(status: "invalidRequest") }
         let terms = query.lowercased().split(whereSeparator: \.isWhitespace).map(String.init)
         var candidates: [(PluginVoiceCapability, Binding, Int)] = []
+        var functionNames: [String: String] = [:]
         func add(_ plugin: any MacToolsPlugin, kind: PluginVoiceCapability.Kind,
                  title: String, description: String, parameters: [ActionParameterDefinition] = [],
-                 confirm: Bool = false, operation: Binding.Operation) {
+                 confirm: Bool = false, functionName: String? = nil, operation: Binding.Operation) {
             let text = "\(title) \(plugin.metadata.title) \(description) \(plugin.metadata.id)".lowercased()
             let score = terms.reduce(0) { $0 + (text.contains($1) ? 1 : 0) }
             guard terms.isEmpty || score > 0 else { return }
@@ -264,12 +269,24 @@ final class VoiceControlRouter {
                 parameters: parameters, requiresConfirmation: confirm)
             candidates.append((capability, Binding(pluginID: plugin.metadata.id,
                 identity: ObjectIdentifier(plugin), operation: operation), score))
+            if let functionName { functionNames[capability.id] = functionName }
         }
         for plugin in plugins() where grant.allowedPluginIDs.contains(plugin.metadata.id) {
             let pluginID = plugin.metadata.id
+            let functions = (plugin as? any PluginVoiceFunctionProviding)?.voiceFunctions.filter(\.isValid) ?? []
+            let functionGroups = Dictionary(grouping: functions, by: \.actionID)
+            func functionName(for actionID: String) -> String? {
+                guard let entries = functionGroups[actionID], entries.count == 1 else { return nil }
+                return entries[0].name
+            }
             let selfActions: Set<String>? = pluginID == grant.owner
                 ? (plugin as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs ?? [] : nil
-            if selfActions == nil {
+            let hasInterfaceAction = registry.catalogEntries.contains { entry in
+                entry.reference.key.providerID == pluginID
+                    && registry.definition(for: entry.reference.key)?.capabilities.contains(.opensInterface) == true
+                    && registry.exposurePolicy(for: entry.reference, on: surface) != .excluded
+            }
+            if selfActions == nil && !hasInterfaceAction {
                 add(plugin, kind: .feature, title: plugin.metadata.title,
                     description: plugin.metadata.defaultDescription, operation: .feature)
             }
@@ -277,9 +294,11 @@ final class VoiceControlRouter {
                 guard selfActions?.contains(entry.reference.key.actionID) ?? true else { continue }
                 guard let definition = registry.definition(for: entry.reference.key),
                       registry.exposurePolicy(for: entry.reference, on: surface) != .excluded else { continue }
-                add(plugin, kind: .action, title: entry.title,
-                    description: definition.description + " " + definition.keywords.joined(separator: " "),
+                let interface = definition.capabilities.contains(.opensInterface)
+                add(plugin, kind: interface ? .feature : .action, title: entry.title,
+                    description: (interface ? "Interface only; opens controls without completing an application operation. " : "") + definition.description + " " + definition.keywords.joined(separator: " "),
                     confirm: definition.confirmation != nil || definition.risk == .confirmationRequired,
+                    functionName: interface ? nil : functionName(for: definition.key.actionID),
                     operation: .action(entry.reference, definition, parameterized: false))
             }
             if let provider = plugin as? any PluginVoiceParameterizedActionProviding,
@@ -289,10 +308,12 @@ final class VoiceControlRouter {
                     if selfActions != nil && !allowsSelfAction(plugin, id: definition.key.actionID, parameterized: true) { continue }
                     let reference = ActionReference(key: definition.key, schemaVersion: definition.parameterSchemaVersion)
                     guard registry.definition(for: definition.key) == definition else { continue }
-                    add(plugin, kind: .action, title: definition.title,
-                        description: definition.description + " " + definition.keywords.joined(separator: " "),
+                    let interface = definition.capabilities.contains(.opensInterface)
+                    add(plugin, kind: interface ? .feature : .action, title: definition.title,
+                        description: (interface ? "Interface only; opens controls without completing an application operation. " : "") + definition.description + " " + definition.keywords.joined(separator: " "),
                         parameters: definition.parameters,
                         confirm: definition.confirmation != nil || definition.risk == .confirmationRequired,
+                        functionName: interface ? nil : functionName(for: definition.key.actionID),
                         operation: .action(reference, definition, parameterized: true))
                 }
             }
@@ -332,7 +353,9 @@ final class VoiceControlRouter {
         guard valid(sessionID), let current = grants[sessionID] else { return .init(status: "sessionEnded") }
         guard current.issued.count + selected.count <= 1_024 else { return .init(status: "discoveryLimit") }
         for (capability, binding, _) in selected { grants[sessionID]?.issued[capability.id] = binding }
-        return .init(capabilities: selected.map(\.0))
+        let names = functionNames.filter { id, _ in selected.contains { $0.0.id == id } }
+        let metadata = names.isEmpty ? nil : try? JSONSerialization.data(withJSONObject: ["voiceFunctions": names])
+        return .init(capabilities: selected.map(\.0), payload: metadata.map { String(decoding: $0, as: UTF8.self) })
     }
 }
 

@@ -269,6 +269,9 @@ public struct ActionExecutionCapabilities: OptionSet, Hashable, Codable, Sendabl
     /// The provider explicitly permits this action to run from unattended automatic rules.
     /// Background support alone does not imply that the action is safe to automate.
     public static let automatic = ActionExecutionCapabilities(rawValue: 1 << 5)
+    /// Invoking this action opens an interface; it does not complete work selected in that interface.
+    /// Voice planners must use it only for an explicit request to show the interface. Added in host 2.2.4.
+    public static let opensInterface = ActionExecutionCapabilities(rawValue: 1 << 6)
 
     public init(rawValue: UInt8) {
         self.rawValue = rawValue
