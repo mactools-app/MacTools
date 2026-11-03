@@ -5,6 +5,17 @@ import XCTest
 
 @MainActor
 final class ComputerTaskKeyboardTests: XCTestCase {
+    func testCurrentLayoutCanBeResolvedFromTheBackgroundInputWorker() async throws {
+        let expected = try ComputerTaskKeyboardLayout.current()
+        let result = try await Task.detached {
+            let layout = try ComputerTaskKeyboardLayout.current()
+            let chord = try ComputerTaskKeyChord(["command", "q"])
+            return (layout, chord.isCurrent)
+        }.value
+        XCTAssertEqual(result.0, expected)
+        XCTAssertTrue(result.1)
+    }
+
     func testLetterShortcutsUseTheSelectedLayoutWithoutChangingInputSources() throws {
         let sources = TISCreateInputSourceList(nil, true).takeRetainedValue() as! [TISInputSource]
         for identifier in ["com.apple.keylayout.US", "com.apple.keylayout.French", "com.apple.keylayout.German"] {

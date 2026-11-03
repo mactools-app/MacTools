@@ -112,11 +112,10 @@ final class ComputerTaskNativeInput: @unchecked Sendable {
             case let .key(keys):
                 let chord = try ComputerTaskKeyChord(keys)
                 try self.check(epoch, target)
-                guard self.hasFocus(app, target: target, expected: focused),
+                guard chord.isCurrent, self.hasFocus(app, target: target, expected: focused),
                       let down = CGEvent(keyboardEventSource: nil, virtualKey: chord.keyCode, keyDown: true),
                       let up = CGEvent(keyboardEventSource: nil, virtualKey: chord.keyCode, keyDown: false) else { throw ComputerUseError.staleObservation }
                 down.flags = chord.flags; up.flags = chord.flags
-                guard chord.isCurrent else { throw ComputerUseError.staleObservation }
                 try self.check(epoch, target)
                 down.postToPid(target.pid); up.postToPid(target.pid)
             case let .text(text):
@@ -242,6 +241,14 @@ struct ComputerTaskKeyboardLayout: Equatable, Sendable {
     let inputSourceID: String
 
     static func current() throws -> Self {
+        // TextInputSources requires the main thread in a UI application. Only this local
+        // snapshot runs there; remote AX work stays on the serialized input worker.
+        if Thread.isMainThread { return try MainActor.assumeIsolated { try readCurrent() } }
+        return try DispatchQueue.main.sync { try readCurrent() }
+    }
+
+    @MainActor
+    private static func readCurrent() throws -> Self {
         guard let selected = TISCopyCurrentKeyboardLayoutInputSource()?.takeRetainedValue(),
               let input = TISCopyCurrentKeyboardInputSource()?.takeRetainedValue() else {
             throw ComputerUseError.unavailable("The current keyboard layout is unavailable. Use an observed menu instead.")
