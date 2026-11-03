@@ -204,7 +204,7 @@ final class ComputerTaskNativeInput: @unchecked Sendable {
     private func safe(_ element: AXUIElement) -> Bool {
         guard let role = string(element, kAXRoleAttribute), !role.isEmpty,
               role != kAXUnknownRole, role != "AXSecureTextField" else { return false }
-        for key in [kAXSubroleAttribute, "AXProtectedContent", "AXIsProtectedContent"] {
+        for key in [kAXSubroleAttribute, "AXContainsProtectedContent", "AXProtectedContent", "AXIsProtectedContent"] {
             var raw: CFTypeRef?
             let status = AXUIElementCopyAttributeValue(element, key as CFString, &raw)
             if status == .attributeUnsupported || status == .noValue { continue }
