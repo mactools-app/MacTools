@@ -5,6 +5,28 @@ import XCTest
 
 @MainActor
 final class ComputerTaskControllerTests: XCTestCase {
+    func testFinishingUITaskKeepsRunningCommandProgressAndStopTracksCleanup() async throws {
+        let controller = makeController(TaskFixtureEnvironment())
+        defer { controller.stop() }
+        var progress: String?
+        controller.onProgress = { progress = $0 }
+        let task = try params(["goal": "Read a fixture window", "apps": "[\"Fixture\"]"])
+        _ = try controller.approval("task-begin", task)
+        let started = try object(await controller.perform("task-begin", task, admission: controller.admission("task-begin", task)))
+        let id = try XCTUnwrap(started["taskID"] as? String)
+        let command = try params(["command": "sleep 30"])
+        _ = try controller.approval("command-start", command)
+        _ = try await controller.perform("command-start", command, admission: controller.admission("command-start", command))
+        XCTAssertEqual(progress, "Read a fixture window")
+        _ = try await controller.perform("task-finish", params(["taskID": id, "outcome": "completed"]))
+        XCTAssertEqual(progress, "sleep 30")
+        XCTAssertTrue(controller.hasWork)
+        controller.stop()
+        XCTAssertNil(progress)
+        for _ in 0..<300 where controller.hasWork { try await Task.sleep(for: .milliseconds(10)) }
+        XCTAssertFalse(controller.hasWork, "Owned command cleanup is retained until it settles")
+    }
+
     func testStopRevokesCapturedTaskAndCommandAdmissionsEvenAfterReapproval() async throws {
         let controller = makeController(TaskFixtureEnvironment())
         defer { controller.stop() }

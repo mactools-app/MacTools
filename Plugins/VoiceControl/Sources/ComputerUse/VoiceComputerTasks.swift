@@ -23,8 +23,8 @@ extension VoiceControlPlugin {
                 description: description, keywords: ["computer", "task", "menu", "keyboard", "terminal", "command", "quit", "paste"],
                 systemImage: "cursorarrow", parameters: parameters, risk: confirms ? .confirmationRequired : .safe,
                 confirmation: confirms ? .init(title: conversation.text(title), message: conversation.text(id == "task-begin"
-                    ? "允许在列出的应用中执行多步操作，包括菜单、快捷键和文字输入。操作可能修改应用数据或执行应用命令。授权最多持续五分钟或四十步；停止任务或结束对话会撤销授权。"
-                    : "此命令将以你的用户权限在显示的目录中运行，输出会发送到 OpenAI。停止对话会取消此命令。"),
+                    ? "允许在列出的应用中执行多步操作，包括菜单、快捷键和文字输入。操作可能修改应用数据或执行应用命令。授权最多持续五分钟或四十步；停止会结束对话并请求取消操作，已开始的操作可能仍会完成。"
+                    : "此命令将以你的用户权限在显示的目录中运行，输出会发送到 OpenAI。停止会结束对话并请求取消命令，已开始的操作可能仍会完成。"),
                     confirmButtonTitle: conversation.text("允许")) : nil,
                 capabilities: [.foregroundInteractive, .cancellable], executionTimeoutSeconds: 30)
         }

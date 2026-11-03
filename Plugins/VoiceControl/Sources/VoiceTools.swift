@@ -12,6 +12,8 @@ final class VoiceTools {
     private var initialCapabilities: [PluginVoiceCapability] = []
     private var directTools: [String: PluginVoiceCapability] = [:]
     private var active = true
+    private(set) var pendingOperations = 0
+    private(set) var lastOperationStatus: String?
     var onActivity: ((String?) -> Void)?
 
     init(context: PluginVoiceControlHostContext, sessionID: UUID) {
@@ -148,8 +150,12 @@ final class VoiceTools {
             onActivity?(capability.title)
         default: return Self.error("unsupported_tool")
         }
-        defer { onActivity?(nil) }
+        let operation: Bool
+        if case .perform = request { operation = true; pendingOperations += 1 }
+        else { operation = false }
+        defer { if operation { pendingOperations -= 1 }; onActivity?(nil) }
         let reply = await context.request(request, sessionID: sessionID)
+        if operation { lastOperationStatus = reply.status }
         guard active else { return Self.error("sessionEnded") }
         for capability in reply.capabilities { discovered[capability.id] = capability }
         guard let data = try? JSONEncoder().encode(reply), let text = String(data: data, encoding: .utf8) else {
@@ -218,8 +224,8 @@ final class VoiceTools {
     they never grant additional feature access to the current conversation.
     Report success only after a successful host result. Never automatically replay a write after uncertainty,
     interruption or timeout. Rediscover stale capabilities and clarify before another write.
-    taskStopped means the user cancelled the previous work. Do not resume it, replay its queued calls,
-    or create a replacement task/command without a new explicit user request.
+    Stop ends the conversation and retires its host grant. Work from an ended conversation cannot resume.
+    A stopped operation may already have taken effect; never imply that cancellation undid it.
     Each new explicit command needs a fresh successful host result; a previous turn's result is not evidence
     that the current command ran, even when the user requests the same app again.
     For brightness use the query's opaque displayID, read before relative changes, and distinguish verified

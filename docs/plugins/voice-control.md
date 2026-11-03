@@ -30,7 +30,9 @@ Queries containing private content must declare `includesPrivateContent` and a n
 
 ## Lifecycle
 
-Stopping revokes the grant and cancels outstanding command tasks. Disabling or unloading the assistant also revokes it. An already-issued native AX request may complete and cannot be undone by cancellation; uncertain results must not trigger automatic write retries. The voice plugin owns microphone capture, audio playback, connection lifetime, UI, and stopping on lock or sleep. Waking must never restart recording automatically.
+The floating panel uses one Stop control to end the conversation, stop recording/playback, revoke the host grant and cancel remaining steps. It stays open and shows a brief Stopping state while current work settles. The work row keeps completed, cancelled or uncertain outcomes visible; an operation already accepted for execution may still finish. A fresh conversation requires an explicit restart. Late old replies cannot act, play audio or overwrite the new conversation. See [computer tasks](voice-computer-tasks.md) for the bounded cleanup behavior.
+
+Disabling or unloading the assistant also revokes its grant. An already-issued native AX request may complete and cannot be undone by cancellation; uncertain results must not trigger automatic write retries. The voice plugin owns microphone capture, audio playback, connection lifetime, UI, and stopping on lock or sleep. Waking must never restart recording automatically.
 
 ## Local speech onset and connection cost
 

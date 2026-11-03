@@ -103,18 +103,21 @@ final class VoiceReadinessTests: XCTestCase {
         }
     }
 
-    func testStopTaskDiscardsQueuedAndInFlightBackendWorkButAllowsNewRequests() async throws {
-        let (model, factory, _, _) = try await makeModel()
-        var entered = 0
-        var held: CheckedContinuation<PluginVoiceReply, Never>?
+    func testSingleStopRevokesPendingHostWorkAndRejectsLateFirstReplies() async throws {
+        let (model, factory, audio, _) = try await makeModel()
+        var entered = 0, writes = 0, ended = 0
+        var cancelled = false
+        var held: CheckedContinuation<Void, Never>?
         let capability = PluginVoiceCapability(id: "fixture", kind: .action, title: "Fixture", pluginTitle: "Fixture", description: "Fixture action")
-        model.context = .init(begin: { _ in UUID() }, end: { _ in }, request: { _, request in
+        model.context = .init(begin: { _ in UUID() }, end: { _ in ended += 1 }, request: { _, request in
             switch request {
             case .search: return .init(capabilities: [capability])
             case .perform:
                 entered += 1
-                if entered == 1 { return await withCheckedContinuation { held = $0 } }
-                return .init()
+                if entered == 1 { await withCheckedContinuation { held = $0 } }
+                cancelled = Task.isCancelled
+                if !cancelled { writes += 1 }
+                return .init(status: cancelled ? "cancelled" : "ok")
             }
         })
         let socket = try await start(model, factory)
@@ -128,20 +131,60 @@ final class VoiceReadinessTests: XCTestCase {
         }
         socket.feed(["type": "response.event", "event": ["type": "response.completed", "response": ["id": "batch"]]])
         await settle { held != nil }
-        let beforeCreation = socket.receivedEvents
+        model.stop()
+        XCTAssertFalse(model.active)
+        XCTAssertFalse(model.capturing)
+        XCTAssertTrue(audio.stopped)
+        XCTAssertEqual(ended, 1)
+        // The first backend event for this old request arrives only after Stop.
         socket.feed(["type": "response.event", "event": ["type": "response.created", "response": ["id": "late"]]])
-        await settle { socket.receivedEvents > beforeCreation }
-        model.cancelComputerWork()
-        held?.resume(returning: .init()); held = nil
         socket.call("late", name: "perform_capability", arguments: arguments)
-        await settle { socket.outputs == 4 }
-        XCTAssertEqual(socket.outputs, 4)
+        held?.resume(); held = nil
+        await settle { cancelled }
         XCTAssertEqual(entered, 1)
-        XCTAssertTrue(socket.toolOutputs.suffix(3).allSatisfy { $0.contains("taskStopped") })
-        socket.call("fresh", name: "perform_capability", arguments: arguments)
-        await settle { socket.outputs == 5 }
-        XCTAssertEqual(socket.outputs, 5)
+        XCTAssertEqual(writes, 0)
+        XCTAssertEqual(socket.outputs, 1, "No completion or invented no-effect result is sent after Stop")
+        let next = try await start(model, factory)
+        next.call("discover-new", name: "discover_capabilities", arguments: "{\"query\":\"fixture\"}")
+        await settle { next.outputs == 1 }
+        next.call("fresh", name: "perform_capability", arguments: arguments)
+        await settle { next.outputs == 2 }
         XCTAssertEqual(entered, 2)
+        XCTAssertEqual(writes, 1)
+        next.cancel()
+    }
+
+    func testStopCleanupIsBoundedAndKeepsObservedOrUncertainOutcome() async throws {
+        for result in ["ok", "sessionEnded"] {
+            let (model, factory, _, _) = try await makeModel()
+            var held: CheckedContinuation<PluginVoiceReply, Never>?
+            var returned = false
+            let capability = PluginVoiceCapability(id: "fixture", kind: .action, title: "Fixture", pluginTitle: "Fixture", description: "Fixture action")
+            model.context = .init(begin: { _ in UUID() }, end: { _ in }, request: { _, request in
+                if case .search = request { return .init(capabilities: [capability]) }
+                let reply = await withCheckedContinuation { held = $0 }
+                returned = true
+                return reply
+            })
+            let socket = try await start(model, factory)
+            socket.call("discover", name: "discover_capabilities", arguments: "{\"query\":\"fixture\"}")
+            await settle { socket.outputs == 1 }
+            socket.call("current", name: "perform_capability", arguments: "{\"capabilityID\":\"fixture\",\"parameters\":[]}")
+            await settle { held != nil }
+            model.stop()
+            XCTAssertTrue(model.stopping)
+            XCTAssertEqual(model.stoppedWorkStatus, .cancelling)
+            model.start()
+            XCTAssertEqual(factory.connections.count, 1, "Cleanup cannot be bypassed by an immediate restart")
+            await settle { !model.stopping }
+            XCTAssertEqual(model.stoppedWorkStatus, .mayStillBeFinishing)
+            held?.resume(returning: .init(status: result)); held = nil
+            await settle { returned && model.stoppedWorkStatus == (result == "ok" ? .completed : .mayStillBeFinishing) }
+            XCTAssertEqual(model.stoppedWorkStatus, result == "ok" ? .completed : .mayStillBeFinishing)
+            XCTAssertFalse(model.active)
+            XCTAssertEqual(socket.outputs, 1)
+            model.stop(); socket.cancel()
+        }
     }
 
     func testCaptureConversionDoesNotCarryMutedSpeechIntoFreshAudio() async throws {
@@ -484,7 +527,7 @@ final class VoiceReadinessTests: XCTestCase {
         let factory = ReadinessConnections(), audio = ReadinessAudio(), grants = ReadinessGrants()
         let model = VoiceConversation(context: .init(pluginID: "voice-control", storage: VoiceCredentialTestStorage()),
             audio: audio, requestMicrophone: { true }, secrets: VoiceCredentialTestSecrets(),
-            makeConnection: { _ in factory.make() }, makeSpeechDetector: { detector ?? ReadinessSpeechDetector() })
+            makeConnection: { _ in factory.make() }, makeSpeechDetector: { detector ?? ReadinessSpeechDetector() }, stopCleanupTimeout: .milliseconds(20))
         model.connectOnSpeech = detector != nil
         let saved = await model.saveKey("sk-readiness-fixture-not-an-actual-api-key")
         XCTAssertTrue(saved)
@@ -494,6 +537,7 @@ final class VoiceReadinessTests: XCTestCase {
     }
     private func start(_ model: VoiceConversation, _ factory: ReadinessConnections) async throws -> ReadinessConnection {
         let index = factory.connections.count
+        await settle { !model.stopping }
         model.start()
         await settle { factory.connections.count > index }
         let socket = try XCTUnwrap(factory.connections.last)

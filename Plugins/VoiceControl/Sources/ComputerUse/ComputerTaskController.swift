@@ -51,6 +51,7 @@ final class ComputerTaskController {
     private var busy = false
     private var expiration: Task<Void, Never>?
     var onProgress: ((String?) -> Void)?
+    var hasWork: Bool { session != nil || busy || commands.hasWork }
 
     init(computer: ComputerUseController, environment: any ComputerTaskEnvironment = SystemComputerTaskEnvironment(), now: @escaping () -> Date = Date.init) {
         self.computer = computer; self.environment = environment; self.now = now
@@ -62,7 +63,7 @@ final class ComputerTaskController {
     func stop() { generation = UUID(); prepared = nil; stopTask(); commands.stop() }
     private func stopTask() {
         expiration?.cancel(); expiration = nil; session = nil
-        environment.stop(); computer.stop(); onProgress?(nil)
+        environment.stop(); computer.stop(); onProgress?(commands.progressSummary)
     }
 
     func approval(_ action: String, _ parameters: ActionParameterSet) throws -> (identity: String, summary: String)? {

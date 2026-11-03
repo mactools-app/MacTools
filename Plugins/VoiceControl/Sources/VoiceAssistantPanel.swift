@@ -10,7 +10,6 @@ final class VoiceAssistantPanel: ObservableObject {
     private var panel: AssistantWindow?
     let conversation: VoiceConversation
     var openSettings: (() -> Void)?
-    var cancelComputerTask: (() -> Void)?
     var disableDirectControl: (() -> Void)?
 
     init(conversation: VoiceConversation) { self.conversation = conversation }
@@ -63,7 +62,7 @@ final class VoiceAssistantPanel: ObservableObject {
         let confirming = conversation.approvals.pending != nil
         let controlModeHeight: CGFloat = conversation.approvals.directControlEnabled ? 32 : 0
         let size = expanded ? NSSize(width: 440, height: confirming ? 580 : 520)
-            : NSSize(width: 380, height: confirming ? 460 : conversation.computerTask == nil ? 290 : 320)
+            : NSSize(width: 380, height: confirming ? 460 : conversation.workSummary == nil ? 290 : 320)
         let top = panel.frame.maxY
         var frame = NSRect(origin: panel.frame.origin, size: NSSize(width: size.width, height: size.height + controlModeHeight))
         if top > 0 { frame.origin.y = top - frame.height }
@@ -95,6 +94,7 @@ private struct VoiceAssistantView: View {
         self.presenter = presenter; self.model = model; approvals = model.approvals
     }
     private var status: String {
+        if model.stopping { return model.text("正在停止…") }
         if !model.hasCredentials { return model.text(model.credentialStatus) }
         if approvals.pending != nil { return model.text("等待确认") }
         if let app = model.readingApp { return String(format: model.text("正在读取 %@"), app) }
@@ -117,7 +117,7 @@ private struct VoiceAssistantView: View {
                 iconButton("关闭", symbol: "xmark") { presenter.dismiss() }
             }
             HStack(spacing: 8) {
-                if model.active && !model.connected && !model.listeningLocally {
+                if model.stopping || (model.active && !model.connected && !model.listeningLocally) {
                     ProgressView().controlSize(.mini)
                 } else {
                     Image(systemName: model.speaking ? "speaker.wave.2" : (model.muted ? "mic.slash" : "mic"))
@@ -138,13 +138,10 @@ private struct VoiceAssistantView: View {
                         .accessibilityIdentifier("voice-control.direct-control-disable")
                 }.accessibilityIdentifier("voice-control.direct-control-status")
             }
-            if let task = model.computerTask {
-                HStack(spacing: 8) {
-                    Text(task).font(PluginTypography.caption.font).lineLimit(2)
-                    Spacer(minLength: 0)
-                    Button(model.text("停止任务")) { presenter.cancelComputerTask?() }
-                        .buttonStyle(.bordered).controlSize(.small)
-                }.accessibilityIdentifier("voice-control.computer-task")
+            if let task = model.workSummary {
+                Text(model.text(task)).font(PluginTypography.caption.font).lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .accessibilityIdentifier("voice-control.computer-task")
             }
             if let request = approvals.pending {
                 VStack(alignment: .leading, spacing: 12) {
@@ -203,10 +200,10 @@ private struct VoiceAssistantView: View {
                 Spacer(minLength: 0)
             }
             HStack(spacing: 8) {
-                Button(model.text(!model.hasCredentials ? "设置" : model.active ? "停止" : "开始对话")) {
+                Button(model.text(model.stopping ? "正在停止…" : !model.hasCredentials ? "设置" : model.active ? "停止" : "开始对话")) {
                     if !model.hasCredentials { presenter.openSettings?() }
                     else if model.active { model.stop() } else { model.start() }
-                }.buttonStyle(.borderedProminent).disabled(model.credentialBusy)
+                }.buttonStyle(.borderedProminent).disabled(model.credentialBusy || model.stopping)
                     .accessibilityIdentifier("voice-control.start-stop")
                 Button { model.toggleMute() } label: {
                     Image(systemName: model.muted ? "mic.slash" : "mic")
@@ -232,7 +229,7 @@ private struct VoiceAssistantView: View {
         .environment(\.locale, runtimeLocale.locale)
         .environment(\.layoutDirection, runtimeLocale.locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight)
         .onChange(of: runtimeLocale.revision) { _, _ in presenter.refreshLocalization() }
-        .onChange(of: model.computerTask) { _, _ in presenter.refreshTaskLayout() }
+        .onChange(of: model.workSummary) { _, _ in presenter.refreshTaskLayout() }
         .onChange(of: approvals.pending) { _, _ in presenter.refreshTaskLayout() }
         .onChange(of: approvals.directControlEnabled) { _, _ in presenter.refreshTaskLayout() }
         .accessibilityIdentifier("voice-control.assistant")

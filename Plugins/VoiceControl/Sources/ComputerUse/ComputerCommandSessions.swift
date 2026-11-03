@@ -32,7 +32,10 @@ final class ComputerCommandSessions {
     private var jobs: [String: ComputerCommandJob] = [:]
     private var order: [String] = []
     private var generation = UUID()
+    private var stoppingJobs: [ComputerCommandJob] = []
     var onProgress: ((String?) -> Void)?
+    var progressSummary: String? { order.compactMap { jobs[$0] }.last(where: { !$0.isFinished })?.summary }
+    var hasWork: Bool { progressSummary != nil || stoppingJobs.contains { !$0.isFinished } }
 
     func start(_ request: ComputerCommandRequest) async throws -> String {
         if jobs.count >= 8, let old = order.first(where: { jobs[$0]?.isFinished == true }) {
@@ -78,13 +81,15 @@ final class ComputerCommandSessions {
 
     func stop() {
         generation = UUID()
+        stoppingJobs.append(contentsOf: jobs.values.filter { !$0.isFinished })
         jobs.values.forEach { $0.cancel() }
         jobs.removeAll()
         order.removeAll()
-        onProgress?(nil)
+        updateProgress()
     }
     private func updateProgress() {
-        onProgress?(order.compactMap { jobs[$0] }.last(where: { !$0.isFinished })?.summary)
+        stoppingJobs.removeAll { $0.isFinished }
+        onProgress?(progressSummary)
     }
 }
 
@@ -125,7 +130,11 @@ private final class ComputerCommandJob: @unchecked Sendable {
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             control.async {
                 do { try self.spawn(); continuation.resume() }
-                catch { continuation.resume(throwing: error) }
+                catch {
+                    self.lock.withLock { self.status = self.stopReason ?? "failed" }
+                    self.onFinish?()
+                    continuation.resume(throwing: error)
+                }
             }
         }
     }
