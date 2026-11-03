@@ -86,6 +86,40 @@ final class VoiceApprovalsTests: XCTestCase {
         }
     }
 
+    func testSpeechDuringRecognitionKeepsCardAndAcceptsOnlyTheNewReply() async {
+        var transcriptions: [CheckedContinuation<String, Error>] = []
+        var clips: [Data] = []
+        let approvals = VoiceApprovals(makeDetector: { ApprovalDetector() }, playbackSettle: .zero) { clip in
+            clips.append(clip)
+            return try await withCheckedThrowingContinuation { transcriptions.append($0) }
+        }
+        let request = request()
+        let response = Task { await approvals.confirm(request) }
+        await settle { approvals.pending != nil }
+        await arm(approvals); await reply(approvals)
+        await settle { transcriptions.count == 1 }
+        guard transcriptions.count == 1 else { approvals.cancel(); _ = await response.value; return XCTFail("Missing first reply") }
+
+        await approvals.receiveAudio(Data(repeating: 1, count: 4800))
+        XCTAssertEqual(approvals.pending?.id, request.id, "Continuing speech must retire the old reply, not dismiss the card")
+        transcriptions[0].resume(returning: "Allow all until MacTools quits")
+        for _ in 0..<100 { await Task.yield() }
+        XCTAssertEqual(approvals.scope, .once, "The interrupted reply cannot grant permission")
+        guard approvals.pending?.id == request.id else { _ = await response.value; return }
+
+        for _ in 0..<6 { await approvals.receiveAudio(Data(count: 4800)) }
+        await settle { transcriptions.count == 2 }
+        guard transcriptions.count == 2 else { approvals.cancel(); _ = await response.value; return XCTFail("Missing replacement reply") }
+        XCTAssertTrue(clips[1].starts(with: clips[0]), "Retain words before the pause, including any negation")
+        XCTAssertGreaterThan(clips[1].count, clips[0].count)
+        transcriptions[1].resume(returning: "Confirm")
+        await settle { approvals.pending == nil }
+        if approvals.pending != nil { approvals.cancel() }
+        let accepted = await response.value
+        XCTAssertTrue(accepted)
+        XCTAssertEqual(approvals.scope, .once)
+    }
+
     func testNewSpeechDiscardsLateRecognitionAndCannotApproveNextRequest() async throws {
         let detector = ApprovalDetector()
         var transcription: CheckedContinuation<String, Error>?
@@ -98,6 +132,8 @@ final class VoiceApprovalsTests: XCTestCase {
         await arm(approvals); await reply(approvals)
         await settle { transcription != nil }
         await approvals.receiveAudio(Data(repeating: 1, count: 4800))
+        XCTAssertEqual(approvals.pending?.id, first.id)
+        approvals.resolve(false, requestID: first.id)
         let declined = await old.value
         XCTAssertFalse(declined)
         let current = Task { await approvals.confirm(second) }

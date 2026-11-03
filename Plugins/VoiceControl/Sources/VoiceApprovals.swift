@@ -41,6 +41,9 @@ struct VoiceApprovalCapture {
     private var started = false
     enum Result { case waiting, completed(Data), tooLong }
 
+    init() {}
+    init(continuing clip: Data) { recording = clip; started = true }
+
     mutating func append(_ pcm: Data, speech: Bool) -> Result {
         if !started {
             guard speech else {
@@ -88,6 +91,7 @@ final class VoiceApprovals: ObservableObject {
     private var preArm = Data()
     private var preArmSpeech = false
     private var recognizing = false
+    private var inFlightClip = Data()
     var suppressesSpeech: Bool { pending != nil && replyInProgress }
     var canUseSpokenReply: Bool { pending?.allowsSpokenConfirmation == true && detector != nil && !muted }
 
@@ -138,6 +142,7 @@ final class VoiceApprovals: ObservableObject {
         let response = continuation; continuation = nil
         pending = nil; listening = false; hint = ""; revision = UUID(); capture = .init(); detector = nil
         settlingPlayback = false; preArm.removeAll(); preArmSpeech = false; replyInProgress = false; recognizing = false
+        inFlightClip.removeAll()
         preparation?.cancel(); preparation = nil; recognition?.cancel(); recognition = nil
         expiry?.cancel(); expiry = nil
         onResolve?(); response?.resume(returning: approved)
@@ -167,6 +172,7 @@ final class VoiceApprovals: ObservableObject {
         listening = false; revision = UUID(); capture = .init(); replyInProgress = false
         settlingPlayback = false; preArm.removeAll(); preArmSpeech = false
         recognizing = false
+        inFlightClip.removeAll()
         recognition?.cancel(); recognition = nil
     }
     private func resumeListening() {
@@ -195,9 +201,15 @@ final class VoiceApprovals: ObservableObject {
         }
         guard revision == token, (listening || settlingPlayback || recognizing), pending?.id == request.id else { return }
         if recognizing {
-            // A correction while recognition is in flight must retire the older positive answer.
-            if speech { resolve(false, requestID: request.id) }
-            return
+            guard speech else { return }
+            // Retire the old result, not the approval. Keep the full utterance so a
+            // negation before the pause cannot disappear from the replacement reply.
+            let interruptedClip = inFlightClip
+            invalidateReply()
+            guard attempts < 3 else { hint = "未能确认你的选择，请使用按钮。"; return }
+            capture = VoiceApprovalCapture(continuing: interruptedClip)
+            listening = true
+            hint = "听完问题后，可说“确认”“取消”“本次对话全部允许”或“MacTools 退出前全部允许”。"
         }
         if speech { replyInProgress = true }
         if settlingPlayback {
@@ -213,12 +225,14 @@ final class VoiceApprovals: ObservableObject {
         case .tooLong:
             listening = false; hint = "回复过长，请使用按钮确认。"
         case let .completed(clip):
+            let replyRevision = revision
+            inFlightClip = clip
             listening = false; recognizing = true; attempts += 1; hint = "正在识别确认回复…"
             recognition = Task { [weak self, transcribe] in
                 do {
                     let text = try await transcribe(clip)
-                    guard !Task.isCancelled, let self, revision == token, pending?.id == request.id else { return }
-                    recognizing = false
+                    guard !Task.isCancelled, let self, revision == replyRevision, pending?.id == request.id else { return }
+                    recognizing = false; inFlightClip.removeAll()
                     if let decision = VoiceApprovalDecision.parse(text) {
                         switch decision {
                         case .cancel: resolve(false, requestID: request.id)
@@ -227,8 +241,8 @@ final class VoiceApprovals: ObservableObject {
                     } else if attempts < 3 { resumeListening() }
                     else { hint = "未能确认你的选择，请使用按钮。" }
                 } catch {
-                    guard !Task.isCancelled, let self, revision == token, pending?.id == request.id else { return }
-                    recognizing = false
+                    guard !Task.isCancelled, let self, revision == replyRevision, pending?.id == request.id else { return }
+                    recognizing = false; inFlightClip.removeAll()
                     self.detector = nil; hint = "语音确认暂不可用，请使用按钮。"
                 }
             }
