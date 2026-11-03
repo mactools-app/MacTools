@@ -5,6 +5,55 @@ import XCTest
 
 @MainActor
 final class ComputerTaskControllerTests: XCTestCase {
+    func testCompletionRequiresObservingEveryChangedAppAndWindow() async throws {
+        let environment = MultiAppTaskEnvironment()
+        let controller = makeController(environment)
+        defer { controller.stop() }
+        let begin = try params(["goal": "Edit both fixture documents", "apps": "[\"First\",\"Second\"]"])
+        _ = try controller.approval("task-begin", begin)
+        let start = try object(await controller.perform("task-begin", begin, admission: controller.admission("task-begin", begin)))
+        let id = try XCTUnwrap(start["taskID"] as? String)
+        let finish = try params(["taskID": id, "outcome": "completed"])
+        for (app, step) in [("First", "first"), ("Second", "second")] {
+            _ = try await controller.perform("task-observe", params(["taskID": id, "app": app]))
+            _ = try await controller.perform("task-step", params(["taskID": id, "app": app, "stepID": step,
+                "operation": "type", "payload": "{\"text\":\"A note\"}"]))
+        }
+        _ = try await controller.perform("task-observe", params(["taskID": id, "app": "Second"]))
+        do { _ = try await controller.perform("task-finish", finish); XCTFail("Second cannot verify the write in First") } catch {}
+        _ = try await controller.perform("task-observe", ActionParameterSet(["taskID": .string(id), "app": .string("First"), "windowID": .integer(457)]))
+        do { _ = try await controller.perform("task-finish", finish); XCTFail("Another visible window cannot verify the edited window") } catch {}
+        environment.visibleWindows[123] = [457, 456]
+        let verified = try object(await controller.perform("task-observe", params(["taskID": id, "app": "First"])))
+        XCTAssertEqual(verified["windowID"] as? Int, 456, "Default observation checks the outstanding write first")
+        XCTAssertEqual((verified["unverifiedInputs"] as? [[String: Any]])?.count, 0)
+        let completed = try object(await controller.perform("task-finish", finish))
+        XCTAssertEqual(completed["status"] as? String, "completed")
+    }
+
+    func testCompletionCanObserveQuitAndWindowDisappearance() async throws {
+        for quits in [false, true] {
+            let environment = MultiAppTaskEnvironment()
+            let controller = makeController(environment)
+            defer { controller.stop() }
+            let begin = try params(["goal": "Close the fixture", "apps": "[\"First\",\"Second\"]"])
+            _ = try controller.approval("task-begin", begin)
+            let start = try object(await controller.perform("task-begin", begin, admission: controller.admission("task-begin", begin)))
+            let id = try XCTUnwrap(start["taskID"] as? String)
+            _ = try await controller.perform("task-observe", params(["taskID": id, "app": "First"]))
+            _ = try await controller.perform("task-step", params(["taskID": id, "app": "First", "stepID": "close",
+                "operation": "key", "payload": "{\"keys\":[\"command\",\"w\"]}"]))
+            if quits { environment.running.remove(123) } else { environment.visibleWindows[123] = [457] }
+            _ = try await controller.perform("task-observe", params(["taskID": id, "app": "Second"]))
+            let finish = try params(["taskID": id, "outcome": "completed"])
+            do { _ = try await controller.perform("task-finish", finish); XCTFail("Observe the affected app even after it disappears") } catch {}
+            let result = try object(await controller.perform("task-observe", params(["taskID": id, "app": "First"])))
+            XCTAssertEqual(result["running"] as? Bool, !quits)
+            let completed = try object(await controller.perform("task-finish", finish))
+            XCTAssertEqual(completed["status"] as? String, "completed")
+        }
+    }
+
     func testFinishingUITaskKeepsRunningCommandProgressAndStopTracksCleanup() async throws {
         let controller = makeController(TaskFixtureEnvironment())
         defer { controller.stop() }
@@ -173,7 +222,7 @@ final class ComputerTaskControllerTests: XCTestCase {
         XCTAssertNotNil(try controller.admission("command-start", first))
     }
 
-    private func makeController(_ env: TaskFixtureEnvironment, now: @escaping () -> Date = Date.init) -> ComputerTaskController {
+    private func makeController(_ env: any ComputerTaskEnvironment & ComputerUseEnvironment, now: @escaping () -> Date = Date.init) -> ComputerTaskController {
         ComputerTaskController(computer: .init(runtime: TaskFixtureRuntime(), environment: env), environment: env, now: now)
     }
     private func params(_ values: [String: String]) throws -> ActionParameterSet { try .init(values.mapValues(ActionParameterValue.string)) }
@@ -210,7 +259,32 @@ private actor TaskFixtureRuntime: CuaRuntimeCalling {
     func shutdown() {}
     func invoke(_ tool: String, arguments: Data) async throws -> Data {
         let args = try JSONSerialization.jsonObject(with: arguments) as? [String: Any] ?? [:]
-        return try JSONSerialization.data(withJSONObject: ["structuredContent": ["pid": 123, "window_id": 456,
+        return try JSONSerialization.data(withJSONObject: ["structuredContent": ["pid": args["pid"] ?? 123, "window_id": args["window_id"] ?? 456,
             "mactools_scope": args["mactools_scope"] as? String ?? "window", "elements": [], "mactools_complete": true, "truncated": false]])
     }
+}
+
+@MainActor
+private final class MultiAppTaskEnvironment: ComputerTaskEnvironment, ComputerUseEnvironment {
+    let apps = [ComputerTaskApplication(pid: 123, name: "First", bundleID: "fixture.first", launched: Date(timeIntervalSince1970: 1)),
+                ComputerTaskApplication(pid: 124, name: "Second", bundleID: "fixture.second", launched: Date(timeIntervalSince1970: 1))]
+    var running: Set<Int32> = [123, 124]
+    var visibleWindows: [Int32: [Int]] = [123: [456, 457], 124: [556]]
+    func resolveApplications(_ names: [String]) throws -> [ComputerTaskApplication] { apps.filter { names.contains($0.name) } }
+    func isRunning(_ app: ComputerTaskApplication) -> Bool { running.contains(app.pid) }
+    func windows(_ app: ComputerTaskApplication) -> [ComputerUseTarget] {
+        guard isRunning(app) else { return [] }
+        return (visibleWindows[app.pid] ?? []).map { .init(pid: app.pid, windowID: $0, name: app.name, launched: app.launched) }
+    }
+    func menus(_ target: ComputerUseTarget, path: [String]) async throws -> String { "{\"items\":[]}" }
+    func input(_ operation: ComputerTaskInput, target: ComputerUseTarget) async throws {}
+    func stop() {}
+    func resolve(app: String, windowID: Int?) throws -> ComputerUseTarget {
+        let windows = windows(apps.first { $0.name == app }!)
+        guard let target = windows.first(where: { windowID == nil || $0.windowID == windowID }) else { throw ComputerUseError.invalidTarget }
+        return target
+    }
+    func isCurrent(_ target: ComputerUseTarget) -> Bool { apps.contains { isRunning($0) && windows($0).contains(target) } }
+    func copy(_ text: String) throws {}
+    func open(_ url: URL, browser: String?) async throws {}
 }

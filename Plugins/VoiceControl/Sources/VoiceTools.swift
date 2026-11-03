@@ -198,7 +198,9 @@ final class VoiceTools {
     until the whole goal is observed complete, then task-finish. Do not hand the user a chooser when generic
     menu/keyboard steps can complete the request. The task result lists allowed appIDs and budgets.
     Each step requires a fresh observation of that exact app/window and a unique stepID. Never repeat an
-    uncertain input. Use menuPath to discover one submenu level at a time and menuID to invoke a listed item.
+    uncertain input. Observe each affected app/window after its input; unverifiedInputs lists targets still
+    needing a check. A window missing from the visible list is not by itself proof that the app quit.
+    Use menuPath to discover one submenu level at a time and menuID to invoke a listed item.
     Keyboard payload uses keys such as ["command","q"] or ["return"]. Text insertion uses type with text.
     Both temporarily activate the approved target app. Use ordinary native menu commands to work in unfamiliar
     apps; do not invent menu titles or replace an entire document just to insert a sentence.
