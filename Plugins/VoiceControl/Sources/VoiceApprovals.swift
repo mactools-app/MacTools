@@ -2,18 +2,28 @@ import Combine
 import Foundation
 import MacToolsPluginKit
 
+enum VoiceApprovalScope: Equatable, Sendable { case once, conversation, process }
+
 /// Local decisions from a completed microphone reply, never from model tool arguments or captions.
-enum VoiceApprovalDecision {
-    static func parse(_ text: String) -> Bool? {
+enum VoiceApprovalDecision: Equatable {
+    case cancel
+    case allow(VoiceApprovalScope)
+
+    static func parse(_ text: String) -> VoiceApprovalDecision? {
         let value = normalized(text)
         let allow = Set(["confirm", "yes", "yesplease", "yesdoit", "yesquitit", "doit", "goahead", "确认", "確認", "确定", "確定", "允许", "允許", "可以", "好的", "同意", "ja", "bestätigen", "oui", "confirmer", "sí", "confirmar", "sim", "sì", "conferma", "はい", "확인", "네", "да", "подтвердить", "نعم", "تأكيد", "onayla", "evet"].map(normalized))
         let deny = Set(["cancel", "no", "nothanks", "dont", "dontdoit", "stop", "取消", "不要", "不", "停止", "别执行", "別執行", "nein", "abbrechen", "non", "annuler", "cancelar", "annulla", "いいえ", "キャンセル", "아니요", "취소", "нет", "отмена", "لا", "إلغاء", "iptal", "hayır", "hayir"].map(normalized))
+        let conversation = Set(["本次对话允许所有操作", "Allow all for this conversation", "السماح بكل الإجراءات لهذه المحادثة", "Alles für dieses Gespräch erlauben", "Permitir todo en esta conversación", "Tout autoriser pour cette conversation", "この会話ですべて許可", "이 대화에서 모두 허용", "Permitir tudo nesta conversa", "Разрешить всё для этого разговора", "Bu görüşme için tümüne izin ver", "本次對話允許所有操作", "Allow all for this session", "Allow everything for this conversation", "本次对话全部允许", "本次對話全部允許", "这次对话全部允许", "這次對話全部允許", "允许本次对话的所有操作", "允許本次對話的所有操作"].map(normalized))
+        let process = Set(["MacTools 退出前允许所有操作", "Allow all until MacTools quits", "السماح بكل الإجراءات حتى إغلاق MacTools", "Alles bis zum Beenden von MacTools erlauben", "Permitir todo hasta cerrar MacTools", "Tout autoriser jusqu’à la fermeture de MacTools", "MacTools終了まですべて許可", "MacTools 종료까지 모두 허용", "Permitir tudo até sair do MacTools", "Разрешить всё до выхода из MacTools", "MacTools kapanana kadar tümüne izin ver", "MacTools 結束前允許所有操作", "Allow all until MacTools closes", "Allow all until I quit MacTools", "MacTools 退出前全部允许", "MacTools 結束前全部允許", "在 MacTools 退出前全部允许", "在 MacTools 結束前全部允許"].map(normalized))
         let words = Set(text.lowercased().split { !$0.isLetter }.map(String.init))
         if !words.isDisjoint(with: ["no", "not", "cancel", "stop", "dont"])
             || text.lowercased().contains("don't")
-            || ["取消", "不要", "停止", "别", "別"].contains(where: text.contains) { return false }
-        if deny.contains(value) { return false }
-        return allow.contains(value) ? true : nil
+            || ["取消", "不要", "停止", "别", "別"].contains(where: text.contains) { return .cancel }
+        if deny.contains(value) { return .cancel }
+        if allow.contains(value) { return .allow(.once) }
+        if conversation.contains(value) { return .allow(.conversation) }
+        if process.contains(value) { return .allow(.process) }
+        return nil
     }
     private static func normalized(_ text: String) -> String {
         text.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: Locale(identifier: "en_US_POSIX"))
@@ -50,7 +60,7 @@ struct VoiceApprovalCapture {
 
 @MainActor
 final class VoiceApprovals: ObservableObject {
-    enum Scope: Equatable { case once, conversation, process }
+    typealias Scope = VoiceApprovalScope
     @Published private(set) var pending: PluginVoiceConfirmationRequest?
     @Published private(set) var scope: Scope = .once
     @Published private(set) var listening = false
@@ -96,7 +106,7 @@ final class VoiceApprovals: ObservableObject {
                 guard !Task.isCancelled else { continuation.resume(returning: false); return }
                 self.continuation = continuation; pending = request
                 attempts = 0; questionStarted = false; questionFinished = false; replyInProgress = false
-                hint = request.allowsSpokenConfirmation ? "请听完问题后说“确认”或“取消”，也可以点击按钮。" : "请点击按钮确认此设置更改。"
+                hint = request.allowsSpokenConfirmation ? "听完问题后，可说“确认”“取消”“本次对话全部允许”或“MacTools 退出前全部允许”。" : "请点击按钮确认此设置更改。"
                 if muted && request.allowsSpokenConfirmation { hint = "麦克风已静音，请使用按钮。" }
                 expiry = Task { [weak self, timeout] in
                     try? await Task.sleep(for: timeout)
@@ -170,7 +180,7 @@ final class VoiceApprovals: ObservableObject {
             // Streaming output can briefly drain between packets. Retain a quick reply during this gap.
             try? await Task.sleep(for: playbackSettle)
             guard !Task.isCancelled, revision == token, pending?.id == request.id else { return }
-            settlingPlayback = false; listening = true; hint = "正在等待“确认”或“取消”…"
+            settlingPlayback = false; listening = true; hint = "听完问题后，可说“确认”“取消”“本次对话全部允许”或“MacTools 退出前全部允许”。"
         }
     }
 
@@ -209,8 +219,12 @@ final class VoiceApprovals: ObservableObject {
                     let text = try await transcribe(clip)
                     guard !Task.isCancelled, let self, revision == token, pending?.id == request.id else { return }
                     recognizing = false
-                    if let approved = VoiceApprovalDecision.parse(text) { resolve(approved, requestID: request.id) }
-                    else if attempts < 3 { resumeListening() }
+                    if let decision = VoiceApprovalDecision.parse(text) {
+                        switch decision {
+                        case .cancel: resolve(false, requestID: request.id)
+                        case let .allow(scope): resolve(true, requestID: request.id, scope: scope)
+                        }
+                    } else if attempts < 3 { resumeListening() }
                     else { hint = "未能确认你的选择，请使用按钮。" }
                 } catch {
                     guard !Task.isCancelled, let self, revision == token, pending?.id == request.id else { return }

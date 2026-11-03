@@ -159,25 +159,27 @@ private struct VoiceAssistantView: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .accessibilityIdentifier("voice-control.confirmation-hint")
                     if request.allowsSpokenConfirmation {
-                        Menu(model.text("允许后续操作…")) {
-                            Section(model.text("应用操作与命令")) {
-                                Button(model.text("本次对话允许所有操作")) {
-                                    approvals.resolve(true, requestID: request.id, scope: .conversation)
-                                }
-                                Button(model.text("MacTools 退出前允许所有操作")) {
-                                    approvals.resolve(true, requestID: request.id, scope: .process)
-                                }
-                            }
-                        }.controlSize(.small)
-                            .fixedSize()
+                        VStack(spacing: 8) {
+                            Button {
+                                approvals.resolve(true, requestID: request.id, scope: .conversation)
+                            } label: {
+                                Text(model.text("本次对话允许所有操作")).frame(maxWidth: .infinity)
+                            }.accessibilityIdentifier("voice-control.approval-conversation")
+                            Button {
+                                approvals.resolve(true, requestID: request.id, scope: .process)
+                            } label: {
+                                Text(model.text("MacTools 退出前允许所有操作")).frame(maxWidth: .infinity)
+                            }.accessibilityIdentifier("voice-control.approval-process")
+                        }.buttonStyle(.bordered).controlSize(.small)
                             .help(model.text("允许后续应用操作与命令，不再逐项询问。仅在本机内存中保留。"))
-                            .accessibilityIdentifier("voice-control.approval-options")
                     }
                     HStack {
                         Button(model.text("取消")) { approvals.resolve(false, requestID: request.id) }
                             .accessibilityIdentifier("voice-control.confirmation-cancel")
                         Spacer()
-                        Button(request.confirmButtonTitle) { approvals.resolve(true, requestID: request.id) }
+                        Button(request.allowsSpokenConfirmation ? model.text("仅允许此次") : request.confirmButtonTitle) {
+                            approvals.resolve(true, requestID: request.id)
+                        }
                             .buttonStyle(.borderedProminent)
                             .accessibilityIdentifier("voice-control.confirmation-allow")
                     }.buttonStyle(.bordered).controlSize(.small)

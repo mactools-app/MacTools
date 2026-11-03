@@ -47,9 +47,10 @@ final class VoiceReadinessTests: XCTestCase {
         socket.call("original", name: "perform_capability", arguments: arguments)
         await settle { model.approvals.pending != nil }
         let pending = try XCTUnwrap(model.approvals.pending)
-        socket.feed(["type": "session.input_transcript.delta", "delta": "Confirm", "start_ms": 1, "end_ms": 10])
+        socket.feed(["type": "session.input_transcript.delta", "delta": "Allow all until MacTools quits", "start_ms": 1, "end_ms": 10])
         for _ in 0..<10 { await Task.yield() }
         XCTAssertEqual(writes, 0, "Live transcript fragments are captions, not an approval source")
+        XCTAssertEqual(model.approvals.scope, .once)
         XCTAssertEqual(model.approvals.pending?.id, pending.id)
         let microphoneReply = Data(repeating: 23, count: 4800)
         let before = socket.inputAudio.count

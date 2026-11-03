@@ -11150,83 +11150,6 @@
         }
       }
     },
-    "正在等待“确认”或“取消”…": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在等待“确认”或“取消”…"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listening for “confirm” or “cancel”…"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "بانتظار «تأكيد» أو «إلغاء»…"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Warte auf „bestätigen“ oder „abbrechen“…"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escuchando «confirmar» o «cancelar»…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "En attente de «confirmer» ou «annuler»…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "「確認」または「キャンセル」を待っています…"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "“확인” 또는 “취소”를 기다리는 중…"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Слушаю «подтвердить» или «отмена»…"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在等待「確認」或「取消」…"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aguardando “confirmar” ou “cancelar”…"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "“Onayla” veya “iptal” yanıtı bekleniyor…"
-          }
-        }
-      }
-    },
     "正在识别确认回复…": {
       "extractionState": "manual",
       "localizations": {
@@ -11612,79 +11535,79 @@
         }
       }
     },
-    "请听完问题后说“确认”或“取消”，也可以点击按钮。": {
+    "听完问题后，可说“确认”“取消”“本次对话全部允许”或“MacTools 退出前全部允许”。": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "请听完问题后说“确认”或“取消”，也可以点击按钮。"
+            "value": "听完问题后，可说“确认”“取消”“本次对话全部允许”或“MacTools 退出前全部允许”。"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "After the question, say “confirm” or “cancel”, or use the buttons."
+            "value": "After the question, say “Confirm”, “Cancel”, “Allow all for this conversation” or “Allow all until MacTools quits”."
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "بعد السؤال، قل «تأكيد» أو «إلغاء»، أو استخدم الأزرار."
+            "value": "بعد السؤال، قل «تأكيد» أو «إلغاء» أو «السماح بكل الإجراءات لهذه المحادثة» أو «السماح بكل الإجراءات حتى إغلاق MacTools»."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nach der Frage „bestätigen“ oder „abbrechen“ sagen oder die Tasten verwenden."
+            "value": "Nach der Frage: „Bestätigen“, „Abbrechen“, „Alles für dieses Gespräch erlauben“ oder „Alles bis zum Beenden von MacTools erlauben“."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Después de la pregunta, di «confirmar» o «cancelar», o usa los botones."
+            "value": "Después de la pregunta, di «Confirmar», «Cancelar», «Permitir todo en esta conversación» o «Permitir todo hasta cerrar MacTools»."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Après la question, dites «confirmer» ou «annuler», ou utilisez les boutons."
+            "value": "Après la question, dites «Confirmer», «Annuler», «Tout autoriser pour cette conversation» ou «Tout autoriser jusqu’à la fermeture de MacTools»."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "質問の後に「確認」または「キャンセル」と言うか、ボタンを使用してください。"
+            "value": "質問の後に「確認」「キャンセル」「この会話ですべて許可」または「MacTools終了まですべて許可」と話してください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "질문 후 “확인” 또는 “취소”라고 말하거나 버튼을 사용하세요."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "После вопроса скажите «подтвердить» или «отмена» либо нажмите кнопку."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "請聽完問題後說「確認」或「取消」，也可以點按按鈕。"
+            "value": "질문 후 “확인”, “취소”, “이 대화에서 모두 허용” 또는 “MacTools 종료까지 모두 허용”이라고 말하세요."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Após a pergunta, diga “confirmar” ou “cancelar”, ou use os botões."
+            "value": "Após a pergunta, diga “Confirmar”, “Cancelar”, “Permitir tudo nesta conversa” ou “Permitir tudo até sair do MacTools”."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "После вопроса скажите «Подтвердить», «Отмена», «Разрешить всё для этого разговора» или «Разрешить всё до выхода из MacTools»."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sorudan sonra “onayla” veya “iptal” deyin ya da düğmeleri kullanın."
+            "value": "Sorudan sonra “Onayla”, “İptal”, “Bu görüşme için tümüne izin ver” veya “MacTools kapanana kadar tümüne izin ver” deyin."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "聽完問題後，可說「確認」「取消」「本次對話全部允許」或「MacTools 結束前全部允許」。"
           }
         }
       }
@@ -12151,160 +12074,6 @@
         }
       }
     },
-    "允许后续操作…": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "允许后续操作…"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Allow further requests…"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "السماح بالطلبات التالية…"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Weitere Anfragen erlauben…"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Permitir solicitudes posteriores…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Autoriser les demandes suivantes…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "今後のリクエストを許可…"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "이후 요청 허용…"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Permitir solicitações seguintes…"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Разрешить дальнейшие запросы…"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sonraki isteklere izin ver…"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "允許後續操作…"
-          }
-        }
-      }
-    },
-    "应用操作与命令": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "应用操作与命令"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "App actions and commands"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "إجراءات التطبيقات والأوامر"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "App-Aktionen und Befehle"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Acciones de apps y comandos"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actions d’apps et commandes"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "アプリの操作とコマンド"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "앱 작업 및 명령"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ações de apps e comandos"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Действия приложений и команды"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Uygulama işlemleri ve komutlar"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "App 操作與命令"
-          }
-        }
-      }
-    },
     "本次对话允许所有操作": {
       "extractionState": "manual",
       "localizations": {
@@ -12532,6 +12301,83 @@
           "stringUnit": {
             "state": "translated",
             "value": "允許後續 App 操作與命令，不再逐項詢問。僅保留於本機記憶體。"
+          }
+        }
+      }
+    },
+    "仅允许此次": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅允许此次"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow once"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح مرة واحدة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einmal erlauben"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir una vez"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser une fois"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今回のみ許可"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이번만 허용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir uma vez"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить один раз"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir kez izin ver"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "僅允許此次"
           }
         }
       }

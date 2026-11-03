@@ -38,11 +38,17 @@ final class VoiceApprovalsTests: XCTestCase {
     }
 
     func testCompletedDecisionsRejectNegationsAndAdditionalInstructions() {
-        for text in ["Confirm.", "Yes, quit it.", "确认", "確認", "Sí", "Onayla"] { XCTAssertEqual(VoiceApprovalDecision.parse(text), true) }
-        for text in ["Cancel", "İptal", "No, open Safari instead", "Yes, don't do it", "确认，不要执行"] {
-            XCTAssertEqual(VoiceApprovalDecision.parse(text), false)
+        for text in ["Confirm.", "Yes, quit it.", "确认", "確認", "Sí", "Onayla"] { XCTAssertEqual(VoiceApprovalDecision.parse(text), .allow(.once)) }
+        for text in ["Allow all for this conversation.", "Allow all for this session", "本次对话全部允许", "本次對話允許所有操作"] {
+            XCTAssertEqual(VoiceApprovalDecision.parse(text), .allow(.conversation))
         }
-        for text in ["maybe", "yes but change the target", "confirm then delete everything", ""] {
+        for text in ["Allow all until MacTools quits.", "Allow all until Mac Tools quits", "MacTools 退出前全部允许", "MacTools 結束前允許所有操作"] {
+            XCTAssertEqual(VoiceApprovalDecision.parse(text), .allow(.process))
+        }
+        for text in ["Cancel", "İptal", "No, open Safari instead", "Yes, don't do it", "确认，不要执行", "Don't allow all for this conversation", "Allow all until MacTools quits, no, cancel"] {
+            XCTAssertEqual(VoiceApprovalDecision.parse(text), .cancel)
+        }
+        for text in ["maybe", "yes but change the target", "confirm then delete everything", "", "allow all", "always allow", "allow all for this conversation then delete everything", "you said allow all until MacTools quits"] {
             XCTAssertNil(VoiceApprovalDecision.parse(text))
         }
         var capture = VoiceApprovalCapture()
@@ -57,7 +63,8 @@ final class VoiceApprovalsTests: XCTestCase {
     }
 
     func testSpokenRepliesResolveOnlyAfterQuestionAndWholeClip() async throws {
-        for text in ["Confirm", "Yes, don't do it"] {
+        for (text, expected, scope) in [("Confirm", true, VoiceApprovals.Scope.once), ("Yes, don't do it", false, .once),
+            ("Allow all for this conversation", true, .conversation), ("Allow all until MacTools quits", true, .process)] {
             let detector = ApprovalDetector()
             var clips = 0
             let approvals = VoiceApprovals(makeDetector: { detector }, playbackSettle: .zero) { clip in
@@ -72,7 +79,8 @@ final class VoiceApprovalsTests: XCTestCase {
             await reply(approvals)
             await settle { approvals.pending == nil }
             let approved = await response.value
-            XCTAssertEqual(approved, text == "Confirm")
+            XCTAssertEqual(approved, expected)
+            XCTAssertEqual(approvals.scope, scope)
             XCTAssertEqual(clips, 1)
             approvals.resolve(true, requestID: request.id)
         }
@@ -94,9 +102,10 @@ final class VoiceApprovalsTests: XCTestCase {
         XCTAssertFalse(declined)
         let current = Task { await approvals.confirm(second) }
         await settle { approvals.pending?.id == second.id }
-        transcription?.resume(returning: "confirm")
+        transcription?.resume(returning: "Allow all until MacTools quits")
         for _ in 0..<10 { await Task.yield() }
         XCTAssertEqual(approvals.pending?.id, second.id)
+        XCTAssertEqual(approvals.scope, .once, "Late recognition cannot expand a later request's scope")
         approvals.resolve(true, requestID: first.id)
         XCTAssertEqual(approvals.pending?.id, second.id)
         approvals.resolve(true, requestID: second.id)
@@ -105,13 +114,14 @@ final class VoiceApprovalsTests: XCTestCase {
     }
 
     func testButtonOnlyApprovalAndTaskCancellationNeverUseVoice() async {
-        let approvals = VoiceApprovals(makeDetector: { ApprovalDetector() }, playbackSettle: .zero) { _ in XCTFail("No upload expected"); return "confirm" }
+        let approvals = VoiceApprovals(makeDetector: { ApprovalDetector() }, playbackSettle: .zero) { _ in XCTFail("No upload expected"); return "Allow all until MacTools quits" }
         let request = request(voice: false)
         let response = Task { await approvals.confirm(request) }
         await settle { approvals.pending != nil }
         approvals.playbackChanged(true); approvals.playbackChanged(false)
         await reply(approvals)
         XCTAssertFalse(approvals.listening)
+        XCTAssertEqual(approvals.scope, .once)
         response.cancel()
         let result = await response.value
         XCTAssertFalse(result)
