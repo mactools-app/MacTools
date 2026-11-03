@@ -5,6 +5,53 @@ import XCTest
 
 @MainActor
 final class VoiceControlRouterTests: XCTestCase {
+    func testEnablingFuturePluginAccessRequiresPanelButtons() async throws {
+        let owner = PanelVoiceFixturePlugin(id: "voice-control")
+        owner.actionID = "automatic-plugin-access-on"
+        owner.voiceSelfActionIDs = [owner.actionID]
+        owner.confirmAction = true
+        let fixture = Fixture(owner: owner)
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search(""), sessionID: session)
+        let command = try XCTUnwrap(reply.capabilities.first { $0.kind == .action && $0.requiresConfirmation })
+        let execution = Task { await context.request(.perform(capabilityID: command.id, parameters: .empty), sessionID: session) }
+        for _ in 0..<500 where owner.pending == nil { await Task.yield() }
+        XCTAssertEqual(owner.pending?.allowsSpokenConfirmation, false)
+        owner.respond(true)
+        let result = await execution.value
+        XCTAssertEqual(result.status, "ok")
+        XCTAssertEqual(owner.executions, 1)
+    }
+
+    func testPanelApprovalKeepsHostAdmissionAndSessionRevocationAuthoritative() async throws {
+        let owner = PanelVoiceFixturePlugin(id: "voice-control")
+        let fixture = Fixture(owner: owner)
+        fixture.plugin.confirmAction = true; fixture.register()
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search("fixture"), sessionID: session)
+        let command = try XCTUnwrap(reply.capabilities.first { $0.kind == .action })
+        let execution = Task { await context.request(.perform(capabilityID: command.id, parameters: .empty), sessionID: session) }
+        for _ in 0..<500 where owner.pending == nil { await Task.yield() }
+        XCTAssertEqual(fixture.plugin.executions, 0)
+        XCTAssertEqual(fixture.confirmation.requests, 0, "Voice approval uses the panel companion, without a second sheet")
+        let firstID = try XCTUnwrap(owner.pending?.id)
+        owner.respond(true)
+        let result = await execution.value
+        XCTAssertEqual(result.status, "ok")
+        XCTAssertEqual(fixture.plugin.executions, 1)
+
+        let cancelled = Task { await context.request(.perform(capabilityID: command.id, parameters: .empty), sessionID: session) }
+        for _ in 0..<500 where owner.pending == nil { await Task.yield() }
+        XCTAssertNotEqual(owner.pending?.id, firstID)
+        context.endSession(session)
+        let stopped = await cancelled.value
+        XCTAssertEqual(stopped.status, "sessionEnded")
+        owner.respond(true)
+        XCTAssertEqual(fixture.plugin.executions, 1, "Late approval must not execute after the session ends")
+    }
+
     func testDiscoveryExecutesCanonicalActionAndRejectsInventedOrRevokedIDs() async throws {
         let fixture = Fixture()
         let context = fixture.router.context(owner: "voice-control")
@@ -345,13 +392,13 @@ private final class Fixture {
     let confirmation = VoiceFixtureConfirmation()
     let applications = VoiceFixtureApplications()
     var plugin = VoiceFixturePlugin()
-    let owner = VoiceFixturePlugin(id: "voice-control")
+    let owner: VoiceFixturePlugin
     var now = ContinuousClock.now
     lazy var router = VoiceControlRouter(registry: registry,
         executor: ActionExecutor(registry: registry, confirmationService: confirmation),
         confirmation: confirmation, plugins: { [unowned self] in [plugin, owner] }, openFeature: { _ in },
         applications: applications, now: { [unowned self] in now })
-    init() { register() }
+    init(owner: VoiceFixturePlugin? = nil) { self.owner = owner ?? VoiceFixturePlugin(id: "voice-control"); register() }
     func register() {
         registry.synchronize([plugin, owner].map { provider in .init(providerID: provider.metadata.id, identity: ObjectIdentifier(provider),
             definitions: provider.actionDefinitions, catalogEntries: provider.actionCatalogEntries,
@@ -362,7 +409,7 @@ private final class Fixture {
 }
 
 @MainActor
-private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
+private class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     PluginVoiceQueryProviding, PluginVoiceSelfParameterizedActionProviding, PluginVoiceSelfActionProviding,
     PluginVoiceControlHostContextConsuming {
     let metadata: PluginMetadata
@@ -378,6 +425,7 @@ private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     var parameterized = false
     var allowsParameterizedVoice = true
     var confirmAction = false
+    var actionID = "change"
     var privateQuery = false
     var executions = 0
     var reads = 0
@@ -387,7 +435,7 @@ private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     var voiceSelfActionIDs: Set<String> = []
     var voiceSelfParameterizedActionIDs: Set<String> = []
     var actionDefinitions: [ActionDefinition] {
-        [.init(key: .init(providerID: metadata.id, actionID: "change"), title: "Change fixture",
+        [.init(key: .init(providerID: metadata.id, actionID: actionID), title: "Change fixture",
                description: "A fixture command", systemImage: "bolt",
                parameters: parameterized ? [.init(id: "value", title: "Value", kind: .integer)] : [],
                risk: confirmAction ? .confirmationRequired : .safe,
@@ -404,5 +452,21 @@ private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     func readVoiceQuery(id: String) async throws -> String { reads += 1; return "{\"value\":35}" }
     func beginAction(_ invocation: ActionInvocation) throws -> ActionExecutionHandle {
         .init { self.executions += 1; return .succeeded() }
+    }
+}
+
+@MainActor
+private final class PanelVoiceFixturePlugin: VoiceFixturePlugin, PluginVoiceConfirmationPresenting {
+    var pending: PluginVoiceConfirmationRequest?
+    private var continuation: CheckedContinuation<Bool, Never>?
+    func confirmVoiceAction(_ request: PluginVoiceConfirmationRequest) async -> Bool {
+        await withTaskCancellationHandler {
+            await withCheckedContinuation { continuation in
+                self.continuation = continuation; pending = request
+            }
+        } onCancel: { Task { @MainActor [weak self] in self?.respond(false) } }
+    }
+    func respond(_ approved: Bool) {
+        let response = continuation; continuation = nil; pending = nil; response?.resume(returning: approved)
     }
 }

@@ -6,6 +6,58 @@ import XCTest
 
 @MainActor
 final class VoiceReadinessTests: XCTestCase {
+    func testApprovalReplyCannotBecomeAQueuedWriteAndStopDeclinesPendingAction() async throws {
+        let (model, factory, audio, _) = try await makeModel()
+        let capability = PluginVoiceCapability(id: "approve-fixture", kind: .action, title: "Fixture", pluginTitle: "Fixture", description: "Fixture action")
+        var entered = 0, writes = 0
+        model.context = .init(begin: { _ in UUID() }, end: { _ in }, request: { _, request in
+            switch request {
+            case .search: return .init(capabilities: [capability])
+            case .perform:
+                entered += 1
+                let approved = await model.approvals.confirm(.init(title: "Fixture", message: "Approve one fixture effect",
+                    confirmButtonTitle: "Allow", allowsSpokenConfirmation: false))
+                if approved { writes += 1 }
+                return .init(status: approved ? "ok" : "cancelled")
+            }
+        })
+        let socket = try await start(model, factory)
+        defer { model.stop(); socket.cancel() }
+        socket.call("discover", name: "discover_capabilities", arguments: "{\"query\":\"fixture\"}")
+        await settle { socket.outputs == 1 }
+        let arguments = "{\"capabilityID\":\"approve-fixture\",\"parameters\":[]}"
+        socket.call("original", name: "perform_capability", arguments: arguments)
+        await settle { model.approvals.pending != nil }
+        let pending = try XCTUnwrap(model.approvals.pending)
+        socket.feed(["type": "session.input_transcript.delta", "delta": "Confirm", "start_ms": 1, "end_ms": 10])
+        for _ in 0..<10 { await Task.yield() }
+        XCTAssertEqual(writes, 0, "Live transcript fragments are captions, not an approval source")
+        XCTAssertEqual(model.approvals.pending?.id, pending.id)
+        let microphoneReply = Data(repeating: 23, count: 4800)
+        let before = socket.inputAudio.count
+        audio.push(microphoneReply)
+        await settle { socket.inputAudio.count > before }
+        XCTAssertEqual(socket.inputAudio.last, Data(count: microphoneReply.count), "Approval audio must not become another Live request")
+        socket.feed(["type": "response.event", "event": ["type": "response.output_item.done", "response_id": "confirmation-echo",
+            "item": ["type": "function_call", "call_id": "confirmation-echo", "name": "perform_capability", "arguments": arguments]]])
+        for _ in 0..<20 { await Task.yield() }
+        model.approvals.resolve(true, requestID: pending.id)
+        // A backend response begun during approval remains blocked even if it finishes later.
+        socket.feed(["type": "response.event", "event": ["type": "response.completed", "response": ["id": "confirmation-echo"]]])
+        await settle { socket.outputs == 3 }
+        XCTAssertEqual(entered, 1)
+        XCTAssertEqual(writes, 1)
+        XCTAssertNil(model.approvals.pending)
+        audio.push(microphoneReply)
+        await settle { socket.inputAudio.last == microphoneReply }
+        XCTAssertEqual(socket.inputAudio.last, microphoneReply, "Normal conversation resumes after approval")
+        socket.call("next", name: "perform_capability", arguments: arguments)
+        await settle { model.approvals.pending != nil }
+        model.stop()
+        await settle { model.approvals.pending == nil }
+        XCTAssertEqual(writes, 1)
+    }
+
     func testCaptureConversionDoesNotCarryMutedSpeechIntoFreshAudio() async throws {
         let microphone = VoiceMicrophoneGate()
         microphone.setMuted(false)

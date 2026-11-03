@@ -137,6 +137,23 @@ final class VoiceControlRouter {
             : registry.catalogEntries.contains { $0.reference == reference }
     }
 
+    private func confirmationService(sessionID: UUID) -> any ActionConfirmationRequesting {
+        VoiceSessionConfirmation { [weak self] request in
+            guard let self, valid(sessionID), let grant = grants[sessionID],
+                  let owner = plugins().first(where: { $0.metadata.id == grant.owner && ObjectIdentifier($0) == grant.ownerIdentity }) else { return false }
+            let approved: Bool
+            if let presenter = owner as? any PluginVoiceConfirmationPresenting {
+                // Changing future plugin access remains an explicit in-app button decision.
+                let changesAccess = request.reference.key.providerID == grant.owner
+                    && request.reference.key.actionID == "automatic-plugin-access-on"
+                approved = await presenter.confirmVoiceAction(.init(title: request.confirmation.title,
+                    message: request.confirmation.message, confirmButtonTitle: request.confirmation.confirmButtonTitle,
+                    allowsSpokenConfirmation: !changesAccess))
+            } else { approved = await confirmation.confirm(request) }
+            return approved && valid(sessionID)
+        }
+    }
+
     private func route(_ request: PluginVoiceRequest, sessionID: UUID) async -> PluginVoiceReply {
         guard valid(sessionID) else { return .init(status: "sessionEnded") }
         switch request {
@@ -179,7 +196,8 @@ final class VoiceControlRouter {
                     : reference
                 guard registry.exposurePolicy(for: target, on: surface) != .excluded else { return .init(status: "unavailable") }
                 let result = await executor.execute(
-                    ActionInvocation(reference: target, source: .manual, mode: .foreground), exposureSurface: surface,
+                    ActionInvocation(reference: target, source: .manual, mode: .foreground),
+                    confirmationService: confirmationService(sessionID: sessionID), exposureSurface: surface,
                     admissionCheck: { [weak self] in self?.canAdmitAction(binding, sessionID: sessionID) == true })
                 guard valid(sessionID) else { return .init(status: "sessionEnded") }
                 switch result {
@@ -189,7 +207,7 @@ final class VoiceControlRouter {
                 case let .rejected(.unavailable(reason)):
                     return .init(status: "unavailable", message: reason ?? "The action is currently unavailable. Rediscover or clarify; do not retry a write.")
                 case .rejected(.confirmationDenied):
-                    return .init(status: "cancelled", message: "The user declined approval. No action was started.")
+                    return .init(status: "cancelled", message: "Approval was not granted: it was cancelled, expired or interrupted. No action was started. Ask before requesting another approval.")
                 case .rejected(.confirmationTimedOut):
                     return .init(status: "unavailable", message: "Approval expired. Ask before requesting a new approval; do not retry a write.")
                 case .rejected(.confirmationUnavailable):
@@ -203,7 +221,7 @@ final class VoiceControlRouter {
                       let query = provider.voiceQueries.first(where: { $0.id == queryID }), query == expected else { return .init(status: "unavailable") }
                 if query.includesPrivateContent && query.confirmation == nil { return .init(status: "permissionRequired") }
                 if let prompt = query.confirmation {
-                    let approved = await confirmation.confirm(.init(
+                    let approved = await confirmationService(sessionID: sessionID).confirm(.init(
                         reference: .init(key: .init(providerID: binding.pluginID, actionID: query.id)),
                         confirmation: prompt, source: .manual))
                     guard approved, valid(sessionID) else { return .init(status: "cancelled") }
@@ -316,4 +334,11 @@ final class VoiceControlRouter {
         for (capability, binding, _) in selected { grants[sessionID]?.issued[capability.id] = binding }
         return .init(capabilities: selected.map(\.0))
     }
+}
+
+@MainActor
+private final class VoiceSessionConfirmation: ActionConfirmationRequesting {
+    let operation: (ActionConfirmationRequest) async -> Bool
+    init(_ operation: @escaping (ActionConfirmationRequest) async -> Bool) { self.operation = operation }
+    func confirm(_ request: ActionConfirmationRequest) async -> Bool { await operation(request) }
 }

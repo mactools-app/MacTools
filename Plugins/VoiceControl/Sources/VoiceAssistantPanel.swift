@@ -26,7 +26,10 @@ final class VoiceAssistantPanel: ObservableObject {
             panel.isOpaque = false; panel.backgroundColor = .clear; panel.hasShadow = true
             panel.isMovableByWindowBackground = true
             panel.onDismiss = { [weak self] in self?.dismiss() }
-            panel.contentView = NSHostingView(rootView: VoiceAssistantView(presenter: self, model: conversation))
+            let hosting = NSHostingView(rootView: VoiceAssistantView(presenter: self, model: conversation))
+            // The panel owns its size; scrollable approval content must not resize the window.
+            hosting.sizingOptions = []
+            panel.contentView = hosting
             self.panel = panel
             resize()
             if let screen = NSScreen.main {
@@ -56,7 +59,9 @@ final class VoiceAssistantPanel: ObservableObject {
     func refreshTaskLayout() { resize() }
     private func resize() {
         guard let panel else { return }
-        let size = expanded ? NSSize(width: 440, height: 520) : NSSize(width: 380, height: conversation.computerTask == nil ? 290 : 320)
+        let confirming = conversation.approvals.pending != nil
+        let size = expanded ? NSSize(width: 440, height: confirming ? 580 : 520)
+            : NSSize(width: 380, height: confirming ? 460 : conversation.computerTask == nil ? 290 : 320)
         let top = panel.frame.maxY
         var frame = NSRect(origin: panel.frame.origin, size: size)
         if top > 0 { frame.origin.y = top - size.height }
@@ -81,10 +86,15 @@ private final class AssistantWindow: NSPanel {
 private struct VoiceAssistantView: View {
     @ObservedObject var presenter: VoiceAssistantPanel
     @ObservedObject var model: VoiceConversation
+    @ObservedObject var approvals: VoiceApprovals
     @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
     @State private var showsScope = false
+    init(presenter: VoiceAssistantPanel, model: VoiceConversation) {
+        self.presenter = presenter; self.model = model; approvals = model.approvals
+    }
     private var status: String {
         if !model.hasCredentials { return model.text(model.credentialStatus) }
+        if approvals.pending != nil { return model.text("等待确认") }
         if let app = model.readingApp { return String(format: model.text("正在读取 %@"), app) }
         if model.active && !model.connected && !model.listeningLocally { return model.text(model.status) }
         if let activity = model.activity { return activity }
@@ -124,7 +134,31 @@ private struct VoiceAssistantView: View {
                         .buttonStyle(.bordered).controlSize(.small)
                 }.accessibilityIdentifier("voice-control.computer-task")
             }
-            if presenter.expanded {
+            if let request = approvals.pending {
+                VStack(alignment: .leading, spacing: 12) {
+                    Label(request.title, systemImage: "checkmark.shield")
+                        .font(PluginTypography.sectionTitle.font)
+                    ScrollView {
+                        Text(request.message).font(PluginTypography.body.font)
+                            .textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
+                    }.frame(maxHeight: .infinity)
+                    Text(model.text(approvals.hint)).font(PluginTypography.caption.font).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityIdentifier("voice-control.confirmation-hint")
+                    HStack {
+                        Button(model.text("取消")) { approvals.resolve(false, requestID: request.id) }
+                            .accessibilityIdentifier("voice-control.confirmation-cancel")
+                        Spacer()
+                        Button(request.confirmButtonTitle) { approvals.resolve(true, requestID: request.id) }
+                            .buttonStyle(.borderedProminent)
+                            .accessibilityIdentifier("voice-control.confirmation-allow")
+                    }.buttonStyle(.bordered).controlSize(.small)
+                }
+                .padding(12)
+                .background(PluginSettingsTheme.Palette.recessedControlBackground,
+                    in: RoundedRectangle(cornerRadius: 10))
+                .accessibilityIdentifier("voice-control.confirmation")
+            } else if presenter.expanded {
                 HStack {
                     meterLabel(.user)
                     Spacer(minLength: 16)
@@ -185,6 +219,7 @@ private struct VoiceAssistantView: View {
         .environment(\.layoutDirection, runtimeLocale.locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight)
         .onChange(of: runtimeLocale.revision) { _, _ in presenter.refreshLocalization() }
         .onChange(of: model.computerTask) { _, _ in presenter.refreshTaskLayout() }
+        .onChange(of: approvals.pending) { _, _ in presenter.refreshTaskLayout() }
         .accessibilityIdentifier("voice-control.assistant")
     }
 

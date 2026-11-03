@@ -30,6 +30,16 @@ This uses in-process Apple APIs without enabling Cua's automatic scripts, helper
 
 ## Commands and cancellation
 
+Host 2.2.3 adds the optional `PluginVoiceConfirmationPresenting` companion, without changing released voice-context layouts or protocol witness tables. Voice requests use the floating assistant's approval card; older consumers retain the host sheet. The canonical executor still binds the exact parameters and context and rechecks admission after approval. Enabling automatic access for future plugins remains a button decision.
+
+Buttons work immediately. Spoken confirmation starts after the question's playback ends, using a fresh local Silero detector and a bounded microphone-only clip. After 600 ms of detected silence, `gpt-transcribe` receives the completed reply, without task instructions or screen content. A local whole-phrase parser accepts confirm/cancel; streamed Live captions and model tool arguments cannot approve anything. Replies longer than six seconds are refused rather than truncated. At most three completed replies are transcribed per approval; silence makes no transcription request. Short reply transcription adds audio-duration charges and is listed in Models & pricing.
+
+Playback notifications are reduced to state transitions. A 500 ms settling window absorbs gaps between streamed question packets; microphone pre-roll retains a quick answer during that window. Once reply speech starts, further assistant acknowledgments cannot interrupt the capture. The normal audio engine retains its system echo cancellation.
+
+During approval, microphone replies go only to the dedicated recognizer; Live receives silence so a reply cannot become a new request. The ordinary tool queue stays suspended; calls begun during approval cannot become later writes even if their backend response finishes afterwards. Stop, mute, dismissal, cancellation, expiry or a replaced request retire buffered audio and in-flight recognition. The approval expires after 45 seconds, and buttons remain available when recognition is ambiguous or unavailable. No confirmation audio is saved to disk. Voice recognition is not speaker authentication.
+
+New speech while a reply is being transcribed cancels that pending approval, preventing an older positive result from winning over a correction. Ask again after the cancellation if a different action is wanted.
+
 The backend may propose a command for an explicit user goal. Native approval shows the actual command, directory and deadline and is bound to that exact request and directory identity. The runner uses an open directory descriptor, a minimal environment excluding inherited API keys, `/bin/zsh -f`, noninteractive stdin, a dedicated process group and bounded output. PluginKit's process-group lease prevents cleanup from signaling a reused PID. Commands and output remain in memory and are not saved as scripts.
 
 Managed commands run in the background. If Terminal or another terminal window was requested, use that app's approved UI task: create a new session through observed menus/shortcuts, type the command and send Return. Do not silently substitute background execution. Continuous commands need an agreed duration or later cancellation. Commands must not daemonize or leave their managed process group.

@@ -128,6 +128,13 @@ private struct VoicePricingSettings: View {
             DisclosureGroup(model.text("模型与价格…"), isExpanded: $showsDetails) {
                 VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
                     HStack {
+                        Text(model.text("语音确认转写"))
+                        Spacer(minLength: 12)
+                        Link(VoiceApprovalTranscriber.modelID, destination: modelURL(VoiceApprovalTranscriber.modelID))
+                    }
+                    Text(model.text("语音确认只转写简短回复，另按音频时长计费；静音和按钮确认不产生转写费用。"))
+                        .foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                    HStack {
                         Text(model.text("本机语音检测"))
                         Spacer(minLength: 12)
                         Text(verbatim: "Silero VAD")

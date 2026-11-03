@@ -31,6 +31,8 @@ NEW_API_MINIMUM_HOSTS = {
     "PluginVoiceParameterizedActionProviding": "2.2.0",
     "PluginVoiceSelfActionProviding": "2.2.0",
     "PluginVoiceSelfParameterizedActionProviding": "2.2.2",
+    "PluginVoiceConfirmationRequest": "2.2.3",
+    "PluginVoiceConfirmationPresenting": "2.2.3",
     "PluginVoiceControlHostContext": "2.2.0",
     "PluginVoiceControlHostContextConsuming": "2.2.0",
     ".microphone": "2.2.0",
@@ -366,6 +368,11 @@ class PluginMinimumHostCompatibilityTests(unittest.TestCase):
                 previous = "2.2.0" if expected == "2.2.2" else "2.1.0"
                 self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), expected)
                 self.assertTrue(minimum_host_violations("probe", previous, symbol))
+        approvals = PLUGIN_INTERFACES.with_name("PluginVoiceConfirmation.swift").read_text(encoding="utf-8")
+        for symbol in public_top_level_type_names(approvals):
+            with self.subTest(symbol=symbol):
+                self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), "2.2.3")
+                self.assertTrue(minimum_host_violations("probe", "2.2.2", symbol))
 
     def test_plugin_permission_kind_preserves_released_case_order(self) -> None:
         source = PLUGIN_MODELS.read_text(encoding="utf-8")

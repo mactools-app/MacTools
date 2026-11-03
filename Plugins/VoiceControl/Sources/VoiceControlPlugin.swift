@@ -19,6 +19,7 @@ public final class VoiceControlPluginFactory: NSObject, MacToolsPluginBundleFact
 final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettingsPresenting,
     PluginVoiceControlHostContextConsuming, PluginApplicationActivityStateHandling, PluginGroupedShortcutSettingsProviding,
     PluginActionProviding, PluginActionExposureProviding, PluginVoiceSelfActionProviding,
+    PluginVoiceConfirmationPresenting,
     PluginVoiceSelfParameterizedActionProviding, PluginActionPermissionProviding, PluginActionConfirmationProviding,
     PluginPortablePreferencesProviding, PluginPortablePreferencesRestorationReporting,
     PluginPersistentPreferencesChangeSignaling {
@@ -64,7 +65,9 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
         conversation.computerTaskSetupBlocker = { [weak self] in self?.computerTaskSetupBlocker }
         computerUse.onInspectionActivity = { [weak model = self.conversation] app in model?.setReadingApp(app) }
         computerTasks.onProgress = { [weak model = self.conversation] task in model?.setComputerTask(task) }
-        assistant.cancelComputerTask = { [weak self] in self?.computerTasks.stop() }
+        assistant.cancelComputerTask = { [weak self] in
+            self?.conversation.approvals.cancel(); self?.computerTasks.stop()
+        }
     }
     var panelItems: [PluginPanelItem] {
         [.row(id: "conversation", initialPlacement: .featurePanel,
@@ -91,6 +94,11 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
         if id == "dismiss-assistant" { assistant.dismiss() }
     }
     func toggleAssistant() { guard allowsRecording else { return }; assistant.toggle() }
+    func confirmVoiceAction(_ request: PluginVoiceConfirmationRequest) async -> Bool {
+        guard allowsRecording, conversation.active, conversation.connected, !Task.isCancelled else { return false }
+        assistant.present()
+        return await conversation.approvals.confirm(request)
+    }
     var permissionRequirements: [PluginPermissionRequirement] {
         [.init(id: "microphone", kind: .microphone, title: conversation.text("麦克风"),
                description: conversation.text("仅在开始对话后录音，并发送到 OpenAI 处理。")),
