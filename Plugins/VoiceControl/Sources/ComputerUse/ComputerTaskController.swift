@@ -5,7 +5,7 @@ import MacToolsPluginKit
 /// Bounded grants compose general tools, without app-specific task recipes.
 @MainActor
 final class ComputerTaskController {
-    struct Proposal {
+    struct Proposal: Equatable {
         let parameters: ActionParameterSet
         let goal: String
         let apps: [ComputerTaskApplication]
@@ -13,7 +13,10 @@ final class ComputerTaskController {
             ComputerTaskController.digest(goal + apps.map { "\($0.pid):\($0.launched.timeIntervalSince1970):\($0.bundleID)" }.joined(separator: "\n"))
         }
     }
-    enum Admission { case task(Proposal), command(ComputerCommandRequest) }
+    enum Admission: Equatable {
+        case task(Proposal, generation: UUID)
+        case command(ComputerCommandRequest, generation: UUID)
+    }
     private struct StepPayload: Decodable {
         var windowID: Int?
         var keys: [String]?
@@ -44,6 +47,7 @@ final class ComputerTaskController {
     private let now: () -> Date
     private var session: Session?
     private var prepared: Admission?
+    private var generation = UUID()
     private var busy = false
     private var expiration: Task<Void, Never>?
     var onProgress: ((String?) -> Void)?
@@ -55,7 +59,7 @@ final class ComputerTaskController {
             self.onProgress?(summary)
         }
     }
-    func stop() { stopTask(); prepared = nil; commands.stop() }
+    func stop() { generation = UUID(); prepared = nil; stopTask(); commands.stop() }
     private func stopTask() {
         expiration?.cancel(); expiration = nil; session = nil
         environment.stop(); computer.stop(); onProgress?(nil)
@@ -68,20 +72,21 @@ final class ComputerTaskController {
             let names: [String] = try decode(string("apps", parameters))
             guard goal.utf8.count <= 1_000, names.allSatisfy({ !$0.isEmpty && $0.utf8.count <= 256 }) else { throw ComputerUseError.invalidParameters }
             let proposal = Proposal(parameters: parameters, goal: goal, apps: try environment.resolveApplications(names))
-            prepared = .task(proposal)
-            return (proposal.identity, Self.visible(goal) + "\n\n" + proposal.apps.map { Self.visible($0.name) }.joined(separator: ", "))
+            prepared = .task(proposal, generation: generation)
+            return (generation.uuidString + proposal.identity, Self.visible(goal) + "\n\n" + proposal.apps.map { Self.visible($0.name) }.joined(separator: ", "))
         }
         if action == "command-start" {
             let request = try commandRequest(parameters)
-            prepared = .command(request)
-            return (Self.digest(request.identity), Self.visible(request.command) + "\n\n" + Self.visible(request.directory.path) + "\n\(request.timeout)s")
+            prepared = .command(request, generation: generation)
+            return (generation.uuidString + Self.digest(request.identity), Self.visible(request.command) + "\n\n" + Self.visible(request.directory.path) + "\n\(request.timeout)s")
         }
         return nil
     }
     func admission(_ action: String, _ parameters: ActionParameterSet) throws -> Admission? {
-        if action == "task-begin", case let .task(proposal) = prepared, proposal.parameters == parameters,
-           proposal.apps.allSatisfy(environment.isRunning) { return .task(proposal) }
-        if action == "command-start", case let .command(command) = prepared, command == (try commandRequest(parameters)) { return .command(command) }
+        if action == "task-begin", case let .task(proposal, token) = prepared, token == generation, proposal.parameters == parameters,
+           proposal.apps.allSatisfy(environment.isRunning) { return prepared }
+        if action == "command-start", case let .command(command, token) = prepared, token == generation,
+           command == (try commandRequest(parameters)) { return prepared }
         guard action != "task-begin", action != "command-start" else { throw ComputerUseError.unavailable("Approve this concrete task or command in MacTools first.") }
         return nil
     }
@@ -92,7 +97,8 @@ final class ComputerTaskController {
         busy = true; defer { busy = false }
         switch action {
         case "task-begin":
-            guard case let .task(proposal) = admission, proposal.parameters == parameters,
+            guard case let .task(proposal, token) = admission, token == generation,
+                  admission == (try self.admission(action, parameters)), proposal.parameters == parameters,
                   proposal.apps.allSatisfy(environment.isRunning) else { throw ComputerUseError.staleObservation }
             prepared = nil; stopTask()
             let id = UUID().uuidString
@@ -119,7 +125,9 @@ final class ComputerTaskController {
             stopTask()
             return try encode(["status": outcome, "instruction": "Report the observed outcome and remaining user steps. Task authorization has ended."])
         case "command-start":
-            guard case let .command(request) = admission, request == (try commandRequest(parameters)) else { throw ComputerUseError.staleObservation }
+            guard case let .command(request, token) = admission, token == generation,
+                  admission == (try self.admission(action, parameters)),
+                  request == (try commandRequest(parameters)) else { throw ComputerUseError.staleObservation }
             prepared = nil
             return try await commands.start(request)
         case "command-status": return try await commands.waitForSnapshot(string("commandID", parameters))

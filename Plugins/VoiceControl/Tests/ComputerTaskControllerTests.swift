@@ -5,6 +5,22 @@ import XCTest
 
 @MainActor
 final class ComputerTaskControllerTests: XCTestCase {
+    func testStopRevokesCapturedTaskAndCommandAdmissionsEvenAfterReapproval() async throws {
+        let controller = makeController(TaskFixtureEnvironment())
+        defer { controller.stop() }
+        for (action, parameters) in [
+            ("task-begin", try params(["goal": "Enter a sentence", "apps": "[\"Fixture\"]"])),
+            ("command-start", try params(["command": "printf should_not_run"]))
+        ] {
+            let original = try XCTUnwrap(controller.approval(action, parameters))
+            let captured = try XCTUnwrap(controller.admission(action, parameters))
+            controller.stop()
+            let replacement = try XCTUnwrap(controller.approval(action, parameters))
+            XCTAssertNotEqual(original.identity, replacement.identity)
+            do { _ = try await controller.perform(action, parameters, admission: captured); XCTFail("Stopped starts cannot be revived") } catch {}
+        }
+    }
+
     func testApprovedTaskComposesStepsAndRequiresFreshVerification() async throws {
         let environment = TaskFixtureEnvironment()
         let controller = makeController(environment)
@@ -122,6 +138,9 @@ final class ComputerTaskControllerTests: XCTestCase {
         XCTAssertThrowsError(try ComputerTaskKeyChord(["command", "command", "q"]))
         XCTAssertThrowsError(try ComputerTaskKeyChord(["script", "return"]))
         XCTAssertThrowsError(try ComputerCommandRequest(command: "echo ok", directory: "/", timeout: 0))
+        for directory in ["/tmp", "/private/tmp", "/var", "/private/var", "/etc", "/private/etc"] {
+            XCTAssertNoThrow(try ComputerCommandRequest(command: "printf ok", directory: directory, timeout: 1))
+        }
         let controller = makeController(TaskFixtureEnvironment())
         defer { controller.stop() }
         let first = try params(["command": "printf first"])

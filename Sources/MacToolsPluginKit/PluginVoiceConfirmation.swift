@@ -1,17 +1,18 @@
 import Foundation
 
-/// A host-prepared approval for one concrete operation. Introduced in host 2.2.3.
+/// A host-prepared approval for one concrete operation. Introduced in host 2.2.4.
 public struct PluginVoiceConfirmationRequest: Equatable, Sendable, Identifiable {
     public let id: UUID
     public let title: String
     public let message: String
     public let confirmButtonTitle: String
-    public let allowsSpokenConfirmation: Bool
+    /// False for setup/permission changes that always need a local button decision.
+    public let allowsDirectControl: Bool
 
     public init(id: UUID = UUID(), title: String, message: String, confirmButtonTitle: String,
-                allowsSpokenConfirmation: Bool) {
+                allowsDirectControl: Bool) {
         self.id = id; self.title = title; self.message = message
-        self.confirmButtonTitle = confirmButtonTitle; self.allowsSpokenConfirmation = allowsSpokenConfirmation
+        self.confirmButtonTitle = confirmButtonTitle; self.allowsDirectControl = allowsDirectControl
     }
 }
 

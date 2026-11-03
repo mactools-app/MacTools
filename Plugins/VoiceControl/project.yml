@@ -1,6 +1,6 @@
 settings:
   base:
-    OTHER_LDFLAGS: -framework AVFoundation -framework Security -framework CoreML
+    OTHER_LDFLAGS: -framework AVFoundation -framework Security -framework CoreML -framework Carbon
     SWIFT_INCLUDE_PATHS: "$(SRCROOT)/Plugins/VoiceControl/Vendor/CuaDriverABI"
 bundle:
   postBuildScripts:

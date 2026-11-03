@@ -1,4 +1,5 @@
 import ApplicationServices
+import Carbon
 import Darwin
 import Foundation
 
@@ -88,25 +89,23 @@ final class ComputerTaskNativeInput: @unchecked Sendable {
             try self.check(epoch, target)
             if case let .menu(id) = operation {
                 guard let menu = self.observedMenus.removeValue(forKey: id), menu.target.pid == target.pid,
-                      menu.target.launched == target.launched, Date().timeIntervalSince(menu.created) < 30 else { throw ComputerUseError.staleObservation }
+                      menu.target == target, (0..<30).contains(Date().timeIntervalSince(menu.created)) else { throw ComputerUseError.staleObservation }
                 let app = AXUIElementCreateApplication(target.pid)
                 AXUIElementSetMessagingTimeout(app, 0.25)
+                let window = target.windowID == 0 ? nil : try self.focusWindow(app, target: target, epoch: epoch)
                 guard let bar = self.element(app, kAXMenuBarAttribute) else { throw ComputerUseError.staleObservation }
                 let current = try self.resolve(menu.path, in: bar)
                 guard CFEqual(current, menu.element), self.safe(current), self.bool(current, kAXEnabledAttribute) == true else { throw ComputerUseError.staleObservation }
                 try self.check(epoch, target)
+                if let window {
+                    guard self.hasWindowFocus(app, target: target, expected: window) else { throw ComputerUseError.staleObservation }
+                }
                 guard AXUIElementPerformAction(current, kAXPressAction as CFString) == .success else { throw ComputerUseError.unverified }
                 return
             }
             let app = AXUIElementCreateApplication(target.pid)
             AXUIElementSetMessagingTimeout(app, 0.25)
-            guard let window = self.window(app, id: target.windowID) else { throw ComputerUseError.staleObservation }
-            _ = AXUIElementPerformAction(window, kAXRaiseAction as CFString)
-            _ = AXUIElementSetAttributeValue(app, kAXFocusedWindowAttribute as CFString, window)
-            let focusDeadline = Date().addingTimeInterval(0.3)
-            while !self.hasFocus(app, target: target), Date() < focusDeadline {
-                try self.check(epoch, target); Thread.sleep(forTimeInterval: 0.01)
-            }
+            _ = try self.focusWindow(app, target: target, epoch: epoch)
             guard self.hasFocus(app, target: target) else { throw ComputerUseError.unavailable("The requested window or an unprotected input could not acquire focus. No key was sent.") }
             guard let focused = self.element(app, kAXFocusedUIElementAttribute) else { throw ComputerUseError.staleObservation }
             switch operation {
@@ -117,6 +116,7 @@ final class ComputerTaskNativeInput: @unchecked Sendable {
                       let down = CGEvent(keyboardEventSource: nil, virtualKey: chord.keyCode, keyDown: true),
                       let up = CGEvent(keyboardEventSource: nil, virtualKey: chord.keyCode, keyDown: false) else { throw ComputerUseError.staleObservation }
                 down.flags = chord.flags; up.flags = chord.flags
+                guard chord.isCurrent else { throw ComputerUseError.staleObservation }
                 try self.check(epoch, target)
                 down.postToPid(target.pid); up.postToPid(target.pid)
             case let .text(text):
@@ -138,6 +138,27 @@ final class ComputerTaskNativeInput: @unchecked Sendable {
             case .menu: break
             }
         }
+    }
+
+    private func focusWindow(_ app: AXUIElement, target: ComputerUseTarget, epoch: UUID) throws -> AXUIElement {
+        try check(epoch, target)
+        guard let window = window(app, id: target.windowID) else { throw ComputerUseError.staleObservation }
+        if !hasWindowFocus(app, target: target, expected: window) {
+            _ = AXUIElementPerformAction(window, kAXRaiseAction as CFString)
+            try check(epoch, target)
+            _ = AXUIElementSetAttributeValue(app, kAXFocusedWindowAttribute as CFString, window)
+        }
+        let deadline = Date().addingTimeInterval(0.3)
+        while !hasWindowFocus(app, target: target, expected: window), Date() < deadline {
+            try check(epoch, target); Thread.sleep(forTimeInterval: 0.01)
+        }
+        try check(epoch, target)
+        guard hasWindowFocus(app, target: target, expected: window) else { throw ComputerUseError.staleObservation }
+        return window
+    }
+    private func hasWindowFocus(_ app: AXUIElement, target: ComputerUseTarget, expected: AXUIElement) -> Bool {
+        guard let focused = element(app, kAXFocusedWindowAttribute) else { return false }
+        return number(focused) == target.windowID && CFEqual(focused, expected)
     }
 
     private func hasFocus(_ app: AXUIElement, target: ComputerUseTarget, expected: AXUIElement? = nil) -> Bool {
@@ -214,24 +235,78 @@ final class ComputerTaskNativeInput: @unchecked Sendable {
     }
 }
 
+struct ComputerTaskKeyboardLayout: Equatable, Sendable {
+    let data: Data
+    let keyboardType: UInt32
+    let sourceID: String
+    let inputSourceID: String
+
+    static func current() throws -> Self {
+        guard let selected = TISCopyCurrentKeyboardLayoutInputSource()?.takeRetainedValue(),
+              let input = TISCopyCurrentKeyboardInputSource()?.takeRetainedValue() else {
+            throw ComputerUseError.unavailable("The current keyboard layout is unavailable. Use an observed menu instead.")
+        }
+        let source = TISGetInputSourceProperty(selected, kTISPropertyUnicodeKeyLayoutData) != nil
+            ? selected : TISCopyCurrentASCIICapableKeyboardLayoutInputSource()?.takeRetainedValue()
+        guard let source, let raw = TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData) else {
+            throw ComputerUseError.unavailable("This input source does not expose a keyboard layout. Use an observed menu instead.")
+        }
+        let data = Unmanaged<CFData>.fromOpaque(raw).takeUnretainedValue() as Data
+        func identifier(_ source: TISInputSource) -> String {
+            guard let raw = TISGetInputSourceProperty(source, kTISPropertyInputSourceID) else { return "" }
+            return Unmanaged<CFString>.fromOpaque(raw).takeUnretainedValue() as String
+        }
+        return .init(data: data, keyboardType: UInt32(LMGetKbdType()),
+                     sourceID: identifier(source), inputSourceID: identifier(input))
+    }
+
+    func character(_ code: CGKeyCode, command: Bool) -> String? {
+        data.withUnsafeBytes { raw in
+            guard let base = raw.baseAddress, raw.count >= MemoryLayout<UCKeyboardLayout>.size else { return nil }
+            let layout = base.assumingMemoryBound(to: UCKeyboardLayout.self)
+            var dead: UInt32 = 0
+            var length = 0
+            var units = [UniChar](repeating: 0, count: 8)
+            let status = UCKeyTranslate(layout, code, UInt16(kUCKeyActionDown),
+                command ? UInt32(cmdKey) >> 8 : 0, keyboardType,
+                UInt32(kUCKeyTranslateNoDeadKeysBit), &dead, units.count, &length, &units)
+            guard status == noErr, length > 0 else { return nil }
+            return String(utf16CodeUnits: units, count: length).lowercased()
+        }
+    }
+}
+
 struct ComputerTaskKeyChord: Sendable {
     let keyCode: CGKeyCode
     let flags: CGEventFlags
-    init(_ keys: [String]) throws {
-        let codes: [String: CGKeyCode] = ["a": 0, "s": 1, "d": 2, "f": 3, "h": 4, "g": 5, "z": 6, "x": 7, "c": 8, "v": 9,
-            "b": 11, "q": 12, "w": 13, "e": 14, "r": 15, "y": 16, "t": 17, "1": 18, "2": 19, "3": 20, "4": 21,
-            "6": 22, "5": 23, "9": 25, "7": 26, "8": 28, "0": 29, "o": 31, "u": 32, "i": 34, "p": 35,
-            "return": 36, "enter": 36, "l": 37, "j": 38, "k": 40, "n": 45, "m": 46, "tab": 48, "space": 49,
+    private let layout: ComputerTaskKeyboardLayout?
+    var isCurrent: Bool { layout == nil || (try? ComputerTaskKeyboardLayout.current()) == layout }
+
+    init(_ keys: [String], layout provided: ComputerTaskKeyboardLayout? = nil) throws {
+        let fixed: [String: CGKeyCode] = ["return": 36, "enter": 36, "tab": 48, "space": 49,
             "delete": 51, "escape": 53, "home": 115, "pageup": 116, "forwarddelete": 117, "end": 119,
             "pagedown": 121, "left": 123, "right": 124, "down": 125, "up": 126]
         let modifiers: [String: CGEventFlags] = ["command": .maskCommand, "cmd": .maskCommand, "control": .maskControl,
             "ctrl": .maskControl, "option": .maskAlternate, "alt": .maskAlternate, "shift": .maskShift]
-        guard !keys.isEmpty, keys.count <= 5, let last = keys.last, let code = codes[last.lowercased()] else { throw ComputerUseError.invalidParameters }
+        guard !keys.isEmpty, keys.count <= 5, let last = keys.last?.lowercased() else { throw ComputerUseError.invalidParameters }
         var flags = CGEventFlags()
         for key in keys.dropLast() {
             guard let flag = modifiers[key.lowercased()], !flags.contains(flag) else { throw ComputerUseError.invalidParameters }
             flags.insert(flag)
         }
-        keyCode = code; self.flags = flags
+        if let code = fixed[last] { keyCode = code; layout = nil }
+        else {
+            guard last.utf8.count == 1, last.range(of: "^[a-z0-9]$", options: .regularExpression) != nil else {
+                throw ComputerUseError.invalidParameters
+            }
+            let layout = try provided ?? ComputerTaskKeyboardLayout.current()
+            // Names describe base letter/digit keys; Shift/Option/Control remain explicit modifiers.
+            // Command-specific layouts (such as Dvorak-QWERTY) use their Command layer.
+            guard let code = (UInt16(0)...127).first(where: {
+                layout.character($0, command: flags.contains(.maskCommand)) == last
+            }) else { throw ComputerUseError.unavailable("This shortcut is unavailable in the current layout. Use an observed menu instead.") }
+            keyCode = code; self.layout = layout
+        }
+        self.flags = flags
     }
 }

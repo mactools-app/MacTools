@@ -48,6 +48,7 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
         // Device-local consent must never be inferred from the older feature switch.
         allowsAppReading = context.storage.integer(forKey: "computerReadConsentVersion") == 1
         conversation = providedConversation ?? VoiceConversation(context: context)
+        conversation.approvals.setDirectControl(context.storage.integer(forKey: "directControlConsentVersion") == 1)
         let library = context.resourceBundle.bundleURL.appendingPathComponent("Contents/Frameworks/libcua_driver_sdk.dylib")
         computerUse = ComputerUseController(runtime: CuaRuntime(libraryURL: library), environment: SystemComputerUseEnvironment())
         computerTasks = ComputerTaskController(computer: computerUse)
@@ -66,8 +67,9 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
         computerUse.onInspectionActivity = { [weak model = self.conversation] app in model?.setReadingApp(app) }
         computerTasks.onProgress = { [weak model = self.conversation] task in model?.setComputerTask(task) }
         assistant.cancelComputerTask = { [weak self] in
-            self?.conversation.approvals.cancel(); self?.computerTasks.stop()
+            self?.conversation.cancelComputerWork(); self?.computerTasks.stop()
         }
+        assistant.disableDirectControl = { [weak self] in self?.setDirectControl(false) }
     }
     var panelItems: [PluginPanelItem] {
         [.row(id: "conversation", initialPlacement: .featurePanel,
@@ -251,6 +253,15 @@ final class VoiceControlPlugin: ObservableObject, MacToolsPlugin, PluginSettings
         computerTasks.stop()
         computerUse.enabled = enabled
         storage.set(enabled, forKey: "computerInteractionEnabled")
+        onStateChange?()
+    }
+    func setDirectControl(_ enabled: Bool) {
+        guard !conversation.credentialBusy, enabled != conversation.approvals.directControlEnabled,
+              !enabled || !conversation.active else { return }
+        if conversation.active { conversation.stop() }
+        computerTasks.stop()
+        conversation.approvals.setDirectControl(enabled)
+        storage.set(enabled ? 1 : 0, forKey: "directControlConsentVersion")
         onStateChange?()
     }
     var canReadAppContent: Bool { allowsAppReading && computerUse.enabled && allowsRecording && conversation.active }

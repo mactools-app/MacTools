@@ -5,6 +5,28 @@ import XCTest
 
 @MainActor
 final class VoiceComputerConsentTests: XCTestCase {
+    func testDirectControlIsDeviceLocalAndCannotExpandAnActiveConversation() throws {
+        let storage = VoiceCredentialTestStorage()
+        storage.set(true, forKey: "computerInteractionEnabled")
+        storage.set("keychain", forKey: "credentialSource")
+        let plugin = makePlugin(storage)
+        XCTAssertFalse(plugin.conversation.approvals.directControlEnabled)
+        plugin.conversation.start()
+        plugin.setDirectControl(true)
+        XCTAssertFalse(plugin.conversation.approvals.directControlEnabled)
+        plugin.conversation.stop()
+        plugin.setDirectControl(true)
+        XCTAssertTrue(makePlugin(storage).conversation.approvals.directControlEnabled)
+        let backup = try XCTUnwrap(plugin.makePortablePreferencesBackup())
+        let other = makePlugin(VoiceCredentialTestStorage())
+        XCTAssertTrue(other.restorePortablePreferencesReportingResult(from: backup))
+        XCTAssertFalse(other.conversation.approvals.directControlEnabled)
+        plugin.conversation.start()
+        plugin.setDirectControl(false)
+        XCTAssertFalse(plugin.conversation.active)
+        XCTAssertFalse(makePlugin(storage).conversation.approvals.directControlEnabled)
+    }
+
     func testLegacyFeatureSwitchAndPortableBackupDoNotGrantReadingConsent() throws {
         let storage = VoiceCredentialTestStorage()
         storage.set(true, forKey: "computerInteractionEnabled")

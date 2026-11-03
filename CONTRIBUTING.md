@@ -70,7 +70,7 @@ Ordinary plugins do not need root `project.yml` edits. Put necessary build overr
 
 Voice state queries require host 2.2.0 or later. Declare only the state the query reads, preserve unavailable observations, and use native approval for private content; see [Voice Assistant](docs/plugins/voice-control.md).
 
-General Voice Assistant tasks and managed commands retain the host executor and concrete approval boundary. New primitives must preserve scoped app identities, cancellation, bounded work and observed-result reporting; see [computer tasks](docs/plugins/voice-computer-tasks.md). The optional in-panel voice approval companion requires host 2.2.3 or later and retains the same host admission checks.
+General Voice Assistant tasks and managed commands retain the host executor and the user's chosen control mode. New primitives must preserve scoped app identities, cancellation, bounded work and observed-result reporting; see [computer tasks](docs/plugins/voice-computer-tasks.md). The optional in-panel confirmation companion requires host 2.2.4 or later and retains the same host admission checks.
 
 Actions that only open a picker, panel or preview must declare `.opensInterface` (host 2.2.4). They remain callable as explicit interface navigation, rather than being reported as completed app operations. `PluginVoiceFunctionProviding` can publish stable semantic names for canonical voice actions; it grants no additional exposure or authority.
 
@@ -161,3 +161,5 @@ Plugin release preparation regenerates website plugin data after version bumps a
 For an agent-assisted readiness review, use the repository skill [`mactools-release-preflight`](.agents/skills/mactools-release-preflight/SKILL.md). It consolidates pending changelog fragments and reports PluginKit compatibility, old/new app and plugin behavior, release scope, and remaining prerequisites; other changes and release execution require separate user instructions.
 
 The Voice Assistant bundle builds its pinned Cua SDK with the official Rust 1.97.1 toolchain. Install it with `rustup toolchain install 1.97.1 --profile minimal --target aarch64-apple-darwin,x86_64-apple-darwin`. The build caches the universal native library under `build/Dependencies/CuaDriver/`; it never installs a Cua app, CLI, or daemon. Native inspection supports a bounded toolbar scope; preserve approved-window ownership, explicit completeness and unverified-result handling when changing it.
+
+Voice Assistant confirmation requests use the optional `PluginVoiceConfirmationPresenting` companion. `allowsDirectControl` stays false for setup changes that require an individual local button decision. Only local settings can grant Direct control; it is not a portable preference.

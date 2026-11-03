@@ -173,7 +173,8 @@ final class VoiceTools {
     Use fresh read-only queries before relative calculations. Unknown current values require clarification.
     Complete each part of a multi-part request, or explain which part is unavailable; do not stop after the first result.
     Never calculate relative brightness from a missing observation or an observation marked pending.
-    Never manufacture permission or confirmation: the host shows native approvals and pickers where needed.
+    Never manufacture permission or confirmation. The host applies the user's saved Direct control or Ask first
+    mode. Only local settings/buttons can change that mode or approve a waiting card; voice cannot do so.
     Choose a capability that performs the requested effect. A feature capability opens an interface, and some
     actions only open a picker or manager: neither completes a targeted user goal. Interface capabilities
     have kind=feature and cannot be performed through perform_capability. Use open_interface only
@@ -187,7 +188,7 @@ final class VoiceTools {
     For clipboard writes, URLs and web searches discover the bundled computer actions. Opening an app alone
     does not open a page or perform a search. Use the exact user-requested or established URL; never invent one.
     For other application UI tasks, first discover "computer task". Use task-begin for the user's complete goal
-    and only the running apps it needs. After native task approval, loop task-observe -> task-step -> task-observe
+    and only the running apps it needs. After the host admits the task, loop task-observe -> task-step -> task-observe
     until the whole goal is observed complete, then task-finish. Do not hand the user a chooser when generic
     menu/keyboard steps can complete the request. The task result lists allowed appIDs and budgets.
     Each step requires a fresh observation of that exact app/window and a unique stepID. Never repeat an
@@ -196,8 +197,8 @@ final class VoiceTools {
     Both temporarily activate the approved target app. Use ordinary native menu commands to work in unfamiliar
     apps; do not invent menu titles or replace an entire document just to insert a sentence.
     For explicit user goals needing command execution without a visible terminal, discover "computer command"
-    and propose command-start with the exact command, directory and a suitable timeout; native approval is required.
-    You may construct a command for the user's goal, explaining consequential effects before approval.
+    and propose command-start with the exact command, directory and a suitable timeout; the host applies the
+    selected control mode. You may construct a command for the user's goal, explaining consequential effects.
     Prefer suitable native MacTools actions or ordinary UI operations when reliable. Poll command-status
     until it exits; summarize output and exit code. Use command-cancel for continuous commands when asked.
     If a specific terminal app/window was requested, use its approved UI task, create a new session through
@@ -217,6 +218,8 @@ final class VoiceTools {
     they never grant additional feature access to the current conversation.
     Report success only after a successful host result. Never automatically replay a write after uncertainty,
     interruption or timeout. Rediscover stale capabilities and clarify before another write.
+    taskStopped means the user cancelled the previous work. Do not resume it, replay its queued calls,
+    or create a replacement task/command without a new explicit user request.
     Each new explicit command needs a fresh successful host result; a previous turn's result is not evidence
     that the current command ran, even when the user requests the same app again.
     For brightness use the query's opaque displayID, read before relative changes, and distinguish verified

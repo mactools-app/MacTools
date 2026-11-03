@@ -11,6 +11,7 @@ final class VoiceAssistantPanel: ObservableObject {
     let conversation: VoiceConversation
     var openSettings: (() -> Void)?
     var cancelComputerTask: (() -> Void)?
+    var disableDirectControl: (() -> Void)?
 
     init(conversation: VoiceConversation) { self.conversation = conversation }
     func toggle() { visible ? dismiss() : present() }
@@ -60,11 +61,11 @@ final class VoiceAssistantPanel: ObservableObject {
     private func resize() {
         guard let panel else { return }
         let confirming = conversation.approvals.pending != nil
-        let extendedApprovalHeight: CGFloat = conversation.approvals.scope == .once ? 0 : 32
+        let controlModeHeight: CGFloat = conversation.approvals.directControlEnabled ? 32 : 0
         let size = expanded ? NSSize(width: 440, height: confirming ? 580 : 520)
             : NSSize(width: 380, height: confirming ? 460 : conversation.computerTask == nil ? 290 : 320)
         let top = panel.frame.maxY
-        var frame = NSRect(origin: panel.frame.origin, size: NSSize(width: size.width, height: size.height + extendedApprovalHeight))
+        var frame = NSRect(origin: panel.frame.origin, size: NSSize(width: size.width, height: size.height + controlModeHeight))
         if top > 0 { frame.origin.y = top - frame.height }
         if let screen = panel.screen ?? NSScreen.main {
             frame.origin.x = max(screen.visibleFrame.minX, min(frame.minX, screen.visibleFrame.maxX - frame.width))
@@ -127,17 +128,15 @@ private struct VoiceAssistantView: View {
                     .accessibilityAddTraits(.updatesFrequently)
                 Spacer(minLength: 0)
             }
-            if approvals.scope != .once {
+            if approvals.directControlEnabled {
                 HStack {
-                    Label(model.text(approvals.scope == .conversation ? "本次对话已允许所有操作" : "MacTools 退出前已允许所有操作"), systemImage: "checkmark.shield")
+                    Label(model.text("直接控制已启用"), systemImage: "checkmark.shield")
                         .font(PluginTypography.caption.font).lineLimit(2)
                     Spacer(minLength: 8)
-                    Button(model.text("撤销")) {
-                        approvals.revokeExtendedApproval(); model.stop()
-                    }.buttonStyle(.bordered).controlSize(.small)
-                        .help(model.text("撤销允许并停止当前对话"))
-                        .accessibilityIdentifier("voice-control.approval-revoke")
-                }.accessibilityIdentifier("voice-control.approval-scope")
+                    Button(model.text("关闭直接控制")) { presenter.disableDirectControl?() }
+                        .buttonStyle(.bordered).controlSize(.small)
+                        .accessibilityIdentifier("voice-control.direct-control-disable")
+                }.accessibilityIdentifier("voice-control.direct-control-status")
             }
             if let task = model.computerTask {
                 HStack(spacing: 8) {
@@ -155,29 +154,14 @@ private struct VoiceAssistantView: View {
                         Text(request.message).font(PluginTypography.body.font)
                             .textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
                     }.frame(maxHeight: .infinity)
-                    Text(model.text(approvals.hint)).font(PluginTypography.caption.font).foregroundStyle(.secondary)
+                    Text(model.text("请使用按钮确认。确认期间暂停语音输入。")).font(PluginTypography.caption.font).foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                         .accessibilityIdentifier("voice-control.confirmation-hint")
-                    if request.allowsSpokenConfirmation {
-                        VStack(spacing: 8) {
-                            Button {
-                                approvals.resolve(true, requestID: request.id, scope: .conversation)
-                            } label: {
-                                Text(model.text("本次对话允许所有操作")).frame(maxWidth: .infinity)
-                            }.accessibilityIdentifier("voice-control.approval-conversation")
-                            Button {
-                                approvals.resolve(true, requestID: request.id, scope: .process)
-                            } label: {
-                                Text(model.text("MacTools 退出前允许所有操作")).frame(maxWidth: .infinity)
-                            }.accessibilityIdentifier("voice-control.approval-process")
-                        }.buttonStyle(.bordered).controlSize(.small)
-                            .help(model.text("允许后续应用操作与命令，不再逐项询问。仅在本机内存中保留。"))
-                    }
                     HStack {
                         Button(model.text("取消")) { approvals.resolve(false, requestID: request.id) }
                             .accessibilityIdentifier("voice-control.confirmation-cancel")
                         Spacer()
-                        Button(request.allowsSpokenConfirmation ? model.text("仅允许此次") : request.confirmButtonTitle) {
+                        Button(request.confirmButtonTitle) {
                             approvals.resolve(true, requestID: request.id)
                         }
                             .buttonStyle(.borderedProminent)
@@ -250,7 +234,7 @@ private struct VoiceAssistantView: View {
         .onChange(of: runtimeLocale.revision) { _, _ in presenter.refreshLocalization() }
         .onChange(of: model.computerTask) { _, _ in presenter.refreshTaskLayout() }
         .onChange(of: approvals.pending) { _, _ in presenter.refreshTaskLayout() }
-        .onChange(of: approvals.scope) { _, _ in presenter.refreshTaskLayout() }
+        .onChange(of: approvals.directControlEnabled) { _, _ in presenter.refreshTaskLayout() }
         .accessibilityIdentifier("voice-control.assistant")
     }
 

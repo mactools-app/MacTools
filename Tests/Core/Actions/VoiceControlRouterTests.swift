@@ -51,7 +51,7 @@ final class VoiceControlRouterTests: XCTestCase {
         let command = try XCTUnwrap(reply.capabilities.first { $0.kind == .action && $0.requiresConfirmation })
         let execution = Task { await context.request(.perform(capabilityID: command.id, parameters: .empty), sessionID: session) }
         for _ in 0..<500 where owner.pending == nil { await Task.yield() }
-        XCTAssertEqual(owner.pending?.allowsSpokenConfirmation, false)
+        XCTAssertEqual(owner.pending?.allowsDirectControl, false)
         owner.respond(true)
         let result = await execution.value
         XCTAssertEqual(result.status, "ok")

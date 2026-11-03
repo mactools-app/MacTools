@@ -6,22 +6,15 @@ import XCTest
 
 @MainActor
 final class VoiceReadinessTests: XCTestCase {
-    func testConversationStopResetsOnlyConversationApproval() async throws {
+    func testDirectControlModeSurvivesConversationStop() async throws {
         let (model, factory, _, _) = try await makeModel()
-        var socket = try await start(model, factory)
-        for scope in [VoiceApprovals.Scope.conversation, .process] {
-            if !model.active { socket = try await start(model, factory) }
-            let request = PluginVoiceConfirmationRequest(title: "Fixture", message: "Fixture", confirmButtonTitle: "Allow", allowsSpokenConfirmation: true)
-            let response = Task { await model.approvals.confirm(request) }
-            await settle { model.approvals.pending != nil }
-            model.approvals.resolve(true, requestID: request.id, scope: scope)
-            let accepted = await response.value
-            XCTAssertTrue(accepted)
-            model.stop(); socket.cancel()
-            XCTAssertEqual(model.approvals.scope, scope == .conversation ? .once : .process)
-        }
-        model.approvals.revokeExtendedApproval()
-        XCTAssertEqual(model.approvals.scope, .once)
+        let socket = try await start(model, factory)
+        model.approvals.setDirectControl(true)
+        let accepted = await model.approvals.confirm(.init(title: "Fixture", message: "Fixture", confirmButtonTitle: "Allow", allowsDirectControl: true))
+        XCTAssertTrue(accepted)
+        XCTAssertNil(model.approvals.pending)
+        model.stop(); socket.cancel()
+        XCTAssertTrue(model.approvals.directControlEnabled)
     }
 
     func testApprovalReplyCannotBecomeAQueuedWriteAndStopDeclinesPendingAction() async throws {
@@ -34,7 +27,7 @@ final class VoiceReadinessTests: XCTestCase {
             case .perform:
                 entered += 1
                 let approved = await model.approvals.confirm(.init(title: "Fixture", message: "Approve one fixture effect",
-                    confirmButtonTitle: "Allow", allowsSpokenConfirmation: false))
+                    confirmButtonTitle: "Allow", allowsDirectControl: false))
                 if approved { writes += 1 }
                 return .init(status: approved ? "ok" : "cancelled")
             }
@@ -50,7 +43,7 @@ final class VoiceReadinessTests: XCTestCase {
         socket.feed(["type": "session.input_transcript.delta", "delta": "Allow all until MacTools quits", "start_ms": 1, "end_ms": 10])
         for _ in 0..<10 { await Task.yield() }
         XCTAssertEqual(writes, 0, "Live transcript fragments are captions, not an approval source")
-        XCTAssertEqual(model.approvals.scope, .once)
+        XCTAssertFalse(model.approvals.directControlEnabled)
         XCTAssertEqual(model.approvals.pending?.id, pending.id)
         let microphoneReply = Data(repeating: 23, count: 4800)
         let before = socket.inputAudio.count
@@ -75,6 +68,80 @@ final class VoiceReadinessTests: XCTestCase {
         model.stop()
         await settle { model.approvals.pending == nil }
         XCTAssertEqual(writes, 1)
+    }
+
+    func testApprovalTransitionsDiscardBufferedMicrophoneInput() async throws {
+        for replacement in [false, true] {
+            let (model, factory, audio, _) = try await makeModel()
+            let socket = try await start(model, factory)
+            let first = PluginVoiceConfirmationRequest(title: "First", message: "First effect", confirmButtonTitle: "Allow", allowsDirectControl: true)
+            let old = Task { await model.approvals.confirm(first) }
+            await settle { model.approvals.pending != nil }
+            socket.holdNextInput = true
+            audio.push(Data(repeating: 11, count: 4800))
+            await settle { socket.hasHeldInput }
+            audio.push(Data(repeating: 23, count: 4800))
+            model.approvals.resolve(false, requestID: first.id)
+            _ = await old.value
+            let second = PluginVoiceConfirmationRequest(title: "Second", message: "Different effect", confirmButtonTitle: "Allow", allowsDirectControl: true)
+            let next = replacement ? Task { await model.approvals.confirm(second) } : nil
+            if replacement { await settle { model.approvals.pending?.id == second.id } }
+            socket.releaseInput()
+            await settle { socket.completedInputSends == 1 }
+            for _ in 0..<20 { await Task.yield() }
+            XCTAssertEqual(socket.inputAudio, [Data(count: 4800)], "Queued approval PCM must not reach Live after a decision")
+            if replacement {
+                XCTAssertEqual(model.approvals.pending?.id, second.id, "Microphone PCM cannot decide the replacement request")
+                model.approvals.resolve(true, requestID: second.id)
+                _ = await next?.value
+            }
+            let fresh = Data(repeating: 42, count: 4800)
+            audio.push(fresh)
+            await settle { socket.inputAudio.last == fresh }
+            XCTAssertEqual(socket.inputAudio, [Data(count: 4800), fresh])
+            model.stop(); socket.cancel()
+        }
+    }
+
+    func testStopTaskDiscardsQueuedAndInFlightBackendWorkButAllowsNewRequests() async throws {
+        let (model, factory, _, _) = try await makeModel()
+        var entered = 0
+        var held: CheckedContinuation<PluginVoiceReply, Never>?
+        let capability = PluginVoiceCapability(id: "fixture", kind: .action, title: "Fixture", pluginTitle: "Fixture", description: "Fixture action")
+        model.context = .init(begin: { _ in UUID() }, end: { _ in }, request: { _, request in
+            switch request {
+            case .search: return .init(capabilities: [capability])
+            case .perform:
+                entered += 1
+                if entered == 1 { return await withCheckedContinuation { held = $0 } }
+                return .init()
+            }
+        })
+        let socket = try await start(model, factory)
+        defer { model.stop(); socket.cancel() }
+        socket.call("discover", name: "discover_capabilities", arguments: "{\"query\":\"fixture\"}")
+        await settle { socket.outputs == 1 }
+        let arguments = "{\"capabilityID\":\"fixture\",\"parameters\":[]}"
+        for id in ["first", "queued"] {
+            socket.feed(["type": "response.event", "event": ["type": "response.output_item.done", "response_id": "batch",
+                "item": ["type": "function_call", "call_id": id, "name": "perform_capability", "arguments": arguments]]])
+        }
+        socket.feed(["type": "response.event", "event": ["type": "response.completed", "response": ["id": "batch"]]])
+        await settle { held != nil }
+        let beforeCreation = socket.receivedEvents
+        socket.feed(["type": "response.event", "event": ["type": "response.created", "response": ["id": "late"]]])
+        await settle { socket.receivedEvents > beforeCreation }
+        model.cancelComputerWork()
+        held?.resume(returning: .init()); held = nil
+        socket.call("late", name: "perform_capability", arguments: arguments)
+        await settle { socket.outputs == 4 }
+        XCTAssertEqual(socket.outputs, 4)
+        XCTAssertEqual(entered, 1)
+        XCTAssertTrue(socket.toolOutputs.suffix(3).allSatisfy { $0.contains("taskStopped") })
+        socket.call("fresh", name: "perform_capability", arguments: arguments)
+        await settle { socket.outputs == 5 }
+        XCTAssertEqual(socket.outputs, 5)
+        XCTAssertEqual(entered, 2)
     }
 
     func testCaptureConversionDoesNotCarryMutedSpeechIntoFreshAudio() async throws {
@@ -450,6 +517,8 @@ final class VoiceReadinessTests: XCTestCase {
     private var waiter: CheckedContinuation<[String: Any], Error>?
     private var cancelled = false
     var outputs = 0
+    var toolOutputs: [String] = []
+    private(set) var receivedEvents = 0
     var inputAudio: [Data] = []
     var holdNextInput = false
     private var heldInput: CheckedContinuation<Void, Error>?
@@ -467,7 +536,10 @@ final class VoiceReadinessTests: XCTestCase {
             guard !cancelled else { throw URLError(.cancelled) }
             inputAudio.append(data)
         }
-        if event["type"] as? String == "response.item.create" { outputs += 1 }
+        if event["type"] as? String == "response.item.create" {
+            outputs += 1
+            if let item = event["item"] as? [String: Any], let output = item["output"] as? String { toolOutputs.append(output) }
+        }
     }
     func releaseInput(throwing error: Error? = nil) {
         let pending = heldInput; heldInput = nil
@@ -479,6 +551,7 @@ final class VoiceReadinessTests: XCTestCase {
         feed(["type": "response.event", "event": ["type": "response.completed", "response": ["id": id]]])
     }
     func receive() async throws -> [String: Any] {
+        defer { receivedEvents += 1 }
         if !events.isEmpty { return events.removeFirst() }
         if cancelled { throw URLError(.cancelled) }
         return try await withCheckedThrowingContinuation { waiter = $0 }

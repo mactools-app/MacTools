@@ -148,7 +148,7 @@ final class VoiceControlRouter {
                     && request.reference.key.actionID == "automatic-plugin-access-on"
                 approved = await presenter.confirmVoiceAction(.init(title: request.confirmation.title,
                     message: request.confirmation.message, confirmButtonTitle: request.confirmation.confirmButtonTitle,
-                    allowsSpokenConfirmation: !changesAccess))
+                    allowsDirectControl: !changesAccess))
             } else { approved = await confirmation.confirm(request) }
             return approved && valid(sessionID)
         }

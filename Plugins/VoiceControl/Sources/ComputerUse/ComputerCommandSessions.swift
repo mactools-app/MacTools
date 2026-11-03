@@ -15,8 +15,11 @@ struct ComputerCommandRequest: Sendable, Equatable {
         let expanded = directory.isEmpty ? NSHomeDirectory() : (directory as NSString).expandingTildeInPath
         guard expanded.hasPrefix("/"), !expanded.contains("\0") else { throw ComputerUseError.invalidParameters }
         let url = URL(fileURLWithPath: expanded, isDirectory: true).standardizedFileURL.resolvingSymlinksInPath()
+        let directoryFD = open(url.path, O_RDONLY | O_DIRECTORY | O_CLOEXEC)
+        guard directoryFD >= 0 else { throw ComputerUseError.unavailable("Choose an existing working directory.") }
+        defer { close(directoryFD) }
         var info = stat()
-        guard lstat(url.path, &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { throw ComputerUseError.unavailable("Choose an existing working directory.") }
+        guard fstat(directoryFD, &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { throw ComputerUseError.unavailable("Choose an existing working directory.") }
         self.command = command; self.directory = url; self.timeout = timeout
         directoryDevice = UInt64(info.st_dev); directoryInode = UInt64(info.st_ino)
     }
@@ -101,6 +104,7 @@ private final class ComputerCommandJob: @unchecked Sendable {
     private var status = "starting"
     private var stopReason: String?
     private var exitCode: Int32?
+    private var leaderExited = false
     var onFinish: (@Sendable () -> Void)?
     var isFinished: Bool { lock.withLock { !["starting", "running"].contains(status) } }
     var summary: String { String(request.command.prefix(160)) }
@@ -177,6 +181,8 @@ private final class ComputerCommandJob: @unchecked Sendable {
         control.asyncAfter(deadline: .now() + .seconds(request.timeout)) { [weak self] in self?.cancel(reason: "timed_out") }
         DispatchQueue.global(qos: .utility).async {
             let observed = owned.waitForLeaderExit()
+            // The execution deadline ends at observed leader exit, before bounded descendant cleanup.
+            self.lock.withLock { self.leaderExited = observed }
             // Retain the leader until descendant cleanup and all group signals have ended.
             if observed { owned.signal(SIGTERM); Thread.sleep(forTimeInterval: 0.1); owned.signal(SIGKILL) }
             let waitStatus = owned.reapLeader()
@@ -199,7 +205,7 @@ private final class ComputerCommandJob: @unchecked Sendable {
     func cancel() { cancel(reason: "cancelled") }
     private func cancel(reason: String) {
         let owned: PluginProcessGroupLease? = lock.withLock {
-            guard status == "starting" || status == "running" else { return nil }
+            guard !leaderExited, status == "starting" || status == "running" else { return nil }
             if stopReason == nil { stopReason = reason }
             return lease
         }

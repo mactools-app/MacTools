@@ -10842,391 +10842,6 @@
         }
       }
     },
-    "支持网页、剪贴板和应用操作。多步任务按应用范围批准，命令另行确认。": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يدعم صفحات الويب والحافظة والتطبيقات. تُعتمد المهام متعددة الخطوات حسب التطبيقات، وتُؤكّد الأوامر بشكل منفصل."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unterstützt Webseiten, Zwischenablage und Apps. Mehrstufige Aufgaben werden pro App-Bereich genehmigt, Befehle separat bestätigt."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Supports web pages, the clipboard and app interaction. Approve multi-step tasks for specific apps; commands require separate confirmation."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compatible con páginas web, portapapeles y apps. Autoriza tareas de varios pasos por app; los comandos se confirman por separado."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Prend en charge les pages web, le presse-papiers et les apps. Autorisez les tâches par app ; les commandes ont une confirmation distincte."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Webページ、クリップボード、アプリ操作に対応。複数ステップのタスクはアプリ範囲ごとに承認し、コマンドは個別に確認します。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "웹 페이지, 클립보드 및 앱 조작을 지원합니다. 여러 단계 작업은 앱 범위별로 승인하고 명령은 별도로 확인합니다."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compatível com páginas web, área de transferência e apps. Aprove tarefas por app; comandos exigem confirmação separada."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Поддерживает веб-страницы, буфер обмена и приложения. Многошаговые задачи одобряются для выбранных приложений; команды подтверждаются отдельно."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Web sayfalarını, panoyu ve uygulamaları destekler. Çok adımlı görevleri uygulama kapsamıyla onaylayın; komutlar ayrıca onaylanır."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "支持网页、剪贴板和应用操作。多步任务按应用范围批准，命令另行确认。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "支援網頁、剪貼簿和應用程式操作。多步任務按應用程式範圍批准，命令另行確認。"
-          }
-        }
-      }
-    },
-    "对话期间可按请求读取应用内容并发送到 OpenAI。多步任务和命令须另行批准。": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يمكن قراءة محتوى التطبيقات المطلوب وإرساله إلى OpenAI أثناء المحادثات. تحتاج المهام متعددة الخطوات والأوامر إلى إذن منفصل."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Während Gesprächen können angeforderte App-Inhalte gelesen und an OpenAI gesendet werden. Mehrstufige Aufgaben und Befehle benötigen eine eigene Genehmigung."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "During conversations, requested app content can be read and sent to OpenAI. Multi-step tasks and commands require separate approval."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Durante la conversación se puede leer el contenido solicitado de las apps y enviarlo a OpenAI. Las tareas y comandos requieren autorización aparte."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pendant les conversations, le contenu demandé peut être lu et envoyé à OpenAI. Les tâches à plusieurs étapes et commandes nécessitent une autorisation distincte."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "会話中、要求されたアプリ内容を読み取りOpenAIへ送信できます。複数ステップのタスクやコマンドには別途承認が必要です。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "대화 중 요청한 앱 내용을 읽어 OpenAI에 보낼 수 있습니다. 여러 단계 작업과 명령은 별도 승인이 필요합니다."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Durante conversas, o conteúdo solicitado dos apps pode ser lido e enviado à OpenAI. Tarefas e comandos exigem aprovação separada."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Во время разговора запрошенное содержимое приложений может считываться и отправляться в OpenAI. Для многошаговых задач и команд нужно отдельное разрешение."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Konuşmalarda istenen uygulama içeriği okunup OpenAI’a gönderilebilir. Çok adımlı görevler ve komutlar ayrıca onay gerektirir."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "对话期间可按请求读取应用内容并发送到 OpenAI。多步任务和命令须另行批准。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "對話期間可按要求讀取應用程式內容並傳送到 OpenAI。多步任務和命令須另行批准。"
-          }
-        }
-      }
-    },
-    "回复过长，请使用按钮确认。": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "回复过长，请使用按钮确认。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reply too long. Use the buttons to confirm."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الرد طويل جدًا. استخدم الأزرار للتأكيد."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Antwort zu lang. Bitte über die Tasten bestätigen."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Respuesta demasiado larga. Confirma con los botones."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Réponse trop longue. Confirmez avec les boutons."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "返答が長すぎます。ボタンで確認してください。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "응답이 너무 깁니다. 버튼으로 확인하세요."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ответ слишком длинный. Используйте кнопки."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "回覆過長，請使用按鈕確認。"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resposta muito longa. Confirme pelos botões."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Yanıt çok uzun. Düğmelerle onaylayın."
-          }
-        }
-      }
-    },
-    "未能确认你的选择，请使用按钮。": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未能确认你的选择，请使用按钮。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Could not confirm your choice. Use the buttons."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تعذر تأكيد اختيارك. استخدم الأزرار."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Auswahl nicht erkannt. Bitte Tasten verwenden."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo confirmar tu elección. Usa los botones."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choix non confirmé. Utilisez les boutons."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選択を確認できませんでした。ボタンを使用してください。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "선택을 확인할 수 없습니다. 버튼을 사용하세요."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Не удалось подтвердить выбор. Используйте кнопки."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未能確認你的選擇，請使用按鈕。"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Não foi possível confirmar sua escolha. Use os botões."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seçiminiz doğrulanamadı. Düğmeleri kullanın."
-          }
-        }
-      }
-    },
-    "正在识别确认回复…": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在识别确认回复…"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recognizing your confirmation…"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "جارٍ التعرف على رد التأكيد…"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bestätigungsantwort wird erkannt…"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reconociendo tu confirmación…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reconnaissance de votre confirmation…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "確認の返答を認識中…"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "확인 응답 인식 중…"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Распознавание подтверждения…"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在辨識確認回覆…"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reconhecendo sua confirmação…"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Onay yanıtınız tanınıyor…"
-          }
-        }
-      }
-    },
     "等待确认": {
       "extractionState": "manual",
       "localizations": {
@@ -11300,622 +10915,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Onay bekleniyor"
-          }
-        }
-      }
-    },
-    "语音确认只转写简短回复，另按音频时长计费；静音和按钮确认不产生转写费用。": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "语音确认只转写简短回复，另按音频时长计费；静音和按钮确认不产生转写费用。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Voice confirmation transcribes only short replies, billed separately by audio duration. Silence and button confirmation add no transcription charges."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يُفرّغ التأكيد الصوتي الردود القصيرة فقط، برسوم منفصلة حسب مدة الصوت. لا تُفرض رسوم تفريغ على الصمت أو التأكيد بالأزرار."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sprachbestätigung transkribiert nur kurze Antworten, separat nach Audiodauer berechnet. Stille und Tastenbestätigung verursachen keine Transkriptionskosten."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La confirmación por voz transcribe solo respuestas breves, con cobro adicional por duración. El silencio y los botones no generan cargos de transcripción."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La confirmation vocale transcrit uniquement les réponses courtes, facturées séparément selon la durée audio. Le silence et les boutons ne génèrent aucun frais de transcription."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声確認は短い返答のみを文字起こしし、音声の長さに応じて別途課金されます。無音やボタンでの確認に文字起こし料金はかかりません。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "음성 확인은 짧은 응답만 전사하며 음성 길이에 따라 별도로 청구됩니다. 무음과 버튼 확인에는 전사 요금이 추가되지 않습니다."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Голосовое подтверждение расшифровывает только короткие ответы с отдельной оплатой по длительности аудио. Тишина и подтверждение кнопкой не добавляют плату за расшифровку."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "語音確認只轉寫簡短回覆，另按音訊長度計費；靜音和按鈕確認不產生轉寫費用。"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A confirmação por voz transcreve apenas respostas curtas, cobradas separadamente pela duração do áudio. Silêncio e confirmação por botão não geram custos de transcrição."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sesli onay yalnızca kısa yanıtları yazıya döker ve ses süresine göre ayrıca ücretlendirilir. Sessizlik ve düğmeyle onay ek döküm ücreti oluşturmaz."
-          }
-        }
-      }
-    },
-    "语音确认暂不可用，请使用按钮。": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "语音确认暂不可用，请使用按钮。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Voice confirmation is unavailable. Use the buttons."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "التأكيد الصوتي غير متاح. استخدم الأزرار."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sprachbestätigung nicht verfügbar. Bitte Tasten verwenden."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La confirmación por voz no está disponible. Usa los botones."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Confirmation vocale indisponible. Utilisez les boutons."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声確認を利用できません。ボタンを使用してください。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "음성 확인을 사용할 수 없습니다. 버튼을 사용하세요."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Голосовое подтверждение недоступно. Используйте кнопки."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "語音確認暫不可用，請使用按鈕。"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Confirmação por voz indisponível. Use os botões."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sesli onay kullanılamıyor. Düğmeleri kullanın."
-          }
-        }
-      }
-    },
-    "语音确认转写": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "语音确认转写"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Confirmation transcription"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تفريغ التأكيد الصوتي"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transkription der Bestätigung"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transcripción de confirmación"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transcription de confirmation"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声確認の文字起こし"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "음성 확인 전사"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Расшифровка подтверждения"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "語音確認轉寫"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transcrição da confirmação"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Onay yanıtının dökümü"
-          }
-        }
-      }
-    },
-    "听完问题后，可说“确认”“取消”“本次对话全部允许”或“MacTools 退出前全部允许”。": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "听完问题后，可说“确认”“取消”“本次对话全部允许”或“MacTools 退出前全部允许”。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "After the question, say “Confirm”, “Cancel”, “Allow all for this conversation” or “Allow all until MacTools quits”."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "بعد السؤال، قل «تأكيد» أو «إلغاء» أو «السماح بكل الإجراءات لهذه المحادثة» أو «السماح بكل الإجراءات حتى إغلاق MacTools»."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nach der Frage: „Bestätigen“, „Abbrechen“, „Alles für dieses Gespräch erlauben“ oder „Alles bis zum Beenden von MacTools erlauben“."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Después de la pregunta, di «Confirmar», «Cancelar», «Permitir todo en esta conversación» o «Permitir todo hasta cerrar MacTools»."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Après la question, dites «Confirmer», «Annuler», «Tout autoriser pour cette conversation» ou «Tout autoriser jusqu’à la fermeture de MacTools»."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "質問の後に「確認」「キャンセル」「この会話ですべて許可」または「MacTools終了まですべて許可」と話してください。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "질문 후 “확인”, “취소”, “이 대화에서 모두 허용” 또는 “MacTools 종료까지 모두 허용”이라고 말하세요."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Após a pergunta, diga “Confirmar”, “Cancelar”, “Permitir tudo nesta conversa” ou “Permitir tudo até sair do MacTools”."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "После вопроса скажите «Подтвердить», «Отмена», «Разрешить всё для этого разговора» или «Разрешить всё до выхода из MacTools»."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sorudan sonra “Onayla”, “İptal”, “Bu görüşme için tümüne izin ver” veya “MacTools kapanana kadar tümüne izin ver” deyin."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "聽完問題後，可說「確認」「取消」「本次對話全部允許」或「MacTools 結束前全部允許」。"
-          }
-        }
-      }
-    },
-    "请点击按钮确认此设置更改。": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请点击按钮确认此设置更改。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Use the buttons to confirm this settings change."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "استخدم الأزرار لتأكيد تغيير الإعدادات."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Diese Einstellungsänderung über die Tasten bestätigen."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Usa los botones para confirmar este cambio de ajustes."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Utilisez les boutons pour confirmer ce réglage."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ボタンで設定変更を確認してください。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "버튼으로 설정 변경을 확인하세요."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Подтвердите изменение настройки кнопкой."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "請點按按鈕確認此設定變更。"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Use os botões para confirmar esta alteração."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bu ayar değişikliğini düğmelerle onaylayın."
-          }
-        }
-      }
-    },
-    "麦克风已静音，请使用按钮。": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "麦克风已静音，请使用按钮。"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Microphone muted. Use the buttons."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الميكروفون مكتوم. استخدم الأزرار."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mikrofon stummgeschaltet. Bitte Tasten verwenden."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Micrófono silenciado. Usa los botones."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Micro coupé. Utilisez les boutons."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "マイクはミュート中です。ボタンを使用してください。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "마이크가 음소거되었습니다. 버튼을 사용하세요."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Микрофон выключен. Используйте кнопки."
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "麥克風已靜音，請使用按鈕。"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Microfone silenciado. Use os botões."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mikrofon sessizde. Düğmeleri kullanın."
-          }
-        }
-      }
-    },
-    "本次对话已允许所有操作": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本次对话已允许所有操作"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All actions allowed for this conversation"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "جميع الإجراءات مسموحة لهذه المحادثة"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle Aktionen für dieses Gespräch erlaubt"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todas las acciones permitidas en esta conversación"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toutes les actions autorisées pour cette conversation"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "この会話のすべての操作を許可中"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "이 대화의 모든 작업 허용됨"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todas as ações permitidas nesta conversa"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Все действия разрешены для этого разговора"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bu görüşme için tüm işlemlere izin verildi"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本次對話已允許所有操作"
-          }
-        }
-      }
-    },
-    "MacTools 退出前已允许所有操作": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MacTools 退出前已允许所有操作"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All actions allowed until MacTools quits"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "جميع الإجراءات مسموحة حتى إغلاق MacTools"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle Aktionen bis zum Beenden von MacTools erlaubt"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todas las acciones permitidas hasta cerrar MacTools"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toutes les actions autorisées jusqu’à la fermeture de MacTools"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MacTools終了まですべての操作を許可中"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MacTools 종료까지 모든 작업 허용됨"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todas as ações permitidas até sair do MacTools"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Все действия разрешены до выхода из MacTools"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MacTools kapanana kadar tüm işlemlere izin verildi"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MacTools 結束前已允許所有操作"
           }
         }
       }
@@ -11997,387 +10996,618 @@
         }
       }
     },
-    "撤销允许并停止当前对话": {
+    "直接控制": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "撤销允许并停止当前对话"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Revoke approval and stop this conversation"
+            "value": "Direct control"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "إلغاء الإذن وإيقاف هذه المحادثة"
+            "value": "التحكم المباشر"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Genehmigung widerrufen und dieses Gespräch beenden"
+            "value": "Direkte Steuerung"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Revocar el permiso y detener esta conversación"
+            "value": "Control directo"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Révoquer l’autorisation et arrêter cette conversation"
+            "value": "Contrôle direct"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "許可を取り消してこの会話を停止"
+            "value": "直接操作"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "허용을 철회하고 이 대화 중지"
+            "value": "직접 제어"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Revogar a permissão e encerrar esta conversa"
+            "value": "Controle direto"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Отозвать разрешение и остановить этот разговор"
+            "value": "Прямое управление"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "İzni kaldır ve bu görüşmeyi durdur"
+            "value": "Doğrudan kontrol"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "撤銷允許並停止目前對話"
+            "value": "直接控制"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接控制"
           }
         }
       }
     },
-    "本次对话允许所有操作": {
+    "直接控制已启用": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本次对话允许所有操作"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Allow all for this conversation"
+            "value": "Direct control is on"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "السماح بكل الإجراءات لهذه المحادثة"
+            "value": "التحكم المباشر مفعّل"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Alles für dieses Gespräch erlauben"
+            "value": "Direkte Steuerung ist aktiv"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permitir todo en esta conversación"
+            "value": "Control directo activado"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tout autoriser pour cette conversation"
+            "value": "Contrôle direct activé"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "この会話ですべて許可"
+            "value": "直接操作はオンです"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "이 대화에서 모두 허용"
+            "value": "직접 제어 켜짐"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permitir tudo nesta conversa"
+            "value": "Controle direto ativado"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Разрешить всё для этого разговора"
+            "value": "Прямое управление включено"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bu görüşme için tümüne izin ver"
+            "value": "Doğrudan kontrol açık"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "本次對話允許所有操作"
+            "value": "已啟用直接控制"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接控制已启用"
           }
         }
       }
     },
-    "MacTools 退出前允许所有操作": {
+    "关闭直接控制": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MacTools 退出前允许所有操作"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Allow all until MacTools quits"
+            "value": "Turn off direct control"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "السماح بكل الإجراءات حتى إغلاق MacTools"
+            "value": "إيقاف التحكم المباشر"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Alles bis zum Beenden von MacTools erlauben"
+            "value": "Direkte Steuerung ausschalten"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permitir todo hasta cerrar MacTools"
+            "value": "Desactivar control directo"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tout autoriser jusqu’à la fermeture de MacTools"
+            "value": "Désactiver le contrôle direct"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "MacTools終了まですべて許可"
+            "value": "直接操作をオフ"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "MacTools 종료까지 모두 허용"
+            "value": "직접 제어 끄기"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permitir tudo até sair do MacTools"
+            "value": "Desativar controle direto"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Разрешить всё до выхода из MacTools"
+            "value": "Выключить прямое управление"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "MacTools kapanana kadar tümüne izin ver"
+            "value": "Doğrudan kontrolü kapat"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "MacTools 結束前允許所有操作"
+            "value": "關閉直接控制"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭直接控制"
           }
         }
       }
     },
-    "允许后续应用操作与命令，不再逐项询问。仅在本机内存中保留。": {
+    "支持网页、剪贴板、多步应用任务与命令。": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "允许后续应用操作与命令，不再逐项询问。仅在本机内存中保留。"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Allow later app actions and commands without asking each time. Kept only in this Mac’s memory."
+            "value": "Supports web pages, the clipboard, multi-step app tasks and commands."
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "السماح بإجراءات التطبيقات والأوامر اللاحقة دون السؤال كل مرة. يُحفظ في ذاكرة هذا الـ Mac فقط."
+            "value": "يدعم صفحات الويب والحافظة ومهام التطبيقات متعددة الخطوات والأوامر."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Weitere App-Aktionen und Befehle ohne erneute Nachfrage erlauben. Nur im Arbeitsspeicher dieses Mac gespeichert."
+            "value": "Unterstützt Webseiten, die Zwischenablage, mehrstufige App-Aufgaben und Befehle."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permitir acciones de apps y comandos posteriores sin preguntar cada vez. Se conserva solo en la memoria de este Mac."
+            "value": "Admite páginas web, el portapapeles, tareas de varios pasos y comandos."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Autoriser les actions d’apps et les commandes suivantes sans redemander. Conservé uniquement dans la mémoire de ce Mac."
+            "value": "Prend en charge les pages web, le presse-papiers, les tâches en plusieurs étapes et les commandes."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "今後のアプリ操作とコマンドを毎回確認せず許可します。このMacのメモリ内にのみ保持します。"
+            "value": "Webページ、クリップボード、複数ステップのアプリ操作とコマンドに対応します。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "이후 앱 작업과 명령을 매번 묻지 않고 허용합니다. 이 Mac의 메모리에만 유지됩니다."
+            "value": "웹 페이지, 클립보드, 여러 단계의 앱 작업과 명령을 지원합니다."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permitir ações de apps e comandos seguintes sem perguntar a cada vez. Mantido apenas na memória deste Mac."
+            "value": "Oferece suporte a páginas da web, área de transferência, tarefas em várias etapas e comandos."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Разрешать дальнейшие действия приложений и команды без повторных вопросов. Хранится только в памяти этого Mac."
+            "value": "Поддерживает веб-страницы, буфер обмена, многошаговые задачи в приложениях и команды."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sonraki uygulama işlemlerine ve komutlara her seferinde sormadan izin ver. Yalnızca bu Mac’in belleğinde tutulur."
+            "value": "Web sayfalarını, panoyu, çok adımlı uygulama görevlerini ve komutları destekler."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "允許後續 App 操作與命令，不再逐項詢問。僅保留於本機記憶體。"
+            "value": "支援網頁、剪貼簿、多步驟 App 任務與指令。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持网页、剪贴板、多步应用任务与命令。"
           }
         }
       }
     },
-    "仅允许此次": {
+    "对话期间直接执行明确请求的操作与命令。关闭时使用按钮逐项确认。此选择仅保存在本机。": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "仅允许此次"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Allow once"
+            "value": "Run explicitly requested actions and commands during conversations. Turn off to approve each action with buttons. Saved only on this Mac."
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "السماح مرة واحدة"
+            "value": "ينفّذ الإجراءات والأوامر المطلوبة صراحةً أثناء المحادثات. عند إيقافه، تُعتمد الإجراءات بالأزرار. يُحفظ هذا الاختيار على هذا الـ Mac فقط."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Einmal erlauben"
+            "value": "Führt ausdrücklich angeforderte Aktionen und Befehle während Gesprächen direkt aus. Ausgeschaltet werden Aktionen per Taste bestätigt. Nur auf diesem Mac gespeichert."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permitir una vez"
+            "value": "Ejecuta las acciones y comandos solicitados explícitamente durante las conversaciones. Desactívalo para confirmar cada acción con botones. Se guarda solo en este Mac."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Autoriser une fois"
+            "value": "Exécute les actions et commandes explicitement demandées pendant les conversations. Désactivez pour confirmer chaque action avec les boutons. Enregistré uniquement sur ce Mac."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "今回のみ許可"
+            "value": "会話中に明確に依頼された操作とコマンドを直接実行します。オフにするとボタンで個別に確認します。この設定はこのMacにのみ保存されます。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "이번만 허용"
+            "value": "대화 중 명확히 요청한 작업과 명령을 바로 실행합니다. 끄면 버튼으로 각 작업을 확인합니다. 이 설정은 이 Mac에만 저장됩니다."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permitir uma vez"
+            "value": "Executa ações e comandos solicitados explicitamente durante as conversas. Desative para aprovar cada ação com botões. Salvo apenas neste Mac."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Разрешить один раз"
+            "value": "Выполняет явно запрошенные действия и команды во время разговора. Выключите, чтобы подтверждать каждое действие кнопками. Сохраняется только на этом Mac."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bir kez izin ver"
+            "value": "Görüşmeler sırasında açıkça istenen işlemleri ve komutları doğrudan yürütür. Her işlemi düğmeyle onaylamak için kapatın. Yalnızca bu Mac’te saklanır."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "僅允許此次"
+            "value": "對話期間直接執行明確要求的操作與指令。關閉時使用按鈕逐項確認。此選擇只儲存在本機。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话期间直接执行明确请求的操作与命令。关闭时使用按钮逐项确认。此选择仅保存在本机。"
+          }
+        }
+      }
+    },
+    "对话期间，按请求读取的应用内容会发送到 OpenAI。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requested app content is read and sent to OpenAI during conversations."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُقرأ محتويات التطبيقات المطلوبة وتُرسل إلى OpenAI أثناء المحادثات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Angeforderte App-Inhalte werden während Gesprächen gelesen und an OpenAI gesendet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durante las conversaciones, el contenido solicitado de las apps se lee y se envía a OpenAI."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le contenu demandé des apps est lu et envoyé à OpenAI pendant les conversations."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "会話中、依頼に応じて読み取ったアプリの内容がOpenAIに送信されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대화 중 요청에 따라 읽은 앱 콘텐츠가 OpenAI로 전송됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O conteúdo solicitado dos apps é lido e enviado à OpenAI durante as conversas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запрошенное содержимое приложений читается и отправляется в OpenAI во время разговора."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görüşmeler sırasında istenen uygulama içeriği okunur ve OpenAI’a gönderilir."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "對話期間，按要求讀取的 App 內容會傳送至 OpenAI。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话期间，按请求读取的应用内容会发送到 OpenAI。"
+          }
+        }
+      }
+    },
+    "请使用按钮确认。确认期间暂停语音输入。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use the buttons to confirm. Voice input is paused while waiting."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم الأزرار للتأكيد. يُوقف الإدخال الصوتي مؤقتًا أثناء الانتظار."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bitte mit den Tasten bestätigen. Die Spracheingabe pausiert während des Wartens."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa los botones para confirmar. La entrada de voz está en pausa mientras esperas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisez les boutons pour confirmer. La saisie vocale est suspendue pendant l’attente."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ボタンで確認してください。確認中は音声入力が一時停止します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "버튼으로 확인하세요. 확인을 기다리는 동안 음성 입력이 일시 정지됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use os botões para confirmar. A entrada de voz fica pausada durante a espera."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтвердите кнопками. На время ожидания голосовой ввод приостановлен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onaylamak için düğmeleri kullanın. Beklerken sesli giriş duraklatılır."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請使用按鈕確認。確認期間暫停語音輸入。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请使用按钮确认。确认期间暂停语音输入。"
+          }
+        }
+      }
+    },
+    "语音助手将在对话期间读取你指定应用的控件和内容，并将请求的数据发送到 OpenAI。停止、关闭助手或撤销此设置会结束读取。输入操作使用你选择的控制模式。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيقرأ المساعد الصوتي عناصر التحكم والمحتوى في التطبيقات التي تطلبها أثناء المحادثات، ويرسل البيانات المطلوبة إلى OpenAI. أوقف المساعد أو أغلقه أو ألغِ هذا الإعداد لإنهاء القراءة. تتبع إجراءات الإدخال وضع التحكم الذي تختاره."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Sprachassistent liest während Gesprächen Steuerelemente und Inhalte der angeforderten Apps und sendet die angeforderten Daten an OpenAI. Mit Stopp, dem Schließen des Assistenten oder dem Widerruf dieser Einstellung endet das Lesen. Eingabeaktionen folgen dem gewählten Steuerungsmodus."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voice Assistant will read controls and content in the apps you request during conversations and send the requested data to OpenAI. Stop, dismiss the assistant or revoke this setting to end reading. Input actions follow your selected control mode."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El asistente de voz leerá los controles y contenidos de las apps que solicites durante las conversaciones y enviará los datos solicitados a OpenAI. Detén o cierra el asistente, o revoca este ajuste, para finalizar la lectura. Las acciones de entrada siguen el modo de control elegido."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’assistant vocal lira les commandes et contenus des apps demandées pendant les conversations et enverra les données demandées à OpenAI. Arrêtez ou fermez l’assistant, ou révoquez ce réglage, pour terminer la lecture. Les actions de saisie suivent le mode de contrôle choisi."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声アシスタントは会話中に指定されたアプリのコントロールや内容を読み取り、要求されたデータを OpenAI に送信します。停止、アシスタントを閉じる、またはこの設定の取り消しで読み取りを終了します。入力操作には選択した操作モードが適用されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "음성 어시스턴트가 대화 중 요청한 앱의 제어 항목과 콘텐츠를 읽고 요청한 데이터를 OpenAI로 보냅니다. 중지하거나 어시스턴트를 닫거나 이 설정을 해제하면 읽기가 종료됩니다. 입력 작업에는 선택한 제어 모드가 적용됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Assistente de Voz lerá os controles e conteúdos dos apps solicitados durante as conversas e enviará os dados solicitados à OpenAI. Pare ou feche o assistente, ou revogue este ajuste, para encerrar a leitura. As ações de entrada seguem o modo de controle escolhido."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Во время разговора голосовой помощник будет читать элементы управления и содержимое указанных приложений и отправлять запрошенные данные в OpenAI. Остановите или закройте помощника либо отключите эту настройку, чтобы завершить чтение. Действия ввода выполняются в выбранном режиме управления."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesli Asistan görüşmeler sırasında istediğiniz uygulamaların denetimlerini ve içeriklerini okur ve istenen verileri OpenAI’a gönderir. Okumayı sonlandırmak için asistanı durdurun veya kapatın ya da bu ayarı iptal edin. Giriş işlemleri seçtiğiniz kontrol moduna uyar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音助手将在对话期间读取你指定应用的控件和内容，并将请求的数据发送到 OpenAI。停止、关闭助手或撤销此设置会结束读取。输入操作使用你选择的控制模式。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "語音助手將在對話期間讀取你指定應用程式的控制項和內容，並將要求的資料傳送至 OpenAI。停止、關閉助手或撤銷此設定會結束讀取。輸入操作使用你選擇的控制模式。"
           }
         }
       }
