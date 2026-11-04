@@ -59,9 +59,40 @@ import MacToolsPluginKit
         }
         let toolbarAfter = try JSONSerialization.jsonObject(with: Data(contentsOf: fixtureState)) as! [String: Any]
         guard toolbarAfter["scopedReads"] as? Int == initial["scopedReads"] as? Int else { fatalError("Toolbar semantic capture read excluded content") }
-        let toolbarButton = toolbarControls.first { $0["label"] as? String == "Fixture toolbar button" }!
-        let toolbarClick = try ActionParameterSet(["observationID": .string(toolbarState["observationID"] as! String),
-            "controlID": .string(toolbarButton["element_token"] as! String)])
+        // Keep the control readable while its parent's metadata becomes unavailable.
+        // The native read counter must stay zero even though input is refused.
+        let ancestryImage = dlopen(nil, RTLD_NOW)!
+        let failAncestry = unsafeBitCast(dlsym(ancestryImage, "mactools_fixture_fail_ancestry"),
+            to: (@convention(c) (Bool) -> Void).self)
+        let ancestorFailures = unsafeBitCast(dlsym(ancestryImage, "mactools_fixture_ancestor_failures"),
+            to: (@convention(c) () -> UInt32).self)
+        let descendantReads = unsafeBitCast(dlsym(ancestryImage, "mactools_fixture_descendant_reads"),
+            to: (@convention(c) () -> UInt32).self)
+        let observedButton = toolbarControls.first { $0["label"] as? String == "Fixture toolbar button" }!
+        let ancestryClick = try ActionParameterSet(["observationID": .string(toolbarState["observationID"] as! String),
+            "controlID": .string(observedButton["element_token"] as! String)])
+        _ = try controller.prepareApproval("click-control", parameters: ancestryClick)
+        failAncestry(true)
+        do { _ = try await controller.perform("click-control", parameters: ancestryClick); fatalError("Unavailable ancestor permitted input") }
+        catch ComputerUseError.staleObservation {}
+        catch ComputerUseError.unverified {}
+        let ancestryRefused = ancestorFailures() > 0
+        let reads = descendantReads()
+        failAncestry(false)
+        guard ancestryRefused, reads == 0 else {
+            FileHandle.standardError.write(Data("Ancestor refusal read descendant content: failures=\(ancestryRefused), value reads=\(reads)\n".utf8))
+            exit(1)
+        }
+        print("PASS: unavailable ancestor refused with zero descendant AXValue reads")
+        // The refused input consumed its observation; restore a fresh toolbar target.
+        _ = try controller.prepareApproval("inspect-app", parameters: toolbarParams)
+        let refreshed = try await controller.perform("inspect-app", parameters: toolbarParams,
+            inspectionTarget: controller.preparedInspectionTarget(toolbarParams))
+        let refreshedState = try JSONSerialization.jsonObject(with: Data(refreshed.message.utf8)) as! [String: Any]
+        let refreshedControls = refreshedState["controls"] as! [[String: Any]]
+        let refreshedButton = refreshedControls.first { $0["label"] as? String == "Fixture toolbar button" }!
+        let toolbarClick = try ActionParameterSet(["observationID": .string(refreshedState["observationID"] as! String),
+            "controlID": .string(refreshedButton["element_token"] as! String)])
         _ = try controller.prepareApproval("click-control", parameters: toolbarClick)
         try Data().write(to: directory.appendingPathComponent("protect-toolbar"))
         try await waitFor("toolbarProtected", true)

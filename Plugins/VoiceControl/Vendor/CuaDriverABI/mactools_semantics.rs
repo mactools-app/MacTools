@@ -31,7 +31,7 @@ unsafe fn attribute(ptr: AXUIElementRef, name: &str, deadline: Instant) -> Optio
     Some(Some(text))
 }
 
-unsafe fn anchor(element: RetainedElement, deadline: Instant, content: bool) -> Option<Anchor> {
+unsafe fn checked_role(element: &RetainedElement, deadline: Instant) -> Option<String> {
     if Instant::now() >= deadline { return None; }
     let ptr = element.as_ptr() as AXUIElementRef;
     if ptr.is_null() || CFGetTypeID(ptr as _) != AXUIElementGetTypeID() { return None; }
@@ -41,6 +41,30 @@ unsafe fn anchor(element: RetainedElement, deadline: Instant, content: bool) -> 
     if !super::mactools_native::classified_role(Some(&role)) { return None; }
     if super::mactools_native::skips_observation_role(&role) { return None; }
     if !super::mactools_native::control_security(ptr).ok()? { return None; }
+    Some(role)
+}
+
+/// Reject unavailable or protected ancestry before collecting descendant values.
+unsafe fn check_ancestry(ptr: usize, deadline: Instant, toolbar: bool) -> Option<()> {
+    let mut current = RetainedElement::retain(ptr);
+    let mut toolbar_seen = false;
+    for _ in 0..12 {
+        let role = checked_role(&current, deadline)?;
+        toolbar_seen |= role == "AXToolbar";
+        if role == "AXWindow" {
+            return (!toolbar || toolbar_seen).then_some(());
+        }
+        if Instant::now() >= deadline { return None; }
+        let parent = copy_element_attr(current.as_ptr() as _, "AXParent")?;
+        current = RetainedElement::retain(parent as usize);
+        CFRelease(parent as _);
+    }
+    None
+}
+
+unsafe fn anchor(element: RetainedElement, deadline: Instant, content: bool) -> Option<Anchor> {
+    let role = checked_role(&element, deadline)?;
+    let ptr = element.as_ptr() as AXUIElementRef;
     // Above the toolbar retain identity, never page values or contextual contents.
     // The window title/document can change while its native toolbar objects survive.
     if !content {
@@ -105,6 +129,7 @@ impl ControlStamp {
     unsafe fn capture(ptr: usize, deadline: Instant) -> Option<Self> {
         if Instant::now() >= deadline { return None; }
         let (approved_window, toolbar) = super::mactools_native::observation_scope()?;
+        check_ancestry(ptr, deadline, toolbar)?;
         let mut chain = Vec::new();
         let mut current = RetainedElement::retain(ptr);
         let mut toolbar_seen = false;

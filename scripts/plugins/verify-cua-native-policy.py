@@ -67,7 +67,7 @@ def verify(products: Path, library: Path) -> None:
                     except subprocess.TimeoutExpired:
                         fixture.kill()
                         fixture.wait(timeout=5)
-        print("PASS: secure exclusion, distinct approvals, no keep-awake assertion, fault-injected peer refusal, stale toolbar document/address and control/row/URL refusal, foreign-window exclusion, incomplete-scope refusal, unverified web echoes, and fresh single effects.")
+        print("PASS: secure exclusion, zero descendant reads after ancestor failure, distinct approvals, no keep-awake assertion, fault-injected peer refusal, stale toolbar document/address and control/row/URL refusal, foreign-window exclusion, incomplete-scope refusal, unverified web echoes, and fresh single effects.")
 
 
 if __name__ == "__main__":
