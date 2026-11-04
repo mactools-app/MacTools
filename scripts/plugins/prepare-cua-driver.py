@@ -65,6 +65,8 @@ def native_build_key() -> str:
 
 
 def build_environment(destination: Path) -> dict[str, str]:
+    # Cargo runs in the prepared source tree, not necessarily the caller's directory.
+    destination = destination.resolve()
     environment = {key: os.environ[key] for key in ("PATH", "HOME", "USER", "LOGNAME", "TMPDIR", "DEVELOPER_DIR") if key in os.environ}
     # Cargo's C dependencies must use the selected Xcode SDK even when Xcode
     # invokes this script with a PATH entry named only "cc". The absolute

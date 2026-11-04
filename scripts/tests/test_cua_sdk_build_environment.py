@@ -15,6 +15,18 @@ SPEC.loader.exec_module(BUILDER)
 
 
 class CuaSDKBuildEnvironmentTests(unittest.TestCase):
+    def test_relative_cache_paths_remain_anchored_outside_the_cargo_working_directory(self):
+        destination = Path("build/owned-cua-sdk")
+        tools = ["/selected/MacOSX.sdk", "/selected/clang", "/selected/clang++"]
+        with patch.object(BUILDER.subprocess, "check_output", side_effect=tools):
+            environment = BUILDER.build_environment(destination)
+        # Cargo runs inside the prepared Rust source, while lipo runs in the caller's directory.
+        rust_source = destination.resolve() / "source-key/libs/cua-driver/rust"
+        for variable, name in [("CARGO_HOME", "cargo"), ("CARGO_TARGET_DIR", "target")]:
+            configured = Path(environment[variable])
+            effective = configured if configured.is_absolute() else rust_source / configured
+            self.assertEqual(effective, destination.resolve() / name)
+
     def test_selected_sdk_and_compilers_survive_credential_sanitization(self):
         sdk = "/Applications/Xcode.app/SDKs/MacOSX.sdk"
         clang = "/Applications/Xcode.app/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
