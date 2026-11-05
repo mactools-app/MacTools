@@ -3,6 +3,58 @@ import MacToolsPluginKit
 import SwiftUI
 
 @MainActor
+struct VoiceComputerSettings: View {
+    @ObservedObject var plugin: VoiceControlPlugin
+    @ObservedObject var model: VoiceConversation
+    @State private var showsReadingConsent = false
+    var body: some View {
+        VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowTitleDescription) {
+            Toggle(model.text("允许电脑交互"), isOn: .init(get: { plugin.computerUse.enabled }, set: { plugin.setComputerInteraction($0) }))
+                .toggleStyle(.switch).disabled(model.active || model.credentialBusy)
+                .accessibilityIdentifier("voice-control.computer-interaction")
+            Text(model.text("支持网页、剪贴板、多步应用任务与命令。"))
+                .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            Divider()
+            Toggle(model.text("允许读取应用内容"), isOn: .init(get: { plugin.allowsAppReading }, set: {
+                if $0 { showsReadingConsent = true } else { plugin.setAppReadingConsent(false) }
+            }))
+                .toggleStyle(.switch)
+                .disabled(model.credentialBusy || (!plugin.allowsAppReading && (model.active || !plugin.computerUse.enabled)))
+                .accessibilityIdentifier("voice-control.app-reading-consent")
+            Text(model.text("对话期间，按请求读取的应用内容会发送到 OpenAI。"))
+                .font(PluginSettingsTheme.Typography.rowDescription).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .alert(model.text("允许读取应用内容？"), isPresented: $showsReadingConsent) {
+            Button(model.text("允许读取")) { plugin.setAppReadingConsent(true) }
+            Button(model.text("取消"), role: .cancel) {}
+        } message: {
+            Text(model.text("语音助手将在对话期间读取你指定应用的控件和内容，并将请求的数据发送到 OpenAI。停止、关闭助手或撤销此设置会结束读取。输入操作使用你选择的控制模式。"))
+        }
+    }
+}
+
+@MainActor
+struct VoiceControlModeSettings: View {
+    let plugin: VoiceControlPlugin
+    @ObservedObject var model: VoiceConversation
+    @ObservedObject private var approvals: VoiceApprovals
+    init(plugin: VoiceControlPlugin, model: VoiceConversation) {
+        self.plugin = plugin; self.model = model; approvals = model.approvals
+    }
+    var body: some View {
+        PluginSettingsItem(title: model.text("直接控制"),
+            description: model.text("对话期间直接执行明确请求的操作与命令。关闭时使用按钮逐项确认。此选择仅保存在本机。")) {
+            Toggle(model.text("直接控制"), isOn: .init(get: { approvals.directControlEnabled }, set: { plugin.setDirectControl($0) }))
+                .labelsHidden().toggleStyle(.switch)
+                .disabled(model.credentialBusy || (!approvals.directControlEnabled && model.active))
+                .accessibilityIdentifier("voice-control.direct-control")
+        }
+    }
+}
+
+@MainActor
 struct VoiceKeySettings: View {
     @ObservedObject var model: VoiceConversation
     @State private var draftKey = ""
@@ -129,6 +181,8 @@ struct VoiceConversationSettings: View {
     var body: some View {
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
             shortcut("toggle-assistant")
+            Divider()
+            VoiceControlModeSettings(plugin: plugin, model: model)
             Divider()
             PluginSettingsItem(title: model.text("说话后连接")) {
                 Toggle(model.text("说话后连接"), isOn: Binding(

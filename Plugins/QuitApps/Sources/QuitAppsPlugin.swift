@@ -137,7 +137,7 @@ final class QuitAppsPlugin: MacToolsPlugin, DropZoneAnchorProviding, PluginActio
                 keywords: [metadata.title, metadata.defaultDescription, "quit", "apps"],
                 systemImage: metadata.iconName,
                 externalInvocationPolicy: .unavailable,
-                capabilities: [.foregroundInteractive]
+                capabilities: [.foregroundInteractive, .opensInterface]
             ),
         ]
     }

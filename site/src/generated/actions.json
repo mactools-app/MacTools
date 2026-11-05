@@ -6129,6 +6129,1035 @@
       "action": {
         "automaticEligible": false,
         "description": {
+          "ar": "النقر على عنصر",
+          "de": "Steuerelement anklicken",
+          "en": "Click control",
+          "es": "Pulsar un control",
+          "fr": "Cliquer sur une commande",
+          "ja": "コントロールをクリック",
+          "ko": "컨트롤 클릭",
+          "pt": "Clicar num controlo",
+          "ru": "Нажать элемент",
+          "tr": "Denetime tıkla",
+          "zh-Hans": "点击应用控件",
+          "zh-Hant": "點擊應用程式控制項"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-click-control",
+        "keywords": [
+          "computer",
+          "browser",
+          "clipboard",
+          "app controls"
+        ],
+        "parameters": [
+          {
+            "id": "observationID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "controlID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [
+          "accessibility"
+        ],
+        "risk": "confirmationRequired",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "النقر على عنصر",
+          "de": "Steuerelement anklicken",
+          "en": "Click control",
+          "es": "Pulsar un control",
+          "fr": "Cliquer sur une commande",
+          "ja": "コントロールをクリック",
+          "ko": "컨트롤 클릭",
+          "pt": "Clicar num controlo",
+          "ru": "Нажать элемент",
+          "tr": "Denetime tıkla",
+          "zh-Hans": "点击应用控件",
+          "zh-Hant": "點擊應用程式控制項"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-click-control",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-click-control/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "إيقاف الأمر",
+          "de": "Befehl stoppen",
+          "en": "Stop command",
+          "es": "Detener comando",
+          "fr": "Arrêter la commande",
+          "ja": "コマンドを停止",
+          "ko": "명령 중지",
+          "pt": "Parar comando",
+          "ru": "Остановить команду",
+          "tr": "Komutu durdur",
+          "zh-Hans": "停止命令",
+          "zh-Hant": "停止命令"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-command-cancel",
+        "keywords": [
+          "computer",
+          "task",
+          "menu",
+          "keyboard",
+          "terminal",
+          "command",
+          "quit",
+          "paste"
+        ],
+        "parameters": [
+          {
+            "id": "commandID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [],
+        "risk": "safe",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "إيقاف الأمر",
+          "de": "Befehl stoppen",
+          "en": "Stop command",
+          "es": "Detener comando",
+          "fr": "Arrêter la commande",
+          "ja": "コマンドを停止",
+          "ko": "명령 중지",
+          "pt": "Parar comando",
+          "ru": "Остановить команду",
+          "tr": "Komutu durdur",
+          "zh-Hans": "停止命令",
+          "zh-Hant": "停止命令"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-command-cancel",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-command-cancel/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "تشغيل أمر",
+          "de": "Befehl ausführen",
+          "en": "Run command",
+          "es": "Ejecutar comando",
+          "fr": "Exécuter une commande",
+          "ja": "コマンドを実行",
+          "ko": "명령 실행",
+          "pt": "Executar comando",
+          "ru": "Выполнить команду",
+          "tr": "Komut çalıştır",
+          "zh-Hans": "运行命令",
+          "zh-Hant": "執行命令"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-command-start",
+        "keywords": [
+          "computer",
+          "task",
+          "menu",
+          "keyboard",
+          "terminal",
+          "command",
+          "quit",
+          "paste"
+        ],
+        "parameters": [
+          {
+            "id": "command",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "directory",
+            "isRequired": false,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "timeout",
+            "isRequired": false,
+            "kind": "integer",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [],
+        "risk": "confirmationRequired",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "تشغيل أمر",
+          "de": "Befehl ausführen",
+          "en": "Run command",
+          "es": "Ejecutar comando",
+          "fr": "Exécuter une commande",
+          "ja": "コマンドを実行",
+          "ko": "명령 실행",
+          "pt": "Executar comando",
+          "ru": "Выполнить команду",
+          "tr": "Komut çalıştır",
+          "zh-Hans": "运行命令",
+          "zh-Hant": "執行命令"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-command-start",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-command-start/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "عرض نتيجة الأمر",
+          "de": "Befehlsergebnis lesen",
+          "en": "Read command result",
+          "es": "Ver resultado del comando",
+          "fr": "Lire le résultat de la commande",
+          "ja": "コマンド結果を確認",
+          "ko": "명령 결과 확인",
+          "pt": "Ver resultado do comando",
+          "ru": "Посмотреть результат команды",
+          "tr": "Komut sonucunu oku",
+          "zh-Hans": "查看命令结果",
+          "zh-Hant": "檢視命令結果"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-command-status",
+        "keywords": [
+          "computer",
+          "task",
+          "menu",
+          "keyboard",
+          "terminal",
+          "command",
+          "quit",
+          "paste"
+        ],
+        "parameters": [
+          {
+            "id": "commandID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [],
+        "risk": "safe",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "عرض نتيجة الأمر",
+          "de": "Befehlsergebnis lesen",
+          "en": "Read command result",
+          "es": "Ver resultado del comando",
+          "fr": "Lire le résultat de la commande",
+          "ja": "コマンド結果を確認",
+          "ko": "명령 결과 확인",
+          "pt": "Ver resultado do comando",
+          "ru": "Посмотреть результат команды",
+          "tr": "Komut sonucunu oku",
+          "zh-Hans": "查看命令结果",
+          "zh-Hant": "檢視命令結果"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-command-status",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-command-status/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "نسخ النص",
+          "de": "Text kopieren",
+          "en": "Copy text",
+          "es": "Copiar texto",
+          "fr": "Copier le texte",
+          "ja": "テキストをコピー",
+          "ko": "텍스트 복사",
+          "pt": "Copiar texto",
+          "ru": "Скопировать текст",
+          "tr": "Metni kopyala",
+          "zh-Hans": "复制文本",
+          "zh-Hant": "複製文字"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-copy-text",
+        "keywords": [
+          "computer",
+          "browser",
+          "clipboard",
+          "app controls"
+        ],
+        "parameters": [
+          {
+            "id": "text",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [],
+        "risk": "safe",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "نسخ النص",
+          "de": "Text kopieren",
+          "en": "Copy text",
+          "es": "Copiar texto",
+          "fr": "Copier le texte",
+          "ja": "テキストをコピー",
+          "ko": "텍스트 복사",
+          "pt": "Copiar texto",
+          "ru": "Скопировать текст",
+          "tr": "Metni kopyala",
+          "zh-Hans": "复制文本",
+          "zh-Hant": "複製文字"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-copy-text",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-copy-text/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "فحص عناصر التطبيق",
+          "de": "App-Steuerelemente prüfen",
+          "en": "Inspect application controls",
+          "es": "Inspeccionar controles de una app",
+          "fr": "Inspecter les commandes d’une app",
+          "ja": "アプリのコントロールを確認",
+          "ko": "앱 컨트롤 확인",
+          "pt": "Inspecionar controlos da aplicação",
+          "ru": "Просмотреть элементы приложения",
+          "tr": "Uygulama denetimlerini incele",
+          "zh-Hans": "查看应用控件",
+          "zh-Hant": "檢視應用程式控制項"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-inspect-app",
+        "keywords": [
+          "computer",
+          "browser",
+          "clipboard",
+          "app controls"
+        ],
+        "parameters": [
+          {
+            "id": "app",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "windowID",
+            "isRequired": false,
+            "kind": "integer",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "scope",
+            "isRequired": false,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [
+          "accessibility"
+        ],
+        "risk": "safe",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "فحص عناصر التطبيق",
+          "de": "App-Steuerelemente prüfen",
+          "en": "Inspect application controls",
+          "es": "Inspeccionar controles de una app",
+          "fr": "Inspecter les commandes d’une app",
+          "ja": "アプリのコントロールを確認",
+          "ko": "앱 컨트롤 확인",
+          "pt": "Inspecionar controlos da aplicação",
+          "ru": "Просмотреть элементы приложения",
+          "tr": "Uygulama denetimlerini incele",
+          "zh-Hans": "查看应用控件",
+          "zh-Hant": "檢視應用程式控制項"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-inspect-app",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-inspect-app/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "فتح صفحة ويب",
+          "de": "Webseite öffnen",
+          "en": "Open web page",
+          "es": "Abrir página web",
+          "fr": "Ouvrir une page web",
+          "ja": "Webページを開く",
+          "ko": "웹 페이지 열기",
+          "pt": "Abrir página Web",
+          "ru": "Открыть веб-страницу",
+          "tr": "Web sayfasını aç",
+          "zh-Hans": "打开网页",
+          "zh-Hant": "開啟網頁"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-open-url",
+        "keywords": [
+          "computer",
+          "browser",
+          "clipboard",
+          "app controls"
+        ],
+        "parameters": [
+          {
+            "id": "url",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "browser",
+            "isRequired": false,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [],
+        "risk": "safe",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "فتح صفحة ويب",
+          "de": "Webseite öffnen",
+          "en": "Open web page",
+          "es": "Abrir página web",
+          "fr": "Ouvrir une page web",
+          "ja": "Webページを開く",
+          "ko": "웹 페이지 열기",
+          "pt": "Abrir página Web",
+          "ru": "Открыть веб-страницу",
+          "tr": "Web sayfasını aç",
+          "zh-Hans": "打开网页",
+          "zh-Hant": "開啟網頁"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-open-url",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-open-url/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "تمرير عنصر",
+          "de": "Steuerelement scrollen",
+          "en": "Scroll control",
+          "es": "Desplazar un control",
+          "fr": "Faire défiler une commande",
+          "ja": "コントロールをスクロール",
+          "ko": "컨트롤 스크롤",
+          "pt": "Deslocar um controlo",
+          "ru": "Прокрутить элемент",
+          "tr": "Denetimi kaydır",
+          "zh-Hans": "滚动应用控件",
+          "zh-Hant": "捲動應用程式控制項"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-scroll-control",
+        "keywords": [
+          "computer",
+          "browser",
+          "clipboard",
+          "app controls"
+        ],
+        "parameters": [
+          {
+            "id": "observationID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "controlID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "direction",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [
+          "accessibility"
+        ],
+        "risk": "confirmationRequired",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "تمرير عنصر",
+          "de": "Steuerelement scrollen",
+          "en": "Scroll control",
+          "es": "Desplazar un control",
+          "fr": "Faire défiler une commande",
+          "ja": "コントロールをスクロール",
+          "ko": "컨트롤 스크롤",
+          "pt": "Deslocar um controlo",
+          "ru": "Прокрутить элемент",
+          "tr": "Denetimi kaydır",
+          "zh-Hans": "滚动应用控件",
+          "zh-Hant": "捲動應用程式控制項"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-scroll-control",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-scroll-control/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "البحث في الويب",
+          "de": "Im Web suchen",
+          "en": "Search the web",
+          "es": "Buscar en la web",
+          "fr": "Rechercher sur le Web",
+          "ja": "Webで検索",
+          "ko": "웹 검색",
+          "pt": "Pesquisar na Web",
+          "ru": "Поиск в интернете",
+          "tr": "Web’de ara",
+          "zh-Hans": "搜索网页",
+          "zh-Hant": "搜尋網頁"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-search-web",
+        "keywords": [
+          "computer",
+          "browser",
+          "clipboard",
+          "app controls"
+        ],
+        "parameters": [
+          {
+            "id": "query",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "browser",
+            "isRequired": false,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [],
+        "risk": "safe",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "البحث في الويب",
+          "de": "Im Web suchen",
+          "en": "Search the web",
+          "es": "Buscar en la web",
+          "fr": "Rechercher sur le Web",
+          "ja": "Webで検索",
+          "ko": "웹 검색",
+          "pt": "Pesquisar na Web",
+          "ru": "Поиск в интернете",
+          "tr": "Web’de ara",
+          "zh-Hans": "搜索网页",
+          "zh-Hant": "搜尋網頁"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-search-web",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-search-web/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "تعيين قيمة عنصر",
+          "de": "Steuerelement ausfüllen",
+          "en": "Set control value",
+          "es": "Establecer valor de un control",
+          "fr": "Définir la valeur d’une commande",
+          "ja": "コントロールの値を設定",
+          "ko": "컨트롤 값 설정",
+          "pt": "Definir valor de um controlo",
+          "ru": "Задать значение элемента",
+          "tr": "Denetim değerini ayarla",
+          "zh-Hans": "填写应用控件",
+          "zh-Hant": "填寫應用程式控制項"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-set-control-value",
+        "keywords": [
+          "computer",
+          "browser",
+          "clipboard",
+          "app controls"
+        ],
+        "parameters": [
+          {
+            "id": "observationID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "controlID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "value",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [
+          "accessibility"
+        ],
+        "risk": "confirmationRequired",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "تعيين قيمة عنصر",
+          "de": "Steuerelement ausfüllen",
+          "en": "Set control value",
+          "es": "Establecer valor de un control",
+          "fr": "Définir la valeur d’une commande",
+          "ja": "コントロールの値を設定",
+          "ko": "컨트롤 값 설정",
+          "pt": "Definir valor de um controlo",
+          "ru": "Задать значение элемента",
+          "tr": "Denetim değerini ayarla",
+          "zh-Hans": "填写应用控件",
+          "zh-Hant": "填寫應用程式控制項"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-set-control-value",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-set-control-value/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "بدء مهمة على الكمبيوتر",
+          "de": "Computeraufgabe starten",
+          "en": "Start computer task",
+          "es": "Iniciar tarea en el ordenador",
+          "fr": "Démarrer une tâche sur le Mac",
+          "ja": "コンピュータタスクを開始",
+          "ko": "컴퓨터 작업 시작",
+          "pt": "Iniciar tarefa no computador",
+          "ru": "Начать задачу на компьютере",
+          "tr": "Bilgisayar görevi başlat",
+          "zh-Hans": "执行电脑任务",
+          "zh-Hant": "執行電腦任務"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-task-begin",
+        "keywords": [
+          "computer",
+          "task",
+          "menu",
+          "keyboard",
+          "terminal",
+          "command",
+          "quit",
+          "paste"
+        ],
+        "parameters": [
+          {
+            "id": "goal",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "apps",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [
+          "accessibility"
+        ],
+        "risk": "confirmationRequired",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "بدء مهمة على الكمبيوتر",
+          "de": "Computeraufgabe starten",
+          "en": "Start computer task",
+          "es": "Iniciar tarea en el ordenador",
+          "fr": "Démarrer une tâche sur le Mac",
+          "ja": "コンピュータタスクを開始",
+          "ko": "컴퓨터 작업 시작",
+          "pt": "Iniciar tarefa no computador",
+          "ru": "Начать задачу на компьютере",
+          "tr": "Bilgisayar görevi başlat",
+          "zh-Hans": "执行电脑任务",
+          "zh-Hant": "執行電腦任務"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-task-begin",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-task-begin/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "إنهاء مهمة الكمبيوتر",
+          "de": "Computeraufgabe beenden",
+          "en": "End computer task",
+          "es": "Finalizar tarea del ordenador",
+          "fr": "Terminer la tâche sur le Mac",
+          "ja": "コンピュータタスクを終了",
+          "ko": "컴퓨터 작업 종료",
+          "pt": "Terminar tarefa no computador",
+          "ru": "Завершить задачу",
+          "tr": "Bilgisayar görevini bitir",
+          "zh-Hans": "结束电脑任务",
+          "zh-Hant": "結束電腦任務"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-task-finish",
+        "keywords": [
+          "computer",
+          "task",
+          "menu",
+          "keyboard",
+          "terminal",
+          "command",
+          "quit",
+          "paste"
+        ],
+        "parameters": [
+          {
+            "id": "taskID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "outcome",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [],
+        "risk": "safe",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "إنهاء مهمة الكمبيوتر",
+          "de": "Computeraufgabe beenden",
+          "en": "End computer task",
+          "es": "Finalizar tarea del ordenador",
+          "fr": "Terminer la tâche sur le Mac",
+          "ja": "コンピュータタスクを終了",
+          "ko": "컴퓨터 작업 종료",
+          "pt": "Terminar tarefa no computador",
+          "ru": "Завершить задачу",
+          "tr": "Bilgisayar görevini bitir",
+          "zh-Hans": "结束电脑任务",
+          "zh-Hant": "結束電腦任務"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-task-finish",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-task-finish/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "مراقبة مهمة الكمبيوتر",
+          "de": "Computeraufgabe beobachten",
+          "en": "Observe computer task",
+          "es": "Observar tarea del ordenador",
+          "fr": "Observer la tâche sur le Mac",
+          "ja": "コンピュータタスクを確認",
+          "ko": "컴퓨터 작업 관찰",
+          "pt": "Observar tarefa no computador",
+          "ru": "Наблюдать за задачей",
+          "tr": "Bilgisayar görevini gözlemle",
+          "zh-Hans": "观察电脑任务",
+          "zh-Hant": "觀察電腦任務"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-task-observe",
+        "keywords": [
+          "computer",
+          "task",
+          "menu",
+          "keyboard",
+          "terminal",
+          "command",
+          "quit",
+          "paste"
+        ],
+        "parameters": [
+          {
+            "id": "taskID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "app",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "windowID",
+            "isRequired": false,
+            "kind": "integer",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "menuPath",
+            "isRequired": false,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "scope",
+            "isRequired": false,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [
+          "accessibility"
+        ],
+        "risk": "safe",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "مراقبة مهمة الكمبيوتر",
+          "de": "Computeraufgabe beobachten",
+          "en": "Observe computer task",
+          "es": "Observar tarea del ordenador",
+          "fr": "Observer la tâche sur le Mac",
+          "ja": "コンピュータタスクを確認",
+          "ko": "컴퓨터 작업 관찰",
+          "pt": "Observar tarefa no computador",
+          "ru": "Наблюдать за задачей",
+          "tr": "Bilgisayar görevini gözlemle",
+          "zh-Hans": "观察电脑任务",
+          "zh-Hant": "觀察電腦任務"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-task-observe",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-task-observe/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
+          "ar": "تنفيذ خطوة من المهمة",
+          "de": "Aufgabenschritt ausführen",
+          "en": "Perform task step",
+          "es": "Ejecutar paso de la tarea",
+          "fr": "Exécuter une étape",
+          "ja": "タスクのステップを実行",
+          "ko": "작업 단계 실행",
+          "pt": "Executar etapa da tarefa",
+          "ru": "Выполнить шаг задачи",
+          "tr": "Görev adımını çalıştır",
+          "zh-Hans": "执行任务步骤",
+          "zh-Hant": "執行任務步驟"
+        },
+        "externalInvocation": "unavailable",
+        "id": "computer-task-step",
+        "keywords": [
+          "computer",
+          "task",
+          "menu",
+          "keyboard",
+          "terminal",
+          "command",
+          "quit",
+          "paste"
+        ],
+        "parameters": [
+          {
+            "id": "taskID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "app",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "stepID",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "operation",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          },
+          {
+            "id": "payload",
+            "isRequired": true,
+            "kind": "string",
+            "portability": "localOnly",
+            "privacy": "sensitive"
+          }
+        ],
+        "permissionIDs": [
+          "accessibility"
+        ],
+        "risk": "safe",
+        "surfaces": [
+          "manual"
+        ],
+        "systemImage": "cursorarrow",
+        "title": {
+          "ar": "تنفيذ خطوة من المهمة",
+          "de": "Aufgabenschritt ausführen",
+          "en": "Perform task step",
+          "es": "Ejecutar paso de la tarea",
+          "fr": "Exécuter une étape",
+          "ja": "タスクのステップを実行",
+          "ko": "작업 단계 실행",
+          "pt": "Executar etapa da tarefa",
+          "ru": "Выполнить шаг задачи",
+          "tr": "Görev adımını çalıştır",
+          "zh-Hans": "执行任务步骤",
+          "zh-Hant": "執行任務步驟"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/voice-control?provider=voice-control&action=computer-task-step",
+      "pluginID": "voice-control",
+      "providerID": "voice-control",
+      "route": "/plugins/voice-control/actions/voice-control/computer-task-step/"
+    },
+    {
+      "action": {
+        "automaticEligible": false,
+        "description": {
           "ar": "رتّب النافذة النشطة باستخدام «السدس السفلي الأوسط».",
           "de": "Ordnet das aktive Fenster mit „Unteres mittleres Sechstel“ an.",
           "en": "Fill the bottom-center sixth of the display.",

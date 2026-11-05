@@ -5,6 +5,87 @@ import XCTest
 
 @MainActor
 final class VoiceControlRouterTests: XCTestCase {
+    func testInterfaceActionsAreDistinctAndCannotReportAnOperationCompleted() async throws {
+        let fixture = Fixture()
+        fixture.plugin.interfaceOnly = true; fixture.register()
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search("fixture"), sessionID: session)
+        let picker = try XCTUnwrap(reply.capabilities.first { $0.title == "Change fixture" })
+        XCTAssertEqual(picker.kind, .feature)
+        XCTAssertFalse(reply.capabilities.contains { $0.kind == .action })
+        let result = await context.request(.perform(capabilityID: picker.id, parameters: .empty), sessionID: session)
+        XCTAssertEqual(result.status, "interfaceOpened")
+        XCTAssertEqual(fixture.plugin.executions, 1)
+        fixture.plugin.interfaceOnly = false; fixture.register()
+        let stale = await context.request(.perform(capabilityID: picker.id, parameters: .empty), sessionID: session)
+        XCTAssertEqual(stale.status, "staleCapability")
+        XCTAssertEqual(fixture.plugin.executions, 1)
+    }
+
+    func testFunctionMetadataNamesOnlyIssuedCanonicalActions() async throws {
+        let fixture = Fixture()
+        fixture.plugin.voiceFunctions = [.init(actionID: "change", name: "fixture_change"),
+            .init(actionID: "unlisted", name: "invented_write")]
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search("fixture"), sessionID: session)
+        let action = try XCTUnwrap(reply.capabilities.first { $0.kind == .action })
+        let json = try JSONSerialization.jsonObject(with: Data(try XCTUnwrap(reply.payload).utf8)) as? [String: Any]
+        let names = try XCTUnwrap(json?["voiceFunctions"] as? [String: String])
+        XCTAssertEqual(names, [action.id: "fixture_change"])
+        fixture.plugin.voiceFunctions = [.init(actionID: "change", name: "one"), .init(actionID: "change", name: "two")]
+        let ambiguous = await context.request(.search("fixture"), sessionID: session)
+        XCTAssertNil(ambiguous.payload)
+    }
+
+    func testEnablingFuturePluginAccessRequiresPanelButtons() async throws {
+        let owner = PanelVoiceFixturePlugin(id: "voice-control")
+        owner.actionID = "automatic-plugin-access-on"
+        owner.voiceSelfActionIDs = [owner.actionID]
+        owner.confirmAction = true
+        let fixture = Fixture(owner: owner)
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search(""), sessionID: session)
+        let command = try XCTUnwrap(reply.capabilities.first { $0.kind == .action && $0.requiresConfirmation })
+        let execution = Task { await context.request(.perform(capabilityID: command.id, parameters: .empty), sessionID: session) }
+        for _ in 0..<500 where owner.pending == nil { await Task.yield() }
+        XCTAssertEqual(owner.pending?.allowsDirectControl, false)
+        owner.respond(true)
+        let result = await execution.value
+        XCTAssertEqual(result.status, "ok")
+        XCTAssertEqual(owner.executions, 1)
+    }
+
+    func testPanelApprovalKeepsHostAdmissionAndSessionRevocationAuthoritative() async throws {
+        let owner = PanelVoiceFixturePlugin(id: "voice-control")
+        let fixture = Fixture(owner: owner)
+        fixture.plugin.confirmAction = true; fixture.register()
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search("fixture"), sessionID: session)
+        let command = try XCTUnwrap(reply.capabilities.first { $0.kind == .action })
+        let execution = Task { await context.request(.perform(capabilityID: command.id, parameters: .empty), sessionID: session) }
+        for _ in 0..<500 where owner.pending == nil { await Task.yield() }
+        XCTAssertEqual(fixture.plugin.executions, 0)
+        XCTAssertEqual(fixture.confirmation.requests, 0, "Voice approval uses the panel companion, without a second sheet")
+        let firstID = try XCTUnwrap(owner.pending?.id)
+        owner.respond(true)
+        let result = await execution.value
+        XCTAssertEqual(result.status, "ok")
+        XCTAssertEqual(fixture.plugin.executions, 1)
+
+        let cancelled = Task { await context.request(.perform(capabilityID: command.id, parameters: .empty), sessionID: session) }
+        for _ in 0..<500 where owner.pending == nil { await Task.yield() }
+        XCTAssertNotEqual(owner.pending?.id, firstID)
+        context.endSession(session)
+        let stopped = await cancelled.value
+        XCTAssertEqual(stopped.status, "sessionEnded")
+        owner.respond(true)
+        XCTAssertEqual(fixture.plugin.executions, 1, "Late approval must not execute after the session ends")
+    }
+
     func testDiscoveryExecutesCanonicalActionAndRejectsInventedOrRevokedIDs() async throws {
         let fixture = Fixture()
         let context = fixture.router.context(owner: "voice-control")
@@ -94,6 +175,19 @@ final class VoiceControlRouterTests: XCTestCase {
         let freshQuery = try XCTUnwrap(fresh.capabilities.first { $0.kind == .query })
         let value = await context.request(.perform(capabilityID: freshQuery.id, parameters: .empty), sessionID: session)
         XCTAssertEqual(value.payload, "{\"value\":35}")
+    }
+
+    func testUnavailableReasonReachesVoiceWithoutStartingInput() async throws {
+        let fixture = Fixture()
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession())
+        let reply = await context.request(.search(""), sessionID: session)
+        let command = try XCTUnwrap(reply.capabilities.first { $0.kind == .action })
+        fixture.plugin.unavailableReason = "Fixture requires a narrower observation"
+        let result = await context.request(.perform(capabilityID: command.id, parameters: .empty), sessionID: session)
+        XCTAssertEqual(result.status, "unavailable")
+        XCTAssertEqual(result.message, fixture.plugin.unavailableReason)
+        XCTAssertEqual(fixture.plugin.executions, 0)
     }
 
     func testRevokedContextCannotCreateAnotherSession() throws {
@@ -248,6 +342,32 @@ final class VoiceControlRouterTests: XCTestCase {
         XCTAssertTrue(fixture.applications.opened.isEmpty)
     }
 
+    func testParameterizedOwnerActionsNeedSeparateOptInAndCanBeRevokedDuringApproval() async throws {
+        let fixture = Fixture()
+        fixture.owner.parameterized = true
+        fixture.owner.voiceSelfActionIDs = ["change"]
+        fixture.owner.confirmAction = true
+        fixture.register()
+        let context = fixture.router.context(owner: "voice-control")
+        let session = try XCTUnwrap(context.beginSession(excludingPluginIDs: ["fixture"]))
+        let before = await context.request(.search("fixture"), sessionID: session)
+        XCTAssertTrue(before.capabilities.isEmpty)
+        fixture.owner.voiceSelfParameterizedActionIDs = ["change"]
+        let reply = await context.request(.search("fixture"), sessionID: session)
+        XCTAssertEqual(reply.capabilities.count, 1)
+        let command = try XCTUnwrap(reply.capabilities.first)
+        fixture.confirmation.operation = { fixture.owner.voiceSelfParameterizedActionIDs = []; return true }
+        let parameters = try ActionParameterSet(["value": .integer(35)])
+        let cancelled = await context.request(.perform(capabilityID: command.id, parameters: parameters), sessionID: session)
+        XCTAssertEqual(cancelled.status, "cancelled")
+        XCTAssertEqual(fixture.owner.executions, 0)
+        fixture.owner.voiceSelfParameterizedActionIDs = ["change"]
+        fixture.confirmation.operation = { true }
+        let result = await context.request(.perform(capabilityID: command.id, parameters: parameters), sessionID: session)
+        XCTAssertEqual(result.status, "ok")
+        XCTAssertEqual(fixture.owner.executions, 1)
+    }
+
     func testOwnerExposesOnlyDeclaredFixedSelfControlsWithCanonicalApproval() async throws {
         let fixture = Fixture()
         fixture.owner.voiceSelfActionIDs = ["change"]
@@ -306,26 +426,26 @@ private final class Fixture {
     let confirmation = VoiceFixtureConfirmation()
     let applications = VoiceFixtureApplications()
     var plugin = VoiceFixturePlugin()
-    let owner = VoiceFixturePlugin(id: "voice-control")
+    let owner: VoiceFixturePlugin
     var now = ContinuousClock.now
     lazy var router = VoiceControlRouter(registry: registry,
         executor: ActionExecutor(registry: registry, confirmationService: confirmation),
         confirmation: confirmation, plugins: { [unowned self] in [plugin, owner] }, openFeature: { _ in },
         applications: applications, now: { [unowned self] in now })
-    init() { register() }
+    init(owner: VoiceFixturePlugin? = nil) { self.owner = owner ?? VoiceFixturePlugin(id: "voice-control"); register() }
     func register() {
         registry.synchronize([plugin, owner].map { provider in .init(providerID: provider.metadata.id, identity: ObjectIdentifier(provider),
             definitions: provider.actionDefinitions, catalogEntries: provider.actionCatalogEntries,
-            availability: { _ in .available }, exposurePolicy: { _, _ in provider.excluded ? .excluded : .automatic }, begin: { invocation in
+            availability: { _ in provider.unavailableReason.map { .unavailable($0) } ?? .available }, exposurePolicy: { _, _ in provider.excluded ? .excluded : .automatic }, begin: { invocation in
                 .success(ActionExecutionHandle { provider.executions += 1; return .succeeded() })
             }) })
     }
 }
 
 @MainActor
-private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
-    PluginVoiceQueryProviding, PluginVoiceParameterizedActionProviding, PluginVoiceSelfActionProviding,
-    PluginVoiceControlHostContextConsuming {
+private class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
+    PluginVoiceQueryProviding, PluginVoiceSelfParameterizedActionProviding, PluginVoiceSelfActionProviding,
+    PluginVoiceControlHostContextConsuming, PluginVoiceFunctionProviding {
     let metadata: PluginMetadata
     init(id: String = "fixture") {
         metadata = PluginMetadata(id: id, title: "Fixture", iconName: "bolt", iconTint: .blue,
@@ -334,10 +454,14 @@ private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
     var shortcutBindingResolver: ((String) -> ShortcutBinding?)?
+    var unavailableReason: String?
     var excluded = false
     var parameterized = false
     var allowsParameterizedVoice = true
     var confirmAction = false
+    var interfaceOnly = false
+    var voiceFunctions: [PluginVoiceFunction] = []
+    var actionID = "change"
     var privateQuery = false
     var executions = 0
     var reads = 0
@@ -345,12 +469,14 @@ private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     var contextDeliveries = 0
     var voiceParameterizedActionIDs: Set<String> { parameterized && allowsParameterizedVoice ? ["change"] : [] }
     var voiceSelfActionIDs: Set<String> = []
+    var voiceSelfParameterizedActionIDs: Set<String> = []
     var actionDefinitions: [ActionDefinition] {
-        [.init(key: .init(providerID: metadata.id, actionID: "change"), title: "Change fixture",
+        [.init(key: .init(providerID: metadata.id, actionID: actionID), title: "Change fixture",
                description: "A fixture command", systemImage: "bolt",
                parameters: parameterized ? [.init(id: "value", title: "Value", kind: .integer)] : [],
                risk: confirmAction ? .confirmationRequired : .safe,
-               confirmation: confirmAction ? prompt : nil, capabilities: [.foregroundInteractive])]
+               confirmation: confirmAction ? prompt : nil,
+               capabilities: interfaceOnly ? [.foregroundInteractive, .opensInterface] : [.foregroundInteractive])]
     }
     var actionCatalogEntries: [ActionCatalogEntry] {
         parameterized ? [] : [.init(reference: .init(key: actionDefinitions[0].key), title: "Change fixture")]
@@ -363,5 +489,21 @@ private final class VoiceFixturePlugin: MacToolsPlugin, PluginActionProviding,
     func readVoiceQuery(id: String) async throws -> String { reads += 1; return "{\"value\":35}" }
     func beginAction(_ invocation: ActionInvocation) throws -> ActionExecutionHandle {
         .init { self.executions += 1; return .succeeded() }
+    }
+}
+
+@MainActor
+private final class PanelVoiceFixturePlugin: VoiceFixturePlugin, PluginVoiceConfirmationPresenting {
+    var pending: PluginVoiceConfirmationRequest?
+    private var continuation: CheckedContinuation<Bool, Never>?
+    func confirmVoiceAction(_ request: PluginVoiceConfirmationRequest) async -> Bool {
+        await withTaskCancellationHandler {
+            await withCheckedContinuation { continuation in
+                self.continuation = continuation; pending = request
+            }
+        } onCancel: { Task { @MainActor [weak self] in self?.respond(false) } }
+    }
+    func respond(_ approved: Bool) {
+        let response = continuation; continuation = nil; pending = nil; response?.resume(returning: approved)
     }
 }

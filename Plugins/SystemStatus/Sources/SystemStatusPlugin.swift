@@ -167,7 +167,7 @@ final class SystemStatusPlugin:
                 keywords: [metadata.title, actionTitle],
                 systemImage: metadata.iconName,
                 externalInvocationPolicy: .unavailable,
-                capabilities: [.foregroundInteractive]
+                capabilities: [.foregroundInteractive, .opensInterface]
             ),
         ]
     }

@@ -37,6 +37,18 @@ final class VoiceControlRouter {
     private var operations: [UUID: (UUID, Task<PluginVoiceReply, Never>)] = [:]
     private let surface = ActionExposureSurface(rawValue: "voice-control")
 
+    private func hasSelfActions(_ plugin: any MacToolsPlugin) -> Bool {
+        (plugin as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.isEmpty == false
+            || (plugin as? any PluginVoiceSelfParameterizedActionProviding)?.voiceSelfParameterizedActionIDs.isEmpty == false
+    }
+
+    private func allowsSelfAction(_ plugin: any MacToolsPlugin, id: String, parameterized: Bool) -> Bool {
+        if parameterized {
+            return (plugin as? any PluginVoiceSelfParameterizedActionProviding)?.voiceSelfParameterizedActionIDs.contains(id) == true
+        }
+        return (plugin as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.contains(id) == true
+    }
+
     init(registry: ActionRegistry, executor: ActionExecutor,
          confirmation: any ActionConfirmationRequesting,
          plugins: @escaping () -> [any MacToolsPlugin], openFeature: @escaping (String) -> Void,
@@ -56,7 +68,7 @@ final class VoiceControlRouter {
         return PluginVoiceControlHostContext(providers: { [weak self] in
             guard let self else { return [] }
             return self.plugins().filter {
-                $0.metadata.id != owner || ($0 as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.isEmpty == false
+                $0.metadata.id != owner || self.hasSelfActions($0)
             }.map {
                 PluginVoiceProvider(id: $0.metadata.id, title: $0.metadata.title)
             } + [.init(id: Self.applicationProviderID,
@@ -68,7 +80,7 @@ final class VoiceControlRouter {
             self.endSessions(owner: owner)
             let id = UUID()
             let allowed = Set(self.plugins().filter {
-                $0.metadata.id != owner || ($0 as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.isEmpty == false
+                $0.metadata.id != owner || self.hasSelfActions($0)
             }.map(\.metadata.id)).union([Self.applicationProviderID]).subtracting(excluded)
             self.grants[id] = Grant(owner: owner, ownerIdentity: identity, contextID: contextID, allowedPluginIDs: allowed,
                                     expires: self.now().advanced(by: .seconds(600)))
@@ -116,14 +128,30 @@ final class VoiceControlRouter {
               ObjectIdentifier(plugin) == binding.identity,
               case let .action(reference, _, parameterized) = binding.operation else { return false }
         if binding.pluginID == grants[sessionID]?.owner {
-            guard !parameterized,
-                  (plugin as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.contains(reference.key.actionID) == true else {
+            guard allowsSelfAction(plugin, id: reference.key.actionID, parameterized: parameterized) else {
                 return false
             }
         }
         return parameterized
             ? (plugin as? any PluginVoiceParameterizedActionProviding)?.voiceParameterizedActionIDs.contains(reference.key.actionID) == true
             : registry.catalogEntries.contains { $0.reference == reference }
+    }
+
+    private func confirmationService(sessionID: UUID) -> any ActionConfirmationRequesting {
+        VoiceSessionConfirmation { [weak self] request in
+            guard let self, valid(sessionID), let grant = grants[sessionID],
+                  let owner = plugins().first(where: { $0.metadata.id == grant.owner && ObjectIdentifier($0) == grant.ownerIdentity }) else { return false }
+            let approved: Bool
+            if let presenter = owner as? any PluginVoiceConfirmationPresenting {
+                // Changing future plugin access remains an explicit in-app button decision.
+                let changesAccess = request.reference.key.providerID == grant.owner
+                    && request.reference.key.actionID == "automatic-plugin-access-on"
+                approved = await presenter.confirmVoiceAction(.init(title: request.confirmation.title,
+                    message: request.confirmation.message, confirmButtonTitle: request.confirmation.confirmButtonTitle,
+                    allowsDirectControl: !changesAccess))
+            } else { approved = await confirmation.confirm(request) }
+            return approved && valid(sessionID)
+        }
     }
 
     private func route(_ request: PluginVoiceRequest, sessionID: UUID) async -> PluginVoiceReply {
@@ -154,8 +182,7 @@ final class VoiceControlRouter {
             case .application: return .init(status: "unavailable")
             case let .action(reference, expected, parameterized):
                 if binding.pluginID == grants[sessionID]?.owner {
-                    guard !parameterized,
-                          (plugin as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs.contains(reference.key.actionID) == true else {
+                    guard allowsSelfAction(plugin, id: reference.key.actionID, parameterized: parameterized) else {
                         return .init(status: "unavailable")
                     }
                 }
@@ -169,13 +196,26 @@ final class VoiceControlRouter {
                     : reference
                 guard registry.exposurePolicy(for: target, on: surface) != .excluded else { return .init(status: "unavailable") }
                 let result = await executor.execute(
-                    ActionInvocation(reference: target, source: .manual, mode: .foreground), exposureSurface: surface,
+                    ActionInvocation(reference: target, source: .manual, mode: .foreground),
+                    confirmationService: confirmationService(sessionID: sessionID), exposureSurface: surface,
                     admissionCheck: { [weak self] in self?.canAdmitAction(binding, sessionID: sessionID) == true })
                 guard valid(sessionID) else { return .init(status: "sessionEnded") }
                 switch result {
-                case let .completed(.succeeded(message)): return .init(message: message)
+                case let .completed(.succeeded(message)):
+                    if expected.capabilities.contains(.opensInterface) {
+                        return .init(status: "interfaceOpened", message: "Opened only the requested interface. No application operation was completed or verified. For an action goal, continue with the general computer task tools; do not hand a chooser back to the user.")
+                    }
+                    return .init(message: message)
                 case .completed(.cancelled): return .init(status: "cancelled")
                 case let .completed(.failed(message)): return .init(status: "failedOrUncertain", message: message)
+                case let .rejected(.unavailable(reason)):
+                    return .init(status: "unavailable", message: reason ?? "The action is currently unavailable. Rediscover or clarify; do not retry a write.")
+                case .rejected(.confirmationDenied):
+                    return .init(status: "cancelled", message: "Approval was not granted: it was cancelled, expired or interrupted. No action was started. Ask before requesting another approval.")
+                case .rejected(.confirmationTimedOut):
+                    return .init(status: "unavailable", message: "Approval expired. Ask before requesting a new approval; do not retry a write.")
+                case .rejected(.confirmationUnavailable):
+                    return .init(status: "unavailable", message: "A specific native approval could not be prepared. Inspect a fresh, narrower target before requesting input; do not retry the write.")
                 case .rejected: return .init(status: "unavailable", message: "The host rejected this action. Rediscover or clarify; do not retry a write.")
                 }
             case let .query(expected):
@@ -185,7 +225,7 @@ final class VoiceControlRouter {
                       let query = provider.voiceQueries.first(where: { $0.id == queryID }), query == expected else { return .init(status: "unavailable") }
                 if query.includesPrivateContent && query.confirmation == nil { return .init(status: "permissionRequired") }
                 if let prompt = query.confirmation {
-                    let approved = await confirmation.confirm(.init(
+                    let approved = await confirmationService(sessionID: sessionID).confirm(.init(
                         reference: .init(key: .init(providerID: binding.pluginID, actionID: query.id)),
                         confirmation: prompt, source: .manual))
                     guard approved, valid(sessionID) else { return .init(status: "cancelled") }
@@ -208,7 +248,7 @@ final class VoiceControlRouter {
             case .feature:
                 guard parameters.entries.isEmpty else { return .init(status: "invalidParameters") }
                 openFeature(binding.pluginID)
-                return .init(message: "Opened the feature. Any review or selection must be completed in its native interface.")
+                return .init(status: "interfaceOpened", message: "Opened only the requested feature interface. No application operation was completed or verified. For an action goal, continue with the general computer task tools; do not hand a chooser back to the user.")
             }
         }
     }
@@ -217,9 +257,10 @@ final class VoiceControlRouter {
         guard query.utf8.count <= 256, let grant = grants[sessionID] else { return .init(status: "invalidRequest") }
         let terms = query.lowercased().split(whereSeparator: \.isWhitespace).map(String.init)
         var candidates: [(PluginVoiceCapability, Binding, Int)] = []
+        var functionNames: [String: String] = [:]
         func add(_ plugin: any MacToolsPlugin, kind: PluginVoiceCapability.Kind,
                  title: String, description: String, parameters: [ActionParameterDefinition] = [],
-                 confirm: Bool = false, operation: Binding.Operation) {
+                 confirm: Bool = false, functionName: String? = nil, operation: Binding.Operation) {
             let text = "\(title) \(plugin.metadata.title) \(description) \(plugin.metadata.id)".lowercased()
             let score = terms.reduce(0) { $0 + (text.contains($1) ? 1 : 0) }
             guard terms.isEmpty || score > 0 else { return }
@@ -228,12 +269,24 @@ final class VoiceControlRouter {
                 parameters: parameters, requiresConfirmation: confirm)
             candidates.append((capability, Binding(pluginID: plugin.metadata.id,
                 identity: ObjectIdentifier(plugin), operation: operation), score))
+            if let functionName { functionNames[capability.id] = functionName }
         }
         for plugin in plugins() where grant.allowedPluginIDs.contains(plugin.metadata.id) {
             let pluginID = plugin.metadata.id
+            let functions = (plugin as? any PluginVoiceFunctionProviding)?.voiceFunctions.filter(\.isValid) ?? []
+            let functionGroups = Dictionary(grouping: functions, by: \.actionID)
+            func functionName(for actionID: String) -> String? {
+                guard let entries = functionGroups[actionID], entries.count == 1 else { return nil }
+                return entries[0].name
+            }
             let selfActions: Set<String>? = pluginID == grant.owner
                 ? (plugin as? any PluginVoiceSelfActionProviding)?.voiceSelfActionIDs ?? [] : nil
-            if selfActions == nil {
+            let hasInterfaceAction = registry.catalogEntries.contains { entry in
+                entry.reference.key.providerID == pluginID
+                    && registry.definition(for: entry.reference.key)?.capabilities.contains(.opensInterface) == true
+                    && registry.exposurePolicy(for: entry.reference, on: surface) != .excluded
+            }
+            if selfActions == nil && !hasInterfaceAction {
                 add(plugin, kind: .feature, title: plugin.metadata.title,
                     description: plugin.metadata.defaultDescription, operation: .feature)
             }
@@ -241,25 +294,30 @@ final class VoiceControlRouter {
                 guard selfActions?.contains(entry.reference.key.actionID) ?? true else { continue }
                 guard let definition = registry.definition(for: entry.reference.key),
                       registry.exposurePolicy(for: entry.reference, on: surface) != .excluded else { continue }
-                add(plugin, kind: .action, title: entry.title,
-                    description: definition.description + " " + definition.keywords.joined(separator: " "),
+                let interface = definition.capabilities.contains(.opensInterface)
+                add(plugin, kind: interface ? .feature : .action, title: entry.title,
+                    description: (interface ? "Interface only; opens controls without completing an application operation. " : "") + definition.description + " " + definition.keywords.joined(separator: " "),
                     confirm: definition.confirmation != nil || definition.risk == .confirmationRequired,
+                    functionName: interface ? nil : functionName(for: definition.key.actionID),
                     operation: .action(entry.reference, definition, parameterized: false))
             }
-            if selfActions != nil { continue }
             if let provider = plugin as? any PluginVoiceParameterizedActionProviding,
                let actionProvider = plugin as? any PluginActionProviding {
                 for definition in actionProvider.actionDefinitions where provider.voiceParameterizedActionIDs.contains(definition.key.actionID)
                     && definition.key.providerID == pluginID {
+                    if selfActions != nil && !allowsSelfAction(plugin, id: definition.key.actionID, parameterized: true) { continue }
                     let reference = ActionReference(key: definition.key, schemaVersion: definition.parameterSchemaVersion)
                     guard registry.definition(for: definition.key) == definition else { continue }
-                    add(plugin, kind: .action, title: definition.title,
-                        description: definition.description + " " + definition.keywords.joined(separator: " "),
+                    let interface = definition.capabilities.contains(.opensInterface)
+                    add(plugin, kind: interface ? .feature : .action, title: definition.title,
+                        description: (interface ? "Interface only; opens controls without completing an application operation. " : "") + definition.description + " " + definition.keywords.joined(separator: " "),
                         parameters: definition.parameters,
                         confirm: definition.confirmation != nil || definition.risk == .confirmationRequired,
+                        functionName: interface ? nil : functionName(for: definition.key.actionID),
                         operation: .action(reference, definition, parameterized: true))
                 }
             }
+            if selfActions != nil { continue }
             if let provider = plugin as? any PluginVoiceQueryProviding {
                 for query in provider.voiceQueries {
                     add(plugin, kind: .query, title: query.title, description: query.description,
@@ -295,6 +353,15 @@ final class VoiceControlRouter {
         guard valid(sessionID), let current = grants[sessionID] else { return .init(status: "sessionEnded") }
         guard current.issued.count + selected.count <= 1_024 else { return .init(status: "discoveryLimit") }
         for (capability, binding, _) in selected { grants[sessionID]?.issued[capability.id] = binding }
-        return .init(capabilities: selected.map(\.0))
+        let names = functionNames.filter { id, _ in selected.contains { $0.0.id == id } }
+        let metadata = names.isEmpty ? nil : try? JSONSerialization.data(withJSONObject: ["voiceFunctions": names])
+        return .init(capabilities: selected.map(\.0), payload: metadata.map { String(decoding: $0, as: UTF8.self) })
     }
+}
+
+@MainActor
+private final class VoiceSessionConfirmation: ActionConfirmationRequesting {
+    let operation: (ActionConfirmationRequest) async -> Bool
+    init(_ operation: @escaping (ActionConfirmationRequest) async -> Bool) { self.operation = operation }
+    func confirm(_ request: ActionConfirmationRequest) async -> Bool { await operation(request) }
 }

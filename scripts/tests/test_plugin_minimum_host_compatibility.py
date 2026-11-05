@@ -20,6 +20,8 @@ PLUGIN_INTERFACES = REPO_ROOT / "Sources/MacToolsPluginKit/PluginInterfaces.swif
 PLUGIN_SETTINGS_MODELS = REPO_ROOT / "Sources/MacToolsPluginKit/PluginSettingsModels.swift"
 APP_VERSION_CONFIG = REPO_ROOT / "Configs/AppVersion.xcconfig"
 NEW_API_MINIMUM_HOSTS = {
+    "ActionConfirmationPreparation": "2.2.2",
+    "PluginActionConfirmationProviding": "2.2.2",
     "PluginVoiceProvider": "2.2.0",
     "PluginVoiceCapability": "2.2.0",
     "PluginVoiceRequest": "2.2.0",
@@ -28,9 +30,15 @@ NEW_API_MINIMUM_HOSTS = {
     "PluginVoiceQueryProviding": "2.2.0",
     "PluginVoiceParameterizedActionProviding": "2.2.0",
     "PluginVoiceSelfActionProviding": "2.2.0",
+    "PluginVoiceSelfParameterizedActionProviding": "2.2.2",
+    "PluginVoiceConfirmationRequest": "2.2.4",
+    "PluginVoiceConfirmationPresenting": "2.2.4",
     "PluginVoiceControlHostContext": "2.2.0",
     "PluginVoiceControlHostContextConsuming": "2.2.0",
     ".microphone": "2.2.0",
+    ".opensInterface": "2.2.4",
+    "PluginVoiceFunction": "2.2.4",
+    "PluginVoiceFunctionProviding": "2.2.4",
 
     "PluginAppMenuBarIconVisibilityControlling": "2.2.0",
     "PluginMenuBarPanelPresentationRequest": "2.2.0",
@@ -355,12 +363,27 @@ class PluginMinimumHostCompatibilityTests(unittest.TestCase):
 
         self.assertEqual(violations, [], "\n".join(violations))
 
-    def test_voice_bridge_public_types_require_host_2_2_0(self) -> None:
+    def test_voice_bridge_public_types_have_recorded_minimum_hosts(self) -> None:
         source = PLUGIN_INTERFACES.with_name("PluginVoiceControlHostContext.swift").read_text(encoding="utf-8")
         for symbol in public_top_level_type_names(source):
             with self.subTest(symbol=symbol):
-                self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), "2.2.0")
-                self.assertTrue(minimum_host_violations("probe", "2.1.0", symbol))
+                expected = "2.2.2" if symbol == "PluginVoiceSelfParameterizedActionProviding" else "2.2.0"
+                previous = "2.2.0" if expected == "2.2.2" else "2.1.0"
+                self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), expected)
+                self.assertTrue(minimum_host_violations("probe", previous, symbol))
+        approvals = PLUGIN_INTERFACES.with_name("PluginVoiceConfirmation.swift").read_text(encoding="utf-8")
+        for symbol in public_top_level_type_names(approvals):
+            with self.subTest(symbol=symbol):
+                self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), "2.2.4")
+                self.assertTrue(minimum_host_violations("probe", "2.2.3", symbol))
+
+    def test_semantic_voice_function_contract_records_minimum_host(self) -> None:
+        source = PLUGIN_INTERFACES.with_name("PluginVoiceFunctions.swift").read_text(encoding="utf-8")
+        for symbol in public_top_level_type_names(source):
+            with self.subTest(symbol=symbol):
+                self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), "2.2.4")
+                self.assertTrue(minimum_host_violations("probe", "2.2.3", symbol))
+        self.assertTrue(minimum_host_violations("probe", "2.2.3", ".opensInterface"))
 
     def test_plugin_permission_kind_preserves_released_case_order(self) -> None:
         source = PLUGIN_MODELS.read_text(encoding="utf-8")

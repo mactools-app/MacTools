@@ -540,14 +540,16 @@ final class ActionExecutor {
         let needsConfirmation = initial.definition.risk == .confirmationRequired
             || (invocation.source == .runLink
                 && initial.definition.externalInvocationPolicy == .confirmAlways)
+        let preparedConfirmation = needsConfirmation
+            ? registry.confirmationPreparation(for: invocation.reference) : nil
         if needsConfirmation {
-            guard let confirmation = initial.definition.confirmation else {
+            guard let preparedConfirmation else {
                 return .rejected(.confirmationUnavailable)
             }
             switch await confirmationResponse(
                 ActionConfirmationRequest(
                     reference: invocation.reference,
-                    confirmation: confirmation,
+                    confirmation: preparedConfirmation.confirmation,
                     source: invocation.source
                 ),
                 using: overrideConfirmationService ?? confirmationService
@@ -635,6 +637,11 @@ final class ActionExecutor {
         }
 
         // Caller-owned authorization may change while approval or serialization waits.
+        if needsConfirmation,
+           registry.confirmationPreparation(for: invocation.reference) != preparedConfirmation {
+            concurrencyLease.release()
+            return .rejected(.providerChanged)
+        }
         guard admissionCheck?() != false else {
             concurrencyLease.release()
             return .completed(.cancelled)

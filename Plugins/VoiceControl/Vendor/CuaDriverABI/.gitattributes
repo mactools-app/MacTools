@@ -1,0 +1,2 @@
+# Unified-diff blank context lines require their leading space.
+mactools-native.patch whitespace=-blank-at-eol

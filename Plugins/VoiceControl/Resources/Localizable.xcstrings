@@ -8223,6 +8223,3702 @@
           }
         }
       }
+    },
+    "复制文本": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ النص"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text kopieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy text"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiar texto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier le texte"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テキストをコピー"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "텍스트 복사"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiar texto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопировать текст"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制文本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "複製文字"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metni kopyala"
+          }
+        }
+      }
+    },
+    "打开网页": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح صفحة ويب"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Webseite öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open web page"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir página web"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir une page web"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Webページを開く"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "웹 페이지 열기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir página Web"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть веб-страницу"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开网页"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟網頁"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Web sayfasını aç"
+          }
+        }
+      }
+    },
+    "搜索网页": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البحث في الويب"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Im Web suchen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search the web"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar en la web"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher sur le Web"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Webで検索"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "웹 검색"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pesquisar na Web"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск в интернете"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索网页"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜尋網頁"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Web’de ara"
+          }
+        }
+      }
+    },
+    "查看应用控件": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فحص عناصر التطبيق"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Steuerelemente prüfen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspect application controls"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspeccionar controles de una app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspecter les commandes d’une app"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリのコントロールを確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 컨트롤 확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspecionar controlos da aplicação"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Просмотреть элементы приложения"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看应用控件"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢視應用程式控制項"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama denetimlerini incele"
+          }
+        }
+      }
+    },
+    "填写应用控件": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعيين قيمة عنصر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steuerelement ausfüllen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set control value"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Establecer valor de un control"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Définir la valeur d’une commande"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コントロールの値を設定"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컨트롤 값 설정"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Definir valor de um controlo"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Задать значение элемента"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "填写应用控件"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "填寫應用程式控制項"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Denetim değerini ayarla"
+          }
+        }
+      }
+    },
+    "点击应用控件": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النقر على عنصر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steuerelement anklicken"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Click control"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulsar un control"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cliquer sur une commande"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コントロールをクリック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컨트롤 클릭"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clicar num controlo"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нажать элемент"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击应用控件"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點擊應用程式控制項"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Denetime tıkla"
+          }
+        }
+      }
+    },
+    "滚动应用控件": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمرير عنصر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steuerelement scrollen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scroll control"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desplazar un control"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faire défiler une commande"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コントロールをスクロール"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컨트롤 스크롤"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deslocar um controlo"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прокрутить элемент"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滚动应用控件"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捲動應用程式控制項"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Denetimi kaydır"
+          }
+        }
+      }
+    },
+    "电脑交互": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التفاعل مع الكمبيوتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Computerinteraktion"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Computer interaction"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interacción con el ordenador"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interaction avec l’ordinateur"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コンピュータ操作"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컴퓨터 상호작용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interação com o computador"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Управление компьютером"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "电脑交互"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "電腦互動"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilgisayar etkileşimi"
+          }
+        }
+      }
+    },
+    "允许电脑交互": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالتفاعل مع الكمبيوتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Computerinteraktion erlauben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow computer interaction"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir la interacción con el ordenador"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser l’interaction avec l’ordinateur"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コンピュータ操作を許可"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컴퓨터 상호작용 허용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir interação com o computador"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить управление компьютером"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许电脑交互"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許電腦互動"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilgisayar etkileşimine izin ver"
+          }
+        }
+      }
+    },
+    "辅助功能": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسهيلات الاستخدام"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bedienungshilfen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accesibilidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibilité"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクセシビリティ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "손쉬운 사용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acessibilidade"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Универсальный доступ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "辅助功能"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輔助使用"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
+          }
+        }
+      }
+    },
+    "允许应用交互？": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالتفاعل مع التطبيق؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Interaktion erlauben?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow app interaction?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Permitir la interacción con la app?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser l’interaction avec l’app ?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリ操作を許可しますか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 상호작용을 허용할까요?"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir interação com a aplicação?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить управление приложением?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许应用交互？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許應用程式互動？"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama etkileşimine izin verilsin mi?"
+          }
+        }
+      }
+    },
+    "允许": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erlauben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "許可"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "허용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin ver"
+          }
+        }
+      }
+    },
+    "用于按请求读取和操作应用控件。剪贴板与打开网页无需此权限。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لقراءة عناصر التطبيق وتشغيلها عند الطلب. لا تتطلب كتابة الحافظة وفتح صفحات الويب هذا الإذن."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Steuerelemente auf Anfrage lesen und bedienen. Zwischenablage und Webseiten benötigen diese Berechtigung nicht."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read and operate app controls when requested. Clipboard writes and opening web pages do not need this permission."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leer y manejar controles de apps cuando lo solicites. Copiar texto y abrir páginas web no requieren este permiso."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lire et utiliser les commandes des apps sur demande. Le presse-papiers et l’ouverture de pages web ne nécessitent pas cette autorisation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要求に応じてアプリのコントロールを読み取り、操作します。クリップボードへのコピーとWebページを開く操作には不要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "요청에 따라 앱 컨트롤을 읽고 조작합니다. 클립보드 쓰기와 웹 페이지 열기에는 이 권한이 필요하지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ler e operar controlos das aplicações quando solicitado. A área de transferência e a abertura de páginas Web não precisam desta permissão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чтение элементов приложений и управление ими по запросу. Для копирования текста и открытия веб-страниц это разрешение не нужно."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于按请求读取和操作应用控件。剪贴板与打开网页无需此权限。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用於依照要求讀取及操作應用程式控制項。剪貼簿與開啟網頁不需要此權限。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstendiğinde uygulama denetimlerini okur ve kullanır. Panoya yazma ve web sayfalarını açma bu izni gerektirmez."
+          }
+        }
+      }
+    },
+    "此操作可能读取应用内容或更改控件。请求的应用数据会发送到 OpenAI。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قد تقرأ هذه العملية محتوى التطبيق أو تغيّر عناصره. تُرسل بيانات التطبيق المطلوبة إلى OpenAI."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Vorgang kann App-Inhalte lesen oder Steuerelemente ändern. Angeforderte App-Daten werden an OpenAI gesendet."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This operation may read app content or change controls. Requested app data is sent to OpenAI."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta operación puede leer contenido de la app o cambiar controles. Los datos solicitados se envían a OpenAI."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette opération peut lire le contenu de l’app ou modifier ses commandes. Les données demandées sont envoyées à OpenAI."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この操作はアプリの内容を読み取ったり、コントロールを変更したりする場合があります。要求されたアプリのデータはOpenAIに送信されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 작업은 앱 내용을 읽거나 컨트롤을 변경할 수 있습니다. 요청한 앱 데이터는 OpenAI로 전송됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta operação pode ler conteúdo da aplicação ou alterar controlos. Os dados solicitados são enviados à OpenAI."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эта операция может прочитать содержимое приложения или изменить его элементы. Запрошенные данные отправляются в OpenAI."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此操作可能读取应用内容或更改控件。请求的应用数据会发送到 OpenAI。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此操作可能讀取應用程式內容或變更控制項。要求的應用程式資料會傳送至 OpenAI。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu işlem uygulama içeriğini okuyabilir veya denetimleri değiştirebilir. İstenen uygulama verileri OpenAI’a gönderilir."
+          }
+        }
+      }
+    },
+    "支持复制文本、打开和搜索网页，以及按请求操作应用控件。应用交互需要辅助功能权限并逐次确认。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انسخ النص وافتح صفحات الويب وابحث فيها وشغّل عناصر التطبيق عند الطلب. يتطلب التفاعل إذن تسهيلات الاستخدام والتأكيد لكل طلب."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text kopieren, Webseiten öffnen und durchsuchen sowie Apps auf Anfrage bedienen. App-Interaktionen erfordern Bedienungshilfen und eine Bestätigung pro Anfrage."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy text, open and search web pages, and operate app controls on request. App interactions need Accessibility permission and confirmation for each request."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copia texto, abre y busca páginas web y maneja controles de apps. Las interacciones requieren Accesibilidad y confirmación para cada solicitud."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiez du texte, ouvrez et recherchez des pages web, et utilisez les commandes des apps. Chaque interaction nécessite l’accessibilité et une confirmation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テキストのコピー、Webページの表示と検索、要求に応じたアプリ操作に対応します。アプリ操作にはアクセシビリティ権限と毎回の確認が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "텍스트 복사, 웹 페이지 열기와 검색, 요청에 따른 앱 컨트롤 조작을 지원합니다. 앱 상호작용에는 손쉬운 사용 권한과 매번 확인이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copie texto, abra e pesquise páginas Web e opere controlos a pedido. As interações exigem Acessibilidade e confirmação de cada pedido."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Копирование текста, открытие и поиск веб-страниц, управление приложениями по запросу. Для взаимодействия нужны Универсальный доступ и подтверждение каждого запроса."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持复制文本、打开和搜索网页，以及按请求操作应用控件。应用交互需要辅助功能权限并逐次确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支援複製文字、開啟與搜尋網頁，以及依照要求操作應用程式控制項。應用程式互動需要輔助使用權限，且每次都需確認。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metin kopyalayın, web sayfalarını açıp arayın ve uygulama denetimlerini kullanın. Uygulama etkileşimleri Erişilebilirlik izni ve her istek için onay gerektirir."
+          }
+        }
+      }
+    },
+    "读取所选窗口的应用控件，不会点击或输入。请求的应用数据会发送到 OpenAI。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read controls in the selected window without clicking or typing. Requested app data is sent to OpenAI."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讀取所選視窗的應用程式控制項，不會點擊或輸入。請求的應用程式資料會傳送至 OpenAI。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قراءة عناصر التحكم في النافذة المحددة دون النقر أو الكتابة. تُرسل بيانات التطبيق المطلوبة إلى OpenAI."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steuerelemente im ausgewählten Fenster lesen, ohne zu klicken oder zu tippen. Angeforderte App-Daten werden an OpenAI gesendet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leer los controles de la ventana seleccionada sin hacer clic ni escribir. Los datos solicitados de la app se envían a OpenAI."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lire les commandes de la fenêtre sélectionnée sans cliquer ni saisir de texte. Les données demandées sont envoyées à OpenAI."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択したウインドウの操作項目を読み取ります。クリックや入力は行いません。要求されたアプリのデータはOpenAIに送信されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선택한 윈도우의 컨트롤을 읽습니다. 클릭하거나 입력하지 않습니다. 요청한 앱 데이터는 OpenAI로 전송됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ler os controlos da janela selecionada sem clicar nem escrever. Os dados pedidos da aplicação são enviados para a OpenAI."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прочитать элементы управления выбранного окна без нажатий и ввода. Запрошенные данные приложения отправляются в OpenAI."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili penceredeki denetimleri tıklamadan veya yazmadan okuyun. İstenen uygulama verileri OpenAI’a gönderilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读取所选窗口的应用控件，不会点击或输入。请求的应用数据会发送到 OpenAI。"
+          }
+        }
+      }
+    },
+    "将操作指定控件。操作后的控件数据会发送到 OpenAI。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interact with the specified control. Control data after the action is sent to OpenAI."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "將操作指定控制項。操作後的控制項資料會傳送至 OpenAI。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التفاعل مع عنصر التحكم المحدد. تُرسل بيانات عناصر التحكم بعد الإجراء إلى OpenAI."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das angegebene Steuerelement bedienen. Daten der Steuerelemente nach der Aktion werden an OpenAI gesendet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interactuar con el control indicado. Los datos de los controles tras la acción se envían a OpenAI."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agir sur la commande indiquée. Les données des commandes après l’action sont envoyées à OpenAI."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指定した操作項目を操作します。操作後の項目データはOpenAIに送信されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지정한 컨트롤을 조작합니다. 작업 후 컨트롤 데이터는 OpenAI로 전송됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interagir com o controlo indicado. Os dados dos controlos após a ação são enviados para a OpenAI."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполнить действие с указанным элементом управления. Данные элементов после действия отправляются в OpenAI."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belirtilen denetimle etkileşime geçin. İşlem sonrasındaki denetim verileri OpenAI’a gönderilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将操作指定控件。操作后的控件数据会发送到 OpenAI。"
+          }
+        }
+      }
+    },
+    "支持复制文本、打开和搜索网页。操作应用控件需要辅助功能权限；点击、输入和滚动需逐次确认。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انسخ النص وافتح الصفحات وابحث على الويب. يتطلب التحكم في التطبيقات إذن تسهيلات الاستخدام؛ وتتطلب النقرات والكتابة والتمرير تأكيدًا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text kopieren, Seiten öffnen und das Web durchsuchen. App-Steuerelemente benötigen Bedienungshilfen-Zugriff; Klicks, Texteingaben und Scrollen müssen bestätigt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy text, open pages and search the web. App controls require Accessibility access; clicks, typing and scrolling require confirmation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copia texto, abre páginas y busca en la web. Los controles de las apps requieren acceso de Accesibilidad; los clics, la escritura y el desplazamiento requieren confirmación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiez du texte, ouvrez des pages et recherchez sur le Web. Les commandes des apps nécessitent l’accès Accessibilité ; les clics, la saisie et le défilement nécessitent une confirmation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テキストのコピー、ページの表示、Web 検索に対応します。アプリの操作にはアクセシビリティの許可が必要で、クリック、入力、スクロールには毎回確認が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "텍스트 복사, 페이지 열기, 웹 검색을 지원합니다. 앱 제어에는 손쉬운 사용 권한이 필요하며 클릭, 입력 및 스크롤은 매번 확인해야 합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copie texto, abra páginas e pesquise na web. Os controles dos apps exigem acesso de Acessibilidade; cliques, digitação e rolagem exigem confirmação."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Копируйте текст, открывайте страницы и ищите в интернете. Для управления приложениями нужен доступ «Универсальный доступ»; нажатия, ввод и прокрутка требуют подтверждения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metin kopyalayın, sayfalar açın ve web’de arama yapın. Uygulama denetimleri Erişilebilirlik izni gerektirir; tıklama, yazma ve kaydırma için onay gerekir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持复制文本、打开和搜索网页。操作应用控件需要辅助功能权限；点击、输入和滚动需逐次确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支援複製文字、開啟和搜尋網頁。操作應用程式控制項需要輔助使用權限；點擊、輸入和捲動需逐次確認。"
+          }
+        }
+      }
+    },
+    "允许读取应用内容": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بقراءة محتوى التطبيقات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lesen von App-Inhalten erlauben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow reading app content"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir leer contenido de apps"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser la lecture du contenu des apps"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリ内容の読み取りを許可"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 콘텐츠 읽기 허용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir a leitura do conteúdo dos apps"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить чтение содержимого приложений"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama içeriğinin okunmasına izin ver"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许读取应用内容"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許讀取應用程式內容"
+          }
+        }
+      }
+    },
+    "开启后，对话期间可按请求读取应用控件和内容并发送到 OpenAI，无需逐次确认。点击、输入和滚动仍需确认。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أثناء المحادثات، يمكن قراءة عناصر التحكم والمحتوى المطلوب وإرساله إلى OpenAI دون طلب تأكيد متكرر. تظل النقرات والكتابة والتمرير بحاجة إلى تأكيد."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Während Gesprächen können angeforderte App-Steuerelemente und Inhalte ohne wiederholte Rückfragen gelesen und an OpenAI gesendet werden. Klicks, Texteingaben und Scrollen müssen weiterhin bestätigt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "During conversations, requested app controls and content can be read and sent to OpenAI without repeated prompts. Clicks, typing and scrolling still require confirmation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durante las conversaciones, se podrán leer los controles y contenidos solicitados de las apps y enviarlos a OpenAI sin avisos repetidos. Los clics, la escritura y el desplazamiento seguirán requiriendo confirmación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pendant les conversations, les commandes et contenus demandés peuvent être lus et envoyés à OpenAI sans confirmations répétées. Les clics, la saisie et le défilement nécessitent toujours une confirmation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "会話中は、指定したアプリのコントロールや内容を読み取り、OpenAI に送信できます。読み取りのたびに確認する必要はありません。クリック、入力、スクロールには引き続き確認が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대화 중 요청한 앱의 제어 항목과 콘텐츠를 반복 확인 없이 읽고 OpenAI로 보낼 수 있습니다. 클릭, 입력 및 스크롤은 계속 확인이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durante as conversas, os controles e conteúdos solicitados dos apps podem ser lidos e enviados à OpenAI sem avisos repetidos. Cliques, digitação e rolagem continuam exigindo confirmação."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Во время разговора запрошенные элементы управления и содержимое приложений можно читать и отправлять в OpenAI без повторных запросов. Нажатия, ввод и прокрутка по-прежнему требуют подтверждения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görüşmeler sırasında istenen uygulama denetimleri ve içerikleri tekrar onay istenmeden okunup OpenAI’a gönderilebilir. Tıklama, yazma ve kaydırma yine onay gerektirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启后，对话期间可按请求读取应用控件和内容并发送到 OpenAI，无需逐次确认。点击、输入和滚动仍需确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟後，對話期間可依要求讀取應用程式控制項和內容並傳送至 OpenAI，無需逐次確認。點擊、輸入和捲動仍需確認。"
+          }
+        }
+      }
+    },
+    "允许读取应用内容？": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بقراءة محتوى التطبيقات؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lesen von App-Inhalten erlauben?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow reading app content?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Permitir leer contenido de apps?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser la lecture du contenu des apps ?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリ内容の読み取りを許可しますか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 콘텐츠 읽기를 허용할까요?"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir a leitura do conteúdo dos apps?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить чтение содержимого приложений?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama içeriğinin okunmasına izin verilsin mi?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许读取应用内容？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許讀取應用程式內容？"
+          }
+        }
+      }
+    },
+    "允许读取": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالقراءة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lesen erlauben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Reading"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir lectura"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser la lecture"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "読み取りを許可"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "읽기 허용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir leitura"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить чтение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okumaya İzin Ver"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许读取"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許讀取"
+          }
+        }
+      }
+    },
+    "语音助手将在对话期间读取你指定应用的控件和内容，并将请求的数据发送到 OpenAI。停止、关闭助手或撤销此设置会结束读取。点击、输入和滚动仍需确认。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيقرأ المساعد الصوتي عناصر التحكم والمحتوى في التطبيقات التي تطلبها أثناء المحادثات، ويرسل البيانات المطلوبة إلى OpenAI. أوقف المساعد أو أغلقه أو ألغِ هذا الإعداد لإنهاء القراءة. تظل النقرات والكتابة والتمرير بحاجة إلى تأكيد."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Sprachassistent liest während Gesprächen Steuerelemente und Inhalte der angeforderten Apps und sendet die angeforderten Daten an OpenAI. Mit Stopp, dem Schließen des Assistenten oder dem Widerruf dieser Einstellung endet das Lesen. Klicks, Texteingaben und Scrollen müssen weiterhin bestätigt werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voice Assistant will read controls and content in the apps you request during conversations and send the requested data to OpenAI. Stop, dismiss the assistant or revoke this setting to end reading. Clicks, typing and scrolling still require confirmation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El asistente de voz leerá los controles y contenidos de las apps que solicites durante las conversaciones y enviará los datos solicitados a OpenAI. Detén o cierra el asistente, o revoca este ajuste, para finalizar la lectura. Los clics, la escritura y el desplazamiento seguirán requiriendo confirmación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’assistant vocal lira les commandes et contenus des apps demandées pendant les conversations et enverra les données demandées à OpenAI. Arrêtez ou fermez l’assistant, ou révoquez ce réglage, pour terminer la lecture. Les clics, la saisie et le défilement nécessitent toujours une confirmation."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声アシスタントは会話中に指定されたアプリのコントロールや内容を読み取り、要求されたデータを OpenAI に送信します。停止、アシスタントを閉じる、またはこの設定の取り消しで読み取りを終了します。クリック、入力、スクロールには引き続き確認が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "음성 어시스턴트가 대화 중 요청한 앱의 제어 항목과 콘텐츠를 읽고 요청한 데이터를 OpenAI로 보냅니다. 중지하거나 어시스턴트를 닫거나 이 설정을 해제하면 읽기가 종료됩니다. 클릭, 입력 및 스크롤은 계속 확인이 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Assistente de Voz lerá os controles e conteúdos dos apps solicitados durante as conversas e enviará os dados solicitados à OpenAI. Pare ou feche o assistente, ou revogue este ajuste, para encerrar a leitura. Cliques, digitação e rolagem continuam exigindo confirmação."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Во время разговора голосовой помощник будет читать элементы управления и содержимое указанных приложений и отправлять запрошенные данные в OpenAI. Остановите или закройте помощника либо отключите эту настройку, чтобы завершить чтение. Нажатия, ввод и прокрутка по-прежнему требуют подтверждения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesli Asistan görüşmeler sırasında istediğiniz uygulamaların denetimlerini ve içeriklerini okur ve istenen verileri OpenAI’a gönderir. Okumayı sonlandırmak için asistanı durdurun veya kapatın ya da bu ayarı iptal edin. Tıklama, yazma ve kaydırma yine onay gerektirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音助手将在对话期间读取你指定应用的控件和内容，并将请求的数据发送到 OpenAI。停止、关闭助手或撤销此设置会结束读取。点击、输入和滚动仍需确认。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "語音助手將在對話期間讀取你指定應用程式的控制項和內容，並將要求的資料傳送至 OpenAI。停止、關閉助手或撤銷此設定會結束讀取。點擊、輸入和捲動仍需確認。"
+          }
+        }
+      }
+    },
+    "正在读取 %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ قراءة %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ wird gelesen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leyendo %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lecture de %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ を読み取り中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 읽는 중"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lendo %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чтение %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ okunuyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在读取 %@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在讀取 %@"
+          }
+        }
+      }
+    },
+    "执行电脑任务": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدء مهمة على الكمبيوتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Computeraufgabe starten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start computer task"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar tarea en el ordenador"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Démarrer une tâche sur le Mac"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コンピュータタスクを開始"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컴퓨터 작업 시작"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar tarefa no computador"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Начать задачу на компьютере"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilgisayar görevi başlat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "执行电脑任务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行電腦任務"
+          }
+        }
+      }
+    },
+    "观察电脑任务": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مراقبة مهمة الكمبيوتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Computeraufgabe beobachten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observe computer task"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observar tarea del ordenador"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observer la tâche sur le Mac"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コンピュータタスクを確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컴퓨터 작업 관찰"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observar tarefa no computador"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Наблюдать за задачей"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilgisayar görevini gözlemle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "观察电脑任务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "觀察電腦任務"
+          }
+        }
+      }
+    },
+    "执行任务步骤": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنفيذ خطوة من المهمة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufgabenschritt ausführen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perform task step"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecutar paso de la tarea"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécuter une étape"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "タスクのステップを実行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "작업 단계 실행"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executar etapa da tarefa"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполнить шаг задачи"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görev adımını çalıştır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "执行任务步骤"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行任務步驟"
+          }
+        }
+      }
+    },
+    "结束电脑任务": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنهاء مهمة الكمبيوتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Computeraufgabe beenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End computer task"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finalizar tarea del ordenador"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminer la tâche sur le Mac"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コンピュータタスクを終了"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "컴퓨터 작업 종료"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminar tarefa no computador"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершить задачу"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilgisayar görevini bitir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结束电脑任务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "結束電腦任務"
+          }
+        }
+      }
+    },
+    "运行命令": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل أمر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehl ausführen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run command"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecutar comando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécuter une commande"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コマンドを実行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "명령 실행"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executar comando"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполнить команду"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komut çalıştır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行命令"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "執行命令"
+          }
+        }
+      }
+    },
+    "查看命令结果": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض نتيجة الأمر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehlsergebnis lesen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read command result"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver resultado del comando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lire le résultat de la commande"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コマンド結果を確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "명령 결과 확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver resultado do comando"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Посмотреть результат команды"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komut sonucunu oku"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看命令结果"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢視命令結果"
+          }
+        }
+      }
+    },
+    "停止命令": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف الأمر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehl stoppen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop command"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detener comando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter la commande"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コマンドを停止"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "명령 중지"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parar comando"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остановить команду"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komutu durdur"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止命令"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止命令"
+          }
+        }
+      }
+    },
+    "等待确认": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待确认"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Awaiting confirmation"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بانتظار التأكيد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestätigung ausstehend"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esperando confirmación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En attente de confirmation"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確認待ち"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "확인 대기 중"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ожидание подтверждения"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待確認"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aguardando confirmação"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onay bekleniyor"
+          }
+        }
+      }
+    },
+    "撤销": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "撤销"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revoke"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلغاء الإذن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widerrufen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revocar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Révoquer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取り消す"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "철회"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revogar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отозвать"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzni kaldır"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "撤銷"
+          }
+        }
+      }
+    },
+    "直接控制": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direct control"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التحكم المباشر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direkte Steuerung"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Control directo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contrôle direct"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接操作"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "직접 제어"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Controle direto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прямое управление"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrudan kontrol"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接控制"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接控制"
+          }
+        }
+      }
+    },
+    "直接控制已启用": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direct control is on"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التحكم المباشر مفعّل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direkte Steuerung ist aktiv"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Control directo activado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contrôle direct activé"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接操作はオンです"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "직접 제어 켜짐"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Controle direto ativado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прямое управление включено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrudan kontrol açık"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已啟用直接控制"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接控制已启用"
+          }
+        }
+      }
+    },
+    "关闭直接控制": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn off direct control"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف التحكم المباشر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direkte Steuerung ausschalten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desactivar control directo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Désactiver le contrôle direct"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接操作をオフ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "직접 제어 끄기"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desativar controle direto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выключить прямое управление"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrudan kontrolü kapat"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關閉直接控制"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭直接控制"
+          }
+        }
+      }
+    },
+    "支持网页、剪贴板、多步应用任务与命令。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supports web pages, the clipboard, multi-step app tasks and commands."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يدعم صفحات الويب والحافظة ومهام التطبيقات متعددة الخطوات والأوامر."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unterstützt Webseiten, die Zwischenablage, mehrstufige App-Aufgaben und Befehle."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Admite páginas web, el portapapeles, tareas de varios pasos y comandos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prend en charge les pages web, le presse-papiers, les tâches en plusieurs étapes et les commandes."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Webページ、クリップボード、複数ステップのアプリ操作とコマンドに対応します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "웹 페이지, 클립보드, 여러 단계의 앱 작업과 명령을 지원합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oferece suporte a páginas da web, área de transferência, tarefas em várias etapas e comandos."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поддерживает веб-страницы, буфер обмена, многошаговые задачи в приложениях и команды."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Web sayfalarını, panoyu, çok adımlı uygulama görevlerini ve komutları destekler."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支援網頁、剪貼簿、多步驟 App 任務與指令。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持网页、剪贴板、多步应用任务与命令。"
+          }
+        }
+      }
+    },
+    "对话期间直接执行明确请求的操作与命令。关闭时使用按钮逐项确认。此选择仅保存在本机。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run explicitly requested actions and commands during conversations. Turn off to approve each action with buttons. Saved only on this Mac."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ينفّذ الإجراءات والأوامر المطلوبة صراحةً أثناء المحادثات. عند إيقافه، تُعتمد الإجراءات بالأزرار. يُحفظ هذا الاختيار على هذا الـ Mac فقط."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Führt ausdrücklich angeforderte Aktionen und Befehle während Gesprächen direkt aus. Ausgeschaltet werden Aktionen per Taste bestätigt. Nur auf diesem Mac gespeichert."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecuta las acciones y comandos solicitados explícitamente durante las conversaciones. Desactívalo para confirmar cada acción con botones. Se guarda solo en este Mac."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécute les actions et commandes explicitement demandées pendant les conversations. Désactivez pour confirmer chaque action avec les boutons. Enregistré uniquement sur ce Mac."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "会話中に明確に依頼された操作とコマンドを直接実行します。オフにするとボタンで個別に確認します。この設定はこのMacにのみ保存されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대화 중 명확히 요청한 작업과 명령을 바로 실행합니다. 끄면 버튼으로 각 작업을 확인합니다. 이 설정은 이 Mac에만 저장됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executa ações e comandos solicitados explicitamente durante as conversas. Desative para aprovar cada ação com botões. Salvo apenas neste Mac."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполняет явно запрошенные действия и команды во время разговора. Выключите, чтобы подтверждать каждое действие кнопками. Сохраняется только на этом Mac."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görüşmeler sırasında açıkça istenen işlemleri ve komutları doğrudan yürütür. Her işlemi düğmeyle onaylamak için kapatın. Yalnızca bu Mac’te saklanır."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "對話期間直接執行明確要求的操作與指令。關閉時使用按鈕逐項確認。此選擇只儲存在本機。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话期间直接执行明确请求的操作与命令。关闭时使用按钮逐项确认。此选择仅保存在本机。"
+          }
+        }
+      }
+    },
+    "对话期间，按请求读取的应用内容会发送到 OpenAI。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requested app content is read and sent to OpenAI during conversations."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُقرأ محتويات التطبيقات المطلوبة وتُرسل إلى OpenAI أثناء المحادثات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Angeforderte App-Inhalte werden während Gesprächen gelesen und an OpenAI gesendet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durante las conversaciones, el contenido solicitado de las apps se lee y se envía a OpenAI."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le contenu demandé des apps est lu et envoyé à OpenAI pendant les conversations."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "会話中、依頼に応じて読み取ったアプリの内容がOpenAIに送信されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대화 중 요청에 따라 읽은 앱 콘텐츠가 OpenAI로 전송됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O conteúdo solicitado dos apps é lido e enviado à OpenAI durante as conversas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запрошенное содержимое приложений читается и отправляется в OpenAI во время разговора."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görüşmeler sırasında istenen uygulama içeriği okunur ve OpenAI’a gönderilir."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "對話期間，按要求讀取的 App 內容會傳送至 OpenAI。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话期间，按请求读取的应用内容会发送到 OpenAI。"
+          }
+        }
+      }
+    },
+    "请使用按钮确认。确认期间暂停语音输入。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use the buttons to confirm. Voice input is paused while waiting."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم الأزرار للتأكيد. يُوقف الإدخال الصوتي مؤقتًا أثناء الانتظار."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bitte mit den Tasten bestätigen. Die Spracheingabe pausiert während des Wartens."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa los botones para confirmar. La entrada de voz está en pausa mientras esperas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisez les boutons pour confirmer. La saisie vocale est suspendue pendant l’attente."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ボタンで確認してください。確認中は音声入力が一時停止します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "버튼으로 확인하세요. 확인을 기다리는 동안 음성 입력이 일시 정지됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use os botões para confirmar. A entrada de voz fica pausada durante a espera."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтвердите кнопками. На время ожидания голосовой ввод приостановлен."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onaylamak için düğmeleri kullanın. Beklerken sesli giriş duraklatılır."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請使用按鈕確認。確認期間暫停語音輸入。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请使用按钮确认。确认期间暂停语音输入。"
+          }
+        }
+      }
+    },
+    "语音助手将在对话期间读取你指定应用的控件和内容，并将请求的数据发送到 OpenAI。停止、关闭助手或撤销此设置会结束读取。输入操作使用你选择的控制模式。": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيقرأ المساعد الصوتي عناصر التحكم والمحتوى في التطبيقات التي تطلبها أثناء المحادثات، ويرسل البيانات المطلوبة إلى OpenAI. أوقف المساعد أو أغلقه أو ألغِ هذا الإعداد لإنهاء القراءة. تتبع إجراءات الإدخال وضع التحكم الذي تختاره."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Sprachassistent liest während Gesprächen Steuerelemente und Inhalte der angeforderten Apps und sendet die angeforderten Daten an OpenAI. Mit Stopp, dem Schließen des Assistenten oder dem Widerruf dieser Einstellung endet das Lesen. Eingabeaktionen folgen dem gewählten Steuerungsmodus."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voice Assistant will read controls and content in the apps you request during conversations and send the requested data to OpenAI. Stop, dismiss the assistant or revoke this setting to end reading. Input actions follow your selected control mode."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El asistente de voz leerá los controles y contenidos de las apps que solicites durante las conversaciones y enviará los datos solicitados a OpenAI. Detén o cierra el asistente, o revoca este ajuste, para finalizar la lectura. Las acciones de entrada siguen el modo de control elegido."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’assistant vocal lira les commandes et contenus des apps demandées pendant les conversations et enverra les données demandées à OpenAI. Arrêtez ou fermez l’assistant, ou révoquez ce réglage, pour terminer la lecture. Les actions de saisie suivent le mode de contrôle choisi."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声アシスタントは会話中に指定されたアプリのコントロールや内容を読み取り、要求されたデータを OpenAI に送信します。停止、アシスタントを閉じる、またはこの設定の取り消しで読み取りを終了します。入力操作には選択した操作モードが適用されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "음성 어시스턴트가 대화 중 요청한 앱의 제어 항목과 콘텐츠를 읽고 요청한 데이터를 OpenAI로 보냅니다. 중지하거나 어시스턴트를 닫거나 이 설정을 해제하면 읽기가 종료됩니다. 입력 작업에는 선택한 제어 모드가 적용됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Assistente de Voz lerá os controles e conteúdos dos apps solicitados durante as conversas e enviará os dados solicitados à OpenAI. Pare ou feche o assistente, ou revogue este ajuste, para encerrar a leitura. As ações de entrada seguem o modo de controle escolhido."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Во время разговора голосовой помощник будет читать элементы управления и содержимое указанных приложений и отправлять запрошенные данные в OpenAI. Остановите или закройте помощника либо отключите эту настройку, чтобы завершить чтение. Действия ввода выполняются в выбранном режиме управления."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesli Asistan görüşmeler sırasında istediğiniz uygulamaların denetimlerini ve içeriklerini okur ve istenen verileri OpenAI’a gönderir. Okumayı sonlandırmak için asistanı durdurun veya kapatın ya da bu ayarı iptal edin. Giriş işlemleri seçtiğiniz kontrol moduna uyar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音助手将在对话期间读取你指定应用的控件和内容，并将请求的数据发送到 OpenAI。停止、关闭助手或撤销此设置会结束读取。输入操作使用你选择的控制模式。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "語音助手將在對話期間讀取你指定應用程式的控制項和內容，並將要求的資料傳送至 OpenAI。停止、關閉助手或撤銷此設定會結束讀取。輸入操作使用你選擇的控制模式。"
+          }
+        }
+      }
+    },
+    "允许在列出的应用中执行多步操作，包括菜单、快捷键和文字输入。操作可能修改应用数据或执行应用命令。授权最多持续五分钟或四十步；停止会结束对话并请求取消操作，已开始的操作可能仍会完成。": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许在列出的应用中执行多步操作，包括菜单、快捷键和文字输入。操作可能修改应用数据或执行应用命令。授权最多持续五分钟或四十步；停止会结束对话并请求取消操作，已开始的操作可能仍会完成。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow multiple steps in the listed apps, including menus, keyboard shortcuts and text input. Actions may change app data or execute app commands. Authorization lasts up to five minutes or forty steps. Stop ends the conversation and requests cancellation; an operation already started may still finish."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بخطوات متعددة داخل التطبيقات المدرجة، بما فيها القوائم والاختصارات وإدخال النص. قد تتغير بيانات التطبيقات أو تُنفّذ أوامرها. يستمر الإذن حتى خمس دقائق أو أربعين خطوة. ينهي الإيقاف المحادثة ويطلب الإلغاء؛ قد تكتمل عملية بدأت بالفعل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mehrere Schritte in den aufgeführten Apps erlauben, einschließlich Menüs, Tastenkürzeln und Texteingabe. Dabei können App-Daten geändert oder App-Befehle ausgeführt werden. Die Erlaubnis gilt bis zu fünf Minuten oder vierzig Schritte. Stopp beendet das Gespräch und fordert den Abbruch an; ein bereits gestarteter Vorgang kann noch abgeschlossen werden."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir varios pasos en las apps indicadas, incluidos menús, atajos y entrada de texto. Las acciones pueden modificar datos o ejecutar comandos de las apps. La autorización dura hasta cinco minutos o cuarenta pasos. Detener finaliza la conversación y solicita la cancelación; una operación ya iniciada podría terminar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser plusieurs étapes dans les apps indiquées, dont les menus, raccourcis et saisies de texte. Les actions peuvent modifier des données ou exécuter des commandes. L’autorisation dure au maximum cinq minutes ou quarante étapes. Arrêter termine la conversation et demande l’annulation ; une opération déjà lancée peut encore se terminer."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "表示されたアプリでメニュー、ショートカット、文字入力などの複数ステップを許可します。データの変更やコマンド実行を伴う場合があります。許可は最大5分または40ステップです。停止すると会話を終了してキャンセルを要求します。開始済みの操作は完了する場合があります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "목록의 앱에서 메뉴, 단축키, 텍스트 입력을 포함한 여러 단계를 허용합니다. 앱 데이터가 바뀌거나 명령이 실행될 수 있습니다. 권한은 최대 5분 또는 40단계 동안 유지됩니다. 중지하면 대화가 종료되고 취소를 요청합니다. 이미 시작된 작업은 완료될 수 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir várias etapas nos apps listados, incluindo menus, atalhos e entrada de texto. As ações podem alterar dados ou executar comandos dos apps. A autorização dura até cinco minutos ou quarenta etapas. Parar encerra a conversa e solicita o cancelamento; uma operação já iniciada ainda pode terminar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить несколько шагов в указанных приложениях, включая меню, сочетания клавиш и ввод текста. Действия могут изменять данные или выполнять команды. Разрешение действует до пяти минут или сорока шагов. Остановка завершает разговор и запрашивает отмену; уже начатая операция может завершиться."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listelenen uygulamalarda menüler, kısayollar ve metin girişi dahil birden çok adıma izin verin. İşlemler uygulama verilerini değiştirebilir veya komutlarını çalıştırabilir. İzin en fazla beş dakika veya kırk adım sürer. Durdur konuşmayı bitirip iptal ister; başlamış bir işlem yine de tamamlanabilir."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允許在列出的應用程式中執行多步操作，包括選單、快捷鍵和文字輸入。操作可能修改資料或執行應用程式命令。授權最多持續五分鐘或四十步；停止會結束對話並要求取消操作，已開始的操作仍可能完成。"
+          }
+        }
+      }
+    },
+    "后续步骤已取消。": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "后续步骤已取消。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remaining steps cancelled."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أُلغيت الخطوات المتبقية."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weitere Schritte abgebrochen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se cancelaron los pasos restantes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Étapes restantes annulées."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "後続の手順をキャンセルしました。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "남은 단계가 취소되었습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etapas restantes canceladas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оставшиеся шаги отменены."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalan adımlar iptal edildi."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "後續步驟已取消。"
+          }
+        }
+      }
+    },
+    "后续步骤已取消；当前操作可能仍在结束。": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "后续步骤已取消；当前操作可能仍在结束。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remaining steps cancelled; an operation may still be finishing."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أُلغيت الخطوات المتبقية؛ قد لا تزال عملية قيد الانتهاء."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weitere Schritte abgebrochen; ein Vorgang läuft möglicherweise noch."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se cancelaron los pasos restantes; una operación podría seguir terminando."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Étapes restantes annulées ; une opération peut encore être en cours."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "後続の手順をキャンセルしました。現在の操作はまだ終了処理中の場合があります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "남은 단계가 취소되었습니다. 작업이 아직 마무리 중일 수 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etapas restantes canceladas; uma operação pode ainda estar terminando."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оставшиеся шаги отменены; операция может ещё завершаться."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalan adımlar iptal edildi; bir işlem hâlâ tamamlanıyor olabilir."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "後續步驟已取消；目前操作可能仍在結束。"
+          }
+        }
+      }
+    },
+    "当前操作已完成，后续步骤已取消。": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前操作已完成，后续步骤已取消。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current operation completed; remaining steps cancelled."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اكتملت العملية الحالية وأُلغيت الخطوات المتبقية."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktueller Vorgang abgeschlossen; weitere Schritte abgebrochen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operación actual completada; se cancelaron los pasos restantes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opération en cours terminée ; étapes restantes annulées."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在の操作が完了し、後続の手順をキャンセルしました。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "현재 작업이 완료되었으며 남은 단계는 취소되었습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operação atual concluída; etapas restantes canceladas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Текущая операция завершена; оставшиеся шаги отменены."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli işlem tamamlandı; kalan adımlar iptal edildi."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目前操作已完成，後續步驟已取消。"
+          }
+        }
+      }
+    },
+    "正在停止…": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在停止…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stopping…"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ الإيقاف…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird gestoppt…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deteniendo…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêt en cours…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止中…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "중지 중…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parando…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остановка…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durduruluyor…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在停止…"
+          }
+        }
+      }
+    },
+    "正在请求取消当前操作…": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在请求取消当前操作…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelling the current operation…"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ طلب إلغاء العملية الحالية…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktueller Vorgang wird abgebrochen…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelando la operación actual…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulation de l’opération en cours…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在の操作のキャンセルを要求中…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "현재 작업 취소 요청 중…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelando a operação atual…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запрос отмены текущей операции…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli işlemin iptali isteniyor…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在要求取消目前操作…"
+          }
+        }
+      }
+    },
+    "此命令将以你的用户权限在显示的目录中运行，输出会发送到 OpenAI。停止会结束对话并请求取消命令，已开始的操作可能仍会完成。": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此命令将以你的用户权限在显示的目录中运行，输出会发送到 OpenAI。停止会结束对话并请求取消命令，已开始的操作可能仍会完成。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This command runs with your user permissions in the shown directory. Its output is sent to OpenAI. Stop ends the conversation and requests cancellation; an operation already started may still finish."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيعمل هذا الأمر بصلاحيات حسابك في المجلد المعروض، وسيُرسل ناتجه إلى OpenAI. ينهي الإيقاف المحادثة ويطلب الإلغاء؛ قد تكتمل عملية بدأت بالفعل."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Befehl wird mit deinen Benutzerrechten im angezeigten Ordner ausgeführt. Die Ausgabe wird an OpenAI gesendet. Stopp beendet das Gespräch und fordert den Abbruch an; ein bereits gestarteter Vorgang kann noch abgeschlossen werden."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este comando se ejecutará con tus permisos en la carpeta indicada. Su salida se enviará a OpenAI. Detener finaliza la conversación y solicita la cancelación; una operación ya iniciada podría terminar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette commande s’exécute avec vos droits dans le dossier indiqué. Sa sortie est envoyée à OpenAI. Arrêter termine la conversation et demande l’annulation ; une opération déjà lancée peut encore se terminer."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このコマンドは表示されたフォルダでユーザー権限により実行され、出力はOpenAIに送信されます。停止すると会話を終了してキャンセルを要求します。開始済みの操作は完了する場合があります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 명령은 표시된 폴더에서 사용자 권한으로 실행되며 출력은 OpenAI로 전송됩니다. 중지하면 대화가 종료되고 취소를 요청합니다. 이미 시작된 작업은 완료될 수 있습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este comando será executado com suas permissões na pasta indicada. A saída será enviada à OpenAI. Parar encerra a conversa e solicita o cancelamento; uma operação já iniciada ainda pode terminar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Команда выполняется с вашими правами в указанной папке. Её вывод отправляется в OpenAI. Остановка завершает разговор и запрашивает отмену; уже начатая операция может завершиться."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu komut gösterilen klasörde kullanıcı izinlerinizle çalışır. Çıktısı OpenAI’a gönderilir. Durdur konuşmayı bitirip iptal ister; başlamış bir işlem yine de tamamlanabilir."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此命令將以你的使用者權限在顯示的目錄中執行，輸出會傳送到 OpenAI。停止會結束對話並要求取消命令，已開始的操作仍可能完成。"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

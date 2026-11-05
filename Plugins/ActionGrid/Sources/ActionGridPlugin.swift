@@ -121,7 +121,7 @@ final class ActionGridPlugin:
                 ],
                 systemImage: metadata.iconName,
                 externalInvocationPolicy: .allowed,
-                capabilities: [.foregroundInteractive],
+                capabilities: [.foregroundInteractive, .opensInterface],
                 executionTimeoutSeconds: 30
             ),
         ]

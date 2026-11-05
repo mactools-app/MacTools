@@ -54,14 +54,33 @@ jobs:
   build:
     name: Build and test
     runs-on: macos-26
-    timeout-minutes: 60
+    # Cold native SDK, Debug and Nightly builds can exceed one hour.
+    timeout-minutes: 120
 
     steps:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Install native Voice Assistant SDK toolchain
+        run: rustup toolchain install 1.97.1 --profile minimal --target aarch64-apple-darwin,x86_64-apple-darwin
+
       - name: Show Xcode version
-        run: xcodebuild -version
+        id: xcode
+        run: |
+          xcodebuild -version
+          echo "cache-key=$(xcodebuild -version | shasum -a 256 | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore native Voice Assistant SDK
+        id: cua-sdk-cache
+        uses: actions/cache/restore@v5
+        with:
+          # Cache only verified exports, not Cargo intermediates or credentials.
+          path: |
+            build/Dependencies/CuaDriver/0.38.0/libcua_driver_sdk.dylib
+            build/Dependencies/CuaDriver/0.38.0/native-build.json
+            build/Dependencies/CuaDriver/0.38.0/LICENSE
+            build/Dependencies/CuaDriver/0.38.0/THIRD_PARTY_NOTICES.md
+          key: ${{ runner.os }}-${{ runner.arch }}-cua-sdk-v1-${{ steps.xcode.outputs.cache-key }}-${{ hashFiles('scripts/plugins/prepare-cua-driver.py', 'Plugins/VoiceControl/Vendor/CuaDriverABI/mactools-native.patch', 'Plugins/VoiceControl/Vendor/CuaDriverABI/mactools_native.rs', 'Plugins/VoiceControl/Vendor/CuaDriverABI/mactools_semantics.rs') }}
 
       - name: Install XcodeGen
         run: |
@@ -109,6 +128,21 @@ jobs:
             echo "::warning::Swift package resolution failed on attempt ${attempt}; retrying in ${delay} seconds."
             sleep "$delay"
           done
+
+      - name: Prepare native Voice Assistant SDK
+        run: /usr/bin/python3 scripts/plugins/prepare-cua-driver.py --destination build/Dependencies/CuaDriver/0.38.0
+
+      - name: Save native Voice Assistant SDK
+        if: steps.cua-sdk-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            build/Dependencies/CuaDriver/0.38.0/libcua_driver_sdk.dylib
+            build/Dependencies/CuaDriver/0.38.0/native-build.json
+            build/Dependencies/CuaDriver/0.38.0/LICENSE
+            build/Dependencies/CuaDriver/0.38.0/THIRD_PARTY_NOTICES.md
+          # Save before the app builds, including runs that later fail or time out.
+          key: ${{ steps.cua-sdk-cache.outputs.cache-primary-key }}
 
       - name: Build and run tests
         id: tests

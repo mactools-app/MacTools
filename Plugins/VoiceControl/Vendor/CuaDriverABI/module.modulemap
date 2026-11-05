@@ -1,0 +1,4 @@
+module CuaDriverABI {
+  header "cua_driver_abi.h"
+  export *
+}

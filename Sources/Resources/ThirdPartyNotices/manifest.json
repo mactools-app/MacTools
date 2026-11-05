@@ -261,6 +261,25 @@
         "Plugins/VoiceControl/Resources/SileroVAD.mlpackage"
       ],
       "licenseFile": "Sources/Resources/ThirdPartyNotices/SileroVAD-LICENSE.txt"
+    },
+    {
+      "id": "cua-driver",
+      "name": "Cua Driver native SDK",
+      "repository": "https://github.com/trycua/cua",
+      "revision": "85e2b1318bd77ccf3cfa88ccdf875a4bb7eaed19",
+      "license": "MIT",
+      "gpl3Compatibility": "compatible",
+      "relationship": "dependency",
+      "products": [
+        "plugin:voice-control"
+      ],
+      "paths": [
+        "Plugins/VoiceControl/Sources/ComputerUse",
+        "Plugins/VoiceControl/Vendor/CuaDriverABI",
+        "Plugins/VoiceControl/project.yml",
+        "scripts/plugins/prepare-cua-driver.py"
+      ],
+      "licenseFile": "Sources/Resources/ThirdPartyNotices/CuaDriver-LICENSE.txt"
     }
   ]
 }

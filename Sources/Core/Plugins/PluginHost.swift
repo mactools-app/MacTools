@@ -4595,6 +4595,17 @@ final class PluginHost: ObservableObject {
                     provider.actionAvailability(for: reference)
                 ) ?? .unavailable(FeatureL10n.string("插件不可用。"))
             },
+            confirmation: (plugin as? any PluginActionConfirmationProviding).map { _ in
+                { [weak self, weak plugin] reference in
+                    guard let self, let plugin,
+                          let provider = plugin as? any PluginActionConfirmationProviding else { return nil }
+                    return self.guardedOptionalValue(
+                        for: plugin,
+                        operation: "prepare action confirmation",
+                        provider.actionConfirmation(for: reference)
+                    )
+                }
+            },
             exposurePolicy: { [weak self, weak plugin] reference, surface in
                 guard let self, let plugin else {
                     return .excluded

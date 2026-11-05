@@ -70,6 +70,10 @@ Ordinary plugins do not need root `project.yml` edits. Put necessary build overr
 
 Voice state queries require host 2.2.0 or later. Declare only the state the query reads, preserve unavailable observations, and use native approval for private content; see [Voice Assistant](docs/plugins/voice-control.md).
 
+General Voice Assistant tasks and managed commands retain the host executor and the user's chosen control mode. New primitives must preserve scoped app identities, cancellation, bounded work and observed-result reporting; see [computer tasks](docs/plugins/voice-computer-tasks.md). The optional in-panel confirmation companion requires host 2.2.4 or later and retains the same host admission checks.
+
+Actions that only open a picker, panel or preview must declare `.opensInterface` (host 2.2.4). They remain callable as explicit interface navigation, rather than being reported as completed app operations. `PluginVoiceFunctionProviding` can publish stable semantic names for canonical voice actions; it grants no additional exposure or authority.
+
 ## Development standards
 
 Follow the [plugin development standards](docs/plugins/development-guidelines.md) and the adjacent implementation. The common requirements are:
@@ -93,6 +97,8 @@ Translator's private-IP HTTP support requires host 2.2.0 for the matching system
 Shared filesystem metadata code lives in `Sources/MacToolsFileSystem`. Disk Clean, Storage Explorer, and Xcode Clean link this static module into their bundles; their core targets use it as a build dependency. Use `FileSystemDirectoryReader.readBatches` to bound enumeration memory for wide folders. Keep cleanup policy in the owning plugin and run the affected plugins' filesystem tests after changing the shared reader or parser.
 
 Installed application enumeration is shared by Launchpad and voice app control through `Sources/PluginSupport/InstalledApplicationScanner.swift`. Keep scans off the UI thread; voice issues opaque targets, revalidates the app before opening, and never accepts an application path supplied by the model. Voice owners expose only fixed self-controls declared through `PluginVoiceSelfActionProviding`, retaining canonical validation and native confirmation.
+
+Voice Assistant also bundles the pinned in-process Cua SDK for requested app interactions. Its separately declared parameterized self-actions require host 2.2.2 and preserve canonical admission checks. See [the integration guide](docs/plugins/voice-control.md#bundled-computer-interaction) for SDK preparation, permissions, lifecycle, verification, and the no-helper boundary.
 
 ## Validation
 
@@ -153,3 +159,7 @@ Releases are maintainer-owned. Feature PRs should not pre-bump plugin versions, 
 Plugin release preparation regenerates website plugin data after version bumps and includes it in the release commit, including with `--skip-check`. Keep this generated data synchronized so Pages can deploy the signed plugin catalog.
 
 For an agent-assisted readiness review, use the repository skill [`mactools-release-preflight`](.agents/skills/mactools-release-preflight/SKILL.md). It consolidates pending changelog fragments and reports PluginKit compatibility, old/new app and plugin behavior, release scope, and remaining prerequisites; other changes and release execution require separate user instructions.
+
+The Voice Assistant bundle builds its pinned Cua SDK with the official Rust 1.97.1 toolchain. Install it with `rustup toolchain install 1.97.1 --profile minimal --target aarch64-apple-darwin,x86_64-apple-darwin`. The build caches the universal native library under `build/Dependencies/CuaDriver/`; it never installs a Cua app, CLI, or daemon. Native inspection supports a bounded toolbar scope; preserve approved-window ownership, explicit completeness and unverified-result handling when changing it.
+
+Voice Assistant confirmation requests use the optional `PluginVoiceConfirmationPresenting` companion. `allowsDirectControl` stays false for setup changes that require an individual local button decision. Only local settings can grant Direct control; it is not a portable preference.

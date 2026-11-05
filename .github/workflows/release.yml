@@ -131,6 +131,9 @@ jobs:
           done
           exit "$missing"
 
+      - name: Install native Voice Assistant SDK toolchain
+        run: rustup toolchain install 1.97.1 --profile minimal --target aarch64-apple-darwin,x86_64-apple-darwin
+
       - name: Show Xcode version
         run: xcodebuild -version
 

@@ -138,10 +138,206 @@
       "pt": "Novos plugins exigem aprovação manual. As seleções atuais e a conversa em curso mantêm o acesso.",
       "ru": "Новые плагины нужно разрешать вручную. Доступ текущего выбора и текущего разговора не изменится.",
       "tr": "Yeni eklentiler için elle onay gerekir. Mevcut seçimlerin ve devam eden konuşmanın erişimi değişmez."
+    },
+    "action.computer-copy-text.title": {
+      "ar": "نسخ النص",
+      "de": "Text kopieren",
+      "en": "Copy text",
+      "es": "Copiar texto",
+      "fr": "Copier le texte",
+      "ja": "テキストをコピー",
+      "ko": "텍스트 복사",
+      "pt": "Copiar texto",
+      "ru": "Скопировать текст",
+      "zh-Hans": "复制文本",
+      "zh-Hant": "複製文字",
+      "tr": "Metni kopyala"
+    },
+    "action.computer-open-url.title": {
+      "ar": "فتح صفحة ويب",
+      "de": "Webseite öffnen",
+      "en": "Open web page",
+      "es": "Abrir página web",
+      "fr": "Ouvrir une page web",
+      "ja": "Webページを開く",
+      "ko": "웹 페이지 열기",
+      "pt": "Abrir página Web",
+      "ru": "Открыть веб-страницу",
+      "zh-Hans": "打开网页",
+      "zh-Hant": "開啟網頁",
+      "tr": "Web sayfasını aç"
+    },
+    "action.computer-search-web.title": {
+      "ar": "البحث في الويب",
+      "de": "Im Web suchen",
+      "en": "Search the web",
+      "es": "Buscar en la web",
+      "fr": "Rechercher sur le Web",
+      "ja": "Webで検索",
+      "ko": "웹 검색",
+      "pt": "Pesquisar na Web",
+      "ru": "Поиск в интернете",
+      "zh-Hans": "搜索网页",
+      "zh-Hant": "搜尋網頁",
+      "tr": "Web’de ara"
+    },
+    "action.computer-inspect-app.title": {
+      "ar": "فحص عناصر التطبيق",
+      "de": "App-Steuerelemente prüfen",
+      "en": "Inspect application controls",
+      "es": "Inspeccionar controles de una app",
+      "fr": "Inspecter les commandes d’une app",
+      "ja": "アプリのコントロールを確認",
+      "ko": "앱 컨트롤 확인",
+      "pt": "Inspecionar controlos da aplicação",
+      "ru": "Просмотреть элементы приложения",
+      "zh-Hans": "查看应用控件",
+      "zh-Hant": "檢視應用程式控制項",
+      "tr": "Uygulama denetimlerini incele"
+    },
+    "action.computer-set-control-value.title": {
+      "ar": "تعيين قيمة عنصر",
+      "de": "Steuerelement ausfüllen",
+      "en": "Set control value",
+      "es": "Establecer valor de un control",
+      "fr": "Définir la valeur d’une commande",
+      "ja": "コントロールの値を設定",
+      "ko": "컨트롤 값 설정",
+      "pt": "Definir valor de um controlo",
+      "ru": "Задать значение элемента",
+      "zh-Hans": "填写应用控件",
+      "zh-Hant": "填寫應用程式控制項",
+      "tr": "Denetim değerini ayarla"
+    },
+    "action.computer-click-control.title": {
+      "ar": "النقر على عنصر",
+      "de": "Steuerelement anklicken",
+      "en": "Click control",
+      "es": "Pulsar un control",
+      "fr": "Cliquer sur une commande",
+      "ja": "コントロールをクリック",
+      "ko": "컨트롤 클릭",
+      "pt": "Clicar num controlo",
+      "ru": "Нажать элемент",
+      "zh-Hans": "点击应用控件",
+      "zh-Hant": "點擊應用程式控制項",
+      "tr": "Denetime tıkla"
+    },
+    "action.computer-scroll-control.title": {
+      "ar": "تمرير عنصر",
+      "de": "Steuerelement scrollen",
+      "en": "Scroll control",
+      "es": "Desplazar un control",
+      "fr": "Faire défiler une commande",
+      "ja": "コントロールをスクロール",
+      "ko": "컨트롤 스크롤",
+      "pt": "Deslocar um controlo",
+      "ru": "Прокрутить элемент",
+      "zh-Hans": "滚动应用控件",
+      "zh-Hant": "捲動應用程式控制項",
+      "tr": "Denetimi kaydır"
+    },
+    "action.computer-task-begin.title": {
+      "ar": "بدء مهمة على الكمبيوتر",
+      "de": "Computeraufgabe starten",
+      "en": "Start computer task",
+      "es": "Iniciar tarea en el ordenador",
+      "fr": "Démarrer une tâche sur le Mac",
+      "ja": "コンピュータタスクを開始",
+      "ko": "컴퓨터 작업 시작",
+      "pt": "Iniciar tarefa no computador",
+      "ru": "Начать задачу на компьютере",
+      "tr": "Bilgisayar görevi başlat",
+      "zh-Hans": "执行电脑任务",
+      "zh-Hant": "執行電腦任務"
+    },
+    "action.computer-task-observe.title": {
+      "ar": "مراقبة مهمة الكمبيوتر",
+      "de": "Computeraufgabe beobachten",
+      "en": "Observe computer task",
+      "es": "Observar tarea del ordenador",
+      "fr": "Observer la tâche sur le Mac",
+      "ja": "コンピュータタスクを確認",
+      "ko": "컴퓨터 작업 관찰",
+      "pt": "Observar tarefa no computador",
+      "ru": "Наблюдать за задачей",
+      "tr": "Bilgisayar görevini gözlemle",
+      "zh-Hans": "观察电脑任务",
+      "zh-Hant": "觀察電腦任務"
+    },
+    "action.computer-task-step.title": {
+      "ar": "تنفيذ خطوة من المهمة",
+      "de": "Aufgabenschritt ausführen",
+      "en": "Perform task step",
+      "es": "Ejecutar paso de la tarea",
+      "fr": "Exécuter une étape",
+      "ja": "タスクのステップを実行",
+      "ko": "작업 단계 실행",
+      "pt": "Executar etapa da tarefa",
+      "ru": "Выполнить шаг задачи",
+      "tr": "Görev adımını çalıştır",
+      "zh-Hans": "执行任务步骤",
+      "zh-Hant": "執行任務步驟"
+    },
+    "action.computer-task-finish.title": {
+      "ar": "إنهاء مهمة الكمبيوتر",
+      "de": "Computeraufgabe beenden",
+      "en": "End computer task",
+      "es": "Finalizar tarea del ordenador",
+      "fr": "Terminer la tâche sur le Mac",
+      "ja": "コンピュータタスクを終了",
+      "ko": "컴퓨터 작업 종료",
+      "pt": "Terminar tarefa no computador",
+      "ru": "Завершить задачу",
+      "tr": "Bilgisayar görevini bitir",
+      "zh-Hans": "结束电脑任务",
+      "zh-Hant": "結束電腦任務"
+    },
+    "action.computer-command-start.title": {
+      "ar": "تشغيل أمر",
+      "de": "Befehl ausführen",
+      "en": "Run command",
+      "es": "Ejecutar comando",
+      "fr": "Exécuter une commande",
+      "ja": "コマンドを実行",
+      "ko": "명령 실행",
+      "pt": "Executar comando",
+      "ru": "Выполнить команду",
+      "tr": "Komut çalıştır",
+      "zh-Hans": "运行命令",
+      "zh-Hant": "執行命令"
+    },
+    "action.computer-command-status.title": {
+      "ar": "عرض نتيجة الأمر",
+      "de": "Befehlsergebnis lesen",
+      "en": "Read command result",
+      "es": "Ver resultado del comando",
+      "fr": "Lire le résultat de la commande",
+      "ja": "コマンド結果を確認",
+      "ko": "명령 결과 확인",
+      "pt": "Ver resultado do comando",
+      "ru": "Посмотреть результат команды",
+      "tr": "Komut sonucunu oku",
+      "zh-Hans": "查看命令结果",
+      "zh-Hant": "檢視命令結果"
+    },
+    "action.computer-command-cancel.title": {
+      "ar": "إيقاف الأمر",
+      "de": "Befehl stoppen",
+      "en": "Stop command",
+      "es": "Detener comando",
+      "fr": "Arrêter la commande",
+      "ja": "コマンドを停止",
+      "ko": "명령 중지",
+      "pt": "Parar comando",
+      "ru": "Остановить команду",
+      "tr": "Komutu durdur",
+      "zh-Hans": "停止命令",
+      "zh-Hant": "停止命令"
     }
   },
   "version": "0.1.0",
-  "minHostVersion": "2.2.0",
+  "minHostVersion": "2.2.4",
   "pluginKitVersion": 7,
   "bundleRelativePath": "VoiceControl.bundle",
   "factoryClass": "VoiceControlPlugin.VoiceControlPluginFactory",
@@ -156,7 +352,8 @@
     "settings": "form"
   },
   "permissions": [
-    "microphone"
+    "microphone",
+    "accessibility"
   ],
   "category": "productivity",
   "presentation": {
@@ -243,7 +440,12 @@
     "relatedPluginIDs": [
       "display-brightness"
     ],
-    "alternativePluginIDs": []
+    "alternativePluginIDs": [],
+    "localizedSynonymRefs": [
+      "@productStrings.action.computer-task-begin.title",
+      "@productStrings.action.computer-task-observe.title",
+      "@productStrings.action.computer-command-start.title"
+    ]
   },
   "requirements": {
     "minimumMacOSVersion": "14.0",
@@ -255,7 +457,8 @@
     "applications": [],
     "executables": [],
     "permissionIDs": [
-      "microphone"
+      "microphone",
+      "accessibility"
     ],
     "setupComplexity": "simple",
     "requiresRelaunch": false
@@ -265,11 +468,18 @@
       "microphone-audio",
       "conversation-transcript",
       "plugin-command-metadata",
-      "requested-plugin-state"
+      "requested-plugin-state",
+      "requested-app-accessibility-content",
+      "requested-clipboard-text",
+      "requested-app-menus",
+      "requested-shell-command",
+      "command-output"
     ],
     "dataPersisted": [
       "api-key-in-local-keychain",
-      "excluded-plugin-ids"
+      "excluded-plugin-ids",
+      "computer-interaction-enabled",
+      "app-reading-consent"
     ],
     "retention": {
       "policy": "user-controlled"
@@ -278,7 +488,7 @@
     "networkDomains": [
       "api.openai.com"
     ],
-    "allowsUserConfiguredDomains": false,
+    "allowsUserConfiguredDomains": true,
     "telemetry": "none",
     "processesSensitiveUserContent": true,
     "diagnosticExportsContainUserData": false
@@ -361,10 +571,596 @@
             ],
             "automaticEligible": false,
             "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-copy-text",
+            "title": "@productStrings.action.computer-copy-text.title",
+            "description": "@productStrings.action.computer-copy-text.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "text",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-open-url",
+            "title": "@productStrings.action.computer-open-url.title",
+            "description": "@productStrings.action.computer-open-url.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "url",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "browser",
+                "kind": "string",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-search-web",
+            "title": "@productStrings.action.computer-search-web.title",
+            "description": "@productStrings.action.computer-search-web.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "query",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "browser",
+                "kind": "string",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-inspect-app",
+            "title": "@productStrings.action.computer-inspect-app.title",
+            "description": "@productStrings.action.computer-inspect-app.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "app",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "windowID",
+                "kind": "integer",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "scope",
+                "kind": "string",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [
+              "accessibility"
+            ],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-set-control-value",
+            "title": "@productStrings.action.computer-set-control-value.title",
+            "description": "@productStrings.action.computer-set-control-value.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "observationID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "controlID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "value",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [
+              "accessibility"
+            ],
+            "risk": "confirmationRequired",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-click-control",
+            "title": "@productStrings.action.computer-click-control.title",
+            "description": "@productStrings.action.computer-click-control.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "observationID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "controlID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [
+              "accessibility"
+            ],
+            "risk": "confirmationRequired",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-scroll-control",
+            "title": "@productStrings.action.computer-scroll-control.title",
+            "description": "@productStrings.action.computer-scroll-control.title",
+            "keywords": [
+              "computer",
+              "browser",
+              "clipboard",
+              "app controls"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "observationID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "controlID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "direction",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [
+              "accessibility"
+            ],
+            "risk": "confirmationRequired",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-task-begin",
+            "title": "@productStrings.action.computer-task-begin.title",
+            "description": "@productStrings.action.computer-task-begin.title",
+            "keywords": [
+              "computer",
+              "task",
+              "menu",
+              "keyboard",
+              "terminal",
+              "command",
+              "quit",
+              "paste"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "goal",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "apps",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [
+              "accessibility"
+            ],
+            "risk": "confirmationRequired",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-task-observe",
+            "title": "@productStrings.action.computer-task-observe.title",
+            "description": "@productStrings.action.computer-task-observe.title",
+            "keywords": [
+              "computer",
+              "task",
+              "menu",
+              "keyboard",
+              "terminal",
+              "command",
+              "quit",
+              "paste"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "taskID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "app",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "windowID",
+                "kind": "integer",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "menuPath",
+                "kind": "string",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "scope",
+                "kind": "string",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [
+              "accessibility"
+            ],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-task-step",
+            "title": "@productStrings.action.computer-task-step.title",
+            "description": "@productStrings.action.computer-task-step.title",
+            "keywords": [
+              "computer",
+              "task",
+              "menu",
+              "keyboard",
+              "terminal",
+              "command",
+              "quit",
+              "paste"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "taskID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "app",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "stepID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "operation",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "payload",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [
+              "accessibility"
+            ],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-task-finish",
+            "title": "@productStrings.action.computer-task-finish.title",
+            "description": "@productStrings.action.computer-task-finish.title",
+            "keywords": [
+              "computer",
+              "task",
+              "menu",
+              "keyboard",
+              "terminal",
+              "command",
+              "quit",
+              "paste"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "taskID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "outcome",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-command-start",
+            "title": "@productStrings.action.computer-command-start.title",
+            "description": "@productStrings.action.computer-command-start.title",
+            "keywords": [
+              "computer",
+              "task",
+              "menu",
+              "keyboard",
+              "terminal",
+              "command",
+              "quit",
+              "paste"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "command",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "directory",
+                "kind": "string",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              },
+              {
+                "id": "timeout",
+                "kind": "integer",
+                "isRequired": false,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "confirmationRequired",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-command-status",
+            "title": "@productStrings.action.computer-command-status.title",
+            "description": "@productStrings.action.computer-command-status.title",
+            "keywords": [
+              "computer",
+              "task",
+              "menu",
+              "keyboard",
+              "terminal",
+              "command",
+              "quit",
+              "paste"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "commandID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "computer-command-cancel",
+            "title": "@productStrings.action.computer-command-cancel.title",
+            "description": "@productStrings.action.computer-command-cancel.title",
+            "keywords": [
+              "computer",
+              "task",
+              "menu",
+              "keyboard",
+              "terminal",
+              "command",
+              "quit",
+              "paste"
+            ],
+            "systemImage": "cursorarrow",
+            "parameters": [
+              {
+                "id": "commandID",
+                "kind": "string",
+                "isRequired": true,
+                "privacy": "sensitive",
+                "portability": "localOnly"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "manual"
+            ],
+            "automaticEligible": false,
+            "externalInvocation": "unavailable"
           }
         ],
         "dynamicTemplates": []
       }
+    ]
+  },
+  "package": {
+    "signPaths": [
+      "VoiceControl.bundle/Contents/Frameworks/libcua_driver_sdk.dylib"
     ]
   }
 }

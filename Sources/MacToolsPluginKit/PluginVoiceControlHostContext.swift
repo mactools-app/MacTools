@@ -35,7 +35,8 @@ public struct PluginVoiceReply: Codable, Sendable {
     public let capabilities: [PluginVoiceCapability]
     public let status: String
     public let message: String?
-    /// A bounded JSON object supplied by a query provider, treated as data.
+    /// Bounded JSON data. Queries supply untrusted content; discovery may supply host-bound
+    /// `voiceFunctions` names keyed by issued capability IDs (host 2.2.4 and later).
     public let payload: String?
 
     public init(capabilities: [PluginVoiceCapability] = [], status: String = "ok",
@@ -77,6 +78,14 @@ public protocol PluginVoiceParameterizedActionProviding: AnyObject {
 @MainActor
 public protocol PluginVoiceSelfActionProviding: AnyObject {
     var voiceSelfActionIDs: Set<String> { get }
+}
+
+/// Separate opt-in for a session owner's parameterized canonical actions.
+/// IDs must also be declared through PluginVoiceParameterizedActionProviding.
+/// This grants no access to owner queries, feature navigation, or unlisted actions.
+@MainActor
+public protocol PluginVoiceSelfParameterizedActionProviding: PluginVoiceParameterizedActionProviding {
+    var voiceSelfParameterizedActionIDs: Set<String> { get }
 }
 
 @MainActor
