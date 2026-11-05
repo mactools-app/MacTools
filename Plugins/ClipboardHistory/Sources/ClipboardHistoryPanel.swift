@@ -4364,6 +4364,10 @@ struct ClipboardHistoryPanelView: View {
         .onChange(of: locale.identifier) { _, _ in
             if model.isActionPalettePresented { onRefreshActionPalette(actionMenuEntries()) }
         }
+        .onChange(of: shortcutState.bindings) { _, _ in
+            // The companion has its own hosting view and needs the updated entries.
+            if model.isActionPalettePresented { onRefreshActionPalette(actionMenuEntries()) }
+        }
         .onChange(of: model.actionContext) { _, _ in
             if model.isActionPalettePresented { onRefreshActionPalette(actionMenuEntries()) }
         }
