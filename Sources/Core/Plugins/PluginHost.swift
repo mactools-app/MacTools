@@ -5366,8 +5366,10 @@ final class PluginHost: ObservableObject {
     private func shortcutBindingsConflict(_ binding: ShortcutBinding, for descriptor: ShortcutDescriptor,
                                          with otherBinding: ShortcutBinding, for other: ShortcutDescriptor) -> Bool {
         // Explicit scope bindings win inside Window Switcher. Clipboard reserves
-        // its reverse-cycle chord against other local commands as well.
+        // its reverse-cycle chord only against other commands local to its window.
         let includesClipboardReverse = descriptor.pluginID == "clipboard" && descriptor.pluginID == other.pluginID
+            && descriptor.definition.scope == .whilePluginActive
+            && other.definition.scope == .whilePluginActive
         if descriptor.pluginID == other.pluginID && !includesClipboardReverse {
             return binding == otherBinding
         }

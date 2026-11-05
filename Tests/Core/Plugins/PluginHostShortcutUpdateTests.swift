@@ -153,6 +153,47 @@ final class PluginHostShortcutUpdateTests: XCTestCase {
         withExtendedLifetime(host) {}
     }
 
+    func testShortcutRestorePreservesClipboardGlobalOwnerAndUnrelatedAssignments() throws {
+        let suite = "ClipboardGlobalRestoreTests-\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let store = ShortcutStore(userDefaults: defaults)
+        let forward = ShortcutBinding(keyCode: 15, modifiers: [.option, .command])
+        let reverse = ShortcutBinding(keyCode: 15, modifiers: [.option, .shift, .command])
+        let unrelated = ShortcutBinding(keyCode: 35, modifiers: [.control, .command])
+        store.setCustomization(.custom(reverse), for: "clipboard.shortcut.private-copy")
+        store.setCustomization(.custom(forward), for: "clipboard.shortcut.panel-cycle-scope")
+        store.setCustomization(.custom(unrelated), for: "batch.shortcut.0")
+        func clipboard() -> ClipboardFilterShortcutPlugin {
+            let plugin = ClipboardFilterShortcutPlugin(ownerScope: .global)
+            plugin.ownerDefinitionID = "private-copy"
+            plugin.includesFilter = true
+            plugin.filterDefinitionID = "panel-cycle-scope"
+            plugin.filterBinding = .init(keyCode: 48, modifiers: .control)
+            return plugin
+        }
+        let source = PluginHost(plugins: [clipboard(), ShortcutPlugin(scope: .whilePluginActive)],
+            shortcutStore: store, pluginOrderingStore: PluginOrderingStore(userDefaults: defaults),
+            preferencesBackupStore: PreferencesBackupStore(userDefaults: defaults),
+            globalShortcutManager: GlobalShortcutManager(registrar: FakeCarbonHotKeyRegistrar()),
+            loadDynamicPluginsOnInit: false)
+        let backup = source.makePreferencesBackup()
+        let restoredClipboard = clipboard()
+        let restoredOther = ShortcutPlugin(scope: .whilePluginActive)
+        let restored = makePluginHostForTests(plugins: [restoredClipboard, restoredOther],
+            loadDynamicPluginsOnInit: false,
+            globalShortcutManager: GlobalShortcutManager(registrar: FakeCarbonHotKeyRegistrar()))
+        let selection = PreferencesBackupSelection(includesApplicationPreferences: false,
+            includesPluginLayout: false, includesShortcuts: true, includesAutomation: false,
+            includesRunLinks: false, pluginPreferenceIDs: [])
+        let result = try restored.importPreferences(backup, selection: selection)
+
+        XCTAssertTrue(result.shortcutErrors.isEmpty, "\(result.shortcutErrors)")
+        XCTAssertEqual(restoredClipboard.shortcutBindingResolver?("private-copy"), reverse)
+        XCTAssertEqual(restoredClipboard.shortcutBindingResolver?("panel-cycle-scope"), forward)
+        XCTAssertEqual(restoredOther.shortcutBindingResolver?("0"), unrelated)
+    }
+
     func testAIAssistantSwitchesReleaseAndRestoreGlobalRegistrations() async {
         let storage = AIAssistantInMemoryPluginStorage()
         let plugin = AIAssistantPlugin(context: PluginRuntimeContext(
