@@ -1,4 +1,5 @@
 import AppKit
+import MacToolsPluginKit
 import SwiftUI
 
 struct ClipboardEmbeddedPreviewKey: Hashable {
@@ -35,13 +36,17 @@ final class ClipboardEmbeddedPreviewCache {
     private(set) var totalCost = 0
     var count: Int { entries.count }
 
+    // Each cache has one decode size. Row thumbnails never replace larger detail previews.
     init(maximumCost: Int = 32 * 1_024 * 1_024, maximumCount: Int = 8,
+         maximumThumbnailDimension: Int = ClipboardEmbeddedPreviewPolicy.maximumThumbnailDimension,
          loader: (@MainActor (ClipboardHistoryItem) async -> NSImage?)? = nil) {
         self.maximumCost = max(0, maximumCost)
         self.maximumCount = max(0, maximumCount)
         self.loader = { item in
             if let loader { return .init(image: await loader(item)) }
-            return await ClipboardEmbeddedPreviewLoader.loadResult(for: item)
+            return await ClipboardEmbeddedPreviewLoader.loadResult(
+                for: item, maximumThumbnailDimension: maximumThumbnailDimension
+            )
         }
         let source = DispatchSource.makeMemoryPressureSource(eventMask: [.warning, .critical], queue: .main)
         source.setEventHandler { [weak self] in
@@ -52,6 +57,13 @@ final class ClipboardEmbeddedPreviewCache {
     }
 
     deinit { memoryPressureSource?.cancel() }
+
+    static func rowThumbnails() -> ClipboardEmbeddedPreviewCache {
+        ClipboardEmbeddedPreviewCache(
+            maximumCost: 8 * 1_024 * 1_024, maximumCount: 64,
+            maximumThumbnailDimension: 240
+        )
+    }
 
     func cachedImage(for item: ClipboardHistoryItem) -> NSImage? {
         let key = ClipboardEmbeddedPreviewKey(item)
@@ -235,4 +247,54 @@ private struct ClipboardEmbeddedPreviewRequestID: Hashable {
     let resetID: UInt
     let retryID: UInt
     let isActive: Bool
+}
+
+struct ClipboardHistoryRowThumbnail: View {
+    private static let size = CGSize(width: 96, height: 56)
+
+    let item: ClipboardHistoryItem
+    let cache: ClipboardEmbeddedPreviewCache
+    let resetID: UInt
+    let isActive: Bool
+    @StateObject private var presentation = ClipboardEmbeddedPreviewPresentation()
+    @Environment(\.colorSchemeContrast) private var contrast
+
+    var body: some View {
+        Group {
+            if case let .ready(image) = presentation.state {
+                let size = ClipboardImagePreviewLayout.aspectFitSize(
+                    contentSize: image.size, containerSize: Self.size, padding: 0
+                )
+                Image(nsImage: image)
+                    .resizable()
+                    .frame(width: size.width, height: size.height)
+                    .background(PluginSettingsTheme.Palette.recessedControlBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 6, style: .continuous)
+                            .strokeBorder(
+                                contrast == .increased ? Color.primary : PluginSettingsTheme.Palette.cardBorder,
+                                lineWidth: 1
+                            )
+                    }
+            } else {
+                Image(systemName: "photo")
+                    .foregroundStyle(.secondary)
+            }
+        }
+        // Reserve a stable column while loading, but draw the surface only around the image.
+        .frame(width: Self.size.width, height: Self.size.height)
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
+        .task(id: ClipboardEmbeddedPreviewRequestID(
+            key: ClipboardEmbeddedPreviewKey(item), resetID: resetID,
+            retryID: 0, isActive: isActive
+        )) {
+            guard isActive else { presentation.reset(); return }
+            await presentation.load(item, cache: cache)
+        }
+        .onChange(of: isActive) { _, active in
+            if !active { presentation.reset() }
+        }
+    }
 }
