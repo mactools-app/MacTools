@@ -609,7 +609,10 @@ enum ClipboardEmbeddedPreviewPolicy {
         )
     }
 
-    static func imageThumbnail(from data: Data) -> NSImage? {
+    static func imageThumbnail(
+        from data: Data,
+        maximumDimension: Int = maximumThumbnailDimension
+    ) -> NSImage? {
         guard let source = CGImageSourceCreateWithData(
             data as CFData,
             [kCGImageSourceShouldCache: false] as CFDictionary
@@ -627,7 +630,7 @@ enum ClipboardEmbeddedPreviewPolicy {
                 kCGImageSourceCreateThumbnailFromImageAlways: true,
                 kCGImageSourceCreateThumbnailWithTransform: true,
                 kCGImageSourceShouldCacheImmediately: true,
-                kCGImageSourceThumbnailMaxPixelSize: maximumThumbnailDimension,
+                kCGImageSourceThumbnailMaxPixelSize: min(max(1, maximumDimension), maximumThumbnailDimension),
             ] as CFDictionary
         ) else {
             return nil
@@ -635,7 +638,10 @@ enum ClipboardEmbeddedPreviewPolicy {
         return previewImage(from: image)
     }
 
-    static func pdfThumbnail(from data: Data) -> NSImage? {
+    static func pdfThumbnail(
+        from data: Data,
+        maximumDimension: Int = maximumThumbnailDimension
+    ) -> NSImage? {
         guard let provider = CGDataProvider(data: data as CFData),
               let document = CGPDFDocument(provider),
               let page = document.page(at: 1) else {
@@ -647,7 +653,8 @@ enum ClipboardEmbeddedPreviewPolicy {
         }
         let scale = min(
             1,
-            CGFloat(maximumThumbnailDimension) / max(mediaBox.width, mediaBox.height)
+            CGFloat(min(max(1, maximumDimension), maximumThumbnailDimension))
+                / max(mediaBox.width, mediaBox.height)
         )
         let width = max(1, Int((mediaBox.width * scale).rounded(.up)))
         let height = max(1, Int((mediaBox.height * scale).rounded(.up)))
@@ -757,7 +764,10 @@ enum ClipboardBoundedImagePreviewWork {
 private actor ClipboardEmbeddedPreviewDecodeGate {
     static let shared = ClipboardEmbeddedPreviewDecodeGate()
 
-    func load(for item: ClipboardHistoryItem) -> ClipboardEmbeddedPreviewResult {
+    func load(
+        for item: ClipboardHistoryItem,
+        maximumThumbnailDimension: Int
+    ) -> ClipboardEmbeddedPreviewResult {
         defer { item.discardCachedPayloadIfReloadable() }
         guard !Task.isCancelled else { return .init(image: nil, failure: .cancelled) }
         let payload: ClipboardHistoryPayload
@@ -774,8 +784,12 @@ private actor ClipboardEmbeddedPreviewDecodeGate {
         for representation in representations {
             guard !Task.isCancelled else { return .init(image: nil, failure: .cancelled) }
             let image = representation.typeIdentifier == ClipboardRepresentationType.pdf
-                ? ClipboardEmbeddedPreviewPolicy.pdfThumbnail(from: representation.data)
-                : ClipboardEmbeddedPreviewPolicy.imageThumbnail(from: representation.data)
+                ? ClipboardEmbeddedPreviewPolicy.pdfThumbnail(
+                    from: representation.data, maximumDimension: maximumThumbnailDimension
+                )
+                : ClipboardEmbeddedPreviewPolicy.imageThumbnail(
+                    from: representation.data, maximumDimension: maximumThumbnailDimension
+                )
             if let image { return .init(image: Task.isCancelled ? nil : image) }
         }
         return .init(image: nil, failure: .decodingFailed)
@@ -787,8 +801,13 @@ enum ClipboardEmbeddedPreviewLoader {
         await loadResult(for: item).image
     }
 
-    static func loadResult(for item: ClipboardHistoryItem) async -> ClipboardEmbeddedPreviewResult {
-        await ClipboardEmbeddedPreviewDecodeGate.shared.load(for: item)
+    static func loadResult(
+        for item: ClipboardHistoryItem,
+        maximumThumbnailDimension: Int = ClipboardEmbeddedPreviewPolicy.maximumThumbnailDimension
+    ) async -> ClipboardEmbeddedPreviewResult {
+        await ClipboardEmbeddedPreviewDecodeGate.shared.load(
+            for: item, maximumThumbnailDimension: maximumThumbnailDimension
+        )
     }
 }
 
@@ -2282,6 +2301,7 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
     private var pendingPanelPosition: (screenID: String, position: ClipboardHistoryPanelPosition)?
     private var positionSaveTask: Task<Void, Never>?
     private let previewCache = ClipboardEmbeddedPreviewCache()
+    private let rowThumbnailCache = ClipboardEmbeddedPreviewCache.rowThumbnails()
     private let richTextPreviewCache = ClipboardRichTextPreviewCache()
     private var itemSubscriptions = Set<AnyCancellable>()
     private var keyMonitor: Any?
@@ -2356,6 +2376,7 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
             guard let self else { return }
             self.model.updateItems(update.items, revision: update.revision, changedIDs: update.changedIDs, knownChanges: update.changes)
             self.previewCache.retain(where: self.model.containsPreview)
+            self.rowThumbnailCache.retain(where: self.model.containsPreview)
             self.richTextPreviewCache.retain(where: self.model.containsPreview)
         }.store(in: &itemSubscriptions)
         savedLibraryController.itemUpdates.sink { [weak self] update in
@@ -2573,9 +2594,11 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
         model.resetPreviewPresentation()
         if discardsPreviews {
             previewCache.removeAll()
+            rowThumbnailCache.removeAll()
             richTextPreviewCache.removeAll()
         } else {
             previewCache.cancelPendingLoads()
+            rowThumbnailCache.cancelPendingLoads()
             richTextPreviewCache.invalidatePendingLoad()
         }
         exportCoordinator.cancel()
@@ -2598,6 +2621,7 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
         savePendingPanelPosition()
         model.resetPreviewPresentation()
         previewCache.cancelPendingLoads()
+        rowThumbnailCache.cancelPendingLoads()
         richTextPreviewCache.invalidatePendingLoad()
         exportCoordinator.cancel()
         shareCoordinator.cancel()
@@ -2750,6 +2774,7 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
                 localization: localization,
                 previewPasteboard: previewPasteboard,
                 previewCache: previewCache,
+                rowThumbnailCache: rowThumbnailCache,
                 richTextPreviewCache: richTextPreviewCache,
                 onCopyAndClose: { [weak self] itemID in
                     self?.copyItemAndClose(id: itemID)
@@ -3975,6 +4000,7 @@ struct ClipboardHistoryPanelView: View {
     let itemShortcutStore: ClipboardItemShortcutStore
     @ObservedObject var model: ClipboardHistoryPanelModel
     let previewCache: ClipboardEmbeddedPreviewCache
+    let rowThumbnailCache: ClipboardEmbeddedPreviewCache
     let richTextPreviewCache: ClipboardRichTextPreviewCache
     let previewPasteboard: any ClipboardPasteboardAccess
     let onCopyAndClose: (UUID) -> Void
@@ -4030,6 +4056,7 @@ struct ClipboardHistoryPanelView: View {
         localization: PluginLocalization,
         previewPasteboard: any ClipboardPasteboardAccess,
         previewCache: ClipboardEmbeddedPreviewCache = ClipboardEmbeddedPreviewCache(),
+        rowThumbnailCache: ClipboardEmbeddedPreviewCache = .rowThumbnails(),
         richTextPreviewCache: ClipboardRichTextPreviewCache = ClipboardRichTextPreviewCache(),
         onCopyAndClose: @escaping (UUID) -> Void,
         onPasteAndClose: @escaping (UUID, Bool) -> Void,
@@ -4069,6 +4096,7 @@ struct ClipboardHistoryPanelView: View {
         self.localization = localization
         self.previewPasteboard = previewPasteboard
         self.previewCache = previewCache
+        self.rowThumbnailCache = rowThumbnailCache
         self.richTextPreviewCache = richTextPreviewCache
         self.onCopyAndClose = onCopyAndClose
         self.onPasteAndClose = onPasteAndClose
@@ -4941,6 +4969,14 @@ struct ClipboardHistoryPanelView: View {
                 item: item,
                 isMarked: isMarked
             )
+            if item.kind == .image {
+                ClipboardHistoryRowThumbnail(
+                    item: item,
+                    cache: rowThumbnailCache,
+                    resetID: model.previewResetRevision,
+                    isActive: model.isPreviewPresentationActive
+                )
+            }
             VStack(
                 alignment: .leading,
                 spacing: PluginPaletteMetrics.rowTitleDescriptionSpacing
@@ -5085,7 +5121,7 @@ struct ClipboardHistoryPanelView: View {
                     ? localization.string("panel.selection.remove", defaultValue: "Remove from Selection")
                     : localization.string("panel.selection.add", defaultValue: "Add to Selection")
             )
-        } else {
+        } else if item.kind != .image {
             Image(systemName: itemSystemImage(item))
                 .font(.body)
                 .foregroundStyle(.secondary)
@@ -6799,6 +6835,11 @@ struct ClipboardHistoryPanelView: View {
     private func displayTitle(_ item: ClipboardHistoryItem) -> String {
         if let savedItem = model.savedItem(forPresentationID: item.id) {
             return savedItem.title
+        }
+        if item.kind == .image {
+            return ClipboardHistoryImageTitle.title(
+                for: item, query: model.query, fallback: kindTitle(.image)
+            )
         }
         if model.mode == .saved, let title = item.savedMetadata?.title, !title.isEmpty {
             return title
