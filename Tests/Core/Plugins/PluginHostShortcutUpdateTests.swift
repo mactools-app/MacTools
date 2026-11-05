@@ -6,6 +6,153 @@ import XCTest
 
 @MainActor
 final class PluginHostShortcutUpdateTests: XCTestCase {
+    func testNewClipboardFilterDefaultYieldsToEventHandledOwner() async throws {
+        let owner = ShortcutPlugin(scope: .whilePluginActive)
+        let clipboard = ClipboardFilterShortcutPlugin(ownerScope: .whilePluginActive)
+        let host = makePluginHostForTests(plugins: [owner, clipboard],
+            globalShortcutManager: GlobalShortcutManager(registrar: FakeCarbonHotKeyRegistrar()))
+        let binding = ShortcutBinding(keyCode: 19, modifiers: [.option, .command])
+        XCTAssertNil(host.setShortcutBindingAndReturnError(binding, for: "batch.shortcut.0"))
+        clipboard.includesFilter = true
+        clipboard.onStateChange?()
+        await host.waitForScheduledPluginStateRebuildForTests()
+        XCTAssertEqual(owner.shortcutBindingResolver?("0"), binding)
+        XCTAssertEqual(owner.deliveries.last { $0.id == "0" }?.binding, binding)
+        XCTAssertNil(clipboard.shortcutBindingResolver?("panel-filter-image"))
+        XCTAssertTrue(clipboard.deliveries.contains { $0.id == "panel-filter-image" && $0.binding == nil })
+        clipboard.deliveries.removeAll()
+        host.clearShortcut(for: "batch.shortcut.0")
+        XCTAssertEqual(clipboard.shortcutBindingResolver?("panel-filter-image"), binding)
+        XCTAssertEqual(clipboard.deliveries.last { $0.id == "panel-filter-image" }?.binding, binding)
+    }
+
+    func testActiveOnlyConsumerReceivesInitialAndChangedBindingsWithoutEventHandling() async {
+        let plugin = ClipboardFilterShortcutPlugin(ownerScope: .whilePluginActive)
+        plugin.includesFilter = true
+        let host = makePluginHostForTests(plugins: [plugin],
+            globalShortcutManager: GlobalShortcutManager(registrar: FakeCarbonHotKeyRegistrar()))
+        XCTAssertEqual(plugin.deliveries.count, 2)
+        XCTAssertTrue(plugin.deliveries.contains { $0.id == "existing-paste" && $0.binding == nil })
+        XCTAssertNotNil(plugin.deliveries.first { $0.id == "panel-filter-image" }?.binding)
+        plugin.deliveries.removeAll()
+        plugin.onStateChange?()
+        await host.waitForScheduledPluginStateRebuildForTests()
+        XCTAssertTrue(plugin.deliveries.isEmpty)
+        let custom = ShortcutBinding(keyCode: 3, modifiers: [.command, .option, .control])
+        let id = "clipboard.shortcut.panel-filter-image"
+        XCTAssertNil(host.setShortcutBindingAndReturnError(custom, for: id))
+        XCTAssertEqual(plugin.deliveries.last?.binding, custom)
+        host.clearShortcut(for: id)
+        XCTAssertEqual(plugin.deliveries.last?.id, "panel-filter-image")
+        XCTAssertNil(plugin.deliveries.last?.binding)
+    }
+
+    func testClipboardFilterDefaultYieldsWhenRestoringExistingCustomization() async throws {
+        let source = ClipboardFilterShortcutPlugin(ownerScope: .whilePluginActive)
+        let host = makePluginHostForTests(plugins: [source],
+            globalShortcutManager: GlobalShortcutManager(registrar: FakeCarbonHotKeyRegistrar()))
+        let binding = ShortcutBinding(keyCode: 19, modifiers: [.option, .command])
+        XCTAssertNil(host.setShortcutBindingAndReturnError(binding, for: "clipboard.shortcut.existing-paste"))
+        let oldBackup = host.makePreferencesBackup()
+        source.includesFilter = true
+        source.onStateChange?()
+        await host.waitForScheduledPluginStateRebuildForTests()
+        for backup in [oldBackup, host.makePreferencesBackup()] {
+            let destination = ClipboardFilterShortcutPlugin(ownerScope: .whilePluginActive)
+            destination.includesFilter = true
+            let restored = makePluginHostForTests(plugins: [destination],
+                globalShortcutManager: GlobalShortcutManager(registrar: FakeCarbonHotKeyRegistrar()))
+            let result = try restored.importPreferences(backup)
+            XCTAssertTrue(result.shortcutErrors.isEmpty, "\(result.shortcutErrors)")
+            XCTAssertEqual(destination.shortcutBindingResolver?("existing-paste"), binding)
+            XCTAssertNil(destination.shortcutBindingResolver?("panel-filter-image"))
+            restored.clearShortcut(for: "clipboard.shortcut.existing-paste")
+            XCTAssertEqual(destination.shortcutBindingResolver?("panel-filter-image"), binding)
+        }
+    }
+
+    func testNewClipboardFilterDefaultYieldsToExistingPanelAndGlobalCustomizations() async throws {
+        for scope in [ShortcutScope.whilePluginActive, .global] {
+            let plugin = ClipboardFilterShortcutPlugin(ownerScope: scope)
+            let host = makePluginHostForTests(plugins: [plugin],
+                globalShortcutManager: GlobalShortcutManager(registrar: FakeCarbonHotKeyRegistrar()))
+            let ownerID = "clipboard.shortcut.existing-paste"
+            let filterID = "clipboard.shortcut.panel-filter-image"
+            let binding = ShortcutBinding(keyCode: 19, modifiers: [.option, .command])
+            XCTAssertNil(host.setShortcutBindingAndReturnError(binding, for: ownerID))
+            plugin.includesFilter = true
+            plugin.onStateChange?()
+            await host.waitForScheduledPluginStateRebuildForTests()
+            XCTAssertEqual(plugin.shortcutBindingResolver?("existing-paste"), binding)
+            XCTAssertNil(plugin.shortcutBindingResolver?("panel-filter-image"))
+            let row = try XCTUnwrap(host.shortcutItems.first { $0.id == filterID })
+            XCTAssertFalse(row.canClear)
+            XCTAssertNotNil(row.errorMessage)
+            host.clearShortcut(for: ownerID)
+            XCTAssertEqual(plugin.shortcutBindingResolver?("panel-filter-image"), binding)
+        }
+    }
+
+    func testClipboardFilterDefaultPreservesReverseScopeShortcutAcrossUpgradeAndRestore() async throws {
+        let forward = ShortcutBinding(keyCode: 18, modifiers: [.option, .command])
+        let reverse = ShortcutBinding(keyCode: 18, modifiers: [.option, .shift, .command])
+        func plugin() -> ClipboardFilterShortcutPlugin {
+            let result = ClipboardFilterShortcutPlugin(ownerScope: .whilePluginActive)
+            result.ownerDefinitionID = "panel-cycle-scope"
+            result.filterDefinitionID = "panel-filter-any-content"
+            result.filterBinding = reverse
+            return result
+        }
+        let source = plugin()
+        let host = makePluginHostForTests(plugins: [source],
+            globalShortcutManager: GlobalShortcutManager(registrar: FakeCarbonHotKeyRegistrar()))
+        let ownerID = "clipboard.shortcut.panel-cycle-scope"
+        XCTAssertNil(host.setShortcutBindingAndReturnError(forward, for: ownerID))
+        let oldBackup = host.makePreferencesBackup()
+        source.includesFilter = true
+        source.onStateChange?()
+        await host.waitForScheduledPluginStateRebuildForTests()
+        XCTAssertEqual(source.shortcutBindingResolver?("panel-cycle-scope"), forward)
+        XCTAssertNil(source.shortcutBindingResolver?("panel-filter-any-content"))
+        XCTAssertTrue(source.deliveries.contains { $0.id == "panel-filter-any-content" && $0.binding == nil })
+
+        for backup in [oldBackup, host.makePreferencesBackup()] {
+            let destination = plugin()
+            destination.includesFilter = true
+            let restored = makePluginHostForTests(plugins: [destination],
+                globalShortcutManager: GlobalShortcutManager(registrar: FakeCarbonHotKeyRegistrar()))
+            let result = try restored.importPreferences(backup)
+            XCTAssertTrue(result.shortcutErrors.isEmpty, "\(result.shortcutErrors)")
+            XCTAssertEqual(destination.shortcutBindingResolver?("panel-cycle-scope"), forward)
+            XCTAssertNil(destination.shortcutBindingResolver?("panel-filter-any-content"))
+            restored.clearShortcut(for: ownerID)
+            XCTAssertEqual(destination.shortcutBindingResolver?("panel-filter-any-content"), reverse)
+        }
+    }
+
+    func testClipboardReverseScopeChordPreservesOtherPluginsExistingBindings() {
+        let suite = "ClipboardReverseScopeTests-\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let store = ShortcutStore(userDefaults: defaults)
+        let forward = ShortcutBinding(keyCode: 15, modifiers: [.option, .command])
+        let reverse = ShortcutBinding(keyCode: 15, modifiers: [.option, .shift, .command])
+        store.setCustomization(.custom(forward), for: "clipboard.shortcut.panel-cycle-scope")
+        store.setCustomization(.custom(reverse), for: "batch.shortcut.0")
+        let clipboard = ClipboardFilterShortcutPlugin(ownerScope: .whilePluginActive)
+        clipboard.ownerDefinitionID = "panel-cycle-scope"
+        let other = ShortcutPlugin(scope: .whilePluginActive)
+        let host = PluginHost(plugins: [clipboard, other], shortcutStore: store,
+            pluginOrderingStore: PluginOrderingStore(userDefaults: defaults),
+            preferencesBackupStore: PreferencesBackupStore(userDefaults: defaults),
+            globalShortcutManager: GlobalShortcutManager(registrar: FakeCarbonHotKeyRegistrar()),
+            loadDynamicPluginsOnInit: false)
+        XCTAssertEqual(clipboard.shortcutBindingResolver?("panel-cycle-scope"), forward)
+        XCTAssertEqual(other.shortcutBindingResolver?("0"), reverse)
+        XCTAssertEqual(other.deliveries.last { $0.id == "0" }?.binding, reverse)
+        withExtendedLifetime(host) {}
+    }
+
     func testAIAssistantSwitchesReleaseAndRestoreGlobalRegistrations() async {
         let storage = AIAssistantInMemoryPluginStorage()
         let plugin = AIAssistantPlugin(context: PluginRuntimeContext(
@@ -217,6 +364,37 @@ final class PluginHostShortcutUpdateTests: XCTestCase {
             XCTAssertEqual(store.customization(for: "batch.shortcut.\(index)"), .inheritDefault)
         }
         withExtendedLifetime(subscription) {}
+    }
+}
+
+@MainActor
+private final class ClipboardFilterShortcutPlugin: MacToolsPlugin, PluginShortcutBindingChangeHandling {
+    let metadata = PluginMetadata(id: "clipboard", title: "Clipboard", iconName: "clipboard",
+                                  iconTint: .blue, order: 0, defaultDescription: "")
+    var onStateChange: (() -> Void)?
+    var requestPermissionGuidance: ((String) -> Void)?
+    var shortcutBindingResolver: ((String) -> ShortcutBinding?)?
+    var includesFilter = false
+    var deliveries: [(id: String, binding: ShortcutBinding?)] = []
+    func shortcutBindingDidChange(id: String, binding: ShortcutBinding?) {
+        deliveries.append((id, binding))
+    }
+    let ownerScope: ShortcutScope
+    var ownerDefinitionID = "existing-paste"
+    var filterDefinitionID = "panel-filter-image"
+    var filterBinding = ShortcutBinding(keyCode: 19, modifiers: [.option, .command])
+
+    init(ownerScope: ShortcutScope) { self.ownerScope = ownerScope }
+
+    var shortcutDefinitions: [PluginShortcutDefinition] {
+        var definitions = [PluginShortcutDefinition(id: ownerDefinitionID, title: "Existing shortcut", description: "",
+            actionID: ownerDefinitionID, scope: ownerScope, defaultBinding: nil, isRequired: false)]
+        if includesFilter {
+            definitions.append(PluginShortcutDefinition(id: filterDefinitionID, title: "Filter", description: "",
+                actionID: filterDefinitionID, scope: .whilePluginActive,
+                defaultBinding: filterBinding, isRequired: false))
+        }
+        return definitions
     }
 }
 

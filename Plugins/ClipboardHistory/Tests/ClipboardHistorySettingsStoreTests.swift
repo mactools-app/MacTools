@@ -7,6 +7,20 @@ import XCTest
 final class ClipboardHistorySettingsStoreTests: XCTestCase {
     private let deferralKey = "retention-restoration-deferred.v1"
 
+    func testRememberPreferenceTransfersWithoutLocalFilterSnapshotAndRejectsFailedWrite() throws {
+        let source = ClipboardHistorySettingsStore(storage: RetentionSettingsStorage())
+        source.setRemembersPanelFilters(true, current: .init(scope: .history, type: .image))
+        let storage = RetentionSettingsStorage()
+        let destination = ClipboardHistorySettingsStore(storage: storage)
+        XCTAssertTrue(destination.restorePortableBackup(try XCTUnwrap(source.portableBackup())))
+        XCTAssertTrue(destination.remembersPanelFilters)
+        XCTAssertEqual(destination.openingPanelFilters, .defaults)
+        storage.blockedKeys = ["remember-panel-filters"]
+        destination.setRemembersPanelFilters(false, current: .defaults)
+        XCTAssertTrue(destination.remembersPanelFilters)
+        XCTAssertTrue(ClipboardHistorySettingsStore(storage: storage).remembersPanelFilters)
+    }
+
     func testPortableRetentionDeferralIsDurableAndNeverTransfers() throws {
         let source = ClipboardHistorySettingsStore(storage: RetentionSettingsStorage())
         source.expiration = .oneDay

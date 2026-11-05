@@ -21,7 +21,7 @@ private struct ClipboardHistoryPluginProvider: PluginProvider {
 
 @MainActor
 final class ClipboardHistoryPlugin:
-    MacToolsPlugin, PluginActionProviding, PluginGroupedShortcutSettingsProviding, PluginShortcutSettingsGroupPresentationProviding, PluginShortcutBindingValidating, PluginInlineShortcutSettingsContextConsuming, PluginShortcutResetRequesting, PluginWindowLayoutTargetProviding, PluginSettingsPresenting, AccessibilityPermissionRefreshing, DisplayTopologyRefreshing {
+    MacToolsPlugin, PluginActionProviding, PluginGroupedShortcutSettingsProviding, PluginShortcutSettingsGroupPresentationProviding, PluginShortcutBindingValidating, PluginShortcutBindingChangeHandling, PluginInlineShortcutSettingsContextConsuming, PluginShortcutResetRequesting, PluginWindowLayoutTargetProviding, PluginSettingsPresenting, AccessibilityPermissionRefreshing, DisplayTopologyRefreshing {
     var panelItems: [PluginPanelItem] {
         let state = rowState
         let descriptor = rowDescriptor
@@ -124,7 +124,13 @@ final class ClipboardHistoryPlugin:
     var onStateChange: (() -> Void)?
     var requestSettingsPresentation: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
-    var shortcutBindingResolver: ((String) -> ShortcutBinding?)?
+    let panelShortcuts = ClipboardHistoryPanelShortcuts()
+    var shortcutBindingResolver: ((String) -> ShortcutBinding?)? {
+        didSet { if shortcutBindingResolver == nil { panelShortcuts.reset() } }
+    }
+    func shortcutBindingDidChange(id: String, binding: ShortcutBinding?) {
+        panelShortcuts.receiveHostBinding(id: id, binding: binding)
+    }
     var inlineShortcutSettingsContextProvider: (() -> PluginSettingsContext)?
     var resetShortcutCustomizations: (([String]) -> Void)?
     var focusedWindowLayoutTarget: NSWindow? {
@@ -229,7 +235,7 @@ final class ClipboardHistoryPlugin:
         shortcutDefinitions.first(where: { $0.id == definitionID })?.title ?? definitionID
     }
 
-    static let panelShortcutDefinitionIDs: Set<String> = [
+    static let panelShortcutDefinitionIDs: Set<String> = Set([
         ShortcutID.panelActions,
         ShortcutID.panelCycleScope,
         ShortcutID.panelExport,
@@ -242,7 +248,7 @@ final class ClipboardHistoryPlugin:
         ShortcutID.panelSelectAll,
         ShortcutID.panelCopyCombined,
         ShortcutID.panelPasteCombined,
-    ]
+    ] + ClipboardHistoryFilterShortcuts.definitions.map(\.id))
 
     private let settingsStore: ClipboardHistorySettingsStore
     private let privateCopyLeaseStore: PluginStorageClipboardPrivateCopyLeaseStore
@@ -410,6 +416,7 @@ final class ClipboardHistoryPlugin:
         },
         hudPresenter: privacyHUDPresenter,
         pasteCommandSender: pasteCommandSender,
+        shortcutState: panelShortcuts,
         shortcutBindingProvider: { [weak self] shortcutID in
             guard let self else { return nil }
             if let shortcutBindingResolver = self.shortcutBindingResolver {
@@ -1015,7 +1022,16 @@ final class ClipboardHistoryPlugin:
                 systemImage: "arrow.right.doc.on.clipboard"
             ),
         ]
-        return fixed + cachedItemShortcutDefinitions
+        let labels = ClipboardHistoryFilterLabels(localization: localization)
+        let filterShortcuts = ClipboardHistoryFilterShortcuts.definitions.map { definition in
+            panelShortcut(
+                id: definition.id, title: labels.action(definition.action),
+                description: localization.string("panel.shortcuts.filter.description", defaultValue: "Apply this filter while the Clipboard window is focused."),
+                keyCode: definition.keyCode, modifiers: definition.modifiers,
+                systemImage: "line.3.horizontal.decrease.circle"
+            )
+        }
+        return fixed + filterShortcuts + cachedItemShortcutDefinitions
     }
 
     private func panelShortcut(
@@ -1049,7 +1065,8 @@ final class ClipboardHistoryPlugin:
     }
 
     static func defaultPanelShortcutBinding(_ id: String) -> ShortcutBinding? {
-        switch id {
+        if let filter = ClipboardHistoryFilterShortcuts.definitions.first(where: { $0.id == id }) { return filter.binding }
+        return switch id {
         case ShortcutID.panelCycleScope:
             ShortcutBinding(keyCode: 48, modifiers: [.control])
         case ShortcutID.panelActions:
@@ -1119,7 +1136,7 @@ final class ClipboardHistoryPlugin:
                 title: localization.string("panel.shortcuts.group", defaultValue: "Clipboard Window Shortcuts"),
                 description: localization.string("panel.shortcuts.group.description", defaultValue: "These shortcuts work only while the Clipboard window is focused."),
                 systemImage: "rectangle.and.hand.point.up.left",
-                shortcutDefinitionIDs: [
+                shortcutDefinitionIDs: Set([
                     ShortcutID.panelCycleScope,
                     ShortcutID.panelActions,
                     ShortcutID.panelEditSnippet,
@@ -1132,7 +1149,7 @@ final class ClipboardHistoryPlugin:
                     ShortcutID.panelSelectAll,
                     ShortcutID.panelCopyCombined,
                     ShortcutID.panelPasteCombined,
-                ],
+                ] + ClipboardHistoryFilterShortcuts.definitions.map(\.id)),
                 placementAfterSectionID: SettingsSectionID.advanced
             ),
             PluginShortcutSettingsGroupConfiguration(
