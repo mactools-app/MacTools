@@ -5,6 +5,61 @@ import XCTest
 
 @MainActor
 final class ScreenshotAnnotationEditingTests: XCTestCase {
+    func testNumberedShortcutsSelectToolsWithoutRepeatingOrChangingCaptureMode() throws {
+        let editor = try Editor()
+        defer { editor.close() }
+        let shortcuts: [(UInt16, String)] = [
+            (18, "rect"), (19, "ellipse"), (20, "line"), (21, "arrow"), (23, "pen"),
+            (22, "text"), (26, "tag"), (28, "mosaic"), (25, "spotlight")
+        ]
+        for (code, name) in shortcuts {
+            XCTAssertTrue(try editor.shortcut(code))
+            XCTAssertTrue(try editor.toolButton(name).isSelectedLook)
+        }
+        XCTAssertTrue(try editor.shortcut(25, isRepeat: true))
+        XCTAssertTrue(try editor.toolButton("spotlight").isSelectedLook)
+        let modifiers: [NSEvent.ModifierFlags] = [[], [.command, .shift], [.command, .option], [.command, .control]]
+        for flags in modifiers {
+            XCTAssertFalse(try editor.shortcut(18, flags: flags))
+            XCTAssertTrue(try editor.toolButton("spotlight").isSelectedLook)
+        }
+        XCTAssertTrue(try editor.shortcut(25))
+        XCTAssertFalse(try editor.toolButton("spotlight").isSelectedLook)
+        editor.view.keyDown(with: try editor.keyEvent(15, flags: [], characters: "r"))
+        XCTAssertTrue(try editor.toolButton("rect").isSelectedLook)
+
+        editor.view.prepare(frozen: editor.image, windows: [], quick: false)
+        XCTAssertFalse(try editor.shortcut(18), "Annotation shortcuts are inactive before choosing a region")
+    }
+
+    func testNumberedShortcutCommitsLiveTextAndPreservesNativeEditingAndComposition() async throws {
+        let editor = try Editor(usesOverlayWindow: true)
+        defer { editor.close() }
+        XCTAssertTrue(try editor.shortcut(22))
+        try editor.drag(from: NSPoint(x: 240, y: 280), to: NSPoint(x: 240, y: 280))
+        let input = try XCTUnwrap(editor.window.firstResponder as? NSTextView)
+        let field = try XCTUnwrap(editor.descendants().compactMap { $0 as? NSTextField }
+            .first { $0.currentEditor() === input })
+        let origin = field.frame.origin
+        input.insertText("Draft R123", replacementRange: NSRange(location: 0, length: 0))
+        XCTAssertFalse(try editor.shortcut(18, flags: [], characters: "1"))
+        XCTAssertEqual(input.string, "Draft R123")
+        XCTAssertTrue(editor.window.performKeyEquivalent(with: try editor.keyEvent(0, flags: .command, characters: "a")))
+        XCTAssertEqual(input.selectedRange(), NSRange(location: 0, length: input.string.utf16.count))
+
+        input.setSelectedRange(NSRange(location: input.string.utf16.count, length: 0))
+        input.setMarkedText("拼", selectedRange: NSRange(location: 1, length: 0), replacementRange: input.selectedRange())
+        XCTAssertFalse(try editor.shortcut(18), "Tool switching leaves active input-method composition intact")
+        XCTAssertTrue(input.hasMarkedText())
+        input.unmarkText()
+        let text = input.string
+        XCTAssertTrue(try editor.shortcut(18))
+        XCTAssertNil(field.superview)
+        XCTAssertTrue(editor.window.firstResponder === editor.view)
+        XCTAssertTrue(try editor.toolButton("rect").isSelectedLook)
+        try await assertExport(editor, items: [item(.text(text, at: origin))])
+    }
+
     func testRectangleCanBeReselectedMovedResizedAndUndoneWithoutExportingHandles() async throws {
         let editor = try Editor()
         defer { editor.close() }
@@ -156,7 +211,7 @@ private final class Editor {
     let image: CGImage
     let crop = NSRect(x: 100, y: 100, width: 800, height: 560)
 
-    init() throws {
+    init(usesOverlayWindow: Bool = false) throws {
         _ = NSApplication.shared
         let bounds = NSRect(x: 0, y: 0, width: 1000, height: 760)
         let context = try XCTUnwrap(CGContext(data: nil, width: 1000, height: 760, bitsPerComponent: 8,
@@ -167,7 +222,12 @@ private final class Editor {
         image = try XCTUnwrap(context.makeImage())
         let environment = ScreenshotEnvironment(context: PluginRuntimeContext(pluginID: "screenshot", storage: ScreenshotTestStorage()))
         view = OverlayView(frame: bounds, environment: environment)
-        window = NSWindow(contentRect: bounds, styleMask: .borderless, backing: .buffered, defer: false)
+        if usesOverlayWindow {
+            window = OverlayWindow(screen: try XCTUnwrap(NSScreen.main), environment: environment)
+            window.setFrame(bounds, display: false)
+        } else {
+            window = NSWindow(contentRect: bounds, styleMask: .borderless, backing: .buffered, defer: false)
+        }
         window.isReleasedWhenClosed = false
         window.contentView = view
         view.prepare(frozen: image, windows: [], quick: false)
@@ -183,6 +243,22 @@ private final class Editor {
 
     func pick(_ tool: String) throws {
         try click("screenshot.tool.\(tool)")
+    }
+
+    func toolButton(_ tool: String) throws -> BarButton {
+        try XCTUnwrap(descendants().compactMap { $0 as? BarButton }
+            .first { $0.accessibilityIdentifier() == "screenshot.tool.\(tool)" })
+    }
+
+    func keyEvent(_ code: UInt16, flags: NSEvent.ModifierFlags, characters: String = "", isRepeat: Bool = false) throws -> NSEvent {
+        try XCTUnwrap(NSEvent.keyEvent(with: .keyDown, location: .zero, modifierFlags: flags,
+                                      timestamp: 0, windowNumber: window.windowNumber, context: nil,
+                                      characters: characters, charactersIgnoringModifiers: characters,
+                                      isARepeat: isRepeat, keyCode: code))
+    }
+
+    func shortcut(_ code: UInt16, flags: NSEvent.ModifierFlags = .command, characters: String = "", isRepeat: Bool = false) throws -> Bool {
+        window.performKeyEquivalent(with: try keyEvent(code, flags: flags, characters: characters, isRepeat: isRepeat))
     }
 
     func descendants(of parent: NSView? = nil) -> [NSView] {
