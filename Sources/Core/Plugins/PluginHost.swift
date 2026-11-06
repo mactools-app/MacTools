@@ -3821,7 +3821,9 @@ final class PluginHost: ObservableObject {
                 return []
             }
             let customization = shortcutStore.customization(for: descriptor.itemID)
-            let binding = legacyResolvedBinding(for: descriptor)
+            let activeConflict = eventShortcutConflictError(for: descriptor, descriptors: shortcutDescriptors)
+            let binding = isInheritedClipboardFilterShortcut(descriptor) && activeConflict != nil
+                ? nil : legacyResolvedBinding(for: descriptor)
             shortcutMutationMetadataByRowID[descriptor.itemID] = ShortcutMutationMetadata(
                 shortcutID: descriptor.itemID,
                 assignmentID: nil
@@ -3838,7 +3840,7 @@ final class PluginHost: ObservableObject {
                     canClear: !descriptor.definition.isRequired && binding != nil,
                     usesDefaultValue: customization == .inheritDefault,
                     errorMessage: shortcutErrors[descriptor.itemID]
-                        ?? eventShortcutConflictError(for: descriptor, descriptors: shortcutDescriptors)
+                        ?? activeConflict
                         ?? globalShortcutConflicts[descriptor.itemID].map {
                             ShortcutValidationError.duplicate(ownerDescription: $0).localizedDescription
                         }
@@ -5281,7 +5283,21 @@ final class PluginHost: ObservableObject {
         "\(pluginID).shortcut.\(shortcutDefinitionID)"
     }
 
-    private func resolvedBinding(for descriptor: ShortcutDescriptor) -> ShortcutBinding? {
+    private func resolvedBinding(
+        for descriptor: ShortcutDescriptor,
+        descriptors: [ShortcutDescriptor]? = nil
+    ) -> ShortcutBinding? {
+        guard let binding = unsuppressedResolvedBinding(for: descriptor) else { return nil }
+        guard isInheritedClipboardFilterShortcut(descriptor) else { return binding }
+        // A yielded default cannot remain an owner when another shortcut is validated.
+        let cachedDescriptors = shortcutResolutionSnapshot.flatMap { snapshot in
+            snapshot.revision == shortcutDefinitionRevision ? snapshot.descriptors : nil
+        }
+        let descriptors = descriptors ?? cachedDescriptors ?? shortcutDescriptors()
+        return eventShortcutConflictError(for: descriptor, descriptors: descriptors) == nil ? binding : nil
+    }
+
+    private func unsuppressedResolvedBinding(for descriptor: ShortcutDescriptor) -> ShortcutBinding? {
         if let reference = actionReference(for: descriptor) {
             return shortcutAssignmentService.assignment(for: reference)?.binding
         }
@@ -5335,23 +5351,31 @@ final class PluginHost: ObservableObject {
         )
     }
 
-    private func consumedShortcutBindings(_ binding: ShortcutBinding, for descriptor: ShortcutDescriptor) -> Set<ShortcutBinding> {
-        // Window Switcher's existing phase-based shortcut contract also consumes
-        // Shift for reverse cycling. Account for that chord in host validation
-        // without extending the PluginKit shortcut-definition contract.
-        guard descriptor.pluginID == "window-switcher",
-              descriptor.plugin is any PluginShortcutEventHandling,
-              !binding.modifiers.contains(.shift) else { return [binding] }
+    private func consumedShortcutBindings(_ binding: ShortcutBinding, for descriptor: ShortcutDescriptor,
+                                          includingClipboardReverse: Bool = false) -> Set<ShortcutBinding> {
+        // Clipboard's implicit reverse chord only participates in local conflict checks;
+        // preserve its existing ability to coexist with other plugins' explicit bindings.
+        let consumesReverse = (descriptor.pluginID == "window-switcher"
+            && descriptor.plugin is any PluginShortcutEventHandling)
+            || (includingClipboardReverse && descriptor.pluginID == "clipboard"
+                && descriptor.definition.id == "panel-cycle-scope")
+        guard consumesReverse, !binding.modifiers.contains(.shift) else { return [binding] }
         return [binding, ShortcutBinding(keyCode: binding.keyCode, modifiers: binding.modifiers.union(.shift))]
     }
 
     private func shortcutBindingsConflict(_ binding: ShortcutBinding, for descriptor: ShortcutDescriptor,
                                          with otherBinding: ShortcutBinding, for other: ShortcutDescriptor) -> Bool {
-        // Explicit scope bindings win inside Window Switcher. Its implicit
-        // reverse chord must not shadow a shortcut owned by another plugin.
-        if descriptor.pluginID == other.pluginID { return binding == otherBinding }
-        return !consumedShortcutBindings(binding, for: descriptor)
-            .isDisjoint(with: consumedShortcutBindings(otherBinding, for: other))
+        // Explicit scope bindings win inside Window Switcher. Clipboard reserves
+        // its reverse-cycle chord only against other commands local to its window.
+        let includesClipboardReverse = descriptor.pluginID == "clipboard" && descriptor.pluginID == other.pluginID
+            && descriptor.definition.scope == .whilePluginActive
+            && other.definition.scope == .whilePluginActive
+        if descriptor.pluginID == other.pluginID && !includesClipboardReverse {
+            return binding == otherBinding
+        }
+        return !consumedShortcutBindings(binding, for: descriptor, includingClipboardReverse: includesClipboardReverse)
+            .isDisjoint(with: consumedShortcutBindings(otherBinding, for: other,
+                                                       includingClipboardReverse: includesClipboardReverse))
     }
 
     private func pluginShortcutConflict(
@@ -5359,7 +5383,7 @@ final class PluginHost: ObservableObject {
         descriptors: [ShortcutDescriptor]
     ) -> ShortcutDescriptor? {
         descriptors.first { descriptor in
-            resolvedBinding(for: descriptor).map { consumedShortcutBindings($0, for: descriptor).contains(binding) } ?? false
+            resolvedBinding(for: descriptor, descriptors: descriptors).map { consumedShortcutBindings($0, for: descriptor).contains(binding) } ?? false
         }
     }
 
@@ -5381,12 +5405,23 @@ final class PluginHost: ObservableObject {
         for descriptor: ShortcutDescriptor,
         descriptors: [ShortcutDescriptor]
     ) -> String? {
-        guard descriptor.plugin is any PluginShortcutEventHandling,
+        guard descriptor.plugin is any PluginShortcutEventHandling || isInheritedClipboardFilterShortcut(descriptor),
               let binding = legacyResolvedBinding(for: descriptor) else { return nil }
         do {
-            try validateShortcutCustomization(.custom(binding), for: descriptor, descriptors: descriptors)
+            try validateShortcutCustomization(.custom(binding), for: descriptor, descriptors: descriptors,
+                includingInheritedFilterDefaults: isInheritedClipboardFilterShortcut(descriptor))
         } catch { return error.localizedDescription }
         return nil
+    }
+
+    private func isInheritedClipboardFilterShortcut(
+        _ descriptor: ShortcutDescriptor,
+        customization: ShortcutCustomization? = nil
+    ) -> Bool {
+        // Newly added panel defaults must not take ownership from existing custom shortcuts.
+        descriptor.pluginID == "clipboard" && descriptor.definition.id.hasPrefix("panel-filter-")
+            && descriptor.definition.scope == .whilePluginActive
+            && (customization ?? shortcutStore.customization(for: descriptor.itemID)) == .inheritDefault
     }
 
     private func legacyResolvedBinding(
@@ -5594,6 +5629,24 @@ final class PluginHost: ObservableObject {
             }
         }
 
+        // Apply the same yielding policy to the incoming snapshot, before duplicate checks.
+        let incomingBindings = bindingsByID
+        for descriptor in descriptors where isInheritedClipboardFilterShortcut(descriptor,
+            customization: customizations[descriptor.itemID] ?? .inheritDefault) {
+            guard let binding = incomingBindings[descriptor.itemID] ?? nil else { continue }
+            let hasPluginOwner = descriptors.contains { other in
+                other.itemID != descriptor.itemID && !canShareShortcutBinding(descriptor, with: other)
+                    && (incomingBindings[other.itemID] ?? nil).map {
+                        shortcutBindingsConflict(binding, for: descriptor, with: $0, for: other)
+                    } == true
+            }
+            if hasPluginOwner || appBindings.values.contains(where: {
+                $0.map { consumedShortcutBindings(binding, for: descriptor).contains($0) } == true
+            }) {
+                bindingsByID[descriptor.itemID] = nil
+            }
+        }
+
         for (index, descriptor) in descriptors.enumerated() {
             guard let binding = bindingsByID[descriptor.itemID] ?? nil else {
                 continue
@@ -5730,7 +5783,8 @@ final class PluginHost: ObservableObject {
     private func validateShortcutCustomization(
         _ customization: ShortcutCustomization,
         for descriptor: ShortcutDescriptor,
-        descriptors: [ShortcutDescriptor]? = nil
+        descriptors: [ShortcutDescriptor]? = nil,
+        includingInheritedFilterDefaults: Bool = false
     ) throws {
         let candidate = ShortcutStore.resolve(
             customization: customization,
@@ -5756,9 +5810,18 @@ final class PluginHost: ObservableObject {
                 throw error
             }
 
-            if let conflict = (descriptors ?? shortcutDescriptors()).first(where: { other in
-                other.itemID != descriptor.itemID
-                    && resolvedBinding(for: other).map { shortcutBindingsConflict(candidate, for: descriptor, with: $0, for: other) } == true
+            // Inherited filter defaults yield during synchronization; Reset must still discard the custom key.
+            if isInheritedClipboardFilterShortcut(descriptor, customization: customization) {
+                return
+            }
+
+            let descriptors = descriptors ?? shortcutDescriptors()
+            if let conflict = descriptors.first(where: { other in
+                let otherBinding = includingInheritedFilterDefaults
+                    ? unsuppressedResolvedBinding(for: other)
+                    : resolvedBinding(for: other, descriptors: descriptors)
+                return other.itemID != descriptor.itemID
+                    && otherBinding.map { shortcutBindingsConflict(candidate, for: descriptor, with: $0, for: other) } == true
                     && !canShareShortcutBinding(descriptor, with: other)
             }) {
                 throw ShortcutValidationError.duplicate(
@@ -5930,7 +5993,7 @@ final class PluginHost: ObservableObject {
             -> (index: Int, descriptor: ShortcutDescriptor, binding: ShortcutBinding, isCustom: Bool)? in
             guard descriptor.definition.scope == .global,
                   actionReference(for: descriptor) == nil,
-                  let binding = resolvedBinding(for: descriptor),
+                  let binding = resolvedBinding(for: descriptor, descriptors: descriptors),
                   MacToolsReservedShortcutBindings.validationError(for: binding) == nil else {
                 return nil
             }
@@ -5982,10 +6045,11 @@ final class PluginHost: ObservableObject {
             reservedRegistrations: registrations,
             reservedOwnerDescriptions: ownerDescriptions
         )
-        // Phase-aware listeners own their event taps. Refresh their host-resolved
-        // bindings after dynamic defaults or action assignments change; do not
-        // Carbon-register their active-only shortcuts.
-        for descriptor in descriptors where descriptor.plugin is any PluginShortcutEventHandling {
+        // Deliver one effective snapshot to phase listeners and active-only consumers.
+        // Their UI and local key handlers can reuse it without querying plugin getters.
+        for descriptor in descriptors where descriptor.plugin is any PluginShortcutEventHandling
+            || (descriptor.definition.scope == .whilePluginActive
+                && descriptor.plugin is any PluginShortcutBindingChangeHandling) {
             let binding = eventShortcutConflictError(for: descriptor, descriptors: descriptors) == nil
                 ? legacyResolvedBinding(for: descriptor) : nil
             notifyShortcutBindingChange(for: descriptor, binding: binding, onlyIfChanged: true)

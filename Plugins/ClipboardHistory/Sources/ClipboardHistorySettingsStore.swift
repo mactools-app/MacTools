@@ -36,6 +36,8 @@ final class ClipboardHistorySettingsStore: ObservableObject {
         static let keywordExpansionEnabled = "saved-keyword-expansion-enabled"
         static let maximumExpandedTextByteCount = "snippet-maximum-expanded-text-byte-count"
         static let panelPositions = "history-panel-positions-by-display"
+        static let remembersPanelFilters = "remember-panel-filters"
+        static let panelFilters = "last-panel-filters.v1"
     }
 
     static let allowedItemCounts = [
@@ -189,6 +191,8 @@ final class ClipboardHistorySettingsStore: ObservableObject {
     }
 
     @Published private(set) var hasCompletedInitialSetup: Bool
+    @Published private(set) var remembersPanelFilters: Bool
+    private var rememberedPanelFilters: ClipboardHistoryFilterState?
     private(set) var hasPresentedInitialSetup: Bool
 
     @Published var sequentialHUDDismissal: ClipboardSequentialHUDDismissal {
@@ -258,6 +262,7 @@ final class ClipboardHistorySettingsStore: ObservableObject {
             Key.maximumTotalPayloadByteCount: integer(defaults.maximumTotalPayloadByteCount, allowed: allowedTotalPayloadByteCounts),
             Key.sequentialHUDDismissal: integer(10, allowed: ClipboardSequentialHUDDismissal.allCases.map(\.rawValue)),
             Key.hidesSequentialHUDPreview: .boolean(false),
+            Key.remembersPanelFilters: .boolean(false),
             Key.maximumExpandedTextByteCount: integer(ClipboardSnippetExpansionContext.defaultMaximumUTF8ByteCount, allowed: allowedExpandedTextByteCounts),
             Key.excludedApplications: .data(try! JSONEncoder().encode(defaults.excludedApplications), maximumBytes: 256 * 1_024) { data in
                 guard let apps = try? JSONDecoder().decode([ClipboardExcludedApplication].self, from: data), apps.count <= 512,
@@ -271,7 +276,8 @@ final class ClipboardHistorySettingsStore: ObservableObject {
     private var portableStore: PortablePreferencesStore { Self.portableStore(storage: storage) }
     private static var portableKeys: Set<String> {
         [Key.maximumItemCount, Key.expirationDays, Key.maximumItemByteCount, Key.maximumTotalPayloadByteCount,
-         Key.sequentialHUDDismissal, Key.hidesSequentialHUDPreview, Key.maximumExpandedTextByteCount, Key.excludedApplications]
+         Key.sequentialHUDDismissal, Key.hidesSequentialHUDPreview, Key.maximumExpandedTextByteCount, Key.excludedApplications,
+         Key.remembersPanelFilters]
     }
 
     var isRetentionDeferred: Bool {
@@ -312,6 +318,11 @@ final class ClipboardHistorySettingsStore: ObservableObject {
         sequentialHUDDismissal = restored.sequentialHUDDismissal
         hidesSequentialHUDPreview = restored.hidesSequentialHUDPreview
         maximumExpandedTextByteCount = restored.maximumExpandedTextByteCount
+        remembersPanelFilters = restored.remembersPanelFilters
+        if !remembersPanelFilters {
+            rememberedPanelFilters = nil
+            storage.removeObject(forKey: Key.panelFilters)
+        }
         isApplyingPortableSnapshot = false
         if previous != portableBackup() {
             portableRevision &+= 1
@@ -328,6 +339,12 @@ final class ClipboardHistorySettingsStore: ObservableObject {
     init(storage: PluginStorage) {
         self.storage = storage
         _ = Self.portableStore(storage: storage).recover()
+        let remembers = storage.bool(forKey: Key.remembersPanelFilters)
+        remembersPanelFilters = remembers
+        if remembers, let data = storage.data(forKey: Key.panelFilters), data.count <= 512,
+           let decoded = try? JSONDecoder().decode(ClipboardHistoryFilterState.self, from: data) {
+            rememberedPanelFilters = decoded.normalized
+        }
         if let data = storage.data(forKey: Key.panelPositions),
            let positions = try? JSONDecoder().decode([String: ClipboardHistoryPanelPosition].self, from: data) {
             panelPositions = positions.filter { $0.value.isValid }
@@ -396,6 +413,36 @@ final class ClipboardHistorySettingsStore: ObservableObject {
     func setPaused(_ paused: Bool) {
         guard isPaused != paused else { return }
         isPaused = paused
+    }
+
+    var openingPanelFilters: ClipboardHistoryFilterState {
+        remembersPanelFilters ? rememberedPanelFilters ?? .defaults : .defaults
+    }
+
+    func panelFiltersForOpening(explicitScope: ClipboardPanelMode? = nil) -> ClipboardHistoryFilterState {
+        explicitScope.map { ClipboardHistoryFilterState(scope: $0).normalized } ?? openingPanelFilters
+    }
+
+    func setRemembersPanelFilters(_ remembers: Bool, current: ClipboardHistoryFilterState) {
+        guard remembers != remembersPanelFilters,
+              portableStore.commit([Key.remembersPanelFilters: .boolean(remembers)]) else { return }
+        remembersPanelFilters = remembers
+        if remembers {
+            recordPanelFilters(current)
+        } else {
+            rememberedPanelFilters = nil
+            storage.removeObject(forKey: Key.panelFilters)
+        }
+        portableRevision &+= 1
+        onPersistentPreferencesChange?()
+        onChange?()
+    }
+
+    func recordPanelFilters(_ filters: ClipboardHistoryFilterState) {
+        guard remembersPanelFilters, let data = try? JSONEncoder().encode(filters.normalized) else { return }
+        storage.set(data, forKey: Key.panelFilters)
+        guard storage.data(forKey: Key.panelFilters) == data else { return }
+        rememberedPanelFilters = filters.normalized
     }
 
     func panelPosition(for screenID: String) -> ClipboardHistoryPanelPosition? {
