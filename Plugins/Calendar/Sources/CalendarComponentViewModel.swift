@@ -97,11 +97,15 @@ final class CalendarComponentViewModel: ObservableObject {
                 notificationCenter.publisher(for: .NSSystemTimeZoneDidChange),
                 notificationCenter.publisher(for: NSApplication.didBecomeActiveNotification)
             ])
-            .map { _ in () }
             .debounce(for: .milliseconds(150), scheduler: RunLoop.main)
-            .sink { [weak self] in
+            .sink { [weak self] notification in
                 Task { @MainActor [weak self] in
                     guard let self, self.isStarted else { return }
+                    // Rebuild the cached reminder snapshot before reloading so
+                    // date-range reads reuse fresh data without a full refetch.
+                    if notification.name == .EKEventStoreChanged, self.showsReminders {
+                        await self.eventService.refreshReminders()
+                    }
                     self.refresh()
                 }
             }
@@ -294,7 +298,7 @@ final class CalendarComponentViewModel: ObservableObject {
         }
         // Reminder failures should not hide readable calendar events.
         if showsReminders && remindersAuthorization.isFullAccess {
-            items += (try? await eventService.reminders(from: startDate, to: endDate)) ?? []
+            items += await eventService.reminders(from: startDate, to: endDate)
         }
         return items
     }

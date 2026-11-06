@@ -420,6 +420,73 @@ final class CalendarComponentViewModelTests: XCTestCase {
         await fulfillment(of: [hidden], timeout: 0.25)
     }
 
+    func testReminderSnapshotIsReusedAcrossMonthChangesAndRefreshedOnStoreChange() async throws {
+        let calendar = Self.makeCalendar()
+        let today = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 4, day: 15)))
+        let service = MockCalendarEventService()
+        service.authorization = .fullAccess
+        service.remindersAuthorization = .fullAccess
+        service.reminderInputs = [CalendarEventInput(
+            id: "reminder",
+            title: "Pay bill",
+            startDate: today,
+            endDate: try XCTUnwrap(calendar.date(byAdding: .minute, value: 1, to: today)),
+            isAllDay: false,
+            color: .accent,
+            kind: .reminder
+        )]
+        let center = NotificationCenter()
+        let model = CalendarComponentViewModel(
+            eventService: service,
+            holidayProvider: .empty,
+            calendar: calendar,
+            notificationCenter: center,
+            today: today,
+            now: { today }
+        )
+        defer { model.stop() }
+        let initial = expectation(description: "Initial reminders loaded")
+        service.onRemindersRequest = initial.fulfill
+        model.start()
+        await fulfillment(of: [initial], timeout: 1)
+        service.onRemindersRequest = nil
+        let initialRefreshCount = service.reminderRefreshCount
+        XCTAssertGreaterThan(initialRefreshCount, 0)
+
+        // Browsing another month reuses the cached snapshot instead of refetching
+        // the full reminder library for every date range.
+        let monthChange = expectation(description: "Month change reloads events")
+        monthChange.expectedFulfillmentCount = 2
+        service.onEventsRequest = monthChange.fulfill
+        model.moveMonth(by: 1)
+        await fulfillment(of: [monthChange], timeout: 1)
+        XCTAssertEqual(
+            service.reminderRefreshCount,
+            initialRefreshCount,
+            "Month navigation must reuse the cached reminder snapshot"
+        )
+
+        // EventKit changes rebuild the snapshot before the next date-range read.
+        service.reminderInputs = [CalendarEventInput(
+            id: "reminder-2",
+            title: "Updated reminder",
+            startDate: today,
+            endDate: try XCTUnwrap(calendar.date(byAdding: .minute, value: 1, to: today)),
+            isAllDay: false,
+            color: .accent,
+            kind: .reminder
+        )]
+        let refresh = expectation(description: "Store change refreshes the reminder snapshot")
+        service.onRemindersRefresh = refresh.fulfill
+        let updated = expectation(description: "Store change reloads events")
+        updated.expectedFulfillmentCount = 2
+        service.onEventsRequest = updated.fulfill
+        center.post(name: .EKEventStoreChanged, object: nil)
+        await fulfillment(of: [refresh, updated], timeout: 1)
+        XCTAssertEqual(service.reminderRefreshCount, initialRefreshCount + 1)
+        XCTAssertEqual(model.agendaDays.first?.events.map(\.title), ["Updated reminder"])
+    }
+
     func testHiddenAgendaDoesNotQueryDistantDates() async throws {
         let calendar = Self.makeCalendar()
         let today = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 4, day: 15)))
@@ -518,9 +585,13 @@ private final class MockCalendarEventService: CalendarEventServicing {
     private(set) var reminderRanges: [(start: Date, end: Date)] = []
     var onEventsRequest: (() -> Void)?
     var onRemindersRequest: (() -> Void)?
+    var onRemindersRefresh: (() -> Void)?
     var eventInputs: [CalendarEventInput] = []
     var reminderInputs: [CalendarEventInput] = []
     var shouldFail = false
+    private(set) var reminderRefreshCount = 0
+    private var reminderSnapshot: [CalendarEventInput] = []
+    private var reminderSnapshotIsStale = true
 
     func requestAccess() async -> CalendarEventAuthorization {
         authorization
@@ -537,11 +608,20 @@ private final class MockCalendarEventService: CalendarEventServicing {
         return eventInputs.filter { $0.startDate < endDate && $0.endDate > startDate }
     }
 
-    func reminders(from startDate: Date, to endDate: Date) async throws -> [CalendarEventInput] {
+    func reminders(from startDate: Date, to endDate: Date) async -> [CalendarEventInput] {
         reminderRanges.append((startDate, endDate))
         onRemindersRequest?()
-        if shouldFail { throw CocoaError(.fileReadUnknown) }
-        return reminderInputs.filter { $0.startDate < endDate && $0.endDate > startDate }
+        if reminderSnapshotIsStale {
+            await refreshReminders()
+        }
+        return reminderSnapshot.filter { $0.startDate < endDate && $0.endDate > startDate }
+    }
+
+    func refreshReminders() async {
+        reminderRefreshCount += 1
+        onRemindersRefresh?()
+        reminderSnapshot = reminderInputs
+        reminderSnapshotIsStale = false
     }
 
     func openSystemCalendar(at date: Date) {

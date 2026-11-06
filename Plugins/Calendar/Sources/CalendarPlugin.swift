@@ -518,7 +518,11 @@ extension CalendarPlugin: PluginPortablePreferencesProviding, PluginPortablePref
         measuredComponentSpanHeight = nil
         viewModel.setWeekStartDay(settingsStore.weekStartDay)
         viewModel.setAlternateCalendar(settingsStore.alternateCalendar)
-        viewModel.configureAgenda(range: settingsStore.agendaRange, isVisible: settingsStore.showsRecentAgenda)
+        viewModel.configureAgenda(
+            range: settingsStore.agendaRange,
+            isVisible: settingsStore.showsRecentAgenda,
+            showsReminders: settingsStore.showsReminders
+        )
         onStateChange?()
         return true
     }

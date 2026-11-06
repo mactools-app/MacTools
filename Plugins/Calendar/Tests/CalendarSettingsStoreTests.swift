@@ -10,6 +10,7 @@ final class CalendarSettingsStoreTests: XCTestCase {
         source.setWeekStartDay(.monday)
         source.setAgendaRange(CalendarAgendaRange(dayCount: 5, direction: .past))
         source.setShowsRecentAgenda(false)
+        source.setShowsReminders(false)
         let storage = CalendarSettingsMemoryStorage()
         storage.set("private", forKey: "local-calendar")
         let destination = CalendarSettingsStore(storage: storage, languageIdentifier: "zh-Hans")
@@ -18,6 +19,7 @@ final class CalendarSettingsStoreTests: XCTestCase {
         XCTAssertEqual(reloaded.alternateCalendar, .none)
         XCTAssertEqual(reloaded.weekStartDay, .monday)
         XCTAssertFalse(reloaded.showsRecentAgenda)
+        XCTAssertFalse(reloaded.showsReminders)
         XCTAssertEqual(reloaded.agendaRange, CalendarAgendaRange(dayCount: 5, direction: .past))
         XCTAssertEqual(storage.string(forKey: "local-calendar"), "private")
     }
@@ -60,6 +62,21 @@ final class CalendarSettingsStoreTests: XCTestCase {
         store.setShowsReminders(false)
 
         XCTAssertFalse(CalendarSettingsStore(storage: storage).showsReminders)
+    }
+
+    func testRemindersToggleSignalsPersistentChange() {
+        let storage = CalendarSettingsMemoryStorage()
+        let store = CalendarSettingsStore(storage: storage)
+        var changeCount = 0
+        store.onPersistentPreferencesChange = { changeCount += 1 }
+
+        store.setShowsReminders(false)
+        XCTAssertEqual(changeCount, 1)
+        store.setShowsReminders(false)
+        XCTAssertEqual(changeCount, 1, "An unchanged value must not emit a change")
+
+        store.setShowsReminders(true)
+        XCTAssertEqual(changeCount, 2)
     }
 
     func testInvalidRangeSettingsAreBounded() {

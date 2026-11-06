@@ -34,7 +34,8 @@ protocol CalendarEventServicing: AnyObject {
     func requestAccess() async -> CalendarEventAuthorization
     func requestReminderAccess() async -> CalendarEventAuthorization
     func events(from startDate: Date, to endDate: Date) async throws -> [CalendarEventInput]
-    func reminders(from startDate: Date, to endDate: Date) async throws -> [CalendarEventInput]
+    func reminders(from startDate: Date, to endDate: Date) async -> [CalendarEventInput]
+    func refreshReminders() async
     func openSystemCalendar(at date: Date)
 }
 
@@ -42,6 +43,17 @@ protocol CalendarEventServicing: AnyObject {
 final class CalendarEventService: CalendarEventServicing {
     private var eventStore = EKEventStore()
     private let localization: PluginLocalization
+    /// Snapshot of reminders mapped into Sendable inputs. Date-range requests
+    /// filter this snapshot instead of fetching the full reminder library, so
+    /// rapid month switching does not repeat the full-library EventKit read.
+    private var reminderSnapshot: [CalendarEventInput] = []
+    /// Whether the snapshot no longer reflects EventKit state and must be
+    /// rebuilt before the next date-range filter.
+    private var reminderSnapshotIsStale = true
+    /// Monotonic token so a superseded fetch never overwrites a newer snapshot.
+    private var reminderFetchGeneration = 0
+    /// The active `fetchReminders` request handle, used to cancel a superseded fetch.
+    private var activeReminderFetch: Any?
 
     init(localization: PluginLocalization = PluginLocalization(bundle: .main)) {
         self.localization = localization
@@ -71,9 +83,11 @@ final class CalendarEventService: CalendarEventServicing {
         do {
             _ = try await requestFullAccess(to: .event)
             eventStore = EKEventStore()
+            invalidateReminderSnapshot()
             return authorization
         } catch {
             eventStore = EKEventStore()
+            invalidateReminderSnapshot()
             return .denied(error.localizedDescription)
         }
     }
@@ -86,9 +100,11 @@ final class CalendarEventService: CalendarEventServicing {
         do {
             _ = try await requestFullAccess(to: .reminder)
             eventStore = EKEventStore()
+            invalidateReminderSnapshot()
             return remindersAuthorization
         } catch {
             eventStore = EKEventStore()
+            invalidateReminderSnapshot()
             return .denied(error.localizedDescription)
         }
     }
@@ -135,27 +151,60 @@ final class CalendarEventService: CalendarEventServicing {
         return eventStore.events(matching: predicate).map { Self.input(from: $0, localization: localization) }
     }
 
-    func reminders(from startDate: Date, to endDate: Date) async throws -> [CalendarEventInput] {
+    func reminders(from startDate: Date, to endDate: Date) async -> [CalendarEventInput] {
+        if reminderSnapshotIsStale {
+            await refreshReminders()
+        }
+        return reminderSnapshot.filter { $0.startDate < endDate && $0.endDate > startDate }
+    }
+
+    func refreshReminders() async {
         guard remindersAuthorization.isFullAccess else {
-            return []
+            cancelActiveReminderFetch()
+            reminderSnapshot = []
+            reminderSnapshotIsStale = false
+            return
         }
 
         let calendars = eventStore.calendars(for: .reminder)
         guard !calendars.isEmpty else {
-            return []
+            cancelActiveReminderFetch()
+            reminderSnapshot = []
+            reminderSnapshotIsStale = false
+            return
         }
 
         let predicate = eventStore.predicateForReminders(in: calendars)
         let calendar = CalendarComponentCalendars.gregorian()
+        reminderFetchGeneration += 1
+        let generation = reminderFetchGeneration
+        cancelActiveReminderFetch()
         let box = await withCheckedContinuation { continuation in
-            _ = eventStore.fetchReminders(matching: predicate) { reminders in
+            let request = eventStore.fetchReminders(matching: predicate) { reminders in
                 continuation.resume(returning: ReminderListBox(reminders: reminders ?? []))
             }
+            activeReminderFetch = request
         }
+        guard generation == reminderFetchGeneration else {
+            return
+        }
+        activeReminderFetch = nil
+        reminderSnapshot = box.reminders.compactMap { Self.input(from: $0, calendar: calendar) }
+        reminderSnapshotIsStale = false
+    }
 
-        return box.reminders
-            .compactMap { Self.input(from: $0, calendar: calendar) }
-            .filter { $0.startDate < endDate && $0.endDate > startDate }
+    private func invalidateReminderSnapshot() {
+        cancelActiveReminderFetch()
+        reminderSnapshot = []
+        reminderSnapshotIsStale = true
+    }
+
+    private func cancelActiveReminderFetch() {
+        guard let request = activeReminderFetch else {
+            return
+        }
+        eventStore.cancelFetchRequest(request)
+        activeReminderFetch = nil
     }
 
     func openSystemCalendar(at date: Date) {
