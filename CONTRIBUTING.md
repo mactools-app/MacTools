@@ -115,7 +115,14 @@ make test TEST_FILTER=ActionExecutorTests
 
 Use `TEST_FILTER=ClassName/testMethod` for one method, or `make test` for all retained XCTest cases. The target regenerates the project and uses serial execution with per-test timeouts. `make script-tests` validates tooling separately; `make ci` also checks frozen-client binary compatibility. Use temporary directories, fixtures, and fake services rather than real user data or accounts. Broaden validation only for failures, shared contracts, or other affected behavior.
 
-Unsigned XCTest builds use `build/DerivedDataTests` by default, separate from the signed app used by `make run`. Override `TEST_DERIVED_DATA` when needed, keeping it separate from `DERIVED_DATA` to avoid leaving a test bundle inside the installed app. Both variables accept absolute paths containing spaces. Ordinary Make targets retain repository-local defaults; choose custom storage explicitly through these variables.
+Unsigned XCTest builds use `build/DerivedDataTests` by default, separate from the signed app used by `make run`. Override `TEST_DERIVED_DATA` when needed, keeping it separate from `DERIVED_DATA` to avoid leaving a test bundle inside the installed app.
+
+Set `DERIVED_DATA` and `TEST_DERIVED_DATA` through the environment or Make command-line overrides; command-line values take precedence. Relative paths are interpreted from the checkout directory, and absolute paths are used directly. Quote paths containing spaces, for example:
+
+```bash
+make build DERIVED_DATA="/path/to/build storage/Debug"
+make test TEST_DERIVED_DATA="/path/to/build storage/Tests"
+```
 
 Fallback plugin packaging compiles reuse a locked internal compiler cache, while packages and per-run logs remain in the requested output directory. Use `MACTOOLS_PLUGIN_FRESH_BUILD=1 make build-plugin PLUGIN=<name>` for a cold validation build. See [local plugin build storage](docs/plugins/local-native-plugins.md#development-steps) for cache roots and probe isolation; normal Makefile app/test reuse and aggregate-product packaging keep their existing paths.
 
