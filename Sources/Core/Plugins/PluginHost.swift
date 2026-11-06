@@ -5810,6 +5810,11 @@ final class PluginHost: ObservableObject {
                 throw error
             }
 
+            // Inherited filter defaults yield during synchronization; Reset must still discard the custom key.
+            if isInheritedClipboardFilterShortcut(descriptor, customization: customization) {
+                return
+            }
+
             let descriptors = descriptors ?? shortcutDescriptors()
             if let conflict = descriptors.first(where: { other in
                 let otherBinding = includingInheritedFilterDefaults

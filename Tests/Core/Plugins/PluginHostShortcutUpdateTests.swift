@@ -26,6 +26,41 @@ final class PluginHostShortcutUpdateTests: XCTestCase {
         XCTAssertEqual(clipboard.deliveries.last { $0.id == "panel-filter-image" }?.binding, binding)
     }
 
+    func testClipboardFilterResetYieldsToExistingOwnerAndRestoresWhenAvailable() {
+        let suite = "ClipboardFilterResetTests-\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let store = ShortcutStore(userDefaults: defaults)
+        let inherited = ShortcutBinding(keyCode: 20, modifiers: [.option, .command])
+        let custom = ShortcutBinding(keyCode: 3, modifiers: [.control, .option, .command])
+        let ownerID = "clipboard.shortcut.existing-paste"
+        let filterID = "clipboard.shortcut.panel-filter-image"
+        store.setCustomization(.custom(inherited), for: ownerID)
+        let plugin = ClipboardFilterShortcutPlugin(ownerScope: .whilePluginActive)
+        plugin.includesFilter = true
+        plugin.filterBinding = inherited
+        let host = PluginHost(plugins: [plugin], shortcutStore: store,
+            pluginOrderingStore: PluginOrderingStore(userDefaults: defaults),
+            preferencesBackupStore: PreferencesBackupStore(userDefaults: defaults),
+            globalShortcutManager: GlobalShortcutManager(registrar: FakeCarbonHotKeyRegistrar()),
+            loadDynamicPluginsOnInit: false)
+        XCTAssertNil(plugin.shortcutBindingResolver?("panel-filter-image"))
+        XCTAssertNil(host.setShortcutBindingAndReturnError(custom, for: filterID))
+        XCTAssertEqual(plugin.shortcutBindingResolver?("panel-filter-image"), custom)
+
+        host.resetShortcut(for: filterID)
+
+        XCTAssertEqual(store.customization(for: filterID), .inheritDefault)
+        XCTAssertEqual(plugin.shortcutBindingResolver?("existing-paste"), inherited)
+        XCTAssertNil(plugin.shortcutBindingResolver?("panel-filter-image"))
+        XCTAssertNil(plugin.deliveries.last { $0.id == "panel-filter-image" }?.binding)
+        XCTAssertNotNil(host.setShortcutBindingAndReturnError(inherited, for: filterID))
+        XCTAssertEqual(store.customization(for: filterID), .inheritDefault)
+        host.clearShortcut(for: ownerID)
+        XCTAssertEqual(plugin.shortcutBindingResolver?("panel-filter-image"), inherited)
+        XCTAssertEqual(plugin.deliveries.last { $0.id == "panel-filter-image" }?.binding, inherited)
+    }
+
     func testActiveOnlyConsumerReceivesInitialAndChangedBindingsWithoutEventHandling() async {
         let plugin = ClipboardFilterShortcutPlugin(ownerScope: .whilePluginActive)
         plugin.includesFilter = true
