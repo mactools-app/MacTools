@@ -10,7 +10,7 @@ REMOTE_URL ?= git@github.com:owner/MacTools.git
 PLACEHOLDER_REMOTE_URL := git@github.com:owner/MacTools.git
 PROJECT_FILE := $(PROJECT_NAME).xcodeproj
 WORKSPACE_FILE := $(PROJECT_NAME).xcworkspace
-DERIVED_DATA := build/DerivedData
+DERIVED_DATA ?= build/DerivedData
 # Keep unsigned XCTest host bundles out of the signed local app build.
 TEST_DERIVED_DATA ?= $(DERIVED_DATA)Tests
 APP_PATH := $(DERIVED_DATA)/Build/Products/Debug/$(APP_PRODUCT_NAME).app
@@ -74,18 +74,18 @@ build: validate-local-debug-config generate
 	@echo "Building Debug app and plugins..."
 	@mkdir -p build
 	@touch build/.metadata_never_index
-	@$(XCODEBUILD) -project $(PROJECT_FILE) -scheme $(PROJECT_NAME) -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath $(DERIVED_DATA) build -quiet
+	@"$(XCODEBUILD)" -project $(PROJECT_FILE) -scheme $(PROJECT_NAME) -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath "$(DERIVED_DATA)" build -quiet
 	@LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister; \
 	if [[ -x "$$LSREGISTER" ]]; then \
-		"$$LSREGISTER" -u "$(CURDIR)/$(APP_PATH)" >/dev/null 2>&1 || true; \
+		"$$LSREGISTER" -u "$(if $(filter /%,$(APP_PATH)),$(APP_PATH),$(CURDIR)/$(APP_PATH))" >/dev/null 2>&1 || true; \
 	fi
 
 build-cli: validate-local-debug-config generate
 	@echo "Building standalone Debug CLI..."
 	@mkdir -p build
 	@touch build/.metadata_never_index
-	@$(XCODEBUILD) -project $(PROJECT_FILE) -scheme MacToolsCLI -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath $(DERIVED_DATA) build -quiet
-	@echo "CLI ready: $(abspath $(DEBUG_CLI_PATH))"
+	@"$(XCODEBUILD)" -project $(PROJECT_FILE) -scheme MacToolsCLI -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath "$(DERIVED_DATA)" build -quiet
+	@echo "CLI ready: $(if $(filter /%,$(DEBUG_CLI_PATH)),$(DEBUG_CLI_PATH),$(CURDIR)/$(DEBUG_CLI_PATH))"
 
 validate-changelog:
 	@$(PYTHON3) scripts/changelog.py validate
@@ -103,12 +103,12 @@ script-tests: validate-changelog validate-generated-plugin-data validate-localiz
 	@$(PYTHON3) -m unittest discover -s scripts/tests -p 'test_*.py'
 
 test: generate
-	@$(XCODEBUILD) \
+	@"$(XCODEBUILD)" \
 		-project $(PROJECT_FILE) \
 		-scheme $(PROJECT_NAME) \
 		-configuration Debug \
 		-destination "$(BUILD_DESTINATION)" \
-		-derivedDataPath $(TEST_DERIVED_DATA) \
+		-derivedDataPath "$(TEST_DERIVED_DATA)" \
 		CODE_SIGNING_ALLOWED=NO \
 		CODE_SIGNING_REQUIRED=NO \
 		CODE_SIGN_IDENTITY= \
@@ -122,7 +122,7 @@ test: generate
 
 ci: override TEST_FILTER :=
 ci: script-tests test
-	@./scripts/plugins/verify-plugin-kit-v7-binary-compatibility.sh "$(abspath $(TEST_DERIVED_DATA)/Build/Products/Debug)"
+	@./scripts/plugins/verify-plugin-kit-v7-binary-compatibility.sh "$(if $(filter /%,$(TEST_DERIVED_DATA)),$(TEST_DERIVED_DATA),$(CURDIR)/$(TEST_DERIVED_DATA))/Build/Products/Debug"
 
 sync-debug-plugins: build
 	@if [ -n "$(PLUGIN)" ]; then \
@@ -206,7 +206,7 @@ stop-debug-app:
 install-debug-app: sync-debug-plugins generate-icon-gallery
 	@EXPECTED_BUNDLE_IDENTIFIER="$$(./scripts/validate-local-debug-config.sh LocalConfig.xcconfig --print-bundle-identifier)"; \
 	./scripts/install-debug-app.sh \
-		"$(CURDIR)/$(APP_PATH)" \
+		"$(if $(filter /%,$(APP_PATH)),$(APP_PATH),$(CURDIR)/$(APP_PATH))" \
 		"$(INSTALLED_APP_PATH)" \
 		"$$EXPECTED_BUNDLE_IDENTIFIER"
 
