@@ -260,6 +260,96 @@ final class CalendarComponentViewModelTests: XCTestCase {
         XCTAssertEqual(distantDay.events.map(\.title), ["Future"])
     }
 
+    func testAgendaMergesRemindersAndStopsLoadingThemWhenDisabled() async throws {
+        let calendar = Self.makeCalendar()
+        let today = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 4, day: 15)))
+        let service = MockCalendarEventService()
+        service.authorization = .fullAccess
+        service.remindersAuthorization = .fullAccess
+        service.eventInputs = [CalendarEventInput(
+            id: "meeting",
+            title: "Meeting",
+            startDate: try XCTUnwrap(calendar.date(byAdding: .hour, value: 10, to: today)),
+            endDate: try XCTUnwrap(calendar.date(byAdding: .hour, value: 11, to: today)),
+            isAllDay: false,
+            color: .accent
+        )]
+        service.reminderInputs = [CalendarEventInput(
+            id: "reminder",
+            title: "Pay bill",
+            startDate: try XCTUnwrap(calendar.date(byAdding: .hour, value: 9, to: today)),
+            endDate: try XCTUnwrap(calendar.date(byAdding: .hour, value: 9, to: today)),
+            isAllDay: false,
+            color: .accent,
+            calendarTitle: "Home",
+            kind: .reminder
+        )]
+        let initialEvents = expectation(description: "Events loaded")
+        let initialReminders = expectation(description: "Reminders loaded")
+        service.onEventsRequest = initialEvents.fulfill
+        service.onRemindersRequest = initialReminders.fulfill
+        let model = CalendarComponentViewModel(
+            eventService: service,
+            holidayProvider: .empty,
+            calendar: calendar,
+            today: today,
+            now: { today }
+        )
+        defer { model.stop() }
+
+        model.start()
+        await fulfillment(of: [initialEvents, initialReminders], timeout: 1)
+
+        XCTAssertEqual(model.agendaDays.first?.events.map(\.title), ["Pay bill", "Meeting"])
+        XCTAssertEqual(model.agendaDays.first?.events.map(\.kind), [.reminder, .event])
+
+        let reloadedEvents = expectation(description: "Reminder change reloads calendar events")
+        service.onEventsRequest = reloadedEvents.fulfill
+        service.onRemindersRequest = nil
+        model.configureAgenda(
+            range: CalendarAgendaRange(),
+            isVisible: true,
+            showsReminders: false
+        )
+        await fulfillment(of: [reloadedEvents], timeout: 1)
+
+        XCTAssertEqual(model.agendaDays.first?.events.map(\.kind), [.event])
+        XCTAssertEqual(service.reminderRanges.count, 1, "Disabled reminders must not be queried again")
+    }
+
+    func testRemindersLoadWhenCalendarAccessIsUnavailable() async throws {
+        let calendar = Self.makeCalendar()
+        let today = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 4, day: 15)))
+        let service = MockCalendarEventService()
+        service.authorization = .denied("未授权")
+        service.remindersAuthorization = .fullAccess
+        service.reminderInputs = [CalendarEventInput(
+            id: "reminder",
+            title: "Water plants",
+            startDate: today,
+            endDate: try XCTUnwrap(calendar.date(byAdding: .minute, value: 1, to: today)),
+            isAllDay: true,
+            color: .accent,
+            kind: .reminder
+        )]
+        let reminders = expectation(description: "Reminders loaded without calendar access")
+        service.onRemindersRequest = reminders.fulfill
+        let model = CalendarComponentViewModel(
+            eventService: service,
+            holidayProvider: .empty,
+            calendar: calendar,
+            today: today,
+            now: { today }
+        )
+        defer { model.stop() }
+
+        model.start()
+        await fulfillment(of: [reminders], timeout: 1)
+
+        XCTAssertTrue(service.eventRanges.isEmpty)
+        XCTAssertEqual(model.agendaDays.first?.events.map(\.kind), [.reminder])
+    }
+
     private static func makeCalendar() -> Calendar {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!
@@ -422,14 +512,22 @@ final class CalendarComponentViewModelTests: XCTestCase {
 @MainActor
 private final class MockCalendarEventService: CalendarEventServicing {
     var authorization: CalendarEventAuthorization = .denied("未授权")
+    var remindersAuthorization: CalendarEventAuthorization = .notDetermined
     private(set) var openedDates: [Date] = []
     private(set) var eventRanges: [(start: Date, end: Date)] = []
+    private(set) var reminderRanges: [(start: Date, end: Date)] = []
     var onEventsRequest: (() -> Void)?
+    var onRemindersRequest: (() -> Void)?
     var eventInputs: [CalendarEventInput] = []
+    var reminderInputs: [CalendarEventInput] = []
     var shouldFail = false
 
     func requestAccess() async -> CalendarEventAuthorization {
         authorization
+    }
+
+    func requestReminderAccess() async -> CalendarEventAuthorization {
+        remindersAuthorization
     }
 
     func events(from startDate: Date, to endDate: Date) async throws -> [CalendarEventInput] {
@@ -437,6 +535,13 @@ private final class MockCalendarEventService: CalendarEventServicing {
         onEventsRequest?()
         if shouldFail { throw CocoaError(.fileReadUnknown) }
         return eventInputs.filter { $0.startDate < endDate && $0.endDate > startDate }
+    }
+
+    func reminders(from startDate: Date, to endDate: Date) async throws -> [CalendarEventInput] {
+        reminderRanges.append((startDate, endDate))
+        onRemindersRequest?()
+        if shouldFail { throw CocoaError(.fileReadUnknown) }
+        return reminderInputs.filter { $0.startDate < endDate && $0.endDate > startDate }
     }
 
     func openSystemCalendar(at date: Date) {

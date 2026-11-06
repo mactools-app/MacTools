@@ -100,6 +100,10 @@
 	<string>MacTools uses your microphone for voice conversations when you start the assistant.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>读取系统日历事件，用于在右键日历组件中显示当天日程。</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>读取系统提醒事项，用于在日历组件中显示到期提醒。</string>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>读取系统提醒事项，用于在日历组件中显示到期提醒。</string>
 	<key>SUAllowsAutomaticUpdates</key>
 	<false/>
 	<key>SUEnableAutomaticChecks</key>

@@ -61,6 +61,62 @@ final class CalendarEventGrouperTests: XCTestCase {
         XCTAssertEqual(grouped[april2]?.map(\.title), ["Zero"])
     }
 
+    func testRemindersKeepTheirKindAndAllDayPresentation() throws {
+        let calendar = Self.makeCalendar()
+        let april2 = try Self.date(year: 2026, month: 4, day: 2, hour: 0, calendar: calendar)
+        let reminder = CalendarEventInput(
+            id: "reminder",
+            title: "Pay bill",
+            startDate: april2,
+            endDate: try Self.date(year: 2026, month: 4, day: 2, hour: 0, minute: 1, calendar: calendar),
+            isAllDay: true,
+            color: .accent,
+            calendarTitle: "Home",
+            kind: .reminder
+        )
+
+        let grouped = CalendarEventGrouper.group(events: [reminder], visibleDates: [april2], calendar: calendar)
+        let summary = try XCTUnwrap(grouped[april2]?.first)
+
+        XCTAssertEqual(summary.kind, .reminder)
+        XCTAssertEqual(summary.timeText, "全天")
+        XCTAssertEqual(summary.calendarTitle, "Home")
+    }
+
+    func testCompletedRemindersAreMarkedAndSortLast() throws {
+        let calendar = Self.makeCalendar()
+        let april2 = try Self.date(year: 2026, month: 4, day: 2, hour: 0, calendar: calendar)
+        let completed = CalendarEventInput(
+            id: "completed",
+            title: "Done",
+            startDate: april2,
+            endDate: try Self.date(year: 2026, month: 4, day: 2, hour: 0, minute: 1, calendar: calendar),
+            isAllDay: true,
+            color: .accent,
+            kind: .reminder,
+            isCompleted: true
+        )
+        let pending = CalendarEventInput(
+            id: "pending",
+            title: "Pending",
+            startDate: april2,
+            endDate: try Self.date(year: 2026, month: 4, day: 2, hour: 0, minute: 1, calendar: calendar),
+            isAllDay: true,
+            color: .accent,
+            kind: .reminder
+        )
+
+        let grouped = CalendarEventGrouper.group(
+            events: [completed, pending],
+            visibleDates: [april2],
+            calendar: calendar
+        )
+        let items = try XCTUnwrap(grouped[april2])
+
+        XCTAssertEqual(items.map(\.title), ["Pending", "Done"])
+        XCTAssertEqual(items.map(\.isCompleted), [false, true])
+    }
+
     private static func makeCalendar() -> Calendar {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!
@@ -72,8 +128,11 @@ final class CalendarEventGrouperTests: XCTestCase {
         month: Int,
         day: Int,
         hour: Int,
+        minute: Int = 0,
         calendar: Calendar
     ) throws -> Date {
-        try XCTUnwrap(calendar.date(from: DateComponents(year: year, month: month, day: day, hour: hour)))
+        try XCTUnwrap(calendar.date(from: DateComponents(
+            year: year, month: month, day: day, hour: hour, minute: minute
+        )))
     }
 }

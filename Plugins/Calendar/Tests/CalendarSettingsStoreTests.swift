@@ -51,6 +51,17 @@ final class CalendarSettingsStoreTests: XCTestCase {
                        CalendarAgendaRange(dayCount: 7, direction: .surrounding))
     }
 
+    func testRemindersDefaultToVisibleAndPersist() {
+        let storage = CalendarSettingsMemoryStorage()
+        let store = CalendarSettingsStore(storage: storage)
+        XCTAssertTrue(store.showsReminders)
+        XCTAssertEqual(storage.object(forKey: "settings.shows-reminders") as? Bool, true)
+
+        store.setShowsReminders(false)
+
+        XCTAssertFalse(CalendarSettingsStore(storage: storage).showsReminders)
+    }
+
     func testInvalidRangeSettingsAreBounded() {
         let storage = CalendarSettingsMemoryStorage()
         storage.set(99, forKey: "settings.agenda-day-count")

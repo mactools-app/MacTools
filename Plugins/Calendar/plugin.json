@@ -175,7 +175,8 @@
   },
   "privacy": {
     "dataObserved": [
-      "calendar-events"
+      "calendar-events",
+      "reminders"
     ],
     "dataPersisted": [
       "plugin-configuration"

@@ -12,13 +12,17 @@ final class CalendarComponentViewModel: ObservableObject {
     @Published private(set) var agendaDays: [CalendarDayModel] = []
     @Published private(set) var agendaDates: [Date] = []
     @Published private(set) var authorization: CalendarEventAuthorization
+    @Published private(set) var remindersAuthorization: CalendarEventAuthorization
     @Published private(set) var isLoadingEvents = false
     @Published private(set) var eventLoadingError: String?
 
     var onStateChange: (() -> Void)?
 
     var hasAgendaContent: Bool {
-        !agendaDays.isEmpty || !authorization.isFullAccess || eventLoadingError != nil
+        !agendaDays.isEmpty
+            || !authorization.isFullAccess
+            || (showsReminders && remindersAuthorization.isDenied)
+            || eventLoadingError != nil
     }
 
     private let eventService: CalendarEventServicing
@@ -32,6 +36,7 @@ final class CalendarComponentViewModel: ObservableObject {
     private var observation: AnyCancellable?
     private var agendaRange: CalendarAgendaRange
     private var showsRecentAgenda: Bool
+    private var showsReminders: Bool
     private var displayedMonthStart: Date
     private var selectedDate: Date
     private var todayDate: Date
@@ -46,6 +51,7 @@ final class CalendarComponentViewModel: ObservableObject {
         localization: PluginLocalization = PluginLocalization(bundle: .main),
         agendaRange: CalendarAgendaRange = CalendarAgendaRange(),
         showsRecentAgenda: Bool = true,
+        showsReminders: Bool = true,
         alternateCalendar: CalendarAlternateCalendar = .none,
         calendarProvider: (() -> Calendar)? = nil,
         notificationCenter: NotificationCenter = .default,
@@ -59,6 +65,7 @@ final class CalendarComponentViewModel: ObservableObject {
         self.now = now
         self.agendaRange = agendaRange
         self.showsRecentAgenda = showsRecentAgenda
+        self.showsReminders = showsReminders
         self.notificationCenter = notificationCenter
         self.alternateCalendar = alternateCalendar
         self.calendarProvider = calendarProvider
@@ -67,6 +74,7 @@ final class CalendarComponentViewModel: ObservableObject {
         self.selectedDate = initialToday
         self.todayDate = initialToday
         self.authorization = eventService.authorization
+        self.remindersAuthorization = eventService.remindersAuthorization
         let initialMonth = CalendarMonthModelBuilder(
             calendar: calendar,
             holidayProvider: holidayProvider,
@@ -130,10 +138,24 @@ final class CalendarComponentViewModel: ObservableObject {
         if isStarted { refresh() }
     }
 
-    func configureAgenda(range: CalendarAgendaRange, isVisible: Bool) {
-        guard agendaRange != range || showsRecentAgenda != isVisible else { return }
+    func configureAgenda(
+        range: CalendarAgendaRange,
+        isVisible: Bool,
+        showsReminders: Bool? = nil
+    ) {
+        let nextShowsReminders = showsReminders ?? self.showsReminders
+        let remindersChanged = nextShowsReminders != self.showsReminders
+        guard agendaRange != range || showsRecentAgenda != isVisible || remindersChanged else {
+            return
+        }
         agendaRange = range
         showsRecentAgenda = isVisible
+        self.showsReminders = nextShowsReminders
+        if remindersChanged && !nextShowsReminders {
+            eventsByDay = eventsByDay.mapValues { summaries in
+                summaries.filter { $0.kind != .reminder }
+            }
+        }
         rebuildMonth()
         if isStarted { reloadEvents() }
     }
@@ -197,7 +219,10 @@ final class CalendarComponentViewModel: ObservableObject {
             }
 
             authorization = eventService.authorization
-            guard authorization.isFullAccess else {
+            remindersAuthorization = eventService.remindersAuthorization
+            let canLoadEvents = authorization.isFullAccess
+            let canLoadReminders = showsReminders && remindersAuthorization.isFullAccess
+            guard canLoadEvents || canLoadReminders else {
                 eventsByDay = [:]
                 eventLoadingError = nil
                 isLoadingEvents = false
@@ -216,7 +241,7 @@ final class CalendarComponentViewModel: ObservableObject {
             isLoadingEvents = true
 
             do {
-                let events = try await eventService.events(from: firstDate, to: endDate)
+                let events = try await loadItems(from: firstDate, to: endDate)
                 guard !Task.isCancelled else {
                     return
                 }
@@ -231,7 +256,7 @@ final class CalendarComponentViewModel: ObservableObject {
                 if let agendaStart = outsideDates.first,
                    let agendaLast = outsideDates.last,
                    let agendaEnd = calendar.date(byAdding: .day, value: 1, to: agendaLast) {
-                    let agendaEvents = try await eventService.events(from: agendaStart, to: agendaEnd)
+                    let agendaEvents = try await loadItems(from: agendaStart, to: agendaEnd)
                     guard !Task.isCancelled else {
                         return
                     }
@@ -260,6 +285,18 @@ final class CalendarComponentViewModel: ObservableObject {
                 rebuildMonth()
             }
         }
+    }
+
+    private func loadItems(from startDate: Date, to endDate: Date) async throws -> [CalendarEventInput] {
+        var items: [CalendarEventInput] = []
+        if authorization.isFullAccess {
+            items += try await eventService.events(from: startDate, to: endDate)
+        }
+        // Reminder failures should not hide readable calendar events.
+        if showsReminders && remindersAuthorization.isFullAccess {
+            items += (try? await eventService.reminders(from: startDate, to: endDate)) ?? []
+        }
+        return items
     }
 
     private func rebuildMonth(today: Date? = nil) {

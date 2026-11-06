@@ -30,6 +30,10 @@ enum CalendarEventGrouper {
                     return lhs.isAllDay && !rhs.isAllDay
                 }
 
+                if lhs.isCompleted != rhs.isCompleted {
+                    return !lhs.isCompleted && rhs.isCompleted
+                }
+
                 if lhs.startDate != rhs.startDate {
                     return lhs.startDate < rhs.startDate
                 }
@@ -57,14 +61,19 @@ enum CalendarEventGrouper {
         CalendarEventSummary(
             id: "\(event.id)-\(CalendarComponentCalendars.dayID(for: dayStart, calendar: calendar))",
             title: event.title.isEmpty
-                ? localization.string("event.untitled", defaultValue: "未命名日程")
+                ? localization.string(
+                    event.kind == .reminder ? "reminder.untitled" : "event.untitled",
+                    defaultValue: event.kind == .reminder ? "未命名提醒事项" : "未命名日程"
+                )
                 : event.title,
             timeText: timeText(for: event, dayStart: dayStart, calendar: calendar, localization: localization),
             startDate: event.startDate,
             endDate: normalizedEndDate(for: event, calendar: calendar),
             isAllDay: event.isAllDay,
             color: event.color,
-            calendarTitle: event.calendarTitle
+            calendarTitle: event.calendarTitle,
+            kind: event.kind,
+            isCompleted: event.isCompleted
         )
     }
 

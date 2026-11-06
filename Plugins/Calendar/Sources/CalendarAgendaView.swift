@@ -6,10 +6,13 @@ struct CalendarAgendaView: View {
     let dates: [Date]
     let today: Date
     let authorization: CalendarEventAuthorization
+    let remindersAuthorization: CalendarEventAuthorization
+    let showsReminders: Bool
     let errorMessage: String?
     let localization: PluginLocalization
     let onOpenDay: (CalendarDayModel) -> Void
     let onRequestAccess: () -> Void
+    let onRequestReminderAccess: () -> Void
     let onRetry: () -> Void
 
     @Environment(\.pluginComponentTheme) private var theme
@@ -35,7 +38,15 @@ struct CalendarAgendaView: View {
                         : localization.string("agenda.openSettings", defaultValue: "打开设置"),
                     action: onRequestAccess
                 )
-            } else if let errorMessage {
+            }
+            if showsReminders && remindersAuthorization.isDenied {
+                status(
+                    localization.string("agenda.reminders.permission", defaultValue: "允许读取提醒事项后查看提醒"),
+                    actionTitle: localization.string("agenda.openSettings", defaultValue: "打开设置"),
+                    action: onRequestReminderAccess
+                )
+            }
+            if let errorMessage {
                 status(errorMessage, actionTitle: localization.string("agenda.retry", defaultValue: "重试"), action: onRetry)
             } else {
                 agendaList
@@ -140,13 +151,22 @@ private struct CalendarAgendaEventRow: View {
     var body: some View {
         Button(action: action) {
             HStack(alignment: .top, spacing: 8) {
-                RoundedRectangle(cornerRadius: 2)
-                    .fill(Color(red: event.color.red, green: event.color.green, blue: event.color.blue, opacity: event.color.alpha))
-                    .frame(width: 3, height: 28)
+                if event.kind == .reminder {
+                    Image(systemName: event.isCompleted ? "checkmark.circle.fill" : "checkmark.circle")
+                        .font(PluginTypography.caption.font.weight(.semibold))
+                        .foregroundStyle(event.isCompleted ? theme.text.tertiary : Color(calendarEventColor: event.color))
+                        .frame(width: 12, height: 28, alignment: .center)
+                } else {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(Color(red: event.color.red, green: event.color.green, blue: event.color.blue, opacity: event.color.alpha))
+                        .frame(width: 3, height: 28)
+                        .frame(width: 12, height: 28, alignment: .center)
+                }
                 VStack(alignment: .leading, spacing: 3) {
                     Text(event.title)
                         .font(PluginTypography.detail.font.weight(.medium))
-                        .foregroundStyle(theme.text.primary)
+                        .strikethrough(event.isCompleted)
+                        .foregroundStyle(event.isCompleted ? theme.text.secondary : theme.text.primary)
                         .lineLimit(2)
                         .fixedSize(horizontal: false, vertical: true)
                     Text([event.timeText, event.calendarTitle].filter { !$0.isEmpty }.joined(separator: " · "))

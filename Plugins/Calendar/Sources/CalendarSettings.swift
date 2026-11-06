@@ -78,6 +78,7 @@ final class CalendarSettingsStore: ObservableObject {
     private enum StorageKey {
         static let weekStartDay = "settings.week-start-day"
         static let showsRecentAgenda = "settings.shows-recent-agenda"
+        static let showsReminders = "settings.shows-reminders"
         static let legacyShowsTodayDetails = "settings.shows-today-details"
         static let agendaDayCount = "settings.agenda-day-count"
         static let agendaDirection = "settings.agenda-direction"
@@ -87,6 +88,7 @@ final class CalendarSettingsStore: ObservableObject {
 
     @Published private(set) var weekStartDay: CalendarWeekStartDay
     @Published private(set) var showsRecentAgenda: Bool
+    @Published private(set) var showsReminders: Bool
     @Published private(set) var agendaRange: CalendarAgendaRange
     @Published private(set) var alternateCalendar: CalendarAlternateCalendar
 
@@ -116,6 +118,11 @@ final class CalendarSettingsStore: ObservableObject {
         self.showsRecentAgenda = showsRecentAgenda
         if storage.object(forKey: StorageKey.showsRecentAgenda) == nil {
             storage.set(showsRecentAgenda, forKey: StorageKey.showsRecentAgenda)
+        }
+        let showsReminders = storage.object(forKey: StorageKey.showsReminders) as? Bool ?? true
+        self.showsReminders = showsReminders
+        if storage.object(forKey: StorageKey.showsReminders) == nil {
+            storage.set(showsReminders, forKey: StorageKey.showsReminders)
         }
         self.agendaRange = CalendarAgendaRange(
             dayCount: storage.object(forKey: StorageKey.agendaDayCount) as? Int ?? 3,
@@ -178,6 +185,12 @@ final class CalendarSettingsStore: ObservableObject {
         ]) else { return }
         agendaRange = range
         onPersistentPreferencesChange?()
+    }
+
+    func setShowsReminders(_ value: Bool) {
+        guard showsReminders != value else { return }
+        showsReminders = value
+        storage.set(value, forKey: StorageKey.showsReminders)
     }
 
     func setAlternateCalendar(_ calendar: CalendarAlternateCalendar) {
