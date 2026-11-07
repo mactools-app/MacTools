@@ -30,12 +30,17 @@ enum CalendarEventAuthorization: Equatable {
 protocol CalendarEventServicing: AnyObject {
     var authorization: CalendarEventAuthorization { get }
     var remindersAuthorization: CalendarEventAuthorization { get }
+    /// Whether the host bundle declares the Reminders privacy description
+    /// required to request full access. Older hosts or Nightlies built before
+    /// the descriptions existed report a compatible version but lack the key.
+    var hostProvidesReminderPrivacyDescription: Bool { get }
 
     func requestAccess() async -> CalendarEventAuthorization
     func requestReminderAccess() async -> CalendarEventAuthorization
     func events(from startDate: Date, to endDate: Date) async throws -> [CalendarEventInput]
     func reminders(from startDate: Date, to endDate: Date) async -> [CalendarEventInput]
     func refreshReminders() async
+    func invalidateReminderSnapshot()
     func openSystemCalendar(at date: Date)
 }
 
@@ -43,6 +48,7 @@ protocol CalendarEventServicing: AnyObject {
 final class CalendarEventService: CalendarEventServicing {
     private var eventStore = EKEventStore()
     private let localization: PluginLocalization
+    private let remindersUsageDescriptionProvider: () -> Bool
     /// Snapshot of reminders mapped into Sendable inputs. Date-range requests
     /// filter this snapshot instead of fetching the full reminder library, so
     /// rapid month switching does not repeat the full-library EventKit read.
@@ -52,12 +58,21 @@ final class CalendarEventService: CalendarEventServicing {
     private var reminderSnapshotIsStale = true
     /// Monotonic token so a superseded fetch never overwrites a newer snapshot.
     private var reminderFetchGeneration = 0
-    /// The active `fetchReminders` request handle, used to cancel a superseded fetch.
-    private var activeReminderFetch: Any?
+    /// The active `fetchReminders` request, cancelled and resumed when a newer
+    /// fetch supersedes it.
+    private var activeReminderFetch: ReminderFetchWaiter?
 
-    init(localization: PluginLocalization = PluginLocalization(bundle: .main)) {
+    init(
+        localization: PluginLocalization = PluginLocalization(bundle: .main),
+        remindersUsageDescriptionProvider: @escaping () -> Bool = {
+            Bundle.main.object(forInfoDictionaryKey: "NSRemindersFullAccessUsageDescription") != nil
+        }
+    ) {
         self.localization = localization
+        self.remindersUsageDescriptionProvider = remindersUsageDescriptionProvider
     }
+
+    var hostProvidesReminderPrivacyDescription: Bool { remindersUsageDescriptionProvider() }
 
     var authorization: CalendarEventAuthorization {
         Self.authorization(
@@ -93,6 +108,13 @@ final class CalendarEventService: CalendarEventServicing {
     }
 
     func requestReminderAccess() async -> CalendarEventAuthorization {
+        guard hostProvidesReminderPrivacyDescription else {
+            return .denied(localization.string(
+                "permission.reminders.hostUpdateRequired",
+                defaultValue: "访问提醒事项需要更新版本的 MacTools。"
+            ))
+        }
+
         guard remindersAuthorization == .notDetermined else {
             return remindersAuthorization
         }
@@ -180,31 +202,39 @@ final class CalendarEventService: CalendarEventServicing {
         let generation = reminderFetchGeneration
         cancelActiveReminderFetch()
         let box = await withCheckedContinuation { continuation in
+            let waiter = ReminderFetchWaiter(continuation)
+            activeReminderFetch = waiter
             let request = eventStore.fetchReminders(matching: predicate) { reminders in
-                continuation.resume(returning: ReminderListBox(reminders: reminders ?? []))
+                waiter.complete(ReminderListBox(reminders: reminders ?? []))
             }
-            activeReminderFetch = request
+            waiter.attachRequest(request)
+        }
+        // Drop a finished waiter so a later cancel never touches a completed request.
+        if let waiter = activeReminderFetch, waiter.isComplete {
+            activeReminderFetch = nil
         }
         guard generation == reminderFetchGeneration else {
             return
         }
-        activeReminderFetch = nil
         reminderSnapshot = box.reminders.compactMap { Self.input(from: $0, calendar: calendar) }
         reminderSnapshotIsStale = false
     }
 
-    private func invalidateReminderSnapshot() {
+    func invalidateReminderSnapshot() {
+        // Bump the generation before cancelling so the superseded fetch discards
+        // its result and the snapshot stays stale until the next refresh.
+        reminderFetchGeneration += 1
         cancelActiveReminderFetch()
         reminderSnapshot = []
         reminderSnapshotIsStale = true
     }
 
     private func cancelActiveReminderFetch() {
-        guard let request = activeReminderFetch else {
+        guard let waiter = activeReminderFetch else {
             return
         }
-        eventStore.cancelFetchRequest(request)
         activeReminderFetch = nil
+        waiter.cancel(using: eventStore)
     }
 
     func openSystemCalendar(at date: Date) {
@@ -380,6 +410,55 @@ final class CalendarEventService: CalendarEventServicing {
 /// the value is mapped into Sendable snapshots before any actor boundary.
 private struct ReminderListBox: @unchecked Sendable {
     let reminders: [EKReminder]
+}
+
+/// Resumes a `fetchReminders` continuation exactly once, whether the fetch
+/// completes normally or is cancelled. EventKit skips the completion callback
+/// after `cancelFetchRequest`, so cancellation must resume the waiting task
+/// itself; the lock guarantees only one of `complete`/`cancel` resumes it.
+private final class ReminderFetchWaiter: @unchecked Sendable {
+    private let lock = NSLock()
+    private var continuation: CheckedContinuation<ReminderListBox, Never>?
+    private var request: Any?
+
+    init(_ continuation: CheckedContinuation<ReminderListBox, Never>) {
+        self.continuation = continuation
+    }
+
+    func attachRequest(_ request: Any) {
+        lock.lock()
+        self.request = request
+        lock.unlock()
+    }
+
+    func complete(_ box: ReminderListBox) {
+        lock.lock()
+        let continuation = self.continuation
+        self.continuation = nil
+        self.request = nil
+        lock.unlock()
+        continuation?.resume(returning: box)
+    }
+
+    func cancel(using eventStore: EKEventStore) {
+        lock.lock()
+        let continuation = self.continuation
+        let request = self.request
+        self.continuation = nil
+        self.request = nil
+        lock.unlock()
+        if let request {
+            eventStore.cancelFetchRequest(request)
+        }
+        continuation?.resume(returning: ReminderListBox(reminders: []))
+    }
+
+    var isComplete: Bool {
+        lock.lock()
+        let complete = self.continuation == nil
+        lock.unlock()
+        return complete
+    }
 }
 
 private extension CalendarEventColor {

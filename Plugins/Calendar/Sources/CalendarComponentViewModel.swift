@@ -119,6 +119,9 @@ final class CalendarComponentViewModel: ObservableObject {
         loadTask?.cancel()
         loadTask = nil
         isLoadingEvents = false
+        // A hidden widget may miss EventKit changes, so the next open must
+        // refetch rather than reuse a snapshot that could be stale.
+        eventService.invalidateReminderSnapshot()
     }
 
     func refresh() {

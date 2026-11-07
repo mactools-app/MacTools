@@ -440,6 +440,15 @@ final class CalendarPlugin: MacToolsPlugin {
     }
 
     private var calendarRemindersPermissionState: PluginPermissionState {
+        guard eventService.hostProvidesReminderPrivacyDescription else {
+            return PluginPermissionState(
+                isGranted: false,
+                footnote: localization.string(
+                    "permission.reminders.hostUpdateRequired",
+                    defaultValue: "当前版本的 MacTools 未包含提醒事项权限描述，请更新 MacTools 后重试。"
+                )
+            )
+        }
         switch eventService.remindersAuthorization {
         case .fullAccess:
             return PluginPermissionState(isGranted: true, footnote: nil)
@@ -485,7 +494,10 @@ final class CalendarPlugin: MacToolsPlugin {
             }
 
             let authorization = await eventService.requestReminderAccess()
-            if case .denied = authorization {
+            // A host that predates the Reminders usage descriptions cannot grant
+            // access; the permission card already prompts for an app update, so
+            // opening the system privacy pane would only mislead the user.
+            if case .denied = authorization, eventService.hostProvidesReminderPrivacyDescription {
                 openPrivacyPane(anchor: "Privacy_Reminders")
             }
             viewModel.refreshIfVisible()

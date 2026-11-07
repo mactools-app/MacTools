@@ -9933,6 +9933,83 @@
           }
         }
       }
+    },
+    "permission.reminders.hostUpdateRequired": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتطلب الوصول إلى التذكيرات إصدارًا أحدث من MacTools."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Für den Zugriff auf Erinnerungen ist eine neuere Version von MacTools erforderlich."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminders access requires a newer version of MacTools."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El acceso a los recordatorios requiere una versión más reciente de MacTools."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’accès aux rappels nécessite une version plus récente de MacTools."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "リマインダーへのアクセスには、より新しいバージョンの MacTools が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "미리 알림 접근에는 최신 버전의 MacTools가 필요합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O acesso aos lembretes requer uma versão mais recente do MacTools."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для доступа к напоминаниям требуется более новая версия MacTools."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anımsatıcılara erişim daha yeni bir MacTools sürümü gerektirir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "访问提醒事项需要更新版本的 MacTools。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "存取提醒事項需要更新版本的 MacTools。"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

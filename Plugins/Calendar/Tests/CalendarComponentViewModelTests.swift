@@ -487,6 +487,70 @@ final class CalendarComponentViewModelTests: XCTestCase {
         XCTAssertEqual(model.agendaDays.first?.events.map(\.title), ["Updated reminder"])
     }
 
+    func testStopMarksReminderSnapshotStaleAndReopenRefreshes() async throws {
+        let calendar = Self.makeCalendar()
+        let today = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 4, day: 15)))
+        let service = MockCalendarEventService()
+        service.authorization = .fullAccess
+        service.remindersAuthorization = .fullAccess
+        service.reminderInputs = [CalendarEventInput(
+            id: "reminder",
+            title: "Old title",
+            startDate: today,
+            endDate: try XCTUnwrap(calendar.date(byAdding: .minute, value: 1, to: today)),
+            isAllDay: false,
+            color: .accent,
+            kind: .reminder
+        )]
+        let model = CalendarComponentViewModel(
+            eventService: service,
+            holidayProvider: .empty,
+            calendar: calendar,
+            today: today,
+            now: { today }
+        )
+        let initial = expectation(description: "Initial reminders loaded")
+        service.onRemindersRequest = initial.fulfill
+        model.start()
+        await fulfillment(of: [initial], timeout: 1)
+        XCTAssertEqual(model.agendaDays.first?.events.map(\.title), ["Old title"])
+        let initialRefreshCount = service.reminderRefreshCount
+
+        // The reminder library changes while the widget is hidden.
+        model.stop()
+        service.reminderInputs = [CalendarEventInput(
+            id: "reminder-2",
+            title: "New title",
+            startDate: today,
+            endDate: try XCTUnwrap(calendar.date(byAdding: .minute, value: 1, to: today)),
+            isAllDay: false,
+            color: .accent,
+            kind: .reminder
+        )]
+        service.onRemindersRequest = nil
+
+        // Reopening must refetch rather than reuse the cached snapshot.
+        let reloaded = expectation(description: "Reopen reloads events")
+        service.onEventsRequest = reloaded.fulfill
+        let refreshed = expectation(description: "Reopen refreshes the reminder snapshot")
+        service.onRemindersRefresh = refreshed.fulfill
+        model.start()
+        await fulfillment(of: [reloaded, refreshed], timeout: 1)
+        XCTAssertGreaterThan(service.reminderRefreshCount, initialRefreshCount)
+        XCTAssertEqual(model.agendaDays.first?.events.map(\.title), ["New title"])
+        model.stop()
+    }
+
+    func testReminderAccessPromptsHostUpdateWhenUsageDescriptionMissing() async {
+        let service = CalendarEventService(remindersUsageDescriptionProvider: { false })
+        XCTAssertFalse(service.hostProvidesReminderPrivacyDescription)
+        let authorization = await service.requestReminderAccess()
+        guard case .denied = authorization else {
+            XCTFail("Requesting reminder access without a host usage description must be denied")
+            return
+        }
+    }
+
     func testHiddenAgendaDoesNotQueryDistantDates() async throws {
         let calendar = Self.makeCalendar()
         let today = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 4, day: 15)))
@@ -589,6 +653,7 @@ private final class MockCalendarEventService: CalendarEventServicing {
     var eventInputs: [CalendarEventInput] = []
     var reminderInputs: [CalendarEventInput] = []
     var shouldFail = false
+    var hostProvidesReminderPrivacyDescription = true
     private(set) var reminderRefreshCount = 0
     private var reminderSnapshot: [CalendarEventInput] = []
     private var reminderSnapshotIsStale = true
@@ -622,6 +687,11 @@ private final class MockCalendarEventService: CalendarEventServicing {
         onRemindersRefresh?()
         reminderSnapshot = reminderInputs
         reminderSnapshotIsStale = false
+    }
+
+    func invalidateReminderSnapshot() {
+        reminderSnapshot = []
+        reminderSnapshotIsStale = true
     }
 
     func openSystemCalendar(at date: Date) {
