@@ -54,6 +54,7 @@ final class QuitProtectionSession {
     private var keyboardLayoutObserver: (any NSObjectProtocol)?
     private var quitRule = QuitProtectionRule()
     private var enabled = false
+    private var showsFeedback = true
     private var generation: UInt64 = 0
     private var routing = QuitProtectionInputRouting()
     private var candidate: Candidate?
@@ -82,10 +83,11 @@ final class QuitProtectionSession {
         AXIsProcessTrusted() && CGPreflightPostEventAccess() && CGPreflightListenEventAccess()
     }
 
-    func update(quit: QuitProtectionRule, enabled: Bool) {
-        if quitRule != quit || self.enabled != enabled {
+    func update(quit: QuitProtectionRule, enabled: Bool, showsFeedback: Bool) {
+        if quitRule != quit || self.enabled != enabled || self.showsFeedback != showsFeedback {
             quitRule = quit
             self.enabled = enabled
+            self.showsFeedback = showsFeedback
             invalidateDestination()
         }
         if enabled {
@@ -332,10 +334,11 @@ final class QuitProtectionSession {
                 cancelConfirmation()
             }
             if instant == nil { cancelConfirmation() }
+            let wasWaitingForSecondPress = gesture.doublePressDeadline != nil
             let claimed = gesture.keyUp(keyCode: keyCode, at: instant ?? .now)
-            if claimed, let instant, let target = gesture.pendingTarget,
-               case let .doublePress(interval) = quitRule.confirmation {
-                scheduleFeedback(.doublePress(deadline: instant + interval), for: target)
+            if !wasWaitingForSecondPress, let deadline = gesture.doublePressDeadline,
+               let target = gesture.pendingTarget {
+                scheduleFeedback(.doublePress(deadline: deadline), for: target)
             }
             finishDrainIfPossible()
             return claimed
@@ -345,7 +348,10 @@ final class QuitProtectionSession {
         let intent: QuitProtectionGesture<Destination>.Intent?
         if !isRepeat, instant != nil, let candidate, candidate.matches(timestamp: event.timestamp, keyCode: keyCode),
            event.flags.intersection(Self.modifiers) == .maskCommand, let target = destination(for: event) {
-            intent = quitRule.intent(for: target, additionalModifier: nil, verifiedExtraModifier: nil)
+            intent = quitRule.intent(
+                for: target, additionalModifier: nil, verifiedExtraModifier: nil,
+                needsTimeForSpokenFeedback: showsFeedback && NSWorkspace.shared.isVoiceOverEnabled
+            )
         } else {
             intent = nil
         }

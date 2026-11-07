@@ -18,6 +18,8 @@ Use an app picker for both lists. Keep the selected and excluded lists separate 
 
 Defaults are protection off, Selected Apps with empty lists, and Hold to Confirm. **Show Confirmation Feedback** defaults to on. A compact indicator shows the target app icon and the next action on the app's display. For Hold, the progress bar fills and the instruction changes to **Release Q to quit** in the same panel. Double Press shows the next shortcut until its confirmation window expires.
 
+When VoiceOver and confirmation feedback are on, Double Press gives the user at least five seconds to hear the cue and respond. The indicator and the shortcut use the same deadline, and the saved interval is used again when VoiceOver or feedback is off.
+
 The panel and settings distinguish paused, enabled, and unavailable protection. The rule shows when it has no selected apps. When an enabled rule can protect apps and needs permission, name each verified permission, explain that it is used to intercept and deliver the shortcut, and show where to grant it.
 
 ## Confirmation modes

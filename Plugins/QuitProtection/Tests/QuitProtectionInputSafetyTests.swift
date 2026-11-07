@@ -4,6 +4,33 @@ import XCTest
 @testable import QuitProtectionPlugin
 
 final class QuitProtectionInputSafetyTests: XCTestCase {
+    func testSpokenDoublePressCueAllowsTimeToRespond() {
+        let q = UInt16(kVK_ANSI_Q)
+        let pressedAt = ContinuousClock.now
+        let releasedAt = pressedAt + .milliseconds(100)
+        let target = 42
+        var rule = QuitProtectionRule()
+        rule.confirmation = .doublePress(.milliseconds(600))
+
+        for (spokenFeedback, delay, expected) in [
+            (false, Duration.seconds(2), QuitProtectionGesture<Int>.PressResult.startedDoublePress),
+            (true, .seconds(2), .confirmed(target)),
+            (true, .milliseconds(5_001), .startedDoublePress)
+        ] {
+            var gesture = QuitProtectionGesture<Int>()
+            let intent = rule.intent(
+                for: target, additionalModifier: nil, verifiedExtraModifier: nil,
+                needsTimeForSpokenFeedback: spokenFeedback
+            )
+            XCTAssertEqual(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: pressedAt), .startedDoublePress)
+            XCTAssertTrue(gesture.keyUp(keyCode: q, at: releasedAt))
+            XCTAssertEqual(
+                gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: releasedAt + delay),
+                expected
+            )
+        }
+    }
+
     func testRemappedCommandTabDoesNotDisarmQuitInEitherStartOrder() {
         for observerStartsLast in [false, true] {
             for remapperConsumesTab in [false, true] {

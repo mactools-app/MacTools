@@ -39,13 +39,15 @@ struct QuitProtectionRule: Codable, Equatable {
     func intent<Target: Equatable>(
         for target: Target,
         additionalModifier: Modifier?,
-        verifiedExtraModifier: Modifier?
+        verifiedExtraModifier: Modifier?,
+        needsTimeForSpokenFeedback: Bool = false
     ) -> QuitProtectionGesture<Target>.Intent? {
         switch confirmation {
         case let .hold(duration) where additionalModifier == nil:
             return .hold(target, duration: duration)
         case let .doublePress(interval) where additionalModifier == nil:
-            return .doublePress(target, interval: interval)
+            let effectiveInterval = needsTimeForSpokenFeedback ? max(interval, .seconds(5)) : interval
+            return .doublePress(target, interval: effectiveInterval)
         case let .extraModifier(.some(configured)) where verifiedExtraModifier == configured:
             guard additionalModifier == nil || additionalModifier == configured else { return nil }
             return .extraModifier(target, confirmed: additionalModifier == configured)

@@ -175,7 +175,7 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
             session.stop()
         } else {
             let canRun = wantsProtection && QuitProtectionSession.hasRequiredPermissions
-            session.update(quit: settings.quit, enabled: canRun)
+            session.update(quit: settings.quit, enabled: canRun, showsFeedback: settings.showsFeedback)
         }
         observePermissionChanges(wantsProtection)
     }
