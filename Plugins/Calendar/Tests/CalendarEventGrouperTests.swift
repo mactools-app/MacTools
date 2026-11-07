@@ -117,6 +117,49 @@ final class CalendarEventGrouperTests: XCTestCase {
         XCTAssertEqual(items.map(\.isCompleted), [false, true])
     }
 
+    func testTimedReminderShowsOnlyStartTime() throws {
+        let calendar = Self.makeCalendar()
+        let april2 = try Self.date(year: 2026, month: 4, day: 2, hour: 0, calendar: calendar)
+        let reminder = CalendarEventInput(
+            id: "timed-reminder",
+            title: "Call dentist",
+            startDate: try Self.date(year: 2026, month: 4, day: 2, hour: 10, calendar: calendar),
+            endDate: try Self.date(year: 2026, month: 4, day: 2, hour: 10, minute: 1, calendar: calendar),
+            isAllDay: false,
+            color: .accent,
+            kind: .reminder
+        )
+
+        let grouped = CalendarEventGrouper.group(events: [reminder], visibleDates: [april2], calendar: calendar)
+        let summary = try XCTUnwrap(grouped[april2]?.first)
+
+        // A timed reminder has only a due time, so it must not render a range.
+        XCTAssertFalse(summary.timeText.contains("–"), "Reminder must not show an end-time range")
+        XCTAssertTrue(summary.timeText.contains("10:00"), "Reminder should show its start time")
+        XCTAssertFalse(summary.timeText.contains("10:01"), "Reminder must not append a synthetic end time")
+    }
+
+    func testZeroDurationEventShowsOnlyStartTime() throws {
+        let calendar = Self.makeCalendar()
+        let april2 = try Self.date(year: 2026, month: 4, day: 2, hour: 0, calendar: calendar)
+        let event = CalendarEventInput(
+            id: "point-event",
+            title: "Standup",
+            startDate: try Self.date(year: 2026, month: 4, day: 2, hour: 9, calendar: calendar),
+            endDate: try Self.date(year: 2026, month: 4, day: 2, hour: 9, calendar: calendar),
+            isAllDay: false,
+            color: .accent
+        )
+
+        let grouped = CalendarEventGrouper.group(events: [event], visibleDates: [april2], calendar: calendar)
+        let summary = try XCTUnwrap(grouped[april2]?.first)
+
+        // An event that has only a start time must not render a one-minute range.
+        XCTAssertFalse(summary.timeText.contains("–"), "Start-only event must not show an end-time range")
+        XCTAssertTrue(summary.timeText.contains("09:00"), "Start-only event should show its start time")
+        XCTAssertFalse(summary.timeText.contains("09:01"), "Start-only event must not append a synthetic end time")
+    }
+
     private static func makeCalendar() -> Calendar {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!

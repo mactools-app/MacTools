@@ -95,6 +95,13 @@ enum CalendarEventGrouper {
             return localization.string("event.allDay", defaultValue: "全天")
         }
 
+        // A reminder only carries a single due (start) time. An event whose end
+        // equals its start also represents a single point in time. Show the
+        // start time alone in both cases instead of a synthetic one-minute range.
+        if event.kind == .reminder || event.endDate <= event.startDate {
+            return formatTime(event.startDate)
+        }
+
         let endDate = normalizedEndDate(for: event, calendar: calendar)
         let nextDayStart = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart
         let visibleStart = max(event.startDate, dayStart)
