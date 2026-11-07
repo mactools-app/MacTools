@@ -48,7 +48,7 @@ E2E_DURATION ?= 90
 E2E_PACK ?=
 TEST_FILTER ?=
 
-.PHONY: setup validate-local-debug-config generate-plugin-config generate build build-cli validate-changelog validate-generated-plugin-data validate-localization script-tests test ci sync-debug-plugins build-plugin build-plugins generate-icon-gallery package-plugins-release stop-debug-app install-debug-app run run-open e2e-preflight e2e-prepare e2e-upgrade e2e-reseed e2e-resume e2e-rebuild e2e-audit e2e-scenarios e2e-record e2e-record-pack e2e-verify-code e2e-collect e2e-restore e2e-self-test clean release release-local
+.PHONY: setup validate-local-debug-config generate-plugin-config generate build build-app build-plugin-scheme build-cli validate-changelog validate-generated-plugin-data validate-localization script-tests test ci sync-debug-plugins build-plugin build-plugins generate-icon-gallery package-plugins-release stop-debug-app install-debug-app run run-open run-plugin guard-plugin e2e-preflight e2e-prepare e2e-upgrade e2e-reseed e2e-resume e2e-rebuild e2e-audit e2e-scenarios e2e-record e2e-record-pack e2e-verify-code e2e-collect e2e-restore e2e-self-test clean clean-installed release release-local
 
 setup:
 	@if [ ! -f LocalConfig.xcconfig ]; then cp LocalConfig.sample.xcconfig LocalConfig.xcconfig; fi
@@ -79,6 +79,31 @@ build: validate-local-debug-config generate
 	if [[ -x "$$LSREGISTER" ]]; then \
 		"$$LSREGISTER" -u "$(CURDIR)/$(APP_PATH)" >/dev/null 2>&1 || true; \
 	fi
+
+# Build only the Debug app host without any plugin targets. Used by the
+# fast single-plugin debug cycle so plugin bundles are not recompiled.
+build-app: validate-local-debug-config generate
+	@echo "Building Debug app host (plugin targets excluded)..."
+	@mkdir -p build
+	@touch build/.metadata_never_index
+	@$(XCODEBUILD) -project $(PROJECT_FILE) -scheme MacToolsAppHost -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath $(DERIVED_DATA) build -quiet
+	@LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister; \
+	if [[ -x "$$LSREGISTER" ]]; then \
+		"$$LSREGISTER" -u "$(CURDIR)/$(APP_PATH)" >/dev/null 2>&1 || true; \
+	fi
+
+# Build one or more plugin bundles into the shared Debug products directory so
+# a filtered 'sync-debug-plugins' can package and install them. PLUGIN accepts
+# a directory name, plugin ID, or a comma-separated list of either.
+build-plugin-scheme: validate-local-debug-config generate
+	@test -n "$(PLUGIN)" || { echo "Pass PLUGIN=<plugin directory name or ID>." >&2; exit 1; }
+	@PLUGIN_SCHEMES="$$($(PYTHON3) scripts/plugins/resolve-plugin-scheme.py --plugin "$(PLUGIN)" --list)" \
+		|| { echo "Could not resolve a scheme for plugin '$(PLUGIN)'." >&2; exit 1; }; \
+	echo "$$PLUGIN_SCHEMES" | while IFS= read -r PLUGIN_SCHEME; do \
+		[ -n "$$PLUGIN_SCHEME" ] || continue; \
+		echo "Building plugin bundle scheme: $$PLUGIN_SCHEME"; \
+		$(XCODEBUILD) -project $(PROJECT_FILE) -scheme "$$PLUGIN_SCHEME" -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath $(DERIVED_DATA) build -quiet || exit 1; \
+	done
 
 build-cli: validate-local-debug-config generate
 	@echo "Building standalone Debug CLI..."
@@ -124,7 +149,9 @@ ci: override TEST_FILTER :=
 ci: script-tests test
 	@./scripts/plugins/verify-plugin-kit-v7-binary-compatibility.sh "$(abspath $(TEST_DERIVED_DATA)/Build/Products/Debug)"
 
-sync-debug-plugins: build
+# A filtered sync only needs the app host and the selected plugin bundle, so
+# skip the full plugin build for fast single-plugin iteration.
+sync-debug-plugins: $(if $(PLUGIN),build-app build-plugin-scheme,build)
 	@if [ -n "$(PLUGIN)" ]; then \
 		PLUGIN_ARGS=(--plugin "$(PLUGIN)"); \
 	else \
@@ -255,6 +282,13 @@ run: stop-debug-app install-debug-app
 run-open: stop-debug-app install-debug-app
 	@open -n -W "$(INSTALLED_APP_PATH)"
 
+# Fast single-plugin debug cycle: build only the app host and one plugin,
+# then sync, install, and launch. Requires PLUGIN=<plugin directory name or ID>.
+run-plugin: guard-plugin run
+
+guard-plugin:
+	@test -n "$(PLUGIN)" || { echo "Pass PLUGIN=<plugin directory name or ID> to run a single plugin." >&2; exit 1; }
+
 e2e-preflight:
 	@$(E2E_SCRIPT) preflight
 
@@ -308,7 +342,16 @@ e2e-restore:
 e2e-self-test:
 	@$(E2E_SCRIPT) self-test
 
-clean:
+# Remove the locally installed Debug app and installed plugin packages.
+clean-installed:
+	@for target_path in "$(INSTALLED_APP_PATH)" "$(DEBUG_PLUGIN_INSTALL_DIR)" "$$(dirname "$(DEBUG_PLUGIN_INSTALL_DIR)")/Quarantined"; do \
+		if [ -z "$$target_path" ] || [ "$$target_path" = "/" ] || [ "$$target_path" = "$(HOME)" ] || [ "$$target_path" = "$(HOME)/" ]; then \
+			echo "Refusing to remove unsafe path: $$target_path" >&2; exit 1; \
+		fi; \
+		rm -rf "$$target_path"; \
+	done
+
+clean: clean-installed
 	@rm -rf build $(PROJECT_FILE) $(WORKSPACE_FILE) "$(GENERATED_PLUGIN_PROJECT_CONFIG)"
 
 release:

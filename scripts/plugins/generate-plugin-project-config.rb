@@ -420,6 +420,24 @@ schemes = {
     "profile" => { "config" => "Release" },
     "archive" => { "config" => "Release" }
   },
+  # Host-only scheme: builds the app and its non-plugin dependencies but no
+  # plugin bundle targets. Used by 'make build-app' for the fast single-plugin
+  # debug cycle so plugin bundles are not recompiled.
+  "MacToolsAppHost" => {
+    "build" => {
+      "targets" => {
+        "MacToolsPluginKit" => "all",
+        "MacToolsAppIntents" => "all",
+        "MacToolsCLIProtocol" => "all",
+        "MacToolsCLI" => "all",
+        "MacToolsCLIBroker" => "all",
+        "MacTools" => "all"
+      }
+    },
+    "run" => { "config" => "Debug" },
+    "profile" => { "config" => "Release" },
+    "archive" => { "config" => "Release" }
+  },
   "MacToolsCLI" => {
     "build" => {
       "targets" => {
