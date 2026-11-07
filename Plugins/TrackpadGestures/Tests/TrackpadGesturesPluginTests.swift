@@ -647,6 +647,37 @@ final class TrackpadGesturesPluginTests: XCTestCase {
         session.deactivate()
     }
 
+    func testConsumedPhysicalClickReportsInputOwnershipBeforeReturning() throws {
+        let driver = MockMultitouchFrameListener()
+        let clock = LockedTestClock()
+        let session = makeMiddleClickSession(driver: driver, now: { clock.value }, releaseMiddleButton: {})
+        session.updateNativeClickResolutions([.threeFingerTap: .consume])
+        XCTAssertTrue(session.activate(gestures: [.threeFingerTap]))
+        defer { session.deactivate() }
+        let reported = MutableBool(false)
+        let observer = NotificationCenter.default.addObserver(
+            forName: .macToolsWillClaimPhysicalInput, object: nil, queue: nil
+        ) { _ in
+            MainActor.assumeIsolated { reported.value = true }
+        }
+        defer { NotificationCenter.default.removeObserver(observer) }
+
+        driver.send(makeThreeContactFrame())
+        clock.value = 0.01
+        XCTAssertEqual(session.resolveNativeClick(for: .threeFingerTap, deviceID: 1), .consume)
+        clock.value = 0.02
+        let down = try XCTUnwrap(makeMouseEvent(type: .leftMouseDown, eventNumber: 202))
+        down.setIntegerValueField(.eventSourceUnixProcessID, value: 0)
+        XCTAssertTrue(session.handleNativeEventForTests(type: .leftMouseDown, event: down))
+        XCTAssertTrue(reported.value)
+
+        reported.value = false
+        let up = try XCTUnwrap(makeMouseEvent(type: .leftMouseUp, eventNumber: 202))
+        up.setIntegerValueField(.eventSourceUnixProcessID, value: 0)
+        XCTAssertTrue(session.handleNativeEventForTests(type: .leftMouseUp, event: up))
+        XCTAssertFalse(reported.value)
+    }
+
     private func makeMiddleClickSession(
         driver: MockMultitouchFrameListener,
         now: @escaping @Sendable () -> TimeInterval,

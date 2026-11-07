@@ -415,7 +415,7 @@ public protocol TrackpadGestureEventConsuming: AnyObject {
 public protocol PluginPhysicalInputClaimReporting: AnyObject {}
 
 public extension Notification.Name {
-    /// Posted synchronously on the main run loop before a remapper claims physical input.
+    /// Posted synchronously on the main run loop when a remapper claims physical input.
     static let macToolsWillClaimPhysicalInput = Self("MacTools.InputRemapping.willClaimPhysicalInput")
 }
 

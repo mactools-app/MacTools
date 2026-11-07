@@ -15,7 +15,6 @@ private final class QuitProtectionFixture: NSObject, NSApplicationDelegate, NSWi
     private let verifyDesktop: Bool
     private var rule = QuitProtectionRule()
     private var gesture = QuitProtectionGesture<Int>()
-    private var eventClock = QuitProtectionEventClock()
     private var monitor: Any?
     private var deadline: Task<Void, Never>?
     private var taps: [CFMachPort] = []
@@ -208,7 +207,7 @@ private final class QuitProtectionFixture: NSObject, NSApplicationDelegate, NSWi
         }
 
         guard let timestamp = UInt64(exactly: (event.timestamp * 1_000_000_000).rounded()),
-              let now = eventClock.instant(for: timestamp, receivedAt: .now) else { return event }
+              let now = QuitProtectionEventClock.instant(for: timestamp) else { return event }
         if event.type == .keyUp {
             if let hold = gesture.pendingHold, hold.keyCode == event.keyCode {
                 let confirmed = gesture.confirmHold(

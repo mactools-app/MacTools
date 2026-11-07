@@ -4,7 +4,7 @@ import XCTest
 @testable import QuitProtectionPlugin
 
 final class QuitProtectionInputSafetyTests: XCTestCase {
-    func testSpokenDoublePressCueAllowsTimeToRespond() {
+    func testVoiceOverDoublePressUsesItsOwnAdjustableInterval() throws {
         let q = UInt16(kVK_ANSI_Q)
         let pressedAt = ContinuousClock.now
         let releasedAt = pressedAt + .milliseconds(100)
@@ -12,11 +12,7 @@ final class QuitProtectionInputSafetyTests: XCTestCase {
         var rule = QuitProtectionRule()
         rule.confirmation = .doublePress(.milliseconds(600))
 
-        for (spokenFeedback, delay, expected) in [
-            (false, Duration.seconds(2), QuitProtectionGesture<Int>.PressResult.startedDoublePress),
-            (true, .seconds(2), .confirmed(target)),
-            (true, .milliseconds(5_001), .startedDoublePress)
-        ] {
+        func secondPress(spokenFeedback: Bool, delay: Duration) -> QuitProtectionGesture<Int>.PressResult {
             var gesture = QuitProtectionGesture<Int>()
             let intent = rule.intent(
                 for: target, additionalModifier: nil, verifiedExtraModifier: nil,
@@ -24,10 +20,80 @@ final class QuitProtectionInputSafetyTests: XCTestCase {
             )
             XCTAssertEqual(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: pressedAt), .startedDoublePress)
             XCTAssertTrue(gesture.keyUp(keyCode: q, at: releasedAt))
+            return gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: releasedAt + delay)
+        }
+        XCTAssertEqual(secondPress(spokenFeedback: true, delay: .milliseconds(2_999)), .confirmed(target))
+        XCTAssertEqual(secondPress(spokenFeedback: true, delay: .milliseconds(3_001)), .startedDoublePress)
+        XCTAssertEqual(secondPress(spokenFeedback: false, delay: .milliseconds(601)), .startedDoublePress)
+
+        rule.voiceOverDoublePressInterval = .seconds(4)
+        rule = try JSONDecoder().decode(QuitProtectionRule.self, from: JSONEncoder().encode(rule))
+        XCTAssertEqual(secondPress(spokenFeedback: true, delay: .milliseconds(3_500)), .confirmed(target))
+        XCTAssertEqual(secondPress(spokenFeedback: false, delay: .milliseconds(601)), .startedDoublePress)
+    }
+
+    func testVoiceOverChangeCancelsPendingDoublePressAndKeepsTheClaimedRelease() {
+        let now = ContinuousClock.now
+        let q = UInt16(kVK_ANSI_Q)
+        for initiallyEnabled in [false, true] {
+            var gesture = QuitProtectionGesture<Int>()
+            XCTAssertFalse(gesture.updateVoiceOverTiming(initiallyEnabled))
+            let intent = QuitProtectionGesture<Int>.Intent.doublePress(1, interval: .seconds(3))
+            XCTAssertEqual(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: now), .startedDoublePress)
+            XCTAssertTrue(gesture.updateVoiceOverTiming(!initiallyEnabled))
+            XCTAssertTrue(gesture.keyUp(keyCode: q, at: now))
+            XCTAssertNil(gesture.doublePressDeadline)
+
+            XCTAssertEqual(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: now), .startedDoublePress)
+            XCTAssertTrue(gesture.keyUp(keyCode: q, at: now))
+            XCTAssertTrue(gesture.updateVoiceOverTiming(initiallyEnabled))
             XCTAssertEqual(
-                gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: releasedAt + delay),
-                expected
+                gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: now + .milliseconds(300)),
+                .startedDoublePress
             )
+        }
+    }
+
+    func testDoublePressDeadlineUsesPhysicalReleaseDespiteDelayedCallback() throws {
+        let q = UInt16(kVK_ANSI_Q)
+        let origin = ContinuousClock.now
+        var gesture = QuitProtectionGesture<Int>()
+        let down = try XCTUnwrap(QuitProtectionEventClock.instant(
+            for: 1_000_000_000, sampledUptime: 1_200_000_000, sampledAt: origin + .milliseconds(200)
+        ))
+        let released = try XCTUnwrap(QuitProtectionEventClock.instant(
+            for: 1_100_000_000, sampledUptime: 1_250_000_000, sampledAt: origin + .milliseconds(250)
+        ))
+        let intent = QuitProtectionGesture<Int>.Intent.doublePress(1, interval: .milliseconds(600))
+        XCTAssertEqual(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: down), .startedDoublePress)
+        XCTAssertTrue(gesture.keyUp(keyCode: q, at: released))
+        XCTAssertEqual(gesture.doublePressDeadline, origin + .milliseconds(700))
+        let late = origin + .milliseconds(750)
+        XCTAssertEqual(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: late), .startedDoublePress)
+    }
+
+    @MainActor
+    func testAnyDeskBundleIDsStayOutOfQuitProtection() {
+        for id in ["com.philandro.anydesk", "com.philandro.anydesk.Frontend", "com.philandro.anydesk-example"] {
+            XCTAssertTrue(QuitProtectionSession.forwardingApp(id))
+        }
+        XCTAssertFalse(QuitProtectionSession.forwardingApp("com.philandro.anydeskexample"))
+    }
+
+    func testSuspensionCancelsHoldAndRetainsOnlyKeysStillDownOnResume() {
+        let now = ContinuousClock.now
+        let q = UInt16(kVK_ANSI_Q)
+        for heldOnResume in [false, true] {
+            var gesture = QuitProtectionGesture<Int>()
+            _ = gesture.keyDown(keyCode: q, isRepeat: false, intent: .hold(1, duration: .seconds(1)), at: now)
+            gesture.resetObservation(preservingClaimedKeys: true)
+            gesture.discardReleasedClaims { $0 == q && heldOnResume }
+            XCTAssertNil(gesture.pendingHold)
+            XCTAssertEqual(
+                gesture.keyDown(keyCode: q, isRepeat: true, intent: nil, at: now + .seconds(2)),
+                heldOnResume ? .suppress : .passThrough
+            )
+            XCTAssertEqual(gesture.keyUp(keyCode: q, at: now + .seconds(2)), heldOnResume)
         }
     }
 

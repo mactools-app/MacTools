@@ -1,4 +1,8 @@
 struct QuitProtectionRule: Codable, Equatable {
+    static let voiceOverDoublePressDefault: Duration = .seconds(3)
+    static let standardTimingRange = 0.5...2.0
+    static let voiceOverTimingRange = 0.5...5.0
+
     enum AppScope: String, Codable, CaseIterable {
         case all
         case selected
@@ -22,6 +26,11 @@ struct QuitProtectionRule: Codable, Equatable {
     var selectedApps: Set<String> = []
     var excludedApps: Set<String> = []
     var confirmation: Confirmation = .hold(.milliseconds(800))
+    var voiceOverDoublePressInterval: Duration?
+
+    var voiceOverInterval: Duration {
+        voiceOverDoublePressInterval ?? Self.voiceOverDoublePressDefault
+    }
 
     func includes(bundleIdentifier: String?) -> Bool {
         guard isEnabled, let bundleIdentifier, !bundleIdentifier.isEmpty else { return false }
@@ -46,7 +55,7 @@ struct QuitProtectionRule: Codable, Equatable {
         case let .hold(duration) where additionalModifier == nil:
             return .hold(target, duration: duration)
         case let .doublePress(interval) where additionalModifier == nil:
-            let effectiveInterval = needsTimeForSpokenFeedback ? max(interval, .seconds(5)) : interval
+            let effectiveInterval = needsTimeForSpokenFeedback ? voiceOverInterval : interval
             return .doublePress(target, interval: effectiveInterval)
         case let .extraModifier(.some(configured)) where verifiedExtraModifier == configured:
             guard additionalModifier == nil || additionalModifier == configured else { return nil }

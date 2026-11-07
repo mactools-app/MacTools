@@ -381,7 +381,7 @@ class PluginMinimumHostCompatibilityTests(unittest.TestCase):
                 self.assertTrue(minimum_host_violations("probe", "2.2.3", symbol))
 
     def test_physical_input_claim_packages_exclude_pre_claim_nightly_hosts(self) -> None:
-        for plugin in ("InputRemapping", "QuitProtection", "WindowSwitcher"):
+        for plugin in ("InputRemapping", "QuitProtection", "TrackpadGestures", "WindowSwitcher"):
             with self.subTest(plugin=plugin):
                 manifest = json.loads((PLUGINS_ROOT / plugin / "plugin.json").read_text(encoding="utf-8"))
                 self.assertGreater(version_tuple(manifest["minHostVersion"]), version_tuple("2.2.4"))

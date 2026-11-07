@@ -55,10 +55,10 @@ final class QuitProtectionSession {
     private var quitRule = QuitProtectionRule()
     private var enabled = false
     private var showsFeedback = true
+    private var needsClaimReconciliation = false
     private var generation: UInt64 = 0
     private var routing = QuitProtectionInputRouting()
     private var candidate: Candidate?
-    private var eventClock = QuitProtectionEventClock()
     private var gesture = QuitProtectionGesture<Destination>()
     private var escapeClaimed = false
     private var deadline: Task<Void, Never>?
@@ -83,12 +83,17 @@ final class QuitProtectionSession {
         AXIsProcessTrusted() && CGPreflightPostEventAccess() && CGPreflightListenEventAccess()
     }
 
-    func update(quit: QuitProtectionRule, enabled: Bool, showsFeedback: Bool) {
+    func update(quit: QuitProtectionRule, enabled: Bool, showsFeedback: Bool, voiceOverEnabled: Bool) {
         if quitRule != quit || self.enabled != enabled || self.showsFeedback != showsFeedback {
             quitRule = quit
             self.enabled = enabled
             self.showsFeedback = showsFeedback
             invalidateDestination()
+        }
+        updateVoiceOverTiming(showsFeedback && voiceOverEnabled)
+        if needsClaimReconciliation {
+            needsClaimReconciliation = false
+            discardReleasedClaims()
         }
         if enabled {
             drain?.cancel()
@@ -104,14 +109,21 @@ final class QuitProtectionSession {
         }
     }
 
+    func suspend() {
+        needsClaimReconciliation = hasClaimedInput
+        stop(preservingClaimedKeys: true)
+    }
+
     func stop(preservingClaimedKeys: Bool = false) {
         drain?.cancel()
         drain = nil
         invalidateDestination()
         gesture.resetObservation(preservingClaimedKeys: preservingClaimedKeys)
-        if !preservingClaimedKeys { escapeClaimed = false }
+        if !preservingClaimedKeys {
+            escapeClaimed = false
+            needsClaimReconciliation = false
+        }
         routing.reset(commandIsDown: false)
-        eventClock = QuitProtectionEventClock()
         sessionTap?.stop()
         deliveryTap?.stop()
         sessionTap = nil
@@ -267,7 +279,7 @@ final class QuitProtectionSession {
         guard type == .keyDown else { return }
         cancelDelivery()
         candidate = nil
-        if let instant = eventClock.instant(for: event.timestamp, receivedAt: .now),
+        if let instant = QuitProtectionEventClock.instant(for: event.timestamp),
            gesture.expireDoublePress(at: instant) {
             clearFeedback()
         }
@@ -292,8 +304,12 @@ final class QuitProtectionSession {
             return false
         }
         let keyCode = UInt16(truncatingIfNeeded: event.getIntegerValueField(.keyboardEventKeycode))
-        let instant = eventClock.instant(for: event.timestamp, receivedAt: .now)
+        let instant = QuitProtectionEventClock.instant(for: event.timestamp)
         let isRepeat = event.getIntegerValueField(.keyboardEventAutorepeat) != 0
+        if gesture.hasPendingDoublePress || (candidate != nil && !isRepeat) {
+            // KVO refreshes the settings, but a key callback can arrive before it.
+            updateVoiceOverTiming(showsFeedback && NSWorkspace.shared.isVoiceOverEnabled)
+        }
         if keyCode == kVK_Escape {
             var cancelsPending = false
             if type == .keyDown, !isRepeat {
@@ -350,7 +366,7 @@ final class QuitProtectionSession {
            event.flags.intersection(Self.modifiers) == .maskCommand, let target = destination(for: event) {
             intent = quitRule.intent(
                 for: target, additionalModifier: nil, verifiedExtraModifier: nil,
-                needsTimeForSpokenFeedback: showsFeedback && NSWorkspace.shared.isVoiceOverEnabled
+                needsTimeForSpokenFeedback: gesture.usesVoiceOverTiming
             )
         } else {
             intent = nil
@@ -432,12 +448,14 @@ final class QuitProtectionSession {
         )
     }
 
-    private static func forwardingApp(_ identifier: String) -> Bool {
+    static func forwardingApp(_ identifier: String) -> Bool {
         let identifier = identifier.lowercased()
         return identifier == "com.apple.screensharing" || identifier.hasPrefix("com.microsoft.rdc")
             || identifier.hasPrefix("com.parallels.") || identifier.hasPrefix("com.vmware.")
             || identifier.hasPrefix("org.virtualbox.") || identifier.hasPrefix("com.utmapp.")
             || identifier.hasPrefix("com.teamviewer.") || identifier.hasPrefix("com.anydesk.")
+            || identifier == "com.philandro.anydesk" || identifier == "com.philandro.anydesk.frontend"
+            || identifier.hasPrefix("com.philandro.anydesk-")
             || identifier.hasPrefix("com.citrix.") || identifier.hasPrefix("com.realvnc.")
             || identifier == "codes.rambo.virtualbuddy" || identifier == "com.carriez.rustdesk"
             || identifier == "com.parsec.www" || identifier == "com.p5sys.jump.mac.viewer"
@@ -577,6 +595,19 @@ final class QuitProtectionSession {
         invalidateDestination()
     }
 
+    private func updateVoiceOverTiming(_ enabled: Bool) {
+        if gesture.updateVoiceOverTiming(enabled) { cancelConfirmation() }
+    }
+
+    private func discardReleasedClaims() {
+        func isDown(_ key: UInt16) -> Bool {
+            CGEventSource.keyState(.hidSystemState, key: key)
+                || CGEventSource.keyState(.combinedSessionState, key: key)
+        }
+        gesture.discardReleasedClaims(isKeyDown: isDown)
+        if escapeClaimed, !isDown(UInt16(kVK_Escape)) { escapeClaimed = false }
+    }
+
     private func drainReleasedClaimsWhilePaused() {
         guard drain == nil else { return }
         drain = Task { [weak self] in
@@ -585,12 +616,7 @@ final class QuitProtectionSession {
                     try await Task.sleep(for: .seconds(2), tolerance: .milliseconds(250))
                 } catch { return }
                 guard let self, !self.enabled else { return }
-                self.gesture.discardReleasedClaims {
-                    CGEventSource.keyState(.combinedSessionState, key: $0)
-                }
-                if self.escapeClaimed, !CGEventSource.keyState(.combinedSessionState, key: UInt16(kVK_Escape)) {
-                    self.escapeClaimed = false
-                }
+                self.discardReleasedClaims()
                 if !self.hasClaimedInput {
                     self.stop()
                     return

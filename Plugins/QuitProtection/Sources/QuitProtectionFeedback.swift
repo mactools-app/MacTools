@@ -48,7 +48,8 @@ final class QuitProtectionFeedback {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(message)
                         .font(PluginTypography.sectionTitle.font)
-                        .lineLimit(2)
+                        .lineLimit(state == .chromeUnavailable ? nil : 2)
+                        .fixedSize(horizontal: false, vertical: state == .chromeUnavailable)
                     Text(name)
                         .font(PluginTypography.caption.font)
                         .foregroundStyle(.secondary)
@@ -69,7 +70,9 @@ final class QuitProtectionFeedback {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.horizontal, 12)
-            .frame(width: 282, height: 68)
+            .padding(.vertical, state == .chromeUnavailable ? 10 : 0)
+            .frame(width: 282, height: state == .chromeUnavailable ? nil : 68)
+            .frame(minHeight: 68)
             .background {
                 PluginFloatingPanelSurface(shape: .roundedRectangle(cornerRadius: 14))
             }
@@ -124,8 +127,13 @@ final class QuitProtectionFeedback {
                 ]
             )
         }
-        if let hostingView = panel?.contentView as? NSHostingView<Indicator> {
+        if let panel, let hostingView = panel.contentView as? NSHostingView<Indicator> {
             hostingView.rootView = indicator
+            let size = hostingView.fittingSize
+            if size != panel.frame.size {
+                let origin = NSPoint(x: panel.frame.midX - size.width / 2, y: panel.frame.minY)
+                panel.setFrame(NSRect(origin: origin, size: size), display: true)
+            }
             return
         }
 

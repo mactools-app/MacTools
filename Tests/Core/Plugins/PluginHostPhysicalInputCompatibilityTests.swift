@@ -6,7 +6,7 @@ import XCTest
 @MainActor
 final class PluginHostPhysicalInputCompatibilityTests: XCTestCase {
     func testOlderCompanionBlocksProtectionEvenWithAnotherUpdatedCompanion() {
-        for id in ["window-switcher", "input-remapping"] {
+        for id in ["window-switcher", "input-remapping", "trackpad-gestures"] {
             let consumer = Consumer()
             let otherID = id == "window-switcher" ? "input-remapping" : "window-switcher"
             let host = makePluginHostForTests(plugins: [consumer, Companion(id: id), ReportingCompanion(id: otherID)])
@@ -19,7 +19,7 @@ final class PluginHostPhysicalInputCompatibilityTests: XCTestCase {
         let consumer = Consumer()
         let host = makePluginHostForTests(plugins: [
             consumer, ReportingCompanion(id: "window-switcher"), ReportingCompanion(id: "input-remapping"),
-            Companion(id: "unrelated")
+            ReportingCompanion(id: "trackpad-gestures"), Companion(id: "unrelated")
         ])
         XCTAssertEqual(consumer.isCompatible, true)
         withExtendedLifetime(host) {}

@@ -321,9 +321,8 @@ enum QuitProtectionGestureTests {
     }
 
     private static func earlyReleaseCannotBeMadeLateByCallbackDelay() {
-        var eventClock = QuitProtectionEventClock()
-        let down = eventClock.instant(for: 1_000_000_000, receivedAt: start)!
-        let up = eventClock.instant(for: 1_300_000_000, receivedAt: start + .seconds(2))!
+        let down = QuitProtectionEventClock.instant(for: 1_000_000_000, sampledUptime: 1_000_000_000, sampledAt: start)!
+        let up = QuitProtectionEventClock.instant(for: 1_300_000_000, sampledUptime: 3_000_000_000, sampledAt: start + .seconds(2))!
         var gesture = Gesture()
         guard case let .startedHold(hold) = gesture.keyDown(
             keyCode: q, isRepeat: false, intent: .hold(target, duration: duration), at: down

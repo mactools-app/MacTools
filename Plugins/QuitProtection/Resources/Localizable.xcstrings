@@ -2850,79 +2850,156 @@
         }
       }
     },
-    "Update Window Switcher or Input Remapping to use Quit Protection.": {
+    "Update Input Remapping, Trackpad Gestures, or Window Switcher to use Quit Protection.": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "请更新窗口切换或输入重映射以使用退出保护。"
+            "value": "请更新输入重映射、触控板手势或窗口切换以使用退出保护。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "請更新視窗切換或輸入重新對應以使用結束保護。"
+            "value": "請更新輸入重新對應、觸控板手勢或視窗切換以使用結束保護。"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "حدّث مبدّل النوافذ أو إعادة تعيين الإدخال لاستخدام الحماية من الإنهاء."
+            "value": "حدّث إعادة تعيين الإدخال أو إيماءات لوحة التعقب أو مبدّل النوافذ لاستخدام الحماية من الإنهاء."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aktualisiere den Fensterwechsel oder die Eingabezuordnung, um den Beenden-Schutz zu nutzen."
+            "value": "Aktualisiere die Eingabezuordnung, die Trackpad-Gesten oder den Fensterwechsel, um den Beenden-Schutz zu nutzen."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Actualiza el selector de ventanas o la reasignación de entradas para usar la protección al salir."
+            "value": "Actualiza la reasignación de entradas, los gestos del trackpad o el selector de ventanas para usar la protección al salir."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mettez à jour le sélecteur de fenêtres ou la réaffectation des entrées pour utiliser la protection à la fermeture."
+            "value": "Mettez à jour la réaffectation des entrées, les gestes du trackpad ou le sélecteur de fenêtres pour utiliser la protection à la fermeture."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "終了保護を使うには、ウインドウ切り替えまたは入力の再割り当てを更新してください。"
+            "value": "終了保護を使うには、入力の再割り当て、トラックパッドジェスチャ、またはウインドウ切り替えを更新してください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "종료 보호를 사용하려면 윈도우 전환기 또는 입력 재매핑을 업데이트하세요."
+            "value": "종료 보호를 사용하려면 입력 재매핑, 트랙패드 제스처 또는 윈도우 전환기를 업데이트하세요."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Atualize o seletor de janelas ou o remapeamento de entrada para usar a proteção ao sair."
+            "value": "Atualize o remapeamento de entrada, os gestos do trackpad ou o alternador de janelas para usar a proteção ao encerrar."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Обновите переключатель окон или переназначение ввода, чтобы использовать защиту от выхода."
+            "value": "Обновите переназначение ввода, жесты трекпада или переключатель окон, чтобы использовать защиту от завершения."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Çıkış Korumasını kullanmak için Pencere Değiştiriciyi veya Giriş Eşlemeyi güncelleyin."
+            "value": "Çıkış korumasını kullanmak için Girdi Eşlemeyi, İzleme Dörtgeni Hareketlerini veya Pencere Değiştiriciyi güncelleyin."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Update Window Switcher or Input Remapping to use Quit Protection."
+            "value": "Update Input Remapping, Trackpad Gestures, or Window Switcher to use Quit Protection."
+          }
+        }
+      }
+    },
+    "VoiceOver Time Between Presses": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VoiceOver 按键间隔"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفاصل بين الضغطتين مع VoiceOver"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeit zwischen Tastendrücken mit VoiceOver"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiempo entre pulsaciones con VoiceOver"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intervalle entre les pressions avec VoiceOver"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VoiceOver 使用時の押下間隔"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VoiceOver 사용 시 누르기 간격"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intervalo entre pressionamentos com VoiceOver"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Интервал между нажатиями с VoiceOver"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VoiceOver ile basışlar arasındaki süre"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VoiceOver 按鍵間隔"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VoiceOver Time Between Presses"
           }
         }
       }

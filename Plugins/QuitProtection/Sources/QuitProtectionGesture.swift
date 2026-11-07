@@ -1,17 +1,19 @@
-struct QuitProtectionEventClock {
-    private var anchor: (timestamp: UInt64, instant: ContinuousClock.Instant)?
+import Dispatch
+
+enum QuitProtectionEventClock {
 
     /// Use the event's time for confirmation, including when the main run
     /// loop processes an early release after the hold deadline.
-    mutating func instant(for timestamp: UInt64, receivedAt: ContinuousClock.Instant) -> ContinuousClock.Instant? {
-        guard timestamp > 0 else { return nil }
-        if let anchor {
-            guard timestamp >= anchor.timestamp,
-                  let delta = Int64(exactly: timestamp - anchor.timestamp) else { return nil }
-            return anchor.instant + .nanoseconds(delta)
-        }
-        anchor = (timestamp, receivedAt)
-        return receivedAt
+    static func instant(
+        for timestamp: UInt64,
+        sampledUptime: UInt64 = DispatchTime.now().uptimeNanoseconds,
+        sampledAt: ContinuousClock.Instant = .now
+    ) -> ContinuousClock.Instant? {
+        // Quartz timestamps use system uptime. Bridge the event's age into
+        // the HUD clock instead of treating callback arrival as event time.
+        guard timestamp > 0, timestamp <= sampledUptime,
+              let age = Int64(exactly: sampledUptime - timestamp) else { return nil }
+        return sampledAt - .nanoseconds(age)
     }
 }
 
@@ -47,9 +49,25 @@ struct QuitProtectionGesture<Target: Equatable> {
     private var generation: UInt64 = 0
     private var claimedKeys: Set<UInt16> = []
     private var pending: Pending?
+    private(set) var usesVoiceOverTiming = false
 
     var hasPendingConfirmation: Bool { pending != nil }
     var hasClaimedKeys: Bool { !claimedKeys.isEmpty }
+    var hasPendingDoublePress: Bool {
+        switch pending {
+        case .firstPress, .secondPress: true
+        case .hold, nil: false
+        }
+    }
+
+    /// Returns whether a pending attempt was cancelled and its cue must close.
+    mutating func updateVoiceOverTiming(_ enabled: Bool) -> Bool {
+        guard enabled != usesVoiceOverTiming else { return false }
+        usesVoiceOverTiming = enabled
+        guard hasPendingDoublePress else { return false }
+        cancel()
+        return true
+    }
 
     /// The paused tap may have missed a release during an interruption.
     mutating func discardReleasedClaims(isKeyDown: (UInt16) -> Bool) {

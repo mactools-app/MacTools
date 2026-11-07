@@ -48,6 +48,7 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
     private var activity: PluginApplicationActivityState = .interactive
     private var appPicker: NSOpenPanel?
     private var permissionObserver: (any NSObjectProtocol)?
+    private var voiceOverObserver: NSKeyValueObservation?
 
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
@@ -58,6 +59,9 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
         localization = PluginLocalization(bundle: context.resourceBundle)
         settings = storage.data(forKey: Self.storageKey)
             .flatMap { try? JSONDecoder().decode(Settings.self, from: $0) } ?? Settings()
+        if let interval = settings.quit.voiceOverDoublePressInterval {
+            settings.quit.voiceOverDoublePressInterval = min(.seconds(5), max(.milliseconds(500), interval))
+        }
         switch settings.quit.confirmation {
         case let .hold(duration):
             settings.quit.confirmation = .hold(min(.seconds(2), max(.milliseconds(500), duration)))
@@ -88,7 +92,9 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
     private var protectionStatus: String {
         if !settings.protectionEnabled { return text("Paused") }
         if !hasQuitScope { return text("Choose apps to protect in Settings") }
-        if !hasCompatibleInputPlugins { return text("Update Window Switcher or Input Remapping to use Quit Protection.") }
+        if !hasCompatibleInputPlugins {
+            return text("Update Input Remapping, Trackpad Gestures, or Window Switcher to use Quit Protection.")
+        }
         return text(session.isProtecting ? "Protecting ⌘Q" : "Protection unavailable")
     }
 
@@ -138,11 +144,19 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
 
     func activate(context: PluginRuntimeContext) {
         active = true
+        voiceOverObserver = NSWorkspace.shared.observe(\.isVoiceOverEnabled, options: [.new]) { [weak self] _, _ in
+            Task { @MainActor [weak self] in
+                guard let self, self.active else { return }
+                self.refresh()
+            }
+        }
         refresh()
     }
 
     func deactivate(reason: PluginDeactivationReason) {
         active = false
+        voiceOverObserver?.invalidate()
+        voiceOverObserver = nil
         observePermissionChanges(false)
         appPicker?.cancel(nil)
         session.stop()
@@ -171,11 +185,16 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
     private func updateSession() {
         let wantsProtection = active && activity == .interactive && settings.protectionEnabled && hasQuitScope
             && hasCompatibleInputPlugins
-        if !active || activity != .interactive {
+        if !active {
             session.stop()
+        } else if activity != .interactive {
+            session.suspend()
         } else {
             let canRun = wantsProtection && QuitProtectionSession.hasRequiredPermissions
-            session.update(quit: settings.quit, enabled: canRun, showsFeedback: settings.showsFeedback)
+            session.update(
+                quit: settings.quit, enabled: canRun, showsFeedback: settings.showsFeedback,
+                voiceOverEnabled: NSWorkspace.shared.isVoiceOverEnabled
+            )
         }
         observePermissionChanges(wantsProtection)
     }
@@ -264,9 +283,17 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
             PluginSettingsRow(id: "quit.mode", title: text("Confirm With"),
                               control: .picker(selectionID: modeID, options: modes, style: .menu))
         ]
+        let voiceOverTiming = modeID == "double" && settings.showsFeedback && NSWorkspace.shared.isVoiceOverEnabled
+        let timingTitle = if voiceOverTiming {
+            "VoiceOver Time Between Presses"
+        } else {
+            modeID == "hold" ? "Hold Duration" : "Time Between Presses"
+        }
         rows.append(PluginSettingsRow(
-            id: "quit.duration", title: text(modeID == "hold" ? "Hold Duration" : "Time Between Presses"),
-            control: .slider(value: duration / .seconds(1), range: 0.5...2, step: 0.1,
+            id: voiceOverTiming ? "quit.voiceOverDuration" : "quit.duration", title: text(timingTitle),
+            control: .slider(value: (voiceOverTiming ? settings.quit.voiceOverInterval : duration) / .seconds(1),
+                             range: voiceOverTiming ? QuitProtectionRule.voiceOverTimingRange : QuitProtectionRule.standardTimingRange,
+                             step: 0.1,
                              valueFormat: PluginSettingsSliderValueFormat(suffix: " s", fractionDigits: 1))
         ))
         rows.append(PluginSettingsRow(id: "feedback.enabled", title: text("Show Confirmation Feedback"),
@@ -290,8 +317,11 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
                 case "double": rule.confirmation = .doublePress(.milliseconds(600))
                 default: return
                 }
+            case let .setNumber("quit.voiceOverDuration", seconds, .committed):
+                guard case .doublePress = rule.confirmation, QuitProtectionRule.voiceOverTimingRange.contains(seconds) else { return }
+                rule.voiceOverDoublePressInterval = .milliseconds(Int((seconds * 1_000).rounded()))
             case let .setNumber("quit.duration", seconds, .committed):
-                guard seconds.isFinite, (0.5...2).contains(seconds) else { return }
+                guard QuitProtectionRule.standardTimingRange.contains(seconds) else { return }
                 let duration = Duration.milliseconds(Int((seconds * 1_000).rounded()))
                 switch rule.confirmation {
                 case .hold: rule.confirmation = .hold(duration)

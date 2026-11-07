@@ -36,7 +36,7 @@ private struct TrackpadGestureReadinessError: LocalizedError {
 }
 
 @MainActor
-final class TrackpadGesturesPlugin: MacToolsPlugin, TrackpadInputServiceConsuming, AccessibilityPermissionRefreshing, PluginSettingsPresenting, PluginSettingsSearchFocusing, PluginSettingsSearchFocusMetadataProviding, PluginFeatureExtractionReadinessProviding, TrackpadActionHostContextConsuming, PluginPortablePreferencesProviding, PluginPortablePreferencesRestorationReporting, PluginPersistentPreferencesChangeSignaling, PluginPortablePreferencesActionReferencesProviding, PluginInputGestureClaimProviding, TrackpadGestureEventProviding {
+final class TrackpadGesturesPlugin: MacToolsPlugin, TrackpadInputServiceConsuming, AccessibilityPermissionRefreshing, PluginSettingsPresenting, PluginSettingsSearchFocusing, PluginSettingsSearchFocusMetadataProviding, PluginFeatureExtractionReadinessProviding, TrackpadActionHostContextConsuming, PluginPortablePreferencesProviding, PluginPortablePreferencesRestorationReporting, PluginPersistentPreferencesChangeSignaling, PluginPortablePreferencesActionReferencesProviding, PluginInputGestureClaimProviding, TrackpadGestureEventProviding, PluginPhysicalInputClaimReporting {
     var panelItems: [PluginPanelItem] {
         let state = rowState
         let descriptor = rowDescriptor

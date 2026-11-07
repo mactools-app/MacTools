@@ -18,7 +18,7 @@ Use an app picker for both lists. Keep the selected and excluded lists separate 
 
 Defaults are protection off, Selected Apps with empty lists, and Hold to Confirm. **Show Confirmation Feedback** defaults to on. A compact indicator shows the target app icon and the next action on the app's display. For Hold, the progress bar fills and the instruction changes to **Release Q to quit** in the same panel. Double Press shows the next shortcut until its confirmation window expires.
 
-When VoiceOver and confirmation feedback are on, Double Press gives the user at least five seconds to hear the cue and respond. The indicator and the shortcut use the same deadline, and the saved interval is used again when VoiceOver or feedback is off.
+When VoiceOver and confirmation feedback are on, Double Press uses a separately saved interval. The slider shows that interval, which defaults to three seconds and can be adjusted from 0.5 to five seconds. The indicator and shortcut share a deadline. Changing VoiceOver cancels the pending attempt, and the regular interval applies when VoiceOver or feedback is off.
 
 The panel and settings distinguish paused, enabled, and unavailable protection. The rule shows when it has no selected apps. When an enabled rule can protect apps and needs permission, name each verified permission, explain that it is used to intercept and deliver the shortcut, and show where to grant it.
 
@@ -38,7 +38,7 @@ Escape, target changes, pausing, and edits to the active rule cancel a pending c
 - **⌘Q** confirms against the same running app instance. A confirmed quit lets the app present its usual save prompt or decline to quit.
 - With Chrome's standard Quit shortcut available, invoke its Quit menu action after MacTools confirms. Chrome's own warning applies to keyboard quits, so replaying the shortcut could start another confirmation. Reassigned shortcuts fall back to normal keyboard delivery.
 - If Chrome's menu lookup fails before delivery, show how to quit from Chrome's menu. A change of keyboard layout cancels a pending gesture so a replay cannot invoke a different shortcut.
-- Window Switcher and Input Remapping report when they take ownership of input. If the host has loaded an older version that cannot report ownership, Quit Protection pauses and shows update guidance. The three updated packages require host 2.2.5 because earlier Nightly builds lack the required PluginKit symbols.
+- Window Switcher, Input Remapping, and Trackpad Gestures report when they take ownership of input. If the host has loaded an older version that cannot report ownership, Quit Protection pauses and shows update guidance. The updated packages require host 2.2.5 because earlier Nightly builds lack the required PluginKit symbols.
 - During a pending confirmation, Quit Protection checks Secure Input independently of keyboard events. A transition that begins and ends entirely between checks can go unseen.
 - Menu actions, shortcuts outside the rule's scope, and unrelated modified chords keep their normal behavior. Preserve ⌘Tab Q on the highlighted app. In custom switchers, remote desktops, and virtual machines, leave input to its normal handler when it may be directed elsewhere. Settings should explain that these shortcuts may take effect immediately. [Vorssaint switcher report](https://github.com/vorssaint/vorssaint-utils/issues/3349)
 

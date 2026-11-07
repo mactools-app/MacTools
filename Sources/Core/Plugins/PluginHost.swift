@@ -3973,7 +3973,7 @@ final class PluginHost: ObservableObject {
     private func synchronizePhysicalInputCompatibility() -> Set<String> {
         let active = activePlugins
         let isCompatible = !active.contains {
-            ["input-remapping", "window-switcher"].contains($0.metadata.id)
+            ["input-remapping", "trackpad-gestures", "window-switcher"].contains($0.metadata.id)
                 && !($0 is any PluginPhysicalInputClaimReporting)
         }
         var changed: Set<String> = []
