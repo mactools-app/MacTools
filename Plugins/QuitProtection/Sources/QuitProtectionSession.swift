@@ -45,11 +45,12 @@ final class QuitProtectionSession {
     private var sessionTap: Tap?
     private var deliveryTap: Tap?
     private var activationObserver: (any NSObjectProtocol)?
+    private var chooserObserver: (any NSObjectProtocol)?
+    private var chooserShortcutObserver: (any NSObjectProtocol)?
     private var quitRule = QuitProtectionRule()
     private var enabled = false
     private var generation: UInt64 = 0
-    private var commandWasDown = false
-    private var commandIsEligible = false
+    private var routing = QuitProtectionInputRouting()
     private var candidate: Candidate?
     private var eventClock = QuitProtectionEventClock()
     private var gesture = QuitProtectionGesture<Destination>()
@@ -57,13 +58,20 @@ final class QuitProtectionSession {
     private var deadline: Task<Void, Never>?
     private var drain: Task<Void, Never>?
     private var feedbackTask: Task<Void, Never>?
+    private var deliveryTask: Task<Void, Never>?
     var showFeedback: ((NSRunningApplication, Feedback) -> Void)?
     var hideFeedback: (() -> Void)?
     var availabilityChanged: (() -> Void)?
 
-    var isRunning: Bool {
+    private var isRunning: Bool {
         guard let sessionTap, let deliveryTap else { return false }
         return CGEvent.tapIsEnabled(tap: sessionTap.port) && CGEvent.tapIsEnabled(tap: deliveryTap.port)
+    }
+
+    var isProtecting: Bool { enabled && isRunning }
+
+    static var hasRequiredPermissions: Bool {
+        AXIsProcessTrusted() && CGPreflightPostEventAccess() && CGPreflightListenEventAccess()
     }
 
     func update(quit: QuitProtectionRule, enabled: Bool) {
@@ -97,7 +105,7 @@ final class QuitProtectionSession {
         invalidateDestination()
         gesture.resetObservation()
         escapeClaimed = false
-        commandWasDown = false
+        routing.reset(commandIsDown: false)
         eventClock = QuitProtectionEventClock()
         sessionTap?.stop()
         deliveryTap?.stop()
@@ -106,6 +114,14 @@ final class QuitProtectionSession {
         if let activationObserver {
             NSWorkspace.shared.notificationCenter.removeObserver(activationObserver)
             self.activationObserver = nil
+        }
+        if let chooserObserver {
+            NotificationCenter.default.removeObserver(chooserObserver)
+            self.chooserObserver = nil
+        }
+        if let chooserShortcutObserver {
+            NotificationCenter.default.removeObserver(chooserShortcutObserver)
+            self.chooserShortcutObserver = nil
         }
     }
 
@@ -123,11 +139,33 @@ final class QuitProtectionSession {
         }
         sessionTap = observed
         deliveryTap = delivery
-        commandWasDown = CGEventSource.flagsState(.combinedSessionState).contains(.maskCommand)
+        routing.reset(commandIsDown: CGEventSource.flagsState(.combinedSessionState).contains(.maskCommand))
         activationObserver = NSWorkspace.shared.notificationCenter.addObserver(
             forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main
         ) { [weak self] _ in
-            MainActor.assumeIsolated { self?.invalidateDestination() }
+            // An ordinary focus change (for example, Command-H) ends the old
+            // gesture without disarming a fresh Command-Q in the new app.
+            MainActor.assumeIsolated {
+                // The later tap still validates the destination of a new press.
+                // The activation notice can arrive between its two callbacks.
+                self?.invalidateDestination(keepingCandidate: true)
+            }
+        }
+        chooserObserver = NotificationCenter.default.addObserver(
+            forName: NSWindow.didBecomeKeyNotification, object: nil, queue: .main
+        ) { [weak self] notification in
+            guard let window = notification.object as? NSWindow else { return }
+            MainActor.assumeIsolated {
+                guard Self.isWindowSwitcher(window) else { return }
+                self?.invalidateSwitcherRouting()
+            }
+        }
+        // Window Switcher can consume its shortcut in an earlier tap, before
+        // its chooser is visible or the destination PID changes.
+        chooserShortcutObserver = NotificationCenter.default.addObserver(
+            forName: Notification.Name("MacTools.WindowSwitcher.willHandleShortcut"), object: nil, queue: nil
+        ) { [weak self] _ in
+            MainActor.assumeIsolated { self?.invalidateSwitcherRouting() }
         }
     }
 
@@ -174,18 +212,21 @@ final class QuitProtectionSession {
         let flags = event.flags.intersection(Self.modifiers)
         let keyCode = UInt16(truncatingIfNeeded: event.getIntegerValueField(.keyboardEventKeycode))
         if Self.pointerEvents.contains(type) {
-            if gesture.hasPendingConfirmation { invalidateDestination() }
+            deliveryTask?.cancel()
+            if gesture.hasPendingConfirmation { cancelConfirmation() }
+            return
+        }
+        if IsSecureEventInputEnabled() {
+            resetAfterInputInterruption()
             return
         }
         if type == .flagsChanged {
+            routing.observeModifiers(
+                commandIsDown: flags.contains(.maskCommand),
+                beganWithLocalCommandKey: isLocal && (keyCode == kVK_Command || keyCode == kVK_RightCommand)
+            )
             if !flags.contains(.maskCommand) {
-                commandWasDown = false
-                commandIsEligible = false
                 candidate = nil
-                if gesture.pendingHold != nil { cancelConfirmation() }
-            } else if !commandWasDown {
-                commandWasDown = true
-                commandIsEligible = isLocal && (keyCode == kVK_Command || keyCode == kVK_RightCommand)
             }
             if gesture.pendingHold != nil && flags != .maskCommand { cancelConfirmation() }
             return
@@ -197,15 +238,20 @@ final class QuitProtectionSession {
             return
         }
         guard type == .keyDown else { return }
+        deliveryTask?.cancel()
         candidate = nil
+        if let instant = eventClock.instant(for: event.timestamp, receivedAt: .now),
+           gesture.expireDoublePress(at: instant) {
+            clearFeedback()
+        }
         if keyCode == kVK_Escape, gesture.hasPendingConfirmation { return }
-        guard flags.contains(.maskCommand),
-              NSEvent(cgEvent: event)?.charactersIgnoringModifiers?.lowercased() == "q" else {
-            if commandWasDown { commandIsEligible = false }
+        let isQuit = flags == .maskCommand && NSEvent(cgEvent: event)?.characters?.lowercased() == "q"
+        let eligible = routing.observeKeyDown(keyCode: keyCode, flags: flags, isQuit: isQuit, isLocal: isLocal)
+        guard isQuit else {
             cancelConfirmation()
             return
         }
-        if enabled, isLocal, commandIsEligible, !IsSecureEventInputEnabled() {
+        if enabled, eligible {
             candidate = Candidate(timestamp: event.timestamp, keyCode: keyCode)
         }
     }
@@ -214,16 +260,39 @@ final class QuitProtectionSession {
         if handleInterruption(type) { return false }
         guard !MacToolsSyntheticInputEvent.isMarked(event),
               event.getIntegerValueField(.eventSourceUnixProcessID) == 0 else { return false }
+        if IsSecureEventInputEnabled() {
+            resetAfterInputInterruption()
+            return false
+        }
         let keyCode = UInt16(truncatingIfNeeded: event.getIntegerValueField(.keyboardEventKeycode))
-        if keyCode == kVK_Escape, escapeClaimed || (type == .keyDown && gesture.hasPendingConfirmation) {
-            escapeClaimed = type == .keyDown
-            cancelConfirmation()
-            finishDrainIfPossible()
-            return true
+        let instant = eventClock.instant(for: event.timestamp, receivedAt: .now)
+        let isRepeat = event.getIntegerValueField(.keyboardEventAutorepeat) != 0
+        if keyCode == kVK_Escape {
+            var cancelsPending = false
+            if type == .keyDown, !isRepeat {
+                escapeClaimed = false
+                if let target = gesture.pendingTarget {
+                    let holdKeyIsDown = gesture.pendingHold.map {
+                        CGEventSource.keyState(.combinedSessionState, key: $0.keyCode)
+                    }
+                    let flags = event.flags.intersection(Self.modifiers)
+                    if let instant, !gesture.expireDoublePress(at: instant), holdKeyIsDown != false,
+                       flags.isEmpty || (flags == .maskCommand && holdKeyIsDown == true) {
+                        cancelsPending = destinationPID(for: event) == target.app.processIdentifier
+                            && canDeliver(to: target)
+                    }
+                    cancelConfirmation()
+                }
+            }
+            if escapeClaimed || cancelsPending {
+                escapeClaimed = type == .keyDown
+                finishDrainIfPossible()
+                return true
+            }
+            return false
         }
         if type == .keyUp {
             let hold = gesture.pendingHold
-            let instant = eventClock.instant(for: event.timestamp, receivedAt: .now)
             if let hold, hold.keyCode == keyCode {
                 let target = candidate?.matches(timestamp: event.timestamp, keyCode: keyCode) == true
                     ? destination(for: event)
@@ -249,8 +318,6 @@ final class QuitProtectionSession {
         guard type == .keyDown else { return false }
 
         let intent: QuitProtectionGesture<Destination>.Intent?
-        let instant = eventClock.instant(for: event.timestamp, receivedAt: .now)
-        let isRepeat = event.getIntegerValueField(.keyboardEventAutorepeat) != 0
         if !isRepeat, instant != nil, let candidate, candidate.matches(timestamp: event.timestamp, keyCode: keyCode),
            event.flags.intersection(Self.modifiers) == .maskCommand, let target = destination(for: event) {
             intent = quitRule.intent(for: target, additionalModifier: nil, verifiedExtraModifier: nil)
@@ -302,12 +369,28 @@ final class QuitProtectionSession {
     }
 
     private func destination(for event: CGEvent) -> Destination? {
-        guard enabled, commandIsEligible, isRunning, !IsSecureEventInputEnabled(),
+        guard isProtecting, routing.commandIsEligible, Self.hasRequiredPermissions, !IsSecureEventInputEnabled(),
               let app = NSWorkspace.shared.frontmostApplication, !app.isTerminated,
-              event.getIntegerValueField(.eventTargetUnixProcessID) == Int64(app.processIdentifier),
+              let pid = destinationPID(for: event),
+              matchesDestination(pid, frontmostPID: app.processIdentifier),
               let identifier = app.bundleIdentifier, !Self.forwardingApp(identifier),
               quitRule.includes(bundleIdentifier: identifier) else { return nil }
         return Destination(app: app, generation: generation)
+    }
+
+    private func destinationPID(for event: CGEvent) -> Int32? {
+        Int32(exactly: event.getIntegerValueField(.eventTargetUnixProcessID))
+    }
+
+    private static func isWindowSwitcher(_ window: NSWindow) -> Bool {
+        window.identifier?.rawValue == "WindowSwitcherChooser"
+    }
+
+    private func matchesDestination(_ pid: Int32, frontmostPID: Int32?) -> Bool {
+        QuitProtectionInputRouting.matchesDestination(
+            pid, frontmostPID: frontmostPID,
+            windowSwitcherIsVisible: NSApp?.windows.contains { $0.isVisible && Self.isWindowSwitcher($0) } == true
+        )
     }
 
     private static func forwardingApp(_ identifier: String) -> Bool {
@@ -317,31 +400,50 @@ final class QuitProtectionSession {
             || identifier.hasPrefix("org.virtualbox.") || identifier.hasPrefix("com.utmapp.")
             || identifier.hasPrefix("com.teamviewer.") || identifier.hasPrefix("com.anydesk.")
             || identifier.hasPrefix("com.citrix.") || identifier.hasPrefix("com.realvnc.")
+            || identifier == "codes.rambo.virtualbuddy" || identifier == "com.carriez.rustdesk"
     }
 
     private func showReleasePrompt(for hold: QuitProtectionGesture<Destination>.Hold) {
         guard gesture.pendingHold?.generation == hold.generation else { return }
         deadline = nil
+        if IsSecureEventInputEnabled() {
+            resetAfterInputInterruption()
+            return
+        }
+        guard canDeliver(to: hold.target) else {
+            invalidateDestination()
+            return
+        }
+        guard CGEventSource.keyState(.combinedSessionState, key: hold.keyCode) else {
+            clearFeedback()
+            return
+        }
         feedbackTask?.cancel()
         feedbackTask = nil
         showFeedback?(hold.target.app, .ready)
     }
 
     private func perform(_ target: Destination, keyCode: UInt16) {
-        guard commandIsEligible, canDeliver(to: target) else { return }
+        guard routing.commandIsEligible, canDeliver(to: target) else { return }
         if target.app.bundleIdentifier == QuitProtectionChromeQuit.bundleIdentifier {
             // Chrome's keyboard-only warning would treat replay as a new,
             // unconfirmed gesture. Invoke its normal Quit menu after ours.
-            Task { [weak self] in
-                guard let self, self.canDeliver(to: target) else { return }
-                let item = QuitProtectionChromeQuit.menuItem(in: target.app.processIdentifier)
-                guard self.canDeliver(to: target) else { return }
-                if let item {
-                    guard AXUIElementSetMessagingTimeout(item, 0.025) == .success else { return }
+            deliveryTask?.cancel()
+            let pid = target.app.processIdentifier
+            deliveryTask = Task { [weak self] in
+                guard !Task.isCancelled, let self, self.canDeliver(to: target) else { return }
+                let result = await Task.detached(priority: .userInitiated) {
+                    QuitProtectionChromeQuit.lookup(in: pid)
+                }.value
+                guard !Task.isCancelled, self.canDeliver(to: target) else { return }
+                switch result {
+                case .menuItem(let item):
                     // An AX timeout can occur after delivery. Never replay it.
-                    AXUIElementPerformAction(item, kAXPressAction as CFString)
-                } else {
+                    item.press()
+                case .reassigned:
                     self.postQuitShortcut(to: target.app, keyCode: keyCode)
+                case .unavailable:
+                    break
                 }
             }
         } else {
@@ -350,8 +452,10 @@ final class QuitProtectionSession {
     }
 
     private func canDeliver(to target: Destination) -> Bool {
-        enabled && isRunning && !IsSecureEventInputEnabled() && target.generation == generation
-            && !target.app.isTerminated && NSWorkspace.shared.frontmostApplication == target.app
+        isProtecting && Self.hasRequiredPermissions && !IsSecureEventInputEnabled() && target.generation == generation
+            && !target.app.isTerminated
+            && matchesDestination(target.app.processIdentifier,
+                                  frontmostPID: NSWorkspace.shared.frontmostApplication?.processIdentifier)
     }
 
     private func postQuitShortcut(to app: NSRunningApplication, keyCode: UInt16) {
@@ -368,12 +472,16 @@ final class QuitProtectionSession {
 
     private func handleInterruption(_ type: CGEventType) -> Bool {
         guard type == .tapDisabledByTimeout || type == .tapDisabledByUserInput else { return false }
+        resetAfterInputInterruption()
+        Task { [weak self] in self?.availabilityChanged?() }
+        return true
+    }
+
+    private func resetAfterInputInterruption() {
         invalidateDestination()
         gesture.resetObservation()
         escapeClaimed = false
-        commandWasDown = CGEventSource.flagsState(.combinedSessionState).contains(.maskCommand)
-        Task { [weak self] in self?.availabilityChanged?() }
-        return true
+        routing.reset(commandIsDown: CGEventSource.flagsState(.combinedSessionState).contains(.maskCommand))
     }
 
     private func cancelConfirmation() {
@@ -383,11 +491,17 @@ final class QuitProtectionSession {
         clearFeedback()
     }
 
-    private func invalidateDestination() {
+    private func invalidateDestination(keepingCandidate: Bool = false) {
         generation &+= 1
-        commandIsEligible = false
-        candidate = nil
+        deliveryTask?.cancel()
+        deliveryTask = nil
+        if !keepingCandidate { candidate = nil }
         cancelConfirmation()
+    }
+
+    private func invalidateSwitcherRouting() {
+        routing.invalidate()
+        invalidateDestination()
     }
 
     private func finishDrainIfPossible() {

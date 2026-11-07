@@ -45,6 +45,7 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
     private var active = false
     private var activity: PluginApplicationActivityState = .interactive
     private var appPicker: NSOpenPanel?
+    private var permissionObserver: (any NSObjectProtocol)?
 
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
@@ -55,6 +56,17 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
         localization = PluginLocalization(bundle: context.resourceBundle)
         settings = storage.data(forKey: Self.storageKey)
             .flatMap { try? JSONDecoder().decode(Settings.self, from: $0) } ?? Settings()
+        switch settings.quit.confirmation {
+        case let .hold(duration):
+            settings.quit.confirmation = .hold(min(.seconds(2), max(.milliseconds(500), duration)))
+        case let .doublePress(interval):
+            settings.quit.confirmation = .doublePress(min(.seconds(2), max(.milliseconds(500), interval)))
+        case .extraModifier:
+            // The prototype mode never offered active protection. Recover its
+            // settings form without enabling protection on the user's behalf.
+            settings.protectionEnabled = false
+            settings.quit.confirmation = .hold(.milliseconds(800))
+        }
         session.showFeedback = { [weak self] app, state in
             guard let self, self.settings.showsFeedback else { return }
             let message: String
@@ -77,21 +89,17 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
         )
     }
 
+    private var protectionStatus: String {
+        if !settings.protectionEnabled { return text("Paused") }
+        if !hasQuitScope { return text("Choose apps to protect in Settings") }
+        return text(session.isProtecting ? "Protecting ⌘Q" : "Protection unavailable")
+    }
+
     var panelItems: [PluginPanelItem] {
-        let subtitle: String
-        if !settings.protectionEnabled {
-            subtitle = text("Paused")
-        } else if !hasQuitScope {
-            subtitle = text("Choose apps to protect in Settings")
-        } else if !session.isRunning {
-            subtitle = text("Protection unavailable")
-        } else {
-            subtitle = text("Protecting ⌘Q")
-        }
         return [
             .row(id: "protection", initialPlacement: .featurePanel,
                  descriptor: PluginPanelRowDescriptor(controlStyle: .switch, menuActionBehavior: .keepPresented),
-                 state: PluginPanelRowState(subtitle: subtitle, isOn: settings.protectionEnabled, isEnabled: true,
+                 state: PluginPanelRowState(subtitle: protectionStatus, isOn: settings.protectionEnabled, isEnabled: true,
                                             isAvailable: true, detail: nil, errorMessage: nil)) {
                 [weak self] action in
                 guard let self, case let .setSwitch(enabled) = action else { return }
@@ -138,6 +146,7 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
 
     func deactivate(reason: PluginDeactivationReason) {
         active = false
+        observePermissionChanges(false)
         appPicker?.cancel(nil)
         session.stop()
         feedback.hide()
@@ -151,20 +160,41 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
     func refreshAccessibilityPermission() { refresh() }
 
     func refresh() {
+        let wantsProtection = active && activity == .interactive && settings.protectionEnabled && hasQuitScope
         if !active || activity != .interactive {
             session.stop()
         } else {
-            let canRun = settings.protectionEnabled && hasQuitScope
-                && permissionState(for: Self.accessibility).isGranted && permissionState(for: Self.inputMonitoring).isGranted
+            let canRun = wantsProtection && QuitProtectionSession.hasRequiredPermissions
             session.update(quit: settings.quit, enabled: canRun)
         }
+        observePermissionChanges(wantsProtection)
         onStateChange?()
+    }
+
+    private func observePermissionChanges(_ shouldObserve: Bool) {
+        let center = NSWorkspace.shared.notificationCenter
+        if shouldObserve, permissionObserver == nil {
+            // Input Monitoring can change independently of the AX trust observer.
+            // Recheck when the user leaves System Settings or activates another app.
+            permissionObserver = center.addObserver(
+                forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main
+            ) { [weak self] _ in
+                MainActor.assumeIsolated {
+                    guard let self, self.session.isProtecting != QuitProtectionSession.hasRequiredPermissions else { return }
+                    self.refresh()
+                }
+            }
+        } else if !shouldObserve, let permissionObserver {
+            center.removeObserver(permissionObserver)
+            self.permissionObserver = nil
+        }
     }
 
     var settingsPage: PluginSettingsPage? {
         .form(sections: [
             PluginSettingsSection(id: "master", rows: [
                 PluginSettingsRow(id: "master.enabled", title: text("Enable Protection"),
+                                  description: protectionStatus,
                                   control: .toggle(isOn: settings.protectionEnabled))
             ]),
             confirmationSection,
@@ -204,7 +234,9 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
                                               control: .action(title: text("Remove"), role: .destructive)))
             }
         }
-        return PluginSettingsSection(id: "scope", rows: rows)
+        return PluginSettingsSection(
+            id: "scope", footer: text("App switchers and forwarded shortcuts keep their normal behavior."), rows: rows
+        )
     }
 
     private var confirmationSection: PluginSettingsSection {
@@ -213,25 +245,21 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
             PluginSettingsOption(id: "double", title: text("Double Press"))
         ]
         let modeID: String
-        let duration: Duration?
+        let duration: Duration
         switch settings.quit.confirmation {
         case let .hold(value): modeID = "hold"; duration = value
         case let .doublePress(value): modeID = "double"; duration = value
-        case .extraModifier: modeID = "extra"; duration = nil
+        case .extraModifier: modeID = "hold"; duration = .milliseconds(800)
         }
         var rows = [
             PluginSettingsRow(id: "quit.mode", title: text("Confirm With"),
                               control: .picker(selectionID: modeID, options: modes, style: .menu))
         ]
-        if let duration {
-            let components = duration.components
-            let seconds = Double(components.seconds) + Double(components.attoseconds) / 1e18
-            rows.append(PluginSettingsRow(
-                id: "quit.duration", title: text(modeID == "hold" ? "Hold Duration" : "Time Between Presses"),
-                control: .slider(value: seconds, range: 0.5...2, step: 0.1,
-                                                       valueFormat: PluginSettingsSliderValueFormat(suffix: " s", fractionDigits: 1))
-            ))
-        }
+        rows.append(PluginSettingsRow(
+            id: "quit.duration", title: text(modeID == "hold" ? "Hold Duration" : "Time Between Presses"),
+            control: .slider(value: duration / .seconds(1), range: 0.5...2, step: 0.1,
+                             valueFormat: PluginSettingsSliderValueFormat(suffix: " s", fractionDigits: 1))
+        ))
         rows.append(PluginSettingsRow(id: "feedback.enabled", title: text("Show Confirmation Feedback"),
                                       control: .toggle(isOn: settings.showsFeedback)))
         return PluginSettingsSection(id: "quit", title: text("Quit App (⌘Q)"), rows: rows)

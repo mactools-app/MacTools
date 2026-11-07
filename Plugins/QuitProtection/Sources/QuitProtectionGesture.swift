@@ -67,8 +67,9 @@ struct QuitProtectionGesture<Target: Equatable> {
     mutating func keyDown(
         keyCode: UInt16, isRepeat: Bool, intent: Intent?, at now: ContinuousClock.Instant
     ) -> PressResult {
-        if claimedKeys.contains(keyCode) { return .suppress }
-        guard !isRepeat else { return .passThrough }
+        if isRepeat { return claimedKeys.contains(keyCode) ? .suppress : .passThrough }
+        // A new physical down proves that we missed the release of this key.
+        if claimedKeys.remove(keyCode) != nil { cancel() }
         guard let intent else {
             cancelDoublePress()
             return .passThrough
@@ -93,6 +94,12 @@ struct QuitProtectionGesture<Target: Equatable> {
             cancel()
             return confirmed ? .confirmed(target) : .needsExtraModifier
         }
+    }
+
+    mutating func expireDoublePress(at now: ContinuousClock.Instant) -> Bool {
+        guard case let .secondPress(_, _, deadline) = pending, now > deadline else { return false }
+        cancel()
+        return true
     }
 
     mutating func keyUp(keyCode: UInt16, at now: ContinuousClock.Instant) -> Bool {

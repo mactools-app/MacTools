@@ -21,6 +21,7 @@ swift_flags=(-swift-version 6 -module-cache-path "$output_dir/module-cache")
 if [[ "$mode" == test ]]; then
     xcrun swiftc "${swift_flags[@]}" "${sources[@]}" \
         "$repo_root/Plugins/QuitProtection/Sources/QuitProtectionChromeQuit.swift" \
+        "$repo_root/Plugins/QuitProtection/Sources/QuitProtectionInputRouting.swift" \
         "$fixture_dir/QuitProtectionGestureTests.swift" -o "$output_dir/tests"
     "$output_dir/tests"
     exit

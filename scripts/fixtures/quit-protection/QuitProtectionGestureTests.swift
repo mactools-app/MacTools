@@ -1,3 +1,4 @@
+import Carbon.HIToolbox
 import Foundation
 
 @main
@@ -22,16 +23,105 @@ enum QuitProtectionGestureTests {
         unverifiedModifierLeavesBothShortcutsNative()
         earlyReleaseCannotBeMadeLateByCallbackDelay()
         chromeQuitRequiresTheExactEnabledBinding()
-        print("Passed 11 Quit Protection behavior checks.")
+        ordinaryShortcutDoesNotBypassFreshQuit()
+        appSwitcherChordDefersUntilCommandIsPressedAgain()
+        modifiedTabDoesNotBypassQuit()
+        windowSwitcherOwnsQuitBeforeClaimAndBeforeDelivery()
+        expiredDoublePressLeavesNothingForEscapeToCancel()
+        freshPressAfterMissedReleaseCannotConfirmOldHold()
+        print("Passed 17 Quit Protection behavior checks.")
+    }
+
+    private static func ordinaryShortcutDoesNotBypassFreshQuit() {
+        var routing = QuitProtectionInputRouting()
+        routing.observeModifiers(commandIsDown: true, beganWithLocalCommandKey: true)
+        // The same physical Command press covers both Save and Quit.
+        precondition(!routing.observeKeyDown(keyCode: UInt16(kVK_ANSI_S), flags: .maskCommand,
+                                             isQuit: false, isLocal: true))
+        let eligible = routing.observeKeyDown(keyCode: q, flags: .maskCommand, isQuit: true, isLocal: true)
+        var gesture = Gesture()
+        let intent: Gesture.Intent? = eligible ? .hold(target, duration: duration) : nil
+        guard case .startedHold = gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: start) else {
+            preconditionFailure("Fresh Quit after Save must be intercepted")
+        }
+        precondition(gesture.keyUp(keyCode: q, at: start + .milliseconds(50)))
+        precondition(!gesture.hasPendingConfirmation)
+    }
+
+    private static func appSwitcherChordDefersUntilCommandIsPressedAgain() {
+        for flags: CGEventFlags in [.maskCommand, [.maskCommand, .maskShift]] {
+            var routing = QuitProtectionInputRouting()
+            routing.observeModifiers(commandIsDown: true, beganWithLocalCommandKey: true)
+            precondition(!routing.observeKeyDown(keyCode: UInt16(kVK_Tab), flags: flags, isQuit: false, isLocal: true))
+            precondition(!routing.observeKeyDown(keyCode: q, flags: .maskCommand, isQuit: true, isLocal: true))
+            routing.observeModifiers(commandIsDown: false, beganWithLocalCommandKey: false)
+            routing.observeModifiers(commandIsDown: true, beganWithLocalCommandKey: true)
+            precondition(routing.observeKeyDown(keyCode: q, flags: .maskCommand, isQuit: true, isLocal: true))
+        }
+    }
+
+    private static func modifiedTabDoesNotBypassQuit() {
+        var routing = QuitProtectionInputRouting()
+        routing.observeModifiers(commandIsDown: true, beganWithLocalCommandKey: true)
+        precondition(!routing.observeKeyDown(keyCode: UInt16(kVK_Tab), flags: [.maskCommand, .maskControl],
+                                             isQuit: false, isLocal: true))
+        precondition(routing.observeKeyDown(keyCode: q, flags: .maskCommand, isQuit: true, isLocal: true))
+    }
+
+    private static func windowSwitcherOwnsQuitBeforeClaimAndBeforeDelivery() {
+        // An activating chooser and ordinary host UI have the same PID.
+        func targetsHost(chooserVisible: Bool) -> Bool {
+            QuitProtectionInputRouting.matchesDestination(
+                Int32(target), frontmostPID: Int32(target), windowSwitcherIsVisible: chooserVisible
+            )
+        }
+        var gesture = Gesture()
+        let intent: Gesture.Intent? = targetsHost(chooserVisible: true) ? .hold(target, duration: duration) : nil
+        precondition(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: start) == .passThrough)
+        precondition(!gesture.keyUp(keyCode: q, at: start))
+
+        precondition(targetsHost(chooserVisible: false))
+        let hold = begin(&gesture)
+        // Opening the chooser makes the destination ambiguous even without a PID change.
+        let destination = targetsHost(chooserVisible: true) ? target : nil
+        precondition(gesture.confirmHold(generation: hold.generation, at: hold.deadline,
+                                        target: destination, chordStillHeld: true) == nil)
+        precondition(gesture.keyUp(keyCode: q, at: hold.deadline))
+    }
+
+    private static func expiredDoublePressLeavesNothingForEscapeToCancel() {
+        var gesture = Gesture()
+        let interval = Duration.milliseconds(600)
+        precondition(gesture.keyDown(keyCode: q, isRepeat: false,
+                                     intent: .doublePress(target, interval: interval), at: start) == .startedDoublePress)
+        precondition(gesture.keyUp(keyCode: q, at: start))
+        precondition(!gesture.expireDoublePress(at: start + interval))
+        precondition(gesture.expireDoublePress(at: start + interval + .milliseconds(1)))
+        precondition(!gesture.hasPendingConfirmation)
+    }
+
+    private static func freshPressAfterMissedReleaseCannotConfirmOldHold() {
+        var gesture = Gesture()
+        let first = begin(&gesture)
+        let fresh = first.deadline + .seconds(1)
+        guard case let .startedHold(second) = gesture.keyDown(
+            keyCode: q, isRepeat: false, intent: .hold(target, duration: duration), at: fresh
+        ) else { preconditionFailure("A fresh press should replace the interrupted hold") }
+        let release = fresh + .milliseconds(50)
+        precondition(gesture.confirmHold(generation: first.generation, at: release,
+                                        target: target, chordStillHeld: true) == nil)
+        precondition(gesture.confirmHold(generation: second.generation, at: release,
+                                        target: target, chordStillHeld: true) == nil)
+        precondition(gesture.keyUp(keyCode: q, at: release))
     }
 
     private static func chromeQuitRequiresTheExactEnabledBinding() {
-        precondition(QuitProtectionChromeQuit.isQuitBinding(identifier: "terminate:", character: "Q", modifiers: 0, isEnabled: true))
-        precondition(!QuitProtectionChromeQuit.isQuitBinding(identifier: "_logOutRequested:", character: "Q", modifiers: 0, isEnabled: true))
-        precondition(!QuitProtectionChromeQuit.isQuitBinding(identifier: "_lockScreenRequested:", character: "Q", modifiers: 0, isEnabled: true))
-        precondition(!QuitProtectionChromeQuit.isQuitBinding(identifier: "terminate:", character: "Q", modifiers: 1, isEnabled: true))
-        precondition(!QuitProtectionChromeQuit.isQuitBinding(identifier: "terminate:", character: "X", modifiers: 0, isEnabled: true))
-        precondition(!QuitProtectionChromeQuit.isQuitBinding(identifier: "terminate:", character: "Q", modifiers: 0, isEnabled: false))
+        precondition(QuitProtectionChromeQuit.binding(character: "Q", modifiers: 0, isEnabled: true) == .standard)
+        precondition(QuitProtectionChromeQuit.binding(character: "Q", modifiers: 1, isEnabled: true) == .reassigned)
+        precondition(QuitProtectionChromeQuit.binding(character: "X", modifiers: 0, isEnabled: true) == .reassigned)
+        precondition(QuitProtectionChromeQuit.binding(character: "", modifiers: nil, isEnabled: true) == .reassigned)
+        precondition(QuitProtectionChromeQuit.binding(character: "Q", modifiers: 0, isEnabled: false) == .unavailable)
+        precondition(QuitProtectionChromeQuit.binding(character: nil, modifiers: nil, isEnabled: true) == .unavailable)
     }
 
     private static func appScopesKeepTheirOwnLists() {
