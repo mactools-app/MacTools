@@ -19398,6 +19398,260 @@
     },
     {
       "capabilities": {
+        "panelItems": [
+          "row"
+        ],
+        "settings": "form"
+      },
+      "category": "productivity",
+      "displayName": "退出保护",
+      "id": "quit-protection",
+      "localizedMetadata": {
+        "ar": {
+          "displayName": "حماية من الإنهاء",
+          "summary": "امنع إنهاء التطبيقات بالخطأ باستخدام اختصار للتأكيد."
+        },
+        "de": {
+          "displayName": "Beenden-Schutz",
+          "summary": "Verhindere versehentliches Beenden mit einem Bestätigungskurzbefehl."
+        },
+        "en": {
+          "displayName": "Quit Protection",
+          "summary": "Prevent accidental quits with a confirmation shortcut."
+        },
+        "es": {
+          "displayName": "Protección al salir",
+          "summary": "Evita salir por error con un atajo de confirmación."
+        },
+        "fr": {
+          "displayName": "Protection à la fermeture",
+          "summary": "Évitez de quitter par erreur avec un raccourci de confirmation."
+        },
+        "ja": {
+          "displayName": "終了保護",
+          "summary": "確認用ショートカットで誤ってアプリを終了するのを防ぎます。"
+        },
+        "ko": {
+          "displayName": "종료 보호",
+          "summary": "확인 단축키로 앱이 실수로 종료되는 것을 방지합니다."
+        },
+        "pt": {
+          "displayName": "Proteção ao sair",
+          "summary": "Evite encerrar apps por engano com um atalho de confirmação."
+        },
+        "ru": {
+          "displayName": "Защита от выхода",
+          "summary": "Предотвращайте случайный выход из приложений с помощью сочетания для подтверждения."
+        },
+        "tr": {
+          "displayName": "Çıkış Koruması",
+          "summary": "Onay kısayoluyla uygulamadan yanlışlıkla çıkmayı önleyin."
+        },
+        "zh-Hans": {
+          "displayName": "退出保护",
+          "summary": "确认快捷键后再退出应用，防止误操作。"
+        },
+        "zh-Hant": {
+          "displayName": "結束保護",
+          "summary": "確認快速鍵後再結束 App，避免誤操作。"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/quit-protection",
+      "product": {
+        "actions": null,
+        "discovery": {
+          "alternativePluginIDs": [],
+          "goalCategories": [
+            "productivity"
+          ],
+          "keywords": [
+            "quit protection",
+            "command q",
+            "keyboard shortcut"
+          ],
+          "localizedSynonyms": {
+            "ar": [
+              "حماية من الإنهاء"
+            ],
+            "de": [
+              "Beenden-Schutz"
+            ],
+            "en": [
+              "Quit Protection"
+            ],
+            "es": [
+              "Protección al salir"
+            ],
+            "fr": [
+              "Protection à la fermeture"
+            ],
+            "ja": [
+              "終了保護"
+            ],
+            "ko": [
+              "종료 보호"
+            ],
+            "pt": [
+              "Proteção ao sair"
+            ],
+            "ru": [
+              "Защита от выхода"
+            ],
+            "tr": [
+              "Çıkış Koruması"
+            ],
+            "zh-Hans": [
+              "退出保护"
+            ],
+            "zh-Hant": [
+              "結束保護"
+            ]
+          },
+          "relatedPluginIDs": [],
+          "useCases": [
+            {
+              "id": "primary-use",
+              "title": {
+                "ar": "حماية من الإنهاء",
+                "de": "Beenden-Schutz",
+                "en": "Quit Protection",
+                "es": "Protección al salir",
+                "fr": "Protection à la fermeture",
+                "ja": "終了保護",
+                "ko": "종료 보호",
+                "pt": "Proteção ao sair",
+                "ru": "Защита от выхода",
+                "tr": "Çıkış Koruması",
+                "zh-Hans": "退出保护",
+                "zh-Hant": "結束保護"
+              }
+            }
+          ]
+        },
+        "presentation": {
+          "documentationURL": "https://github.com/mactools-app/MacTools/issues/527",
+          "examples": [
+            {
+              "id": "primary-use",
+              "text": {
+                "ar": "امنع إنهاء التطبيقات بالخطأ باستخدام اختصار للتأكيد.",
+                "de": "Verhindere versehentliches Beenden mit einem Bestätigungskurzbefehl.",
+                "en": "Prevent accidental quits with a confirmation shortcut.",
+                "es": "Evita salir por error con un atajo de confirmación.",
+                "fr": "Évitez de quitter par erreur avec un raccourci de confirmation.",
+                "ja": "確認用ショートカットで誤ってアプリを終了するのを防ぎます。",
+                "ko": "확인 단축키로 앱이 실수로 종료되는 것을 방지합니다.",
+                "pt": "Evite encerrar apps por engano com um atalho de confirmação.",
+                "ru": "Предотвращайте случайный выход из приложений с помощью сочетания для подтверждения.",
+                "tr": "Onay kısayoluyla uygulamadan yanlışlıkla çıkmayı önleyin.",
+                "zh-Hans": "确认快捷键后再退出应用，防止误操作。",
+                "zh-Hant": "確認快速鍵後再結束 App，避免誤操作。"
+              }
+            }
+          ],
+          "license": "GPL-3.0-only",
+          "longDescription": {
+            "ar": "امنع إنهاء التطبيقات بالخطأ باستخدام اختصار للتأكيد.",
+            "de": "Verhindere versehentliches Beenden mit einem Bestätigungskurzbefehl.",
+            "en": "Prevent accidental quits with a confirmation shortcut.",
+            "es": "Evita salir por error con un atajo de confirmación.",
+            "fr": "Évitez de quitter par erreur avec un raccourci de confirmation.",
+            "ja": "確認用ショートカットで誤ってアプリを終了するのを防ぎます。",
+            "ko": "확인 단축키로 앱이 실수로 종료되는 것을 방지합니다.",
+            "pt": "Evite encerrar apps por engano com um atalho de confirmação.",
+            "ru": "Предотвращайте случайный выход из приложений с помощью сочетания для подтверждения.",
+            "tr": "Onay kısayoluyla uygulamadan yanlışlıkla çıkmayı önleyin.",
+            "zh-Hans": "确认快捷键后再退出应用，防止误操作。",
+            "zh-Hant": "確認快速鍵後再結束 App，避免誤操作。"
+          },
+          "publisher": "MacTools",
+          "screenshots": [],
+          "supportURL": "https://github.com/mactools-app/MacTools/issues"
+        },
+        "privacy": {
+          "allowsUserConfiguredDomains": false,
+          "dataObserved": [
+            "input-events"
+          ],
+          "dataPersisted": [
+            "plugin-configuration"
+          ],
+          "diagnosticExportsContainUserData": false,
+          "networkDomains": [],
+          "networkUse": "none",
+          "processesSensitiveUserContent": false,
+          "retention": {
+            "policy": "user-controlled"
+          },
+          "telemetry": "none"
+        },
+        "relationships": {
+          "includedPackIDs": [],
+          "relatedPluginIDs": [],
+          "suggestedRecipeIDs": [],
+          "supersedesPluginIDs": []
+        },
+        "requirements": {
+          "applications": [],
+          "architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "executables": [],
+          "hardware": [],
+          "minimumMacOSVersion": "14.0",
+          "permissionIDs": [
+            "accessibility",
+            "inputMonitoring"
+          ],
+          "requiresRelaunch": false,
+          "setupComplexity": "guided"
+        },
+        "setup": {
+          "optionalSurfaces": [],
+          "steps": [
+            {
+              "description": {
+                "ar": "قبل استخدام هذه الإضافة، راجع المتطلبات التالية واستوفها: إذن تسهيلات الاستخدام، إذن مراقبة الإدخال.",
+                "de": "Prüfe und erfülle vor der Verwendung dieses Plugins folgende Anforderungen: Bedienungshilfen-Berechtigung, Eingabeüberwachung-Berechtigung.",
+                "en": "Before using this plugin, review and satisfy these requirements: Accessibility permission, Input Monitoring permission.",
+                "es": "Antes de usar este plugin, revisa y cumple estos requisitos: permiso de Accesibilidad, permiso de Monitorización de entrada.",
+                "fr": "Avant d’utiliser ce module, vérifiez et remplissez les conditions suivantes : autorisation Accessibilité, autorisation Surveillance de l’entrée.",
+                "ja": "このプラグインを使用する前に、次の要件を確認して満たしてください：アクセシビリティ権限、入力監視権限。",
+                "ko": "이 플러그인을 사용하기 전에 다음 요구 사항을 확인하고 충족하세요: 손쉬운 사용 권한, 입력 모니터링 권한.",
+                "pt": "Antes de usar este plugin, revise e cumpra estes requisitos: permissão de Acessibilidade, permissão de Monitoramento de Entrada.",
+                "ru": "Перед использованием плагина проверьте и выполните следующие требования: доступ к Универсальному доступу, доступ к Мониторингу ввода.",
+                "tr": "Bu eklentiyi kullanmadan önce şu gereksinimleri gözden geçirin ve karşılayın: Erişilebilirlik izni, Giriş İzleme izni.",
+                "zh-Hans": "使用此插件前，请检查并满足以下要求：辅助功能权限、输入监控权限。",
+                "zh-Hant": "使用此外掛程式前，請檢查並滿足以下要求：輔助使用權限、輸入監控權限。"
+              },
+              "id": "review-requirements",
+              "title": {
+                "ar": "إعداد حماية من الإنهاء",
+                "de": "Beenden-Schutz einrichten",
+                "en": "Set Up Quit Protection",
+                "es": "Configurar Protección al salir",
+                "fr": "Configurer Protection à la fermeture",
+                "ja": "終了保護を設定",
+                "ko": "종료 보호 설정",
+                "pt": "Configurar Proteção ao sair",
+                "ru": "Настройка «Защита от выхода»",
+                "tr": "Çıkış Koruması Kurulumu",
+                "zh-Hans": "设置退出保护",
+                "zh-Hant": "設定結束保護"
+              }
+            }
+          ]
+        }
+      },
+      "releaseChannel": null,
+      "releaseNotesURL": null,
+      "route": "/plugins/quit-protection/",
+      "summary": "确认快捷键后再退出应用，防止误操作。",
+      "version": "1.0.0"
+    },
+    {
+      "capabilities": {
         "panelItems": [],
         "settings": "form"
       },

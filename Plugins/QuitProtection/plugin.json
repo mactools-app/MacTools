@@ -1,0 +1,204 @@
+{
+  "id": "quit-protection",
+  "displayName": "退出保护",
+  "summary": "确认快捷键后再退出应用，防止误操作。",
+  "localizedMetadata": {
+    "ar": {
+      "displayName": "حماية من الإنهاء",
+      "summary": "امنع إنهاء التطبيقات بالخطأ باستخدام اختصار للتأكيد."
+    },
+    "de": {
+      "displayName": "Beenden-Schutz",
+      "summary": "Verhindere versehentliches Beenden mit einem Bestätigungskurzbefehl."
+    },
+    "en": {
+      "displayName": "Quit Protection",
+      "summary": "Prevent accidental quits with a confirmation shortcut."
+    },
+    "es": {
+      "displayName": "Protección al salir",
+      "summary": "Evita salir por error con un atajo de confirmación."
+    },
+    "fr": {
+      "displayName": "Protection à la fermeture",
+      "summary": "Évitez de quitter par erreur avec un raccourci de confirmation."
+    },
+    "ja": {
+      "displayName": "終了保護",
+      "summary": "確認用ショートカットで誤ってアプリを終了するのを防ぎます。"
+    },
+    "ko": {
+      "displayName": "종료 보호",
+      "summary": "확인 단축키로 앱이 실수로 종료되는 것을 방지합니다."
+    },
+    "pt": {
+      "displayName": "Proteção ao sair",
+      "summary": "Evite encerrar apps por engano com um atalho de confirmação."
+    },
+    "ru": {
+      "displayName": "Защита от выхода",
+      "summary": "Предотвращайте случайный выход из приложений с помощью сочетания для подтверждения."
+    },
+    "tr": {
+      "displayName": "Çıkış Koruması",
+      "summary": "Onay kısayoluyla uygulamadan yanlışlıkla çıkmayı önleyin."
+    },
+    "zh-Hans": {
+      "displayName": "退出保护",
+      "summary": "确认快捷键后再退出应用，防止误操作。"
+    },
+    "zh-Hant": {
+      "displayName": "結束保護",
+      "summary": "確認快速鍵後再結束 App，避免誤操作。"
+    }
+  },
+  "productStrings": {
+    "display-name": "@displayName",
+    "summary": "@summary",
+    "setup.requirements.title": "@standardSetup.requirements.title",
+    "setup.requirements.description": "@standardSetup.requirements.description"
+  },
+  "version": "1.0.0",
+  "pluginKitVersion": 7,
+  "minHostVersion": "2.2.4",
+  "bundleRelativePath": "QuitProtection.bundle",
+  "factoryClass": "QuitProtectionPlugin.QuitProtectionPluginFactory",
+  "build": {
+    "project": "../../MacTools.xcodeproj",
+    "scheme": "QuitProtectionPlugin"
+  },
+  "capabilities": {
+    "panelItems": [
+      "row"
+    ],
+    "settings": "form"
+  },
+  "permissions": [
+    "accessibility",
+    "inputMonitoring"
+  ],
+  "category": "productivity",
+  "presentation": {
+    "longDescription": "@productStrings.summary",
+    "examples": [
+      {
+        "id": "primary-use",
+        "text": "@productStrings.summary"
+      }
+    ],
+    "screenshots": [],
+    "documentationURL": "https://github.com/mactools-app/MacTools/issues/527",
+    "supportURL": "https://github.com/mactools-app/MacTools/issues",
+    "publisher": "MacTools",
+    "license": "GPL-3.0-only"
+  },
+  "discovery": {
+    "keywords": [
+      "quit protection",
+      "command q",
+      "keyboard shortcut"
+    ],
+    "useCases": [
+      {
+        "id": "primary-use",
+        "title": "@productStrings.display-name"
+      }
+    ],
+    "goalCategories": [
+      "productivity"
+    ],
+    "relatedPluginIDs": [],
+    "alternativePluginIDs": [],
+    "localizedSynonyms": {
+      "ar": [
+        "حماية من الإنهاء"
+      ],
+      "de": [
+        "Beenden-Schutz"
+      ],
+      "en": [
+        "Quit Protection"
+      ],
+      "es": [
+        "Protección al salir"
+      ],
+      "fr": [
+        "Protection à la fermeture"
+      ],
+      "ja": [
+        "終了保護"
+      ],
+      "ko": [
+        "종료 보호"
+      ],
+      "pt": [
+        "Proteção ao sair"
+      ],
+      "ru": [
+        "Защита от выхода"
+      ],
+      "tr": [
+        "Çıkış Koruması"
+      ],
+      "zh-Hans": [
+        "退出保护"
+      ],
+      "zh-Hant": [
+        "結束保護"
+      ]
+    }
+  },
+  "requirements": {
+    "minimumMacOSVersion": "14.0",
+    "architectures": [
+      "arm64",
+      "x86_64"
+    ],
+    "hardware": [],
+    "applications": [],
+    "executables": [],
+    "permissionIDs": [
+      "accessibility",
+      "inputMonitoring"
+    ],
+    "setupComplexity": "guided",
+    "requiresRelaunch": false
+  },
+  "privacy": {
+    "dataObserved": [
+      "input-events"
+    ],
+    "dataPersisted": [
+      "plugin-configuration"
+    ],
+    "retention": {
+      "policy": "user-controlled"
+    },
+    "networkUse": "none",
+    "networkDomains": [],
+    "allowsUserConfiguredDomains": false,
+    "telemetry": "none",
+    "processesSensitiveUserContent": false,
+    "diagnosticExportsContainUserData": false
+  },
+  "setup": {
+    "steps": [
+      {
+        "id": "review-requirements",
+        "title": "@productStrings.setup.requirements.title",
+        "description": "@productStrings.setup.requirements.description"
+      }
+    ],
+    "optionalSurfaces": []
+  },
+  "relationships": {
+    "relatedPluginIDs": [],
+    "includedPackIDs": [],
+    "suggestedRecipeIDs": [],
+    "supersedesPluginIDs": []
+  },
+  "preferencesBackup": {
+    "status": "none",
+    "exclusions": []
+  }
+}
