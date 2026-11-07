@@ -3,5 +3,5 @@ release: plugin
 type: added
 ---
 
-Add optional ⌘Q protection with configurable app scope and a compact indicator for hold or double-press confirmation.
-Chrome uses one confirmation and shows how to quit if its Quit menu is unavailable.
+Add optional ⌘Q protection with Hold and Double Press, app scopes, and VoiceOver announcements.
+Chrome Stable, Beta, Dev, and Canary use one confirmation.

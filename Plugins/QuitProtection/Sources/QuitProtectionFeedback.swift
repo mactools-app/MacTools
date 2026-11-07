@@ -18,7 +18,7 @@ final class QuitProtectionFeedback {
         @Environment(\.accessibilityReduceMotion) private var reduceMotion
         @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
 
-        private var message: String {
+        var message: String {
             let key: String
             switch state {
             case .holding: key = "Hold ⌘Q to quit"
@@ -112,6 +112,18 @@ final class QuitProtectionFeedback {
             name: app.localizedName ?? app.bundleIdentifier ?? "",
             icon: app.icon, localization: localization, state: state
         )
+        // The panel leaves keyboard focus in the target app. Announce each
+        // instruction once, including when the existing panel becomes ready.
+        defer {
+            NSAccessibility.post(
+                element: NSApplication.shared,
+                notification: .announcementRequested,
+                userInfo: [
+                    .announcement: indicator.message,
+                    .priority: NSAccessibilityPriorityLevel.high.rawValue
+                ]
+            )
+        }
         if let hostingView = panel?.contentView as? NSHostingView<Indicator> {
             hostingView.rootView = indicator
             return

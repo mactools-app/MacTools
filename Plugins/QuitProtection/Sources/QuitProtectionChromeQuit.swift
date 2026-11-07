@@ -1,7 +1,14 @@
 import ApplicationServices
 
 enum QuitProtectionChromeQuit {
-    static let bundleIdentifier = "com.google.Chrome"
+    static func handles(bundleIdentifier: String?) -> Bool {
+        switch bundleIdentifier {
+        case "com.google.Chrome", "com.google.Chrome.beta", "com.google.Chrome.dev", "com.google.Chrome.canary":
+            true
+        default:
+            false
+        }
+    }
 
     // The worker finishes reading before it hands this retained element to the
     // main actor. The only subsequent use is a single, bounded press.

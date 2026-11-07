@@ -76,6 +76,8 @@ final class QuitProtectionSession {
 
     var isProtecting: Bool { enabled && isRunning }
 
+    private var hasClaimedInput: Bool { gesture.hasClaimedKeys || escapeClaimed }
+
     static var hasRequiredPermissions: Bool {
         AXIsProcessTrusted() && CGPreflightPostEventAccess() && CGPreflightListenEventAccess()
     }
@@ -93,13 +95,8 @@ final class QuitProtectionSession {
                 stop(preservingClaimedKeys: true)
                 start()
             }
-        } else if gesture.hasClaimedKeys || escapeClaimed {
-            if drain == nil {
-                drain = Task { [weak self] in
-                    do { try await Task.sleep(for: .seconds(2)) } catch { return }
-                    self?.stop()
-                }
-            }
+        } else if hasClaimedInput {
+            drainReleasedClaimsWhilePaused()
         } else {
             stop()
         }
@@ -141,7 +138,7 @@ final class QuitProtectionSession {
 
     private func start() {
         guard let observed = makeTap(
-            at: .cgSessionEventTap, place: .headInsertEventTap,
+            at: .cgSessionEventTap, place: QuitProtectionInputRouting.sessionTapPlacement,
             events: Self.keyboardEvents + Self.pointerEvents, callback: Self.observe
         ) else { return }
         guard let delivery = makeTap(
@@ -359,6 +356,7 @@ final class QuitProtectionSession {
         ) {
         case .passThrough:
             if !gesture.hasPendingConfirmation { clearFeedback() }
+            finishDrainIfPossible()
             return false
         case .suppress:
             return true
@@ -438,6 +436,7 @@ final class QuitProtectionSession {
             || identifier == "codes.rambo.virtualbuddy" || identifier == "com.carriez.rustdesk"
             || identifier == "com.parsec.www" || identifier == "com.p5sys.jump.mac.viewer"
             || identifier == "com.p5sys.jump.mac.viewer.web"
+            || identifier == "com.tigervnc.tigervnc"
     }
 
     private func showReleasePrompt(for hold: QuitProtectionGesture<Destination>.Hold) {
@@ -462,7 +461,7 @@ final class QuitProtectionSession {
 
     private func perform(_ target: Destination) {
         guard routing.commandIsEligible, canDeliver(to: target) else { return }
-        if target.app.bundleIdentifier == QuitProtectionChromeQuit.bundleIdentifier {
+        if QuitProtectionChromeQuit.handles(bundleIdentifier: target.app.bundleIdentifier) {
             // Chrome's keyboard-only warning would treat replay as a new,
             // unconfirmed gesture. Invoke its normal Quit menu after ours.
             cancelDelivery()
@@ -572,10 +571,32 @@ final class QuitProtectionSession {
         invalidateDestination()
     }
 
+    private func drainReleasedClaimsWhilePaused() {
+        guard drain == nil else { return }
+        drain = Task { [weak self] in
+            while !Task.isCancelled {
+                do {
+                    try await Task.sleep(for: .seconds(2), tolerance: .milliseconds(250))
+                } catch { return }
+                guard let self, !self.enabled else { return }
+                self.gesture.discardReleasedClaims {
+                    CGEventSource.keyState(.combinedSessionState, key: $0)
+                }
+                if self.escapeClaimed, !CGEventSource.keyState(.combinedSessionState, key: UInt16(kVK_Escape)) {
+                    self.escapeClaimed = false
+                }
+                if !self.hasClaimedInput {
+                    self.stop()
+                    return
+                }
+            }
+        }
+    }
+
     private func finishDrainIfPossible() {
-        if !enabled, !gesture.hasClaimedKeys, !escapeClaimed {
+        if !enabled, !hasClaimedInput {
             Task { [weak self] in
-                guard let self, !self.enabled, !self.gesture.hasClaimedKeys, !self.escapeClaimed else { return }
+                guard let self, !self.enabled, !self.hasClaimedInput else { return }
                 self.stop()
             }
         }

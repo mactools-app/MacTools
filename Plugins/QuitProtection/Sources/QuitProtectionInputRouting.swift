@@ -2,6 +2,10 @@ import Carbon.HIToolbox
 import CoreGraphics
 
 struct QuitProtectionInputRouting {
+    // The remapper and Window Switcher insert at the head of the session tap
+    // chain. Observe after them so consumed Tab presses cannot disarm Command.
+    static let sessionTapPlacement: CGEventTapPlacement = .tailAppendEventTap
+
     private var commandWasDown = false
     private(set) var commandIsEligible = false
 
