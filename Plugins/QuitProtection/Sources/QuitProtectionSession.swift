@@ -90,7 +90,7 @@ final class QuitProtectionSession {
             drain?.cancel()
             drain = nil
             if !isRunning {
-                stop()
+                stop(preservingClaimedKeys: true)
                 start()
             }
         } else if gesture.hasClaimedKeys || escapeClaimed {
@@ -105,12 +105,12 @@ final class QuitProtectionSession {
         }
     }
 
-    func stop() {
+    func stop(preservingClaimedKeys: Bool = false) {
         drain?.cancel()
         drain = nil
         invalidateDestination()
-        gesture.resetObservation()
-        escapeClaimed = false
+        gesture.resetObservation(preservingClaimedKeys: preservingClaimedKeys)
+        if !preservingClaimedKeys { escapeClaimed = false }
         routing.reset(commandIsDown: false)
         eventClock = QuitProtectionEventClock()
         sessionTap?.stop()
@@ -245,14 +245,18 @@ final class QuitProtectionSession {
             return
         }
         if type == .flagsChanged {
+            let isCommandKey = keyCode == kVK_Command || keyCode == kVK_RightCommand
             routing.observeModifiers(
                 commandIsDown: flags.contains(.maskCommand),
-                beganWithLocalCommandKey: isLocal && (keyCode == kVK_Command || keyCode == kVK_RightCommand)
+                beganWithLocalCommandKey: isLocal && isCommandKey
             )
             if !flags.contains(.maskCommand) {
                 candidate = nil
             }
-            if gesture.pendingHold != nil && flags != .maskCommand { cancelConfirmation() }
+            if (isLocal && !isCommandKey && gesture.hasPendingConfirmation)
+                || (gesture.pendingHold != nil && flags != .maskCommand) {
+                cancelConfirmation()
+            }
             return
         }
         if type == .keyUp {
@@ -432,6 +436,8 @@ final class QuitProtectionSession {
             || identifier.hasPrefix("com.teamviewer.") || identifier.hasPrefix("com.anydesk.")
             || identifier.hasPrefix("com.citrix.") || identifier.hasPrefix("com.realvnc.")
             || identifier == "codes.rambo.virtualbuddy" || identifier == "com.carriez.rustdesk"
+            || identifier == "com.parsec.www" || identifier == "com.p5sys.jump.mac.viewer"
+            || identifier == "com.p5sys.jump.mac.viewer.web"
     }
 
     private func showReleasePrompt(for hold: QuitProtectionGesture<Destination>.Hold) {
@@ -474,7 +480,9 @@ final class QuitProtectionSession {
                 switch result {
                 case .menuItem(let item):
                     // An AX timeout can occur after delivery. Never replay it.
-                    item.press()
+                    if QuitProtectionChromeQuit.requiresRecoveryGuidance(afterPress: item.press()) {
+                        self.scheduleFeedback(.chromeUnavailable, for: target)
+                    }
                 case .reassigned:
                     self.postQuitShortcut(to: target)
                 case .unavailable:
@@ -537,8 +545,7 @@ final class QuitProtectionSession {
 
     private func resetAfterInputInterruption() {
         invalidateDestination()
-        gesture.resetObservation()
-        escapeClaimed = false
+        gesture.resetObservation(preservingClaimedKeys: true)
         routing.reset(commandIsDown: CGEventSource.flagsState(.combinedSessionState).contains(.maskCommand))
     }
 

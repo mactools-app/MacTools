@@ -60,7 +60,7 @@
   },
   "version": "1.0.0",
   "pluginKitVersion": 7,
-  "minHostVersion": "2.2.4",
+  "minHostVersion": "2.2.5",
   "bundleRelativePath": "QuitProtection.bundle",
   "factoryClass": "QuitProtectionPlugin.QuitProtectionPluginFactory",
   "build": {

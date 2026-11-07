@@ -132,9 +132,9 @@ struct QuitProtectionGesture<Target: Equatable> {
         pending = nil
     }
 
-    /// Call when the input observer may have missed those releases.
-    mutating func resetObservation() {
-        claimedKeys.removeAll()
+    /// Recovering taps retain ownership of swallowed keys until release or a fresh down.
+    mutating func resetObservation(preservingClaimedKeys: Bool = false) {
+        if !preservingClaimedKeys { claimedKeys.removeAll() }
         cancel()
     }
 

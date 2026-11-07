@@ -401,6 +401,7 @@ final class InputRemappingPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
               ownedTrackpadGestures.contains(gesture),
               let rule = store.rules.first(where: { $0.claimedTrackpadGesture == gesture })
         else { return }
+        NotificationCenter.default.post(name: .macToolsWillClaimPhysicalInput, object: nil)
         _ = tap.execute(rule.action)
     }
 

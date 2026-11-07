@@ -71,15 +71,7 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
         }
         session.showFeedback = { [weak self] app, state in
             guard let self, self.settings.showsFeedback || state == .chromeUnavailable else { return }
-            let message: String
-            switch state {
-            case .holding: message = self.text("Hold ⌘Q to quit")
-            case .ready: message = self.text("Release Q to quit")
-            case .doublePress: message = self.text("Press ⌘Q again to quit")
-            case .chromeUnavailable:
-                message = self.text("Couldn’t quit Chrome. Use Chrome’s Quit menu.")
-            }
-            self.feedback.show(for: app, message: message, state: state)
+            self.feedback.show(for: app, localization: self.localization, state: state)
         }
         session.hideFeedback = { [weak self] in self?.feedback.hide() }
         session.availabilityChanged = { [weak self] in self?.refresh() }

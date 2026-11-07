@@ -8,8 +8,18 @@ enum QuitProtectionChromeQuit {
     struct MenuItem: @unchecked Sendable {
         fileprivate let element: AXUIElement
 
-        @MainActor func press() {
+        @MainActor func press() -> AXError {
             AXUIElementPerformAction(element, kAXPressAction as CFString)
+        }
+    }
+
+    static func requiresRecoveryGuidance(afterPress result: AXError) -> Bool {
+        switch result {
+        case .invalidUIElement, .actionUnsupported, .illegalArgument, .notImplemented, .apiDisabled:
+            return true
+        default:
+            // A messaging timeout may mean the action was already delivered.
+            return false
         }
     }
 

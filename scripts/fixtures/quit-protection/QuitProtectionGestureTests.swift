@@ -32,7 +32,34 @@ enum QuitProtectionGestureTests {
         keyboardLayoutChangeInvalidatesTheClaimedKey()
         await secureInputCancelsWithoutAnotherKeyEvent()
         chromeLookupDistinguishesAnUnavailableMenu()
-        print("Passed 20 Quit Protection behavior checks.")
+        recoveredHoldConsumesRepeatUntilItsReleaseOrFreshDown()
+        chromePressGuidanceRequiresDefinitiveFailure()
+        print("Passed 22 Quit Protection behavior checks.")
+    }
+
+    private static func recoveredHoldConsumesRepeatUntilItsReleaseOrFreshDown() {
+        for releaseIsObserved in [true, false] {
+            var gesture = Gesture()
+            let attempt = begin(&gesture)
+            gesture.resetObservation(preservingClaimedKeys: true)
+            precondition(gesture.keyDown(keyCode: q, isRepeat: true, intent: nil, at: attempt.deadline) == .suppress)
+            precondition(gesture.confirmHold(generation: attempt.generation, at: attempt.deadline,
+                                            target: target, chordStillHeld: true) == nil)
+            if releaseIsObserved {
+                precondition(gesture.keyUp(keyCode: q, at: attempt.deadline))
+            } else {
+                precondition(gesture.keyDown(keyCode: q, isRepeat: false, intent: nil, at: attempt.deadline) == .passThrough)
+            }
+            precondition(!gesture.hasClaimedKeys)
+            precondition(gesture.keyDown(keyCode: q, isRepeat: true, intent: nil, at: attempt.deadline) == .passThrough)
+        }
+    }
+
+    private static func chromePressGuidanceRequiresDefinitiveFailure() {
+        precondition(QuitProtectionChromeQuit.requiresRecoveryGuidance(afterPress: .invalidUIElement))
+        precondition(QuitProtectionChromeQuit.requiresRecoveryGuidance(afterPress: .actionUnsupported))
+        precondition(!QuitProtectionChromeQuit.requiresRecoveryGuidance(afterPress: .success))
+        precondition(!QuitProtectionChromeQuit.requiresRecoveryGuidance(afterPress: .cannotComplete))
     }
 
     @MainActor

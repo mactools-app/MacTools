@@ -12,12 +12,26 @@ final class QuitProtectionFeedback {
     private struct Indicator: View {
         let name: String
         let icon: NSImage?
-        let message: String
+        let localization: PluginLocalization
         let state: QuitProtectionSession.Feedback
 
         @Environment(\.accessibilityReduceMotion) private var reduceMotion
+        @ObservedObject private var runtimeLocale = PluginRuntimeLocalization.source
+
+        private var message: String {
+            let key: String
+            switch state {
+            case .holding: key = "Hold ⌘Q to quit"
+            case .ready: key = "Release Q to quit"
+            case .doublePress: key = "Press ⌘Q again to quit"
+            case .chromeUnavailable: key = "Couldn’t quit Chrome. Use Chrome’s Quit menu."
+            }
+            return localization.string(key, defaultValue: key)
+        }
 
         var body: some View {
+            let _ = runtimeLocale.revision
+            let locale = runtimeLocale.locale
             HStack(spacing: 10) {
                 Group {
                     if let icon {
@@ -60,6 +74,8 @@ final class QuitProtectionFeedback {
                 PluginFloatingPanelSurface(shape: .roundedRectangle(cornerRadius: 14))
             }
             .accessibilityElement(children: .combine)
+            .environment(\.locale, locale)
+            .environment(\.layoutDirection, locale.language.characterDirection == .rightToLeft ? .rightToLeft : .leftToRight)
         }
 
         private func progress(_ value: Double) -> some View {
@@ -72,7 +88,7 @@ final class QuitProtectionFeedback {
     private var panel: Panel?
     private var dismiss: Task<Void, Never>?
 
-    func show(for app: NSRunningApplication, message: String, state: QuitProtectionSession.Feedback) {
+    func show(for app: NSRunningApplication, localization: PluginLocalization, state: QuitProtectionSession.Feedback) {
         dismiss?.cancel()
         dismiss = nil
         let dismissAt: ContinuousClock.Instant?
@@ -94,7 +110,7 @@ final class QuitProtectionFeedback {
 
         let indicator = Indicator(
             name: app.localizedName ?? app.bundleIdentifier ?? "",
-            icon: app.icon, message: message, state: state
+            icon: app.icon, localization: localization, state: state
         )
         if let hostingView = panel?.contentView as? NSHostingView<Indicator> {
             hostingView.rootView = indicator
