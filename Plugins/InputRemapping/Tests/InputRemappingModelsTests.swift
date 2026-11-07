@@ -346,6 +346,35 @@ final class InputRemappingModelsTests: XCTestCase {
         XCTAssertEqual(executions, 1)
     }
 
+    func testRemappedKeyReportsPhysicalClaimBeforeExecutingItsReplacement() {
+        let tap = InputRemappingEventTap(captureStartResult: true)
+        let key = UInt16(kVK_ANSI_W)
+        tap.update(rules: [.init(
+            trigger: .keyboard(keyCode: key, modifiers: .command),
+            action: .shortcut(.init(keyCode: UInt16(kVK_ANSI_S), modifiers: .command))
+        )])
+        let claims = InputRemappingLockedCounter()
+        let observer = NotificationCenter.default.addObserver(
+            forName: .macToolsWillClaimPhysicalInput, object: nil, queue: nil
+        ) { _ in claims.increment() }
+        defer { NotificationCenter.default.removeObserver(observer) }
+        let down = CGEvent(keyboardEventSource: nil, virtualKey: key, keyDown: true)!
+        down.flags = .maskCommand
+        let consumed = tap.handle(type: .keyDown, event: down) { _ in
+            XCTAssertEqual(claims.count, 1)
+            return true
+        } == nil
+        XCTAssertTrue(consumed)
+
+        MacToolsSyntheticInputEvent.mark(down)
+        let passed = tap.handle(type: .keyDown, event: down) { _ in
+            XCTFail("Synthetic events must not be remapped")
+            return false
+        } != nil
+        XCTAssertTrue(passed)
+        XCTAssertEqual(claims.count, 1)
+    }
+
     func testEmergencyShortcutCancelsCaptureAndRunsOnlyOncePerPress() {
         let tap = InputRemappingEventTap(captureStartResult: true)
         let counter = InputRemappingLockedCounter()

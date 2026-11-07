@@ -51,6 +51,11 @@ struct QuitProtectionGesture<Target: Equatable> {
     var hasPendingConfirmation: Bool { pending != nil }
     var hasClaimedKeys: Bool { !claimedKeys.isEmpty }
 
+    var doublePressDeadline: ContinuousClock.Instant? {
+        guard case let .secondPress(_, _, deadline) = pending else { return nil }
+        return deadline
+    }
+
     var pendingTarget: Target? {
         switch pending {
         case let .hold(hold): hold.target

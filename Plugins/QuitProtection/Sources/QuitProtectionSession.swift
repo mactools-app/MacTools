@@ -7,15 +7,18 @@ import MacToolsPluginKit
 /// macOS has attached the destination PID, may claim the shortcut.
 @MainActor
 final class QuitProtectionSession {
-    enum Feedback {
+    enum Feedback: Equatable {
         case holding(duration: Duration, deadline: ContinuousClock.Instant)
         case ready
         case doublePress(deadline: ContinuousClock.Instant)
+        case chromeUnavailable
     }
 
     struct Destination: Equatable {
         let app: NSRunningApplication
         let generation: UInt64
+        let keyCode: UInt16
+        let keyboardLayout: QuitProtectionKeyboardLayout
     }
 
     private struct Candidate {
@@ -47,6 +50,8 @@ final class QuitProtectionSession {
     private var activationObserver: (any NSObjectProtocol)?
     private var chooserObserver: (any NSObjectProtocol)?
     private var chooserShortcutObserver: (any NSObjectProtocol)?
+    private var inputClaimObserver: (any NSObjectProtocol)?
+    private var keyboardLayoutObserver: (any NSObjectProtocol)?
     private var quitRule = QuitProtectionRule()
     private var enabled = false
     private var generation: UInt64 = 0
@@ -59,6 +64,7 @@ final class QuitProtectionSession {
     private var drain: Task<Void, Never>?
     private var feedbackTask: Task<Void, Never>?
     private var deliveryTask: Task<Void, Never>?
+    private var inputWatch: Task<Void, Never>?
     var showFeedback: ((NSRunningApplication, Feedback) -> Void)?
     var hideFeedback: (() -> Void)?
     var availabilityChanged: (() -> Void)?
@@ -123,6 +129,14 @@ final class QuitProtectionSession {
             NotificationCenter.default.removeObserver(chooserShortcutObserver)
             self.chooserShortcutObserver = nil
         }
+        if let inputClaimObserver {
+            NotificationCenter.default.removeObserver(inputClaimObserver)
+            self.inputClaimObserver = nil
+        }
+        if let keyboardLayoutObserver {
+            DistributedNotificationCenter.default().removeObserver(keyboardLayoutObserver)
+            self.keyboardLayoutObserver = nil
+        }
     }
 
     private func start() {
@@ -166,6 +180,16 @@ final class QuitProtectionSession {
             forName: Notification.Name("MacTools.WindowSwitcher.willHandleShortcut"), object: nil, queue: nil
         ) { [weak self] _ in
             MainActor.assumeIsolated { self?.invalidateSwitcherRouting() }
+        }
+        inputClaimObserver = NotificationCenter.default.addObserver(
+            forName: .macToolsWillClaimPhysicalInput, object: nil, queue: nil
+        ) { [weak self] _ in
+            MainActor.assumeIsolated { self?.invalidateDestination() }
+        }
+        keyboardLayoutObserver = DistributedNotificationCenter.default().addObserver(
+            forName: Notification.Name(kTISNotifySelectedKeyboardInputSourceChanged as String), object: nil, queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated { self?.invalidateDestination() }
         }
     }
 
@@ -212,7 +236,7 @@ final class QuitProtectionSession {
         let flags = event.flags.intersection(Self.modifiers)
         let keyCode = UInt16(truncatingIfNeeded: event.getIntegerValueField(.keyboardEventKeycode))
         if Self.pointerEvents.contains(type) {
-            deliveryTask?.cancel()
+            cancelDelivery()
             if gesture.hasPendingConfirmation { cancelConfirmation() }
             return
         }
@@ -238,7 +262,7 @@ final class QuitProtectionSession {
             return
         }
         guard type == .keyDown else { return }
-        deliveryTask?.cancel()
+        cancelDelivery()
         candidate = nil
         if let instant = eventClock.instant(for: event.timestamp, receivedAt: .now),
            gesture.expireDoublePress(at: instant) {
@@ -301,7 +325,7 @@ final class QuitProtectionSession {
                     generation: hold.generation, at: instant, target: target,
                     chordStillHeld: event.flags.intersection(Self.modifiers) == .maskCommand
                 ) {
-                    perform(confirmed, keyCode: keyCode)
+                    perform(confirmed)
                 }
                 candidate = nil
                 cancelConfirmation()
@@ -336,8 +360,10 @@ final class QuitProtectionSession {
             return true
         case .startedDoublePress, .needsExtraModifier:
             clearFeedback()
+            watchInputWhilePending()
             return true
         case let .startedHold(hold):
+            watchInputWhilePending()
             if case let .hold(duration) = quitRule.confirmation {
                 scheduleFeedback(.holding(duration: duration, deadline: hold.deadline), for: hold.target)
             }
@@ -349,7 +375,7 @@ final class QuitProtectionSession {
             return true
         case let .confirmed(target):
             cancelConfirmation()
-            perform(target, keyCode: keyCode)
+            perform(target)
             return true
         }
     }
@@ -375,7 +401,12 @@ final class QuitProtectionSession {
               matchesDestination(pid, frontmostPID: app.processIdentifier),
               let identifier = app.bundleIdentifier, !Self.forwardingApp(identifier),
               quitRule.includes(bundleIdentifier: identifier) else { return nil }
-        return Destination(app: app, generation: generation)
+        let keyCode = UInt16(truncatingIfNeeded: event.getIntegerValueField(.keyboardEventKeycode))
+        let reportedType = event.getIntegerValueField(.keyboardEventKeyboardType)
+        let keyboardType = reportedType > 0 ? UInt32(clamping: reportedType) : UInt32(LMGetKbdType())
+        guard let layout = QuitProtectionKeyboardLayout.current(keyboardType: keyboardType),
+              layout.isQuitKey(keyCode) else { return nil }
+        return Destination(app: app, generation: generation, keyCode: keyCode, keyboardLayout: layout)
     }
 
     private func destinationPID(for event: CGEvent) -> Int32? {
@@ -423,15 +454,19 @@ final class QuitProtectionSession {
         showFeedback?(hold.target.app, .ready)
     }
 
-    private func perform(_ target: Destination, keyCode: UInt16) {
+    private func perform(_ target: Destination) {
         guard routing.commandIsEligible, canDeliver(to: target) else { return }
         if target.app.bundleIdentifier == QuitProtectionChromeQuit.bundleIdentifier {
             // Chrome's keyboard-only warning would treat replay as a new,
             // unconfirmed gesture. Invoke its normal Quit menu after ours.
-            deliveryTask?.cancel()
+            cancelDelivery()
             let pid = target.app.processIdentifier
             deliveryTask = Task { [weak self] in
-                guard !Task.isCancelled, let self, self.canDeliver(to: target) else { return }
+                guard !Task.isCancelled, let self else { return }
+                defer {
+                    if !Task.isCancelled { self.deliveryTask = nil }
+                }
+                guard self.canDeliver(to: target) else { return }
                 let result = await Task.detached(priority: .userInitiated) {
                     QuitProtectionChromeQuit.lookup(in: pid)
                 }.value
@@ -441,33 +476,56 @@ final class QuitProtectionSession {
                     // An AX timeout can occur after delivery. Never replay it.
                     item.press()
                 case .reassigned:
-                    self.postQuitShortcut(to: target.app, keyCode: keyCode)
+                    self.postQuitShortcut(to: target)
                 case .unavailable:
-                    break
+                    self.scheduleFeedback(.chromeUnavailable, for: target)
                 }
             }
+            watchInputWhilePending()
         } else {
-            postQuitShortcut(to: target.app, keyCode: keyCode)
+            postQuitShortcut(to: target)
         }
     }
 
     private func canDeliver(to target: Destination) -> Bool {
         isProtecting && Self.hasRequiredPermissions && !IsSecureEventInputEnabled() && target.generation == generation
             && !target.app.isTerminated
+            && QuitProtectionKeyboardLayout.current(keyboardType: target.keyboardLayout.keyboardType) == target.keyboardLayout
+            && target.keyboardLayout.isQuitKey(target.keyCode)
             && matchesDestination(target.app.processIdentifier,
                                   frontmostPID: NSWorkspace.shared.frontmostApplication?.processIdentifier)
     }
 
-    private func postQuitShortcut(to app: NSRunningApplication, keyCode: UInt16) {
+    private func postQuitShortcut(to target: Destination) {
         guard CGPreflightPostEventAccess(),
-              let source = CGEventSource(stateID: .privateState),
-              let down = CGEvent(keyboardEventSource: source, virtualKey: keyCode, keyDown: true),
-              let up = CGEvent(keyboardEventSource: source, virtualKey: keyCode, keyDown: false) else { return }
+              let source = CGEventSource(stateID: .privateState) else { return }
+        source.keyboardType = target.keyboardLayout.keyboardType
+        guard let down = CGEvent(keyboardEventSource: source, virtualKey: target.keyCode, keyDown: true),
+              let up = CGEvent(keyboardEventSource: source, virtualKey: target.keyCode, keyDown: false) else { return }
         for event in [down, up] {
             event.flags = .maskCommand
             MacToolsSyntheticInputEvent.mark(event)
-            event.postToPid(app.processIdentifier)
+            event.postToPid(target.app.processIdentifier)
         }
+    }
+
+    private func watchInputWhilePending() {
+        guard inputWatch == nil else { return }
+        inputWatch = Task { [weak self] in
+            let interrupted = await QuitProtectionInputWatch.wasInterrupted(whilePending: {
+                guard let self else { return false }
+                return self.deliveryTask != nil || (self.gesture.hasPendingConfirmation
+                    && (self.gesture.doublePressDeadline.map { $0 >= .now } ?? true))
+            })
+            guard !Task.isCancelled, let self else { return }
+            self.inputWatch = nil
+            if interrupted { self.resetAfterInputInterruption() }
+        }
+    }
+
+    private func cancelDelivery() {
+        deliveryTask?.cancel()
+        deliveryTask = nil
     }
 
     private func handleInterruption(_ type: CGEventType) -> Bool {
@@ -488,13 +546,16 @@ final class QuitProtectionSession {
         gesture.cancel()
         deadline?.cancel()
         deadline = nil
+        if deliveryTask == nil {
+            inputWatch?.cancel()
+            inputWatch = nil
+        }
         clearFeedback()
     }
 
     private func invalidateDestination(keepingCandidate: Bool = false) {
         generation &+= 1
-        deliveryTask?.cancel()
-        deliveryTask = nil
+        cancelDelivery()
         if !keepingCandidate { candidate = nil }
         cancelConfirmation()
     }

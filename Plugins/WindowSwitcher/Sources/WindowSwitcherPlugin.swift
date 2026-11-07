@@ -62,7 +62,7 @@ private struct WindowSwitcherPluginProvider: PluginProvider {
 }
 
 @MainActor
-final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefreshing, DisplayTopologyRefreshing,
+final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefreshing, DisplayTopologyRefreshing, PluginPhysicalInputClaimReporting,
     PluginShortcutEventHandling, PluginShortcutBindingChangeHandling, PluginFocusedWindowTargetConsuming,
     PluginActionProviding, PluginActionPermissionProviding, PluginInlineShortcutSettingsContextConsuming {
     private enum SettingsID {

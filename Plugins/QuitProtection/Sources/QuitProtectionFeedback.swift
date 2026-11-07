@@ -48,7 +48,7 @@ final class QuitProtectionFeedback {
                         }
                     case .ready:
                         progress(1)
-                    case .doublePress:
+                    case .doublePress, .chromeUnavailable:
                         EmptyView()
                     }
                 }
@@ -75,7 +75,13 @@ final class QuitProtectionFeedback {
     func show(for app: NSRunningApplication, message: String, state: QuitProtectionSession.Feedback) {
         dismiss?.cancel()
         dismiss = nil
-        if case let .doublePress(deadline) = state {
+        let dismissAt: ContinuousClock.Instant?
+        switch state {
+        case let .doublePress(deadline): dismissAt = deadline
+        case .chromeUnavailable: dismissAt = .now + .seconds(4)
+        default: dismissAt = nil
+        }
+        if let deadline = dismissAt {
             guard deadline > .now else {
                 hide()
                 return

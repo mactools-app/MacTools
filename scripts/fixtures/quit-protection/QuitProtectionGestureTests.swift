@@ -11,7 +11,7 @@ enum QuitProtectionGestureTests {
     private static let start = ContinuousClock.now
     private static let duration: Duration = .milliseconds(800)
 
-    static func main() {
+    @MainActor static func main() async {
         appScopesKeepTheirOwnLists()
         earlyReleaseAndCancelDrainOnlyTheClaimedKey()
         validHoldConfirmsExactlyOnce()
@@ -29,7 +29,53 @@ enum QuitProtectionGestureTests {
         windowSwitcherOwnsQuitBeforeClaimAndBeforeDelivery()
         expiredDoublePressLeavesNothingForEscapeToCancel()
         freshPressAfterMissedReleaseCannotConfirmOldHold()
-        print("Passed 17 Quit Protection behavior checks.")
+        keyboardLayoutChangeInvalidatesTheClaimedKey()
+        await secureInputCancelsWithoutAnotherKeyEvent()
+        chromeLookupDistinguishesAnUnavailableMenu()
+        print("Passed 20 Quit Protection behavior checks.")
+    }
+
+    @MainActor
+    private static func secureInputCancelsWithoutAnotherKeyEvent() async {
+        var gesture = Gesture()
+        let intent = Gesture.Intent.doublePress(target, interval: duration)
+        precondition(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: start) == .startedDoublePress)
+        precondition(gesture.keyUp(keyCode: q, at: start))
+        var samples = 0
+        let interrupted = await QuitProtectionInputWatch.wasInterrupted(
+            whilePending: { gesture.hasPendingConfirmation },
+            secureInputIsEnabled: { samples == 2 },
+            waitForSample: { samples += 1; precondition(samples <= 2) }
+        )
+        precondition(interrupted)
+        gesture.resetObservation()
+        precondition(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent,
+                                     at: start + .milliseconds(100)) == .startedDoublePress)
+    }
+
+    private static func keyboardLayoutChangeInvalidatesTheClaimedKey() {
+        func layout(_ id: String) -> QuitProtectionKeyboardLayout {
+            let filter = [kTISPropertyInputSourceID as String: id] as CFDictionary
+            guard let results = TISCreateInputSourceList(filter, true)?.takeRetainedValue() as? [TISInputSource],
+                  let source = results.first,
+                  let raw = TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)
+            else { preconditionFailure("Missing built-in layout: \(id)") }
+            return .init(inputSourceID: id, layoutSourceID: id,
+                         data: Unmanaged<CFData>.fromOpaque(raw).takeUnretainedValue() as Data,
+                         keyboardType: UInt32(kKeyboardANSI))
+        }
+        let dvorak = layout("com.apple.keylayout.Dvorak")
+        let us = layout("com.apple.keylayout.US")
+        let dvorakQ = UInt16(kVK_ANSI_X)
+        precondition(dvorak.isQuitKey(dvorakQ))
+        precondition(us.isQuitKey(q))
+        precondition(dvorak != us && !us.isQuitKey(dvorakQ))
+    }
+
+    private static func chromeLookupDistinguishesAnUnavailableMenu() {
+        guard case .unavailable = QuitProtectionChromeQuit.lookup(in: getpid()) else {
+            preconditionFailure("A fixture with no menu must not deliver Quit or replay its shortcut")
+        }
     }
 
     private static func ordinaryShortcutDoesNotBypassFreshQuit() {

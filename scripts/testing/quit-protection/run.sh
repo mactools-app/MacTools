@@ -4,8 +4,8 @@ set -euo pipefail
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
 mode="${1:-test}"
 case "$mode" in
-    test|build|build-routing-pair|preflight|native-menu) ;;
-    *) printf 'Usage: %s [test|build|build-routing-pair|preflight|native-menu]\n' "$0" >&2; exit 2 ;;
+    test|build|build-routing-pair|preflight|native-menu|desktop) ;;
+    *) printf 'Usage: %s [test|build|build-routing-pair|preflight|native-menu|desktop]\n' "$0" >&2; exit 2 ;;
 esac
 
 output_dir="$(mktemp -d "${TMPDIR:-/tmp}/mactools-quit-protection.XXXXXX")"
@@ -15,13 +15,14 @@ fi
 
 fixture_dir="$repo_root/scripts/fixtures/quit-protection"
 sources=("$repo_root/Plugins/QuitProtection/Sources/QuitProtectionGesture.swift"
-         "$repo_root/Plugins/QuitProtection/Sources/QuitProtectionRule.swift")
+         "$repo_root/Plugins/QuitProtection/Sources/QuitProtectionRule.swift"
+         "$repo_root/Plugins/QuitProtection/Sources/QuitProtectionInputRouting.swift"
+         "$repo_root/Plugins/QuitProtection/Sources/QuitProtectionKeyboardLayout.swift")
 swift_flags=(-swift-version 6 -module-cache-path "$output_dir/module-cache")
 
 if [[ "$mode" == test ]]; then
     xcrun swiftc "${swift_flags[@]}" "${sources[@]}" \
         "$repo_root/Plugins/QuitProtection/Sources/QuitProtectionChromeQuit.swift" \
-        "$repo_root/Plugins/QuitProtection/Sources/QuitProtectionInputRouting.swift" \
         "$fixture_dir/QuitProtectionGestureTests.swift" -o "$output_dir/tests"
     "$output_dir/tests"
     exit
@@ -36,6 +37,7 @@ xcrun swiftc "${swift_flags[@]}" "${sources[@]}" "$fixture_dir/Fixture.swift" -o
 case "$mode" in
     preflight) "$executable" --preflight ;;
     native-menu) "$executable" --verify-native-menu ;;
+    desktop) "$executable" --verify-desktop ;;
     build) printf '%s\n' "$executable" ;;
     build-routing-pair)
         for role in A B; do

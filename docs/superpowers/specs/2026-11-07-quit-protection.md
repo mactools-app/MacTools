@@ -35,6 +35,9 @@ Escape, target changes, pausing, and edits to the active rule cancel a pending c
 
 - **⌘Q** confirms against the same running app instance. A confirmed quit lets the app present its usual save prompt or decline to quit.
 - With Chrome's standard Quit shortcut available, invoke its Quit menu action after MacTools confirms. Chrome's own warning applies to keyboard quits, so replaying the shortcut could start another confirmation. Reassigned shortcuts fall back to normal keyboard delivery.
+- If Chrome's menu lookup fails before delivery, show how to quit from Chrome's menu. A change of keyboard layout cancels a pending gesture so a replay cannot invoke a different shortcut.
+- Window Switcher and Input Remapping report when they take ownership of input. If the host has loaded an older version that cannot report ownership, Quit Protection pauses and shows update guidance. The updated Input Remapping package requires host 2.2.4.
+- During a pending confirmation, Quit Protection checks Secure Input independently of keyboard events. A transition that begins and ends entirely between checks can go unseen.
 - Menu actions, shortcuts outside the rule's scope, and unrelated modified chords keep their normal behavior. Preserve ⌘Tab Q on the highlighted app. In custom switchers, remote desktops, and virtual machines, leave input to its normal handler when it may be directed elsewhere. Settings should explain that these shortcuts may take effect immediately. [Vorssaint switcher report](https://github.com/vorssaint/vorssaint-utils/issues/3349)
 
 ## Prototype and release gates
@@ -49,6 +52,7 @@ Start with a disposable test app and the ⌘Q hold path to verify routing and de
 
 - Run the app scope and confirmation gesture checks with `bash scripts/testing/quit-protection/run.sh test`.
 - Run the fixture's AppKit Quit menu check with `bash scripts/testing/quit-protection/run.sh native-menu` in a desktop session. The fixture cancels its own termination in the app delegate.
+- Run `bash scripts/testing/quit-protection/run.sh desktop` on an unlocked desktop. It drives the fixture with local AppKit events and checks early release, readiness without quitting, release to confirm, Escape, Double Press, and detection of a brief Secure Input interval. It does not post input to other apps.
 - Build the interactive fixture with `bash scripts/testing/quit-protection/run.sh build` and run the printed executable. It uses Hold by default and accepts `--double-press` or `--extra-modifier`. The extra modifier is Option for this fixture. A confirmed gesture invokes the fixture's own Quit menu item. Close the fixture window to exit.
 - Build two separately named disposable apps with `bash scripts/testing/quit-protection/run.sh build-routing-pair`. Run each bundle's `Contents/MacOS/QuitProtectionFixture` executable directly with `--observe-routing`, starting B before A. The fixture reports destination PIDs for fresh ⌘Q events while it is frontmost on a U.S. keyboard layout. Tap ordinary ⌘Q in A, then hold Command and use Tab to highlight B before tapping Q. Both apps cancel their own termination and log which one received Quit. Check event access with `bash scripts/testing/quit-protection/run.sh preflight`.
 

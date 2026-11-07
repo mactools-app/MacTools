@@ -409,3 +409,19 @@ public protocol TrackpadGestureEventConsuming: AnyObject {
     func setOwnedTrackpadGestures(_ gestures: Set<TrackpadGesture>)
     func receiveTrackpadGesture(_ gesture: TrackpadGesture, deviceID: UInt64)
 }
+
+/// A plugin that reports consumed physical input before it can affect other plugins.
+@MainActor
+public protocol PluginPhysicalInputClaimReporting: AnyObject {}
+
+public extension Notification.Name {
+    /// Posted synchronously on the main run loop before a remapper claims physical input.
+    static let macToolsWillClaimPhysicalInput = Self("MacTools.InputRemapping.willClaimPhysicalInput")
+}
+
+/// Receives compatibility from the actual plugin instances loaded by the host.
+@MainActor
+public protocol PluginPhysicalInputCompatibilityConsuming: AnyObject {
+    /// Returns whether the consumer's presentation changed.
+    func physicalInputCompatibilityDidChange(isCompatible: Bool) -> Bool
+}

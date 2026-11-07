@@ -2772,6 +2772,160 @@
           }
         }
       }
+    },
+    "Couldn’t quit Chrome. Use Chrome’s Quit menu.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法退出 Chrome。请使用 Chrome 菜单中的退出命令。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法結束 Chrome。請使用 Chrome 選單中的結束指令。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر إنهاء Chrome. استخدم أمر الإنهاء من قائمة Chrome."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chrome konnte nicht beendet werden. Verwende den Befehl im Chrome-Menü."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo salir de Chrome. Usa la opción Salir del menú de Chrome."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de quitter Chrome. Utilisez la commande Quitter du menu Chrome."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chrome を終了できませんでした。Chrome メニューの終了を使ってください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chrome을 종료할 수 없습니다. Chrome 메뉴에서 종료를 선택하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível sair do Chrome. Use a opção Sair no menu do Chrome."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось закрыть Chrome. Выберите «Выйти» в меню Chrome."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chrome kapatılamadı. Chrome menüsündeki Çık seçeneğini kullanın."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t quit Chrome. Use Chrome’s Quit menu."
+          }
+        }
+      }
+    },
+    "Update Window Switcher or Input Remapping to use Quit Protection.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请更新窗口切换或输入重映射以使用退出保护。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請更新視窗切換或輸入重新對應以使用結束保護。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدّث مبدّل النوافذ أو إعادة تعيين الإدخال لاستخدام الحماية من الإنهاء."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktualisiere den Fensterwechsel oder die Eingabezuordnung, um den Beenden-Schutz zu nutzen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualiza el selector de ventanas o la reasignación de entradas para usar la protección al salir."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettez à jour le sélecteur de fenêtres ou la réaffectation des entrées pour utiliser la protection à la fermeture."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "終了保護を使うには、ウインドウ切り替えまたは入力の再割り当てを更新してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "종료 보호를 사용하려면 윈도우 전환기 또는 입력 재매핑을 업데이트하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atualize o seletor de janelas ou o remapeamento de entrada para usar a proteção ao sair."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновите переключатель окон или переназначение ввода, чтобы использовать защиту от выхода."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkış Korumasını kullanmak için Pencere Değiştiriciyi veya Giriş Eşlemeyi güncelleyin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update Window Switcher or Input Remapping to use Quit Protection."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

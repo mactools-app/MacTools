@@ -12,8 +12,10 @@ private final class QuitProtectionFixture: NSObject, NSApplicationDelegate, NSWi
     private let status = NSTextField(labelWithString: "Ready")
     private let observeRouting: Bool
     private let verifyNativeMenu: Bool
+    private let verifyDesktop: Bool
     private var rule = QuitProtectionRule()
     private var gesture = QuitProtectionGesture<Int>()
+    private var eventClock = QuitProtectionEventClock()
     private var monitor: Any?
     private var deadline: Task<Void, Never>?
     private var taps: [CFMachPort] = []
@@ -21,9 +23,10 @@ private final class QuitProtectionFixture: NSObject, NSApplicationDelegate, NSWi
     private var closingFixture = false
     private var quitRequests = 0
 
-    init(observeRouting: Bool, verifyNativeMenu: Bool, confirmation: QuitProtectionRule.Confirmation) {
+    init(observeRouting: Bool, verifyNativeMenu: Bool, verifyDesktop: Bool, confirmation: QuitProtectionRule.Confirmation) {
         self.observeRouting = observeRouting
         self.verifyNativeMenu = verifyNativeMenu
+        self.verifyDesktop = verifyDesktop
         rule.confirmation = confirmation
     }
 
@@ -76,6 +79,69 @@ private final class QuitProtectionFixture: NSObject, NSApplicationDelegate, NSWi
         }
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+        if verifyDesktop {
+            Task { await runDesktopChecks() }
+        }
+    }
+
+    private func runDesktopChecks() async {
+        func require(_ condition: @autoclosure () -> Bool, _ message: String) {
+            guard condition() else {
+                Self.log("Desktop check failed: \(message)")
+                exit(1)
+            }
+        }
+        func press(_ type: NSEvent.EventType, key: Int = kVK_ANSI_Q,
+                   flags: NSEvent.ModifierFlags = .command) -> Bool {
+            guard let event = NSEvent.keyEvent(with: type, location: .zero, modifierFlags: flags,
+                                              timestamp: ProcessInfo.processInfo.systemUptime, windowNumber: window.windowNumber,
+                                              context: nil, characters: "q", charactersIgnoringModifiers: "q",
+                                              isARepeat: false, keyCode: UInt16(key)) else { return false }
+            return handle(event) == nil
+        }
+        let focusDeadline = ContinuousClock.now + .seconds(2)
+        while currentTarget == nil && ContinuousClock.now < focusDeadline {
+            try? await Task.sleep(for: .milliseconds(20))
+        }
+        require(currentTarget != nil, "fixture did not become the active window")
+
+        require(press(.keyDown) && press(.keyUp) && quitRequests == 0, "a quick tap requested Quit")
+        require(press(.keyDown), "hold did not claim Q")
+        try? await Task.sleep(for: .milliseconds(900))
+        require(quitRequests == 0 && deadline == nil && gesture.pendingHold != nil,
+                "hold must be ready without invoking Quit")
+        require(press(.keyUp) && quitRequests == 1, "releasing Q should invoke native Quit once")
+        require(!press(.keyUp) && quitRequests == 1, "an extra release should not invoke Quit again")
+
+        require(press(.keyDown), "second hold did not claim Q")
+        try? await Task.sleep(for: .milliseconds(900))
+        require(press(.keyDown, key: kVK_Escape, flags: []) && press(.keyUp, key: kVK_Escape, flags: [])
+                && press(.keyUp) && quitRequests == 1,
+                "Escape did not cancel a ready hold")
+
+        rule.confirmation = .doublePress(.milliseconds(600))
+        require(press(.keyDown) && press(.keyUp) && quitRequests == 1, "first press requested Quit")
+        require(press(.keyDown) && press(.keyUp) && quitRequests == 2, "second press should invoke native Quit once")
+
+        if !IsSecureEventInputEnabled() {
+            require(press(.keyDown) && press(.keyUp) && gesture.hasPendingConfirmation,
+                    "could not arm Double Press before enabling Secure Input")
+            require(EnableSecureEventInput() == noErr, "could not enable Secure Input in the fixture")
+            let secureInputDeadline = ContinuousClock.now + .milliseconds(250)
+            let interrupted = await QuitProtectionInputWatch.wasInterrupted(
+                whilePending: { gesture.hasPendingConfirmation && .now < secureInputDeadline }
+            )
+            let disabled = DisableSecureEventInput()
+            require(disabled == noErr && interrupted, "watch did not see Secure Input with no keyboard callback")
+            cancel("Secure Input interrupted confirmation.", resetObservation: true)
+            require(press(.keyDown) && press(.keyUp) && quitRequests == 2,
+                    "first press after Secure Input confirmed a stale gesture")
+            Self.log("Desktop Secure Input sampling and fresh Double Press passed.")
+        } else {
+            Self.log("Desktop Secure Input sampling skipped because another process already enabled it.")
+        }
+        Self.log("Desktop fixture passed early release, ready without quit, release to quit, Escape, and Double Press.")
+        exit(0)
     }
 
     private var instructions: String {
@@ -84,7 +150,7 @@ private final class QuitProtectionFixture: NSObject, NSApplicationDelegate, NSWi
         }
         switch rule.confirmation {
         case .hold:
-            return "Tap ⌘Q to cancel, or hold it for 0.8 seconds to invoke the fixture’s native Quit menu item."
+            return "Hold ⌘Q for 0.8 seconds, then release Q while holding Command to invoke Quit."
         case .doublePress:
             return "Press ⌘Q twice within 0.6 seconds to invoke the fixture’s native Quit menu item."
         case .extraModifier:
@@ -141,14 +207,27 @@ private final class QuitProtectionFixture: NSObject, NSApplicationDelegate, NSWi
             }
         }
 
+        guard let timestamp = UInt64(exactly: (event.timestamp * 1_000_000_000).rounded()),
+              let now = eventClock.instant(for: timestamp, receivedAt: .now) else { return event }
         if event.type == .keyUp {
-            guard gesture.keyUp(keyCode: event.keyCode, at: .now) else { return event }
-            if deadline != nil { cancel("Released early. Quit cancelled.") }
+            if let hold = gesture.pendingHold, hold.keyCode == event.keyCode {
+                let confirmed = gesture.confirmHold(
+                    generation: hold.generation, at: now, target: currentTarget, chordStillHeld: flags == .command
+                ) != nil
+                deadline?.cancel()
+                deadline = nil
+                if confirmed {
+                    if !deliverQuit(event) { status.stringValue = "The fixture menu did not handle the shortcut." }
+                } else {
+                    status.stringValue = "Hold cancelled."
+                }
+            }
+            guard gesture.keyUp(keyCode: event.keyCode, at: now) else { return event }
             return nil
         }
 
         let result = gesture.keyDown(
-            keyCode: event.keyCode, isRepeat: event.isARepeat, intent: intent(for: event, flags: flags), at: .now
+            keyCode: event.keyCode, isRepeat: event.isARepeat, intent: intent(for: event, flags: flags), at: now
         )
         switch result {
         case .passThrough:
@@ -172,7 +251,9 @@ private final class QuitProtectionFixture: NSObject, NSApplicationDelegate, NSWi
                 } catch {
                     return
                 }
-                self?.confirm(attempt, event: event)
+                guard let self, gesture.pendingHold?.generation == attempt.generation else { return }
+                deadline = nil
+                status.stringValue = "Release Q to quit."
             }
             return nil
         }
@@ -191,21 +272,6 @@ private final class QuitProtectionFixture: NSObject, NSApplicationDelegate, NSWi
             return nil
         }
         return window.windowNumber
-    }
-
-    private func confirm(_ attempt: QuitProtectionGesture<Int>.Hold, event: NSEvent) {
-        guard gesture.pendingHold?.generation == attempt.generation else { return }
-        deadline = nil
-        let commandIsDown = NSEvent.modifierFlags.intersection(Self.shortcutModifiers) == .command
-        let keyIsDown = CGEventSource.keyState(.combinedSessionState, key: event.keyCode)
-        guard gesture.confirmHold(generation: attempt.generation, at: .now, target: currentTarget,
-                                  chordStillHeld: commandIsDown && keyIsDown) != nil else {
-            status.stringValue = "Hold cancelled. Command down: \(commandIsDown), key down: \(keyIsDown)."
-            return
-        }
-        if !deliverQuit(event) {
-            status.stringValue = "The fixture menu did not handle the shortcut."
-        }
     }
 
     private func deliverQuit(_ event: NSEvent) -> Bool {
@@ -316,6 +382,7 @@ enum QuitProtectionFixtureMain {
         let fixture = QuitProtectionFixture(
             observeRouting: CommandLine.arguments.contains("--observe-routing"),
             verifyNativeMenu: verifyNativeMenu,
+            verifyDesktop: CommandLine.arguments.contains("--verify-desktop"),
             confirmation: confirmation
         )
         app.delegate = fixture

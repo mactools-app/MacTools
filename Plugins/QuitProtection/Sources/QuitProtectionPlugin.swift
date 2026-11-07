@@ -18,7 +18,8 @@ private struct QuitProtectionProvider: PluginProvider {
 }
 
 @MainActor
-final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityStateHandling, AccessibilityPermissionRefreshing {
+final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityStateHandling, AccessibilityPermissionRefreshing,
+    PluginPhysicalInputCompatibilityConsuming {
     private struct Settings: Codable {
         var isEnabled = false
         var showsFeedback = true
@@ -43,6 +44,7 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
     private let feedback = QuitProtectionFeedback()
     private var settings: Settings
     private var active = false
+    private var hasCompatibleInputPlugins = false
     private var activity: PluginApplicationActivityState = .interactive
     private var appPicker: NSOpenPanel?
     private var permissionObserver: (any NSObjectProtocol)?
@@ -68,12 +70,14 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
             settings.quit.confirmation = .hold(.milliseconds(800))
         }
         session.showFeedback = { [weak self] app, state in
-            guard let self, self.settings.showsFeedback else { return }
+            guard let self, self.settings.showsFeedback || state == .chromeUnavailable else { return }
             let message: String
             switch state {
             case .holding: message = self.text("Hold ⌘Q to quit")
             case .ready: message = self.text("Release Q to quit")
             case .doublePress: message = self.text("Press ⌘Q again to quit")
+            case .chromeUnavailable:
+                message = self.text("Couldn’t quit Chrome. Use Chrome’s Quit menu.")
             }
             self.feedback.show(for: app, message: message, state: state)
         }
@@ -92,6 +96,7 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
     private var protectionStatus: String {
         if !settings.protectionEnabled { return text("Paused") }
         if !hasQuitScope { return text("Choose apps to protect in Settings") }
+        if !hasCompatibleInputPlugins { return text("Update Window Switcher or Input Remapping to use Quit Protection.") }
         return text(session.isProtecting ? "Protecting ⌘Q" : "Protection unavailable")
     }
 
@@ -159,8 +164,21 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
 
     func refreshAccessibilityPermission() { refresh() }
 
+    func physicalInputCompatibilityDidChange(isCompatible: Bool) -> Bool {
+        guard hasCompatibleInputPlugins != isCompatible else { return false }
+        hasCompatibleInputPlugins = isCompatible
+        updateSession()
+        return true
+    }
+
     func refresh() {
+        updateSession()
+        onStateChange?()
+    }
+
+    private func updateSession() {
         let wantsProtection = active && activity == .interactive && settings.protectionEnabled && hasQuitScope
+            && hasCompatibleInputPlugins
         if !active || activity != .interactive {
             session.stop()
         } else {
@@ -168,7 +186,6 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
             session.update(quit: settings.quit, enabled: canRun)
         }
         observePermissionChanges(wantsProtection)
-        onStateChange?()
     }
 
     private func observePermissionChanges(_ shouldObserve: Bool) {

@@ -195,7 +195,7 @@ final class InputRemappingButtonCaptureCoordinator: ObservableObject {
 }
 
 @MainActor
-final class InputRemappingPlugin: MacToolsPlugin, AccessibilityPermissionRefreshing, PluginSettingsPresenting, PluginRuntimeLocalizationRefreshing, TrackpadGestureEventConsuming {
+final class InputRemappingPlugin: MacToolsPlugin, AccessibilityPermissionRefreshing, PluginSettingsPresenting, PluginRuntimeLocalizationRefreshing, TrackpadGestureEventConsuming, PluginPhysicalInputClaimReporting {
     var panelItems: [PluginPanelItem] {
         let state = rowState
         let descriptor = rowDescriptor

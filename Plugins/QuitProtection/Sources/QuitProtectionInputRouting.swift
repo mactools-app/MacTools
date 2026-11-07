@@ -36,3 +36,21 @@ struct QuitProtectionInputRouting {
         !windowSwitcherIsVisible && frontmostPID == pid
     }
 }
+
+/// Checks the system independently of keyboard callbacks while there is an
+/// outstanding gesture or delivery. A transition between samples can go unseen.
+@MainActor
+enum QuitProtectionInputWatch {
+    static func wasInterrupted(
+        whilePending: () -> Bool,
+        secureInputIsEnabled: () -> Bool = { IsSecureEventInputEnabled() },
+        waitForSample: () async throws -> Void = { try await Task.sleep(for: .milliseconds(25)) }
+    ) async -> Bool {
+        while !Task.isCancelled {
+            do { try await waitForSample() } catch { return false }
+            guard !Task.isCancelled, whilePending() else { return false }
+            if secureInputIsEnabled() { return true }
+        }
+        return false
+    }
+}

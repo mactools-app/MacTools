@@ -3776,6 +3776,8 @@ final class PluginHost: ObservableObject {
         }
 
         synchronizeInputGestureClaims()
+        let compatibilityChanges = synchronizePhysicalInputCompatibility()
+        let dirtyPluginIDs = dirtyPluginIDs.map { $0.union(compatibilityChanges) }
 
         let descriptors = pluginDescriptorSnapshot()
         let isolatedPluginCountAtStart = isolatedPluginFailures.count
@@ -3966,6 +3968,23 @@ final class PluginHost: ObservableObject {
         } else {
             menuBarPanelContentDidChange.send()
         }
+    }
+
+    private func synchronizePhysicalInputCompatibility() -> Set<String> {
+        let active = activePlugins
+        let isCompatible = !active.contains {
+            ["input-remapping", "window-switcher"].contains($0.metadata.id)
+                && !($0 is any PluginPhysicalInputClaimReporting)
+        }
+        var changed: Set<String> = []
+        for plugin in active {
+            guard let consumer = plugin as? any PluginPhysicalInputCompatibilityConsuming,
+                  guardedValue(for: plugin, operation: "update physical input compatibility",
+                               consumer.physicalInputCompatibilityDidChange(isCompatible: isCompatible)) == true
+            else { continue }
+            changed.insert(plugin.metadata.id)
+        }
+        return changed
     }
 
     private func synchronizeInputGestureClaims() {

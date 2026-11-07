@@ -173,7 +173,8 @@ final class InputRemappingEventTap: InputRemappingEventTapping, @unchecked Senda
             .handle(type: type, event: event)
     }
 
-    func handle(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
+    func handle(type: CGEventType, event: CGEvent,
+                performAction: ((InputRemappingRule.Action) -> Bool)? = nil) -> Unmanaged<CGEvent>? {
         if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
             if let tap {
                 CGEvent.tapEnable(tap: tap, enable: true)
@@ -184,10 +185,12 @@ final class InputRemappingEventTap: InputRemappingEventTapping, @unchecked Senda
         guard !Self.isMarkedSynthetic(event) else {
             return Unmanaged.passUnretained(event)
         }
+        let execute = performAction ?? self.execute
 
         if type == .keyDown || type == .keyUp {
             let keyCode = UInt16(event.getIntegerValueField(.keyboardEventKeycode))
             if consumeEmergencyStop(type: type, keyCode: keyCode, flags: event.flags) {
+                if type == .keyDown { reportInputClaim() }
                 return nil
             }
         }
@@ -195,6 +198,7 @@ final class InputRemappingEventTap: InputRemappingEventTapping, @unchecked Senda
         if type == .keyDown || type == .keyUp {
             let keyCode = UInt16(event.getIntegerValueField(.keyboardEventKeycode))
             if consumeCapturedKeyEvent(type: type, keyCode: keyCode) {
+                if type == .keyDown { reportInputClaim() }
                 return nil
             }
         }
@@ -211,6 +215,7 @@ final class InputRemappingEventTap: InputRemappingEventTapping, @unchecked Senda
             if handler != nil { capturedKeyAwaitingUp = shortcut.keyCode }
             rulesLock.unlock()
             if let handler {
+                reportInputClaim()
                 handler(shortcut)
                 return nil
             }
@@ -234,6 +239,7 @@ final class InputRemappingEventTap: InputRemappingEventTapping, @unchecked Senda
             }
             rulesLock.unlock()
             if let handler {
+                if type != .scrollWheel { reportInputClaim() }
                 if case .scroll = capturedInput {
                     scheduleScrollCaptureCompletion()
                 }
@@ -251,7 +257,10 @@ final class InputRemappingEventTap: InputRemappingEventTapping, @unchecked Senda
                 flags: event.flags,
                 isMarkedSynthetic: false,
                 rules: rules,
-                execute: execute
+                execute: { action in
+                    reportInputClaim()
+                    return execute(action)
+                }
             )
             return shouldConsume ? nil : Unmanaged.passUnretained(event)
         }
@@ -285,9 +294,16 @@ final class InputRemappingEventTap: InputRemappingEventTapping, @unchecked Senda
             isMarkedSynthetic: false,
             rules: rules,
             timestamp: TimeInterval(event.timestamp) / 1_000_000_000,
-            execute: execute
+            execute: { action in
+                if phase == .down { reportInputClaim() }
+                return execute(action)
+            }
         )
         return shouldConsume ? nil : Unmanaged.passUnretained(event)
+    }
+
+    private func reportInputClaim() {
+        NotificationCenter.default.post(name: .macToolsWillClaimPhysicalInput, object: nil)
     }
 
     static func isMarkedSynthetic(_ event: CGEvent) -> Bool {
