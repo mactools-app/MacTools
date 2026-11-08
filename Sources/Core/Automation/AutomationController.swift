@@ -347,7 +347,7 @@ final class AutomationController: ObservableObject {
         guard case let .success(action) = registry.registeredAction(for: reference) else {
             return nil
         }
-        return action.catalogEntry
+        return action.presentationEntry
     }
 
     func availability(for reference: ActionReference) -> ActionAvailability {

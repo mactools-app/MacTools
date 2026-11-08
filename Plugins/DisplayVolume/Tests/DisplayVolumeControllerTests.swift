@@ -7,6 +7,7 @@ private final class VolumeTestTransport: DDCVolumeTransport, @unchecked Sendable
     struct State {
         var value: DDCVolumeValue?
         var failWrites = false
+        var ignoreWrites = false
         var writes: [UInt16] = []
         var readDelay: TimeInterval = 0
         var mainThreadReads = 0
@@ -34,7 +35,7 @@ private final class VolumeTestTransport: DDCVolumeTransport, @unchecked Sendable
         if read({ $0.failWrites }) { throw DisplayVolumeControllerError.failed(message: "SET failed") }
         update {
             $0.writes.append(value)
-            if let current = $0.value { $0.value = .init(current: value, maximum: current.maximum) }
+            if !$0.ignoreWrites, let current = $0.value { $0.value = .init(current: value, maximum: current.maximum) }
         }
     }
 }
@@ -85,6 +86,31 @@ final class DisplayVolumeControllerTests: XCTestCase {
         let result = await handle.result()
         XCTAssertEqual(result, .succeeded())
     }
+    func testExactVolumeLearnsHardwareScaleBeforeItsFirstWriteAndChecksReadback() async throws {
+        let cache = VolumeTestCache(value: 0.4)
+        defer { cache.restore() }
+        let transport = VolumeTestTransport()
+        transport.update { $0.value = .init(current: 60, maximum: 200) }
+        let backend = try XCTUnwrap(DDCVolumeBackend(display: display(cache), transport: transport))
+        let permit = DisplayActionWritePermit { true }
+
+        let applied = try await Task.detached { try backend.writeExactVolume(0.5, permit: permit) }.value
+        XCTAssertEqual(applied, 0.5)
+        XCTAssertEqual(transport.read { $0.writes }, [100])
+
+        transport.update { $0.ignoreWrites = true }
+        do {
+            _ = try await Task.detached { try backend.writeExactVolume(0.8, permit: permit) }.value
+            XCTFail("An acknowledged SET with mismatched readback must fail")
+        } catch DisplayVolumeControllerError.ddcWriteFailed {
+            XCTAssertEqual(transport.read { $0.writes }, [100, 160])
+        }
+
+        permit.cancel()
+        XCTAssertThrowsError(try backend.writeExactVolume(0.2, permit: permit))
+        XCTAssertEqual(transport.read { $0.writes }, [100, 160])
+    }
+
     func testMuteSurvivesRestartAndDecreaseDoesNotRaiseVolume() async throws {
         let cache = VolumeTestCache(value: 0.4)
         defer { cache.restore() }

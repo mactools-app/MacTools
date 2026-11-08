@@ -4335,7 +4335,7 @@ final class PluginHost: ObservableObject {
             return nil
         }
         let ownerTitle = actionSurfaceOwnerTitle(providerID: reference.key.providerID)
-        var entry = action.catalogEntry
+        var entry = action.presentationEntry
         if livePresentation {
             guard let plugin = activePlugins.first(where: { $0.metadata.id == reference.key.providerID }),
                   let provider = plugin as? any PluginActionProviding else { return nil }

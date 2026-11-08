@@ -20,6 +20,11 @@ PLUGIN_INTERFACES = REPO_ROOT / "Sources/MacToolsPluginKit/PluginInterfaces.swif
 PLUGIN_SETTINGS_MODELS = REPO_ROOT / "Sources/MacToolsPluginKit/PluginSettingsModels.swift"
 APP_VERSION_CONFIG = REPO_ROOT / "Configs/AppVersion.xcconfig"
 NEW_API_MINIMUM_HOSTS = {
+    "ActionPercentage": "2.2.5",
+    "ActionPercentageEditor": "2.2.5",
+    "ActionPercentageField": "2.2.5",
+    "DisplayActionTarget": "2.2.5",
+    "DisplayActionWritePermit": "2.2.5",
     "ActionConfirmationPreparation": "2.2.2",
     "PluginActionConfirmationProviding": "2.2.2",
     "PluginVoiceProvider": "2.2.0",

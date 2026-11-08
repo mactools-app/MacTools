@@ -265,8 +265,10 @@ final class DisplayVolumePlugin:
         ]
     }
 
+    private static let setDisplayVolumeActionID = "set-display-volume"
+
     var actionDefinitions: [ActionDefinition] {
-        [DisplayVolumeShortcutDirection.decrease, .increase].map { direction in
+        let relativeActions = [DisplayVolumeShortcutDirection.decrease, .increase].map { direction in
             let title = localization.format(
                 "shortcut.titleFormat",
                 defaultValue: "%@音量",
@@ -289,9 +291,43 @@ final class DisplayVolumePlugin:
                 capabilities: [.automatic, .background, .foregroundInteractive, .cancellable]
             )
         }
+        return relativeActions + [setDisplayVolumeDefinition]
+    }
+
+    private var setDisplayVolumeDefinition: ActionDefinition {
+        ActionDefinition(
+            key: ActionKey(providerID: metadata.id, actionID: Self.setDisplayVolumeActionID),
+            title: localization.string("action.set.title", defaultValue: "设置显示器音量"),
+            description: localization.string("action.set.description", defaultValue: "将指定显示器的音量调节到目标百分比"),
+            systemImage: "speaker.wave.2",
+            parameters: [
+                ActionParameterDefinition(id: DisplayActionTarget.parameterID, title: metadata.title, kind: .string, portability: .localOnly),
+                ActionPercentage.parameter,
+            ],
+            capabilities: [.automatic, .background, .foregroundInteractive, .cancellable]
+        )
+    }
+
+    var actionCatalogEntries: [ActionCatalogEntry] {
+        actionDefinitions.filter { $0.parameters.isEmpty }.map {
+            ActionCatalogEntry(reference: ActionReference(key: $0.key), title: $0.title)
+        } + DisplayActionTarget.catalogEntries(
+            for: controller.snapshot().displays.map(\.display),
+            definition: setDisplayVolumeDefinition,
+            identifier: controller.actionIdentifier(for:)
+        )
     }
 
     func actionAvailability(for reference: ActionReference) -> ActionAvailability {
+        if reference.key.actionID == Self.setDisplayVolumeActionID {
+            return DisplayActionTarget.resolve(
+                reference,
+                in: controller.snapshot().displays.map(\.display),
+                identifier: controller.actionIdentifier(for:)
+            ) == nil
+                ? .unavailable(PluginKitLocalization.actionUnavailable)
+                : .available
+        }
         guard Self.shortcutDirection(for: reference.key.actionID) != nil else {
             return .unavailable(PluginKitLocalization.actionUnavailable)
         }
@@ -306,6 +342,24 @@ final class DisplayVolumePlugin:
     }
 
     func beginAction(_ invocation: ActionInvocation) throws -> ActionExecutionHandle {
+        if invocation.reference.key.actionID == Self.setDisplayVolumeActionID {
+            let reference = invocation.reference
+            let controller = controller
+            return ActionExecutionHandle {
+                guard !Task.isCancelled else { return .cancelled }
+                guard let target = DisplayActionTarget.resolve(
+                    reference,
+                    in: controller.snapshot().displays.map(\.display),
+                    identifier: controller.actionIdentifier(for:)
+                ) else { return .failed(message: PluginKitLocalization.actionUnavailable) }
+                switch await controller.setExactVolumeAndWait(
+                    Double(target.percent) / 100, for: target.display.id, identifier: target.identifier
+                ) {
+                case .succeeded: return .succeeded()
+                case let .failed(message): return .failed(message: message)
+                }
+            }
+        }
         guard let direction = Self.shortcutDirection(for: invocation.reference.key.actionID) else {
             return ActionExecutionHandle { .failed(message: PluginKitLocalization.actionUnavailable) }
         }

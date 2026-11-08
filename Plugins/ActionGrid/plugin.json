@@ -72,7 +72,7 @@
     }
   },
   "version": "2.2.0",
-  "minHostVersion": "2.2.4",
+  "minHostVersion": "2.2.5",
   "pluginKitVersion": 7,
   "bundleRelativePath": "ActionGrid.bundle",
   "factoryClass": "ActionGridPlugin.ActionGridPluginFactory",

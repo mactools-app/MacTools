@@ -175,6 +175,36 @@ final class DDCVolumeBackend: DisplayVolumeBackend, @unchecked Sendable {
         persistCachedVolume()
     }
 
+    func writeExactVolume(_ value: Double, permit: DisplayActionWritePermit) throws -> Double {
+        lock.withLock { cacheRevision &+= 1 }
+        let actual = try ioLock.withLock {
+            guard permit.canWrite else { throw CancellationError() }
+            guard let initial = try? transport.readVolume(), initial.maximum > 0 else {
+                throw DisplayVolumeControllerError.volumeUnavailable(displayName: display.name)
+            }
+            guard permit.canWrite else { throw CancellationError() }
+            try transport.writeVolume(UInt16((Double(initial.maximum) * value).rounded()))
+
+            for delay in [0.0, 0.15, 0.30] {
+                if delay > 0 { Thread.sleep(forTimeInterval: delay) }
+                guard permit.canWrite else { throw CancellationError() }
+                guard let observed = try? transport.readVolume(), observed.maximum > 0,
+                      observed.current <= observed.maximum else { continue }
+                let level = Double(observed.current) / Double(observed.maximum)
+                lock.withLock {
+                    maximumValue = observed.maximum
+                    localVolume = level
+                }
+                if observed.current == UInt16((Double(observed.maximum) * value).rounded()) {
+                    return level
+                }
+            }
+            throw DisplayVolumeControllerError.ddcWriteFailed(displayName: display.name)
+        }
+        persistCachedVolume()
+        return actual
+    }
+
     private func persistCachedVolume() {
         // Defaults notifications enter SwiftUI synchronously. Publish on the main
         // queue after releasing both locks, so UI snapshot reads cannot deadlock.

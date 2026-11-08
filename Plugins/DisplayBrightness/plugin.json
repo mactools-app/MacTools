@@ -53,6 +53,48 @@
     }
   },
   "productStrings": {
+    "set-display-brightness-title": {
+      "ar": "ضبط سطوع الشاشة إلى نسبة مئوية",
+      "de": "Bildschirmhelligkeit auf einen Prozentwert einstellen",
+      "en": "Set Display Brightness to a Percentage",
+      "es": "Ajustar el brillo de la pantalla a un porcentaje",
+      "fr": "Régler la luminosité de l’écran en pourcentage",
+      "ja": "ディスプレイの明るさを割合で設定",
+      "ko": "디스플레이 밝기를 백분율로 설정",
+      "pt": "Definir o brilho do monitor em percentagem",
+      "ru": "Задать яркость дисплея в процентах",
+      "tr": "Ekran parlaklığını yüzde olarak ayarla",
+      "zh-Hans": "按百分比设置显示器亮度",
+      "zh-Hant": "依百分比設定顯示器亮度"
+    },
+    "set-display-brightness-description": {
+      "ar": "اضبط سطوع الشاشة المحددة على النسبة المحفوظة في الإجراء.",
+      "de": "Die Helligkeit des gewählten Monitors auf den gespeicherten Prozentwert einstellen.",
+      "en": "Apply a saved brightness percentage to the selected display.",
+      "es": "Aplica un porcentaje de brillo guardado a la pantalla seleccionada.",
+      "fr": "Applique le pourcentage de luminosité enregistré à l’écran sélectionné.",
+      "ja": "選択したディスプレイに保存済みの明るさを適用します。",
+      "ko": "선택한 디스플레이에 저장된 밝기 비율을 적용합니다.",
+      "pt": "Aplica a percentagem de brilho guardada ao monitor selecionado.",
+      "ru": "Применяет сохранённый процент яркости к выбранному дисплею.",
+      "tr": "Seçilen ekrana kaydedilen parlaklık yüzdesini uygular.",
+      "zh-Hans": "对选定的显示器应用已保存的亮度百分比。",
+      "zh-Hant": "將已儲存的亮度百分比套用到選定的顯示器。"
+    },
+    "display-level-parameters": {
+      "ar": "الشاشة والنسبة المطلوبة",
+      "de": "Monitor und Zielwert in Prozent",
+      "en": "Display and target percentage",
+      "es": "Monitor y porcentaje objetivo",
+      "fr": "Moniteur et pourcentage cible",
+      "ja": "ディスプレイと目標の割合",
+      "ko": "디스플레이 및 목표 백분율",
+      "pt": "Monitor e percentagem desejada",
+      "ru": "Монитор и заданный процент",
+      "tr": "Ekran ve hedef yüzde",
+      "zh-Hans": "显示器和目标百分比",
+      "zh-Hant": "顯示器和目標百分比"
+    },
     "display-name": "@displayName",
     "summary": "@summary",
     "setup.requirements.title": "@standardSetup.requirements.title",
@@ -109,7 +151,7 @@
     }
   },
   "version": "2.1.1",
-  "minHostVersion": "2.2.0",
+  "minHostVersion": "2.2.5",
   "pluginKitVersion": 7,
   "bundleRelativePath": "DisplayBrightness.bundle",
   "factoryClass": "DisplayBrightnessPlugin.DisplayBrightnessPluginFactory",
@@ -252,7 +294,7 @@
     "providers": [
       {
         "id": "display-brightness",
-        "kind": "static",
+        "kind": "mixed",
         "staticActions": [
           {
             "id": "display-brightness.decrease",
@@ -407,7 +449,44 @@
             "externalInvocation": "unavailable"
           }
         ],
-        "dynamicTemplates": []
+        "dynamicTemplates": [
+          {
+            "id": "set-display-brightness",
+            "title": "@productStrings.set-display-brightness-title",
+            "description": "@productStrings.set-display-brightness-description",
+            "parameters": [
+              {
+                "id": "display",
+                "kind": "string",
+                "isRequired": true,
+                "portability": "localOnly"
+              },
+              {
+                "id": "target-percentage",
+                "kind": "integer",
+                "isRequired": true,
+                "portability": "portable"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "unified-search",
+              "global-shortcut",
+              "workflow",
+              "automatic-rule",
+              "action-grid",
+              "trackpad-gesture",
+              "manual"
+            ],
+            "automaticEligible": true,
+            "externalInvocation": "unavailable",
+            "entrySource": "connected-displays",
+            "parameterSummary": "@productStrings.display-level-parameters",
+            "keywords": ["display", "brightness", "percent"],
+            "localOnlyIdentity": true
+          }
+        ]
       }
     ]
   },

@@ -6,6 +6,75 @@ import MacToolsPluginKit
 
 @MainActor
 final class DisplayBrightnessPluginTests: XCTestCase {
+    func testSavedBrightnessTargetsBuiltInDisplayAfterItsIDChanges() async throws {
+        let controller = MockDisplayBrightnessController()
+        let initialDisplay = makeTestDisplay(id: 7, name: "Built-in Display", isBuiltin: true)
+        controller.snapshotValue = .init(
+            displays: [.init(display: initialDisplay, brightness: 0.8, isPendingWrite: false)],
+            errorMessage: nil
+        )
+        let plugin = DisplayBrightnessPlugin(controller: controller)
+        let entry = try XCTUnwrap(plugin.actionCatalogEntries.first {
+            $0.reference.key.actionID == "set-display-brightness"
+        })
+        let definition = try XCTUnwrap(plugin.actionDefinitions.first { $0.key == entry.reference.key })
+        XCTAssertTrue(definition.capabilities.contains([.automatic, .background]))
+        let reference = try XCTUnwrap(ActionPercentage.setting(37, in: entry.reference))
+
+        let reconnectedDisplay = makeTestDisplay(id: 12, name: "Built-in Display", isBuiltin: true)
+        let other = makeBrightnessDisplay(id: 7, name: "External Display", brightness: 0.6)
+        controller.snapshotValue = .init(
+            displays: [other, .init(display: reconnectedDisplay, brightness: 0.2, isPendingWrite: false)],
+            errorMessage: nil
+        )
+        let registry = ActionRegistry()
+        XCTAssertTrue(registry.synchronize([ActionProviderRegistration(
+            providerID: plugin.metadata.id,
+            identity: ObjectIdentifier(plugin),
+            definitions: plugin.actionDefinitions,
+            catalogEntries: plugin.actionCatalogEntries,
+            availability: plugin.actionAvailability(for:),
+            begin: { invocation in
+                do { return .success(try plugin.beginAction(invocation)) }
+                catch { return .failure(.providerFailure(error.localizedDescription)) }
+            }
+        )]).isEmpty)
+        let registered = try registry.registeredAction(for: reference).get()
+        XCTAssertNil(registered.catalogEntry)
+        XCTAssertTrue(registered.presentationEntry?.title.contains(reconnectedDisplay.name) == true)
+        XCTAssertEqual(registered.presentationEntry?.reference, reference)
+
+        let suiteName = "\(Self.self).\(UUID())"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        defer { defaults.removePersistentDomain(forName: suiteName) }
+        let workflow = try WorkflowStore(userDefaults: defaults).upsert(
+            WorkflowDefinition(name: "Scheduled brightness", steps: [.init(reference: reference)])
+        ).get()
+        let runner = WorkflowRunner(
+            store: WorkflowStore(userDefaults: defaults),
+            registry: registry,
+            executor: ActionExecutor(registry: registry)
+        )
+        let run = try runner.makeExecutionHandle(
+            workflowID: workflow.id,
+            source: .automatic(ruleID: UUID(), triggerKind: "schedule"),
+            mode: .background
+        ).get()
+        let result = await run.actionHandle.result()
+        XCTAssertEqual(result, .succeeded())
+        XCTAssertEqual(controller.brightnessWrites, [.init(value: 0.37, displayID: 12, phase: .ended)])
+
+        controller.snapshotValue = .init(displays: [other], errorMessage: nil)
+        XCTAssertFalse(plugin.actionAvailability(for: reference).isAvailable)
+        let disconnectedResult = await ActionExecutor(registry: registry).execute(
+            ActionInvocation(reference: reference, source: .trackpadGesture, mode: .background)
+        )
+        guard case .rejected(.unavailable) = disconnectedResult else {
+            return XCTFail("Expected the missing display to be unavailable")
+        }
+        XCTAssertEqual(controller.brightnessWrites.count, 1)
+    }
+
     func testVoiceUsesFreshReadbackAndRejectsStaleAbsoluteTargets() async throws {
         let controller = MockDisplayBrightnessController()
         let display = makeTestDisplay(id: 7, name: "Display", isBuiltin: true)

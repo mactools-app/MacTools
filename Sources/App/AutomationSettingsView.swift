@@ -910,11 +910,32 @@ private struct WorkflowActionPicker: View {
 private struct WorkflowActionPickerPopoverContent: View {
     @ObservedObject var pluginHost: PluginHost
     let excluding: ActionKey
+    var currentReference: ActionReference? = nil
     let select: (ActionReference) -> Void
+    @State private var percentageEntry: ActionCatalogEntry?
     @State private var query = ""
     @State private var filter: WorkflowActionPickerFilter = .available
 
     var body: some View {
+        if let entry = percentageEntry {
+            ActionPercentageEditor(
+                title: [pluginHost.actionRegistry.definition(for: entry.reference.key)?.title, entry.subtitle]
+                    .compactMap { $0 }.joined(separator: " · "),
+                template: entry.reference,
+                current: currentReference,
+                cancelTitle: FeatureL10n.string("返回"),
+                saveTitle: FeatureL10n.string(currentReference == nil ? "添加操作" : "替换操作"),
+                onCancel: { percentageEntry = nil },
+                onSave: select
+            )
+            .padding(14)
+            .frame(width: 470)
+        } else {
+            pickerContent
+        }
+    }
+
+    private var pickerContent: some View {
         VStack(alignment: .leading, spacing: 12) {
             TextField(FeatureL10n.string("搜索操作、插件或快捷键"), text: $query)
                 .textFieldStyle(.roundedBorder)
@@ -952,7 +973,11 @@ private struct WorkflowActionPickerPopoverContent: View {
                                         requiresConfirmation: item.requiresConfirmation
                                     )
                                     Button {
-                                        select(item.entry.reference)
+                                        if ActionPercentage.value(in: item.entry.reference) != nil {
+                                            percentageEntry = item.entry
+                                        } else {
+                                            select(item.entry.reference)
+                                        }
                                     } label: {
                                         HStack(spacing: 10) {
                                             Image(systemName: PluginSystemImage.resolvedName(item.systemImage))
@@ -1784,6 +1809,7 @@ private struct WorkflowStepEditor: View {
                     WorkflowActionPickerPopoverContent(
                         pluginHost: pluginHost,
                         excluding: workflow.actionKey,
+                        currentReference: step.reference,
                         select: { reference in
                             automation.replaceStepReference(
                                 workflowID: workflow.id,
@@ -2129,7 +2155,7 @@ enum WorkflowHistoryPresentation {
         }
         let reference = result.actionReference ?? ActionReference(key: result.actionKey)
         if case let .success(action) = registry.registeredAction(for: reference) {
-            return action.catalogEntry?.title ?? action.definition.title
+            return action.presentationEntry?.title ?? action.definition.title
         }
         return registry.definition(for: result.actionKey)?.title ?? result.title
     }

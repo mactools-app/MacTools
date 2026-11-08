@@ -1,6 +1,7 @@
 import AppKit
 import CoreGraphics
 import Foundation
+import os
 
 public struct DisplayInfo: Identifiable, Equatable {
     public let id: CGDirectDisplayID
@@ -88,5 +89,86 @@ public struct SystemDisplayService: DisplayProviding {
         NSScreen.screens.first(where: {
             ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?.uint32Value == displayID
         })
+    }
+}
+
+/// Identifies the display in a saved action independently of its current Core Graphics ID.
+public enum DisplayActionTarget {
+    public static let parameterID = "display"
+
+    public static func catalogEntries(
+        for displays: [DisplayInfo],
+        definition: ActionDefinition,
+        identifier: (CGDirectDisplayID) -> String?
+    ) -> [ActionCatalogEntry] {
+        let identified = displays.compactMap { display in
+            identifier(display.id).map { (id: $0, display: display) }
+        }
+        let targetsByID = Dictionary(grouping: identified, by: \.id)
+        let targetsByName = Dictionary(grouping: identified, by: { $0.display.name })
+        return identified.compactMap { target in
+            guard targetsByID[target.id]?.count == 1,
+                  let parameters = try? ActionParameterSet([
+                      parameterID: .string(target.id),
+                      ActionPercentage.parameterID: .integer(Int64(ActionPercentage.defaultValue)),
+                  ]) else { return nil }
+            let name: String
+            if let sameName = targetsByName[target.display.name], sameName.count > 1,
+               let index = sameName.firstIndex(where: { $0.display.id == target.display.id }) {
+                name = "\(target.display.name) (\(index + 1))"
+            } else {
+                name = target.display.name
+            }
+            let reference = ActionReference(key: definition.key, parameters: parameters)
+            return ActionCatalogEntry(
+                reference: reference,
+                title: ActionPercentage.title(definition.title, target: name, value: ActionPercentage.defaultValue),
+                subtitle: name
+            )
+        }
+    }
+
+    public static func resolve(
+        _ reference: ActionReference,
+        in displays: [DisplayInfo],
+        identifier: (CGDirectDisplayID) -> String?
+    ) -> (display: DisplayInfo, percent: Int, identifier: String)? {
+        guard case let .string(target)? = reference.parameters[parameterID],
+              let percent = ActionPercentage.value(in: reference) else { return nil }
+        let matches = displays.filter { identifier($0.id) == target }
+        guard matches.count == 1, let display = matches.first else { return nil }
+        return (display, percent, target)
+    }
+
+    /// Best-effort continuity for interactive controls when macOS has no saved-action UUID.
+    public static func sameDisplayWithoutUUID(_ previous: DisplayInfo, _ current: DisplayInfo) -> Bool {
+        previous.id == current.id && previous.name == current.name
+            && previous.isBuiltin == current.isBuiltin && previous.vendorNumber == current.vendorNumber
+            && previous.modelNumber == current.modelNumber && previous.serialNumber == current.serialNumber
+    }
+
+    public static func identifier(for displayID: CGDirectDisplayID) -> String? {
+        guard CGDisplayIsActive(displayID) != 0 else { return nil }
+        if CGDisplayIsBuiltin(displayID) != 0 { return "builtin" }
+        guard let uuid = CGDisplayCreateUUIDFromDisplayID(displayID)?.takeRetainedValue() else { return nil }
+        return "display-uuid-\((CFUUIDCreateString(nil, uuid) as String).uppercased())"
+    }
+}
+
+/// A saved write must still target the same active display when it reaches hardware I/O.
+public final class DisplayActionWritePermit: Sendable {
+    private let cancelled = OSAllocatedUnfairLock(initialState: false)
+    private let matchesDisplay: @Sendable () -> Bool
+
+    public init(matchesDisplay: @escaping @Sendable () -> Bool) {
+        self.matchesDisplay = matchesDisplay
+    }
+
+    public var canWrite: Bool {
+        matchesDisplay() && !cancelled.withLock { $0 }
+    }
+
+    public func cancel() {
+        cancelled.withLock { $0 = true }
     }
 }

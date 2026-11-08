@@ -361,6 +361,17 @@ final class DDCBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendable 
         try transport.writeBrightness(rawValue)
     }
 
+    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws {
+        guard permit.canWrite else { throw CancellationError() }
+        let reading = try transport.readBrightness()
+        guard let maximum = Self.validMaximum(reading.maximum) else {
+            throw DisplayBrightnessControllerError.brightnessUnavailable(displayName: display.name)
+        }
+        lock.withLock { maximumValue = maximum }
+        guard permit.canWrite else { throw CancellationError() }
+        try transport.writeBrightness(UInt16((Double(maximum) * value).rounded()))
+    }
+
     func cleanup() {}
 
     private static func validMaximum(_ maximum: UInt16) -> UInt16? {
@@ -384,6 +395,7 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         set { lock.withLock { _display = newValue } }
     }
 
+    private let actionIdentifier: String?
     private var originalTransferTable: TransferTable?
     private var currentBrightness = 1.0
 
@@ -393,6 +405,7 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         }
 
         self._display = display
+        self.actionIdentifier = DisplayActionTarget.identifier(for: display.id)
     }
 
     func readBrightness() throws -> Double {
@@ -400,12 +413,22 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
     }
 
     func writeBrightness(_ value: Double) throws {
+        try writeBrightness(value, permit: nil)
+    }
+
+    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws {
+        try writeBrightness(value, permit: permit)
+    }
+
+    private func writeBrightness(_ value: Double, permit: DisplayActionWritePermit?) throws {
+        guard permit?.canWrite != false else { throw CancellationError() }
         let clampedValue = max(0, min(value, 1))
         let (displayID, transferTable) = try loadOriginalTransferTableIfNeeded()
         let red = transferTable.red.map { $0 * Float(clampedValue) }
         let green = transferTable.green.map { $0 * Float(clampedValue) }
         let blue = transferTable.blue.map { $0 * Float(clampedValue) }
 
+        guard permit?.canWrite != false else { throw CancellationError() }
         let result = CGSetDisplayTransferByTable(
             displayID,
             UInt32(red.count),
@@ -428,6 +451,9 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         }
 
         guard let snapshot else { return }
+
+        if let actionIdentifier,
+           DisplayActionTarget.identifier(for: snapshot.id) != actionIdentifier { return }
 
         _ = CGSetDisplayTransferByTable(
             snapshot.id,
@@ -518,6 +544,7 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
     }
 
     private let overlayController = ShadeOverlayController()
+    private let actionIdentifier: String?
     private var currentBrightness = 1.0
 
     init?(display: DisplayInfo) {
@@ -526,6 +553,7 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         }
 
         self._display = display
+        self.actionIdentifier = DisplayActionTarget.identifier(for: display.id)
     }
 
     func readBrightness() throws -> Double {
@@ -542,6 +570,26 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
 
         applyOverlay(brightness: clampedValue)
         lock.withLock { currentBrightness = clampedValue }
+    }
+
+    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws {
+        guard value >= ShadeOverlayController.minimumBrightness else {
+            throw DisplayBrightnessControllerError.softwareBrightnessFailed
+        }
+        let displayID = display.id
+        let apply: @MainActor @Sendable () throws -> Void = { [self] in
+            guard permit.canWrite else { throw CancellationError() }
+            guard let screen = Self.screen(for: displayID) else {
+                throw DisplayBrightnessControllerError.displayUnavailable(displayID: displayID)
+            }
+            overlayController.apply(brightness: value, on: screen)
+            lock.withLock { currentBrightness = value }
+        }
+        if Thread.isMainThread {
+            try MainActor.assumeIsolated(apply)
+        } else {
+            try DispatchQueue.main.sync(execute: apply)
+        }
     }
 
     func cleanup() {
@@ -564,7 +612,9 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         let displayID = display.id
         let overlayController = self.overlayController
 
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [actionIdentifier] in
+            if let actionIdentifier,
+               DisplayActionTarget.identifier(for: displayID) != actionIdentifier { return }
             guard let screen = Self.screen(for: displayID) else {
                 return
             }
@@ -590,10 +640,11 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
 
 @MainActor
 private final class ShadeOverlayController {
+    nonisolated static let minimumBrightness = 0.08
     private var window: NSWindow?
 
     func apply(brightness: Double, on screen: NSScreen) {
-        let alpha = max(0, min(1 - brightness, 0.92))
+        let alpha = max(0, min(1 - brightness, 1 - Self.minimumBrightness))
 
         guard alpha > 0.001 else {
             hide()

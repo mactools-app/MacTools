@@ -51,6 +51,31 @@ final class DisplayVolumePluginTests: XCTestCase {
         XCTAssertEqual(availability.reason, "未检测到可调节音量的显示器。")
     }
 
+    func testAbsoluteVolumeWritesSelectedDisplayAndReportsBackendFailure() async throws {
+        let controller = MockDisplayVolumeController()
+        controller.snapshotValue = .init(
+            displays: [
+                makeVolumeDisplay(id: 7, name: "Monitor", volume: 0.1, vendorNumber: 1, modelNumber: 2, serialNumber: 3),
+                makeVolumeDisplay(id: 8, name: "Monitor", volume: 0.9, vendorNumber: 1, modelNumber: 2, serialNumber: 4),
+            ],
+            errorMessage: nil
+        )
+        let plugin = DisplayVolumePlugin(controller: controller)
+        let entries = plugin.actionCatalogEntries.filter { $0.reference.key.actionID == "set-display-volume" }
+        XCTAssertEqual(Set(entries.map(\.title)).count, 2)
+        let entry = try XCTUnwrap(entries.last)
+        let definition = try XCTUnwrap(plugin.actionDefinitions.first { $0.key == entry.reference.key })
+        XCTAssertTrue(definition.capabilities.contains([.automatic, .background]))
+        XCTAssertNil(ActionPercentage.setting(101, in: entry.reference))
+        let reference = try XCTUnwrap(ActionPercentage.setting(63, in: entry.reference))
+        controller.writeResults[8] = .failed(message: "Display write failed")
+
+        let handle = try plugin.beginAction(.init(reference: reference, source: .automaticRule, mode: .background))
+        let result = await handle.result()
+        XCTAssertEqual(result, .failed(message: "Display write failed"))
+        XCTAssertEqual(controller.volumeWrites, [.init(value: 0.63, displayID: 8, phase: .ended)])
+    }
+
     func testBeginActionIncreasesVolumeByOnePercent() async throws {
         let controller = MockDisplayVolumeController()
         controller.snapshotValue = DisplayVolumeSnapshot(

@@ -22,6 +22,7 @@ A workflow is an ordered list of action references. It can be created, renamed, 
 
 - **Preview Before Running** is enabled by default for manual runs. It shows steps, availability, waits, and confirmation requirements. Workflows do not provide automatic rollback.
 - Changing a step's action opens the shared picker and replaces its parameters with a valid reference. Step names, waits, and failure policy are under **Advanced Options**.
+- To set display brightness or monitor volume, select the display and enter a whole percentage from 0 to 100. The same actions can be configured in Action Grid and Trackpad Gestures. If the selected display is disconnected when the action runs, the action is unavailable. Monitor volume requires DDC/CI volume readback. Displays using the software shade support brightness from 8% to 100%.
 - Text and numeric edits are saved after a short debounce. Structural edits, such as moving or deleting a step, are saved immediately.
 - Manual runs ignore rule-specific conditions. Deleting a workflow cancels active runs and removes its attached rules.
 

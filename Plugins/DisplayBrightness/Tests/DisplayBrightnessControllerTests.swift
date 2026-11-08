@@ -1,11 +1,44 @@
 import AppKit
 import CoreGraphics
 import XCTest
+import os
 import MacToolsPluginKit
 @testable import DisplayBrightnessPlugin
 
 @MainActor
 final class DisplayBrightnessControllerTests: XCTestCase {
+    func testQueuedExactBrightnessDoesNotTransferToReplacementAtSameID() async {
+        let oldDisplay = makeTestDisplay(id: 21, name: "Monitor", vendorNumber: 1, modelNumber: 2, serialNumber: 3)
+        let replacement = makeTestDisplay(id: 21, name: "Monitor", vendorNumber: 1, modelNumber: 2, serialNumber: 3)
+        let identity = OSAllocatedUnfairLock(initialState: "monitor-a")
+        let oldBackend = ScriptedBrightnessBackend(display: oldDisplay, results: [.success(())], suspendsFirstWrite: true)
+        let newBackend = ScriptedBrightnessBackend(display: replacement, results: [], suspendsFirstWrite: false)
+        let controller = DisplayBrightnessController(
+            displayProvider: StaticDisplayProvider(display: oldDisplay),
+            displayIdentifier: { _ in identity.withLock { $0 } },
+            backendBuilder: SequencedBrightnessBackendBuilder(backends: [oldBackend, newBackend]),
+            shortWriteDelay: 0,
+            minimumWriteInterval: 0
+        )
+        controller.refresh()
+        let first = Task { await controller.setExactBrightnessAndWait(0.2, for: oldDisplay.id, identifier: "monitor-a") }
+        await waitUntil { oldBackend.firstWriteStarted }
+        let queued = Task { await controller.setExactBrightnessAndWait(0.7, for: oldDisplay.id, identifier: "monitor-a") }
+        await waitUntil { controller.snapshot().displays.first?.brightness == 0.7 }
+
+        identity.withLock { $0 = "monitor-b" }
+        controller.refresh()
+        oldBackend.releaseFirstWrite()
+        guard case .failed = await queued.value, case .failed = await first.value else {
+            return XCTFail("The old target's writes must be retired")
+        }
+        XCTAssertEqual(controller.actionIdentifier(for: replacement.id), "monitor-b")
+        XCTAssertTrue(newBackend.writeValues.isEmpty)
+        let stale = await controller.setExactBrightnessAndWait(0.7, for: replacement.id, identifier: "monitor-a")
+        guard case .failed = stale else { return XCTFail("A stale saved identity must fail") }
+        XCTAssertTrue(newBackend.writeValues.isEmpty)
+    }
+
     func testShadeObservationKeepsPresentationOnMainAndSkipsInFlightWrites() async {
         let display = makeTestDisplay(id: 42, name: "Shade Display")
         let backend = ScriptedBrightnessBackend(display: display, results: [.success(())],

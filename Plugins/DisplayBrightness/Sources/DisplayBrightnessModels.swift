@@ -93,6 +93,8 @@ protocol DisplayBrightnessControlling: AnyObject {
     var onStateChange: (() -> Void)? { get set }
 
     func refresh()
+    func actionIdentifier(for displayID: CGDirectDisplayID) -> String?
+    func isActionTargetCurrent(for displayID: CGDirectDisplayID, identifier: String) -> Bool
     func snapshot() -> DisplayBrightnessSnapshot
     func setBrightness(
         _ value: Double,
@@ -103,11 +105,31 @@ protocol DisplayBrightnessControlling: AnyObject {
         _ value: Double,
         for displayID: CGDirectDisplayID
     ) async -> DisplayBrightnessWriteResult
+    func setExactBrightnessAndWait(
+        _ value: Double,
+        for displayID: CGDirectDisplayID,
+        identifier: String
+    ) async -> DisplayBrightnessWriteResult
     func cancelOutstandingWrites()
     func observeBrightness(for displayID: CGDirectDisplayID) async -> DisplayBrightnessObservation?
 }
 
 extension DisplayBrightnessControlling {
+    func isActionTargetCurrent(for displayID: CGDirectDisplayID, identifier: String) -> Bool {
+        actionIdentifier(for: displayID) == identifier
+    }
+
+    func setExactBrightnessAndWait(
+        _ value: Double,
+        for displayID: CGDirectDisplayID,
+        identifier: String
+    ) async -> DisplayBrightnessWriteResult {
+        guard actionIdentifier(for: displayID) == identifier, !Task.isCancelled else {
+            return .failed(message: PluginKitLocalization.actionUnavailable)
+        }
+        return await setBrightnessAndWait(value, for: displayID)
+    }
+
     func cancelOutstandingWrites() {}
     func observeBrightness(for displayID: CGDirectDisplayID) async -> DisplayBrightnessObservation? { nil }
 }
@@ -118,7 +140,15 @@ protocol DisplayBrightnessBackend: AnyObject, Sendable {
 
     func readBrightness() throws -> Double
     func writeBrightness(_ value: Double) throws
+    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws
     func cleanup()
+}
+
+extension DisplayBrightnessBackend {
+    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws {
+        guard permit.canWrite else { throw CancellationError() }
+        try writeBrightness(value)
+    }
 }
 
 protocol DisplayBrightnessBackendBuilding {

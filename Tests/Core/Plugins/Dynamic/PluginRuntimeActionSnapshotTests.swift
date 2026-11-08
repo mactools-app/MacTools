@@ -351,7 +351,9 @@ final class PluginRuntimeActionSnapshotTests: XCTestCase {
         "app-volume": ["set-volume"],
         "auto-input": ["select-input-source"],
         "battery-charge-limit": ["set-limit"],
+        "display-brightness": ["set-display-brightness"],
         "display-resolution": ["set-resolution"],
+        "display-volume": ["set-display-volume"],
         "fan-control": ["apply-preset"],
         "launch-control": ["start-favorite", "stop-favorite", "restart-favorite"],
     ]

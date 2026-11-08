@@ -67,6 +67,7 @@ protocol DisplayVolumeControlling: AnyObject {
     var onStateChange: (() -> Void)? { get set }
 
     func refresh()
+    func actionIdentifier(for displayID: CGDirectDisplayID) -> String?
     func snapshot() -> DisplayVolumeSnapshot
     func setVolume(
         _ value: Double,
@@ -77,10 +78,26 @@ protocol DisplayVolumeControlling: AnyObject {
         _ value: Double,
         for displayID: CGDirectDisplayID
     ) async -> DisplayVolumeWriteResult
+    func setExactVolumeAndWait(
+        _ value: Double,
+        for displayID: CGDirectDisplayID,
+        identifier: String
+    ) async -> DisplayVolumeWriteResult
     func cancelOutstandingWrites()
 }
 
 extension DisplayVolumeControlling {
+    func setExactVolumeAndWait(
+        _ value: Double,
+        for displayID: CGDirectDisplayID,
+        identifier: String
+    ) async -> DisplayVolumeWriteResult {
+        guard actionIdentifier(for: displayID) == identifier, !Task.isCancelled else {
+            return .failed(message: PluginKitLocalization.actionUnavailable)
+        }
+        return await setVolumeAndWait(value, for: displayID)
+    }
+
     func cancelOutstandingWrites() {}
 }
 
@@ -92,7 +109,20 @@ protocol DisplayVolumeBackend: AnyObject, Sendable {
     /// Performs hardware I/O and must run on a background worker.
     func readVolume() throws -> Double
     func writeVolume(_ value: Double) throws
+    func writeExactVolume(_ value: Double, permit: DisplayActionWritePermit) throws -> Double
     func cleanup()
+}
+
+extension DisplayVolumeBackend {
+    func writeExactVolume(_ value: Double, permit: DisplayActionWritePermit) throws -> Double {
+        guard permit.canWrite else { throw CancellationError() }
+        try writeVolume(value)
+        let observed = try readVolume()
+        guard abs(observed - value) <= 0.01 else {
+            throw DisplayVolumeControllerError.ddcWriteFailed(displayName: display.name)
+        }
+        return observed
+    }
 }
 
 protocol DisplayVolumeBackendBuilding {

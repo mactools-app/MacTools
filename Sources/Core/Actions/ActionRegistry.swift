@@ -24,6 +24,7 @@ enum ActionRegistryError: Error, Equatable {
 struct RegisteredAction: Equatable {
     let definition: ActionDefinition
     let catalogEntry: ActionCatalogEntry?
+    let presentationEntry: ActionCatalogEntry?
     let providerGeneration: UInt64
     let providerExecutionRevision: UInt64
 }
@@ -245,9 +246,22 @@ final class ActionRegistry: ObservableObject {
             RegisteredAction(
                 definition: definition,
                 catalogEntry: catalogByReference[reference],
+                presentationEntry: presentationEntry(for: reference, definition: definition),
                 providerGeneration: provider.generation,
                 providerExecutionRevision: provider.registration.executionRevision()
             )
+        )
+    }
+
+    private func presentationEntry(for reference: ActionReference, definition: ActionDefinition) -> ActionCatalogEntry? {
+        if let entry = catalogByReference[reference] { return entry }
+        guard let value = ActionPercentage.value(in: reference),
+              let template = ActionPercentage.template(for: reference) else { return nil }
+        let target = catalogByReference[template]?.subtitle
+        return ActionCatalogEntry(
+            reference: reference,
+            title: ActionPercentage.title(definition.title, target: target, value: value),
+            subtitle: target
         )
     }
 
