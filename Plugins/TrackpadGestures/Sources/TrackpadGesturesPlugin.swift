@@ -557,7 +557,10 @@ final class TrackpadGesturesPlugin: MacToolsPlugin, TrackpadInputServiceConsumin
                ) == nil {
                 return
             }
-            externalGestureHandler?(gesture, deviceID)
+            if let externalGestureHandler {
+                reportNonClickInputClaim(for: gesture)
+                externalGestureHandler(gesture, deviceID)
+            }
             return
         }
         guard let mapping = store.mapping(for: gesture), mapping.isEnabled else {
@@ -586,11 +589,19 @@ final class TrackpadGesturesPlugin: MacToolsPlugin, TrackpadInputServiceConsumin
                 return
             }
         }
+        reportNonClickInputClaim(for: gesture)
         if case let .action(reference) = mapping.action {
             trackpadActionHostContext?.execute(reference)
         } else {
             actionExecutor.execute(mapping.action)
         }
+    }
+
+    private func reportNonClickInputClaim(for gesture: TrackpadGesture) {
+        // A gesture without a native click can otherwise reach other plugins
+        // only as marked synthetic input after its action runs.
+        guard !gesture.producesNativeClick else { return }
+        NotificationCenter.default.post(name: .macToolsWillClaimPhysicalInput, object: nil)
     }
 
     private func refreshPermissionsAndApply() {

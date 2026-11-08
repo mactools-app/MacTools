@@ -4856,6 +4856,7 @@ private struct PluginSettingsRowView: View {
         case let .slider(value, range, step, valueFormat):
             PluginSettingsSliderControl(
                 controlID: row.id,
+                title: row.title,
                 value: value,
                 range: range,
                 step: step,
@@ -5127,6 +5128,7 @@ struct PluginSettingsSliderInteractionState: Sendable {
 
 private struct PluginSettingsSliderControl: View {
     let controlID: String
+    let title: String
     let value: Double
     let range: ClosedRange<Double>
     let step: Double?
@@ -5136,6 +5138,7 @@ private struct PluginSettingsSliderControl: View {
 
     init(
         controlID: String,
+        title: String,
         value: Double,
         range: ClosedRange<Double>,
         step: Double?,
@@ -5143,6 +5146,7 @@ private struct PluginSettingsSliderControl: View {
         onAction: @escaping (PluginSettingsAction) -> Void
     ) {
         self.controlID = controlID
+        self.title = title
         self.value = value
         self.range = range
         self.step = step
@@ -5153,7 +5157,7 @@ private struct PluginSettingsSliderControl: View {
 
     var body: some View {
         HStack(spacing: PluginSettingsTheme.Spacing.controlCluster) {
-            PluginSettingsSlider(
+            let slider = PluginSettingsSlider(
                 value: Binding(
                     get: { interactionState.currentValue },
                     set: { rawValue in
@@ -5173,12 +5177,18 @@ private struct PluginSettingsSliderControl: View {
                     actions.forEach(onAction)
                 }
             )
+            .accessibilityLabel(Text(verbatim: title))
 
             if let valueFormat {
-                Text(valueFormat.text(for: interactionState.currentValue))
+                let formattedValue = Text(verbatim: valueFormat.text(for: interactionState.currentValue))
+                slider.accessibilityValue(formattedValue)
+                formattedValue
                     .font(PluginSettingsTheme.Typography.monospacedValue)
                     .foregroundStyle(.secondary)
                     .frame(minWidth: 44, alignment: .trailing)
+                    .accessibilityHidden(true)
+            } else {
+                slider
             }
         }
         .frame(minWidth: 180, idealWidth: 240, maxWidth: 320)

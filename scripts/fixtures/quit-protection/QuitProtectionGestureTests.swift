@@ -8,7 +8,7 @@ enum QuitProtectionGestureTests {
     private static let w: UInt16 = 13
     private static let target = 42
     private static let otherTarget = 84
-    private static let start = ContinuousClock.now
+    private static let start = Duration.seconds(1)
     private static let duration: Duration = .milliseconds(800)
 
     @MainActor static func main() async {
@@ -321,8 +321,8 @@ enum QuitProtectionGestureTests {
     }
 
     private static func earlyReleaseCannotBeMadeLateByCallbackDelay() {
-        let down = QuitProtectionEventClock.instant(for: 1_000_000_000, sampledUptime: 1_000_000_000, sampledAt: start)!
-        let up = QuitProtectionEventClock.instant(for: 1_300_000_000, sampledUptime: 3_000_000_000, sampledAt: start + .seconds(2))!
+        let down = QuitProtectionEventClock.instant(for: 1_000_000_000, sampledUptime: 1_000_000_000)!
+        let up = QuitProtectionEventClock.instant(for: 1_300_000_000, sampledUptime: 3_000_000_000)!
         var gesture = Gesture()
         guard case let .startedHold(hold) = gesture.keyDown(
             keyCode: q, isRepeat: false, intent: .hold(target, duration: duration), at: down

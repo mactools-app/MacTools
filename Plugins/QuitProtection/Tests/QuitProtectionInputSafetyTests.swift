@@ -6,7 +6,7 @@ import XCTest
 final class QuitProtectionInputSafetyTests: XCTestCase {
     func testVoiceOverDoublePressUsesItsOwnAdjustableInterval() throws {
         let q = UInt16(kVK_ANSI_Q)
-        let pressedAt = ContinuousClock.now
+        let pressedAt = Duration.seconds(1)
         let releasedAt = pressedAt + .milliseconds(100)
         let target = 42
         var rule = QuitProtectionRule()
@@ -33,7 +33,7 @@ final class QuitProtectionInputSafetyTests: XCTestCase {
     }
 
     func testVoiceOverChangeCancelsPendingDoublePressAndKeepsTheClaimedRelease() {
-        let now = ContinuousClock.now
+        let now = Duration.seconds(1)
         let q = UInt16(kVK_ANSI_Q)
         for initiallyEnabled in [false, true] {
             var gesture = QuitProtectionGesture<Int>()
@@ -56,20 +56,43 @@ final class QuitProtectionInputSafetyTests: XCTestCase {
 
     func testDoublePressDeadlineUsesPhysicalReleaseDespiteDelayedCallback() throws {
         let q = UInt16(kVK_ANSI_Q)
-        let origin = ContinuousClock.now
-        var gesture = QuitProtectionGesture<Int>()
         let down = try XCTUnwrap(QuitProtectionEventClock.instant(
-            for: 1_000_000_000, sampledUptime: 1_200_000_000, sampledAt: origin + .milliseconds(200)
+            for: 1_000_000_000, sampledUptime: 1_200_000_000
         ))
         let released = try XCTUnwrap(QuitProtectionEventClock.instant(
-            for: 1_100_000_000, sampledUptime: 1_250_000_000, sampledAt: origin + .milliseconds(250)
+            for: 1_100_000_000, sampledUptime: 1_250_000_000
         ))
-        let intent = QuitProtectionGesture<Int>.Intent.doublePress(1, interval: .milliseconds(600))
-        XCTAssertEqual(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: down), .startedDoublePress)
+        for (offset, expected) in [
+            (UInt64(0), QuitProtectionGesture<Int>.PressResult.confirmed(1)),
+            (UInt64(1), .startedDoublePress)
+        ] {
+            var gesture = QuitProtectionGesture<Int>()
+            let intent = QuitProtectionGesture<Int>.Intent.doublePress(1, interval: .seconds(3))
+            XCTAssertEqual(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: down), .startedDoublePress)
+            XCTAssertTrue(gesture.keyUp(keyCode: q, at: released))
+            XCTAssertEqual(gesture.doublePressDeadline, .milliseconds(4_100))
+            let secondPress = try XCTUnwrap(QuitProtectionEventClock.instant(
+                for: 4_100_000_000 + offset, sampledUptime: 4_220_000_000
+            ))
+            XCTAssertEqual(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: secondPress), expected)
+        }
+    }
+
+    func testEarlyHoldReleaseCannotConfirmAfterDelayedCallback() throws {
+        let q = UInt16(kVK_ANSI_Q)
+        var gesture = QuitProtectionGesture<Int>()
+        let intent = QuitProtectionGesture<Int>.Intent.hold(1, duration: .milliseconds(800))
+        let down = try XCTUnwrap(QuitProtectionEventClock.instant(
+            for: 1_000_000_000, sampledUptime: 1_001_000_000
+        ))
+        guard case let .startedHold(hold) = gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: down) else {
+            return XCTFail("Expected an armed hold")
+        }
+        let released = try XCTUnwrap(QuitProtectionEventClock.instant(
+            for: 1_799_999_999, sampledUptime: 1_900_000_000
+        ))
+        XCTAssertNil(gesture.confirmHold(generation: hold.generation, at: released, target: 1, chordStillHeld: true))
         XCTAssertTrue(gesture.keyUp(keyCode: q, at: released))
-        XCTAssertEqual(gesture.doublePressDeadline, origin + .milliseconds(700))
-        let late = origin + .milliseconds(750)
-        XCTAssertEqual(gesture.keyDown(keyCode: q, isRepeat: false, intent: intent, at: late), .startedDoublePress)
     }
 
     @MainActor
@@ -80,8 +103,14 @@ final class QuitProtectionInputSafetyTests: XCTestCase {
         XCTAssertFalse(QuitProtectionSession.forwardingApp("com.philandro.anydeskexample"))
     }
 
+    @MainActor
+    func testMoonlightStreamingClientStaysOutOfQuitProtection() {
+        XCTAssertTrue(QuitProtectionSession.forwardingApp("com.moonlight-stream.Moonlight"))
+        XCTAssertFalse(QuitProtectionSession.forwardingApp("com.moonlight-stream.MoonlightHelper"))
+    }
+
     func testSuspensionCancelsHoldAndRetainsOnlyKeysStillDownOnResume() {
-        let now = ContinuousClock.now
+        let now = Duration.seconds(1)
         let q = UInt16(kVK_ANSI_Q)
         for heldOnResume in [false, true] {
             var gesture = QuitProtectionGesture<Int>()
@@ -123,7 +152,7 @@ final class QuitProtectionInputSafetyTests: XCTestCase {
 
     func testPauseKeepsHeldQuitClaimAcrossDrainChecks() {
         let q = UInt16(kVK_ANSI_Q)
-        let pressedAt = ContinuousClock.now
+        let pressedAt = Duration.seconds(1)
         for releaseIsObserved in [true, false] {
             var gesture = QuitProtectionGesture<Int>()
             _ = gesture.keyDown(keyCode: q, isRepeat: false, intent: .hold(42, duration: .seconds(1)), at: pressedAt)

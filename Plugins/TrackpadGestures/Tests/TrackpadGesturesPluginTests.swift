@@ -647,6 +647,35 @@ final class TrackpadGesturesPluginTests: XCTestCase {
         session.deactivate()
     }
 
+    func testMappedNonClickGestureReportsInputOwnershipBeforeExecuting() {
+        let storage = TrackpadGestureMemoryStorage()
+        let store = TrackpadGestureStore(storage: storage, legacyMiddleClick: nil)
+        let action = TrackpadGestureAction.keyboardShortcut(ShortcutBinding(
+            keyCode: UInt16(kVK_ANSI_T), modifiers: [.command]
+        ))
+        XCTAssertTrue(store.save(TrackpadGestureMapping(gesture: .threeFingerLongTouch, action: action)))
+        let (plugin, session, executor) = makePlugin(storage: storage)
+        plugin.activate(context: PluginRuntimeContext(pluginID: "trackpad-gestures", storage: storage))
+        defer { plugin.deactivate(reason: .disabled) }
+
+        let reported = MutableBool(false)
+        let observer = NotificationCenter.default.addObserver(
+            forName: .macToolsWillClaimPhysicalInput, object: nil, queue: nil
+        ) { _ in
+            MainActor.assumeIsolated {
+                XCTAssertTrue(executor.actions.isEmpty)
+                reported.value = true
+            }
+        }
+        defer { NotificationCenter.default.removeObserver(observer) }
+
+        session.recognize(.fourFingerLongTouch)
+        XCTAssertFalse(reported.value)
+        session.recognize(.threeFingerLongTouch)
+        XCTAssertTrue(reported.value)
+        XCTAssertEqual(executor.actions, [action])
+    }
+
     func testConsumedPhysicalClickReportsInputOwnershipBeforeReturning() throws {
         let driver = MockMultitouchFrameListener()
         let clock = LockedTestClock()

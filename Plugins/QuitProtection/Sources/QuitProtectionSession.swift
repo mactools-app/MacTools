@@ -8,9 +8,9 @@ import MacToolsPluginKit
 @MainActor
 final class QuitProtectionSession {
     enum Feedback: Equatable {
-        case holding(duration: Duration, deadline: ContinuousClock.Instant)
+        case holding(duration: Duration, deadline: Duration)
         case ready
-        case doublePress(deadline: ContinuousClock.Instant)
+        case doublePress(deadline: Duration)
         case chromeUnavailable
     }
 
@@ -71,8 +71,12 @@ final class QuitProtectionSession {
     var availabilityChanged: (() -> Void)?
 
     private var isRunning: Bool {
-        guard let sessionTap, let deliveryTap else { return false }
-        return CGEvent.tapIsEnabled(tap: sessionTap.port) && CGEvent.tapIsEnabled(tap: deliveryTap.port)
+        guard let sessionTap else { return false }
+        return CGEvent.tapIsEnabled(tap: sessionTap.port) && deliveryTapIsRunning
+    }
+
+    private var deliveryTapIsRunning: Bool {
+        deliveryTap.map { CGEvent.tapIsEnabled(tap: $0.port) } ?? false
     }
 
     var isProtecting: Bool { enabled && isRunning }
@@ -80,7 +84,11 @@ final class QuitProtectionSession {
     private var hasClaimedInput: Bool { gesture.hasClaimedKeys || escapeClaimed }
 
     static var hasRequiredPermissions: Bool {
-        AXIsProcessTrusted() && CGPreflightPostEventAccess() && CGPreflightListenEventAccess()
+        hasFilteringPermissions && CGPreflightPostEventAccess()
+    }
+
+    private static var hasFilteringPermissions: Bool {
+        AXIsProcessTrusted() && CGPreflightListenEventAccess()
     }
 
     func update(quit: QuitProtectionRule, enabled: Bool, showsFeedback: Bool, voiceOverEnabled: Bool) {
@@ -103,6 +111,10 @@ final class QuitProtectionSession {
                 start()
             }
         } else if hasClaimedInput {
+            if !deliveryTapIsRunning {
+                deliveryTap?.stop()
+                deliveryTap = Self.hasFilteringPermissions ? makeDeliveryTap() : nil
+            }
             drainReleasedClaimsWhilePaused()
         } else {
             stop()
@@ -155,10 +167,7 @@ final class QuitProtectionSession {
             at: .cgSessionEventTap, place: QuitProtectionInputRouting.sessionTapPlacement,
             events: Self.keyboardEvents + Self.pointerEvents, callback: Self.observe
         ) else { return }
-        guard let delivery = makeTap(
-            at: .cgAnnotatedSessionEventTap, place: .tailAppendEventTap,
-            events: [.keyDown, .keyUp], callback: Self.deliver
-        ) else {
+        guard let delivery = makeDeliveryTap() else {
             observed.stop()
             return
         }
@@ -202,6 +211,11 @@ final class QuitProtectionSession {
         ) { [weak self] _ in
             MainActor.assumeIsolated { self?.invalidateDestination() }
         }
+    }
+
+    private func makeDeliveryTap() -> Tap? {
+        makeTap(at: .cgAnnotatedSessionEventTap, place: .tailAppendEventTap,
+                events: [.keyDown, .keyUp], callback: Self.deliver)
     }
 
     private func makeTap(
@@ -351,7 +365,7 @@ final class QuitProtectionSession {
             }
             if instant == nil { cancelConfirmation() }
             let wasWaitingForSecondPress = gesture.doublePressDeadline != nil
-            let claimed = gesture.keyUp(keyCode: keyCode, at: instant ?? .now)
+            let claimed = gesture.keyUp(keyCode: keyCode, at: instant ?? QuitProtectionEventClock.now)
             if !wasWaitingForSecondPress, let deadline = gesture.doublePressDeadline,
                let target = gesture.pendingTarget {
                 scheduleFeedback(.doublePress(deadline: deadline), for: target)
@@ -374,7 +388,7 @@ final class QuitProtectionSession {
         candidate = nil
         switch gesture.keyDown(
             keyCode: keyCode, isRepeat: isRepeat,
-            intent: intent, at: instant ?? .now
+            intent: intent, at: instant ?? QuitProtectionEventClock.now
         ) {
         case .passThrough:
             if !gesture.hasPendingConfirmation { clearFeedback() }
@@ -393,7 +407,7 @@ final class QuitProtectionSession {
             }
             deadline?.cancel()
             deadline = Task { [weak self] in
-                do { try await Task.sleep(until: hold.deadline, clock: .continuous) } catch { return }
+                do { try await QuitProtectionEventClock.sleep(until: hold.deadline) } catch { return }
                 self?.showReleasePrompt(for: hold)
             }
             return true
@@ -461,6 +475,7 @@ final class QuitProtectionSession {
             || identifier == "com.parsec.www" || identifier == "com.p5sys.jump.mac.viewer"
             || identifier == "com.p5sys.jump.mac.viewer.web"
             || identifier == "com.tigervnc.tigervnc"
+            || identifier == "com.moonlight-stream.moonlight"
     }
 
     private func showReleasePrompt(for hold: QuitProtectionGesture<Destination>.Hold) {
@@ -546,7 +561,7 @@ final class QuitProtectionSession {
             let interrupted = await QuitProtectionInputWatch.wasInterrupted(whilePending: {
                 guard let self else { return false }
                 return self.deliveryTask != nil || (self.gesture.hasPendingConfirmation
-                    && (self.gesture.doublePressDeadline.map { $0 >= .now } ?? true))
+                    && (self.gesture.doublePressDeadline.map { $0 >= QuitProtectionEventClock.now } ?? true))
             })
             guard !Task.isCancelled, let self else { return }
             self.inputWatch = nil

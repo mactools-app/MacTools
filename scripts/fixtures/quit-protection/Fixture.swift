@@ -246,7 +246,7 @@ private final class QuitProtectionFixture: NSObject, NSApplicationDelegate, NSWi
             status.stringValue = "Keep holding ⌘Q…"
             deadline = Task { [weak self] in
                 do {
-                    try await Task.sleep(until: attempt.deadline, clock: .continuous)
+                    try await QuitProtectionEventClock.sleep(until: attempt.deadline)
                 } catch {
                     return
                 }

@@ -58,7 +58,7 @@ final class QuitProtectionFeedback {
                     switch state {
                     case let .holding(duration, deadline):
                         TimelineView(.animation(minimumInterval: reduceMotion ? 0.15 : 1.0 / 30)) { _ in
-                            let remaining = ContinuousClock.now.duration(to: deadline)
+                            let remaining = deadline - QuitProtectionEventClock.now
                             progress(duration > .zero ? min(1, max(0, 1 - remaining / duration)) : 1)
                         }
                     case .ready:
@@ -94,19 +94,19 @@ final class QuitProtectionFeedback {
     func show(for app: NSRunningApplication, localization: PluginLocalization, state: QuitProtectionSession.Feedback) {
         dismiss?.cancel()
         dismiss = nil
-        let dismissAt: ContinuousClock.Instant?
+        let dismissAt: Duration?
         switch state {
         case let .doublePress(deadline): dismissAt = deadline
-        case .chromeUnavailable: dismissAt = .now + .seconds(4)
+        case .chromeUnavailable: dismissAt = QuitProtectionEventClock.now + .seconds(4)
         default: dismissAt = nil
         }
         if let deadline = dismissAt {
-            guard deadline > .now else {
+            guard deadline > QuitProtectionEventClock.now else {
                 hide()
                 return
             }
             dismiss = Task { [weak self] in
-                do { try await Task.sleep(until: deadline, clock: .continuous) } catch { return }
+                do { try await QuitProtectionEventClock.sleep(until: deadline) } catch { return }
                 self?.hide()
             }
         }

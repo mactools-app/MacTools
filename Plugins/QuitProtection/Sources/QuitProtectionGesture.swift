@@ -1,19 +1,19 @@
 import Dispatch
 
 enum QuitProtectionEventClock {
+    static var now: Duration { .nanoseconds(DispatchTime.now().uptimeNanoseconds) }
 
-    /// Use the event's time for confirmation, including when the main run
-    /// loop processes an early release after the hold deadline.
+    /// Keep Quartz event times and deadlines on the same uptime clock.
     static func instant(
         for timestamp: UInt64,
-        sampledUptime: UInt64 = DispatchTime.now().uptimeNanoseconds,
-        sampledAt: ContinuousClock.Instant = .now
-    ) -> ContinuousClock.Instant? {
-        // Quartz timestamps use system uptime. Bridge the event's age into
-        // the HUD clock instead of treating callback arrival as event time.
-        guard timestamp > 0, timestamp <= sampledUptime,
-              let age = Int64(exactly: sampledUptime - timestamp) else { return nil }
-        return sampledAt - .nanoseconds(age)
+        sampledUptime: UInt64 = DispatchTime.now().uptimeNanoseconds
+    ) -> Duration? {
+        guard timestamp > 0, timestamp <= sampledUptime else { return nil }
+        return .nanoseconds(timestamp)
+    }
+
+    static func sleep(until deadline: Duration) async throws {
+        try await Task.sleep(for: max(.zero, deadline - now), clock: .suspending)
     }
 }
 
@@ -27,7 +27,7 @@ struct QuitProtectionGesture<Target: Equatable> {
     struct Hold: Equatable {
         let generation: UInt64
         let target: Target
-        let deadline: ContinuousClock.Instant
+        let deadline: Duration
         let keyCode: UInt16
     }
 
@@ -43,7 +43,7 @@ struct QuitProtectionGesture<Target: Equatable> {
     private enum Pending {
         case hold(Hold)
         case firstPress(Target, keyCode: UInt16, interval: Duration)
-        case secondPress(Target, keyCode: UInt16, deadline: ContinuousClock.Instant)
+        case secondPress(Target, keyCode: UInt16, deadline: Duration)
     }
 
     private var generation: UInt64 = 0
@@ -74,7 +74,7 @@ struct QuitProtectionGesture<Target: Equatable> {
         claimedKeys = claimedKeys.filter(isKeyDown)
     }
 
-    var doublePressDeadline: ContinuousClock.Instant? {
+    var doublePressDeadline: Duration? {
         guard case let .secondPress(_, _, deadline) = pending else { return nil }
         return deadline
     }
@@ -93,7 +93,7 @@ struct QuitProtectionGesture<Target: Equatable> {
     }
 
     mutating func keyDown(
-        keyCode: UInt16, isRepeat: Bool, intent: Intent?, at now: ContinuousClock.Instant
+        keyCode: UInt16, isRepeat: Bool, intent: Intent?, at now: Duration
     ) -> PressResult {
         if isRepeat { return claimedKeys.contains(keyCode) ? .suppress : .passThrough }
         // A new physical down proves that we missed the release of this key.
@@ -124,13 +124,13 @@ struct QuitProtectionGesture<Target: Equatable> {
         }
     }
 
-    mutating func expireDoublePress(at now: ContinuousClock.Instant) -> Bool {
+    mutating func expireDoublePress(at now: Duration) -> Bool {
         guard case let .secondPress(_, _, deadline) = pending, now > deadline else { return false }
         cancel()
         return true
     }
 
-    mutating func keyUp(keyCode: UInt16, at now: ContinuousClock.Instant) -> Bool {
+    mutating func keyUp(keyCode: UInt16, at now: Duration) -> Bool {
         guard claimedKeys.remove(keyCode) != nil else { return false }
         switch pending {
         case let .hold(hold) where keyCode == hold.keyCode:
@@ -162,7 +162,7 @@ struct QuitProtectionGesture<Target: Equatable> {
     }
 
     mutating func confirmHold(
-        generation: UInt64, at now: ContinuousClock.Instant, target: Target?, chordStillHeld: Bool
+        generation: UInt64, at now: Duration, target: Target?, chordStillHeld: Bool
     ) -> Target? {
         guard let hold = pendingHold, hold.generation == generation, now >= hold.deadline else { return nil }
         cancel()
