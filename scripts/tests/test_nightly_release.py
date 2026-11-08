@@ -160,8 +160,22 @@ class NightlyReleaseTests(unittest.TestCase):
         self.assertNotIn("PLUGIN_CATALOG_MINIMUM_HOST_VERSION", metadata)
         self.assertEqual(
             metadata["NIGHTLY_PLUGIN_CATALOG_RELATIVE_PATH"],
-            "docs/nightly/plugins/v7/catalog.json",
+            "docs/nightly/plugins/v7/host-2.2.5/catalog.json",
         )
+
+    def test_older_nightly_keeps_its_original_catalog(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            config = pathlib.Path(directory) / "AppVersion.xcconfig"
+            config.write_text("MARKETING_VERSION = 2.2.4\nCURRENT_PROJECT_VERSION = 83\n")
+            metadata = nightly_release.make_metadata(
+                config_path=config,
+                plugins_dir=REPO_ROOT / "Plugins",
+                repository="example/MacTools",
+                source_sha="a" * 40,
+                run_number="512",
+                run_attempt="1",
+            )
+        self.assertEqual(metadata["NIGHTLY_PLUGIN_CATALOG_RELATIVE_PATH"], "docs/nightly/plugins/v7/catalog.json")
 
     def test_release_warning_is_first(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:

@@ -25,7 +25,18 @@ struct DDCBrightnessValue {
 
 protocol DDCBrightnessTransport {
     func readBrightness() throws -> DDCBrightnessValue
+    var hasVerifiedDisplayBinding: Bool { get }
     func writeBrightness(_ value: UInt16) throws
+    func writeBrightness(_ value: UInt16, permit: DisplayActionWritePermit?) throws
+}
+
+extension DDCBrightnessTransport {
+    var hasVerifiedDisplayBinding: Bool { true }
+
+    func writeBrightness(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
+        guard permit?.canWrite != false else { throw CancellationError() }
+        try writeBrightness(value)
+    }
 }
 
 private enum DDCCommunicationQueue {
@@ -35,10 +46,11 @@ private enum DDCCommunicationQueue {
 final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
     private let display: DisplayInfo
     private let framebuffer: io_service_t
+    let hasVerifiedDisplayBinding: Bool
     private let replyTransactionType: IOOptionBits
 
     init?(display: DisplayInfo) {
-        guard let framebuffer = Self.framebufferPort(for: display.id) else {
+        guard let binding = Self.framebufferPort(for: display.id) else {
             DisplayBrightnessLog.backend.info(
                 "DDC Intel transport unavailable for \(display.name, privacy: .public): no framebuffer service"
             )
@@ -46,7 +58,7 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         }
 
         guard let replyTransactionType = Self.supportedReplyTransactionType() else {
-            IOObjectRelease(framebuffer)
+            IOObjectRelease(binding.service)
             DisplayBrightnessLog.backend.info(
                 "DDC Intel transport unavailable for \(display.name, privacy: .public): no supported I2C reply transaction type"
             )
@@ -54,7 +66,8 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         }
 
         self.display = display
-        self.framebuffer = framebuffer
+        self.framebuffer = binding.service
+        self.hasVerifiedDisplayBinding = binding.verified
         self.replyTransactionType = replyTransactionType
         DisplayBrightnessLog.backend.debug(
             "DDC Intel transport ready for \(display.name, privacy: .public)"
@@ -83,12 +96,18 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
     }
 
     func writeBrightness(_ value: UInt16) throws {
+        try writeBrightness(value, permit: nil)
+    }
+
+    func writeBrightness(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
         try DDCCommunicationQueue.shared.sync {
             var didWrite = false
 
             for _ in 0..<DDCBrightnessControl.writeCycleCount {
                 usleep(DDCBrightnessControl.writeDelay)
-                didWrite = performWrite(value) || didWrite
+                guard permit?.canWrite != false else { throw CancellationError() }
+                didWrite = performWrite(value, permit: permit) || didWrite
+                guard permit?.canWrite != false else { throw CancellationError() }
             }
 
             guard didWrite else {
@@ -131,7 +150,7 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         return try Self.parseReply(reply, displayName: display.name)
     }
 
-    private func performWrite(_ value: UInt16) -> Bool {
+    private func performWrite(_ value: UInt16, permit: DisplayActionWritePermit?) -> Bool {
         var command = [
             DDCBrightnessControl.hostAddress,
             0x84,
@@ -153,7 +172,7 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         request.replyTransactionType = IOOptionBits(kIOI2CNoTransactionType)
         request.replyBytes = 0
 
-        return Self.send(request: &request, to: framebuffer)
+        return Self.send(request: &request, to: framebuffer, permit: permit)
     }
 
     static func parseReply(
@@ -183,7 +202,9 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         bytes.reduce(seed, ^)
     }
 
-    private static func send(request: inout IOI2CRequest, to framebuffer: io_service_t) -> Bool {
+    private static func send(
+        request: inout IOI2CRequest, to framebuffer: io_service_t, permit: DisplayActionWritePermit? = nil
+    ) -> Bool {
         var busCount: IOItemCount = 0
         guard IOFBGetI2CInterfaceCount(framebuffer, &busCount) == KERN_SUCCESS else {
             return false
@@ -208,6 +229,7 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
                 IOI2CInterfaceClose(connect, 0)
             }
 
+            guard permit?.canWrite != false else { return false }
             if IOI2CSendRequest(connect, 0, &request) == KERN_SUCCESS, request.result == KERN_SUCCESS {
                 return true
             }
@@ -260,9 +282,9 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         return nil
     }
 
-    private static func framebufferPort(for displayID: CGDirectDisplayID) -> io_service_t? {
+    private static func framebufferPort(for displayID: CGDirectDisplayID) -> (service: io_service_t, verified: Bool)? {
         if let cgsService = PrivateDDCBridge.framebufferService(for: displayID) {
-            return cgsService
+            return (cgsService, true)
         }
 
         var iterator = io_iterator_t()
@@ -291,7 +313,7 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
             let matchesSerial = serialNumber == 0 || displaySerial == serialNumber
 
             if matchesVendor && matchesModel && matchesSerial {
-                return service
+                return (service, false)
             }
 
             IOObjectRelease(service)
@@ -304,8 +326,14 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
 final class Arm64DDCTransport: DDCBrightnessTransport, @unchecked Sendable {
     private let display: DisplayInfo
     private let service: CFTypeRef
+    private let sendPacket: (CFTypeRef, inout [UInt8]) -> kern_return_t
+    let hasVerifiedDisplayBinding: Bool
 
-    init?(display: DisplayInfo, service matchedService: CFTypeRef?) {
+    init?(
+        display: DisplayInfo,
+        service matchedService: CFTypeRef?,
+        sendPacket: @escaping (CFTypeRef, inout [UInt8]) -> kern_return_t = Arm64DDCTransport.sendToService
+    ) {
         guard
             let service = matchedService ?? PrivateDDCBridge.createService(for: display.id)
         else {
@@ -317,6 +345,8 @@ final class Arm64DDCTransport: DDCBrightnessTransport, @unchecked Sendable {
 
         self.display = display
         self.service = service
+        self.sendPacket = sendPacket
+        self.hasVerifiedDisplayBinding = matchedService == nil
         DisplayBrightnessLog.backend.debug(
             "DDC ARM64 transport ready for \(display.name, privacy: .public)"
         )
@@ -332,6 +362,10 @@ final class Arm64DDCTransport: DDCBrightnessTransport, @unchecked Sendable {
     }
 
     func writeBrightness(_ value: UInt16) throws {
+        try writeBrightness(value, permit: nil)
+    }
+
+    func writeBrightness(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
         try DDCCommunicationQueue.shared.sync {
             var payload = [
                 DDCBrightnessControl.brightness,
@@ -339,11 +373,22 @@ final class Arm64DDCTransport: DDCBrightnessTransport, @unchecked Sendable {
                 UInt8(value & 0xFF)
             ]
             var reply: [UInt8] = []
-            try performCommunication(send: &payload, reply: &reply)
+            try performCommunication(send: &payload, reply: &reply, permit: permit)
         }
     }
 
-    private func performCommunication(send: inout [UInt8], reply: inout [UInt8]) throws {
+    private static func sendToService(_ service: CFTypeRef, packet: inout [UInt8]) -> kern_return_t {
+        PrivateDDCBridge.writeI2C(
+            service: service,
+            address: UInt32(DDCBrightnessControl.arm64DisplayAddress7Bit),
+            dataAddress: UInt32(DDCBrightnessControl.hostAddress),
+            bytes: &packet
+        )
+    }
+
+    private func performCommunication(
+        send: inout [UInt8], reply: inout [UInt8], permit: DisplayActionWritePermit? = nil
+    ) throws {
         var packet = [UInt8(0x80 | UInt8(send.count + 1)), UInt8(send.count)] + send + [0]
         let seed = send.count == 1
             ? DDCBrightnessControl.arm64DisplayAddress7Bit << 1
@@ -353,12 +398,8 @@ final class Arm64DDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         var didWrite = false
         for _ in 0..<DDCBrightnessControl.writeCycleCount {
             usleep(DDCBrightnessControl.writeDelay)
-            if PrivateDDCBridge.writeI2C(
-                service: service,
-                address: UInt32(DDCBrightnessControl.arm64DisplayAddress7Bit),
-                dataAddress: UInt32(DDCBrightnessControl.hostAddress),
-                bytes: &packet
-            ) == KERN_SUCCESS {
+            guard permit?.canWrite != false else { throw CancellationError() }
+            if sendPacket(service, &packet) == KERN_SUCCESS {
                 didWrite = true
             }
         }

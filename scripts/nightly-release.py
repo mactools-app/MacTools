@@ -19,6 +19,9 @@ import xml.sax.saxutils as xml
 import zipfile
 from typing import Any, Dict, Iterable, List, Optional
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from plugin_catalog_routing import catalog_path
+
 
 VERSION_PATTERN = re.compile(
     r"^\s*(MARKETING_VERSION|CURRENT_PROJECT_VERSION)\s*=\s*(\S+)\s*$",
@@ -128,9 +131,8 @@ def make_metadata(
         "NIGHTLY_APPCAST_RELATIVE_PATH": "docs/nightly/appcast.xml",
     }
     metadata.update(discover_plugin_metadata(plugins_dir))
-    metadata["NIGHTLY_PLUGIN_CATALOG_RELATIVE_PATH"] = (
-        "docs/nightly/plugins/"
-        f"v{metadata['PLUGIN_KIT_VERSION']}/catalog.json"
+    metadata["NIGHTLY_PLUGIN_CATALOG_RELATIVE_PATH"] = catalog_path(
+        int(metadata["PLUGIN_KIT_VERSION"]), version, nightly=True
     )
     return metadata
 
@@ -640,8 +642,8 @@ def verify_nightly_app(
         "MTApplicationSupportDirectoryName": "MacTools Nightly",
         "MTReleaseChannel": "nightly",
         "MTPluginCatalogURL": (
-            "https://mactools.ggbond.app/nightly/plugins/"
-            f"v{plugin_kit_version}/catalog.json"
+            "https://mactools.ggbond.app/"
+            + catalog_path(plugin_kit_version, version, nightly=True).removeprefix("docs/")
         ),
         "MTRightClickConfigurationHomeRelativePath": (
             "Library/Application Support/MacTools Nightly/right-click-menu.json"

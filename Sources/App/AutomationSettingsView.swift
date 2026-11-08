@@ -925,6 +925,7 @@ private struct WorkflowActionPickerPopoverContent: View {
                 current: currentReference,
                 cancelTitle: FeatureL10n.string("返回"),
                 saveTitle: FeatureL10n.string(currentReference == nil ? "添加操作" : "替换操作"),
+                availability: pluginHost.actionAvailability(for:),
                 onCancel: { percentageEntry = nil },
                 onSave: select
             )

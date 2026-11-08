@@ -13,6 +13,9 @@ import tty
 from dataclasses import dataclass
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from plugin_catalog_routing import catalog_path, v7_host_specific_catalog
+
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 APP_VERSION_CONFIG = ROOT_DIR / "Configs" / "AppVersion.xcconfig"
@@ -414,11 +417,8 @@ def read_plugins() -> dict[str, PluginInfo]:
 
 
 def plugin_catalog_path(plugin_kit_version: int) -> Path:
-    if plugin_kit_version == 2:
-        return LEGACY_PLUGIN_CATALOG
-    if plugin_kit_version == 5:
-        return ROOT_DIR / "docs/plugins/v5/schema3/catalog.json"
-    return ROOT_DIR / "docs" / "plugins" / f"v{plugin_kit_version}" / "catalog.json"
+    host_version = read_app_versions()[0] if plugin_kit_version == 7 else "0"
+    return ROOT_DIR / catalog_path(plugin_kit_version, host_version)
 
 
 def same_abi_catalog_migration_baseline_path(plugin_kit_version: int) -> Path | None:
@@ -432,6 +432,12 @@ def previous_plugin_catalog_path() -> Path:
     preferred_path = plugin_catalog_path(plugin_kit_version)
     if preferred_path.exists() or preferred_path == LEGACY_PLUGIN_CATALOG:
         return preferred_path
+
+    host_version = read_app_versions()[0] if plugin_kit_version == 7 else "0"
+    if v7_host_specific_catalog(plugin_kit_version, host_version):
+        legacy_v7 = ROOT_DIR / "docs/plugins/v7/catalog.json"
+        if legacy_v7.exists():
+            return legacy_v7
 
     same_abi_baseline = same_abi_catalog_migration_baseline_path(plugin_kit_version)
     if same_abi_baseline is not None and same_abi_baseline.exists():

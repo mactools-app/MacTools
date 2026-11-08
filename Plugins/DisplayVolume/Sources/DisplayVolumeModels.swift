@@ -30,6 +30,7 @@ enum DisplayVolumeControllerError: Error, LocalizedError {
     case unsupportedReply(displayName: String)
     case ddcWriteFailed(displayName: String)
     case volumeUnavailable(displayName: String)
+    case unverifiedDisplayBinding
     case failed(message: String)
 
     var errorDescription: String? {
@@ -56,6 +57,8 @@ enum DisplayVolumeControllerError: Error, LocalizedError {
                 defaultValue: "%@ 当前无法读取音量",
                 displayName
             )
+        case .unverifiedDisplayBinding:
+            return localization.string("error.exactUnverifiedTarget", defaultValue: "无法确认显示器的 DDC/CI 控制目标。")
         case .failed(let message):
             return message
         }
@@ -68,6 +71,7 @@ protocol DisplayVolumeControlling: AnyObject {
 
     func refresh()
     func actionIdentifier(for displayID: CGDirectDisplayID) -> String?
+    func exactVolumeAvailability(for displayID: CGDirectDisplayID) -> ActionAvailability
     func snapshot() -> DisplayVolumeSnapshot
     func setVolume(
         _ value: Double,
@@ -87,6 +91,8 @@ protocol DisplayVolumeControlling: AnyObject {
 }
 
 extension DisplayVolumeControlling {
+    func exactVolumeAvailability(for displayID: CGDirectDisplayID) -> ActionAvailability { .available }
+
     func setExactVolumeAndWait(
         _ value: Double,
         for displayID: CGDirectDisplayID,
@@ -103,6 +109,7 @@ extension DisplayVolumeControlling {
 
 protocol DisplayVolumeBackend: AnyObject, Sendable {
     var kind: DisplayVolumeBackendKind { get }
+    var hasVerifiedDisplayBinding: Bool { get }
     var display: DisplayInfo { get set }
     var cachedVolume: Double { get }
 
@@ -114,6 +121,8 @@ protocol DisplayVolumeBackend: AnyObject, Sendable {
 }
 
 extension DisplayVolumeBackend {
+    var hasVerifiedDisplayBinding: Bool { true }
+
     func writeExactVolume(_ value: Double, permit: DisplayActionWritePermit) throws -> Double {
         guard permit.canWrite else { throw CancellationError() }
         try writeVolume(value)

@@ -388,13 +388,12 @@ final class DisplayBrightnessPlugin:
 
     func actionAvailability(for reference: ActionReference) -> ActionAvailability {
         if reference.key.actionID == Constants.setDisplayBrightnessActionID {
-            return DisplayActionTarget.resolve(
+            guard let target = DisplayActionTarget.resolve(
                 reference,
                 in: controller.snapshot().displays.map(\.display),
                 identifier: controller.actionIdentifier(for:)
-            ) == nil
-                ? .unavailable(PluginKitLocalization.actionUnavailable)
-                : .available
+            ) else { return .unavailable(PluginKitLocalization.actionUnavailable) }
+            return controller.exactBrightnessAvailability(Double(target.percent) / 100, for: target.display.id)
         }
         if reference.key.actionID == Constants.setBrightnessActionID {
             return voiceBrightnessTarget(reference) == nil ? .unavailable(PluginKitLocalization.actionUnavailable) : .available
@@ -445,9 +444,7 @@ final class DisplayBrightnessPlugin:
                     percent / 100, for: target.display.id, identifier: target.identifier
                 ) {
                 case .succeeded:
-                    return await self.brightnessWriteResult(displayID: target.display.id, requestedPercent: percent) {
-                        self.controller.isActionTargetCurrent(for: target.display.id, identifier: target.identifier)
-                    }
+                    return .succeeded()
                 case let .failed(message):
                     return .failed(message: message)
                 }

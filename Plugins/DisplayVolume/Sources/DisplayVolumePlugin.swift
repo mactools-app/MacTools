@@ -320,13 +320,12 @@ final class DisplayVolumePlugin:
 
     func actionAvailability(for reference: ActionReference) -> ActionAvailability {
         if reference.key.actionID == Self.setDisplayVolumeActionID {
-            return DisplayActionTarget.resolve(
+            guard let target = DisplayActionTarget.resolve(
                 reference,
                 in: controller.snapshot().displays.map(\.display),
                 identifier: controller.actionIdentifier(for:)
-            ) == nil
-                ? .unavailable(PluginKitLocalization.actionUnavailable)
-                : .available
+            ) else { return .unavailable(PluginKitLocalization.actionUnavailable) }
+            return controller.exactVolumeAvailability(for: target.display.id)
         }
         guard Self.shortcutDirection(for: reference.key.actionID) != nil else {
             return .unavailable(PluginKitLocalization.actionUnavailable)

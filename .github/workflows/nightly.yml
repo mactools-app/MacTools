@@ -237,7 +237,7 @@ jobs:
             -derivedDataPath "$DERIVED_DATA" \
             MARKETING_VERSION="$VERSION" \
             CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
-            PLUGIN_CATALOG_URL="https://mactools.ggbond.app/nightly/plugins/v${PLUGIN_KIT_VERSION}/catalog.json" \
+            PLUGIN_CATALOG_URL="https://mactools.ggbond.app/${NIGHTLY_PLUGIN_CATALOG_RELATIVE_PATH#docs/}" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY= \
@@ -401,7 +401,7 @@ jobs:
           [[ -n "$PLUGIN_CATALOG_PUBLIC_KEY" ]] || { echo "Plugin catalog public key is missing." >&2; exit 1; }
           xcrun swift scripts/plugins/preflight-app-plugin-catalog.swift \
             --app-version "$VERSION" \
-            --catalog-url "https://mactools.ggbond.app/nightly/plugins/v${PLUGIN_KIT_VERSION}/catalog.json" \
+            --catalog-url "https://mactools.ggbond.app/${NIGHTLY_PLUGIN_CATALOG_RELATIVE_PATH#docs/}" \
             --expected-catalog "$SIGNED_PLUGIN_CATALOG_PATH" \
             --public-key-base64 "$PLUGIN_CATALOG_PUBLIC_KEY" \
             --deployed-catalog "$SIGNED_PLUGIN_CATALOG_PATH" \
@@ -764,6 +764,18 @@ jobs:
             echo "The deployed Nightly appcast is unavailable; skipping retention to preserve rollback safety."
             exit 0
           fi
+
+          # Older hosts still use the packages referenced by their last compatible catalog.
+          # Read the committed paths so rollback refs do not need a newer release helper.
+          COMMITTED_CATALOGS="$(git ls-tree -r --name-only origin/main docs/nightly/plugins)"
+          while IFS= read -r catalog_path; do
+            [[ "$catalog_path" == */catalog.json ]] || continue
+            CATALOG_TAGS="$(git show "origin/main:$catalog_path" | jq -er \
+              '[.plugins[].package.url | capture("/releases/download/(?<tag>nightly-[0-9]+-[0-9]+)/").tag] | unique[]')"
+            while IFS= read -r catalog_tag; do
+              PRESERVE_TAG_ARGS+=(--preserve-tag "$catalog_tag")
+            done <<< "$CATALOG_TAGS"
+          done <<< "$COMMITTED_CATALOGS"
 
           scripts/nightly-release.py stale-tags \
             --input "$RELEASES_PATH" \

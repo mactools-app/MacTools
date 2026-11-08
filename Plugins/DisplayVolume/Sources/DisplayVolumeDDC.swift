@@ -26,7 +26,18 @@ struct DDCVolumeValue {
 
 protocol DDCVolumeTransport: Sendable {
     func readVolume() throws -> DDCVolumeValue
+    var hasVerifiedDisplayBinding: Bool { get }
     func writeVolume(_ value: UInt16) throws
+    func writeVolume(_ value: UInt16, permit: DisplayActionWritePermit?) throws
+}
+
+extension DDCVolumeTransport {
+    var hasVerifiedDisplayBinding: Bool { true }
+
+    func writeVolume(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
+        guard permit?.canWrite != false else { throw CancellationError() }
+        try writeVolume(value)
+    }
 }
 
 private enum DDCCommunicationQueue {
@@ -36,8 +47,14 @@ private enum DDCCommunicationQueue {
 final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
     private let display: DisplayInfo
     private let service: CFTypeRef
+    private let sendPacket: (CFTypeRef, inout [UInt8]) -> kern_return_t
+    let hasVerifiedDisplayBinding: Bool
 
-    init?(display: DisplayInfo, service matchedService: CFTypeRef?) {
+    init?(
+        display: DisplayInfo,
+        service matchedService: CFTypeRef?,
+        sendPacket: @escaping (CFTypeRef, inout [UInt8]) -> kern_return_t = Arm64DDCTransport.sendToService
+    ) {
         guard
             let service = matchedService ?? PrivateDDCBridge.createService(for: display.id)
         else {
@@ -49,6 +66,8 @@ final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
 
         self.display = display
         self.service = service
+        self.sendPacket = sendPacket
+        self.hasVerifiedDisplayBinding = matchedService == nil
         Logger(subsystem: Bundle.main.bundleIdentifier ?? "cc.ggbond.mactools", category: "DisplayVolumeBackend").debug(
             "DDC ARM64 transport ready for \(display.name, privacy: .public)"
         )
@@ -64,6 +83,10 @@ final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
     }
 
     func writeVolume(_ value: UInt16) throws {
+        try writeVolume(value, permit: nil)
+    }
+
+    func writeVolume(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
         try DDCCommunicationQueue.shared.sync {
             var payload = [
                 DDCVolumeControl.volume,
@@ -71,11 +94,22 @@ final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
                 UInt8(value & 0xFF)
             ]
             var reply: [UInt8] = []
-            try performCommunication(send: &payload, reply: &reply)
+            try performCommunication(send: &payload, reply: &reply, permit: permit)
         }
     }
 
-    private func performCommunication(send: inout [UInt8], reply: inout [UInt8]) throws {
+    private static func sendToService(_ service: CFTypeRef, packet: inout [UInt8]) -> kern_return_t {
+        PrivateDDCBridge.writeI2C(
+            service: service,
+            address: UInt32(DDCVolumeControl.arm64DisplayAddress7Bit),
+            dataAddress: UInt32(DDCVolumeControl.hostAddress),
+            bytes: &packet
+        )
+    }
+
+    private func performCommunication(
+        send: inout [UInt8], reply: inout [UInt8], permit: DisplayActionWritePermit? = nil
+    ) throws {
         var packet = [UInt8(0x80 | UInt8(send.count + 1)), UInt8(send.count)] + send + [0]
         let seed = send.count == 1
             ? DDCVolumeControl.arm64DisplayAddress7Bit << 1
@@ -86,12 +120,8 @@ final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
         var didWrite = false
         for _ in 0..<DDCVolumeControl.writeCycleCount {
             usleep(DDCVolumeControl.writeDelay)
-            if PrivateDDCBridge.writeI2C(
-                service: service,
-                address: UInt32(DDCVolumeControl.arm64DisplayAddress7Bit),
-                dataAddress: UInt32(DDCVolumeControl.hostAddress),
-                bytes: &packet
-            ) == KERN_SUCCESS {
+            guard permit?.canWrite != false else { throw CancellationError() }
+            if sendPacket(service, &packet) == KERN_SUCCESS {
                 didWrite = true
             }
         }

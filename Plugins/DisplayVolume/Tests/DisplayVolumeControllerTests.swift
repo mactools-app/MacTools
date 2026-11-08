@@ -86,6 +86,37 @@ final class DisplayVolumeControllerTests: XCTestCase {
         let result = await handle.result()
         XCTAssertEqual(result, .succeeded())
     }
+    func testArm64VolumeTransportChecksPermitBeforeEverySend() throws {
+        let display = makeVolumeTestDisplay(id: 26, name: "External fixture")
+        let permit = DisplayActionWritePermit { true }
+        var sends = 0
+        let transport = try XCTUnwrap(Arm64DDCTransport(
+            display: display, service: "fixture" as NSString,
+            sendPacket: { _, _ in
+                sends += 1
+                permit.cancel()
+                return 0
+            }
+        ))
+        XCTAssertThrowsError(try transport.writeVolume(50, permit: permit)) { error in
+            XCTAssertTrue(error is CancellationError)
+        }
+        XCTAssertEqual(sends, 1, "Cancellation after the first send must prevent the retry")
+    }
+
+    func testExactVolumeRejectsAnUnverifiedMonitorBinding() throws {
+        let cache = VolumeTestCache(value: 0.4)
+        defer { cache.restore() }
+        let display = display(cache)
+        let transport = try XCTUnwrap(Arm64DDCTransport(display: display, service: "fixture" as NSString, sendPacket: { _, _ in XCTFail("Unverified binding must not issue I/O"); return -1 }))
+        let backend = try XCTUnwrap(DDCVolumeBackend(display: display, transport: transport))
+        XCTAssertThrowsError(try backend.writeExactVolume(0.5, permit: DisplayActionWritePermit { true })) { error in
+            guard case DisplayVolumeControllerError.unverifiedDisplayBinding = error else {
+                return XCTFail("Expected an unverified binding error, got \(error)")
+            }
+        }
+    }
+
     func testExactVolumeLearnsHardwareScaleBeforeItsFirstWriteAndChecksReadback() async throws {
         let cache = VolumeTestCache(value: 0.4)
         defer { cache.restore() }

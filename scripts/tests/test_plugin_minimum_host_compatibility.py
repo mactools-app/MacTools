@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -311,7 +313,7 @@ class PluginMinimumHostCompatibilityTests(unittest.TestCase):
         )
         self.assertIn('PLUGIN_CATALOG_MINIMUM_HOST_VERSION="1.2.1"', workflow)
         self.assertIn(
-            "PLUGIN_CATALOG_MINIMUM_HOST_VERSION ?= 1.2.1",
+            'scripts/plugin_catalog_routing.py --kit "$(PLUGIN_KIT_VERSION)" --minimum-host',
             makefile,
         )
         released_catalog = json.loads(
@@ -330,6 +332,16 @@ class PluginMinimumHostCompatibilityTests(unittest.TestCase):
         self.assertIn("PluginKit versions below 5 use immutable legacy catalogs", workflow)
         self.assertIn("if (( PLUGIN_KIT_VERSION < 5 )); then", workflow)
         self.assertIn('case " 1 2 3 4 " in', makefile)
+
+    def test_v7_host_specific_publication_uses_distinct_catalog_paths(self) -> None:
+        command = [sys.executable, "-B", str(REPO_ROOT / "scripts/plugin_catalog_routing.py"), "--kit", "7"]
+        self.assertEqual(subprocess.check_output(command, text=True).strip(),
+                         "docs/plugins/v7/host-2.2.5/catalog.json")
+        self.assertEqual(subprocess.check_output([*command, "--nightly"], text=True).strip(),
+                         "docs/nightly/plugins/v7/host-2.2.5/catalog.json")
+        self.assertEqual(subprocess.check_output([*command, "--minimum-host"], text=True).strip(), "2.2.5")
+        workflow = PLUGIN_RELEASE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn('git show origin/main:docs/plugins/v7/catalog.json > "$PLUGIN_PREVIOUS_CATALOG_PATH"', workflow)
 
     def test_every_current_plugin_targets_plugin_kit7_and_host_1_3_1(self) -> None:
         compatibility = (REPO_ROOT / "Sources/MacToolsPluginKit/PluginKitCompatibility.swift").read_text()

@@ -175,15 +175,17 @@ final class DDCVolumeBackend: DisplayVolumeBackend, @unchecked Sendable {
         persistCachedVolume()
     }
 
+    var hasVerifiedDisplayBinding: Bool { transport.hasVerifiedDisplayBinding }
+
     func writeExactVolume(_ value: Double, permit: DisplayActionWritePermit) throws -> Double {
+        guard hasVerifiedDisplayBinding else { throw DisplayVolumeControllerError.unverifiedDisplayBinding }
         lock.withLock { cacheRevision &+= 1 }
         let actual = try ioLock.withLock {
             guard permit.canWrite else { throw CancellationError() }
             guard let initial = try? transport.readVolume(), initial.maximum > 0 else {
                 throw DisplayVolumeControllerError.volumeUnavailable(displayName: display.name)
             }
-            guard permit.canWrite else { throw CancellationError() }
-            try transport.writeVolume(UInt16((Double(initial.maximum) * value).rounded()))
+            try transport.writeVolume(UInt16((Double(initial.maximum) * value).rounded()), permit: permit)
 
             for delay in [0.0, 0.15, 0.30] {
                 if delay > 0 { Thread.sleep(forTimeInterval: delay) }

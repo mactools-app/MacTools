@@ -201,6 +201,15 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         managedDisplays[displayID]?.actionIdentifier
     }
 
+    func exactVolumeAvailability(for displayID: CGDirectDisplayID) -> ActionAvailability {
+        guard let backend = managedDisplays[displayID]?.backend else {
+            return .unavailable(PluginKitLocalization.actionUnavailable)
+        }
+        return backend.hasVerifiedDisplayBinding ? .available : .unavailable(
+            DisplayVolumeControllerError.unverifiedDisplayBinding.localizedDescription(localization: localization)
+        )
+    }
+
     func setVolume(
         _ value: Double,
         for displayID: CGDirectDisplayID,

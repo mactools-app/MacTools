@@ -644,7 +644,11 @@ private struct ActionGridActionEditorSheet: View {
                     .focused($focusedField, equals: .title)
 
                 if let selectedReference, ActionPercentage.value(in: selectedReference) != nil {
-                    ActionPercentageField(text: $percentageText)
+                    ActionPercentageField(
+                        text: $percentageText,
+                        hint: configuredReference.flatMap { percentageAvailability($0).reason }
+                            ?? ActionPercentage.rangeHint(for: selectedReference, availability: percentageAvailability)
+                    )
                 }
 
                 List(filteredItems, selection: $selectedReference) { item in
@@ -783,12 +787,18 @@ private struct ActionGridActionEditorSheet: View {
         return ActionPercentage.setting(percentageText, in: selectedReference)
     }
 
+    private func percentageAvailability(_ reference: ActionReference) -> ActionAvailability {
+        plugin.item(for: reference)?.availability ?? .available
+    }
+
     private var canSave: Bool {
         if request.entryID != nil || addKind == .action {
             guard let configuredReference,
                   ActionGridActionSelectionPolicy.contains(selectedReference, in: filteredItems) else {
                 return false
             }
+            if ActionPercentage.value(in: configuredReference) != nil,
+               !percentageAvailability(configuredReference).isAvailable { return false }
             return !store.entries(in: folderID).contains {
                 $0.folder == nil && $0.id != request.entryID && $0.reference == configuredReference
             }

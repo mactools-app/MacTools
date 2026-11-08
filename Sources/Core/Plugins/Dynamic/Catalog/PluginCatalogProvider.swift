@@ -39,8 +39,18 @@ struct PluginCatalogProviderConfiguration {
         return URL(string: "https://mactools.ggbond.app/plugins/v\(pluginKitVersion)/catalog.json")!
     }
 
-    static func nightlyCatalogURL(for pluginKitVersion: Int) -> URL {
-        URL(string: "https://mactools.ggbond.app/nightly/plugins/v\(pluginKitVersion)/catalog.json")!
+    static func nightlyCatalogURL(for pluginKitVersion: Int, hostVersion: String = "0") -> URL {
+        if let path = hostSpecificCatalogPath(pluginKitVersion: pluginKitVersion, hostVersion: hostVersion) {
+            return URL(string: "https://mactools.ggbond.app/nightly/plugins/\(path)")!
+        }
+        return URL(string: "https://mactools.ggbond.app/nightly/plugins/v\(pluginKitVersion)/catalog.json")!
+    }
+
+    private static func hostSpecificCatalogPath(pluginKitVersion: Int, hostVersion: String) -> String? {
+        guard pluginKitVersion == 7, PluginVersionComparator.isVersion(hostVersion, atLeast: "2.2.5") else {
+            return nil
+        }
+        return "v7/host-2.2.5/catalog.json"
     }
 
     // Schema 3 lives on its own compatibility endpoint so released PluginKit 5
@@ -53,6 +63,9 @@ struct PluginCatalogProviderConfiguration {
         forHostVersion hostVersion: String,
         pluginKitVersion: Int = PluginPackageManifestLoader.supportedPluginKitVersion
     ) -> URL {
+        if let path = hostSpecificCatalogPath(pluginKitVersion: pluginKitVersion, hostVersion: hostVersion) {
+            return URL(string: "https://mactools.ggbond.app/plugins/\(path)")!
+        }
         guard pluginKitVersion == 5 else {
             return productionCatalogURL(for: pluginKitVersion)
         }
@@ -75,7 +88,7 @@ struct PluginCatalogProviderConfiguration {
         }
 
         if infoDictionary?["MTReleaseChannel"] as? String == "nightly" {
-            return nightlyCatalogURL(for: pluginKitVersion)
+            return nightlyCatalogURL(for: pluginKitVersion, hostVersion: hostVersion)
         }
 
         return productionCatalogURL(

@@ -228,8 +228,14 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         managedDisplays[displayID]?.actionIdentifier
     }
 
-    func isActionTargetCurrent(for displayID: CGDirectDisplayID, identifier: String) -> Bool {
-        actionIdentifier(for: displayID) == identifier && displayIdentifier(displayID) == identifier
+    func exactBrightnessAvailability(_ value: Double, for displayID: CGDirectDisplayID) -> ActionAvailability {
+        guard let backend = managedDisplays[displayID]?.backend else {
+            return .unavailable(PluginKitLocalization.actionUnavailable)
+        }
+        if let error = backend.exactActionError(for: value) {
+            return .unavailable(error.message(localization: localization))
+        }
+        return .available
     }
 
     func isDisplayConnected(_ display: DisplayInfo) -> Bool {
@@ -637,6 +643,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             )
 
             if !(error is CancellationError),
+               !(error is DisplayBrightnessExactError),
                writePermits[writeID]?.canWrite != false,
                let fallbackBackend = fallbackBackend(for: displayID, failedBackend: managedDisplay.backend) {
                 logger.info(
@@ -660,6 +667,10 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                     resolveWrite(writeID, with: .failed(message: message))
                 }
             } else {
+                if let readbackValue {
+                    managedDisplay.lastCommittedBrightness = readbackValue
+                    managedDisplay.hasBrightnessValue = true
+                }
                 if managedDisplay.pendingBrightness == nil {
                     managedDisplay.currentBrightness = managedDisplay.lastCommittedBrightness
                 }
@@ -688,6 +699,9 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
     }
 
     private func localizedDescription(for error: Error) -> String {
+        if let exactError = error as? DisplayBrightnessExactError {
+            return exactError.message(localization: localization)
+        }
         guard let brightnessError = error as? DisplayBrightnessControllerError else {
             return error.localizedDescription
         }
@@ -911,7 +925,24 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             do {
                 writeGate.waitTurn(for: displayID, minimumInterval: minimumWriteInterval)
                 if let permit {
+                    if let error = backend.exactActionError(for: targetValue) { throw error }
                     try backend.writeExactBrightness(targetValue, permit: permit)
+                    if backend.kind == .appleNative || backend.kind == .ddc {
+                        // Keep readback in this write's slot so a later write cannot change the result.
+                        for delay in [0.0, 0.15, 0.30] {
+                            if delay > 0 { Thread.sleep(forTimeInterval: delay) }
+                            guard permit.canWrite else { throw CancellationError() }
+                            guard let observed = try? backend.readBrightness(),
+                                  observed.isFinite, (0...1).contains(observed) else { continue }
+                            readbackValue = observed
+                            if abs(observed - targetValue) <= 0.01 { break }
+                        }
+                        guard permit.canWrite else { throw CancellationError() }
+                        guard let readbackValue else { throw DisplayBrightnessExactError.readbackUnavailable }
+                        guard abs(readbackValue - targetValue) <= 0.01 else {
+                            throw DisplayBrightnessExactError.mismatch(requested: targetValue, observed: readbackValue)
+                        }
+                    }
                 } else {
                     try backend.writeBrightness(targetValue)
                     if needsReadback {

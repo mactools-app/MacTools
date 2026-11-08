@@ -93,7 +93,7 @@ The local entry point is `make release ARGS="--type plugin"`. Normal feature PRs
 
 Plugin Release validates the plan and performs one unsigned aggregate `Release` build of the app and plugins, sharing compiled dependencies. It checks that every selected bundle exists, then reuses the products directory to sign and package only the selected plugins with licenses/notices. Build and packaging are separate steps, and the job has a 120-minute timeout. The batch publishes with `--latest=false`. Within one compatibility line, it merges updated entries into the signed catalog; unchanged entries retain their existing assets. A no-change plan creates no release, while a catalog-only change skips compilation and may publish without new ZIPs.
 
-The current line is **PluginKit 7 / catalog schema 3**, published at `docs/plugins/v7/catalog.json`. Prior catalog lines remain available to their released hosts. Never merge packages from different ABIs or overwrite a compatibility catalog with a schema its clients cannot read.
+The current line is **PluginKit 7 / catalog schema 3**. MacTools 2.2.5 uses `docs/plugins/v7/host-2.2.5/catalog.json`. Earlier v7 hosts retain `docs/plugins/v7/catalog.json`. Prior catalog lines remain available to their released hosts. Never merge packages from different ABIs or overwrite a compatibility catalog with a schema its clients cannot read.
 
 See [Plugin catalog](plugins/plugin-catalog.md) for package metadata, compatibility, local catalogs, and lower-level tooling.
 
@@ -109,7 +109,7 @@ The workflow comes from `main`; plugin source, packaging scripts, versions, and 
 
 Nightly reuses the nine required signing and publication secrets above. To enable the schedule:
 
-1. Run Nightly manually on `main`. Verify the prerelease, signatures, notarization, `docs/nightly/appcast.xml`, and `docs/nightly/plugins/v7/catalog.json`. Install the app and at least one matching plugin.
+1. Run Nightly manually on `main`. Verify the prerelease, signatures, notarization, `docs/nightly/appcast.xml`, and the matching host-specific catalog at `docs/nightly/plugins/v7/host-2.2.5/catalog.json`. Install the app and at least one matching plugin.
 2. Run it again and verify the installed app's N → N+1 Sparkle update and plugin synchronization. Complete the relevant [CLI acceptance checks](testing/cli-nightly-distribution.md) using artifacts from that same release.
 3. Set repository variable `ENABLE_NIGHTLY_RELEASES=true`. Remove it or change its value to pause scheduled publication; manual validation remains available.
 

@@ -826,7 +826,7 @@ final class ActionGridOverlayController: NSObject, NSWindowDelegate {
            let hostAction = AppShortcutAction(rawValue: reference.key.actionID) {
             return hostAction.compactTitle
         }
-        if action.presentationEntry?.presentationState != nil {
+        if ActionPercentage.value(in: reference) != nil || action.presentationEntry?.presentationState != nil {
             return action.definition.title
         }
         return action.presentationEntry?.title ?? action.definition.title
@@ -837,6 +837,10 @@ final class ActionGridOverlayController: NSObject, NSWindowDelegate {
         action: RegisteredAction
     ) -> String? {
         guard reference.key.providerID != "mactools" else { return nil }
+        if let percent = ActionPercentage.value(in: reference) {
+            return [ActionPercentage.label(percent), action.presentationEntry?.subtitle]
+                .compactMap { $0 }.joined(separator: " · ")
+        }
         guard action.presentationEntry?.presentationState != nil else {
             return action.presentationEntry?.subtitle
         }

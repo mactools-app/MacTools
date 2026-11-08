@@ -361,15 +361,17 @@ final class DDCBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendable 
         try transport.writeBrightness(rawValue)
     }
 
+    var hasVerifiedDisplayBinding: Bool { transport.hasVerifiedDisplayBinding }
+
     func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws {
+        guard hasVerifiedDisplayBinding else { throw DisplayBrightnessExactError.unverifiedTarget }
         guard permit.canWrite else { throw CancellationError() }
-        let reading = try transport.readBrightness()
-        guard let maximum = Self.validMaximum(reading.maximum) else {
-            throw DisplayBrightnessControllerError.brightnessUnavailable(displayName: display.name)
+        guard let reading = try? transport.readBrightness(),
+              let maximum = Self.validMaximum(reading.maximum), reading.current <= maximum else {
+            throw DisplayBrightnessExactError.rangeUnavailable
         }
         lock.withLock { maximumValue = maximum }
-        guard permit.canWrite else { throw CancellationError() }
-        try transport.writeBrightness(UInt16((Double(maximum) * value).rounded()))
+        try transport.writeBrightness(UInt16((Double(maximum) * value).rounded()), permit: permit)
     }
 
     func cleanup() {}
@@ -573,8 +575,8 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
     }
 
     func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws {
-        guard value >= ShadeOverlayController.minimumBrightness else {
-            throw DisplayBrightnessControllerError.softwareBrightnessFailed
+        guard value >= DisplayBrightnessBackendKind.shadeMinimumBrightness else {
+            throw DisplayBrightnessExactError.shadeRange
         }
         let displayID = display.id
         let apply: @MainActor @Sendable () throws -> Void = { [self] in
@@ -640,11 +642,10 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
 
 @MainActor
 private final class ShadeOverlayController {
-    nonisolated static let minimumBrightness = 0.08
     private var window: NSWindow?
 
     func apply(brightness: Double, on screen: NSScreen) {
-        let alpha = max(0, min(1 - brightness, 1 - Self.minimumBrightness))
+        let alpha = max(0, min(1 - brightness, 1 - DisplayBrightnessBackendKind.shadeMinimumBrightness))
 
         guard alpha > 0.001 else {
             hide()

@@ -34,9 +34,20 @@ public enum ActionPercentage {
         return setting(value, in: reference)
     }
 
+    public static func label(_ value: Int) -> String {
+        (Double(value) / 100).formatted(.percent.precision(.fractionLength(0)))
+    }
+
     public static func title(_ title: String, target: String? = nil, value: Int) -> String {
-        let percent = (Double(value) / 100).formatted(.percent.precision(.fractionLength(0)))
-        return [title, target, percent].compactMap { $0 }.joined(separator: " · ")
+        [title, target, label(value)].compactMap { $0 }.joined(separator: " · ")
+    }
+
+    public static func rangeHint(
+        for template: ActionReference,
+        availability: (ActionReference) -> ActionAvailability
+    ) -> String? {
+        guard let minimum = setting(0, in: template) else { return nil }
+        return availability(minimum).reason
     }
 
     static var fieldTitle: String {
@@ -48,23 +59,32 @@ public struct ActionPercentageField: View {
     @Binding private var text: String
     @FocusState private var isFocused: Bool
     private let autofocus: Bool
+    private let hint: String?
 
-    public init(text: Binding<String>, autofocus: Bool = false) {
+    public init(text: Binding<String>, autofocus: Bool = false, hint: String? = nil) {
         _text = text
         self.autofocus = autofocus
+        self.hint = hint
     }
 
     public var body: some View {
-        HStack(spacing: 6) {
-            Text(ActionPercentage.fieldTitle)
-            TextField(ActionPercentage.fieldTitle, text: $text, prompt: Text("0–100"))
-                .labelsHidden()
-                .textFieldStyle(.roundedBorder)
-                .focused($isFocused)
-                .frame(width: 64)
-                .accessibilityIdentifier("mactools.action.percentage")
-            Text("%")
-                .accessibilityHidden(true)
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 6) {
+                Text(ActionPercentage.fieldTitle)
+                TextField(ActionPercentage.fieldTitle, text: $text, prompt: Text("0–100"))
+                    .labelsHidden()
+                    .textFieldStyle(.roundedBorder)
+                    .focused($isFocused)
+                    .frame(width: 64)
+                    .accessibilityIdentifier("mactools.action.percentage")
+                Text("%")
+                    .accessibilityHidden(true)
+            }
+            if let hint {
+                Text(hint)
+                    .font(PluginSettingsTheme.Typography.rowDescription)
+                    .foregroundStyle(.secondary)
+            }
         }
         .controlSize(.small)
         .onAppear { if autofocus { isFocused = true } }
@@ -77,6 +97,7 @@ public struct ActionPercentageEditor: View {
     private let cancelTitle: String
     private let saveTitle: String
     private let onCancel: () -> Void
+    private let availability: (ActionReference) -> ActionAvailability
     private let onSave: (ActionReference) -> Void
 
     @State private var text: String
@@ -87,6 +108,7 @@ public struct ActionPercentageEditor: View {
         current: ActionReference?,
         cancelTitle: String,
         saveTitle: String,
+        availability: @escaping (ActionReference) -> ActionAvailability = { _ in .available },
         onCancel: @escaping () -> Void,
         onSave: @escaping (ActionReference) -> Void
     ) {
@@ -94,6 +116,7 @@ public struct ActionPercentageEditor: View {
         self.template = template
         self.cancelTitle = cancelTitle
         self.saveTitle = saveTitle
+        self.availability = availability
         self.onCancel = onCancel
         self.onSave = onSave
         let selected = current.flatMap { ActionPercentage.template(for: $0) == template ? $0 : nil }
@@ -102,21 +125,27 @@ public struct ActionPercentageEditor: View {
 
     public var body: some View {
         let reference = ActionPercentage.setting(text, in: template)
+        let canSave = reference.map { availability($0).isAvailable } == true
         VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.sectionHeaderContent) {
             Text(title)
                 .font(PluginSettingsTheme.Typography.sectionTitle)
 
-            ActionPercentageField(text: $text, autofocus: true)
+            ActionPercentageField(
+                text: $text,
+                autofocus: true,
+                hint: reference.flatMap { availability($0).reason }
+                    ?? ActionPercentage.rangeHint(for: template, availability: availability)
+            )
 
             HStack {
                 Button(cancelTitle, action: onCancel)
                     .buttonStyle(.bordered)
                 Spacer()
                 Button(saveTitle) {
-                    if let reference { onSave(reference) }
+                    if let reference, canSave { onSave(reference) }
                 }
                 .buttonStyle(.borderedProminent)
-                .disabled(reference == nil)
+                .disabled(!canSave)
                 .keyboardShortcut(.defaultAction)
             }
             .controlSize(.small)

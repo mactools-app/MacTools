@@ -110,9 +110,12 @@ private func sourcePluginKitVersion() throws -> Int {
     return version
 }
 
-private func catalogRequirement(pluginKitVersion: Int) -> CatalogRequirement {
+private func catalogRequirement(pluginKitVersion: Int, appVersion: String) throws -> CatalogRequirement {
     let relativePath: String
-    if pluginKitVersion == 2 {
+    let usesHostSpecificV7 = pluginKitVersion == 7 ? try isVersion(appVersion, atLeast: "2.2.5") : false
+    if usesHostSpecificV7 {
+        relativePath = "v7/host-2.2.5/catalog.json"
+    } else if pluginKitVersion == 2 {
         relativePath = "catalog.json"
     } else if pluginKitVersion == 5 {
         relativePath = "v5/schema3/catalog.json"
@@ -120,7 +123,7 @@ private func catalogRequirement(pluginKitVersion: Int) -> CatalogRequirement {
         relativePath = "v\(pluginKitVersion)/catalog.json"
     }
     return CatalogRequirement(
-        minimumAppVersion: pluginKitVersion >= 7 ? "1.3.1" : pluginKitVersion >= 6 ? "1.3.0" : "1.2.1",
+        minimumAppVersion: usesHostSpecificV7 ? "2.2.5" : pluginKitVersion >= 7 ? "1.3.1" : pluginKitVersion >= 6 ? "1.3.0" : "1.2.1",
         url: URL(string: "https://mactools.ggbond.app/plugins/\(relativePath)")!,
         expectedCatalogPath: "docs/plugins/\(relativePath)"
     )
@@ -294,7 +297,7 @@ do {
     let appVersion = options.appVersion!
     let requiredPluginKitVersion = try options.requiredPluginKitVersion
         ?? sourcePluginKitVersion()
-    let requirement = catalogRequirement(pluginKitVersion: requiredPluginKitVersion)
+    let requirement = try catalogRequirement(pluginKitVersion: requiredPluginKitVersion, appVersion: appVersion)
     guard try isVersion(appVersion, atLeast: requirement.minimumAppVersion) else {
         try fail(
             "This source uses catalog schema 3 and cannot be released as MacTools \(appVersion). "

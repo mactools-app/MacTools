@@ -1772,6 +1772,7 @@ private struct TrackpadUnifiedActionPickerControl: View {
                     current: actionReference,
                     cancelTitle: localization.string("editor.cancel", defaultValue: "取消"),
                     saveTitle: localization.string("editor.save", defaultValue: "保存"),
+                    availability: { context?.item(for: $0)?.availability ?? .available },
                     onCancel: { percentageItem = nil },
                     onSave: selectAction
                 )

@@ -1,6 +1,82 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
+    "error.exactUnverifiedTarget": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر التحقق من شاشة DDC/CI المحددة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der DDC/CI-Zielmonitor konnte nicht verifiziert werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not verify which display the DDC/CI connection controls."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo verificar qué pantalla controla la conexión DDC/CI."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de vérifier quel écran est contrôlé par la connexion DDC/CI."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DDC/CI 接続の制御先ディスプレイを確認できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DDC/CI 연결이 제어하는 디스플레이를 확인할 수 없습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível verificar qual ecrã é controlado pela ligação DDC/CI."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось проверить, каким дисплеем управляет подключение DDC/CI."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DDC/CI bağlantısının hangi ekranı denetlediği doğrulanamadı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法确认显示器的 DDC/CI 控制目标。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法確認顯示器的 DDC/CI 控制目標。"
+          }
+        }
+      }
+    },
     "action.set.title": {
       "localizations": {
         "ar": {

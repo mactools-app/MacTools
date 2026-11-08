@@ -193,6 +193,18 @@ class AppPluginCatalogPreflightTests(unittest.TestCase):
         self.assertIn('v5/schema3/catalog.json', source)
         self.assertIn('requiredSchemaVersion ?? 3', source)
 
+    def test_v7_host_uses_the_compatible_catalog_path(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            for host, path in (("2.2.4", "v7/catalog.json"), ("2.2.5", "v7/host-2.2.5/catalog.json")):
+                with self.subTest(host=host):
+                    result = subprocess.run(
+                        [str(self.executable), "--required-plugin-kit-version", "7", "--app-version", host,
+                         "--public-key-base64", TEST_PUBLIC_KEY_BASE64],
+                        cwd=directory, check=False, text=True, capture_output=True,
+                    )
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertIn(f"Required plugin catalog is missing: docs/plugins/{path}", result.stderr)
+
     def test_versioned_plugin_kits_default_to_their_own_catalog(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             for version in (6, 7):
