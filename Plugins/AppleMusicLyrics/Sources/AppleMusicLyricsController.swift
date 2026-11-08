@@ -1,0 +1,528 @@
+import AppKit
+import Foundation
+import MacToolsPluginKit
+
+/// Snapshot of the plugin's current state for panel and settings display.
+struct AppleMusicLyricsSnapshot: Equatable, Sendable {
+    let isEnabled: Bool
+    let isMusicRunning: Bool
+    let isTrackPlaying: Bool
+    let hasLyrics: Bool
+    let currentTrackTitle: String
+    let currentTrackArtist: String
+    let currentLine: String
+    let errorMessage: String?
+}
+
+/// Protocol for the controller so tests can substitute fakes.
+@MainActor
+protocol AppleMusicLyricsControlling: AnyObject {
+    var onStateChange: (() -> Void)? { get set }
+    var snapshot: AppleMusicLyricsSnapshot { get }
+
+    var fontSize: Double { get }
+    var backgroundOpacity: Double { get }
+    var textOpacity: Double { get }
+    var cornerRadius: Double { get }
+    var showsNextLine: Bool { get }
+    var textColor: LyricsTextColorOption { get }
+    var allowsDragging: Bool { get }
+    var karaokeEnabled: Bool { get }
+
+    func activate()
+    func deactivate()
+    func refresh()
+    func setEnabled(_ isEnabled: Bool)
+    func setFontSize(_ size: Double)
+    func setBackgroundOpacity(_ opacity: Double)
+    func setTextOpacity(_ opacity: Double)
+    func setCornerRadius(_ radius: Double)
+    func setShowsNextLine(_ showsNextLine: Bool)
+    func setTextColor(_ option: LyricsTextColorOption)
+    func setAllowsDragging(_ allows: Bool)
+    func setKaraokeEnabled(_ enabled: Bool)
+    func resetToDefaults()
+}
+
+@MainActor
+final class AppleMusicLyricsController: AppleMusicLyricsControlling {
+    private enum StorageKey {
+        static let enabled = "apple-music-lyrics.enabled"
+        static let fontSize = "apple-music-lyrics.font-size"
+        static let backgroundOpacity = "apple-music-lyrics.background-opacity"
+        static let textOpacity = "apple-music-lyrics.text-opacity"
+        static let cornerRadius = "apple-music-lyrics.corner-radius"
+        static let showsNextLine = "apple-music-lyrics.shows-next-line"
+        static let textColor = "apple-music-lyrics.text-color"
+        static let allowsDragging = "apple-music-lyrics.allows-dragging"
+        static let karaokeEnabled = "apple-music-lyrics.karaoke-enabled"
+        static let windowPosition = "apple-music-lyrics.window-position"
+    }
+
+    private enum Defaults {
+        static let isEnabled = false
+        static let fontSize = 24.0
+        static let backgroundOpacity = 0.65
+        static let textOpacity = 1.0
+        static let cornerRadius = 16.0
+        static let showsNextLine = true
+        static let textColor = LyricsTextColorOption.system
+        static let allowsDragging = false
+        static let karaokeEnabled = true
+    }
+
+    private static let allowedFontSizeRange: ClosedRange<Double> = 14...48
+    private static let allowedOpacityRange: ClosedRange<Double> = 0.1...1.0
+    private static let allowedTextOpacityRange: ClosedRange<Double> = 0.1...1.0
+    private static let allowedCornerRadiusRange: ClosedRange<Double> = 0...28
+    private static let pollInterval: TimeInterval = 0.5
+
+    var onStateChange: (() -> Void)?
+
+    private let storage: any PluginStorage
+    private let nowPlayingService: AppleMusicNowPlayingService
+    private let lyricsProvider: AppleMusicCacheLyricsProvider
+
+    private var isEnabled: Bool
+    private var storedFontSize: Double
+    private var storedBackgroundOpacity: Double
+    private var storedTextOpacity: Double
+    private var storedCornerRadius: Double
+    private var storedShowsNextLine: Bool
+    private var storedTextColor: LyricsTextColorOption
+    private var storedAllowsDragging: Bool
+    private var storedKaraokeEnabled: Bool
+
+    private var pollTimer: Timer?
+    private var currentTrack: TrackInfo?
+    private var currentLyrics: LyricsDocument = .empty
+    private var currentLine: String = ""
+    private var lyricsFetchTask: Task<Void, Never>?
+    private var errorMessage: String?
+    private var isActive = false
+
+    private let floatingWindow: LyricsFloatingWindow
+
+    init(
+        storage: any PluginStorage,
+        localization: PluginLocalization,
+        nowPlayingService: AppleMusicNowPlayingService = AppleMusicNowPlayingService(),
+        lyricsProvider: AppleMusicCacheLyricsProvider = AppleMusicCacheLyricsProvider()
+    ) {
+        self.storage = storage
+        self.nowPlayingService = nowPlayingService
+        self.lyricsProvider = lyricsProvider
+
+        if storage.object(forKey: StorageKey.enabled) == nil {
+            isEnabled = Defaults.isEnabled
+        } else {
+            isEnabled = storage.bool(forKey: StorageKey.enabled)
+        }
+
+        storedFontSize = Self.clampedFontSize(
+            storage.object(forKey: StorageKey.fontSize) as? Double ?? Defaults.fontSize
+        )
+        storedBackgroundOpacity = Self.clampedOpacity(
+            storage.object(forKey: StorageKey.backgroundOpacity) as? Double ?? Defaults.backgroundOpacity
+        )
+        storedTextOpacity = Self.clampedTextOpacity(
+            storage.object(forKey: StorageKey.textOpacity) as? Double ?? Defaults.textOpacity
+        )
+        storedCornerRadius = Self.clampedCornerRadius(
+            storage.object(forKey: StorageKey.cornerRadius) as? Double ?? Defaults.cornerRadius
+        )
+        if storage.object(forKey: StorageKey.showsNextLine) == nil {
+            storedShowsNextLine = Defaults.showsNextLine
+        } else {
+            storedShowsNextLine = storage.bool(forKey: StorageKey.showsNextLine)
+        }
+        if storage.object(forKey: StorageKey.textColor) == nil {
+            storedTextColor = Defaults.textColor
+        } else {
+            storedTextColor = LyricsTextColorOption(
+                rawValue: storage.string(forKey: StorageKey.textColor) ?? ""
+            ) ?? Defaults.textColor
+        }
+        if storage.object(forKey: StorageKey.allowsDragging) == nil {
+            storedAllowsDragging = Defaults.allowsDragging
+        } else {
+            storedAllowsDragging = storage.bool(forKey: StorageKey.allowsDragging)
+        }
+        if storage.object(forKey: StorageKey.karaokeEnabled) == nil {
+            storedKaraokeEnabled = Defaults.karaokeEnabled
+        } else {
+            storedKaraokeEnabled = storage.bool(forKey: StorageKey.karaokeEnabled)
+        }
+
+        let appearance = LyricsAppearance(
+            fontSize: storedFontSize,
+            backgroundOpacity: storedBackgroundOpacity,
+            textOpacity: storedTextOpacity,
+            cornerRadius: storedCornerRadius,
+            showsNextLine: storedShowsNextLine,
+            textColor: storedTextColor,
+            allowsDragging: storedAllowsDragging,
+            karaokeEnabled: storedKaraokeEnabled
+        )
+        floatingWindow = LyricsFloatingWindow(appearance: appearance)
+        floatingWindow.restorePosition(Self.windowPosition(from: storage))
+        floatingWindow.onPositionChange = { [weak self] point in
+            self?.saveWindowPosition(point)
+        }
+    }
+
+    isolated deinit {
+        pollTimer?.invalidate()
+        lyricsFetchTask?.cancel()
+    }
+
+    var currentAppearance: LyricsAppearance {
+        LyricsAppearance(
+            fontSize: storedFontSize,
+            backgroundOpacity: storedBackgroundOpacity,
+            textOpacity: storedTextOpacity,
+            cornerRadius: storedCornerRadius,
+            showsNextLine: storedShowsNextLine,
+            textColor: storedTextColor,
+            allowsDragging: storedAllowsDragging,
+            karaokeEnabled: storedKaraokeEnabled
+        )
+    }
+
+    var snapshot: AppleMusicLyricsSnapshot {
+        let isMusicRunning = nowPlayingService.isMusicRunning
+        let isTrackPlaying = currentTrack?.state == .playing
+        let hasLyrics = !currentLyrics.lines.isEmpty
+
+        return AppleMusicLyricsSnapshot(
+            isEnabled: isEnabled,
+            isMusicRunning: isMusicRunning,
+            isTrackPlaying: isTrackPlaying,
+            hasLyrics: hasLyrics,
+            currentTrackTitle: currentTrack?.title ?? "",
+            currentTrackArtist: currentTrack?.artist ?? "",
+            currentLine: currentLine,
+            errorMessage: errorMessage
+        )
+    }
+
+    var fontSize: Double { storedFontSize }
+    var backgroundOpacity: Double { storedBackgroundOpacity }
+    var textOpacity: Double { storedTextOpacity }
+    var cornerRadius: Double { storedCornerRadius }
+    var showsNextLine: Bool { storedShowsNextLine }
+    var textColor: LyricsTextColorOption { storedTextColor }
+    var allowsDragging: Bool { storedAllowsDragging }
+    var karaokeEnabled: Bool { storedKaraokeEnabled }
+
+    // MARK: - Lifecycle
+
+    func activate() {
+        isActive = true
+        if isEnabled {
+            startPolling()
+            applyWindowVisibility()
+        }
+    }
+
+    func deactivate() {
+        isActive = false
+        stopPolling()
+        lyricsFetchTask?.cancel()
+        lyricsFetchTask = nil
+        floatingWindow.hideLyrics()
+    }
+
+    func refresh() {
+        pollNow()
+    }
+
+    // MARK: - Settings
+
+    func setEnabled(_ isEnabled: Bool) {
+        guard self.isEnabled != isEnabled else { return }
+        self.isEnabled = isEnabled
+        storage.set(isEnabled, forKey: StorageKey.enabled)
+
+        if isEnabled {
+            startPolling()
+            pollNow()
+        } else {
+            stopPolling()
+            lyricsFetchTask?.cancel()
+            lyricsFetchTask = nil
+            floatingWindow.hideLyrics()
+            currentTrack = nil
+            currentLyrics = .empty
+            currentLine = ""
+        }
+        onStateChange?()
+    }
+
+    func setFontSize(_ size: Double) {
+        let clamped = Self.clampedFontSize(size)
+        guard storedFontSize != clamped else { return }
+        storedFontSize = clamped
+        storage.set(clamped, forKey: StorageKey.fontSize)
+        applyAppearance()
+        onStateChange?()
+    }
+
+    func setBackgroundOpacity(_ opacity: Double) {
+        let clamped = Self.clampedOpacity(opacity)
+        guard storedBackgroundOpacity != clamped else { return }
+        storedBackgroundOpacity = clamped
+        storage.set(clamped, forKey: StorageKey.backgroundOpacity)
+        applyAppearance()
+        onStateChange?()
+    }
+
+    func setTextOpacity(_ opacity: Double) {
+        let clamped = Self.clampedTextOpacity(opacity)
+        guard storedTextOpacity != clamped else { return }
+        storedTextOpacity = clamped
+        storage.set(clamped, forKey: StorageKey.textOpacity)
+        applyAppearance()
+        onStateChange?()
+    }
+
+    func setCornerRadius(_ radius: Double) {
+        let clamped = Self.clampedCornerRadius(radius)
+        guard storedCornerRadius != clamped else { return }
+        storedCornerRadius = clamped
+        storage.set(clamped, forKey: StorageKey.cornerRadius)
+        applyAppearance()
+        onStateChange?()
+    }
+
+    func setShowsNextLine(_ showsNextLine: Bool) {
+        guard storedShowsNextLine != showsNextLine else { return }
+        storedShowsNextLine = showsNextLine
+        storage.set(showsNextLine, forKey: StorageKey.showsNextLine)
+        applyAppearance()
+        onStateChange?()
+    }
+
+    func setTextColor(_ option: LyricsTextColorOption) {
+        guard storedTextColor != option else { return }
+        storedTextColor = option
+        storage.set(option.rawValue, forKey: StorageKey.textColor)
+        applyAppearance()
+        onStateChange?()
+    }
+
+    func setAllowsDragging(_ allows: Bool) {
+        guard storedAllowsDragging != allows else { return }
+        storedAllowsDragging = allows
+        storage.set(allows, forKey: StorageKey.allowsDragging)
+        applyAppearance()
+        onStateChange?()
+    }
+
+    func setKaraokeEnabled(_ enabled: Bool) {
+        guard storedKaraokeEnabled != enabled else { return }
+        storedKaraokeEnabled = enabled
+        storage.set(enabled, forKey: StorageKey.karaokeEnabled)
+        applyAppearance()
+        onStateChange?()
+    }
+
+    func resetToDefaults() {
+        isEnabled = Defaults.isEnabled
+        storedFontSize = Defaults.fontSize
+        storedBackgroundOpacity = Defaults.backgroundOpacity
+        storedTextOpacity = Defaults.textOpacity
+        storedCornerRadius = Defaults.cornerRadius
+        storedShowsNextLine = Defaults.showsNextLine
+        storedTextColor = Defaults.textColor
+        storedAllowsDragging = Defaults.allowsDragging
+        storedKaraokeEnabled = Defaults.karaokeEnabled
+
+        storage.set(isEnabled, forKey: StorageKey.enabled)
+        storage.set(storedFontSize, forKey: StorageKey.fontSize)
+        storage.set(storedBackgroundOpacity, forKey: StorageKey.backgroundOpacity)
+        storage.set(storedTextOpacity, forKey: StorageKey.textOpacity)
+        storage.set(storedCornerRadius, forKey: StorageKey.cornerRadius)
+        storage.set(storedShowsNextLine, forKey: StorageKey.showsNextLine)
+        storage.set(storedTextColor.rawValue, forKey: StorageKey.textColor)
+        storage.set(storedAllowsDragging, forKey: StorageKey.allowsDragging)
+        storage.set(storedKaraokeEnabled, forKey: StorageKey.karaokeEnabled)
+
+        if isEnabled {
+            startPolling()
+            pollNow()
+        } else {
+            stopPolling()
+            floatingWindow.hideLyrics()
+        }
+        applyAppearance()
+        onStateChange?()
+    }
+
+    // MARK: - Polling
+
+    private func startPolling() {
+        guard pollTimer == nil else { return }
+        let timer = Timer.scheduledTimer(
+            withTimeInterval: Self.pollInterval,
+            repeats: true
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.pollNow()
+            }
+        }
+        timer.tolerance = 0.1
+        pollTimer = timer
+    }
+
+    private func stopPolling() {
+        pollTimer?.invalidate()
+        pollTimer = nil
+    }
+
+    private func pollNow() {
+        guard isActive, isEnabled else { return }
+
+        switch nowPlayingService.fetch() {
+        case .success(let track):
+            handleTrack(track)
+        case .failure(let error):
+            errorMessage = error.localizedDescription
+            onStateChange?()
+        }
+    }
+
+    private func handleTrack(_ track: TrackInfo?) {
+        guard let track else {
+            // Music stopped or not playing.
+            if currentTrack != nil || !currentLyrics.lines.isEmpty {
+                currentTrack = nil
+                currentLyrics = .empty
+                currentLine = ""
+                floatingWindow.hideLyrics()
+                onStateChange?()
+            }
+            return
+        }
+
+        let identityChanged = currentTrack?.identityKey != track.identityKey
+        let positionChanged = abs((currentTrack?.position ?? 0) - track.position) > 0.3
+            || currentTrack?.state != track.state
+
+        currentTrack = track
+        errorMessage = nil
+
+        if identityChanged {
+            // Track changed: fetch new lyrics.
+            currentLine = ""
+            currentLyrics = .empty
+            fetchLyrics(for: track)
+        } else if positionChanged {
+            // Same track: update the displayed line.
+            updateDisplayedLine(position: track.position)
+        }
+
+        applyWindowVisibility()
+        onStateChange?()
+    }
+
+    private func fetchLyrics(for track: TrackInfo) {
+        lyricsFetchTask?.cancel()
+        let provider = lyricsProvider
+        lyricsFetchTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+            let lyrics = await Task.detached(priority: .userInitiated) {
+                provider.lyrics(for: track)
+            }.value
+
+            guard !Task.isCancelled else { return }
+            guard self.currentTrack?.identityKey == track.identityKey else { return }
+
+            self.currentLyrics = lyrics
+            self.currentLine = lyrics.line(at: track.position)?.text ?? ""
+            if let line = lyrics.line(at: track.position),
+               let translation = line.translation, !translation.isEmpty {
+                self.currentLine = "\(line.text)\n\(translation)"
+            }
+            self.applyWindowVisibility()
+            self.updateDisplayedLine(position: track.position)
+            self.onStateChange?()
+        }
+    }
+
+    private func updateDisplayedLine(position: TimeInterval) {
+        guard let track = currentTrack else { return }
+        guard !currentLyrics.lines.isEmpty else {
+            currentLine = ""
+            floatingWindow.hideLyrics()
+            return
+        }
+        if let line = currentLyrics.line(at: position) {
+            currentLine = line.text
+            if let translation = line.translation, !translation.isEmpty {
+                currentLine = "\(line.text)\n\(translation)"
+            }
+        }
+        if track.state == .playing {
+            floatingWindow.update(
+                track: track,
+                lyrics: currentLyrics,
+                position: position
+            )
+        }
+    }
+
+    private func applyWindowVisibility() {
+        guard let track = currentTrack else {
+            floatingWindow.hideLyrics()
+            return
+        }
+        guard track.state == .playing, !currentLyrics.lines.isEmpty else {
+            floatingWindow.hideLyrics()
+            return
+        }
+        floatingWindow.update(
+            track: track,
+            lyrics: currentLyrics,
+            position: track.position
+        )
+        floatingWindow.showLyrics()
+    }
+
+    private func applyAppearance() {
+        floatingWindow.setAppearance(currentAppearance)
+    }
+
+    // MARK: - Clamping
+
+    private static func clampedFontSize(_ value: Double) -> Double {
+        min(max(value, allowedFontSizeRange.lowerBound), allowedFontSizeRange.upperBound)
+    }
+
+    private static func clampedOpacity(_ value: Double) -> Double {
+        min(max(value, allowedOpacityRange.lowerBound), allowedOpacityRange.upperBound)
+    }
+
+    private static func clampedTextOpacity(_ value: Double) -> Double {
+        min(max(value, allowedTextOpacityRange.lowerBound), allowedTextOpacityRange.upperBound)
+    }
+
+    // MARK: - Window position persistence
+
+    private static func windowPosition(from storage: any PluginStorage) -> NSPoint? {
+        guard let raw = storage.string(forKey: StorageKey.windowPosition) else { return nil }
+        let parts = raw.split(separator: ",")
+        guard parts.count == 2,
+              let x = Double(parts[0]),
+              let y = Double(parts[1]) else { return nil }
+        return NSPoint(x: x, y: y)
+    }
+
+    private func saveWindowPosition(_ point: NSPoint) {
+        storage.set("\(point.x),\(point.y)", forKey: StorageKey.windowPosition)
+    }
+
+    private static func clampedCornerRadius(_ value: Double) -> Double {
+        min(max(value, allowedCornerRadiusRange.lowerBound), allowedCornerRadiusRange.upperBound)
+    }
+}

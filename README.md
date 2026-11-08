@@ -127,6 +127,8 @@ Screenshots work on macOS 14+; region recording and per-app volume require macOS
 
 Experimental [Trackpad Scale](docs/plugins/trackpad-scale.md) estimates small-object weight on a built-in Force Touch trackpad. Start with no object and keep one finger lightly resting in place; it automatically tares after about one second. Wait for the ready message, then gently place the object while maintaining that contact. Auto capture stops sampling after a stable reading and keeps the result visible so you can lift your finger; turn it off for continuous measuring. Calibration pauses auto capture and includes manual **Tare**; **⌘T** also resets the baseline while measuring.
 
+[Apple Music Lyrics](docs/plugins/apple-music-lyrics.md) shows frosted-glass desktop lyrics in the top-right corner while Apple Music plays, with configurable font, opacity, colors, and optional per-word karaoke highlighting and a draggable position. It reads lyrics already cached by Apple Music and works without an Apple account.
+
 Screenshot selection remains available on each display after switching desktops or entering and leaving full-screen apps.
 
 Auto Input applies a fixed rule's input source and keyboard mode when its app comes to the front. Keyboard mode can follow the system, use standard F1–F12 keys, or keep the MacBook top-row shortcuts, and the top row returns to its previous behavior when you switch away.
