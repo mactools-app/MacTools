@@ -13,7 +13,7 @@ enum QuitProtectionEventClock {
     }
 
     static func sleep(until deadline: Duration) async throws {
-        try await Task.sleep(for: max(.zero, deadline - now), clock: .suspending)
+        try await Task.sleep(for: max(Duration.zero, deadline - now), clock: .suspending)
     }
 }
 
