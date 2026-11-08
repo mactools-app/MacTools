@@ -29,6 +29,7 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
         static let section = "hover"
         static let enabled = "enabled"
         static let showsMenuBarIcon = "show-menu-bar-icon"
+        static let enableBelowTrigger = "enable-below-trigger"
         static let triggerWidth = "trigger-width"
         static let verticalTriggerReach = "vertical-trigger-reach"
         static let showDelay = "show-delay"
@@ -118,6 +119,20 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
                 )
             ),
             PluginSettingsRow(
+                id: SettingsID.enableBelowTrigger,
+                title: localization.string(
+                    "settings.enableBelowTrigger.title",
+                    defaultValue: "启用下方触发"
+                ),
+                description: localization.string(
+                    "settings.enableBelowTrigger.description",
+                    defaultValue: "从灵动岛正下方往上移动时也显示面板。"
+                ),
+                systemImage: "arrow.up.to.line",
+                isEnabled: snapshot.isEnabled,
+                control: .toggle(isOn: snapshot.isBelowTriggerEnabled)
+            ),
+            PluginSettingsRow(
                 id: SettingsID.verticalTriggerReach,
                 title: localization.string(
                     "settings.verticalTriggerReach.title",
@@ -128,7 +143,7 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
                     defaultValue: "灵动岛正下方参与触发的区域高度，向上滑动接近灵动岛时也会显示面板。"
                 ),
                 systemImage: "arrow.up.to.line",
-                isEnabled: snapshot.isEnabled,
+                isEnabled: snapshot.isEnabled && snapshot.isBelowTriggerEnabled,
                 control: .slider(
                     value: snapshot.verticalTriggerReach,
                     range: NotchHoverGeometry.allowedVerticalTriggerReachRange,
@@ -327,6 +342,8 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
             controller.setEnabled(value)
         case let .setBoolean(controlID, value) where controlID == SettingsID.showsMenuBarIcon:
             controller.setShowsMenuBarIcon(value)
+        case let .setBoolean(controlID, value) where controlID == SettingsID.enableBelowTrigger:
+            controller.setEnableBelowTrigger(value)
         case let .invoke(controlID) where controlID == SettingsID.reset:
             controller.resetToDefaults()
         case let .setNumber(controlID, value, phase) where phase == .committed:

@@ -1316,73 +1316,73 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يستعيد نطاقات التشغيل والتأخيرات وإعداد رمز شريط القوائم إلى قيمها الأولية."
+            "value": "يستعيد نطاقات التشغيل والتشغيل السفلي والتأخيرات وإعداد رمز شريط القوائم إلى قيمها الأولية."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Stellt Auslösebereiche, Verzögerungen und die Einstellung für das Menüleistensymbol auf die Anfangswerte zurück."
+            "value": "Stellt Auslösebereiche, die untere Auslösung, Verzögerungen und die Einstellung für das Menüleistensymbol auf die Anfangswerte zurück."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restore trigger ranges, delays, and the menu-bar icon setting to their initial values."
+            "value": "Restore trigger ranges, the lower trigger, delays, and the menu-bar icon setting to their initial values."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restaura los rangos de activación, los retrasos y el ajuste del icono de la barra de menús."
+            "value": "Restaura los rangos de activación, la activación inferior, los retrasos y el ajuste del icono de la barra de menús."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Rétablit les zones de déclenchement, les délais et le réglage de l’icône de la barre des menus."
+            "value": "Rétablit les zones de déclenchement, le déclenchement inférieur, les délais et le réglage de l’icône de la barre des menus."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "トリガー範囲、遅延、メニューバーアイコンの設定を初期状態に戻します。"
+            "value": "トリガー範囲、下側トリガー、遅延、メニューバーアイコンの設定を初期状態に戻します。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "트리거 범위, 지연 시간 및 메뉴 막대 아이콘 설정을 초기 상태로 되돌립니다."
+            "value": "트리거 범위, 아래쪽 트리거, 지연 시간 및 메뉴 막대 아이콘 설정을 초기 상태로 되돌립니다."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restaura os intervalos de ativação, os atrasos e o ajuste do ícone da barra de menus."
+            "value": "Restaura os intervalos de ativação, a ativação inferior, os atrasos e o ajuste do ícone da barra de menus."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Возвращает диапазоны срабатывания, задержки и настройку значка в строке меню к исходным значениям."
+            "value": "Возвращает диапазоны срабатывания, нижнее срабатывание, задержки и настройку значка в строке меню к исходным значениям."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tetikleme aralıklarını, gecikmeleri ve menü çubuğu simgesi ayarını ilk değerlerine döndürür."
+            "value": "Tetikleme aralıklarını, alt tetiklemeyi, gecikmeleri ve menü çubuğu simgesi ayarını ilk değerlerine döndürür."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "将触发范围、显示延迟和菜单栏图标恢复为初始状态。"
+            "value": "将触发范围、下方触发、显示延迟和菜单栏图标恢复为初始状态。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "將觸發範圍、顯示延遲和選單列圖示恢復為初始狀態。"
+            "value": "將觸發範圍、下方觸發、顯示延遲和選單列圖示恢復為初始狀態。"
           }
         }
       }
@@ -1999,6 +1999,160 @@
           "stringUnit": {
             "state": "translated",
             "value": "關閉後隱藏 MacTools 選單列圖示，可從靈動島懸浮面板開啟面板。"
+          }
+        }
+      }
+    },
+    "settings.enableBelowTrigger.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تفعيل التشغيل السفلي"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untere Auslösung aktivieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable Lower Trigger"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activar activación inferior"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activer le déclenchement inférieur"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下側トリガーを有効にする"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "아래쪽 트리거 사용"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativar ativação inferior"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включить срабатывание снизу"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alt tetiklemeyi etkinleştir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用下方触发"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "啟用下方觸發"
+          }
+        }
+      }
+    },
+    "settings.enableBelowTrigger.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اعرض اللوحة أيضًا عند تحريك المؤشر لأعلى من أسفل Dynamic Island مباشرة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bedienfeld auch anzeigen, wenn der Zeiger von direkt unter der Dynamic Island nach oben bewegt wird."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Also show the panel when the pointer moves upward from directly below the Dynamic Island."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "También muestra el panel al mover el puntero hacia arriba desde justo debajo de Dynamic Island."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher également le panneau lorsque le pointeur remonte depuis juste sous Dynamic Island."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island の真下からポインタを上へ動かしたときもパネルを表示します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island 바로 아래에서 포인터를 위로 움직여도 패널을 표시합니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Também mostra o painel ao mover o ponteiro para cima a partir de baixo do Dynamic Island."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Также показывать панель при движении курсора вверх из-под Dynamic Island."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İmleci Dynamic Island'ın hemen altından yukarı hareket ettirdiğinizde de paneli göster."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从灵动岛正下方往上移动时也显示面板。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "從靈動島正下方往上移動時也顯示面板。"
           }
         }
       }

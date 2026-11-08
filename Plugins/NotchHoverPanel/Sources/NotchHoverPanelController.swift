@@ -6,6 +6,7 @@ struct NotchHoverPanelSnapshot: Equatable, Sendable {
     let isEnabled: Bool
     let hasSupportedDisplay: Bool
     let showsMenuBarIcon: Bool
+    let isBelowTriggerEnabled: Bool
     let triggerWidth: Double
     let verticalTriggerReach: Double
     let showDelay: Double
@@ -24,6 +25,7 @@ protocol NotchHoverPanelControlling: AnyObject, PluginMenuBarPanelPresenting,
     func refresh()
     func setEnabled(_ isEnabled: Bool)
     func setShowsMenuBarIcon(_ showsMenuBarIcon: Bool)
+    func setEnableBelowTrigger(_ enabled: Bool)
     func setTriggerWidth(_ width: Double)
     func setVerticalTriggerReach(_ reach: Double)
     func setShowDelay(_ delay: Double)
@@ -36,6 +38,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
     private enum StorageKey {
         static let enabled = "notch-hover.enabled"
         static let showsMenuBarIcon = "notch-hover.show-menu-bar-icon"
+        static let enableBelowTrigger = "notch-hover.enable-below-trigger"
         static let triggerWidth = "notch-hover.trigger-width"
         static let verticalTriggerReach = "notch-hover.vertical-reach"
         static let showDelay = "notch-hover.show-delay"
@@ -45,6 +48,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
     private enum Defaults {
         static let isEnabled = true
         static let showsMenuBarIcon = true
+        static let enableBelowTrigger = true
         static let triggerWidth = Double(NotchHoverGeometry.defaultTriggerWidth)
         static let verticalTriggerReach = Double(NotchHoverGeometry.defaultVerticalTriggerReach)
         static let showDelay = 0.18
@@ -73,6 +77,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
 
     private var isEnabled: Bool
     private var showsMenuBarIcon: Bool
+    private var enableBelowTrigger: Bool
     private var triggerWidth: Double
     private var verticalTriggerReach: Double
     private var showDelay: Double
@@ -111,6 +116,12 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
             showsMenuBarIcon = Defaults.showsMenuBarIcon
         } else {
             showsMenuBarIcon = storage.bool(forKey: StorageKey.showsMenuBarIcon)
+        }
+
+        if storage.object(forKey: StorageKey.enableBelowTrigger) == nil {
+            enableBelowTrigger = Defaults.enableBelowTrigger
+        } else {
+            enableBelowTrigger = storage.bool(forKey: StorageKey.enableBelowTrigger)
         }
 
         if storage.object(forKey: StorageKey.triggerWidth) == nil {
@@ -160,6 +171,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
             isEnabled: isEnabled,
             hasSupportedDisplay: !displays.isEmpty,
             showsMenuBarIcon: showsMenuBarIcon,
+            isBelowTriggerEnabled: enableBelowTrigger,
             triggerWidth: triggerWidth,
             verticalTriggerReach: verticalTriggerReach,
             showDelay: showDelay,
@@ -238,6 +250,14 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         onStateChange?()
     }
 
+    func setEnableBelowTrigger(_ enabled: Bool) {
+        guard enableBelowTrigger != enabled else { return }
+        enableBelowTrigger = enabled
+        storage.set(enabled, forKey: StorageKey.enableBelowTrigger)
+        refreshDisplays()
+        onStateChange?()
+    }
+
     func setTriggerWidth(_ width: Double) {
         let clamped = Self.clampedTriggerWidth(width)
         guard triggerWidth != clamped else { return }
@@ -275,6 +295,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
     func resetToDefaults() {
         isEnabled = Defaults.isEnabled
         showsMenuBarIcon = Defaults.showsMenuBarIcon
+        enableBelowTrigger = Defaults.enableBelowTrigger
         triggerWidth = Defaults.triggerWidth
         verticalTriggerReach = Defaults.verticalTriggerReach
         showDelay = Defaults.showDelay
@@ -282,6 +303,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
 
         storage.set(isEnabled, forKey: StorageKey.enabled)
         storage.set(showsMenuBarIcon, forKey: StorageKey.showsMenuBarIcon)
+        storage.set(enableBelowTrigger, forKey: StorageKey.enableBelowTrigger)
         storage.set(Int(triggerWidth.rounded()), forKey: StorageKey.triggerWidth)
         storage.set(Int(verticalTriggerReach.rounded()), forKey: StorageKey.verticalTriggerReach)
         storage.set(showDelay, forKey: StorageKey.showDelay)
@@ -485,8 +507,16 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         displays = NotchHoverGeometry.displays(
             from: screensProvider(),
             triggerWidth: CGFloat(triggerWidth),
-            verticalTriggerReach: CGFloat(verticalTriggerReach)
+            verticalTriggerReach: CGFloat(verticalTriggerReach),
+            enableBelowTrigger: enableBelowTrigger
         )
+        // Keep the active display aligned with the refreshed trigger inventory so
+        // removing the lower trigger while the panel is open does not keep it
+        // active through stale trigger geometry.
+        if let activeDisplay,
+           let matching = displays.first(where: { $0.displayID == activeDisplay.displayID }) {
+            self.activeDisplay = matching
+        }
     }
 
     private func applyMenuBarIconVisibility() {

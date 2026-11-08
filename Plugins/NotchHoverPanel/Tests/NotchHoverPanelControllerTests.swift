@@ -68,10 +68,72 @@ final class NotchHoverPanelControllerTests: XCTestCase {
         XCTAssertEqual(requests, [false, true], "Disabling the plugin must restore the host icon.")
     }
 
+    func testBelowTriggerPreferenceDefaultsEnabledAndPersists() {
+        let storage = NotchHoverMemoryStorage()
+        let controller = makeController(storage: storage)
+
+        XCTAssertTrue(
+            controller.snapshot.isBelowTriggerEnabled,
+            "The lower trigger must be enabled by default."
+        )
+        XCTAssertEqual(
+            storage.object(forKey: "notch-hover.enable-below-trigger") as? Bool,
+            nil,
+            "The default is not written until the user changes it."
+        )
+
+        controller.setEnableBelowTrigger(false)
+
+        XCTAssertFalse(controller.snapshot.isBelowTriggerEnabled)
+        XCTAssertEqual(storage.object(forKey: "notch-hover.enable-below-trigger") as? Bool, false)
+        XCTAssertFalse(makeController(storage: storage).snapshot.isBelowTriggerEnabled)
+
+        controller.setEnableBelowTrigger(true)
+        XCTAssertTrue(controller.snapshot.isBelowTriggerEnabled)
+        XCTAssertEqual(storage.object(forKey: "notch-hover.enable-below-trigger") as? Bool, true)
+    }
+
+    func testDisablingBelowTriggerRemovesTheLowerTriggerArea() {
+        let mouse = TestState(NSPoint.zero)
+        let controller = NotchHoverPanelController(
+            storage: NotchHoverMemoryStorage(),
+            screensProvider: { [Self.notchScreenSnapshot()] },
+            mouseLocationProvider: { mouse.value }
+        )
+        controller.setShowDelay(0)
+        controller.setHideDelay(0.05)
+
+        var isPanelVisible = false
+        controller.isPresentedMenuBarPanelVisible = { isPanelVisible }
+        controller.requestMenuBarPanelPresentation = { _ in
+            isPanelVisible = true
+            return true
+        }
+        controller.requestMenuBarPanelDismissal = { _ in
+            isPanelVisible = false
+            return true
+        }
+
+        // Moving upward from below the notch opens the panel while the lower
+        // trigger is enabled.
+        mouse.value = Self.triggerPointBelowNotch
+        controller.handlePointerLocation(mouse.value)
+        waitForScheduledWork()
+        XCTAssertTrue(controller.snapshot.isPanelVisible)
+
+        // Disabling the lower trigger must stop the area from activating and let
+        // the panel dismiss once the pointer leaves the refreshed triggers.
+        controller.setEnableBelowTrigger(false)
+        controller.handlePointerLocation(mouse.value)
+        waitForScheduledWork()
+        XCTAssertFalse(controller.snapshot.isPanelVisible)
+    }
+
     func testResetToDefaultsRestoresInitialPreferences() {
         let storage = NotchHoverMemoryStorage()
         let controller = makeController(storage: storage)
         controller.setShowsMenuBarIcon(false)
+        controller.setEnableBelowTrigger(false)
         controller.setTriggerWidth(NotchHoverGeometry.allowedTriggerWidthRange.upperBound)
         controller.setVerticalTriggerReach(NotchHoverGeometry.allowedVerticalTriggerReachRange.upperBound)
         controller.setShowDelay(0.8)
@@ -82,6 +144,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
         let snapshot = controller.snapshot
         XCTAssertTrue(snapshot.isEnabled)
         XCTAssertTrue(snapshot.showsMenuBarIcon)
+        XCTAssertTrue(snapshot.isBelowTriggerEnabled)
         XCTAssertEqual(snapshot.triggerWidth, Double(NotchHoverGeometry.defaultTriggerWidth))
         XCTAssertEqual(
             snapshot.verticalTriggerReach,
@@ -190,6 +253,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
     }
 
     private static let triggerPoint = NSPoint(x: 700, y: 960)
+    private static let triggerPointBelowNotch = NSPoint(x: 700, y: 900)
 
     private func waitForScheduledWork() {
         RunLoop.current.run(until: Date().addingTimeInterval(0.15))
