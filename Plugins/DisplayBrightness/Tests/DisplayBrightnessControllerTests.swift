@@ -32,9 +32,10 @@ final class DisplayBrightnessControllerTests: XCTestCase {
         }
     }
 
-    func testQueuedBuiltInBrightnessRechecksEligibilityBeforeWriting() async {
+    func testBuiltInWriteRechecksEligibilityAfterNativeProbe() async {
         let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
-        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
+        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: false)
+        defer { backend.releaseRead() }
         let eligible = OSAllocatedUnfairLock(initialState: true)
         let controller = DisplayBrightnessController(
             displayProvider: StaticDisplayProvider(display: display),
@@ -44,19 +45,16 @@ final class DisplayBrightnessControllerTests: XCTestCase {
         )
         controller.refresh()
         await waitUntil { controller.snapshot().displays.first?.isReady == true }
-        let slider = Task { await controller.setBrightnessAndWait(0.4, for: display.id) }
-        await waitUntil { backend.firstWriteStarted }
+        backend.suspendNextRead()
         let scheduled = Task { await controller.setBuiltInBrightnessAndWait(0.7) }
-        await waitUntil { controller.snapshot().displays.first?.brightness == 0.7 }
+        await waitUntil { backend.readStarted }
         eligible.withLock { $0 = false }
-        backend.releaseFirstWrite()
+        backend.releaseRead()
 
-        let sliderResult = await slider.value
-        XCTAssertEqual(sliderResult, .succeeded)
         guard case .failed = await scheduled.value else {
-            return XCTFail("A target that became ineligible must fail before the queued write")
+            return XCTFail("A target that became ineligible must fail before writing")
         }
-        XCTAssertEqual(backend.writeValues, [0.4])
+        XCTAssertTrue(backend.writeValues.isEmpty)
     }
 
     func testUnverifiedBuiltInWriteRequiresFreshBrightnessBeforeControlsResume() async {
@@ -124,37 +122,44 @@ final class DisplayBrightnessControllerTests: XCTestCase {
         }
         XCTAssertEqual(gamma.cleanupCount, 0)
         XCTAssertEqual(controller.snapshot().displays.first?.brightness, 0.4)
+        gamma.failNextRestore()
+        guard case .failed = await controller.setBuiltInBrightnessAndWait(0.7) else {
+            return XCTFail("A verified native write must fail when software dimming cannot be removed")
+        }
+        XCTAssertEqual(gamma.cleanupCount, 0)
+        XCTAssertEqual(controller.snapshot().displays.first?.brightness, 0.4)
         let scheduled = await controller.setBuiltInBrightnessAndWait(0.7)
         XCTAssertEqual(scheduled, .succeeded)
-        XCTAssertEqual(native.writeValues, [0.7, 0.7])
+        XCTAssertEqual(native.writeValues, [0.7, 0.7, 0.7])
         XCTAssertEqual(gamma.cleanupCount, 1)
     }
 
-    func testQueuedExactWriteRequiresAValidNativeProbeAtDispatch() async {
-        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
-        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
-        defer { backend.releaseFirstWrite() }
+    func testBuiltInWriteCanVerifyWhileAnExternalReadIsBlocked() async {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true)
+        let external = makeTestDisplay(id: 43, name: "External fixture", isMain: true)
+        let native = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: false)
+        let ddc = BlockingReadBrightnessBackend(display: external)
+        ddc.suspendNextRead()
+        defer { ddc.releaseRead() }
         let controller = DisplayBrightnessController(
-            displayProvider: StaticDisplayProvider(display: display),
+            displayProvider: MutableDisplayProvider(displays: [external, display]),
             isBuiltInDisplayEligible: { _ in true },
-            backendBuilder: StaticBrightnessBackendBuilder(backend: backend),
+            backendBuilder: SystemDisplayBrightnessBackendBuilder(
+                resolveArm64Services: { _ in [:] },
+                appleFactory: { _ in native },
+                ddcFactory: { _, _ in ddc }
+            ),
             minimumWriteInterval: 0
         )
         controller.refresh()
-        await waitUntil { controller.snapshot().displays.first?.isReady == true }
-        let first = Task { await controller.setBuiltInBrightnessAndWait(0.7) }
-        await waitUntil { backend.firstWriteStarted }
-        let queued = Task { await controller.setBuiltInBrightnessAndWait(0.3) }
-        await waitUntil { controller.snapshot().displays.first?.brightness == 0.3 }
-        backend.failNextReads(4)
-        backend.releaseFirstWrite()
-        guard case .failed = await first.value, case .failed = await queued.value else {
-            return XCTFail("Both unverified requests must fail")
-        }
-        XCTAssertEqual(backend.writeValues, [0.7])
+        await waitUntil { ddc.readStarted }
+
+        let result = await controller.setBuiltInBrightnessAndWait(0.7)
+        XCTAssertEqual(result, .succeeded)
+        XCTAssertEqual(native.writeValues, [0.7])
     }
 
-    func testReleasingBrightnessShortcutPreservesQueuedExactWrite() async {
+    func testManualWriteWaitsForBuiltInVerificationWithoutUsingItsUnverifiedTarget() async {
         let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
         let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
         backend.seedBrightness(0.5)
@@ -169,104 +174,125 @@ final class DisplayBrightnessControllerTests: XCTestCase {
         let plugin = DisplayBrightnessPlugin(controller: controller, mouseDisplayIDProvider: { display.id })
         controller.refresh()
         await waitUntil { controller.snapshot().displays.first?.isReady == true }
-        plugin.handleShortcutEvent(id: "display-brightness.increase", phase: .pressed)
-        await waitUntil { backend.firstWriteStarted }
         let scheduled = Task { await controller.setBuiltInBrightnessAndWait(0.7) }
-        await waitUntil { controller.snapshot().displays.first?.brightness == 0.7 }
+        await waitUntil { backend.firstWriteStarted }
+        XCTAssertEqual(controller.snapshot().displays.first?.brightness, 0.5)
+
+        plugin.handleShortcutEvent(id: "display-brightness.increase", phase: .pressed)
         plugin.handleShortcutEvent(id: "display-brightness.increase", phase: .released)
+        XCTAssertEqual(controller.snapshot().displays.first?.brightness, 0.51)
         backend.releaseFirstWrite()
 
-        let result = await scheduled.value
-        XCTAssertEqual(result, .succeeded)
-        XCTAssertEqual(backend.writeValues, [0.51, 0.7])
+        let scheduledResult = await scheduled.value
+        XCTAssertEqual(scheduledResult, .succeeded)
+        await waitUntil { controller.snapshot().displays.first?.isPendingWrite == false }
+        XCTAssertEqual(backend.writeValues, [0.7, 0.51])
     }
 
-    func testRelativeWriteFallbackRetriesResolvedTarget() async throws {
+    func testBuiltInWriteLeavesBusyDisplayAloneAcrossReactivation() async {
         let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
-        let native = ScriptedBrightnessBackend(
-            display: display, results: [.failure(TestWriteError.failed)], suspendsFirstWrite: false
-        )
-        native.seedBrightness(0.1)
-        let gamma = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: false, kind: .gamma)
+        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
+        defer { backend.releaseFirstWrite() }
+        let provider = MutableDisplayProvider(displays: [display])
         let controller = DisplayBrightnessController(
-            displayProvider: StaticDisplayProvider(display: display),
-            backendBuilder: SystemDisplayBrightnessBackendBuilder(
-                resolveArm64Services: { _ in [:] },
-                appleFactory: { _ in native },
-                gammaFactory: { _ in gamma }
-            ),
+            displayProvider: provider,
+            isBuiltInDisplayEligible: { _ in true },
+            backendBuilder: StaticBrightnessBackendBuilder(backend: backend),
             minimumWriteInterval: 0
         )
         controller.refresh()
         await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        let manual = Task { await controller.setBrightnessAndWait(0.4, for: display.id) }
+        await waitUntil { backend.firstWriteStarted }
 
-        let result = await controller.adjustBrightnessAndWait(by: -0.01, for: display.id)
-        XCTAssertEqual(result, .succeeded)
-        XCTAssertEqual(native.writeValues.count, 1)
-        XCTAssertEqual(try XCTUnwrap(native.writeValues.first), 0.09, accuracy: 0.000001)
-        XCTAssertEqual(gamma.writeValues, native.writeValues)
-    }
-
-    func testCoalescedOppositeBrightnessShortcutsClampEachAdjustment() async throws {
-        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
-        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: false)
-        let controller = makeController(display: display, backend: backend)
-        let plugin = DisplayBrightnessPlugin(controller: controller, mouseDisplayIDProvider: { display.id })
+        provider.displays = []
         controller.refresh()
-        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        provider.displays = [display]
+        controller.refresh()
+        guard case .failed = await controller.setBuiltInBrightnessAndWait(0.7) else {
+            return XCTFail("A display with an unfinished write must stay busy after reactivation")
+        }
+        XCTAssertEqual(backend.writeValues, [0.4])
 
-        plugin.handleShortcutEvent(id: "display-brightness.increase", phase: .pressed)
-        plugin.handleShortcutEvent(id: "display-brightness.decrease", phase: .pressed)
-        plugin.handleShortcutEvent(id: "display-brightness.increase", phase: .released)
-        plugin.handleShortcutEvent(id: "display-brightness.decrease", phase: .released)
-        await waitUntil { controller.snapshot().displays.first?.isPendingWrite == false }
-
-        XCTAssertEqual(backend.writeValues.count, 1)
-        XCTAssertEqual(try XCTUnwrap(backend.writeValues.first), 0.99, accuracy: 0.000001)
+        backend.releaseFirstWrite()
+        let manualResult = await manual.value
+        XCTAssertEqual(manualResult, .succeeded)
+        let scheduledResult = await controller.setBuiltInBrightnessAndWait(0.7)
+        XCTAssertEqual(scheduledResult, .succeeded)
+        XCTAssertEqual(backend.writeValues, [0.4, 0.7])
     }
 
-    func testQueuedDecreaseUsesFreshLevelAfterUnverifiedScheduledWrite() async throws {
+    func testReplacementControllerWaitsForDispatchedWriteAndCleanup() async {
         let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
-        for (setterFails, freshReadFails) in [(true, false), (false, false), (false, true)] {
-            let backend = ScriptedBrightnessBackend(
-                display: display, results: setterFails ? [.failure(TestWriteError.failed)] : [],
-                suspendsFirstWrite: true
-            )
-            backend.seedBrightness(0.1)
-            defer { backend.releaseFirstWrite() }
-            let controller = DisplayBrightnessController(
+        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
+        defer { backend.releaseFirstWrite() }
+        func makeBuiltInController() -> DisplayBrightnessController {
+            DisplayBrightnessController(
                 displayProvider: StaticDisplayProvider(display: display),
                 isBuiltInDisplayEligible: { _ in true },
                 backendBuilder: StaticBrightnessBackendBuilder(backend: backend),
+                shortWriteDelay: 0,
                 minimumWriteInterval: 0
             )
-            let plugin = DisplayBrightnessPlugin(controller: controller, mouseDisplayIDProvider: { display.id })
-            controller.refresh()
-            await waitUntil { controller.snapshot().displays.first?.isReady == true }
-            let scheduled = Task { await controller.setBuiltInBrightnessAndWait(0.7) }
-            await waitUntil { backend.firstWriteStarted }
-            let reference = ActionReference(key: .init(
-                providerID: "display-brightness", actionID: "display-brightness.decrease"
-            ))
-            let handle = try plugin.beginAction(.init(reference: reference, source: .test, mode: .background))
-            let decrease = Task { await handle.result() }
-            await waitUntil {
-                guard let level = controller.snapshot().displays.first?.brightness else { return false }
-                return abs(level - 0.69) < 0.000001
-            }
-            if !setterFails { backend.failNextReads(freshReadFails ? 4 : 3) }
-            backend.releaseFirstWrite()
-            guard case .failed = await scheduled.value else { return XCTFail("Expected unverified exact write") }
-            let outcome = await decrease.value
-            if freshReadFails {
-                guard case .failed = outcome else { return XCTFail("Decrease must skip without a fresh level") }
-                XCTAssertEqual(backend.writeValues, [0.7])
-            } else {
-                XCTAssertEqual(outcome, .succeeded())
-                XCTAssertEqual(backend.writeValues.count, 2)
-                XCTAssertEqual(try XCTUnwrap(backend.writeValues.last), setterFails ? 0.09 : 0.69, accuracy: 0.000001)
-            }
         }
+
+        var original: DisplayBrightnessController? = makeBuiltInController()
+        original?.refresh()
+        await waitUntil { original?.snapshot().displays.first?.isReady == true }
+        original?.setBrightness(0.4, for: display.id, phase: .ended)
+        await waitUntil { backend.firstWriteStarted }
+        original?.cancelOutstandingWrites()
+        original = nil
+
+        let replacement = makeBuiltInController()
+        replacement.refresh()
+        await waitUntil { replacement.snapshot().displays.first?.isReady == true }
+        guard case .failed = await replacement.setBuiltInBrightnessAndWait(0.7) else {
+            return XCTFail("A replacement controller must wait for an older hardware write")
+        }
+        XCTAssertEqual(backend.writeValues, [0.4])
+
+        replacement.setBrightness(0.6, for: display.id, phase: .ended)
+        backend.releaseFirstWrite()
+        await waitUntil { replacement.snapshot().displays.first?.isPendingWrite == false }
+        XCTAssertEqual(backend.cleanupCount, 1)
+        XCTAssertEqual(backend.writeValues, [0.4, 0.6])
+
+        let result = await replacement.setBuiltInBrightnessAndWait(0.7)
+        XCTAssertEqual(result, .succeeded)
+        XCTAssertEqual(backend.writeValues, [0.4, 0.6, 0.7])
+    }
+
+    func testCancelOutstandingWritesCancelsWorkflowWaitingForTheDisplay() async {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
+        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
+        defer { backend.releaseFirstWrite() }
+        let controller = DisplayBrightnessController(
+            displayProvider: StaticDisplayProvider(display: display),
+            isBuiltInDisplayEligible: { _ in true },
+            backendBuilder: StaticBrightnessBackendBuilder(backend: backend),
+            minimumWriteInterval: 0
+        )
+        controller.refresh()
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        let manual = Task { await controller.setBrightnessAndWait(0.4, for: display.id) }
+        await waitUntil { backend.firstWriteStarted }
+        var started = false
+        let scheduled = Task {
+            started = true
+            return await controller.setBuiltInBrightnessAndWait(0.7)
+        }
+        await waitUntil { started }
+        controller.cancelOutstandingWrites()
+        controller.refresh()
+        backend.releaseFirstWrite()
+
+        guard case .failed = await scheduled.value else {
+            return XCTFail("Cancelling outstanding work must invalidate the earlier workflow")
+        }
+        let manualResult = await manual.value
+        XCTAssertEqual(manualResult, .succeeded)
+        XCTAssertEqual(backend.writeValues, [0.4])
     }
 
     func testMismatchMessageRoundsTheReadbackTheSameWayAsVerification() {
@@ -657,6 +683,64 @@ final class DisplayBrightnessControllerTests: XCTestCase {
         )
     }
 
+    func testBuiltInDeadlinePreventsAnUnstartedSetterAndPreservesVerificationAfterStart() async {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
+        for expiresBeforeSetter in [true, false] {
+            let backend = ScriptedBrightnessBackend(
+                display: display, results: [], suspendsFirstWrite: !expiresBeforeSetter
+            )
+            defer {
+                backend.releaseFirstWrite()
+                backend.releaseRead()
+            }
+            let controller = DisplayBrightnessController(
+                displayProvider: StaticDisplayProvider(display: display),
+                isBuiltInDisplayEligible: { _ in true },
+                backendBuilder: StaticBrightnessBackendBuilder(backend: backend),
+                minimumWriteInterval: 0,
+                writeTimeout: .milliseconds(150)
+            )
+            controller.refresh()
+            await waitUntil { controller.snapshot().displays.first?.isReady == true }
+            if expiresBeforeSetter { backend.suspendNextRead() }
+            let write = Task { await controller.setBuiltInBrightnessAndWait(0.7) }
+            await waitUntil { expiresBeforeSetter ? backend.readStarted : backend.firstWriteStarted }
+            try? await Task.sleep(for: .milliseconds(250))
+
+            if expiresBeforeSetter {
+                backend.releaseRead()
+                guard case .failed = await write.value else {
+                    return XCTFail("The expired request must fail before writing")
+                }
+                XCTAssertTrue(backend.writeValues.isEmpty)
+            } else {
+                backend.releaseFirstWrite()
+                let result = await write.value
+                XCTAssertEqual(result, .succeeded)
+                XCTAssertEqual(backend.writeValues, [0.7])
+                XCTAssertEqual(controller.snapshot().displays.first?.brightness, 0.7)
+            }
+        }
+    }
+
+    func testNativeBridgeRejectsMalformedReadings() throws {
+        let bridge = DisplayServicesBrightnessBridge(
+            getBrightness: { displayID, value in
+                if displayID == 7 { return 0 }
+                let samples: [Float] = [.nan, -.infinity, .infinity, -0.1, 1.1, 0, 1]
+                value.pointee = samples[Int(displayID)]
+                return 0
+            },
+            setBrightness: nil
+        )
+        for displayID: CGDirectDisplayID in 0..<5 {
+            XCTAssertThrowsError(try bridge.readBrightness(displayID: displayID))
+        }
+        XCTAssertEqual(try bridge.readBrightness(displayID: 5), 0)
+        XCTAssertEqual(try bridge.readBrightness(displayID: 6), 1)
+        XCTAssertThrowsError(try bridge.readBrightness(displayID: 7))
+    }
+
     func testPendingWriteStillTimesOutBeforeBackendDispatch() async {
         let display = makeTestDisplay(id: 13, name: "Studio Display")
         let backend = ScriptedBrightnessBackend(
@@ -942,6 +1026,7 @@ private final class ScriptedBrightnessBackend: DisplayBrightnessBackend, @unchec
     private var cleanups = 0
     private var reads = 0
     private var readFailuresRemaining = 0
+    private var restoreShouldFail = false
     private var lastReadOnMainThread = false
 
     init(
@@ -981,6 +1066,7 @@ private final class ScriptedBrightnessBackend: DisplayBrightnessBackend, @unchec
     var readWasOnMainThread: Bool { lock.withLock { lastReadOnMainThread } }
     func seedBrightness(_ value: Double) { lock.withLock { brightness = value } }
     func failNextReads(_ count: Int) { lock.withLock { readFailuresRemaining = count } }
+    func failNextRestore() { lock.withLock { restoreShouldFail = true } }
     func suspendNextRead() { lock.withLock { suspendRead = true; startedRead = false } }
     func releaseRead() { readGate.signal() }
     func readBrightness() throws -> Double {
@@ -1026,6 +1112,15 @@ private final class ScriptedBrightnessBackend: DisplayBrightnessBackend, @unchec
         lock.lock()
         cleanups += 1
         lock.unlock()
+    }
+
+    func restoreForNativeHandoff() throws {
+        let shouldFail = lock.withLock {
+            defer { restoreShouldFail = false }
+            return restoreShouldFail
+        }
+        if shouldFail { throw TestWriteError.failed }
+        cleanup()
     }
 }
 

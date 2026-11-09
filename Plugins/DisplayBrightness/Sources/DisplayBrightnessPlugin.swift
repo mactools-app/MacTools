@@ -481,12 +481,17 @@ final class DisplayBrightnessPlugin:
             direction: direction,
             targetDisplayIDs: targetDisplayIDs
         )
-        let delta = action.direction.multiplier / 100
+        let targets = displays(for: action.targetDisplayIDs).map { display in
+            (
+                display.id,
+                min(1, max(0, display.brightness + action.direction.multiplier / 100))
+            )
+        }
         let controller = controller
         return ActionExecutionHandle {
             var failures: [String] = []
-            for displayID in action.targetDisplayIDs {
-                switch await controller.adjustBrightnessAndWait(by: delta, for: displayID) {
+            for (displayID, target) in targets {
+                switch await controller.setBrightnessAndWait(target, for: displayID) {
                 case .succeeded:
                     continue
                 case let .failed(message):
@@ -921,13 +926,13 @@ final class DisplayBrightnessPlugin:
     ) {
         let delta = Double(step) / 100 * action.direction.multiplier
         for display in displays(for: action.targetDisplayIDs) {
-            controller.adjustBrightness(by: delta, for: display.id, phase: phase)
+            controller.setBrightness(display.brightness + delta, for: display.id, phase: phase)
         }
     }
 
     private func commitShortcutAction(_ action: DisplayBrightnessShortcutAction) {
         for display in displays(for: action.targetDisplayIDs) {
-            controller.adjustBrightness(by: 0, for: display.id, phase: .ended)
+            controller.setBrightness(display.brightness, for: display.id, phase: .ended)
         }
     }
 

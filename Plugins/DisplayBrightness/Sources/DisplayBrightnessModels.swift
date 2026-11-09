@@ -109,8 +109,6 @@ protocol DisplayBrightnessControlling: AnyObject {
         _ value: Double,
         for displayID: CGDirectDisplayID
     ) async -> DisplayBrightnessWriteResult
-    func adjustBrightness(by delta: Double, for displayID: CGDirectDisplayID, phase: PluginPanelAction.SliderPhase)
-    func adjustBrightnessAndWait(by delta: Double, for displayID: CGDirectDisplayID) async -> DisplayBrightnessWriteResult
     func cancelOutstandingWrites()
     var canSetBuiltInBrightness: Bool { get }
     func setBuiltInBrightnessAndWait(_ value: Double) async -> DisplayBrightnessWriteResult
@@ -119,16 +117,6 @@ protocol DisplayBrightnessControlling: AnyObject {
 
 extension DisplayBrightnessControlling {
     func cancelOutstandingWrites() {}
-    func adjustBrightness(by delta: Double, for displayID: CGDirectDisplayID, phase: PluginPanelAction.SliderPhase) {
-        guard let display = snapshot().displays.first(where: { $0.id == displayID }) else { return }
-        setBrightness(display.brightness + delta, for: displayID, phase: phase)
-    }
-    func adjustBrightnessAndWait(by delta: Double, for displayID: CGDirectDisplayID) async -> DisplayBrightnessWriteResult {
-        guard let display = snapshot().displays.first(where: { $0.id == displayID }) else {
-            return .failed(message: PluginKitLocalization.actionUnavailable)
-        }
-        return await setBrightnessAndWait(min(1, max(0, display.brightness + delta)), for: displayID)
-    }
     var canSetBuiltInBrightness: Bool { false }
     func setBuiltInBrightnessAndWait(_ value: Double) async -> DisplayBrightnessWriteResult {
         .failed(message: PluginKitLocalization.actionUnavailable)
@@ -143,6 +131,11 @@ protocol DisplayBrightnessBackend: AnyObject, Sendable {
     func readBrightness() throws -> Double
     func writeBrightness(_ value: Double) throws
     func cleanup()
+    func restoreForNativeHandoff() throws
+}
+
+extension DisplayBrightnessBackend {
+    func restoreForNativeHandoff() throws { cleanup() }
 }
 
 protocol DisplayBrightnessBackendBuilding {
