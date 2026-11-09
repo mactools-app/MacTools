@@ -85,7 +85,8 @@ enum DisplayBrightnessControllerError: Error, LocalizedError {
             return localization.string("error.nativeBrightnessWriteFailed", defaultValue: "原生亮度写入失败")
         case let .nativeBrightnessReadbackMismatch(requested, observed):
             return localization.format(
-                "voice.mismatch", defaultValue: "请求 %.0f%%，硬件读回 %.0f%%。", requested * 100, observed * 100
+                "voice.mismatch", defaultValue: "请求 %.0f%%，硬件读回 %.0f%%。",
+                (requested * 100).rounded(), (observed * 100).rounded()
             )
         case .failed(let message):
             return message
@@ -108,6 +109,8 @@ protocol DisplayBrightnessControlling: AnyObject {
         _ value: Double,
         for displayID: CGDirectDisplayID
     ) async -> DisplayBrightnessWriteResult
+    func adjustBrightness(by delta: Double, for displayID: CGDirectDisplayID, phase: PluginPanelAction.SliderPhase)
+    func adjustBrightnessAndWait(by delta: Double, for displayID: CGDirectDisplayID) async -> DisplayBrightnessWriteResult
     func cancelOutstandingWrites()
     var canSetBuiltInBrightness: Bool { get }
     func setBuiltInBrightnessAndWait(_ value: Double) async -> DisplayBrightnessWriteResult
@@ -116,6 +119,16 @@ protocol DisplayBrightnessControlling: AnyObject {
 
 extension DisplayBrightnessControlling {
     func cancelOutstandingWrites() {}
+    func adjustBrightness(by delta: Double, for displayID: CGDirectDisplayID, phase: PluginPanelAction.SliderPhase) {
+        guard let display = snapshot().displays.first(where: { $0.id == displayID }) else { return }
+        setBrightness(display.brightness + delta, for: displayID, phase: phase)
+    }
+    func adjustBrightnessAndWait(by delta: Double, for displayID: CGDirectDisplayID) async -> DisplayBrightnessWriteResult {
+        guard let display = snapshot().displays.first(where: { $0.id == displayID }) else {
+            return .failed(message: PluginKitLocalization.actionUnavailable)
+        }
+        return await setBrightnessAndWait(min(1, max(0, display.brightness + delta)), for: displayID)
+    }
     var canSetBuiltInBrightness: Bool { false }
     func setBuiltInBrightnessAndWait(_ value: Double) async -> DisplayBrightnessWriteResult {
         .failed(message: PluginKitLocalization.actionUnavailable)

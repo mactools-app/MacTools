@@ -55,6 +55,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         var currentBrightness: Double
         var lastCommittedBrightness: Double
         var pendingBrightness: Double?
+        var pendingRelativeDelta: Double?
         var pendingWriteID: UInt64?
         var writeInFlight = false
         var inFlightWriteID: UInt64?
@@ -63,11 +64,6 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         var lastWriteError: String?
         var hasBrightnessValue = false
         var readID: UInt64?
-        var recoveredNativeBackend: (any DisplayBrightnessBackend)?
-
-        var nativeBackend: (any DisplayBrightnessBackend)? {
-            backend.kind == .appleNative ? backend : recoveredNativeBackend
-        }
     }
 
     private enum RetiredWriteResolution {
@@ -194,6 +190,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 currentBrightness: previous?.pendingBrightness ?? brightness,
                 lastCommittedBrightness: previous?.lastCommittedBrightness ?? brightness,
                 pendingBrightness: previous?.pendingBrightness,
+                pendingRelativeDelta: previous?.pendingRelativeDelta,
                 pendingWriteID: previous?.pendingWriteID,
                 writeInFlight: previous?.writeInFlight ?? false,
                 inFlightWriteID: previous?.inFlightWriteID,
@@ -201,8 +198,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 pendingReadbackAfterWrite: previous?.pendingReadbackAfterWrite ?? false,
                 lastWriteError: previous?.lastWriteError,
                 hasBrightnessValue: canReuseReading && previous?.hasBrightnessValue == true,
-                readID: canReuseReading ? previous?.readID : nil,
-                recoveredNativeBackend: canReuseReading ? previous?.recoveredNativeBackend : nil
+                readID: canReuseReading ? previous?.readID : nil
             )
             nextDisplayOrder.append(display.id)
         }
@@ -214,7 +210,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             lastErrorMessage = nil
         }
         for displayID in displayOrder {
-            scheduleRead(for: displayID, reprobeBuiltInNative: true)
+            scheduleRead(for: displayID)
         }
         onStateChange?()
     }
@@ -293,13 +289,22 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         await setBrightnessAndWait(value, for: displayID, builtInWrite: nil)
     }
 
+    func adjustBrightness(by delta: Double, for displayID: CGDirectDisplayID, phase: PluginPanelAction.SliderPhase) {
+        enqueueBrightness(delta, for: displayID, phase: phase, writeID: makeWriteID(), relative: true)
+    }
+
+    func adjustBrightnessAndWait(by delta: Double, for displayID: CGDirectDisplayID) async -> DisplayBrightnessWriteResult {
+        await setBrightnessAndWait(delta, for: displayID, builtInWrite: nil, relative: true)
+    }
+
     var canSetBuiltInBrightness: Bool { builtInBrightnessDisplayID != nil }
 
     private var builtInBrightnessDisplayID: CGDirectDisplayID? {
         displayOrder.first { id in
             guard let target = managedDisplays[id] else { return false }
-            return target.display.isBuiltin && target.nativeBackend != nil && target.hasBrightnessValue
-                && isBuiltInDisplayEligible(id)
+            // Native readiness is probed on the write queue. A temporary failure
+            // must not prevent a later scheduled run from reaching that probe.
+            return target.display.isBuiltin && isBuiltInDisplayEligible(id)
         }
     }
 
@@ -314,7 +319,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
     private func setBrightnessAndWait(
         _ value: Double,
         for displayID: CGDirectDisplayID,
-        builtInWrite: BuiltInBrightnessWrite?
+        builtInWrite: BuiltInBrightnessWrite?,
+        relative: Bool = false
     ) async -> DisplayBrightnessWriteResult {
         let writeID = makeWriteID()
         return await withTaskCancellationHandler {
@@ -335,7 +341,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                     value,
                     for: displayID,
                     phase: .ended,
-                    writeID: writeID
+                    writeID: writeID,
+                    relative: relative
                 )
             }
         } onCancel: {
@@ -380,7 +387,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         _ value: Double,
         for displayID: CGDirectDisplayID,
         phase: PluginPanelAction.SliderPhase,
-        writeID: UInt64
+        writeID: UInt64,
+        relative: Bool = false
     ) {
         if managedDisplays[displayID] == nil {
             refresh()
@@ -396,7 +404,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             return
         }
 
-        guard managedDisplay.hasBrightnessValue else {
+        let builtInRelative = relative && managedDisplay.display.isBuiltin
+        guard managedDisplay.hasBrightnessValue || builtInRelative || builtInWrites[writeID] != nil else {
             resolveWrite(writeID, with: .failed(message: PluginKitLocalization.actionUnavailable))
             return
         }
@@ -409,9 +418,10 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 with: .failed(message: PluginKitLocalization.actionUnavailable)
             )
         }
-        let clampedValue = Self.clamp(value)
+        let clampedValue = Self.clamp(relative ? managedDisplay.currentBrightness + value : value)
         managedDisplay.currentBrightness = clampedValue
         managedDisplay.pendingBrightness = clampedValue
+        managedDisplay.pendingRelativeDelta = builtInRelative ? (managedDisplay.pendingRelativeDelta ?? 0) + value : nil
         managedDisplay.pendingWriteID = writeID
         managedDisplay.scheduledFlush?.cancel()
         managedDisplay.scheduledFlush = nil
@@ -426,7 +436,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         onStateChange?()
     }
 
-    private func scheduleRead(for displayID: CGDirectDisplayID, reprobeBuiltInNative: Bool = false) {
+    private func scheduleRead(for displayID: CGDirectDisplayID) {
         guard var managedDisplay = managedDisplays[displayID],
               managedDisplay.readID == nil,
               managedDisplay.pendingBrightness == nil,
@@ -436,14 +446,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         let readID = nextReadID
         managedDisplay.readID = readID
         managedDisplays[displayID] = managedDisplay
-        let nativeProbe: (any DisplayBrightnessBackend)?
-        if reprobeBuiltInNative, managedDisplay.display.isBuiltin, managedDisplay.backend.kind != .appleNative,
-           isBuiltInDisplayEligible(displayID) {
-            nativeProbe = backendBuilder.nativeBackend(forBuiltInDisplay: managedDisplay.display)
-        } else {
-            nativeProbe = nil
-        }
-        let backend = nativeProbe ?? managedDisplay.backend
+        let backend = managedDisplay.backend
 
         // Shade reads only cached state and may touch AppKit overlay geometry.
         if backend.kind == .shade {
@@ -454,8 +457,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             controllerRef: WeakBrightnessControllerRef(self),
             backend: backend,
             displayID: displayID,
-            readID: readID,
-            nativeProbe: nativeProbe
+            readID: readID
         )
         readWorkItems[displayID] = workItem
         readQueue.async(execute: workItem)
@@ -464,30 +466,12 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
     private func finishRead(
         for displayID: CGDirectDisplayID,
         readID: UInt64,
-        result: Result<Double, Error>,
-        nativeProbe: (any DisplayBrightnessBackend)? = nil
+        result: Result<Double, Error>
     ) {
         guard var managedDisplay = managedDisplays[displayID],
-              managedDisplay.readID == readID else {
-            nativeProbe?.cleanup()
-            return
-        }
+              managedDisplay.readID == readID else { return }
         readWorkItems.removeValue(forKey: displayID)
         managedDisplay.readID = nil
-        if let nativeProbe {
-            if case let .success(level) = result, (0...1).contains(level),
-               isBuiltInDisplayEligible(displayID) {
-                // Keep any active software dimming until an exact native write succeeds.
-                managedDisplay.recoveredNativeBackend = nativeProbe
-            } else {
-                managedDisplay.recoveredNativeBackend = nil
-                nativeProbe.cleanup()
-            }
-            managedDisplays[displayID] = managedDisplay
-            onStateChange?()
-            scheduleRead(for: displayID)
-            return
-        }
         switch result {
         case .success(let value):
             let brightness = Self.clamp(value)
@@ -501,11 +485,10 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                     // Keep cached/default brightness usable until a write proves unavailable.
                     managedDisplay.hasBrightnessValue = true
                 } else if let fallback = fallbackBackend(for: displayID, failedBackend: managedDisplay.backend) {
-                    let failedNative = managedDisplay.backend.kind == .appleNative
                     managedDisplay.backend.cleanup()
                     managedDisplay.backend = fallback
                     managedDisplays[displayID] = managedDisplay
-                    scheduleRead(for: displayID, reprobeBuiltInNative: failedNative)
+                    scheduleRead(for: displayID)
                     return
                 }
             }
@@ -558,12 +541,19 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         managedDisplay.writeInFlight = true
         managedDisplay.inFlightWriteID = writeID
         managedDisplay.pendingBrightness = nil
+        let relativeDelta = managedDisplay.pendingRelativeDelta
+        managedDisplay.pendingRelativeDelta = nil
         managedDisplay.pendingWriteID = nil
         managedDisplay.scheduledFlush = nil
         let needsReadback = managedDisplay.pendingReadbackAfterWrite
         managedDisplay.pendingReadbackAfterWrite = false
         let builtInWrite = builtInWrites[writeID]
-        let backend = (builtInWrite == nil ? nil : managedDisplay.nativeBackend) ?? managedDisplay.backend
+        let backend: any DisplayBrightnessBackend
+        if builtInWrite != nil, managedDisplay.backend.kind != .appleNative {
+            backend = backendBuilder.nativeBackend(forBuiltInDisplay: managedDisplay.display) ?? managedDisplay.backend
+        } else {
+            backend = managedDisplay.backend
+        }
         let displayName = managedDisplay.display.name
         let controllerRef = WeakBrightnessControllerRef(self)
         managedDisplays[displayID] = managedDisplay
@@ -575,6 +565,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 displayID: displayID,
                 writeID: writeID,
                 targetValue: targetValue,
+                relativeDelta: relativeDelta,
                 needsReadback: needsReadback,
                 builtInWrite: builtInWrite,
                 displayName: displayName,
@@ -589,8 +580,10 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         backend: any DisplayBrightnessBackend,
         writeID: UInt64,
         targetValue: Double,
+        relativeDelta: Double?,
         readbackValue: Double?,
         attemptedBuiltInWrite: Bool,
+        freshBaselineFailed: Bool,
         displayName: String,
         result workerResult: Result<Void, Error>
     ) {
@@ -631,12 +624,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         managedDisplay.writeInFlight = false
         managedDisplay.inFlightWriteID = nil
         let wroteManagedBackend = managedDisplay.backend === backend
-        if attemptedBuiltInWrite, readbackValue == nil {
-            if wroteManagedBackend {
-                managedDisplay.hasBrightnessValue = false
-            } else {
-                managedDisplay.recoveredNativeBackend = nil
-            }
+        if wroteManagedBackend, freshBaselineFailed || (attemptedBuiltInWrite && readbackValue == nil) {
+            managedDisplay.hasBrightnessValue = false
         }
 
         if invalidatedInFlightWriteIDs.remove(writeID) != nil {
@@ -678,7 +667,6 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             if builtInWrite != nil, !wroteManagedBackend {
                 managedDisplay.backend.cleanup()
                 managedDisplay.backend = backend
-                managedDisplay.recoveredNativeBackend = nil
             }
             let committedBrightness = readbackValue.map(Self.clamp) ?? targetValue
             if readbackValue != nil { managedDisplay.hasBrightnessValue = true }
@@ -695,7 +683,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 "write failed for \(displayName, privacy: .public): \(localizedDescription, privacy: .public)"
             )
 
-            if builtInWrite == nil,
+            if builtInWrite == nil, !freshBaselineFailed,
                let fallbackBackend = fallbackBackend(for: displayID, failedBackend: managedDisplay.backend) {
                 logger.info(
                     "retrying brightness write for \(displayName, privacy: .public) with \(String(describing: fallbackBackend.kind), privacy: .public) fallback"
@@ -704,6 +692,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 managedDisplay.backend = fallbackBackend
                 if managedDisplay.pendingWriteID == nil {
                     managedDisplay.pendingBrightness = targetValue
+                    managedDisplay.pendingRelativeDelta = relativeDelta
                     managedDisplay.pendingWriteID = writeID
                     managedDisplay.pendingReadbackAfterWrite = true
                     managedDisplay.currentBrightness = targetValue
@@ -872,6 +861,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             managedDisplay.scheduledFlush?.cancel()
             managedDisplay.scheduledFlush = nil
             managedDisplay.pendingBrightness = nil
+            managedDisplay.pendingRelativeDelta = nil
             managedDisplay.pendingWriteID = nil
             managedDisplay.currentBrightness = managedDisplay.lastCommittedBrightness
             managedDisplays[displayID] = managedDisplay
@@ -939,13 +929,12 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         controllerRef: WeakBrightnessControllerRef,
         backend: any DisplayBrightnessBackend,
         displayID: CGDirectDisplayID,
-        readID: UInt64,
-        nativeProbe: (any DisplayBrightnessBackend)?
+        readID: UInt64
     ) -> DispatchWorkItem {
         DispatchWorkItem {
             let result = Result { try backend.readBrightness() }
             Task { @MainActor in
-                controllerRef.value?.finishRead(for: displayID, readID: readID, result: result, nativeProbe: nativeProbe)
+                controllerRef.value?.finishRead(for: displayID, readID: readID, result: result)
             }
         }
     }
@@ -956,6 +945,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         displayID: CGDirectDisplayID,
         writeID: UInt64,
         targetValue: Double,
+        relativeDelta: Double?,
         needsReadback: Bool,
         builtInWrite: BuiltInBrightnessWrite?,
         displayName: String,
@@ -966,15 +956,31 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             let result: Result<Void, Error>
             var readbackValue: Double?
             var attemptedBuiltInWrite = false
+            var freshBaselineFailed = false
+            var target = targetValue
 
             do {
                 writeGate.waitTurn(for: displayID, minimumInterval: minimumWriteInterval)
                 if let builtInWrite {
                     guard backend.kind == .appleNative else { throw CancellationError() }
                     try builtInWrite.validate()
+                }
+                if builtInWrite != nil || relativeDelta != nil {
+                    guard let observed = try? backend.readBrightness(), (0...1).contains(observed) else {
+                        freshBaselineFailed = true
+                        throw DisplayBrightnessControllerError.genericBrightnessUnavailable
+                    }
+                    if let relativeDelta {
+                        target = min(1, max(0, observed + relativeDelta))
+                        if relativeDelta == 0 { readbackValue = observed }
+                    }
+                }
+                if let builtInWrite {
+                    try builtInWrite.validate()
                     attemptedBuiltInWrite = true
                 }
-                try backend.writeBrightness(targetValue)
+                // A key release with no pending adjustment only needs the fresh reading.
+                if relativeDelta != 0 { try backend.writeBrightness(target) }
                 if let builtInWrite {
                     for delay in [0.0, 0.15, 0.30] {
                         if delay > 0 { Thread.sleep(forTimeInterval: delay) }
@@ -992,7 +998,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                             requested: targetValue, observed: observed
                         )
                     }
-                } else if needsReadback {
+                } else if needsReadback, readbackValue == nil {
                     readbackValue = try? backend.readBrightness()
                 }
                 result = .success(())
@@ -1005,9 +1011,11 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                     for: displayID,
                     backend: backend,
                     writeID: writeID,
-                    targetValue: targetValue,
+                    targetValue: target,
+                    relativeDelta: relativeDelta,
                     readbackValue: readbackValue,
                     attemptedBuiltInWrite: attemptedBuiltInWrite,
+                    freshBaselineFailed: freshBaselineFailed,
                     displayName: displayName,
                     result: result
                 )
