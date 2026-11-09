@@ -154,6 +154,77 @@ final class DisplayBrightnessControllerTests: XCTestCase {
         XCTAssertEqual(backend.writeValues, [0.7])
     }
 
+    func testReleasingBrightnessShortcutPreservesQueuedExactWrite() async {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
+        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
+        backend.seedBrightness(0.5)
+        defer { backend.releaseFirstWrite() }
+        let controller = DisplayBrightnessController(
+            displayProvider: StaticDisplayProvider(display: display),
+            isBuiltInDisplayEligible: { _ in true },
+            backendBuilder: StaticBrightnessBackendBuilder(backend: backend),
+            shortWriteDelay: 0,
+            minimumWriteInterval: 0
+        )
+        let plugin = DisplayBrightnessPlugin(controller: controller, mouseDisplayIDProvider: { display.id })
+        controller.refresh()
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        plugin.handleShortcutEvent(id: "display-brightness.increase", phase: .pressed)
+        await waitUntil { backend.firstWriteStarted }
+        let scheduled = Task { await controller.setBuiltInBrightnessAndWait(0.7) }
+        await waitUntil { controller.snapshot().displays.first?.brightness == 0.7 }
+        plugin.handleShortcutEvent(id: "display-brightness.increase", phase: .released)
+        backend.releaseFirstWrite()
+
+        let result = await scheduled.value
+        XCTAssertEqual(result, .succeeded)
+        XCTAssertEqual(backend.writeValues, [0.51, 0.7])
+    }
+
+    func testRelativeWriteFallbackRetriesResolvedTarget() async throws {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
+        let native = ScriptedBrightnessBackend(
+            display: display, results: [.failure(TestWriteError.failed)], suspendsFirstWrite: false
+        )
+        native.seedBrightness(0.1)
+        let gamma = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: false, kind: .gamma)
+        let controller = DisplayBrightnessController(
+            displayProvider: StaticDisplayProvider(display: display),
+            backendBuilder: SystemDisplayBrightnessBackendBuilder(
+                resolveArm64Services: { _ in [:] },
+                appleFactory: { _ in native },
+                gammaFactory: { _ in gamma }
+            ),
+            minimumWriteInterval: 0
+        )
+        controller.refresh()
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+
+        let result = await controller.adjustBrightnessAndWait(by: -0.01, for: display.id)
+        XCTAssertEqual(result, .succeeded)
+        XCTAssertEqual(native.writeValues.count, 1)
+        XCTAssertEqual(try XCTUnwrap(native.writeValues.first), 0.09, accuracy: 0.000001)
+        XCTAssertEqual(gamma.writeValues, native.writeValues)
+    }
+
+    func testCoalescedOppositeBrightnessShortcutsClampEachAdjustment() async throws {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
+        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: false)
+        let controller = makeController(display: display, backend: backend)
+        let plugin = DisplayBrightnessPlugin(controller: controller, mouseDisplayIDProvider: { display.id })
+        controller.refresh()
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+
+        plugin.handleShortcutEvent(id: "display-brightness.increase", phase: .pressed)
+        plugin.handleShortcutEvent(id: "display-brightness.decrease", phase: .pressed)
+        plugin.handleShortcutEvent(id: "display-brightness.increase", phase: .released)
+        plugin.handleShortcutEvent(id: "display-brightness.decrease", phase: .released)
+        await waitUntil { controller.snapshot().displays.first?.isPendingWrite == false }
+
+        XCTAssertEqual(backend.writeValues.count, 1)
+        XCTAssertEqual(try XCTUnwrap(backend.writeValues.first), 0.99, accuracy: 0.000001)
+    }
+
     func testQueuedDecreaseUsesFreshLevelAfterUnverifiedScheduledWrite() async throws {
         let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
         for (setterFails, freshReadFails) in [(true, false), (false, false), (false, true)] {

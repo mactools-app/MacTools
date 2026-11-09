@@ -55,7 +55,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         var currentBrightness: Double
         var lastCommittedBrightness: Double
         var pendingBrightness: Double?
-        var pendingRelativeDelta: Double?
+        var pendingRelativeAdjustments: [Double] = []
         var pendingWriteID: UInt64?
         var writeInFlight = false
         var inFlightWriteID: UInt64?
@@ -190,7 +190,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 currentBrightness: previous?.pendingBrightness ?? brightness,
                 lastCommittedBrightness: previous?.lastCommittedBrightness ?? brightness,
                 pendingBrightness: previous?.pendingBrightness,
-                pendingRelativeDelta: previous?.pendingRelativeDelta,
+                pendingRelativeAdjustments: previous?.pendingRelativeAdjustments ?? [],
                 pendingWriteID: previous?.pendingWriteID,
                 writeInFlight: previous?.writeInFlight ?? false,
                 inFlightWriteID: previous?.inFlightWriteID,
@@ -290,6 +290,16 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
     }
 
     func adjustBrightness(by delta: Double, for displayID: CGDirectDisplayID, phase: PluginPanelAction.SliderPhase) {
+        if delta == 0, phase == .ended, var managedDisplay = managedDisplays[displayID],
+           managedDisplay.display.isBuiltin, managedDisplay.pendingWriteID != nil {
+            // A shortcut release can flush a pending adjustment without replacing its request.
+            guard !managedDisplay.pendingRelativeAdjustments.isEmpty else { return }
+            managedDisplay.pendingReadbackAfterWrite = true
+            managedDisplay.scheduledFlush?.cancel()
+            managedDisplays[displayID] = managedDisplay
+            scheduleWrite(for: displayID, delay: 0)
+            return
+        }
         enqueueBrightness(delta, for: displayID, phase: phase, writeID: makeWriteID(), relative: true)
     }
 
@@ -421,7 +431,11 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         let clampedValue = Self.clamp(relative ? managedDisplay.currentBrightness + value : value)
         managedDisplay.currentBrightness = clampedValue
         managedDisplay.pendingBrightness = clampedValue
-        managedDisplay.pendingRelativeDelta = builtInRelative ? (managedDisplay.pendingRelativeDelta ?? 0) + value : nil
+        if builtInRelative {
+            managedDisplay.pendingRelativeAdjustments.append(value)
+        } else {
+            managedDisplay.pendingRelativeAdjustments = []
+        }
         managedDisplay.pendingWriteID = writeID
         managedDisplay.scheduledFlush?.cancel()
         managedDisplay.scheduledFlush = nil
@@ -541,8 +555,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         managedDisplay.writeInFlight = true
         managedDisplay.inFlightWriteID = writeID
         managedDisplay.pendingBrightness = nil
-        let relativeDelta = managedDisplay.pendingRelativeDelta
-        managedDisplay.pendingRelativeDelta = nil
+        let relativeAdjustments = managedDisplay.pendingRelativeAdjustments
+        managedDisplay.pendingRelativeAdjustments = []
         managedDisplay.pendingWriteID = nil
         managedDisplay.scheduledFlush = nil
         let needsReadback = managedDisplay.pendingReadbackAfterWrite
@@ -565,7 +579,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 displayID: displayID,
                 writeID: writeID,
                 targetValue: targetValue,
-                relativeDelta: relativeDelta,
+                relativeAdjustments: relativeAdjustments,
                 needsReadback: needsReadback,
                 builtInWrite: builtInWrite,
                 displayName: displayName,
@@ -580,7 +594,6 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         backend: any DisplayBrightnessBackend,
         writeID: UInt64,
         targetValue: Double,
-        relativeDelta: Double?,
         readbackValue: Double?,
         attemptedBuiltInWrite: Bool,
         freshBaselineFailed: Bool,
@@ -691,8 +704,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 managedDisplay.backend.cleanup()
                 managedDisplay.backend = fallbackBackend
                 if managedDisplay.pendingWriteID == nil {
+                    // Retry the resolved target because the fallback has its own brightness scale.
                     managedDisplay.pendingBrightness = targetValue
-                    managedDisplay.pendingRelativeDelta = relativeDelta
                     managedDisplay.pendingWriteID = writeID
                     managedDisplay.pendingReadbackAfterWrite = true
                     managedDisplay.currentBrightness = targetValue
@@ -861,7 +874,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             managedDisplay.scheduledFlush?.cancel()
             managedDisplay.scheduledFlush = nil
             managedDisplay.pendingBrightness = nil
-            managedDisplay.pendingRelativeDelta = nil
+            managedDisplay.pendingRelativeAdjustments = []
             managedDisplay.pendingWriteID = nil
             managedDisplay.currentBrightness = managedDisplay.lastCommittedBrightness
             managedDisplays[displayID] = managedDisplay
@@ -910,7 +923,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         }
     }
 
-    private static func clamp(_ value: Double) -> Double {
+    nonisolated private static func clamp(_ value: Double) -> Double {
         min(max(value, 0), 1)
     }
 
@@ -945,7 +958,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         displayID: CGDirectDisplayID,
         writeID: UInt64,
         targetValue: Double,
-        relativeDelta: Double?,
+        relativeAdjustments: [Double],
         needsReadback: Bool,
         builtInWrite: BuiltInBrightnessWrite?,
         displayName: String,
@@ -965,22 +978,23 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                     guard backend.kind == .appleNative else { throw CancellationError() }
                     try builtInWrite.validate()
                 }
-                if builtInWrite != nil || relativeDelta != nil {
+                if builtInWrite != nil || !relativeAdjustments.isEmpty {
                     guard let observed = try? backend.readBrightness(), (0...1).contains(observed) else {
                         freshBaselineFailed = true
                         throw DisplayBrightnessControllerError.genericBrightnessUnavailable
                     }
-                    if let relativeDelta {
-                        target = min(1, max(0, observed + relativeDelta))
-                        if relativeDelta == 0 { readbackValue = observed }
+                    if !relativeAdjustments.isEmpty {
+                        target = relativeAdjustments.reduce(observed) { level, adjustment in
+                            Self.clamp(level + adjustment)
+                        }
+                        if target == observed { readbackValue = observed }
                     }
                 }
                 if let builtInWrite {
                     try builtInWrite.validate()
                     attemptedBuiltInWrite = true
                 }
-                // A key release with no pending adjustment only needs the fresh reading.
-                if relativeDelta != 0 { try backend.writeBrightness(target) }
+                if readbackValue == nil { try backend.writeBrightness(target) }
                 if let builtInWrite {
                     for delay in [0.0, 0.15, 0.30] {
                         if delay > 0 { Thread.sleep(forTimeInterval: delay) }
@@ -1012,7 +1026,6 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                     backend: backend,
                     writeID: writeID,
                     targetValue: target,
-                    relativeDelta: relativeDelta,
                     readbackValue: readbackValue,
                     attemptedBuiltInWrite: attemptedBuiltInWrite,
                     freshBaselineFailed: freshBaselineFailed,
