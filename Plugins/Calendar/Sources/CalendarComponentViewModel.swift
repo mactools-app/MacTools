@@ -97,6 +97,17 @@ final class CalendarComponentViewModel: ObservableObject {
                 notificationCenter.publisher(for: .NSSystemTimeZoneDidChange),
                 notificationCenter.publisher(for: NSApplication.didBecomeActiveNotification)
             ])
+            .handleEvents(receiveOutput: { [weak self] notification in
+                // Mark the snapshot stale the moment an EventKit change arrives,
+                // before debouncing. If the widget is activated within the debounce
+                // window, the merged event would otherwise be only the activation,
+                // and the next refresh would reuse an outdated snapshot.
+                guard notification.name == .EKEventStoreChanged else { return }
+                Task { @MainActor [weak self] in
+                    guard let self, self.showsReminders else { return }
+                    self.eventService.invalidateReminderSnapshot()
+                }
+            })
             .debounce(for: .milliseconds(150), scheduler: RunLoop.main)
             .sink { [weak self] notification in
                 Task { @MainActor [weak self] in
@@ -105,6 +116,9 @@ final class CalendarComponentViewModel: ObservableObject {
                     // date-range reads reuse fresh data without a full refetch.
                     if notification.name == .EKEventStoreChanged, self.showsReminders {
                         await self.eventService.refreshReminders()
+                        // The widget may have closed while the refresh was in
+                        // flight; a closed widget must not start another fetch.
+                        guard self.isStarted else { return }
                     }
                     self.refresh()
                 }

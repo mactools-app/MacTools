@@ -487,6 +487,114 @@ final class CalendarComponentViewModelTests: XCTestCase {
         XCTAssertEqual(model.agendaDays.first?.events.map(\.title), ["Updated reminder"])
     }
 
+    func testEventStoreChangeMarksSnapshotStaleBeforeDebouncedActivation() async throws {
+        let calendar = Self.makeCalendar()
+        let today = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 4, day: 15)))
+        let service = MockCalendarEventService()
+        service.authorization = .fullAccess
+        service.remindersAuthorization = .fullAccess
+        service.reminderInputs = [CalendarEventInput(
+            id: "reminder",
+            title: "Old title",
+            startDate: today,
+            endDate: try XCTUnwrap(calendar.date(byAdding: .minute, value: 1, to: today)),
+            isAllDay: false,
+            color: .accent,
+            kind: .reminder
+        )]
+        let center = NotificationCenter()
+        let model = CalendarComponentViewModel(
+            eventService: service,
+            holidayProvider: .empty,
+            calendar: calendar,
+            notificationCenter: center,
+            today: today,
+            now: { today }
+        )
+        defer { model.stop() }
+        let initial = expectation(description: "Initial reminders loaded")
+        service.onRemindersRequest = initial.fulfill
+        model.start()
+        await fulfillment(of: [initial], timeout: 1)
+        XCTAssertEqual(model.agendaDays.first?.events.map(\.title), ["Old title"])
+
+        // An EventKit change followed by activation within the debounce window
+        // merges into only the activation, but the snapshot must still be marked
+        // stale so the next refresh refetches the edited reminder.
+        service.reminderInputs = [CalendarEventInput(
+            id: "reminder-2",
+            title: "New title",
+            startDate: today,
+            endDate: try XCTUnwrap(calendar.date(byAdding: .minute, value: 1, to: today)),
+            isAllDay: false,
+            color: .accent,
+            kind: .reminder
+        )]
+        service.onRemindersRequest = nil
+        let refresh = expectation(description: "Snapshot refreshed after merged activation")
+        service.onRemindersRefresh = refresh.fulfill
+        center.post(name: .EKEventStoreChanged, object: nil)
+        center.post(name: NSApplication.didBecomeActiveNotification, object: nil)
+        await fulfillment(of: [refresh], timeout: 1)
+        XCTAssertEqual(model.agendaDays.first?.events.map(\.title), ["New title"])
+    }
+
+    func testClosingDuringReminderRefreshDoesNotStartAnotherFetch() async throws {
+        let calendar = Self.makeCalendar()
+        let today = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 4, day: 15)))
+        let service = MockCalendarEventService()
+        service.authorization = .fullAccess
+        service.remindersAuthorization = .fullAccess
+        service.reminderInputs = [CalendarEventInput(
+            id: "reminder",
+            title: "Pay bill",
+            startDate: today,
+            endDate: try XCTUnwrap(calendar.date(byAdding: .minute, value: 1, to: today)),
+            isAllDay: false,
+            color: .accent,
+            kind: .reminder
+        )]
+        let center = NotificationCenter()
+        let model = CalendarComponentViewModel(
+            eventService: service,
+            holidayProvider: .empty,
+            calendar: calendar,
+            notificationCenter: center,
+            today: today,
+            now: { today }
+        )
+        let initial = expectation(description: "Initial reminders loaded")
+        service.onRemindersRequest = initial.fulfill
+        model.start()
+        await fulfillment(of: [initial], timeout: 1)
+        service.onRemindersRequest = nil
+        service.onEventsRequest = nil
+
+        // Suspend the reminder refresh so the notification handler is mid-flight
+        // when the widget closes.
+        service.suspendRemindersRefresh = true
+        let refreshStarted = expectation(description: "Reminder refresh started")
+        service.onRemindersRefresh = refreshStarted.fulfill
+        center.post(name: .EKEventStoreChanged, object: nil)
+        await fulfillment(of: [refreshStarted], timeout: 1)
+
+        let rangesBeforeStop = service.eventRanges.count
+        model.stop()
+        service.suspendRemindersRefresh = false
+        service.remindersRefreshContinuation?.resume()
+        service.remindersRefreshContinuation = nil
+
+        // A closed widget must not refresh again after the in-flight refresh
+        // completes.
+        let extraFetch = expectation(description: "No extra fetch while closed")
+        extraFetch.isInverted = true
+        service.onEventsRequest = extraFetch.fulfill
+        try await Task.sleep(nanoseconds: 300_000_000)
+        await fulfillment(of: [extraFetch], timeout: 0.2)
+        XCTAssertEqual(service.eventRanges.count, rangesBeforeStop)
+        model.stop()
+    }
+
     func testStopMarksReminderSnapshotStaleAndReopenRefreshes() async throws {
         let calendar = Self.makeCalendar()
         let today = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 4, day: 15)))
@@ -654,6 +762,8 @@ private final class MockCalendarEventService: CalendarEventServicing {
     var reminderInputs: [CalendarEventInput] = []
     var shouldFail = false
     var hostProvidesReminderPrivacyDescription = true
+    var suspendRemindersRefresh = false
+    var remindersRefreshContinuation: CheckedContinuation<Void, Never>?
     private(set) var reminderRefreshCount = 0
     private var reminderSnapshot: [CalendarEventInput] = []
     private var reminderSnapshotIsStale = true
@@ -685,6 +795,9 @@ private final class MockCalendarEventService: CalendarEventServicing {
     func refreshReminders() async {
         reminderRefreshCount += 1
         onRemindersRefresh?()
+        if suspendRemindersRefresh {
+            await withCheckedContinuation { remindersRefreshContinuation = $0 }
+        }
         reminderSnapshot = reminderInputs
         reminderSnapshotIsStale = false
     }
