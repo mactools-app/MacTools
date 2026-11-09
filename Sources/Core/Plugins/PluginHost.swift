@@ -676,7 +676,7 @@ final class PluginHost: ObservableObject {
         self.pluginStateChangeRebuildDelay = pluginStateChangeRebuildDelay
         self.dynamicPluginManager = dynamicPluginManager
         self.pluginCatalogManager = pluginCatalogManager
-        let actionRegistry = ActionRegistry(displayLabelDefaults: shortcutStore.userDefaults)
+        let actionRegistry = ActionRegistry()
         let actionShortcutStore = ActionShortcutAssignmentStore(
             userDefaults: shortcutStore.userDefaults,
             preferencesBackupChangeReporter: preferencesBackupChangeReporter
@@ -4335,7 +4335,7 @@ final class PluginHost: ObservableObject {
             return nil
         }
         let ownerTitle = actionSurfaceOwnerTitle(providerID: reference.key.providerID)
-        var entry = action.presentationEntry
+        var entry = action.catalogEntry
         if livePresentation {
             guard let plugin = activePlugins.first(where: { $0.metadata.id == reference.key.providerID }),
                   let provider = plugin as? any PluginActionProviding else { return nil }

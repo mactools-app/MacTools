@@ -187,7 +187,6 @@ jobs:
         run: |
           VERSION="$(awk '$1 == "MARKETING_VERSION" && $2 == "=" { print $3; exit }' Configs/AppVersion.xcconfig)"
           PLUGIN_KIT_VERSION="$(scripts/nightly-release.py plugin-kit-version --plugins-dir Plugins)"
-          NIGHTLY_CATALOG_PATH="$(python3 -B scripts/plugin_catalog_routing.py --kit "$PLUGIN_KIT_VERSION" --nightly)"
           xcodebuild \
             -project "${PROJECT_NAME}.xcodeproj" \
             -scheme "${SCHEME}" \
@@ -196,7 +195,7 @@ jobs:
             -derivedDataPath "${DERIVED_DATA}" \
             -disableAutomaticPackageResolution \
             CURRENT_PROJECT_VERSION=1.1 \
-            PLUGIN_CATALOG_URL="https://mactools.ggbond.app/${NIGHTLY_CATALOG_PATH#docs/}" \
+            PLUGIN_CATALOG_URL="https://mactools.ggbond.app/nightly/plugins/v${PLUGIN_KIT_VERSION}/catalog.json" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY= \

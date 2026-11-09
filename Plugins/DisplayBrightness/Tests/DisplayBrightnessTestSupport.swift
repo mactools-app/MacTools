@@ -60,15 +60,16 @@ final class MockDisplayBrightnessController: DisplayBrightnessControlling {
     var writeResults: [CGDirectDisplayID: DisplayBrightnessWriteResult] = [:]
     private(set) var brightnessWrites: [BrightnessWrite] = []
     private(set) var cancelOutstandingWritesCount = 0
+    var canSetBuiltInBrightness = false
+    private(set) var builtInBrightnessWrites: [Double] = []
+
+    func setBuiltInBrightnessAndWait(_ value: Double) async -> DisplayBrightnessWriteResult {
+        guard canSetBuiltInBrightness else { return .failed(message: PluginKitLocalization.actionUnavailable) }
+        builtInBrightnessWrites.append(value)
+        return .succeeded
+    }
 
     func refresh() {}
-
-    var actionIdentifiers: [CGDirectDisplayID: String] = [:]
-
-    func actionIdentifier(for displayID: CGDirectDisplayID) -> String? {
-        guard let display = snapshotValue.displays.first(where: { $0.id == displayID }) else { return nil }
-        return actionIdentifiers[displayID] ?? (display.display.isBuiltin ? "builtin" : "test-display-\(displayID)")
-    }
 
     func snapshot() -> DisplayBrightnessSnapshot {
         snapshotValue

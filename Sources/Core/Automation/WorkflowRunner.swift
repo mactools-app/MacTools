@@ -426,10 +426,7 @@ final class WorkflowRunner {
         message: String? = nil,
         messageLocalizationKey: WorkflowHistoryLocalizationKey? = nil
     ) -> WorkflowStepRunResult {
-        let percentageIsPublic = registry.definition(for: step.reference.key)?.parameters.contains {
-            $0.id == ActionPercentage.parameterID && $0.privacy == .publicValue && $0.portability == .portable
-        } == true
-        return WorkflowStepRunResult(
+        WorkflowStepRunResult(
             stepID: step.id,
             actionKey: step.reference.key,
             title: step.label?.isEmpty == false ? step.label! : actionTitle(for: step.reference),
@@ -438,7 +435,6 @@ final class WorkflowRunner {
                 key: step.reference.key,
                 schemaVersion: step.reference.schemaVersion
             ),
-            configuredPercentage: percentageIsPublic ? ActionPercentage.value(in: step.reference) : nil,
             startedAt: startedAt,
             finishedAt: now(),
             status: status,

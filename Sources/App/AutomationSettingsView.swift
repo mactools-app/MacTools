@@ -851,6 +851,44 @@ private struct WorkflowActionPickerItem: Identifiable {
     var id: ActionReference { entry.reference }
 }
 
+enum WorkflowBuiltInBrightness {
+    static let key = ActionKey(providerID: "display-brightness", actionID: "set-built-in-brightness")
+    private static let parameter = "percent"
+
+    static func reference(for percent: Int64) -> ActionReference? {
+        guard (0...100).contains(percent),
+              let parameters = try? ActionParameterSet([parameter: .integer(percent)]) else { return nil }
+        return ActionReference(key: key, parameters: parameters)
+    }
+
+    static func reference(for text: String) -> ActionReference? {
+        let digits = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !digits.isEmpty else { return nil }
+        var percent: Int64 = 0
+        for character in digits {
+            guard character.unicodeScalars.allSatisfy({ $0.properties.generalCategory == .decimalNumber }),
+                  let digit = character.wholeNumberValue, (0...9).contains(digit) else { return nil }
+            percent = percent * 10 + Int64(digit)
+            guard percent <= 100 else { return nil }
+        }
+        return reference(for: percent)
+    }
+
+    static func percentage(in reference: ActionReference) -> Int64? {
+        guard reference.key == key, case let .integer(percent)? = reference.parameters[parameter],
+              (0...100).contains(percent) else { return nil }
+        return percent
+    }
+
+    static func title(_ base: String, for reference: ActionReference) -> String {
+        guard let percent = percentage(in: reference) else { return base }
+        let formatted = (Double(percent) / 100).formatted(
+            .percent.precision(.fractionLength(0)).locale(PluginRuntimeLocalization.locale)
+        )
+        return "\(base) · \(formatted)"
+    }
+}
+
 private struct WorkflowActionPickerGroup: Identifiable {
     let providerID: String
     let title: String
@@ -912,31 +950,21 @@ private struct WorkflowActionPickerPopoverContent: View {
     let excluding: ActionKey
     var currentReference: ActionReference? = nil
     let select: (ActionReference) -> Void
-    @State private var percentageEntry: ActionCatalogEntry?
     @State private var query = ""
     @State private var filter: WorkflowActionPickerFilter = .available
+    @State private var brightnessText = ""
+    @State private var isConfiguringBrightness = false
 
     var body: some View {
-        if let entry = percentageEntry {
-            ActionPercentageEditor(
-                title: [pluginHost.actionRegistry.definition(for: entry.reference.key)?.title, entry.subtitle]
-                    .compactMap { $0 }.joined(separator: " · "),
-                template: entry.reference,
-                current: currentReference,
-                cancelTitle: FeatureL10n.string("返回"),
-                saveTitle: FeatureL10n.string(currentReference == nil ? "添加操作" : "替换操作"),
-                availability: pluginHost.actionAvailability(for:),
-                onCancel: { percentageEntry = nil },
-                onSave: select
-            )
-            .padding(14)
-            .frame(width: 470)
+        if isConfiguringBrightness,
+           let definition = pluginHost.actionRegistry.definition(for: WorkflowBuiltInBrightness.key) {
+            brightnessEditor(definition)
         } else {
-            pickerContent
+            actionList
         }
     }
 
-    private var pickerContent: some View {
+    private var actionList: some View {
         VStack(alignment: .leading, spacing: 12) {
             TextField(FeatureL10n.string("搜索操作、插件或快捷键"), text: $query)
                 .textFieldStyle(.roundedBorder)
@@ -974,8 +1002,9 @@ private struct WorkflowActionPickerPopoverContent: View {
                                         requiresConfirmation: item.requiresConfirmation
                                     )
                                     Button {
-                                        if ActionPercentage.value(in: item.entry.reference) != nil {
-                                            percentageEntry = item.entry
+                                        if item.entry.reference.key == WorkflowBuiltInBrightness.key {
+                                            brightnessText = String(currentReference.flatMap(WorkflowBuiltInBrightness.percentage(in:)) ?? 50)
+                                            isConfiguringBrightness = true
                                         } else {
                                             select(item.entry.reference)
                                         }
@@ -1038,9 +1067,44 @@ private struct WorkflowActionPickerPopoverContent: View {
         .frame(width: 470, height: 500)
     }
 
+    private func brightnessEditor(_ definition: ActionDefinition) -> some View {
+        let title = definition.parameters.first?.title ?? definition.title
+        let reference = WorkflowBuiltInBrightness.reference(for: brightnessText)
+        let canApply = reference.map { pluginHost.actionAvailability(for: $0).isAvailable } ?? false
+        return VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
+            Text(definition.title)
+                .font(PluginSettingsTheme.Typography.sectionTitle)
+            HStack {
+                Text(title)
+                TextField("0–100", text: $brightnessText)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(width: 72)
+                    .accessibilityLabel(Text(title))
+                Text("%")
+            }
+            HStack {
+                Spacer()
+                Button(FeatureL10n.string("取消")) { isConfiguringBrightness = false }
+                Button(FeatureL10n.string("应用")) {
+                    if canApply, let reference { select(reference) }
+                }
+                .keyboardShortcut(.defaultAction)
+                .disabled(!canApply)
+            }
+        }
+        .padding(14)
+        .frame(width: 300)
+    }
+
     private var groups: [WorkflowActionPickerGroup] {
         let normalizedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        let items = pluginHost.actionCatalogEntries.compactMap { entry -> WorkflowActionPickerItem? in
+        var entries = pluginHost.actionCatalogEntries
+        // The parameterized definition is registered without a global catalog entry.
+        if let definition = pluginHost.actionRegistry.definition(for: WorkflowBuiltInBrightness.key),
+           let reference = WorkflowBuiltInBrightness.reference(for: 50) {
+            entries.append(ActionCatalogEntry(reference: reference, title: definition.title))
+        }
+        let items = entries.compactMap { entry -> WorkflowActionPickerItem? in
             guard entry.reference.key != excluding,
                   case let .success(action) = pluginHost.actionRegistry.registeredAction(
                       for: entry.reference
@@ -1879,9 +1943,10 @@ private struct WorkflowStepEditor: View {
     }
 
     private var actionTitle: String {
-        automation.catalogEntry(for: step.reference)?.title
+        let base = automation.catalogEntry(for: step.reference)?.title
             ?? automation.definition(for: step.reference)?.title
             ?? step.reference.key.id
+        return WorkflowBuiltInBrightness.title(base, for: step.reference)
     }
 
     private var actionDescription: String {
@@ -1967,21 +2032,20 @@ private struct WorkflowRunPreviewSheet: View {
 
     private func previewRow(index: Int, step: WorkflowStep) -> some View {
         let definition = automation.definition(for: step.reference)
-        let configuredTitle = automation.catalogEntry(for: step.reference)?.title
         let availability = automation.availability(for: step.reference)
+        let actionTitle = WorkflowBuiltInBrightness.title(
+            definition?.title ?? step.reference.key.id, for: step.reference
+        )
         return HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
             Text("\(index + 1)")
                 .font(PluginSettingsTheme.Typography.statusBadge)
                 .frame(width: 22, height: 22)
                 .background(Circle().fill(Color.accentColor.opacity(0.14)))
             VStack(alignment: .leading, spacing: 3) {
-                Text(step.label
-                    ?? configuredTitle
-                    ?? definition?.title
-                    ?? step.reference.key.id)
+                Text(step.label ?? actionTitle)
                     .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
-                if let label = step.label, let configuredTitle, label != configuredTitle {
-                    Text(configuredTitle)
+                if step.label != nil && WorkflowBuiltInBrightness.percentage(in: step.reference) != nil {
+                    Text(actionTitle)
                         .font(PluginSettingsTheme.Typography.rowDescription)
                         .foregroundStyle(.secondary)
                 }
@@ -2163,20 +2227,9 @@ enum WorkflowHistoryPresentation {
         guard result.titleSource != .custom else {
             return result.title
         }
-        let definition = registry.definition(for: result.actionKey)
-        if let percentage = result.configuredPercentage, (0...100).contains(percentage) {
-            return ActionPercentage.title(definition?.title ?? result.actionKey.id, value: percentage)
-        }
         let reference = result.actionReference ?? ActionReference(key: result.actionKey)
-        // Legacy history may carry a full reference. Keep display labels and sensitive values out of copied diagnostics.
-        if ActionPercentage.value(in: reference) != nil
-            || definition?.parameters.contains(where: {
-                $0.privacy == .sensitive && reference.parameters[$0.id] != nil
-            }) == true {
-            return definition?.title ?? result.actionKey.id
-        }
         if case let .success(action) = registry.registeredAction(for: reference) {
-            return action.presentationEntry?.title ?? action.definition.title
+            return action.catalogEntry?.title ?? action.definition.title
         }
         return registry.definition(for: result.actionKey)?.title ?? result.title
     }

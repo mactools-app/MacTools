@@ -63,7 +63,7 @@
     "discovery.physical-click": "@localizable.gesture.category.click"
   },
   "version": "2.1.0",
-  "minHostVersion": "2.2.5",
+  "minHostVersion": "2.1.0",
   "pluginKitVersion": 7,
   "bundleRelativePath": "TrackpadGestures.bundle",
   "factoryClass": "TrackpadGesturesPlugin.TrackpadGesturesPluginFactory",

@@ -73,23 +73,6 @@ struct DisplayBrightnessShortcutAction: Equatable {
     let id: String
     let direction: DisplayBrightnessShortcutDirection
     let targetDisplayIDs: [CGDirectDisplayID]
-    private let identifiers: [CGDirectDisplayID: String]
-    private let generation: UInt64
-
-    init(id: String, direction: DisplayBrightnessShortcutDirection, targetDisplayIDs: [CGDirectDisplayID],
-         identifier: (CGDirectDisplayID) -> String?) {
-        self.id = id
-        self.direction = direction
-        self.targetDisplayIDs = targetDisplayIDs
-        generation = DisplayDDCIdentity.bindingGeneration
-        identifiers = Dictionary(uniqueKeysWithValues: targetDisplayIDs.compactMap { id in
-            identifier(id).map { (id, $0) }
-        })
-    }
-
-    func matches(_ displayID: CGDirectDisplayID, identifier: String?) -> Bool {
-        generation == DisplayDDCIdentity.bindingGeneration && identifiers[displayID] == identifier
-    }
 }
 
 struct DisplayBrightnessShortcutAcceleration {
@@ -152,7 +135,8 @@ final class DisplayBrightnessPlugin:
 
     private enum Constants {
         static let setBrightnessActionID = "set-brightness"
-        static let setDisplayBrightnessActionID = "set-display-brightness"
+        static let setBuiltInBrightnessActionID = "set-built-in-brightness"
+        static let percentParameterID = "percent"
         static let displayControlPrefix = "display."
         static let brightnessControlSuffix = ".brightness"
         static let disableBuiltInDisplayActionID = "disable-built-in-display"
@@ -327,7 +311,7 @@ final class DisplayBrightnessPlugin:
                 capabilities: [.automatic, .background, .foregroundInteractive, .cancellable]
             )
         }
-        return brightnessActions + [voiceSetBrightnessDefinition, setDisplayBrightnessDefinition,
+        return brightnessActions + [voiceSetBrightnessDefinition, builtInBrightnessDefinition,
             ActionDefinition(
                 key: ActionKey(
                     providerID: metadata.id,
@@ -379,38 +363,12 @@ final class DisplayBrightnessPlugin:
         ]
     }
 
-    private var setDisplayBrightnessDefinition: ActionDefinition {
-        ActionDefinition(
-            key: ActionKey(providerID: metadata.id, actionID: Constants.setDisplayBrightnessActionID),
-            title: localization.string("action.set.title", defaultValue: "设置显示器亮度"),
-            description: localization.string("action.set.description", defaultValue: "将指定显示器调节到目标百分比"),
-            systemImage: "sun.max",
-            parameters: [
-                ActionParameterDefinition(id: DisplayActionTarget.parameterID, title: metadata.title, kind: .string, portability: .localOnly),
-                ActionPercentage.parameter,
-            ],
-            capabilities: [.automatic, .background, .foregroundInteractive, .cancellable]
-        )
-    }
-
-    var actionCatalogEntries: [ActionCatalogEntry] {
-        actionDefinitions.filter { $0.parameters.isEmpty }.map {
-            ActionCatalogEntry(reference: ActionReference(key: $0.key), title: $0.title)
-        } + DisplayActionTarget.catalogEntries(
-            for: controller.snapshot().displays.map(\.display),
-            definition: setDisplayBrightnessDefinition,
-            identifier: controller.actionIdentifier(for:)
-        )
-    }
-
     func actionAvailability(for reference: ActionReference) -> ActionAvailability {
-        if reference.key.actionID == Constants.setDisplayBrightnessActionID {
-            guard let target = DisplayActionTarget.resolve(
-                reference,
-                in: controller.snapshot().displays.map(\.display),
-                identifier: controller.actionIdentifier(for:)
-            ) else { return .unavailable(PluginKitLocalization.actionUnavailable) }
-            return controller.exactBrightnessAvailability(Double(target.percent) / 100, for: target.display.id)
+        if reference.key.actionID == Constants.setBuiltInBrightnessActionID {
+            guard Self.builtInBrightnessPercentage(reference) != nil, controller.canSetBuiltInBrightness else {
+                return .unavailable(PluginKitLocalization.actionUnavailable)
+            }
+            return .available
         }
         if reference.key.actionID == Constants.setBrightnessActionID {
             return voiceBrightnessTarget(reference) == nil ? .unavailable(PluginKitLocalization.actionUnavailable) : .available
@@ -447,23 +405,14 @@ final class DisplayBrightnessPlugin:
     }
 
     func beginAction(_ invocation: ActionInvocation) throws -> ActionExecutionHandle {
-        if invocation.reference.key.actionID == Constants.setDisplayBrightnessActionID {
-            let reference = invocation.reference
-            return ActionExecutionHandle { [weak self] in
-                guard let self, !Task.isCancelled else { return .cancelled }
-                guard let target = DisplayActionTarget.resolve(
-                    reference,
-                    in: self.controller.snapshot().displays.map(\.display),
-                    identifier: self.controller.actionIdentifier(for:)
-                ) else { return .failed(message: PluginKitLocalization.actionUnavailable) }
-                let percent = Double(target.percent)
-                switch await self.controller.setExactBrightnessAndWait(
-                    percent / 100, for: target.display.id, identifier: target.identifier
-                ) {
-                case .succeeded:
-                    return .succeeded()
-                case let .failed(message):
-                    return .failed(message: message)
+        if invocation.reference.key.actionID == Constants.setBuiltInBrightnessActionID {
+            let percent = Self.builtInBrightnessPercentage(invocation.reference)
+            return ActionExecutionHandle { [controller] in
+                guard !Task.isCancelled else { return .cancelled }
+                guard let percent else { return .failed(message: PluginKitLocalization.actionUnavailable) }
+                switch await controller.setBuiltInBrightnessAndWait(Double(percent) / 100) {
+                case .succeeded: return .succeeded()
+                case let .failed(message): return .failed(message: message)
                 }
             }
         }
@@ -475,11 +424,7 @@ final class DisplayBrightnessPlugin:
                 }
                 let generation = self.brightnessGeneration
                 switch await self.controller.setBrightnessAndWait(percent / 100, for: display.id) {
-                case .succeeded:
-                    return await self.brightnessWriteResult(displayID: display.id, requestedPercent: percent) {
-                        generation == self.brightnessGeneration && self.voiceTargetDisplays[display.id] == display
-                            && self.controller.snapshot().displays.contains { $0.display == display }
-                    }
+                case .succeeded: return await self.voiceBrightnessWriteResult(display: display, generation: generation, requestedPercent: percent)
                 case let .failed(message): return .failed(message: message)
                 }
             }
@@ -534,19 +479,19 @@ final class DisplayBrightnessPlugin:
         let action = DisplayBrightnessShortcutAction(
             id: invocation.reference.key.actionID,
             direction: direction,
-            targetDisplayIDs: targetDisplayIDs,
-            identifier: controller.actionIdentifier(for:)
+            targetDisplayIDs: targetDisplayIDs
         )
-        let delta = action.direction.multiplier / 100
+        let targets = displays(for: action.targetDisplayIDs).map { display in
+            (
+                display.id,
+                min(1, max(0, display.brightness + action.direction.multiplier / 100))
+            )
+        }
         let controller = controller
         return ActionExecutionHandle {
             var failures: [String] = []
-            for displayID in action.targetDisplayIDs {
-                guard action.matches(displayID, identifier: controller.actionIdentifier(for: displayID)) else {
-                    failures.append(PluginKitLocalization.actionUnavailable)
-                    continue
-                }
-                switch await controller.adjustBrightnessAndWait(by: delta, for: displayID) {
+            for (displayID, target) in targets {
+                switch await controller.setBrightnessAndWait(target, for: displayID) {
                 case .succeeded:
                     continue
                 case let .failed(message):
@@ -596,7 +541,7 @@ final class DisplayBrightnessPlugin:
     func refreshDisplayTopology() {
         brightnessGeneration = UUID().uuidString
         voiceTargetDisplays.removeAll()
-        controller.refreshDisplayTopology()
+        controller.refresh()
         displayDisableCoordinator.reconcileTopology()
         let snapshot = displayDisableCoordinator.snapshot
         offDisplayPlacements = offDisplayPlacements.filter { snapshot.entry(for: $0.key)?.isDisabled == true }
@@ -609,9 +554,12 @@ final class DisplayBrightnessPlugin:
             isExpanded = value
             onStateChange?()
         case let .setSlider(controlID, value, phase):
-            guard let displayID = controller.snapshot().displays.first(where: {
-                sliderControlID(for: $0.id) == controlID
-            })?.id else { return }
+            guard let displayID = Self.parseDisplayID(from: controlID) else {
+                DisplayBrightnessLog.plugin.error(
+                    "invalid slider control id \(controlID, privacy: .public)"
+                )
+                return
+            }
 
             controller.setBrightness(value, for: displayID, phase: phase)
             onStateChange?()
@@ -666,11 +614,26 @@ final class DisplayBrightnessPlugin:
         displayDisableCoordinator.deactivate(restoringDisplays: reason.requiresStateCleanup)
     }
 
-    private func sliderControlID(for displayID: CGDirectDisplayID) -> String {
-        // SwiftUI retains the gesture's local value for the lifetime of this ID.
-        let identity = controller.actionIdentifier(for: displayID)?.hashValue ?? 0
-        let binding = DisplayDDCIdentity.bindingGeneration
-        return "\(Constants.displayControlPrefix)\(displayID).\(binding).\(identity)\(Constants.brightnessControlSuffix)"
+    static func parseDisplayID(from controlID: String) -> CGDirectDisplayID? {
+        guard
+            controlID.hasPrefix(Constants.displayControlPrefix),
+            controlID.hasSuffix(Constants.brightnessControlSuffix)
+        else {
+            return nil
+        }
+
+        let startIndex = controlID.index(
+            controlID.startIndex,
+            offsetBy: Constants.displayControlPrefix.count
+        )
+        let endIndex = controlID.index(
+            controlID.endIndex,
+            offsetBy: -Constants.brightnessControlSuffix.count
+        )
+        guard startIndex <= endIndex else {
+            return nil
+        }
+        return CGDirectDisplayID(controlID[startIndex..<endIndex])
     }
 
     private func subtitle(for displays: [DisplayBrightnessDisplay]) -> String {
@@ -688,7 +651,7 @@ final class DisplayBrightnessPlugin:
                 id: display.id,
                 name: display.display.name,
                 brightness: display.brightness,
-                isAdjustable: display.isReady || display.needsReadBeforeRelative,
+                isAdjustable: display.isReady,
                 disableEntry: switchableEntry(for: display.id, in: disableSnapshot),
                 isReading: !display.isReady
             )
@@ -762,7 +725,7 @@ final class DisplayBrightnessPlugin:
         }
 
         return PluginPanelControl(
-            id: sliderControlID(for: row.id),
+            id: "\(Constants.displayControlPrefix)\(row.id)\(Constants.brightnessControlSuffix)",
             kind: .slider,
             options: [],
             selectedOptionID: nil,
@@ -811,15 +774,13 @@ final class DisplayBrightnessPlugin:
 
     /// The slider's power button: switch its display off, or back on when MacTools turned it off.
     private func handleInvokeAction(controlID: String) {
-        guard let entry = displayDisableCoordinator.snapshot.entries.first(where: {
-                  sliderControlID(for: $0.id) == controlID
-              }),
+        guard let displayID = Self.parseDisplayID(from: controlID),
+              let entry = displayDisableCoordinator.snapshot.entry(for: displayID),
               displayDisableActionTask == nil
         else {
             return
         }
 
-        let displayID = entry.id
         if entry.isDisabled {
             displayDisableCoordinator.restoreDisplay(displayID)
             onStateChange?()
@@ -894,8 +855,7 @@ final class DisplayBrightnessPlugin:
         let action = DisplayBrightnessShortcutAction(
             id: id,
             direction: direction,
-            targetDisplayIDs: targetDisplayIDs,
-            identifier: controller.actionIdentifier(for:)
+            targetDisplayIDs: targetDisplayIDs
         )
         let now = Date()
         let initialStep = shortcutAcceleration.stepForPress(actionID: id, now: now)
@@ -965,39 +925,36 @@ final class DisplayBrightnessPlugin:
         phase: PluginPanelAction.SliderPhase
     ) {
         let delta = Double(step) / 100 * action.direction.multiplier
-        for display in displays(for: action) {
-            controller.adjustBrightness(by: delta, for: display.id, phase: phase)
+        for display in displays(for: action.targetDisplayIDs) {
+            controller.setBrightness(display.brightness + delta, for: display.id, phase: phase)
         }
     }
 
     private func commitShortcutAction(_ action: DisplayBrightnessShortcutAction) {
-        for display in displays(for: action) {
-            controller.adjustBrightness(by: 0, for: display.id, phase: .ended)
+        for display in displays(for: action.targetDisplayIDs) {
+            controller.setBrightness(display.brightness, for: display.id, phase: .ended)
         }
     }
 
-    private func displays(for action: DisplayBrightnessShortcutAction) -> [DisplayBrightnessDisplay] {
+    private func displays(for displayIDs: [CGDirectDisplayID]) -> [DisplayBrightnessDisplay] {
         let displaysByID = Dictionary(uniqueKeysWithValues: controller.snapshot().displays.map { ($0.id, $0) })
-        return action.targetDisplayIDs.compactMap { id in
-            guard action.matches(id, identifier: controller.actionIdentifier(for: id)) else { return nil }
-            return displaysByID[id]
-        }
+        return displayIDs.compactMap { displaysByID[$0] }
     }
 
     private func shortcutTargetDisplayIDs(in snapshot: DisplayBrightnessSnapshot) -> [CGDirectDisplayID] {
-        let displays = snapshot.displays.filter(\.canAdjustRelative)
+        let displays = snapshot.displays.filter(\.isReady)
         switch shortcutPreferences.targetMode {
         case .followsMouse:
             if let mouseDisplayID = mouseDisplayIDProvider(),
                let mouseDisplay = snapshot.displays.first(where: { $0.id == mouseDisplayID }) {
-                return mouseDisplay.canAdjustRelative ? [mouseDisplayID] : []
+                return mouseDisplay.isReady ? [mouseDisplayID] : []
             }
 
             if let mainDisplay = snapshot.displays.first(where: { $0.display.isMain }) {
-                return mainDisplay.canAdjustRelative ? [mainDisplay.id] : []
+                return mainDisplay.isReady ? [mainDisplay.id] : []
             }
 
-            return snapshot.displays.first.flatMap { $0.canAdjustRelative ? [$0.id] : nil } ?? []
+            return snapshot.displays.first.flatMap { $0.isReady ? [$0.id] : nil } ?? []
         case .allDisplays:
             guard displays.count == snapshot.displays.count else { return [] }
             return displays.map(\.id)
@@ -1092,10 +1049,9 @@ extension DisplayBrightnessPlugin: PluginPortablePreferencesProviding,
 
 extension DisplayBrightnessPlugin: PluginVoiceQueryProviding, PluginVoiceParameterizedActionProviding, PluginActionExposureProviding {
     func exposurePolicy(for reference: ActionReference, on surface: ActionExposureSurface) -> ActionExposurePolicy {
+        if reference.key.actionID == Constants.setBuiltInBrightnessActionID { return .excluded }
         // Shortcut increments use cursor/user-configured targets. Voice always resolves its explicit display first.
-        if surface.rawValue == "voice-control",
-           reference.key.actionID == Constants.setDisplayBrightnessActionID
-            || Self.shortcutDirection(for: reference.key.actionID) != nil { return .excluded }
+        if surface.rawValue == "voice-control", Self.shortcutDirection(for: reference.key.actionID) != nil { return .excluded }
         return .automatic
     }
     var voiceParameterizedActionIDs: Set<String> { [Constants.setBrightnessActionID] }
@@ -1113,13 +1069,34 @@ extension DisplayBrightnessPlugin: PluginVoiceQueryProviding, PluginVoiceParamet
                            .init(id: "percent", title: "percent", kind: .double)],
               capabilities: [.foregroundInteractive, .background, .cancellable])
     }
-    private func brightnessWriteResult(
-        displayID: CGDirectDisplayID,
-        requestedPercent: Double,
-        targetStillMatches: () -> Bool
-    ) async -> ActionExecutionResult {
+    private var builtInBrightnessDefinition: ActionDefinition {
+        .init(
+            key: .init(providerID: metadata.id, actionID: Constants.setBuiltInBrightnessActionID),
+            title: localization.string("action.setBuiltIn.title", defaultValue: "设置内建显示屏亮度"),
+            description: localization.string("action.setBuiltIn.description", defaultValue: "将内建显示屏调节到指定亮度。"),
+            keywords: [metadata.title], systemImage: "sun.max",
+            parameters: [
+                .init(id: Constants.percentParameterID, title: localization.string(
+                    "action.setBuiltIn.percent", defaultValue: "目标百分比"
+                ), kind: .integer)
+            ],
+            capabilities: [.automatic, .background, .foregroundInteractive, .cancellable]
+        )
+    }
+
+    private static func builtInBrightnessPercentage(_ reference: ActionReference) -> Int64? {
+        guard case let .integer(value)? = reference.parameters[Constants.percentParameterID],
+              (0...100).contains(value) else { return nil }
+        return value
+    }
+
+    private func voiceBrightnessWriteResult(display: DisplayInfo, generation: String, requestedPercent: Double) async -> ActionExecutionResult {
+        @MainActor func targetStillMatches() -> Bool {
+            generation == brightnessGeneration && voiceTargetDisplays[display.id] == display
+                && controller.snapshot().displays.contains { $0.display == display }
+        }
         guard targetStillMatches() else { return .failed(message: PluginKitLocalization.actionUnavailable) }
-        var observation = await controller.observeBrightness(for: displayID)
+        var observation = await controller.observeBrightness(for: display.id)
         for delay in [150, 300] {
             guard !Task.isCancelled else { return .cancelled }
             if observation?.backend == .gamma || observation?.backend == .shade { break }
@@ -1127,7 +1104,7 @@ extension DisplayBrightnessPlugin: PluginVoiceQueryProviding, PluginVoiceParamet
                let value = observation.value, abs(value * 100 - requestedPercent) <= 1 { break }
             do { try await Task.sleep(for: .milliseconds(delay)) } catch { return .cancelled }
             guard targetStillMatches() else { return .failed(message: PluginKitLocalization.actionUnavailable) }
-            observation = await controller.observeBrightness(for: displayID)
+            observation = await controller.observeBrightness(for: display.id)
         }
         guard targetStillMatches() else { return .failed(message: PluginKitLocalization.actionUnavailable) }
         guard !Task.isCancelled else { return .cancelled }

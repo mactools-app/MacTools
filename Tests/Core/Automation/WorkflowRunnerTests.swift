@@ -2,6 +2,7 @@ import Foundation
 import MacToolsPluginKit
 import XCTest
 @testable import MacTools
+@testable import DisplayBrightnessPlugin
 
 @MainActor
 final class WorkflowRunnerTests: XCTestCase {
@@ -15,6 +16,50 @@ final class WorkflowRunnerTests: XCTestCase {
     override func tearDown() {
         UserDefaults(suiteName: suiteName)?.removePersistentDomain(forName: suiteName)
         super.tearDown()
+    }
+
+    func testScheduledBuiltInBrightnessUsesStoredPercentage() async throws {
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        let store = WorkflowStore(userDefaults: defaults)
+        let registry = ActionRegistry()
+        let brightness = MockDisplayBrightnessController()
+        brightness.canSetBuiltInBrightness = true
+        let plugin = DisplayBrightnessPlugin(controller: brightness)
+        registry.synchronize([ActionProviderRegistration(
+            providerID: plugin.metadata.id,
+            identity: ObjectIdentifier(plugin),
+            definitions: plugin.actionDefinitions,
+            catalogEntries: plugin.actionCatalogEntries,
+            availability: { plugin.actionAvailability(for: $0) },
+            begin: { invocation in
+                do { return .success(try plugin.beginAction(invocation)) }
+                catch { return .failure(.providerFailure(error.localizedDescription)) }
+            }
+        )])
+        let reference = try XCTUnwrap(WorkflowBuiltInBrightness.reference(for: "٧٠"))
+        XCTAssertFalse(registry.catalogEntries.contains { $0.reference.key == reference.key })
+        let workflow = try saveWorkflow(in: store, steps: [WorkflowStep(reference: reference)])
+        let runner = WorkflowRunner(store: store, registry: registry, executor: ActionExecutor(registry: registry))
+
+        let execution = try runner.makeExecutionHandle(
+            workflowID: workflow.id,
+            source: .automatic(ruleID: UUID(), triggerKind: "schedule"),
+            mode: .background
+        ).get()
+        let result = await execution.actionHandle.result()
+        XCTAssertEqual(result, .succeeded())
+        XCTAssertEqual(brightness.builtInBrightnessWrites, [0.7])
+    }
+
+    func testBuiltInBrightnessPercentageAcceptsOnlyWholeDecimalDigitsInRange() {
+        let seventy = WorkflowBuiltInBrightness.reference(for: 70)
+        XCTAssertNotNil(seventy)
+        for text in ["70", " ٧٠ ", "۷۰", "７０"] {
+            XCTAssertEqual(WorkflowBuiltInBrightness.reference(for: text), seventy)
+        }
+        for text in ["", "101", "١٠١", "-1", "70.5", "70%", "⑦0"] {
+            XCTAssertNil(WorkflowBuiltInBrightness.reference(for: text))
+        }
     }
 
     func testRunnerExecutesSeriallyHonorsDelayAndContinuesAfterConfiguredFailure() async throws {
@@ -143,60 +188,6 @@ final class WorkflowRunnerTests: XCTestCase {
                 as: UTF8.self
             ).contains(secret)
         )
-    }
-
-    func testCopiedDiagnosticsPreservePercentageWithoutLocalDisplay() async throws {
-        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
-        let store = WorkflowStore(userDefaults: defaults)
-        let registry = ActionRegistry()
-        let provider = WorkflowRunnerTestProvider(actionIDs: [], timeout: 30)
-        let key = ActionKey(providerID: "display-test", actionID: "set")
-        let monitorID = "private-monitor-identifier"
-        let monitorLabel = "Private monitor label"
-        let reference = ActionReference(
-            key: key,
-            parameters: try ActionParameterSet([
-                DisplayActionTarget.parameterID: .string(monitorID),
-                ActionPercentage.parameterID: .integer(23),
-            ])
-        )
-        let definition = ActionDefinition(
-            key: key,
-            title: "Set Display Brightness",
-            description: "",
-            systemImage: "sun.max",
-            parameters: [
-                ActionParameterDefinition(id: DisplayActionTarget.parameterID, title: "Display", kind: .string,
-                                          portability: .localOnly),
-                ActionPercentage.parameter,
-            ],
-            capabilities: [.background]
-        )
-        registry.synchronize([
-            ActionProviderRegistration(
-                providerID: key.providerID,
-                identity: ObjectIdentifier(provider),
-                definitions: [definition],
-                catalogEntries: [
-                    ActionCatalogEntry(reference: reference,
-                                       title: ActionPercentage.title(definition.title, target: monitorLabel, value: 23)),
-                ],
-                availability: { _ in .available },
-                begin: { _ in .success(ActionExecutionHandle(operation: { .succeeded() })) }
-            ),
-        ])
-        let runner = WorkflowRunner(store: store, registry: registry, executor: ActionExecutor(registry: registry))
-        let workflow = try saveWorkflow(in: store, steps: [WorkflowStep(reference: reference)])
-        let execution = try runner.makeExecutionHandle(workflowID: workflow.id, source: .manual, mode: .foreground).get()
-        _ = await execution.actionHandle.result()
-
-        let run = try XCTUnwrap(WorkflowStore(userDefaults: defaults).history(workflowID: workflow.id).first)
-        let diagnostics = WorkflowRunPresentation.diagnosticText(run, registry: registry)
-        XCTAssertTrue(diagnostics.contains(ActionPercentage.title(definition.title, value: 23)))
-        XCTAssertFalse(diagnostics.contains(monitorLabel))
-        let stored = String(decoding: try XCTUnwrap(defaults.data(forKey: "automation.history.v1")), as: UTF8.self)
-        XCTAssertFalse(stored.contains(monitorID))
-        XCTAssertFalse(stored.contains(monitorLabel))
     }
 
     func testStopOnErrorSkipsRemainingSteps() async throws {

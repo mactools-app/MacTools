@@ -100,13 +100,8 @@ jobs:
 
       - name: Verify production plugin catalog
         run: |
-          PREFLIGHT=scripts/plugins/preflight-app-plugin-catalog.swift
-          args=(--app-version "$VERSION")
-          if grep -Fq -- '"--use-current-catalog"' "$PREFLIGHT"; then
-            git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
-            args+=(--use-current-catalog)
-          fi
-          "$PREFLIGHT" "${args[@]}"
+          scripts/plugins/preflight-app-plugin-catalog.swift \
+            --app-version "$VERSION"
 
       - name: Validate required secrets
         env:
@@ -200,13 +195,6 @@ jobs:
 
       - name: Build unsigned Release app
         run: |
-          catalog_build_settings=()
-          # Recovery runs use the old tag's scripts with this workflow.
-          if grep -Fq -- '--print-required-catalog-url' scripts/plugins/preflight-app-plugin-catalog.swift; then
-            PLUGIN_CATALOG_URL="$(scripts/plugins/preflight-app-plugin-catalog.swift \
-              --app-version "$VERSION" --print-required-catalog-url)"
-            catalog_build_settings+=("PLUGIN_CATALOG_URL=$PLUGIN_CATALOG_URL")
-          fi
           ./scripts/xcodebuild-filtered.sh \
             -project "${PROJECT_NAME}.xcodeproj" \
             -scheme "${SCHEME}" \
@@ -214,7 +202,6 @@ jobs:
             -destination "generic/platform=macOS" \
             -derivedDataPath "${DERIVED_DATA}" \
             MARKETING_VERSION="${VERSION}" \
-            "${catalog_build_settings[@]}" \
             CURRENT_PROJECT_VERSION="${BUILD_NUMBER}" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
@@ -643,29 +630,6 @@ jobs:
         with:
           artifact-ids: ${{ needs.release.outputs.artifact_id }}
           path: candidate
-
-      - name: Recheck production catalog before publishing
-        run: |
-          PREFLIGHT=scripts/plugins/preflight-app-plugin-catalog.swift
-          args=(--app-version "$VERSION")
-          # Workflow recovery can use a tagged verifier from before artifact validation.
-          if grep -Fq -- '"--artifact-info-plist"' "$PREFLIGHT"; then
-            mount_point="$(mktemp -d "${RUNNER_TEMP}/mactools-catalog-check.XXXXXX")"
-            mounted=0
-            trap 'if [[ "$mounted" -eq 1 ]]; then hdiutil detach "$mount_point" >/dev/null; fi; rmdir "$mount_point"' EXIT
-            hdiutil attach -readonly -nobrowse -mountpoint "$mount_point" "$DMG_PATH" >/dev/null
-            mounted=1
-            args+=(--artifact-info-plist "$mount_point/$PROJECT_NAME.app/Contents/Info.plist")
-            if grep -Fq -- '"--build-number"' "$PREFLIGHT"; then
-              args+=(--build-number "$BUILD_NUMBER")
-            fi
-          fi
-          if grep -Fq -- '"--use-current-catalog"' "$PREFLIGHT"; then
-            git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
-            args+=(--use-current-catalog)
-          fi
-          "$PREFLIGHT" "${args[@]}"
-
       - name: Restore generated release metadata
         run: |
           cp candidate/appcast.xml docs/appcast.xml

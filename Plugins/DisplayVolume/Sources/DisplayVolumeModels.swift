@@ -10,11 +10,7 @@ struct DisplayVolumeDisplay: Identifiable, Equatable {
     let display: DisplayInfo
     let volume: Double
     let isPendingWrite: Bool
-    var isReady: Bool = true
 
-    var isSettingExactLevel = false
-
-    var canAdjustRelative: Bool { isReady && !isSettingExactLevel }
     var id: CGDirectDisplayID { display.id }
 }
 
@@ -34,8 +30,6 @@ enum DisplayVolumeControllerError: Error, LocalizedError {
     case unsupportedReply(displayName: String)
     case ddcWriteFailed(displayName: String)
     case volumeUnavailable(displayName: String)
-    case unverifiedDisplayBinding
-    case unsupportedHardwareLevel(observed: Double)
     case failed(message: String)
 
     var errorDescription: String? {
@@ -62,10 +56,6 @@ enum DisplayVolumeControllerError: Error, LocalizedError {
                 defaultValue: "%@ 当前无法读取音量",
                 displayName
             )
-        case .unverifiedDisplayBinding:
-            return localization.string("error.exactUnverifiedTarget", defaultValue: "无法确认显示器的 DDC/CI 控制目标。")
-        case .unsupportedHardwareLevel:
-            return ActionPercentage.unsupportedHardwareLevel
         case .failed(let message):
             return message
         }
@@ -77,12 +67,7 @@ protocol DisplayVolumeControlling: AnyObject {
     var onStateChange: (() -> Void)? { get set }
 
     func refresh()
-    func refreshDisplayTopology()
-    func actionIdentifier(for displayID: CGDirectDisplayID) -> String?
-    func exactVolumeAvailability(for displayID: CGDirectDisplayID) -> ActionAvailability
     func snapshot() -> DisplayVolumeSnapshot
-    func adjustVolume(by delta: Double, for displayID: CGDirectDisplayID, phase: PluginPanelAction.SliderPhase)
-    func adjustVolumeAndWait(by delta: Double, for displayID: CGDirectDisplayID) async -> DisplayVolumeWriteResult
     func setVolume(
         _ value: Double,
         for displayID: CGDirectDisplayID,
@@ -92,84 +77,22 @@ protocol DisplayVolumeControlling: AnyObject {
         _ value: Double,
         for displayID: CGDirectDisplayID
     ) async -> DisplayVolumeWriteResult
-    func setExactVolumeAndWait(
-        _ value: Double,
-        for displayID: CGDirectDisplayID,
-        identifier: String
-    ) async -> DisplayVolumeWriteResult
     func cancelOutstandingWrites()
 }
 
 extension DisplayVolumeControlling {
-    func refreshDisplayTopology() { refresh() }
-
-    func adjustVolume(by delta: Double, for displayID: CGDirectDisplayID, phase: PluginPanelAction.SliderPhase) {
-        guard let display = snapshot().displays.first(where: { $0.id == displayID && $0.isReady }) else { return }
-        setVolume(display.volume + delta, for: displayID, phase: phase)
-    }
-
-    func adjustVolumeAndWait(by delta: Double, for displayID: CGDirectDisplayID) async -> DisplayVolumeWriteResult {
-        guard let display = snapshot().displays.first(where: { $0.id == displayID && $0.isReady }) else {
-            return .failed(message: PluginKitLocalization.actionUnavailable)
-        }
-        return await setVolumeAndWait(min(1, max(0, display.volume + delta)), for: displayID)
-    }
-
-    func exactVolumeAvailability(for displayID: CGDirectDisplayID) -> ActionAvailability { .available }
-
-    func setExactVolumeAndWait(
-        _ value: Double,
-        for displayID: CGDirectDisplayID,
-        identifier: String
-    ) async -> DisplayVolumeWriteResult {
-        guard actionIdentifier(for: displayID) == identifier, !Task.isCancelled else {
-            return .failed(message: PluginKitLocalization.actionUnavailable)
-        }
-        return await setVolumeAndWait(value, for: displayID)
-    }
-
     func cancelOutstandingWrites() {}
 }
 
 protocol DisplayVolumeBackend: AnyObject, Sendable {
     var kind: DisplayVolumeBackendKind { get }
-    var hasVerifiedDisplayBinding: Bool { get }
-    var usesDiscoveredService: Bool { get }
     var display: DisplayInfo { get set }
     var cachedVolume: Double { get }
 
     /// Performs hardware I/O and must run on a background worker.
     func readVolume() throws -> Double
-    func readFreshVolume() throws -> Double
-    func readVerifiedVolume() throws -> Double
     func writeVolume(_ value: Double) throws
-    func writeVolume(_ value: Double, permit: DisplayActionWritePermit?) throws
-    func writeExactVolume(_ value: Double, permit: DisplayActionWritePermit) throws -> Double
     func cleanup()
-}
-
-extension DisplayVolumeBackend {
-    var hasVerifiedDisplayBinding: Bool { true }
-    var usesDiscoveredService: Bool { false }
-
-    func writeVolume(_ value: Double, permit: DisplayActionWritePermit?) throws {
-        guard permit?.beginWrite() != false else { throw CancellationError() }
-        try writeVolume(value)
-    }
-
-    func readFreshVolume() throws -> Double { try readVerifiedVolume() }
-
-    func readVerifiedVolume() throws -> Double { try readVolume() }
-
-    func writeExactVolume(_ value: Double, permit: DisplayActionWritePermit) throws -> Double {
-        guard permit.beginWrite() else { throw CancellationError() }
-        try writeVolume(value)
-        let observed = try readVolume()
-        guard abs(observed - value) <= 0.01 else {
-            throw DisplayVolumeControllerError.ddcWriteFailed(displayName: display.name)
-        }
-        return observed
-    }
 }
 
 protocol DisplayVolumeBackendBuilding {

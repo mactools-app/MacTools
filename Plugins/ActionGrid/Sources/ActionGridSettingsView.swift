@@ -596,7 +596,6 @@ private struct ActionGridActionEditorSheet: View {
 
     @State private var query = ""
     @State private var selectedReference: ActionReference?
-    @State private var percentageText: String
     @State private var customTitle = ""
     @State private var addKind: ActionGridAddKind = .action
     @FocusState private var focusedField: Field?
@@ -614,9 +613,7 @@ private struct ActionGridActionEditorSheet: View {
         self.request = request
         self.onDismiss = onDismiss
         let entry = request.entryID.flatMap(store.folderEntry(id:))
-        let reference = entry?.reference
-        _selectedReference = State(initialValue: reference.flatMap(ActionPercentage.template(for:)) ?? reference)
-        _percentageText = State(initialValue: String(reference.flatMap(ActionPercentage.value(in:)) ?? ActionPercentage.defaultValue))
+        _selectedReference = State(initialValue: entry?.reference)
         _customTitle = State(initialValue: entry?.customTitle ?? "")
     }
 
@@ -642,14 +639,6 @@ private struct ActionGridActionEditorSheet: View {
                 TextField(titleFieldPlaceholder, text: $customTitle)
                     .textFieldStyle(.roundedBorder)
                     .focused($focusedField, equals: .title)
-
-                if let selectedReference, ActionPercentage.value(in: selectedReference) != nil {
-                    ActionPercentageField(
-                        text: $percentageText,
-                        hint: configuredReference.flatMap { percentageAvailability($0).reason }
-                            ?? ActionPercentage.rangeHint(for: selectedReference, availability: percentageAvailability)
-                    )
-                }
 
                 List(filteredItems, selection: $selectedReference) { item in
                     let presentation = pickerPresentation(for: item)
@@ -729,9 +718,6 @@ private struct ActionGridActionEditorSheet: View {
         .onChange(of: addKind) { _, kind in
             focusedField = kind == .action ? .search : .title
         }
-        .onChange(of: selectedReference) { _, reference in
-            percentageText = String(reference.flatMap(ActionPercentage.value(in:)) ?? ActionPercentage.defaultValue)
-        }
         .onChange(of: query) { _, _ in
             clearHiddenSelection()
         }
@@ -739,11 +725,7 @@ private struct ActionGridActionEditorSheet: View {
 
     private var filteredItems: [ActionSurfaceCatalogItem] {
         let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        return plugin.catalogItems(
-            excluding: request.entryID,
-            in: folderID,
-            includeConfigurableActions: true
-        ).filter { item in
+        return plugin.catalogItems(excluding: request.entryID, in: folderID).filter { item in
             let presentation = pickerPresentation(for: item)
             return query.isEmpty || [
                 item.title,
@@ -781,27 +763,12 @@ private struct ActionGridActionEditorSheet: View {
             : plugin.localized("自定义名称（可选）")
     }
 
-    private var configuredReference: ActionReference? {
-        guard let selectedReference else { return nil }
-        guard ActionPercentage.value(in: selectedReference) != nil else { return selectedReference }
-        return ActionPercentage.setting(percentageText, in: selectedReference)
-    }
-
-    private func percentageAvailability(_ reference: ActionReference) -> ActionAvailability {
-        plugin.item(for: reference)?.availability ?? .available
-    }
-
     private var canSave: Bool {
         if request.entryID != nil || addKind == .action {
-            guard let configuredReference,
-                  ActionGridActionSelectionPolicy.contains(selectedReference, in: filteredItems) else {
-                return false
-            }
-            if ActionPercentage.value(in: configuredReference) != nil,
-               !percentageAvailability(configuredReference).isAvailable { return false }
-            return !store.entries(in: folderID).contains {
-                $0.folder == nil && $0.id != request.entryID && $0.reference == configuredReference
-            }
+            return ActionGridActionSelectionPolicy.contains(
+                selectedReference,
+                in: filteredItems
+            )
         }
         return !customTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
@@ -820,10 +787,10 @@ private struct ActionGridActionEditorSheet: View {
     private func save() {
         let saved: Bool
         if let entryID = request.entryID {
-            guard let configuredReference else { return }
+            guard let selectedReference else { return }
             saved = store.replace(
                 id: entryID,
-                reference: configuredReference,
+                reference: selectedReference,
                 customTitle: customTitle
             )
         } else if addKind == .folder {
@@ -833,9 +800,9 @@ private struct ActionGridActionEditorSheet: View {
                 at: request.targetSlot
             )
         } else {
-            guard let configuredReference else { return }
+            guard let selectedReference else { return }
             saved = store.add(
-                reference: configuredReference,
+                reference: selectedReference,
                 customTitle: customTitle,
                 in: folderID,
                 at: request.targetSlot

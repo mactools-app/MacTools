@@ -237,7 +237,7 @@ jobs:
             -derivedDataPath "$DERIVED_DATA" \
             MARKETING_VERSION="$VERSION" \
             CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
-            PLUGIN_CATALOG_URL="https://mactools.ggbond.app/${NIGHTLY_PLUGIN_CATALOG_RELATIVE_PATH#docs/}" \
+            PLUGIN_CATALOG_URL="https://mactools.ggbond.app/nightly/plugins/v${PLUGIN_KIT_VERSION}/catalog.json" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY= \
@@ -401,7 +401,7 @@ jobs:
           [[ -n "$PLUGIN_CATALOG_PUBLIC_KEY" ]] || { echo "Plugin catalog public key is missing." >&2; exit 1; }
           xcrun swift scripts/plugins/preflight-app-plugin-catalog.swift \
             --app-version "$VERSION" \
-            --catalog-url "https://mactools.ggbond.app/${NIGHTLY_PLUGIN_CATALOG_RELATIVE_PATH#docs/}" \
+            --catalog-url "https://mactools.ggbond.app/nightly/plugins/v${PLUGIN_KIT_VERSION}/catalog.json" \
             --expected-catalog "$SIGNED_PLUGIN_CATALOG_PATH" \
             --public-key-base64 "$PLUGIN_CATALOG_PUBLIC_KEY" \
             --deployed-catalog "$SIGNED_PLUGIN_CATALOG_PATH" \
@@ -624,10 +624,6 @@ jobs:
     name: Publish verified Nightly
     needs: [build, verify_cli]
     if: needs.build.outputs.decision == 'publish'
-    # Share the Pages lock so no older checkout can deploy during retention.
-    concurrency:
-      group: pages
-      queue: max
     runs-on: macos-26
     timeout-minutes: 30
     permissions:
@@ -751,23 +747,15 @@ jobs:
             gh api --method DELETE "repos/$GITHUB_REPOSITORY/releases/$stale_draft_id"
           done < "$RUNNER_TEMP/stale-nightly-draft-ids.txt"
 
-          if ! gh auth setup-git \
-            || ! git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main \
-            || ! RETENTION_MAIN="$(git rev-parse --verify 'refs/remotes/origin/main^{commit}')"; then
-            echo "Cannot verify current main; skipping published-release retention."
-            exit 0
-          fi
-
           PRESERVE_TAG_ARGS=()
           COMMITTED_APPCAST_PATH="$RUNNER_TEMP/committed-nightly-appcast.xml"
-          if git show "$RETENTION_MAIN:$NIGHTLY_APPCAST_RELATIVE_PATH" > "$COMMITTED_APPCAST_PATH" 2>/dev/null; then
+          if git show "origin/main:$NIGHTLY_APPCAST_RELATIVE_PATH" > "$COMMITTED_APPCAST_PATH" 2>/dev/null; then
             COMMITTED_TAG="$(scripts/nightly-release.py appcast-tag --input "$COMMITTED_APPCAST_PATH")"
             PRESERVE_TAG_ARGS+=(--preserve-tag "$COMMITTED_TAG")
           fi
 
           DEPLOYED_APPCAST_PATH="$RUNNER_TEMP/deployed-nightly-appcast.xml"
           if curl --fail --silent --show-error --location \
-            --connect-timeout 10 --max-time 30 \
             "https://mactools.ggbond.app/nightly/appcast.xml" \
             --output "$DEPLOYED_APPCAST_PATH" \
             && DEPLOYED_TAG="$(scripts/nightly-release.py appcast-tag --input "$DEPLOYED_APPCAST_PATH")"; then
@@ -777,52 +765,6 @@ jobs:
             exit 0
           fi
 
-          # Pages can still serve an older route after it has been removed from main.
-          COMMITTED_CATALOGS="$(git ls-tree -r --name-only "$RETENTION_MAIN" docs/nightly/plugins)"
-          HISTORICAL_CATALOGS="$(git log --full-history -m --format= --name-only --no-renames "$RETENTION_MAIN" -- docs/nightly/plugins)"
-          CATALOG_PATHS="$(printf '%s\n%s\n' "$COMMITTED_CATALOGS" "$HISTORICAL_CATALOGS" | sort -u)"
-          COMMITTED_CATALOG_PATH="$RUNNER_TEMP/committed-nightly-catalog.json"
-          DEPLOYED_CATALOG_PATH="$RUNNER_TEMP/deployed-nightly-catalog.json"
-          while IFS= read -r catalog_path; do
-            [[ "$catalog_path" == */catalog.json ]] || continue
-            CATALOG_INPUTS=()
-            if grep -Fxq -- "$catalog_path" <<< "$COMMITTED_CATALOGS"; then
-              if ! git show "$RETENTION_MAIN:$catalog_path" > "$COMMITTED_CATALOG_PATH"; then
-                echo "Cannot read committed catalog $catalog_path; skipping retention."
-                exit 0
-              fi
-              CATALOG_INPUTS+=("$COMMITTED_CATALOG_PATH")
-            fi
-            if ! CATALOG_STATUS="$(curl --silent --show-error --location \
-                --connect-timeout 10 --max-time 30 \
-                --write-out '%{http_code}' \
-                "https://mactools.ggbond.app/${catalog_path#docs/}" --output "$DEPLOYED_CATALOG_PATH")"; then
-              echo "Cannot check deployed catalog $catalog_path; skipping retention."
-              exit 0
-            fi
-            if [[ "$CATALOG_STATUS" == 404 && ${#CATALOG_INPUTS[@]} == 0 ]]; then
-              continue
-            fi
-            if [[ "$CATALOG_STATUS" != 200 ]]; then
-              echo "Unexpected deployed catalog status $CATALOG_STATUS for $catalog_path; skipping retention."
-              exit 0
-            fi
-            CATALOG_INPUTS+=("$DEPLOYED_CATALOG_PATH")
-            for catalog_input in "${CATALOG_INPUTS[@]}"; do
-              if ! CATALOG_TAGS="$(jq -ers '
-                  if length != 1 then error("Missing or invalid Nightly catalog") else .[0] end
-                  | [. | if (.plugins | type == "array" and length > 0) then .plugins[] else error("Empty Nightly catalog") end
-                     | .package.url | (capture("/releases/download/(?<tag>nightly-[0-9]+-[0-9]+)/").tag // error("Invalid Nightly package URL"))]
-                  | unique[]' "$catalog_input")"; then
-                echo "Cannot verify retained releases for $catalog_path; skipping retention."
-                exit 0
-              fi
-              while IFS= read -r catalog_tag; do
-                PRESERVE_TAG_ARGS+=(--preserve-tag "$catalog_tag")
-              done <<< "$CATALOG_TAGS"
-            done
-          done <<< "$CATALOG_PATHS"
-
           scripts/nightly-release.py stale-tags \
             --input "$RELEASES_PATH" \
             --keep "$NIGHTLY_RETENTION_COUNT" \
@@ -830,11 +772,6 @@ jobs:
             > "$RUNNER_TEMP/stale-nightly-tags.txt"
           while IFS= read -r stale_tag; do
             [[ -n "$stale_tag" ]] || continue
-            if ! REMOTE_MAIN="$(git ls-remote --exit-code origin refs/heads/main)" \
-              || [[ "$REMOTE_MAIN" != "$RETENTION_MAIN"$'\trefs/heads/main' ]]; then
-              echo "Main changed or could not be verified; skipping further published-release retention."
-              exit 0
-            fi
             gh release delete "$stale_tag" --cleanup-tag --yes
           done < "$RUNNER_TEMP/stale-nightly-tags.txt"
 

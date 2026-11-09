@@ -53,48 +53,6 @@
     }
   },
   "productStrings": {
-    "display-level-parameters": {
-      "ar": "الشاشة والنسبة المطلوبة",
-      "de": "Monitor und Zielwert in Prozent",
-      "en": "Display and target percentage",
-      "es": "Monitor y porcentaje objetivo",
-      "fr": "Moniteur et pourcentage cible",
-      "ja": "ディスプレイと目標の割合",
-      "ko": "디스플레이 및 목표 백분율",
-      "pt": "Monitor e percentagem desejada",
-      "ru": "Монитор и заданный процент",
-      "tr": "Ekran ve hedef yüzde",
-      "zh-Hans": "显示器和目标百分比",
-      "zh-Hant": "顯示器和目標百分比"
-    },
-    "set-display-volume-title": {
-      "ar": "ضبط مستوى صوت الشاشة",
-      "de": "Monitorlautstärke einstellen",
-      "en": "Set Display Volume",
-      "es": "Ajustar el volumen del monitor",
-      "fr": "Régler le volume du moniteur",
-      "ja": "ディスプレイの音量を設定",
-      "ko": "디스플레이 음량 설정",
-      "pt": "Definir volume do monitor",
-      "ru": "Задать громкость монитора",
-      "tr": "Ekran ses düzeyini ayarla",
-      "zh-Hans": "设置显示器音量",
-      "zh-Hant": "設定顯示器音量"
-    },
-    "set-display-volume-description": {
-      "ar": "اضبط مستوى صوت الشاشة المحددة على النسبة المطلوبة.",
-      "de": "Die Lautstärke des gewählten Monitors auf einen Zielwert einstellen.",
-      "en": "Set the selected display’s volume to a target percentage.",
-      "es": "Ajusta el volumen del monitor seleccionado a un porcentaje determinado.",
-      "fr": "Règle le volume du moniteur sélectionné sur un pourcentage cible.",
-      "ja": "選択したディスプレイの音量を指定した割合に設定します。",
-      "ko": "선택한 디스플레이의 음량을 지정한 백분율로 설정합니다.",
-      "pt": "Define o volume do monitor selecionado para a percentagem desejada.",
-      "ru": "Устанавливает громкость выбранного монитора на заданный процент.",
-      "tr": "Seçilen ekranın ses düzeyini hedef yüzdeye ayarlar.",
-      "zh-Hans": "将指定显示器的音量调节到目标百分比",
-      "zh-Hant": "將指定顯示器的音量調整到目標百分比"
-    },
     "display-name": "@displayName",
     "summary": "@summary",
     "setup.requirements.title": "@standardSetup.requirements.title",
@@ -107,7 +65,7 @@
     "discovery.follow-mouse-volume-target": "@localizable.settings.shortcutTarget.followsMouse"
   },
   "version": "1.2.0",
-  "minHostVersion": "2.2.5",
+  "minHostVersion": "1.3.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "DisplayVolume.bundle",
   "factoryClass": "DisplayVolumePlugin.DisplayVolumePluginFactory",
@@ -252,7 +210,7 @@
     "providers": [
       {
         "id": "display-volume",
-        "kind": "mixed",
+        "kind": "static",
         "staticActions": [
           {
             "id": "display-volume.decrease",
@@ -313,44 +271,7 @@
             "externalInvocation": "allowed"
           }
         ],
-        "dynamicTemplates": [
-          {
-            "id": "set-display-volume",
-            "title": "@productStrings.set-display-volume-title",
-            "description": "@productStrings.set-display-volume-description",
-            "parameters": [
-              {
-                "id": "display",
-                "kind": "string",
-                "isRequired": true,
-                "portability": "localOnly"
-              },
-              {
-                "id": "target-percentage",
-                "kind": "integer",
-                "isRequired": true,
-                "portability": "portable"
-              }
-            ],
-            "permissionIDs": [],
-            "risk": "safe",
-            "surfaces": [
-              "unified-search",
-              "global-shortcut",
-              "workflow",
-              "automatic-rule",
-              "action-grid",
-              "trackpad-gesture",
-              "manual"
-            ],
-            "automaticEligible": true,
-            "externalInvocation": "unavailable",
-            "entrySource": "connected-displays",
-            "parameterSummary": "@productStrings.display-level-parameters",
-            "keywords": ["display", "volume", "percent"],
-            "localOnlyIdentity": true
-          }
-        ]
+        "dynamicTemplates": []
       }
     ]
   },

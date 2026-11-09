@@ -524,10 +524,6 @@ function build_release_app() {
   info "Generating Xcode project"
   (cd "$ROOT_DIR" && make generate >/dev/null)
 
-  local plugin_catalog_url
-  plugin_catalog_url="$(cd "$ROOT_DIR" && "$SCRIPT_DIR/plugins/preflight-app-plugin-catalog.swift" \
-    --app-version "$VERSION" --print-required-catalog-url)"
-
   info "Building Release app version=$VERSION build=$BUILD_NUMBER"
   "$XCODEBUILD" \
     -project "$PROJECT_FILE" \
@@ -536,7 +532,6 @@ function build_release_app() {
     -destination "generic/platform=macOS" \
     -derivedDataPath "$DERIVED_DATA" \
     MARKETING_VERSION="$VERSION" \
-    PLUGIN_CATALOG_URL="$plugin_catalog_url" \
     CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
     CODE_SIGNING_ALLOWED=NO \
     CODE_SIGNING_REQUIRED=NO \
@@ -600,23 +595,6 @@ function require_existing_dmg() {
 
 如果你已经做过一次完整发布，请确认要上传的 DMG 仍在上面的路径。"
 }
-
-function preflight_publish_catalog() (
-  local dmg_path="$1"
-  local mount_point
-  local mounted=0
-  mount_point="$(mktemp -d "${TMPDIR:-/tmp}/mactools-catalog-check.XXXXXX")"
-  trap 'if [[ "$mounted" -eq 1 ]]; then hdiutil detach "$mount_point" >/dev/null; fi; rmdir "$mount_point"' EXIT
-
-  hdiutil attach -readonly -nobrowse -mountpoint "$mount_point" "$dmg_path" >/dev/null
-  mounted=1
-  cd "$ROOT_DIR"
-  "$SCRIPT_DIR/plugins/preflight-app-plugin-catalog.swift" --app-version "$VERSION" \
-    --build-number "$BUILD_NUMBER" \
-    --artifact-info-plist "$mount_point/$APP_NAME.app/Contents/Info.plist"
-  hdiutil detach "$mount_point" >/dev/null
-  mounted=0
-)
 
 function publish_release() {
   local dmg_path="$1"
@@ -733,12 +711,19 @@ DMG_SHA256="$(shasum -a 256 "$DMG_PATH" | awk '{print $1}')"
 info "DMG ready: $DMG_PATH"
 info "SHA256: $DMG_SHA256"
 
-if [[ "$PUBLISH" -eq 1 || "$PUBLISH_EXISTING" -eq 1 ]]; then
-  preflight_publish_catalog "$DMG_PATH"
+if [[ "$PUBLISH" -eq 1 ]]; then
   publish_release "$DMG_PATH"
   write_appcast "$DMG_PATH"
   info "Appcast updated after GitHub Release publish: $APPCAST_PATH"
-else
+fi
+
+if [[ "$PUBLISH_EXISTING" -eq 1 ]]; then
+  publish_release "$DMG_PATH"
+  write_appcast "$DMG_PATH"
+  info "Appcast updated after existing artifact publish: $APPCAST_PATH"
+fi
+
+if [[ "$PUBLISH" -eq 0 && "$PUBLISH_EXISTING" -eq 0 ]]; then
   info "Skipping appcast update because this run did not publish a GitHub Release."
 fi
 

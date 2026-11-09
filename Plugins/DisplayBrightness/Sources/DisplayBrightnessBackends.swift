@@ -12,9 +12,9 @@ private extension NSLock {
 }
 
 final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuilding {
-    typealias Arm64ServiceResolver = ([DisplayInfo]) -> [CGDirectDisplayID: Arm64DDCServiceMatcher.Binding]
+    typealias Arm64ServiceResolver = ([DisplayInfo]) -> [CGDirectDisplayID: CFTypeRef]
     typealias AppleBackendFactory = (DisplayInfo) -> (any DisplayBrightnessBackend)?
-    typealias DDCBackendFactory = (DisplayInfo, Arm64DDCServiceMatcher.Binding?) -> (any DisplayBrightnessBackend)?
+    typealias DDCBackendFactory = (DisplayInfo, CFTypeRef?) -> (any DisplayBrightnessBackend)?
     typealias SoftwareBackendFactory = (DisplayInfo) -> (any DisplayBrightnessBackend)?
 
     private enum BackendCandidate: Equatable {
@@ -65,13 +65,7 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
             }
 
             if let matchedService,
-               let transport = Arm64DDCTransport(
-                   display: display,
-                   service: matchedService.service,
-                   verifiedDiscovery: matchedService.verified,
-                   registryEntryID: matchedService.registryEntryID,
-                   bindingGeneration: matchedService.generation
-               ) {
+               let transport = Arm64DDCTransport(display: display, service: matchedService) {
                 return DDCBrightnessBackend(display: display, transport: transport)
             }
 
@@ -89,11 +83,16 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
         }
     }
 
+    func nativeBackend(forBuiltInDisplay display: DisplayInfo) -> (any DisplayBrightnessBackend)? {
+        guard display.isBuiltin else { return nil }
+        return appleBackend(for: display, previous: [:])
+    }
+
     func backends(
         for displays: [DisplayInfo],
         previous: [CGDirectDisplayID: any DisplayBrightnessBackend]
     ) -> [CGDirectDisplayID: any DisplayBrightnessBackend] {
-        var arm64Services: [CGDirectDisplayID: Arm64DDCServiceMatcher.Binding]?
+        var arm64Services: [CGDirectDisplayID: CFTypeRef]?
         var result: [CGDirectDisplayID: any DisplayBrightnessBackend] = [:]
 
         for display in displays {
@@ -133,7 +132,7 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
             return nil
         }
 
-        var arm64Services: [CGDirectDisplayID: Arm64DDCServiceMatcher.Binding]?
+        var arm64Services: [CGDirectDisplayID: CFTypeRef]?
         for candidate in candidates.dropFirst(failedIndex + 1) {
             guard let backend = makeBackend(
                 candidate,
@@ -175,7 +174,7 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
         for display: DisplayInfo,
         in displays: [DisplayInfo],
         previous: [CGDirectDisplayID: any DisplayBrightnessBackend],
-        cache arm64Services: inout [CGDirectDisplayID: Arm64DDCServiceMatcher.Binding]?
+        cache arm64Services: inout [CGDirectDisplayID: CFTypeRef]?
     ) -> (any DisplayBrightnessBackend)? {
         switch candidate {
         case .appleNative:
@@ -247,7 +246,7 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
         for display: DisplayInfo,
         in displays: [DisplayInfo],
         previous: [CGDirectDisplayID: any DisplayBrightnessBackend],
-        cache arm64Services: inout [CGDirectDisplayID: Arm64DDCServiceMatcher.Binding]?
+        cache arm64Services: inout [CGDirectDisplayID: CFTypeRef]?
     ) -> (any DisplayBrightnessBackend)? {
         guard let backend = reuse(previous[display.id], kind: .ddc, display: display)
             ?? ddcFactory(display, resolvedArm64Service(for: display, in: displays, cache: &arm64Services)) else {
@@ -263,8 +262,8 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
     private func resolvedArm64Service(
         for display: DisplayInfo,
         in displays: [DisplayInfo],
-        cache arm64Services: inout [CGDirectDisplayID: Arm64DDCServiceMatcher.Binding]?
-    ) -> Arm64DDCServiceMatcher.Binding? {
+        cache arm64Services: inout [CGDirectDisplayID: CFTypeRef]?
+    ) -> CFTypeRef? {
         if arm64Services == nil {
             arm64Services = resolveArm64Services(displays)
         }
@@ -311,37 +310,15 @@ final class AppleNativeBrightnessBackend: DisplayBrightnessBackend, @unchecked S
         return try bridge.readBrightness(displayID: displayID)
     }
 
-    func readVerifiedBrightness() throws -> Double {
-        let displayID = lock.withLock { _display.id }
-        let value = try bridge.readRawBrightness(displayID: displayID)
-        guard value.isFinite, (0...1).contains(value) else { throw DisplayBrightnessExactError.readbackUnavailable }
-        return value
-    }
-
     func writeBrightness(_ value: Double) throws {
-        try writeBrightness(value, permit: nil)
-    }
-
-    func writeBrightness(_ value: Double, permit: DisplayActionWritePermit?) throws {
         let displayID = lock.withLock { _display.id }
-        try bridge.writeBrightness(value, displayID: displayID, permit: permit)
-    }
-
-    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws -> Double? {
-        try writeBrightness(value, permit: permit)
-        return nil
+        try bridge.writeBrightness(value, displayID: displayID)
     }
 
     func cleanup() {}
 }
 
 final class DDCBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendable {
-    struct CachedState {
-        let registryEntryID: UInt64
-        let maximum: UInt16?
-        let level: Double
-    }
-
     let kind: DisplayBrightnessBackendKind = .ddc
 
     private let lock = NSLock()
@@ -365,22 +342,8 @@ final class DDCBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendable 
         self.maximumValue = nil
     }
 
-    func cachedState(level: Double) -> CachedState? {
-        guard let registryEntryID = transport.registryEntryID else { return nil }
-        return lock.withLock { CachedState(registryEntryID: registryEntryID, maximum: maximumValue, level: level) }
-    }
-
-    func reuseCachedState(_ state: CachedState) -> Bool {
-        // Ordinary controls retain their measured or default scale on the same endpoint.
-        guard transport.registryEntryID == state.registryEntryID, transport.isDiscoveryCurrent else { return false }
-        lock.withLock { maximumValue = state.maximum }
-        return true
-    }
-
     func readBrightness() throws -> Double {
-        guard transport.isDiscoveryCurrent else { throw CancellationError() }
         let brightness = try transport.readBrightness()
-        guard transport.isDiscoveryCurrent else { throw CancellationError() }
         return lock.withLock {
             let maximum = Self.validMaximum(brightness.maximum) ?? maximumValue ?? 100
             maximumValue = maximum
@@ -389,76 +352,18 @@ final class DDCBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendable 
     }
 
     func writeBrightness(_ value: Double) throws {
-        try writeBrightness(value, permit: nil)
-    }
-
-    func writeBrightness(_ value: Double, permit: DisplayActionWritePermit?) throws {
-        guard permit?.canWrite != false else { throw CancellationError() }
         // A write fallback can reach DDC before the controller's first read.
         // This runs on the write worker and preserves the monitor's native range.
         if lock.withLock({ maximumValue == nil }) {
             _ = try? readBrightness()
         }
         let clampedValue = max(0, min(value, 1))
-        let maximum = lock.withLock { maximumValue ?? 100 }
-        let rawValue = UInt16((Double(maximum) * clampedValue).rounded())
-        try transport.writeBrightness(rawValue, permit: permit)
-        lock.withLock { maximumValue = maximumValue ?? maximum }
-    }
-
-    var hasVerifiedDisplayBinding: Bool { transport.hasVerifiedDisplayBinding }
-    var usesDiscoveredService: Bool { transport.usesDiscoveredService }
-
-    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws -> Double? {
-        guard hasVerifiedDisplayBinding else { throw DisplayBrightnessExactError.unverifiedTarget }
-        guard permit.canWrite else { throw CancellationError() }
-        guard let initial = readHardwareRange(verified: true) else {
-            throw DisplayBrightnessExactError.rangeUnavailable
+        let rawValue = lock.withLock {
+            let maximum = maximumValue ?? 100
+            maximumValue = maximum
+            return UInt16((Double(maximum) * clampedValue).rounded())
         }
-        guard let step = ActionPercentage.hardwareStep(for: value, maximum: initial.maximum) else {
-            guard permit.isTargetCurrent, transport.isDiscoveryCurrent else { throw CancellationError() }
-            throw DisplayBrightnessExactError.unsupportedHardwareLevel(
-                observed: Double(initial.current) / Double(initial.maximum)
-            )
-        }
-        try transport.writeVerifiedBrightness(step, permit: permit)
-
-        var lastObserved: Double?
-        for delay in [0.0, 0.15, 0.30] {
-            if delay > 0 { Thread.sleep(forTimeInterval: delay) }
-            guard permit.canWrite else { throw CancellationError() }
-            guard let observed = readHardwareRange(verified: true) else { continue }
-            guard permit.canWrite else { throw CancellationError() }
-            let level = Double(observed.current) / Double(observed.maximum)
-            if ActionPercentage.matchesHardwareLevel(raw: observed.current, maximum: observed.maximum, requested: value) {
-                return level
-            }
-            lastObserved = level
-        }
-        guard permit.canWrite else { throw CancellationError() }
-        guard let lastObserved else { throw DisplayBrightnessExactError.readbackUnavailable }
-        throw DisplayBrightnessExactError.mismatch(requested: value, observed: lastObserved)
-    }
-
-    func readFreshBrightness() throws -> Double {
-        guard let reading = readHardwareRange(verified: false) else { throw DisplayBrightnessExactError.readbackUnavailable }
-        return Double(reading.current) / Double(reading.maximum)
-    }
-
-    func readVerifiedBrightness() throws -> Double {
-        guard hasVerifiedDisplayBinding else { throw DisplayBrightnessExactError.unverifiedTarget }
-        guard let reading = readHardwareRange(verified: true) else { throw DisplayBrightnessExactError.readbackUnavailable }
-        return Double(reading.current) / Double(reading.maximum)
-    }
-
-    private func readHardwareRange(verified: Bool) -> DDCBrightnessValue? {
-        guard transport.isDiscoveryCurrent else { return nil }
-        let result = verified ? try? transport.readVerifiedBrightness() : try? transport.readBrightness()
-        guard let reading = result,
-              reading.maximum > 0, reading.current <= reading.maximum,
-              transport.isDiscoveryCurrent else { return nil }
-        lock.withLock { maximumValue = reading.maximum }
-        return reading
+        try transport.writeBrightness(rawValue)
     }
 
     func cleanup() {}
@@ -484,7 +389,6 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         set { lock.withLock { _display = newValue } }
     }
 
-    private let actionIdentifier: String?
     private var originalTransferTable: TransferTable?
     private var currentBrightness = 1.0
 
@@ -494,7 +398,6 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         }
 
         self._display = display
-        self.actionIdentifier = DisplayActionTarget.identifier(for: display.id)
     }
 
     func readBrightness() throws -> Double {
@@ -502,23 +405,12 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
     }
 
     func writeBrightness(_ value: Double) throws {
-        try writeBrightness(value, permit: nil)
-    }
-
-    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws -> Double? {
-        try writeBrightness(value, permit: permit)
-        return value
-    }
-
-    func writeBrightness(_ value: Double, permit: DisplayActionWritePermit?) throws {
-        guard permit?.canWrite != false else { throw CancellationError() }
         let clampedValue = max(0, min(value, 1))
         let (displayID, transferTable) = try loadOriginalTransferTableIfNeeded()
         let red = transferTable.red.map { $0 * Float(clampedValue) }
         let green = transferTable.green.map { $0 * Float(clampedValue) }
         let blue = transferTable.blue.map { $0 * Float(clampedValue) }
 
-        guard permit?.beginWrite() != false else { throw CancellationError() }
         let result = CGSetDisplayTransferByTable(
             displayID,
             UInt32(red.count),
@@ -535,6 +427,10 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
     }
 
     func cleanup() {
+        try? restoreForNativeHandoff()
+    }
+
+    func restoreForNativeHandoff() throws {
         let snapshot: (id: CGDirectDisplayID, table: TransferTable)? = lock.withLock {
             guard let originalTransferTable else { return nil }
             return (_display.id, originalTransferTable)
@@ -542,16 +438,14 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
 
         guard let snapshot else { return }
 
-        if let actionIdentifier,
-           DisplayActionTarget.onlineIdentifier(for: snapshot.id) != actionIdentifier { return }
-
-        _ = CGSetDisplayTransferByTable(
+        let result = CGSetDisplayTransferByTable(
             snapshot.id,
             UInt32(snapshot.table.red.count),
             snapshot.table.red,
             snapshot.table.green,
             snapshot.table.blue
         )
+        guard result == .success else { throw DisplayBrightnessControllerError.softwareBrightnessFailed }
         lock.withLock { currentBrightness = 1 }
     }
 
@@ -634,7 +528,6 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
     }
 
     private let overlayController = ShadeOverlayController()
-    private let actionIdentifier: String?
     private var currentBrightness = 1.0
 
     init?(display: DisplayInfo) {
@@ -643,7 +536,6 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         }
 
         self._display = display
-        self.actionIdentifier = DisplayActionTarget.identifier(for: display.id)
     }
 
     func readBrightness() throws -> Double {
@@ -660,33 +552,6 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
 
         applyOverlay(brightness: clampedValue)
         lock.withLock { currentBrightness = clampedValue }
-    }
-
-    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws -> Double? {
-        guard value >= DisplayBrightnessBackendKind.shadeMinimumBrightness else {
-            throw DisplayBrightnessExactError.shadeRange
-        }
-        try writeBrightness(value, permit: permit)
-        return value
-    }
-
-    func writeBrightness(_ value: Double, permit: DisplayActionWritePermit?) throws {
-        guard let permit else { return try writeBrightness(value) }
-        let clampedValue = max(0, min(value, 1))
-        let displayID = display.id
-        let apply: @MainActor @Sendable () throws -> Void = { [self] in
-            guard let screen = Self.screen(for: displayID) else {
-                throw DisplayBrightnessControllerError.displayUnavailable(displayID: displayID)
-            }
-            guard permit.beginWrite() else { throw CancellationError() }
-            overlayController.apply(brightness: clampedValue, on: screen)
-            lock.withLock { currentBrightness = clampedValue }
-        }
-        if Thread.isMainThread {
-            try MainActor.assumeIsolated(apply)
-        } else {
-            try DispatchQueue.main.sync(execute: apply)
-        }
     }
 
     func cleanup() {
@@ -709,9 +574,7 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         let displayID = display.id
         let overlayController = self.overlayController
 
-        DispatchQueue.main.async { [actionIdentifier] in
-            if let actionIdentifier,
-               DisplayActionTarget.identifier(for: displayID) != actionIdentifier { return }
+        DispatchQueue.main.async {
             guard let screen = Self.screen(for: displayID) else {
                 return
             }
@@ -740,7 +603,7 @@ private final class ShadeOverlayController {
     private var window: NSWindow?
 
     func apply(brightness: Double, on screen: NSScreen) {
-        let alpha = max(0, min(1 - brightness, 1 - DisplayBrightnessBackendKind.shadeMinimumBrightness))
+        let alpha = max(0, min(1 - brightness, 0.92))
 
         guard alpha > 0.001 else {
             hide()
@@ -809,33 +672,23 @@ final class DisplayServicesBrightnessBridge: @unchecked Sendable {
     }
 
     func readBrightness(displayID: CGDirectDisplayID) throws -> Double {
-        let value = try readRawBrightness(displayID: displayID)
-        return max(0, min(value, 1))
-    }
-
-    func readRawBrightness(displayID: CGDirectDisplayID) throws -> Double {
         guard let getBrightness else {
             throw DisplayBrightnessControllerError.nativeAPINotAvailable
         }
 
-        var value: Float = 0
-        guard getBrightness(displayID, &value) == 0 else {
+        var value: Float = .nan
+        guard getBrightness(displayID, &value) == 0, (0...1).contains(value) else {
             throw DisplayBrightnessControllerError.genericBrightnessUnavailable
         }
 
         return Double(value)
     }
 
-    func writeBrightness(
-        _ value: Double,
-        displayID: CGDirectDisplayID,
-        permit: DisplayActionWritePermit? = nil
-    ) throws {
+    func writeBrightness(_ value: Double, displayID: CGDirectDisplayID) throws {
         guard let setBrightness else {
             throw DisplayBrightnessControllerError.nativeAPINotAvailable
         }
 
-        guard permit?.beginWrite() != false else { throw CancellationError() }
         guard setBrightness(displayID, Float(max(0, min(value, 1)))) == 0 else {
             throw DisplayBrightnessControllerError.nativeBrightnessWriteFailed
         }

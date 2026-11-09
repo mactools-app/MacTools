@@ -7947,89 +7947,9 @@
         "actions": {
           "providers": [
             {
-              "dynamicTemplates": [
-                {
-                  "automaticEligible": true,
-                  "description": {
-                    "ar": "اضبط سطوع الشاشة المحددة على النسبة المحفوظة في الإجراء.",
-                    "de": "Die Helligkeit des gewählten Monitors auf den gespeicherten Prozentwert einstellen.",
-                    "en": "Apply a saved brightness percentage to the selected display.",
-                    "es": "Aplica un porcentaje de brillo guardado a la pantalla seleccionada.",
-                    "fr": "Applique le pourcentage de luminosité enregistré à l’écran sélectionné.",
-                    "ja": "選択したディスプレイに保存済みの明るさを適用します。",
-                    "ko": "선택한 디스플레이에 저장된 밝기 비율을 적용합니다.",
-                    "pt": "Aplica a percentagem de brilho guardada ao monitor selecionado.",
-                    "ru": "Применяет сохранённый процент яркости к выбранному дисплею.",
-                    "tr": "Seçilen ekrana kaydedilen parlaklık yüzdesini uygular.",
-                    "zh-Hans": "对选定的显示器应用已保存的亮度百分比。",
-                    "zh-Hant": "將已儲存的亮度百分比套用到選定的顯示器。"
-                  },
-                  "entrySource": "connected-displays",
-                  "externalInvocation": "unavailable",
-                  "id": "set-display-brightness",
-                  "keywords": [
-                    "display",
-                    "brightness",
-                    "percent"
-                  ],
-                  "localOnlyIdentity": true,
-                  "parameterSummary": {
-                    "ar": "الشاشة والنسبة المطلوبة",
-                    "de": "Monitor und Zielwert in Prozent",
-                    "en": "Display and target percentage",
-                    "es": "Monitor y porcentaje objetivo",
-                    "fr": "Moniteur et pourcentage cible",
-                    "ja": "ディスプレイと目標の割合",
-                    "ko": "디스플레이 및 목표 백분율",
-                    "pt": "Monitor e percentagem desejada",
-                    "ru": "Монитор и заданный процент",
-                    "tr": "Ekran ve hedef yüzde",
-                    "zh-Hans": "显示器和目标百分比",
-                    "zh-Hant": "顯示器和目標百分比"
-                  },
-                  "parameters": [
-                    {
-                      "id": "display",
-                      "isRequired": true,
-                      "kind": "string",
-                      "portability": "localOnly"
-                    },
-                    {
-                      "id": "target-percentage",
-                      "isRequired": true,
-                      "kind": "integer",
-                      "portability": "portable"
-                    }
-                  ],
-                  "permissionIDs": [],
-                  "risk": "safe",
-                  "surfaces": [
-                    "unified-search",
-                    "global-shortcut",
-                    "workflow",
-                    "automatic-rule",
-                    "action-grid",
-                    "trackpad-gesture",
-                    "manual"
-                  ],
-                  "title": {
-                    "ar": "ضبط سطوع الشاشة إلى نسبة مئوية",
-                    "de": "Bildschirmhelligkeit auf einen Prozentwert einstellen",
-                    "en": "Set Display Brightness to a Percentage",
-                    "es": "Ajustar el brillo de la pantalla a un porcentaje",
-                    "fr": "Régler la luminosité de l’écran en pourcentage",
-                    "ja": "ディスプレイの明るさを割合で設定",
-                    "ko": "디스플레이 밝기를 백분율로 설정",
-                    "pt": "Definir o brilho do monitor em percentagem",
-                    "ru": "Задать яркость дисплея в процентах",
-                    "tr": "Ekran parlaklığını yüzde olarak ayarla",
-                    "zh-Hans": "按百分比设置显示器亮度",
-                    "zh-Hant": "依百分比設定顯示器亮度"
-                  }
-                }
-              ],
+              "dynamicTemplates": [],
               "id": "display-brightness",
-              "kind": "mixed",
+              "kind": "static",
               "staticActions": [
                 {
                   "automaticEligible": true,
@@ -8247,6 +8167,59 @@
                     "tr": "Yerleşik Ekranı Geri Yükle",
                     "zh-Hans": "恢复内建显示屏",
                     "zh-Hant": "恢復內建顯示螢幕"
+                  }
+                },
+                {
+                  "automaticEligible": true,
+                  "description": {
+                    "ar": "اضبط الشاشة المدمجة على سطوع محدد.",
+                    "de": "Stelle das integrierte Display auf eine bestimmte Helligkeit ein.",
+                    "en": "Set the built-in display to a specific brightness.",
+                    "es": "Ajusta la pantalla integrada a un brillo específico.",
+                    "fr": "Règle l’écran intégré sur une luminosité précise.",
+                    "ja": "内蔵ディスプレイを指定の明るさに調整します。",
+                    "ko": "내장 디스플레이를 지정한 밝기로 조절합니다.",
+                    "pt": "Ajusta a tela integrada para um brilho específico.",
+                    "ru": "Устанавливает заданную яркость встроенного дисплея.",
+                    "tr": "Yerleşik ekranı belirli bir parlaklığa ayarlar.",
+                    "zh-Hans": "将内建显示屏调节到指定亮度。",
+                    "zh-Hant": "將內建顯示器調整到指定亮度。"
+                  },
+                  "externalInvocation": "unavailable",
+                  "id": "set-built-in-brightness",
+                  "keywords": [
+                    "brightness",
+                    "built-in display",
+                    "percent"
+                  ],
+                  "parameters": [
+                    {
+                      "id": "percent",
+                      "isRequired": true,
+                      "kind": "integer",
+                      "portability": "portable"
+                    }
+                  ],
+                  "permissionIDs": [],
+                  "risk": "safe",
+                  "surfaces": [
+                    "workflow",
+                    "automatic-rule"
+                  ],
+                  "systemImage": "sun.max",
+                  "title": {
+                    "ar": "ضبط سطوع الشاشة المدمجة",
+                    "de": "Helligkeit des integrierten Displays einstellen",
+                    "en": "Set Built-In Display Brightness",
+                    "es": "Ajustar el brillo de la pantalla integrada",
+                    "fr": "Régler la luminosité de l’écran intégré",
+                    "ja": "内蔵ディスプレイの明るさを設定",
+                    "ko": "내장 디스플레이 밝기 설정",
+                    "pt": "Definir o brilho da tela integrada",
+                    "ru": "Установить яркость встроенного дисплея",
+                    "tr": "Yerleşik ekran parlaklığını ayarla",
+                    "zh-Hans": "设置内建显示屏亮度",
+                    "zh-Hant": "設定內建顯示器亮度"
                   }
                 },
                 {
@@ -9613,89 +9586,9 @@
         "actions": {
           "providers": [
             {
-              "dynamicTemplates": [
-                {
-                  "automaticEligible": true,
-                  "description": {
-                    "ar": "اضبط مستوى صوت الشاشة المحددة على النسبة المطلوبة.",
-                    "de": "Die Lautstärke des gewählten Monitors auf einen Zielwert einstellen.",
-                    "en": "Set the selected display’s volume to a target percentage.",
-                    "es": "Ajusta el volumen del monitor seleccionado a un porcentaje determinado.",
-                    "fr": "Règle le volume du moniteur sélectionné sur un pourcentage cible.",
-                    "ja": "選択したディスプレイの音量を指定した割合に設定します。",
-                    "ko": "선택한 디스플레이의 음량을 지정한 백분율로 설정합니다.",
-                    "pt": "Define o volume do monitor selecionado para a percentagem desejada.",
-                    "ru": "Устанавливает громкость выбранного монитора на заданный процент.",
-                    "tr": "Seçilen ekranın ses düzeyini hedef yüzdeye ayarlar.",
-                    "zh-Hans": "将指定显示器的音量调节到目标百分比",
-                    "zh-Hant": "將指定顯示器的音量調整到目標百分比"
-                  },
-                  "entrySource": "connected-displays",
-                  "externalInvocation": "unavailable",
-                  "id": "set-display-volume",
-                  "keywords": [
-                    "display",
-                    "volume",
-                    "percent"
-                  ],
-                  "localOnlyIdentity": true,
-                  "parameterSummary": {
-                    "ar": "الشاشة والنسبة المطلوبة",
-                    "de": "Monitor und Zielwert in Prozent",
-                    "en": "Display and target percentage",
-                    "es": "Monitor y porcentaje objetivo",
-                    "fr": "Moniteur et pourcentage cible",
-                    "ja": "ディスプレイと目標の割合",
-                    "ko": "디스플레이 및 목표 백분율",
-                    "pt": "Monitor e percentagem desejada",
-                    "ru": "Монитор и заданный процент",
-                    "tr": "Ekran ve hedef yüzde",
-                    "zh-Hans": "显示器和目标百分比",
-                    "zh-Hant": "顯示器和目標百分比"
-                  },
-                  "parameters": [
-                    {
-                      "id": "display",
-                      "isRequired": true,
-                      "kind": "string",
-                      "portability": "localOnly"
-                    },
-                    {
-                      "id": "target-percentage",
-                      "isRequired": true,
-                      "kind": "integer",
-                      "portability": "portable"
-                    }
-                  ],
-                  "permissionIDs": [],
-                  "risk": "safe",
-                  "surfaces": [
-                    "unified-search",
-                    "global-shortcut",
-                    "workflow",
-                    "automatic-rule",
-                    "action-grid",
-                    "trackpad-gesture",
-                    "manual"
-                  ],
-                  "title": {
-                    "ar": "ضبط مستوى صوت الشاشة",
-                    "de": "Monitorlautstärke einstellen",
-                    "en": "Set Display Volume",
-                    "es": "Ajustar el volumen del monitor",
-                    "fr": "Régler le volume du moniteur",
-                    "ja": "ディスプレイの音量を設定",
-                    "ko": "디스플레이 음량 설정",
-                    "pt": "Definir volume do monitor",
-                    "ru": "Задать громкость монитора",
-                    "tr": "Ekran ses düzeyini ayarla",
-                    "zh-Hans": "设置显示器音量",
-                    "zh-Hant": "設定顯示器音量"
-                  }
-                }
-              ],
+              "dynamicTemplates": [],
               "id": "display-volume",
-              "kind": "mixed",
+              "kind": "static",
               "staticActions": [
                 {
                   "automaticEligible": true,

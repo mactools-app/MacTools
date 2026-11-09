@@ -96,11 +96,6 @@ jobs:
           elif [[ "$PLUGIN_KIT_VERSION" == "5" ]]; then
             PLUGIN_CATALOG_RELATIVE_PATH="docs/plugins/v5/schema3/catalog.json"
             PLUGIN_CATALOG_MINIMUM_HOST_VERSION="1.2.1"
-          # Manual recovery uses the current workflow with the original tagged source.
-          # Tags from before the routing helper stay on the legacy catalog below.
-          elif [[ "$PLUGIN_KIT_VERSION" == "7" && -f scripts/plugin_catalog_routing.py ]]; then
-            PLUGIN_CATALOG_RELATIVE_PATH="$(python3 -B scripts/plugin_catalog_routing.py --kit 7)"
-            PLUGIN_CATALOG_MINIMUM_HOST_VERSION="$(python3 -B scripts/plugin_catalog_routing.py --kit 7 --minimum-host)"
           else
             PLUGIN_CATALOG_RELATIVE_PATH="docs/plugins/v${PLUGIN_KIT_VERSION}/catalog.json"
             PLUGIN_CATALOG_MINIMUM_HOST_VERSION="1.2.1"
@@ -126,15 +121,6 @@ jobs:
           git fetch --force --tags origin +refs/heads/main:refs/remotes/origin/main
           if git show "origin/main:${PLUGIN_CATALOG_RELATIVE_PATH}" > "$PLUGIN_PREVIOUS_CATALOG_PATH" 2>/dev/null; then
             echo "Using ${PLUGIN_CATALOG_RELATIVE_PATH} from origin/main as the previous production catalog."
-          elif [[ "$PLUGIN_CATALOG_RELATIVE_PATH" == "docs/plugins/v7/host-2.2.5/catalog.json" ]] && \
-               git show origin/main:docs/plugins/v7/catalog.json > "$PLUGIN_PREVIOUS_CATALOG_PATH" 2>/dev/null; then
-            echo "Using the original PluginKit 7 catalog as the host-specific catalog baseline."
-            if [[ "$PLUGIN_RELEASE_MODE" == "selected" ]]; then
-              echo "The first host-specific catalog requires a full rebuild. Use mode=all." >&2
-              exit 1
-            fi
-            echo "PLUGIN_RELEASE_MODE=all" >> "$GITHUB_ENV"
-            echo "PLUGIN_RELEASE_REQUIRE_VERSION_BUMP=true" >> "$GITHUB_ENV"
           elif [[ "$PLUGIN_KIT_VERSION" == "5" ]] && \
                git show origin/main:docs/plugins/v5/catalog.json > "$PLUGIN_PREVIOUS_CATALOG_PATH" 2>/dev/null; then
             echo "Using docs/plugins/v5/catalog.json from origin/main as the same-ABI schema migration baseline."

@@ -26,51 +26,21 @@ struct DDCVolumeValue {
 
 protocol DDCVolumeTransport: Sendable {
     func readVolume() throws -> DDCVolumeValue
-    var hasVerifiedDisplayBinding: Bool { get }
-    var usesDiscoveredService: Bool { get }
-    var registryEntryID: UInt64? { get }
-    var isDiscoveryCurrent: Bool { get }
     func writeVolume(_ value: UInt16) throws
-    func writeVolume(_ value: UInt16, permit: DisplayActionWritePermit?) throws
 }
 
-extension DDCVolumeTransport {
-    var hasVerifiedDisplayBinding: Bool { true }
-    var usesDiscoveredService: Bool { false }
-    var registryEntryID: UInt64? { nil }
-    var isDiscoveryCurrent: Bool { true }
-
-    func writeVolume(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
-        guard permit?.beginWrite() != false else { throw CancellationError() }
-        try writeVolume(value)
-    }
+private enum DDCCommunicationQueue {
+    static let shared = DispatchQueue(label: "MacTools.DisplayVolume.DDC")
 }
 
 final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
     private let display: DisplayInfo
     private let service: CFTypeRef
-    private let sendPacket: (CFTypeRef, inout [UInt8]) -> kern_return_t
-    let hasVerifiedDisplayBinding: Bool
-    let usesDiscoveredService: Bool
-    let registryEntryID: UInt64?
-    private let bindingGeneration: UInt64
-    private let verifiedDiscoveryIdentity: DisplayDDCIdentity?
 
-    init?(
-        display: DisplayInfo,
-        service matchedService: CFTypeRef?,
-        verifiedDiscovery: Bool = false,
-        registryEntryID: UInt64? = nil,
-        bindingGeneration: UInt64 = DisplayDDCIdentity.bindingGeneration,
-        sendPacket: @escaping (CFTypeRef, inout [UInt8]) -> kern_return_t = Arm64DDCTransport.sendToService
-    ) {
-        let binding: (service: CFTypeRef, registryEntryID: UInt64?)?
-        if let matchedService {
-            binding = (matchedService, registryEntryID)
-        } else {
-            binding = PrivateDDCBridge.createService(for: display.id)
-        }
-        guard let binding else {
+    init?(display: DisplayInfo, service matchedService: CFTypeRef?) {
+        guard
+            let service = matchedService ?? PrivateDDCBridge.createService(for: display.id)
+        else {
             Logger(subsystem: Bundle.main.bundleIdentifier ?? "cc.ggbond.mactools", category: "DisplayVolumeBackend").info(
                 "DDC ARM64 transport unavailable for \(display.name, privacy: .public): no IOAV service"
             )
@@ -78,35 +48,14 @@ final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
         }
 
         self.display = display
-        self.bindingGeneration = bindingGeneration
-        self.service = binding.service
-        self.registryEntryID = binding.registryEntryID
-        self.sendPacket = sendPacket
-        self.usesDiscoveredService = matchedService != nil
-        let identity = matchedService != nil && verifiedDiscovery ? DisplayDDCIdentity(
-            vendor: display.vendorNumber, product: display.modelNumber, serial: display.serialNumber
-        ) : nil
-        self.verifiedDiscoveryIdentity = identity
-        self.hasVerifiedDisplayBinding = matchedService == nil || (identity != nil && binding.registryEntryID != nil)
+        self.service = service
         Logger(subsystem: Bundle.main.bundleIdentifier ?? "cc.ggbond.mactools", category: "DisplayVolumeBackend").debug(
             "DDC ARM64 transport ready for \(display.name, privacy: .public)"
         )
     }
 
-    var isDiscoveryCurrent: Bool {
-        guard bindingGeneration == DisplayDDCIdentity.bindingGeneration else { return false }
-        if let identity = verifiedDiscoveryIdentity {
-            guard let registryEntryID, PrivateDDCBridge.isActiveRegistryEntry(registryEntryID) else { return false }
-            return identity.isUniqueOnline(for: display.id, in: DisplayDDCIdentity.onlineIdentities())
-        }
-        if !usesDiscoveredService, let registryEntryID {
-            return PrivateDDCBridge.isActiveRegistryEntry(registryEntryID)
-        }
-        return true
-    }
-
     func readVolume() throws -> DDCVolumeValue {
-        try DisplayDDCTransaction.perform {
+        try DDCCommunicationQueue.shared.sync {
             var payload = [DDCVolumeControl.volume]
             var reply = Array(repeating: UInt8.zero, count: 11)
             try performCommunication(send: &payload, reply: &reply)
@@ -115,33 +64,18 @@ final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
     }
 
     func writeVolume(_ value: UInt16) throws {
-        try writeVolume(value, permit: nil)
-    }
-
-    func writeVolume(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
-        try DisplayDDCTransaction.perform {
+        try DDCCommunicationQueue.shared.sync {
             var payload = [
                 DDCVolumeControl.volume,
                 UInt8(value >> 8),
                 UInt8(value & 0xFF)
             ]
             var reply: [UInt8] = []
-            try performCommunication(send: &payload, reply: &reply, permit: permit)
+            try performCommunication(send: &payload, reply: &reply)
         }
     }
 
-    private static func sendToService(_ service: CFTypeRef, packet: inout [UInt8]) -> kern_return_t {
-        PrivateDDCBridge.writeI2C(
-            service: service,
-            address: UInt32(DDCVolumeControl.arm64DisplayAddress7Bit),
-            dataAddress: UInt32(DDCVolumeControl.hostAddress),
-            bytes: &packet
-        )
-    }
-
-    private func performCommunication(
-        send: inout [UInt8], reply: inout [UInt8], permit: DisplayActionWritePermit? = nil
-    ) throws {
+    private func performCommunication(send: inout [UInt8], reply: inout [UInt8]) throws {
         var packet = [UInt8(0x80 | UInt8(send.count + 1)), UInt8(send.count)] + send + [0]
         let seed = send.count == 1
             ? DDCVolumeControl.arm64DisplayAddress7Bit << 1
@@ -152,11 +86,12 @@ final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
         var didWrite = false
         for _ in 0..<DDCVolumeControl.writeCycleCount {
             usleep(DDCVolumeControl.writeDelay)
-            // A topology refresh is debounced. Check uniqueness again at the SET boundary.
-            if permit != nil, !isDiscoveryCurrent { throw CancellationError() }
-            guard permit?.beginWrite() != false else { throw CancellationError() }
-            guard permit == nil || bindingGeneration == DisplayDDCIdentity.bindingGeneration else { throw CancellationError() }
-            if sendPacket(service, &packet) == KERN_SUCCESS {
+            if PrivateDDCBridge.writeI2C(
+                service: service,
+                address: UInt32(DDCVolumeControl.arm64DisplayAddress7Bit),
+                dataAddress: UInt32(DDCVolumeControl.hostAddress),
+                bytes: &packet
+            ) == KERN_SUCCESS {
                 didWrite = true
             }
         }
@@ -222,11 +157,8 @@ final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
 }
 
 enum Arm64DDCServiceMatcher {
-    typealias Binding = (service: CFTypeRef, verified: Bool, registryEntryID: UInt64?, generation: UInt64)
-
     struct CandidateService {
         let service: CFTypeRef
-        let registryEntryID: UInt64?
         let name: String?
         let vendorNumber: UInt32?
         let serialNumber: UInt32?
@@ -240,7 +172,6 @@ enum Arm64DDCServiceMatcher {
 
         init(
             service: CFTypeRef,
-            registryEntryID: UInt64? = nil,
             name: String? = nil,
             vendorNumber: UInt32? = nil,
             serialNumber: UInt32? = nil,
@@ -253,7 +184,6 @@ enum Arm64DDCServiceMatcher {
             serviceLocation: Int = 0
         ) {
             self.service = service
-            self.registryEntryID = registryEntryID
             self.name = name
             self.vendorNumber = vendorNumber
             self.serialNumber = serialNumber
@@ -267,38 +197,21 @@ enum Arm64DDCServiceMatcher {
         }
     }
 
-    static func resolveServices(for displays: [DisplayInfo]) -> [CGDirectDisplayID: Binding] {
-        let generation = DisplayDDCIdentity.bindingGeneration
-        return resolveServices(
-            for: displays,
-            candidates: discoverCandidates(),
-            onlineIdentities: DisplayDDCIdentity.onlineIdentities(),
-            generation: generation
-        )
+    static func resolveServices(for displays: [DisplayInfo]) -> [CGDirectDisplayID: CFTypeRef] {
+        resolveServices(for: displays, candidates: discoverCandidates())
     }
 
     static func resolveServices(
         for displays: [DisplayInfo],
-        candidates: [CandidateService],
-        onlineIdentities: [CGDirectDisplayID: DisplayDDCIdentity],
-        generation: UInt64 = DisplayDDCIdentity.bindingGeneration
-    ) -> [CGDirectDisplayID: Binding] {
+        candidates: [CandidateService]
+    ) -> [CGDirectDisplayID: CFTypeRef] {
         let scoredMatches = scoredCandidateMatches(
             for: displays.filter { !$0.isBuiltin },
             candidates: candidates
         )
-        let verified = DisplayDDCIdentity.uniqueMatches(
-            for: displays,
-            candidates: candidates.map {
-                DisplayDDCIdentity(vendor: $0.vendorNumber, product: $0.productID, serial: $0.serialNumber)
-            },
-            onlineIdentities: onlineIdentities
-        )
-        var matches: [CGDirectDisplayID: Binding] = verified.mapValues {
-            (candidates[$0].service, true, candidates[$0].registryEntryID, generation)
-        }
-        var usedDisplayIDs = Set(verified.keys)
-        var usedCandidateIndexes = Set(verified.values)
+        var matches: [CGDirectDisplayID: CFTypeRef] = [:]
+        var usedDisplayIDs: Set<CGDirectDisplayID> = []
+        var usedCandidateIndexes: Set<Int> = []
 
         for match in scoredMatches {
             guard
@@ -308,7 +221,7 @@ enum Arm64DDCServiceMatcher {
                 continue
             }
 
-            matches[match.display.id] = (match.candidate.service, false, match.candidate.registryEntryID, generation)
+            matches[match.display.id] = match.candidate.service
             usedDisplayIDs.insert(match.display.id)
             usedCandidateIndexes.insert(match.candidateIndex)
         }
@@ -317,8 +230,7 @@ enum Arm64DDCServiceMatcher {
             displays: displays.filter { !$0.isBuiltin },
             candidates: candidates,
             matches: &matches,
-            usedCandidateIndexes: usedCandidateIndexes,
-            generation: generation
+            usedCandidateIndexes: usedCandidateIndexes
         )
 
         return matches
@@ -327,9 +239,8 @@ enum Arm64DDCServiceMatcher {
     private static func assignRemainingServicesByStableOrder(
         displays: [DisplayInfo],
         candidates: [CandidateService],
-        matches: inout [CGDirectDisplayID: Binding],
-        usedCandidateIndexes: Set<Int>,
-        generation: UInt64
+        matches: inout [CGDirectDisplayID: CFTypeRef],
+        usedCandidateIndexes: Set<Int>
     ) {
         let unmatchedDisplays = displays
             .filter { matches[$0.id] == nil }
@@ -347,7 +258,7 @@ enum Arm64DDCServiceMatcher {
         }
 
         for (display, candidate) in zip(unmatchedDisplays, unusedCandidates) {
-            matches[display.id] = (candidate.service, false, candidate.registryEntryID, generation)
+            matches[display.id] = candidate.service
         }
     }
 
@@ -397,7 +308,6 @@ enum Arm64DDCServiceMatcher {
             result.append(
                 CandidateService(
                     service: avService,
-                    registryEntryID: PrivateDDCBridge.registryEntryID(for: service),
                     name: productAttributes?["ProductName"] as? String,
                     vendorNumber: numericValue(productAttributes?["LegacyManufacturerID"])
                         ?? numericValue(productAttributes?["ManufacturerID"]),
@@ -891,7 +801,7 @@ private enum PrivateDDCBridge {
         "CoreDisplay_DisplayCreateInfoDictionary"
     )
 
-    static func createService(for displayID: CGDirectDisplayID) -> (service: CFTypeRef, registryEntryID: UInt64?)? {
+    static func createService(for displayID: CGDirectDisplayID) -> CFTypeRef? {
         guard let service = framebufferService(for: displayID), let createWithService else {
             if createWithService == nil {
                 Logger(subsystem: Bundle.main.bundleIdentifier ?? "cc.ggbond.mactools", category: "DisplayVolumeBackend").info("DDC private symbol IOAVServiceCreateWithService is unavailable")
@@ -899,22 +809,7 @@ private enum PrivateDDCBridge {
             return nil
         }
 
-        guard let avService = createWithService(kCFAllocatorDefault, service)?.takeRetainedValue() else { return nil }
-        return (avService, registryEntryID(for: service))
-    }
-
-    static func registryEntryID(for service: io_service_t) -> UInt64? {
-        var identifier: UInt64 = 0
-        guard IORegistryEntryGetRegistryEntryID(service, &identifier) == KERN_SUCCESS,
-              identifier != 0 else { return nil }
-        return identifier
-    }
-
-    static func isActiveRegistryEntry(_ identifier: UInt64) -> Bool {
-        let service = IOServiceGetMatchingService(kIOMainPortDefault, IORegistryEntryIDMatching(identifier))
-        guard service != 0 else { return false }
-        IOObjectRelease(service)
-        return true
+        return createWithService(kCFAllocatorDefault, service)?.takeRetainedValue()
     }
 
     static func framebufferService(for displayID: CGDirectDisplayID) -> io_service_t? {

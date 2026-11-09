@@ -195,13 +195,11 @@ final class ActionGridPlugin:
 
     func catalogItems(
         excluding entryID: UUID? = nil,
-        in folderID: UUID? = nil,
-        includeConfigurableActions: Bool = false
+        in folderID: UUID? = nil
     ) -> [ActionSurfaceCatalogItem] {
         let currentEntries = store.entries(in: folderID)
         return actionGridHostContext?.catalog.filter { item in
             guard item.reference.key != Self.showActionKey else { return false }
-            if includeConfigurableActions, ActionPercentage.value(in: item.reference) != nil { return true }
             return !currentEntries.contains { entry in
                 entry.folder == nil && entry.id != entryID && entry.reference == item.reference
             }

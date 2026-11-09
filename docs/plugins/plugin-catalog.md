@@ -2,7 +2,7 @@
 
 MacTools dynamic plugins use one catalog-driven flow for both production distribution and local development.
 
-- PluginKit 2 production builds read the legacy `catalog.json` URL. PluginKit 3 and later builds read versioned URLs. MacTools through 1.1.6 remains on the immutable PluginKit v4 catalog at `v4/catalog.json`; MacTools 1.2.0 remains on the PluginKit v5/schema-2 catalog at `v5/catalog.json`; Released PluginKit v6 builds retain `v6/catalog.json`; PluginKit v7 hosts before 2.2.5 use `v7/catalog.json`, and newer v7 hosts use `v7/host-2.2.5/catalog.json`.
+- PluginKit 2 production builds read the legacy `catalog.json` URL. PluginKit 3 and later builds read versioned URLs. MacTools through 1.1.6 remains on the immutable PluginKit v4 catalog at `v4/catalog.json`; MacTools 1.2.0 remains on the PluginKit v5/schema-2 catalog at `v5/catalog.json`; Released PluginKit v6 builds retain `v6/catalog.json`; the current source uses PluginKit v7/schema 3 at `v7/catalog.json`.
 - Each catalog contains packages for one PluginKit ABI line. The legacy v2 catalog is kept unchanged when a new ABI is released, so older app builds continue to work.
 - `minimumHostVersion` at the catalog root is the oldest host that can parse that catalog schema. Each entry declares its own install requirement; older hosts keep the catalog available and show newer entries as incompatible instead of rejecting the whole marketplace.
 - Local development reads a Debug-only `file://` catalog, usually configured with `MACTOOLS_PLUGIN_CATALOG_URL`.
@@ -127,11 +127,11 @@ The public Astro site is generated from the same validated `Plugins/*/plugin.jso
 
 Release catalogs must include an Ed25519 signature. Debug local catalogs may omit `signature`, but they still go through package checksum, manifest, staging, and same-team code signature validation. Catalog verification validates every entry's identity and PluginKit ABI without requiring every package to support the current host. Package installation and loading continue to enforce the entry's `minimumHostVersion` strictly.
 
-For an app version that switches to a new production catalog URL, publish the compatible plugin batch first, wait for Pages to deploy the committed signed catalog, then prepare and publish the app. `scripts/plugins/preflight-app-plugin-catalog.swift` checks the signed production catalog. Local preparation and publishing compare against the catalog in the checked-out source. Hosted builds and publish retries with a current verifier compare the deployment against the same route on `main`. The catalog must retain every compatible tagged package at its tagged version or newer. Remove revoked versions from the advertised entries, even if those packages require a newer host. The saved app must still match its tagged version, build, key, and route. Older tagged verifiers use their original catalog check. The preflight also prevents schema-3 source from being released with the already-shipped 1.2.0 version number.
+For an app version that switches to a new production catalog URL, release order is enforced: publish the compatible plugin batch first, wait for Pages to deploy the committed signed catalog, then prepare and publish the app. `scripts/plugins/preflight-app-plugin-catalog.swift` checks that the production URL returns the same nonempty, signed PluginKit catalog committed in the release ref. It also prevents this schema-3 source from being released with the already-shipped 1.2.0 version number. Both `scripts/release.py --type app` and the final app release workflow run this preflight, so the app cannot be published while its catalog is missing, stale, unsigned, or invalid.
 
 ## Versioned Catalog URLs
 
-The catalog URL follows the host's PluginKit, catalog schema, and app version. In particular, MacTools 1.2.0 remains on the v5/schema-2 endpoint, while MacTools 1.3.0 uses PluginKit v6/schema 3:
+The catalog URL is selected by the host's supported PluginKit and catalog-schema version. In particular, MacTools 1.2.0 remains on the v5/schema-2 endpoint, while MacTools 1.3.0 uses PluginKit v6/schema 3:
 
 ```text
 PluginKit 2 -> https://mactools.ggbond.app/plugins/catalog.json
@@ -140,11 +140,8 @@ PluginKit 4 -> https://mactools.ggbond.app/plugins/v4/catalog.json
 PluginKit 5 / schema 2 -> https://mactools.ggbond.app/plugins/v5/catalog.json
 PluginKit 6 / schema 3 -> https://mactools.ggbond.app/plugins/v6/catalog.json
 PluginKit 7 / schema 3 -> https://mactools.ggbond.app/plugins/v7/catalog.json
-PluginKit 7 / MacTools 2.2.5+ -> https://mactools.ggbond.app/plugins/v7/host-2.2.5/catalog.json
 PluginKit N -> https://mactools.ggbond.app/plugins/vN/catalog.json
 ```
-
-MacTools 2.2.5 uses host-specific PluginKit 7 catalogs for stable and Nightly. Existing hosts keep their original v7 URLs and compatible downloads. The first stable plugin batch starts from the original signed v7 catalog and requires a full rebuild with newer versions for previously published plugins so installed copies can update. It publishes at `docs/plugins/v7/host-2.2.5/catalog.json` before the new stable app release. Stable builds declare the required URL in the app bundle, and publishing checks the URL and the release version and build number against the disk image. Nightly builds publish to `docs/nightly/plugins/v7/host-2.2.5/catalog.json`, while rollback refs keep the catalog path provided by their own release metadata. Nightly retention checks the latest committed references and historical catalog routes while Pages still serves them, including during deployment after a revert.
 
 The first release for a new PluginKit or catalog-schema compatibility line uses the previous catalog only as a comparison baseline. It publishes a complete catalog containing every rebuilt plugin under the new path. Later releases on that compatibility line may use incremental merges. Legacy PluginKit lines below v5 are immutable and the schema-3 release workflow rejects attempts to republish them. Never overwrite a catalog consumed by hosts that cannot parse the new schema.
 
@@ -216,7 +213,7 @@ make run MACTOOLS_PLUGIN_CATALOG_URL=file:///path/to/catalog.dev.json
 For Debug runs, the catalog URL scheme selects the verification mode. A `file://` URL uses the local development catalog policy, where signatures are optional. An `https://` URL uses the production catalog policy, where the catalog signature is required:
 
 ```bash
-make run MACTOOLS_PLUGIN_CATALOG_URL=https://mactools.ggbond.app/plugins/v7/host-2.2.5/catalog.json
+make run MACTOOLS_PLUGIN_CATALOG_URL=https://mactools.ggbond.app/plugins/v7/catalog.json
 ```
 
 The app copies the package into its own staging and installed directories. Uninstall deletes only the installed copy under MacTools application support; it never deletes the plugin source directory or the local build directory.
@@ -242,13 +239,13 @@ Recommended production flow is an incremental batch plugin release:
 1. Run `make release`.
 2. Choose `plugin`, release mode, and `patch`/`minor`/`major`.
 3. The helper analyzes the production catalog and shows the planned manifest bumps.
-4. After confirmation, the helper syncs `main` and recomputes the plan. If the route, baseline, or package scope changed, rerun the helper to confirm the new plan before it writes manifests. The helper then bumps plugin versions when needed, regenerates website plugin data, compiles `release: plugin` changelog fragments into `CHANGELOG.md`, runs a release plan check, commits these changes together, and pushes a batch tag such as `plugins-1.0.1`.
+4. After confirmation, the helper syncs `main`, bumps changed plugin manifests when needed, regenerates website plugin data, compiles `release: plugin` changelog fragments into `CHANGELOG.md`, runs a release plan check, commits these changes together, and pushes a batch tag such as `plugins-1.0.1`.
 5. The `Plugin Release` GitHub Action reads the catalog for the current PluginKit version. The first release of a new ABI may fall back to the previous catalog only to compare versions.
 6. In default `auto` mode, the workflow selects new plugins, plugins whose manifest version is higher than the previous catalog entry, and every plugin when shared `Sources/MacToolsPluginKit/` code changed since its previous package was built.
 7. If package-relevant files changed inside a plugin or shared PluginKit code changed but that plugin version did not increase, the workflow fails before signing or uploading. A `pluginKitVersion` change automatically becomes a full `mode=all` rebuild and replaces the catalog for that ABI line; other exceptional shared paths can still be supplied explicitly with `--shared-path`.
 8. When packages are selected, the workflow performs one unsigned aggregate `Release` app-and-plugin build with shared dependencies. It checks the selected bundles exist, then passes the products directory to `build-plugin-release-assets.sh --products-dir` to sign, zip, and upload only the selected packages. Catalog-only updates skip compilation.
 9. For an ABI migration, the workflow generates a complete catalog from all rebuilt packages. For later releases within an ABI line, it generates a delta catalog and merges it into that line's catalog, keeping unchanged entries pointing at their existing assets.
-10. The signed catalog is committed to its compatibility path. The released PluginKit v5/schema-2 catalog remains at `docs/plugins/v5/catalog.json`; Released PluginKit v6/schema 3 remains at `docs/plugins/v6/catalog.json`; new PluginKit v7 packages for MacTools 2.2.5 go to `docs/plugins/v7/host-2.2.5/catalog.json`.
+10. The signed catalog is committed to its compatibility path. The released PluginKit v5/schema-2 catalog remains at `docs/plugins/v5/catalog.json`; Released PluginKit v6/schema 3 remains at `docs/plugins/v6/catalog.json`; new PluginKit v7 packages go to `docs/plugins/v7/catalog.json`.
 11. `Deploy Pages` publishes the signed catalog to GitHub Pages.
 
 Website generation is part of release preparation even with `--skip-check`; `--dry-run` only prints the generation command. This keeps the website's committed plugin versions current so Pages can deploy the signed catalog. If an existing release missed this step, regenerate with `python3 scripts/plugins/generate_website_plugin_data.py`, validate with `make validate-generated-plugin-data`, and commit the output on `main`. Deploy Pages uses current `main`, so a website-data correction does not require moving the plugin tag or rebuilding its packages.

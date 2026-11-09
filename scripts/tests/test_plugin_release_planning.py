@@ -10,7 +10,6 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import textwrap
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -115,18 +114,6 @@ class InteractiveReleasePlanningTests(unittest.TestCase):
                     command(sys.executable, "scripts/plugins/generate_website_plugin_data.py", "--check")
 
     def test_plugin_kit6_migration_leaves_package_bumps_to_release(self) -> None:
-        self.check_migration_leaves_package_bumps_to_release(
-            5, 6, "1.3.0", "v6/catalog.json", require_version_bump=False,
-        )
-
-    def test_first_host_specific_release_leaves_package_bumps_to_release(self) -> None:
-        self.check_migration_leaves_package_bumps_to_release(
-            7, 7, "2.2.5", "v7/host-2.2.5/catalog.json", require_version_bump=True,
-        )
-
-    def check_migration_leaves_package_bumps_to_release(
-        self, old_kit: int, new_kit: int, host: str, new_catalog: str, *, require_version_bump: bool,
-    ) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             source = root / "Plugins"
@@ -135,13 +122,13 @@ class InteractiveReleasePlanningTests(unittest.TestCase):
                 plugin.mkdir(parents=True)
                 (plugin / "plugin.json").write_text(json.dumps({
                     "id": plugin_id, "displayName": plugin_id, "version": version,
-                    "pluginKitVersion": new_kit, "minHostVersion": host,
+                    "pluginKitVersion": 6, "minHostVersion": "1.3.0",
                 }))
-            baseline = root / f"docs/plugins/v{old_kit}/catalog.json"
+            baseline = root / "docs/plugins/v5/catalog.json"
             baseline.parent.mkdir(parents=True)
             baseline.write_text(json.dumps({
-                "pluginKitVersion": old_kit,
-                "plugins": [{"id": plugin_id, "version": "1.0.0", "pluginKitVersion": old_kit}
+                "pluginKitVersion": 5,
+                "plugins": [{"id": plugin_id, "version": "1.0.0", "pluginKitVersion": 5}
                             for plugin_id in ("existing", "bumped")],
             }))
             before = {path: path.read_bytes() for path in source.glob("*/plugin.json")}
@@ -152,7 +139,6 @@ class InteractiveReleasePlanningTests(unittest.TestCase):
             with (
                 mock.patch.object(release, "ROOT_DIR", root),
                 mock.patch.object(release, "PLUGIN_SOURCE_DIR", source),
-                mock.patch.object(release, "read_app_versions", return_value=(host, 83)),
                 mock.patch.object(release, "latest_tag_version", return_value="1.2.0"),
                 mock.patch.object(release, "check_tag_available"),
                 mock.patch.object(release, "confirm"),
@@ -168,9 +154,9 @@ class InteractiveReleasePlanningTests(unittest.TestCase):
                 contextlib.redirect_stdout(io.StringIO()),
             ):
                 self.assertEqual(release.previous_plugin_catalog_path(), baseline)
-                self.assertEqual(release.plugin_catalog_path(new_kit), root / "docs/plugins" / new_catalog)
+                self.assertEqual(release.plugin_catalog_path(6), root / "docs/plugins/v6/catalog.json")
                 release.release_plugin(args)
-                plan.assert_called_once_with("all", [], False, True, require_version_bump=require_version_bump)
+                plan.assert_called_once_with("all", [], False, True)
                 self.assertEqual([plugin.id for plugin in bump.call_args.args[0]], ["existing"])
                 self.assertEqual(bump.call_count, 1)
                 self.assertEqual(set(release.analyze_plugins("all", []).selected_ids), {"existing", "bumped", "new"})
@@ -210,73 +196,6 @@ class InteractiveReleasePlanningTests(unittest.TestCase):
         self.assertIn('echo "PLUGIN_RELEASE_MODE=all"', workflow)
         self.assertIn('echo "PLUGIN_RELEASE_REQUIRE_VERSION_BUMP=true"', workflow)
         self.assertIn("plan_args+=(--require-version-bump)", workflow)
-
-    def test_first_host_specific_workflow_rejects_equal_plugin_versions(self) -> None:
-        workflow = (release.ROOT_DIR / ".github/workflows/plugin-release.yml").read_text(encoding="utf-8")
-
-        def step(name: str) -> str:
-            body = workflow.split(f"      - name: {name}\n        run: |\n", 1)[1]
-            return textwrap.dedent(body.split("\n      - name:", 1)[0])
-
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            manifest = root / "Plugins/Demo/plugin.json"
-            manifest.parent.mkdir(parents=True)
-            git = root / "git"
-            git.write_text(
-                '#!/bin/sh\ncase "$1:$2" in\n'
-                'fetch:*) exit 0;;\n'
-                'show:origin/main:docs/plugins/v7/catalog.json) cat legacy.json;;\n'
-                '*) exit 1;;\nesac\n'
-            )
-            git.chmod(0o700)
-            scripts = root / "scripts/plugins"
-            scripts.mkdir(parents=True)
-            shutil.copy2(PLAN_SCRIPT_PATH, scripts / PLAN_SCRIPT_PATH.name)
-            env_file = root / "github.env"
-            environment = {
-                "PATH": f"{root}:{Path(sys.executable).parent}:/usr/bin:/bin",
-                "GITHUB_ENV": str(env_file),
-                "GITHUB_STEP_SUMMARY": str(root / "summary"),
-                "PLUGIN_KIT_VERSION": "7",
-                "PLUGIN_CATALOG_RELATIVE_PATH": "docs/plugins/v7/host-2.2.5/catalog.json",
-                "PLUGIN_RELEASE_ROOT": "build",
-                "PLUGIN_PREVIOUS_CATALOG_PATH": "build/previous.json",
-                "PLUGIN_RELEASE_PLAN_PATH": "build/plan.json",
-                "PLUGIN_SOURCE_DIR": "Plugins",
-                "PLUGIN_RELEASE_SELECTION": "",
-                "PLUGIN_RELEASE_REQUIRE_VERSION_BUMP": "false",
-            }
-            entry = {"id": "demo", "displayName": "Demo", "version": "1.0.0", "pluginKitVersion": 7}
-            (root / "legacy.json").write_text(json.dumps({"pluginKitVersion": 7, "plugins": [entry]}))
-
-            for mode, version in (("all", "1.0.0"), ("auto", "1.0.1"), ("selected", "1.0.1")):
-                with self.subTest(mode=mode, version=version):
-                    manifest.write_text(json.dumps({**entry, "version": version}))
-                    env_file.write_text("")
-                    initial_env = {**environment, "PLUGIN_RELEASE_MODE": mode}
-                    prepare = subprocess.run(
-                        ["/bin/bash", "-ec", step("Prepare previous plugin catalog")],
-                        cwd=root, env=initial_env, text=True, capture_output=True,
-                    )
-                    if mode == "selected":
-                        self.assertNotEqual(prepare.returncode, 0)
-                        self.assertIn("requires a full rebuild", prepare.stderr)
-                        continue
-                    self.assertEqual(prepare.returncode, 0, prepare.stderr)
-                    updates = dict(line.split("=", 1) for line in env_file.read_text().splitlines())
-                    plan = subprocess.run(
-                        ["/bin/bash", "-ec", step("Plan incremental plugin release")],
-                        cwd=root, env={**initial_env, **updates}, text=True, capture_output=True,
-                    )
-                    if version == entry["version"]:
-                        self.assertNotEqual(plan.returncode, 0)
-                        self.assertIn("demo: compatibility migration requires a version bump", plan.stderr)
-                    else:
-                        self.assertEqual(plan.returncode, 0, plan.stderr)
-                        result = json.loads((root / "build/plan.json").read_text())
-                        self.assertTrue(result["fullRelease"])
-                        self.assertEqual(result["selectedPluginIDs"], ["demo"])
 
     def test_plugin_release_verifies_catalog_key_without_python_signing_dependency(self) -> None:
         workflow = (release.ROOT_DIR / ".github/workflows/plugin-release.yml").read_text(
@@ -326,47 +245,6 @@ class InteractiveReleasePlanningTests(unittest.TestCase):
             write_versions.assert_not_called()
             commit.assert_not_called()
             push.assert_not_called()
-
-    def test_release_rechecks_catalog_route_after_confirmation(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            baseline = root / "docs/plugins/v7/catalog.json"
-            baseline.parent.mkdir(parents=True)
-            baseline.write_text(json.dumps({"pluginKitVersion": 7, "plugins": [
-                {"id": "demo", "version": "1.0.0"},
-            ]}))
-            plugin = release.PluginInfo("demo", "Demo", "Demo", root, root / "plugin.json", "1.0.0", 7)
-            analysis = release.PluginAnalysis("selected", ["demo"], [], [plugin], [], [], {})
-            args = mock.Mock(
-                plugin_mode="selected", plugin=["demo"], version="1.0.1", level="patch",
-                remote="origin", branch="main", dry_run=False, skip_check=True, yes=True,
-            )
-            with (
-                mock.patch.object(release, "ROOT_DIR", root),
-                mock.patch.object(release, "read_plugins", return_value={"demo": plugin}),
-                mock.patch.object(release, "read_app_versions", return_value=("2.2.4", "1")) as app_version,
-                mock.patch.object(release, "analyze_plugins", return_value=analysis),
-                mock.patch.object(release, "latest_tag_version", return_value="1.0.0"),
-                mock.patch.object(release, "check_tag_available"),
-                mock.patch.object(release, "validate_changelog"),
-                mock.patch.object(release, "changelog_status_label", return_value="pending"),
-                mock.patch.object(release, "confirm"),
-                mock.patch.object(release, "sync_branch_after_confirm") as sync,
-                mock.patch.object(release, "write_plugin_versions") as write_versions,
-                mock.patch.object(release, "commit_if_needed") as commit,
-                mock.patch.object(release, "push_branch_and_tag") as push,
-                contextlib.redirect_stdout(io.StringIO()),
-            ):
-                def advance_app_version(*_):
-                    app_version.return_value = ("2.2.5", "1")
-
-                sync.side_effect = advance_app_version
-                with self.assertRaisesRegex(release.ReleaseError, "plugin-mode selected.*plugin-mode all"):
-                    release.release_plugin(args)
-                sync.assert_called_once()
-                write_versions.assert_not_called()
-                commit.assert_not_called()
-                push.assert_not_called()
 
     def test_legacy_plugin_kit_release_is_rejected_before_tagging(self) -> None:
         with self.assertRaisesRegex(release.ReleaseError, "catalog 已冻结"):

@@ -731,7 +731,7 @@ final class ActionGridOverlayController: NSObject, NSWindowDelegate {
                 let ownerTitle = pluginHost.actionSurfaceOwnerTitle(
                     providerID: entry.reference.key.providerID
                 )
-                let invocationTitle = action.presentationEntry?.title ?? action.definition.title
+                let invocationTitle = action.catalogEntry?.title ?? action.definition.title
                 return ResolvedActionGridEntry(
                     id: entry.id,
                     reference: entry.reference,
@@ -740,7 +740,7 @@ final class ActionGridOverlayController: NSObject, NSWindowDelegate {
                         action: action
                     ),
                     invocationTitle: invocationTitle,
-                    subtitle: action.presentationEntry?.subtitle,
+                    subtitle: action.catalogEntry?.subtitle,
                     compactDetail: Self.compactDetail(
                         for: entry.reference,
                         action: action
@@ -748,7 +748,7 @@ final class ActionGridOverlayController: NSObject, NSWindowDelegate {
                     ownerTitle: ownerTitle,
                     systemImage: action.definition.systemImage,
                     availability: pluginHost.actionRegistry.availability(for: entry.reference),
-                    presentationState: action.presentationEntry?.presentationState
+                    presentationState: action.catalogEntry?.presentationState
                 )
             },
             executor: { [weak pluginHost] reference in
@@ -826,10 +826,10 @@ final class ActionGridOverlayController: NSObject, NSWindowDelegate {
            let hostAction = AppShortcutAction(rawValue: reference.key.actionID) {
             return hostAction.compactTitle
         }
-        if ActionPercentage.value(in: reference) != nil || action.presentationEntry?.presentationState != nil {
+        if action.catalogEntry?.presentationState != nil {
             return action.definition.title
         }
-        return action.presentationEntry?.title ?? action.definition.title
+        return action.catalogEntry?.title ?? action.definition.title
     }
 
     private static func compactDetail(
@@ -837,18 +837,14 @@ final class ActionGridOverlayController: NSObject, NSWindowDelegate {
         action: RegisteredAction
     ) -> String? {
         guard reference.key.providerID != "mactools" else { return nil }
-        if let percent = ActionPercentage.value(in: reference) {
-            return [ActionPercentage.label(percent), action.presentationEntry?.subtitle]
-                .compactMap { $0 }.joined(separator: " · ")
+        guard action.catalogEntry?.presentationState != nil else {
+            return action.catalogEntry?.subtitle
         }
-        guard action.presentationEntry?.presentationState != nil else {
-            return action.presentationEntry?.subtitle
-        }
-        guard action.presentationEntry?.presentationState == .active,
+        guard action.catalogEntry?.presentationState == .active,
               ["auto-input", "keep-awake"].contains(reference.key.providerID) else {
             return nil
         }
-        return action.presentationEntry?.subtitle
+        return action.catalogEntry?.subtitle
     }
 
     var isShown: Bool { panel != nil }
@@ -989,7 +985,7 @@ final class ActionGridOverlayController: NSObject, NSWindowDelegate {
         Set(entries.flatMap(actionReferences(in:)).compactMap { reference in
             guard case let .success(action) = pluginHost.actionRegistry.registeredAction(
                 for: reference
-            ), action.presentationEntry?.presentationState != nil else {
+            ), action.catalogEntry?.presentationState != nil else {
                 return nil
             }
             return reference.key.providerID

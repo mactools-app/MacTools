@@ -25,19 +25,6 @@ final class PluginCatalogTests: XCTestCase {
         )
     }
 
-    func testV7CatalogRoutesByHostVersionForBothChannels() {
-        for (version, catalog) in [("2.2.4", "v7/catalog.json"), ("2.2.5", "v7/host-2.2.5/catalog.json")] {
-            let stable = PluginCatalogProviderConfiguration.configuredProductionCatalogURL(
-                for: 7, hostVersion: version, infoDictionary: [:]
-            )
-            let nightly = PluginCatalogProviderConfiguration.configuredProductionCatalogURL(
-                for: 7, hostVersion: version, infoDictionary: ["MTReleaseChannel": "nightly"]
-            )
-            XCTAssertEqual(stable.path, "/plugins/\(catalog)")
-            XCTAssertEqual(nightly.path, "/nightly/plugins/\(catalog)")
-        }
-    }
-
     func testCurrentVerifierRejectsSchemaVersion1() throws {
         let catalog = makeCatalog(schemaVersion: 1)
         let verifier = PluginCatalogVerifier.localDevelopment(hostVersion: "1.0.0")

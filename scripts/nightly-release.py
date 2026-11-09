@@ -19,9 +19,6 @@ import xml.sax.saxutils as xml
 import zipfile
 from typing import Any, Dict, Iterable, List, Optional
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from plugin_catalog_routing import catalog_path
-
 
 VERSION_PATTERN = re.compile(
     r"^\s*(MARKETING_VERSION|CURRENT_PROJECT_VERSION)\s*=\s*(\S+)\s*$",
@@ -131,8 +128,9 @@ def make_metadata(
         "NIGHTLY_APPCAST_RELATIVE_PATH": "docs/nightly/appcast.xml",
     }
     metadata.update(discover_plugin_metadata(plugins_dir))
-    metadata["NIGHTLY_PLUGIN_CATALOG_RELATIVE_PATH"] = catalog_path(
-        int(metadata["PLUGIN_KIT_VERSION"]), version, nightly=True
+    metadata["NIGHTLY_PLUGIN_CATALOG_RELATIVE_PATH"] = (
+        "docs/nightly/plugins/"
+        f"v{metadata['PLUGIN_KIT_VERSION']}/catalog.json"
     )
     return metadata
 
@@ -618,8 +616,6 @@ def verify_nightly_app(
     plugin_kit_version: int,
     cli_path: pathlib.Path | None = None,
     signed: bool = False,
-    *,
-    expected_catalog_url: str | None = None,
 ) -> None:
     if plugin_kit_version < 1:
         fail("PluginKit version must be positive")
@@ -643,9 +639,9 @@ def verify_nightly_app(
         "CFBundleVersion": build_number,
         "MTApplicationSupportDirectoryName": "MacTools Nightly",
         "MTReleaseChannel": "nightly",
-        # Keep the legacy default for adapters that import this verifier directly.
-        "MTPluginCatalogURL": expected_catalog_url or (
-            f"https://mactools.ggbond.app/nightly/plugins/v{plugin_kit_version}/catalog.json"
+        "MTPluginCatalogURL": (
+            "https://mactools.ggbond.app/nightly/plugins/"
+            f"v{plugin_kit_version}/catalog.json"
         ),
         "MTRightClickConfigurationHomeRelativePath": (
             "Library/Application Support/MacTools Nightly/right-click-menu.json"
@@ -934,7 +930,6 @@ def main() -> None:
             release_notes=args.release_notes.read_text(encoding="utf-8"),
         )
     elif args.command == "verify-app":
-        public_path = catalog_path(args.plugin_kit_version, args.version, nightly=True).removeprefix("docs/")
         verify_nightly_app(
             args.app,
             args.bundle_identifier_prefix,
@@ -943,7 +938,6 @@ def main() -> None:
             args.plugin_kit_version,
             args.cli,
             args.signed,
-            expected_catalog_url="https://mactools.ggbond.app/" + public_path,
         )
     elif args.command == "verify-catalog":
         verify_nightly_catalog(

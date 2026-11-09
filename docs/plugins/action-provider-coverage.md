@@ -17,7 +17,9 @@ The following plugin source directories publish canonical actions:
 - System and device control: `BatteryChargeLimit`, `FanControl`, `KeepAwake`, `LockScreen`, `MicrophoneMute`, `SystemMute`, `SystemPower`, `SystemSoftRestart`.
 - Productivity and maintenance: `ActivityBar`, `AIAssistant`, `AppleShortcuts`, `ClipboardClear`, `ClipboardHistory`, `CloudflareR2`, `DiskClean`, `EjectDisk`, `EmptyTrash`, `FixDamagedApp`, `Homebrew`, `IPOverview`, `LaunchControl`, `Launchpad`, `PhysicalCleanMode`, `QuitApps`, `Screenshot`, `Translator`, `WindowLayouts`, `XcodeClean`.
 
-Parameterized actions publish concrete catalog entries rather than asking each action surface to construct parameters. For example, Sidecar publishes per-device entries, Display Resolution publishes current display modes, App Volume publishes current audio apps, Battery Charge Limit publishes useful limit presets, and Fan Control publishes saved presets. Availability is resolved again at execution time so stale hardware, processes, or configuration fail safely. Display Brightness and Display Volume publish one reference per supported display. Automation, Action Grid, and Trackpad Gestures use `ActionPercentage` to save a whole percentage on that reference. The providers revalidate the local display identity before writing.
+Parameterized actions publish concrete catalog entries rather than asking each action surface to construct parameters. For example, Sidecar publishes per-device entries, Display Resolution publishes current display modes, App Volume publishes current audio apps, Battery Charge Limit publishes useful limit presets, and Fan Control publishes saved presets. Availability is resolved again at execution time so stale hardware, processes, or configuration fail safely.
+
+Display Brightness registers the exact built-in brightness action for Automation. The workflow picker supplies its percentage, and the action stays out of the shared catalog.
 
 Clipboard publishes its nine parameter-free actions in the source manifest and runtime
 consistency test. Product metadata describes local encrypted storage without embedding clipboard

@@ -7,8 +7,6 @@ enum DisplayBrightnessBackendKind: String, Equatable, Sendable {
     case ddc
     case gamma
     case shade
-
-    static let shadeMinimumBrightness = 0.08
 }
 
 /// Fresh backend data is distinct from the optimistic slider snapshot.
@@ -26,11 +24,7 @@ struct DisplayBrightnessDisplay: Identifiable, Equatable {
     let brightness: Double
     let isPendingWrite: Bool
     var isReady: Bool = true
-    var needsReadBeforeRelative: Bool = false
 
-    var isSettingExactLevel = false
-
-    var canAdjustRelative: Bool { isReady && !isSettingExactLevel }
     var id: CGDirectDisplayID { display.id }
 }
 
@@ -44,45 +38,6 @@ enum DisplayBrightnessWriteResult: Equatable {
     case failed(message: String)
 }
 
-/// An exact action can fail while the same backend remains usable by other controls.
-enum DisplayBrightnessExactError: Error {
-    case unverifiedTarget
-    case rangeUnavailable
-    case unsupportedHardwareLevel(observed: Double)
-    case readbackUnavailable
-    case mismatch(requested: Double, observed: Double)
-    case shadeRange
-
-    var observedLevel: Double? {
-        switch self {
-        case let .unsupportedHardwareLevel(observed), let .mismatch(_, observed): observed
-        default: nil
-        }
-    }
-
-    func message(localization: PluginLocalization) -> String {
-        switch self {
-        case .unverifiedTarget:
-            localization.string("error.exactUnverifiedTarget", defaultValue: "无法确认显示器的 DDC/CI 控制目标。")
-        case .rangeUnavailable:
-            localization.string("error.exactRangeUnavailable", defaultValue: "无法读取显示器的亮度范围。")
-        case .unsupportedHardwareLevel:
-            ActionPercentage.unsupportedHardwareLevel
-        case .readbackUnavailable:
-            localization.string("voice.unverified", defaultValue: "亮度设置已发送，但未能验证硬件读数。")
-        case let .mismatch(requested, observed):
-            localization.format("voice.mismatch", defaultValue: "请求 %.0f%%，硬件读回 %.0f%%。", requested * 100, observed * 100)
-        case .shadeRange:
-            localization.format(
-                "error.exactShadeRange",
-                defaultValue: "软件调光仅支持 %@ 到 %@ 的亮度。",
-                ActionPercentage.label(Int(DisplayBrightnessBackendKind.shadeMinimumBrightness * 100)),
-                ActionPercentage.label(100)
-            )
-        }
-    }
-}
-
 enum DisplayBrightnessControllerError: Error, LocalizedError {
     case displayUnavailable(displayID: CGDirectDisplayID)
     case brightnessUnavailable(displayName: String)
@@ -93,6 +48,7 @@ enum DisplayBrightnessControllerError: Error, LocalizedError {
     case ddcWriteFailed(displayName: String)
     case softwareBrightnessFailed
     case nativeBrightnessWriteFailed
+    case nativeBrightnessReadbackMismatch(requested: Double, observed: Double)
     case failed(message: String)
 
     var errorDescription: String? {
@@ -127,6 +83,11 @@ enum DisplayBrightnessControllerError: Error, LocalizedError {
             return localization.string("error.softwareBrightnessFailed", defaultValue: "软件亮度调节失败")
         case .nativeBrightnessWriteFailed:
             return localization.string("error.nativeBrightnessWriteFailed", defaultValue: "原生亮度写入失败")
+        case let .nativeBrightnessReadbackMismatch(requested, observed):
+            return localization.format(
+                "voice.mismatch", defaultValue: "请求 %.0f%%，硬件读回 %.0f%%。",
+                (requested * 100).rounded(), (observed * 100).rounded()
+            )
         case .failed(let message):
             return message
         }
@@ -138,12 +99,7 @@ protocol DisplayBrightnessControlling: AnyObject {
     var onStateChange: (() -> Void)? { get set }
 
     func refresh()
-    func refreshDisplayTopology()
-    func actionIdentifier(for displayID: CGDirectDisplayID) -> String?
-    func exactBrightnessAvailability(_ value: Double, for displayID: CGDirectDisplayID) -> ActionAvailability
     func snapshot() -> DisplayBrightnessSnapshot
-    func adjustBrightness(by delta: Double, for displayID: CGDirectDisplayID, phase: PluginPanelAction.SliderPhase)
-    func adjustBrightnessAndWait(by delta: Double, for displayID: CGDirectDisplayID) async -> DisplayBrightnessWriteResult
     func setBrightness(
         _ value: Double,
         for displayID: CGDirectDisplayID,
@@ -153,95 +109,38 @@ protocol DisplayBrightnessControlling: AnyObject {
         _ value: Double,
         for displayID: CGDirectDisplayID
     ) async -> DisplayBrightnessWriteResult
-    func setExactBrightnessAndWait(
-        _ value: Double,
-        for displayID: CGDirectDisplayID,
-        identifier: String
-    ) async -> DisplayBrightnessWriteResult
     func cancelOutstandingWrites()
+    var canSetBuiltInBrightness: Bool { get }
+    func setBuiltInBrightnessAndWait(_ value: Double) async -> DisplayBrightnessWriteResult
     func observeBrightness(for displayID: CGDirectDisplayID) async -> DisplayBrightnessObservation?
 }
 
 extension DisplayBrightnessControlling {
-    func refreshDisplayTopology() { refresh() }
-
-    func adjustBrightness(by delta: Double, for displayID: CGDirectDisplayID, phase: PluginPanelAction.SliderPhase) {
-        guard let display = snapshot().displays.first(where: { $0.id == displayID && $0.isReady }) else { return }
-        setBrightness(display.brightness + delta, for: displayID, phase: phase)
-    }
-
-    func adjustBrightnessAndWait(by delta: Double, for displayID: CGDirectDisplayID) async -> DisplayBrightnessWriteResult {
-        guard let display = snapshot().displays.first(where: { $0.id == displayID && $0.isReady }) else {
-            return .failed(message: PluginKitLocalization.actionUnavailable)
-        }
-        return await setBrightnessAndWait(min(1, max(0, display.brightness + delta)), for: displayID)
-    }
-
-    func exactBrightnessAvailability(_ value: Double, for displayID: CGDirectDisplayID) -> ActionAvailability {
-        .available
-    }
-
-    func setExactBrightnessAndWait(
-        _ value: Double,
-        for displayID: CGDirectDisplayID,
-        identifier: String
-    ) async -> DisplayBrightnessWriteResult {
-        guard actionIdentifier(for: displayID) == identifier, !Task.isCancelled else {
-            return .failed(message: PluginKitLocalization.actionUnavailable)
-        }
-        return await setBrightnessAndWait(value, for: displayID)
-    }
-
     func cancelOutstandingWrites() {}
+    var canSetBuiltInBrightness: Bool { false }
+    func setBuiltInBrightnessAndWait(_ value: Double) async -> DisplayBrightnessWriteResult {
+        .failed(message: PluginKitLocalization.actionUnavailable)
+    }
     func observeBrightness(for displayID: CGDirectDisplayID) async -> DisplayBrightnessObservation? { nil }
 }
 
 protocol DisplayBrightnessBackend: AnyObject, Sendable {
     var kind: DisplayBrightnessBackendKind { get }
-    var hasVerifiedDisplayBinding: Bool { get }
-    var usesDiscoveredService: Bool { get }
     var display: DisplayInfo { get set }
 
     func readBrightness() throws -> Double
-    func readFreshBrightness() throws -> Double
-    func readVerifiedBrightness() throws -> Double
     func writeBrightness(_ value: Double) throws
-    func writeBrightness(_ value: Double, permit: DisplayActionWritePermit?) throws
-    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws -> Double?
     func cleanup()
+    func restoreForNativeHandoff() throws
 }
 
 extension DisplayBrightnessBackend {
-    var hasVerifiedDisplayBinding: Bool { true }
-    var usesDiscoveredService: Bool { false }
-
-    func readFreshBrightness() throws -> Double { try readVerifiedBrightness() }
-
-    func readVerifiedBrightness() throws -> Double {
-        let value = try readBrightness()
-        guard value.isFinite, (0...1).contains(value) else { throw DisplayBrightnessExactError.readbackUnavailable }
-        return value
-    }
-
-    func exactActionError(for value: Double) -> DisplayBrightnessExactError? {
-        if !hasVerifiedDisplayBinding { return .unverifiedTarget }
-        if kind == .shade, value < DisplayBrightnessBackendKind.shadeMinimumBrightness { return .shadeRange }
-        return nil
-    }
-
-    func writeBrightness(_ value: Double, permit: DisplayActionWritePermit?) throws {
-        guard permit?.beginWrite() != false else { throw CancellationError() }
-        try writeBrightness(value)
-    }
-
-    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws -> Double? {
-        guard permit.beginWrite() else { throw CancellationError() }
-        try writeBrightness(value)
-        return nil
-    }
+    func restoreForNativeHandoff() throws { cleanup() }
 }
 
 protocol DisplayBrightnessBackendBuilding {
+    func nativeBackend(forBuiltInDisplay display: DisplayInfo) -> (any DisplayBrightnessBackend)?
+
     func backends(
         for displays: [DisplayInfo],
         previous: [CGDirectDisplayID: any DisplayBrightnessBackend]
@@ -255,6 +154,8 @@ protocol DisplayBrightnessBackendBuilding {
 }
 
 extension DisplayBrightnessBackendBuilding {
+    func nativeBackend(forBuiltInDisplay display: DisplayInfo) -> (any DisplayBrightnessBackend)? { nil }
+
     func fallbackBackend(
         after failedBackend: any DisplayBrightnessBackend,
         for display: DisplayInfo,

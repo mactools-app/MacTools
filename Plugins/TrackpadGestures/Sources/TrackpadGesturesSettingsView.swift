@@ -1720,7 +1720,6 @@ private struct TrackpadUnifiedActionPickerControl: View {
 
     @State private var isPresented = false
     @State private var query = ""
-    @State private var percentageItem: ActionSurfaceCatalogItem?
 
     var body: some View {
         Button {
@@ -1765,25 +1764,7 @@ private struct TrackpadUnifiedActionPickerControl: View {
         }
         .buttonStyle(.plain)
         .popover(isPresented: $isPresented, arrowEdge: .bottom) {
-            if let item = percentageItem {
-                ActionPercentageEditor(
-                    title: [item.ownerTitle, item.subtitle].compactMap { $0 }.joined(separator: " · "),
-                    template: item.reference,
-                    current: actionReference,
-                    cancelTitle: localization.string("editor.cancel", defaultValue: "取消"),
-                    saveTitle: localization.string("editor.save", defaultValue: "保存"),
-                    availability: { context?.item(for: $0)?.availability ?? .available },
-                    onCancel: { percentageItem = nil },
-                    onSave: selectAction
-                )
-                .padding(14)
-                .frame(width: 460)
-            } else {
-                pickerContent
-            }
-        }
-        .onChange(of: isPresented) { _, presented in
-            if !presented { percentageItem = nil }
+            pickerContent
         }
         .accessibilityIdentifier("mactools.trackpad.action-picker")
         .accessibilityLabel(localization.string("editor.action.title", defaultValue: "操作"))
@@ -1965,33 +1946,22 @@ private struct TrackpadUnifiedActionPickerControl: View {
 
     private func macToolsActionRow(_ item: ActionSurfaceCatalogItem) -> some View {
         Button {
-            if ActionPercentage.value(in: item.reference) != nil {
-                percentageItem = item
-            } else {
-                selectAction(item.reference)
-            }
+            actionKind = .action
+            actionReference = item.reference
+            shortcut = nil
+            keyTap = nil
+            isPresented = false
         } label: {
             pickerRow(
                 title: item.title,
                 subtitle: item.subtitle,
                 systemImage: item.systemImage,
                 isSafe: item.isSafe,
-                isSelected: actionKind == .action && (
-                    actionReference == item.reference
-                        || actionReference.flatMap(ActionPercentage.template(for:)) == item.reference
-                )
+                isSelected: actionKind == .action && actionReference == item.reference
             )
         }
         .buttonStyle(.plain)
         .disabled(!item.availability.isAvailable)
-    }
-
-    private func selectAction(_ reference: ActionReference) {
-        actionKind = .action
-        actionReference = reference
-        shortcut = nil
-        keyTap = nil
-        isPresented = false
     }
 
     private func pickerRow(

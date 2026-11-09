@@ -6,75 +6,6 @@ import MacToolsPluginKit
 
 @MainActor
 final class DisplayBrightnessPluginTests: XCTestCase {
-    func testSavedBrightnessTargetsBuiltInDisplayAfterItsIDChanges() async throws {
-        let controller = MockDisplayBrightnessController()
-        let initialDisplay = makeTestDisplay(id: 7, name: "Built-in Display", isBuiltin: true)
-        controller.snapshotValue = .init(
-            displays: [.init(display: initialDisplay, brightness: 0.8, isPendingWrite: false)],
-            errorMessage: nil
-        )
-        let plugin = DisplayBrightnessPlugin(controller: controller)
-        let entry = try XCTUnwrap(plugin.actionCatalogEntries.first {
-            $0.reference.key.actionID == "set-display-brightness"
-        })
-        let definition = try XCTUnwrap(plugin.actionDefinitions.first { $0.key == entry.reference.key })
-        XCTAssertTrue(definition.capabilities.contains([.automatic, .background]))
-        let reference = try XCTUnwrap(ActionPercentage.setting(37, in: entry.reference))
-
-        let reconnectedDisplay = makeTestDisplay(id: 12, name: "Built-in Display", isBuiltin: true)
-        let other = makeBrightnessDisplay(id: 7, name: "External Display", brightness: 0.6)
-        controller.snapshotValue = .init(
-            displays: [other, .init(display: reconnectedDisplay, brightness: 0.2, isPendingWrite: false)],
-            errorMessage: nil
-        )
-        let registry = ActionRegistry()
-        XCTAssertTrue(registry.synchronize([ActionProviderRegistration(
-            providerID: plugin.metadata.id,
-            identity: ObjectIdentifier(plugin),
-            definitions: plugin.actionDefinitions,
-            catalogEntries: plugin.actionCatalogEntries,
-            availability: plugin.actionAvailability(for:),
-            begin: { invocation in
-                do { return .success(try plugin.beginAction(invocation)) }
-                catch { return .failure(.providerFailure(error.localizedDescription)) }
-            }
-        )]).isEmpty)
-        let registered = try registry.registeredAction(for: reference).get()
-        XCTAssertNil(registered.catalogEntry)
-        XCTAssertTrue(registered.presentationEntry?.title.contains(reconnectedDisplay.name) == true)
-        XCTAssertEqual(registered.presentationEntry?.reference, reference)
-
-        let suiteName = "\(Self.self).\(UUID())"
-        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
-        defer { defaults.removePersistentDomain(forName: suiteName) }
-        let workflow = try WorkflowStore(userDefaults: defaults).upsert(
-            WorkflowDefinition(name: "Scheduled brightness", steps: [.init(reference: reference)])
-        ).get()
-        let runner = WorkflowRunner(
-            store: WorkflowStore(userDefaults: defaults),
-            registry: registry,
-            executor: ActionExecutor(registry: registry)
-        )
-        let run = try runner.makeExecutionHandle(
-            workflowID: workflow.id,
-            source: .automatic(ruleID: UUID(), triggerKind: "schedule"),
-            mode: .background
-        ).get()
-        let result = await run.actionHandle.result()
-        XCTAssertEqual(result, .succeeded())
-        XCTAssertEqual(controller.brightnessWrites, [.init(value: 0.37, displayID: 12, phase: .ended)])
-
-        controller.snapshotValue = .init(displays: [other], errorMessage: nil)
-        XCTAssertFalse(plugin.actionAvailability(for: reference).isAvailable)
-        let disconnectedResult = await ActionExecutor(registry: registry).execute(
-            ActionInvocation(reference: reference, source: .trackpadGesture, mode: .background)
-        )
-        guard case .rejected(.unavailable) = disconnectedResult else {
-            return XCTFail("Expected the missing display to be unavailable")
-        }
-        XCTAssertEqual(controller.brightnessWrites.count, 1)
-    }
-
     func testVoiceUsesFreshReadbackAndRejectsStaleAbsoluteTargets() async throws {
         let controller = MockDisplayBrightnessController()
         let display = makeTestDisplay(id: 7, name: "Display", isBuiltin: true)
@@ -219,24 +150,6 @@ final class DisplayBrightnessPluginTests: XCTestCase {
         XCTAssertTrue(definition.capabilities.contains(.cancellable))
     }
 
-    func testAllDisplaysBrightnessDoesNotAdjustReplacementDuringAction() async throws {
-        let controller = MockDisplayBrightnessController()
-        controller.snapshotValue = .init(displays: [
-            makeBrightnessDisplay(id: 7, name: "First", brightness: 0.5),
-            makeBrightnessDisplay(id: 8, name: "Second", brightness: 0.6),
-        ], errorMessage: nil)
-        controller.onCompletedWrite = { [weak controller] in
-            controller?.actionIdentifiers[8] = "replacement"
-        }
-        let preferences = DisplayBrightnessShortcutPreferences(storage: DisplayBrightnessMemoryStorage())
-        preferences.targetMode = .allDisplays
-        let plugin = DisplayBrightnessPlugin(controller: controller, shortcutPreferences: preferences)
-        let reference = ActionReference(key: .init(providerID: "display-brightness", actionID: "display-brightness.decrease"))
-        let handle = try plugin.beginAction(.init(reference: reference, source: .test, mode: .background))
-        guard case .failed = await handle.result() else { return XCTFail("A replaced target should fail") }
-        XCTAssertEqual(controller.brightnessWrites.map(\.displayID), [7])
-    }
-
     func testDeactivationCancelsOutstandingControllerWrites() {
         let controller = MockDisplayBrightnessController()
         let plugin = DisplayBrightnessPlugin(controller: controller)
@@ -308,27 +221,6 @@ final class DisplayBrightnessPluginTests: XCTestCase {
         XCTAssertEqual(controller.brightnessWrites.map(\.displayID), [7, 9])
     }
 
-    func testSliderGestureDoesNotTransferToReplacementAtSameID() throws {
-        let controller = MockDisplayBrightnessController()
-        controller.snapshotValue = .init(
-            displays: [makeBrightnessDisplay(id: 7, name: "Original", brightness: 0.7)], errorMessage: nil
-        )
-        let plugin = DisplayBrightnessPlugin(controller: controller)
-        plugin.handleAction(.setDisclosureExpanded(true))
-        let previous = try XCTUnwrap(plugin.rowState.detail?.primaryControls.first?.id)
-        plugin.handleAction(.setSlider(controlID: previous, value: 0.6, phase: .changed))
-
-        controller.actionIdentifiers[7] = "replacement"
-        controller.snapshotValue = .init(
-            displays: [makeBrightnessDisplay(id: 7, name: "Replacement", brightness: 0.4)], errorMessage: nil
-        )
-        let current = try XCTUnwrap(plugin.rowState.detail?.primaryControls.first?.id)
-        XCTAssertNotEqual(current, previous)
-        plugin.handleAction(.setSlider(controlID: previous, value: 0.6, phase: .ended))
-        plugin.handleAction(.setSlider(controlID: current, value: 0.3, phase: .ended))
-        XCTAssertEqual(controller.brightnessWrites.map(\.value), [0.6, 0.3])
-    }
-
     func testSliderPowerButtonTurnsItsDisplayOffAndBackOn() async throws {
         let controller = MockDisplayBrightnessController()
         controller.snapshotValue = DisplayBrightnessSnapshot(
@@ -352,18 +244,18 @@ final class DisplayBrightnessPluginTests: XCTestCase {
         let controls = try XCTUnwrap(plugin.rowState.detail?.primaryControls)
         // A display switched off by MacTools keeps a greyed slider whose button turns it back on.
         XCTAssertEqual(
-            controls.map(\.sectionTitle),
-            ["Studio Display", "LG UltraFine", "Built-in Display"]
+            controls.map(\.id),
+            ["display.7.brightness", "display.9.brightness", "display.1.brightness"]
         )
         XCTAssertEqual(controls.map(\.actionIconSystemName), ["power", nil, "power"])
         XCTAssertEqual(controls.map(\.isEnabled), [true, true, false])
 
-        plugin.handleAction(.invokeAction(controlID: controls[2].id))
+        plugin.handleAction(.invokeAction(controlID: "display.1.brightness"))
         XCTAssertEqual(coordinator.restoredDisplayIDs, [1])
 
         let disabled = expectation(description: "display switched off")
         coordinator.onDisable = { _ in disabled.fulfill() }
-        plugin.handleAction(.invokeAction(controlID: controls[0].id))
+        plugin.handleAction(.invokeAction(controlID: "display.7.brightness"))
         await fulfillment(of: [disabled], timeout: 1)
 
         XCTAssertEqual(coordinator.disabledDisplayIDs, [7])

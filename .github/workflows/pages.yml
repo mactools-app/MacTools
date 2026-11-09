@@ -29,9 +29,8 @@ permissions:
   id-token: write
 
 concurrency:
-  # Acquire before checking out main and hold through deployment.
   group: pages
-  queue: max
+  cancel-in-progress: false
 
 jobs:
   deploy:

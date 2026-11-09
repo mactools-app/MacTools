@@ -1,6 +1,7 @@
 import AppKit
 import CoreGraphics
 import Foundation
+import OSLog
 import SwiftUI
 import MacToolsPluginKit
 
@@ -73,23 +74,6 @@ struct DisplayVolumeShortcutAction: Equatable {
     let id: String
     let direction: DisplayVolumeShortcutDirection
     let targetDisplayIDs: [CGDirectDisplayID]
-    private let identifiers: [CGDirectDisplayID: String]
-    private let generation: UInt64
-
-    init(id: String, direction: DisplayVolumeShortcutDirection, targetDisplayIDs: [CGDirectDisplayID],
-         identifier: (CGDirectDisplayID) -> String?) {
-        self.id = id
-        self.direction = direction
-        self.targetDisplayIDs = targetDisplayIDs
-        generation = DisplayDDCIdentity.bindingGeneration
-        identifiers = Dictionary(uniqueKeysWithValues: targetDisplayIDs.compactMap { id in
-            identifier(id).map { (id, $0) }
-        })
-    }
-
-    func matches(_ displayID: CGDirectDisplayID, identifier: String?) -> Bool {
-        generation == DisplayDDCIdentity.bindingGeneration && identifiers[displayID] == identifier
-    }
 }
 
 struct DisplayVolumeShortcutAcceleration {
@@ -281,10 +265,8 @@ final class DisplayVolumePlugin:
         ]
     }
 
-    private static let setDisplayVolumeActionID = "set-display-volume"
-
     var actionDefinitions: [ActionDefinition] {
-        let relativeActions = [DisplayVolumeShortcutDirection.decrease, .increase].map { direction in
+        [DisplayVolumeShortcutDirection.decrease, .increase].map { direction in
             let title = localization.format(
                 "shortcut.titleFormat",
                 defaultValue: "%@音量",
@@ -307,100 +289,53 @@ final class DisplayVolumePlugin:
                 capabilities: [.automatic, .background, .foregroundInteractive, .cancellable]
             )
         }
-        return relativeActions + [setDisplayVolumeDefinition]
-    }
-
-    private var setDisplayVolumeDefinition: ActionDefinition {
-        ActionDefinition(
-            key: ActionKey(providerID: metadata.id, actionID: Self.setDisplayVolumeActionID),
-            title: localization.string("action.set.title", defaultValue: "设置显示器音量"),
-            description: localization.string("action.set.description", defaultValue: "将指定显示器的音量调节到目标百分比"),
-            systemImage: "speaker.wave.2",
-            parameters: [
-                ActionParameterDefinition(id: DisplayActionTarget.parameterID, title: metadata.title, kind: .string, portability: .localOnly),
-                ActionPercentage.parameter,
-            ],
-            capabilities: [.automatic, .background, .foregroundInteractive, .cancellable]
-        )
-    }
-
-    var actionCatalogEntries: [ActionCatalogEntry] {
-        actionDefinitions.filter { $0.parameters.isEmpty }.map {
-            ActionCatalogEntry(reference: ActionReference(key: $0.key), title: $0.title)
-        } + DisplayActionTarget.catalogEntries(
-            for: controller.snapshot().displays.map(\.display),
-            definition: setDisplayVolumeDefinition,
-            identifier: controller.actionIdentifier(for:)
-        )
     }
 
     func actionAvailability(for reference: ActionReference) -> ActionAvailability {
-        if reference.key.actionID == Self.setDisplayVolumeActionID {
-            guard let target = DisplayActionTarget.resolve(
-                reference,
-                in: controller.snapshot().displays.map(\.display),
-                identifier: controller.actionIdentifier(for:)
-            ) else { return .unavailable(PluginKitLocalization.actionUnavailable) }
-            return controller.exactVolumeAvailability(for: target.display.id)
-        }
         guard Self.shortcutDirection(for: reference.key.actionID) != nil else {
             return .unavailable(PluginKitLocalization.actionUnavailable)
         }
-        let targets = shortcutTargets(in: controller.snapshot())
-        if let reason = relativeVolumeUnavailableReason(for: targets) {
-            return .unavailable(reason)
-        }
-        return .available
+        return controller.snapshot().displays.isEmpty
+            ? .unavailable(
+                localization.string(
+                    "action.unavailable.noDisplays",
+                    defaultValue: "未检测到可调节音量的显示器。"
+                )
+            )
+            : .available
     }
 
     func beginAction(_ invocation: ActionInvocation) throws -> ActionExecutionHandle {
-        if invocation.reference.key.actionID == Self.setDisplayVolumeActionID {
-            let reference = invocation.reference
-            let controller = controller
-            return ActionExecutionHandle {
-                guard !Task.isCancelled else { return .cancelled }
-                guard let target = DisplayActionTarget.resolve(
-                    reference,
-                    in: controller.snapshot().displays.map(\.display),
-                    identifier: controller.actionIdentifier(for:)
-                ) else { return .failed(message: PluginKitLocalization.actionUnavailable) }
-                switch await controller.setExactVolumeAndWait(
-                    Double(target.percent) / 100, for: target.display.id, identifier: target.identifier
-                ) {
-                case .succeeded: return .succeeded()
-                case let .failed(message): return .failed(message: message)
-                }
-            }
-        }
         guard let direction = Self.shortcutDirection(for: invocation.reference.key.actionID) else {
             return ActionExecutionHandle { .failed(message: PluginKitLocalization.actionUnavailable) }
         }
-        let targets = shortcutTargets(in: controller.snapshot())
-        if let reason = relativeVolumeUnavailableReason(for: targets) {
-            return ActionExecutionHandle { .failed(message: reason) }
+        let snapshot = controller.snapshot()
+        let targetDisplayIDs = shortcutTargetDisplayIDs(in: snapshot)
+        guard !targetDisplayIDs.isEmpty else {
+            let failureMessage = localization.string(
+                "action.unavailable.noDisplays",
+                defaultValue: "未检测到可调节音量的显示器。"
+            )
+            return ActionExecutionHandle {
+                .failed(message: failureMessage)
+            }
         }
         let action = DisplayVolumeShortcutAction(
             id: invocation.reference.key.actionID,
             direction: direction,
-            targetDisplayIDs: targets.map(\.id),
-            identifier: controller.actionIdentifier(for:)
+            targetDisplayIDs: targetDisplayIDs
         )
-        let delta = action.direction.multiplier / 100
-        return ActionExecutionHandle { [self] in
-            let displays = displays(for: action)
-            guard displays.count == action.targetDisplayIDs.count else {
-                return .failed(message: PluginKitLocalization.actionUnavailable)
-            }
-            if let reason = relativeVolumeUnavailableReason(for: displays) {
-                return .failed(message: reason)
-            }
+        let targets = displays(for: action.targetDisplayIDs).map { display in
+            (
+                display.id,
+                min(1, max(0, display.volume + action.direction.multiplier / 100))
+            )
+        }
+        let controller = controller
+        return ActionExecutionHandle {
             var failures: [String] = []
-            for displayID in action.targetDisplayIDs {
-                guard action.matches(displayID, identifier: controller.actionIdentifier(for: displayID)) else {
-                    failures.append(PluginKitLocalization.actionUnavailable)
-                    continue
-                }
-                switch await controller.adjustVolumeAndWait(by: delta, for: displayID) {
+            for (displayID, target) in targets {
+                switch await controller.setVolumeAndWait(target, for: displayID) {
                 case .succeeded:
                     continue
                 case let .failed(message):
@@ -445,7 +380,7 @@ final class DisplayVolumePlugin:
     }
 
     func refreshDisplayTopology() {
-        controller.refreshDisplayTopology()
+        controller.refresh()
         displayTopologyTask?.cancel()
         displayTopologyTask = Task { @MainActor [weak self] in
             guard !Task.isCancelled else { return }
@@ -462,9 +397,12 @@ final class DisplayVolumePlugin:
             isDetailRequested = value
             onStateChange?()
         case let .setSlider(controlID, value, phase):
-            guard let displayID = controller.snapshot().displays.first(where: {
-                sliderControlID(for: $0.id) == controlID
-            })?.id else { return }
+            guard let displayID = Self.parseDisplayID(from: controlID) else {
+                Logger(subsystem: Bundle.main.bundleIdentifier ?? "cc.ggbond.mactools", category: "DisplayVolumePlugin").error(
+                    "invalid slider control id \(controlID, privacy: .public)"
+                )
+                return
+            }
 
             controller.setVolume(value, for: displayID, phase: phase)
             onStateChange?()
@@ -511,16 +449,28 @@ final class DisplayVolumePlugin:
         controller.cancelOutstandingWrites()
     }
 
-    private func sliderControlID(for displayID: CGDirectDisplayID) -> String {
-        // SwiftUI retains the gesture's local value for the lifetime of this ID.
-        let identity = controller.actionIdentifier(for: displayID)?.hashValue ?? 0
-        let binding = DisplayDDCIdentity.bindingGeneration
-        return "\(Constants.displayControlPrefix)\(displayID).\(binding).\(identity)\(Constants.volumeControlSuffix)"
+    static func parseDisplayID(from controlID: String) -> CGDirectDisplayID? {
+        guard
+            controlID.hasPrefix(Constants.displayControlPrefix),
+            controlID.hasSuffix(Constants.volumeControlSuffix)
+        else {
+            return nil
+        }
+
+        let startIndex = controlID.index(
+            controlID.startIndex,
+            offsetBy: Constants.displayControlPrefix.count
+        )
+        let endIndex = controlID.index(
+            controlID.endIndex,
+            offsetBy: -Constants.volumeControlSuffix.count
+        )
+        return CGDirectDisplayID(controlID[startIndex..<endIndex])
     }
 
     private func subtitle(for displays: [DisplayVolumeDisplay]) -> String {
         if displays.count == 1, let display = displays.first {
-            return display.isReady ? "\(display.display.name) \(Self.percentText(for: display.volume))" : display.display.name
+            return "\(display.display.name) \(Self.percentText(for: display.volume))"
         }
 
         return localization.format("panel.subtitle.displayCountFormat", defaultValue: "%d 个显示器", displays.count)
@@ -529,7 +479,7 @@ final class DisplayVolumePlugin:
     private func buildDetail(for displays: [DisplayVolumeDisplay]) -> PluginPanelDetail {
         let volumeControls = displays.map { display in
             PluginPanelControl(
-                id: sliderControlID(for: display.id),
+                id: "\(Constants.displayControlPrefix)\(display.display.id)\(Constants.volumeControlSuffix)",
                 kind: .slider,
                 options: [],
                 selectedOptionID: nil,
@@ -541,7 +491,7 @@ final class DisplayVolumePlugin:
                 sliderValue: display.volume,
                 sliderBounds: 0...1,
                 sliderStep: 0.01,
-                valueLabel: display.isReady ? Self.percentText(for: display.volume) : nil,
+                valueLabel: Self.percentText(for: display.volume),
                 isEnabled: true
             )
         }
@@ -602,8 +552,7 @@ final class DisplayVolumePlugin:
         let action = DisplayVolumeShortcutAction(
             id: id,
             direction: direction,
-            targetDisplayIDs: targetDisplayIDs,
-            identifier: controller.actionIdentifier(for:)
+            targetDisplayIDs: targetDisplayIDs
         )
         let now = Date()
         let initialStep = shortcutAcceleration.stepForPress(actionID: id, now: now)
@@ -672,59 +621,39 @@ final class DisplayVolumePlugin:
         step: Int,
         phase: PluginPanelAction.SliderPhase
     ) {
-        let displays = displays(for: action)
-        guard displays.count == action.targetDisplayIDs.count,
-              relativeVolumeUnavailableReason(for: displays) == nil else { return }
         let delta = Double(step) / 100 * action.direction.multiplier
-        for display in displays {
-            controller.adjustVolume(by: delta, for: display.id, phase: phase)
+        for display in displays(for: action.targetDisplayIDs) {
+            controller.setVolume(display.volume + delta, for: display.id, phase: phase)
         }
     }
 
     private func commitShortcutAction(_ action: DisplayVolumeShortcutAction) {
-        applyShortcutAction(action, step: 0, phase: .ended)
+        for display in displays(for: action.targetDisplayIDs) {
+            controller.setVolume(display.volume, for: display.id, phase: .ended)
+        }
     }
 
-    private func displays(for action: DisplayVolumeShortcutAction) -> [DisplayVolumeDisplay] {
+    private func displays(for displayIDs: [CGDirectDisplayID]) -> [DisplayVolumeDisplay] {
         let displaysByID = Dictionary(uniqueKeysWithValues: controller.snapshot().displays.map { ($0.id, $0) })
-        return action.targetDisplayIDs.compactMap { id in
-            guard action.matches(id, identifier: controller.actionIdentifier(for: id)) else { return nil }
-            return displaysByID[id]
-        }
+        return displayIDs.compactMap { displaysByID[$0] }
     }
 
     private func shortcutTargetDisplayIDs(in snapshot: DisplayVolumeSnapshot) -> [CGDirectDisplayID] {
-        let targets = shortcutTargets(in: snapshot)
-        guard relativeVolumeUnavailableReason(for: targets) == nil else { return [] }
-        return targets.map(\.id)
-    }
-
-    private func shortcutTargets(in snapshot: DisplayVolumeSnapshot) -> [DisplayVolumeDisplay] {
         switch shortcutPreferences.targetMode {
         case .followsMouse:
             if let mouseDisplayID = mouseDisplayIDProvider(),
-               let mouseDisplay = snapshot.displays.first(where: { $0.id == mouseDisplayID }) {
-                return [mouseDisplay]
+               snapshot.displays.contains(where: { $0.id == mouseDisplayID }) {
+                return [mouseDisplayID]
             }
-            if let display = snapshot.displays.first(where: { $0.display.isMain }) ?? snapshot.displays.first {
-                return [display]
-            }
-            return []
-        case .allDisplays:
-            return snapshot.displays
-        }
-    }
 
-    private func relativeVolumeUnavailableReason(for targets: [DisplayVolumeDisplay]) -> String? {
-        if targets.isEmpty {
-            return localization.string(
-                "action.unavailable.noDisplays",
-                defaultValue: "未检测到可调节音量的显示器。"
-            )
+            if let mainDisplay = snapshot.displays.first(where: { $0.display.isMain }) {
+                return [mainDisplay.id]
+            }
+
+            return snapshot.displays.first.map { [$0.id] } ?? []
+        case .allDisplays:
+            return snapshot.displays.map(\.id)
         }
-        guard let unavailable = targets.first(where: { !$0.canAdjustRelative }) else { return nil }
-        return DisplayVolumeControllerError.volumeUnavailable(displayName: unavailable.display.name)
-            .localizedDescription(localization: localization)
     }
 
     private static var initialHoldDelay: TimeInterval {
@@ -805,13 +734,5 @@ extension DisplayVolumePlugin: PluginPortablePreferencesProviding,
         guard shortcutPreferences.restorePortableBackup(data) else { return false }
         onStateChange?()
         return true
-    }
-}
-
-extension DisplayVolumePlugin: PluginActionExposureProviding {
-    func exposurePolicy(for reference: ActionReference, on surface: ActionExposureSurface) -> ActionExposurePolicy {
-        if surface.rawValue == "voice-control",
-           reference.key.actionID == Self.setDisplayVolumeActionID { return .excluded }
-        return .automatic
     }
 }

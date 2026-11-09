@@ -5,37 +5,6 @@ import XCTest
 
 @MainActor
 final class ActionRegistryTests: XCTestCase {
-    func testDisconnectedPercentageActionsKeepTheirLocalDisplayLabelsAfterReload() throws {
-        let suite = "ActionRegistryTests.\(UUID())"
-        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
-        defer { defaults.removePersistentDomain(forName: suite) }
-        let registry = ActionRegistry(displayLabelDefaults: defaults)
-        let provider = ActionRegistryTestProvider()
-        let definition = makeActionDefinition(parameters: [
-            .init(id: DisplayActionTarget.parameterID, title: "Display", kind: .string, portability: .localOnly),
-            ActionPercentage.parameter,
-        ])
-        let entries = try ["Display A", "Display B"].enumerated().map { index, name in
-            let parameters = try ActionParameterSet([
-                DisplayActionTarget.parameterID: .string("monitor-\(index)"),
-                ActionPercentage.parameterID: .integer(50),
-            ])
-            let reference = ActionReference(key: definition.key, parameters: parameters)
-            return ActionCatalogEntry(reference: reference, title: name, subtitle: name)
-        }
-        registry.synchronize([provider.registration(definitions: [definition], catalogEntries: entries)])
-
-        let restarted = ActionRegistry(displayLabelDefaults: defaults)
-        restarted.synchronize([provider.registration(definitions: [definition], catalogEntries: [])])
-        for entry in entries {
-            let saved = try XCTUnwrap(ActionPercentage.setting(30, in: entry.reference))
-            let action = try restarted.registeredAction(for: saved).get()
-            XCTAssertEqual(action.presentationEntry?.subtitle, entry.subtitle)
-            XCTAssertEqual(action.presentationEntry?.reference, saved)
-            XCTAssertEqual(restarted.portability(of: saved), .knownNonPortable)
-        }
-    }
-
     func testUnchangedCatalogKeepsPublicationsQuietAndRefreshesProviderCallbacks() {
         let registry = ActionRegistry(), provider = ActionRegistryTestProvider()
         let definition = makeActionDefinition()
