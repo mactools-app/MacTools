@@ -48,6 +48,7 @@ enum DisplayBrightnessControllerError: Error, LocalizedError {
     case ddcWriteFailed(displayName: String)
     case softwareBrightnessFailed
     case nativeBrightnessWriteFailed
+    case nativeBrightnessReadbackMismatch(requested: Double, observed: Double)
     case failed(message: String)
 
     var errorDescription: String? {
@@ -82,6 +83,10 @@ enum DisplayBrightnessControllerError: Error, LocalizedError {
             return localization.string("error.softwareBrightnessFailed", defaultValue: "软件亮度调节失败")
         case .nativeBrightnessWriteFailed:
             return localization.string("error.nativeBrightnessWriteFailed", defaultValue: "原生亮度写入失败")
+        case let .nativeBrightnessReadbackMismatch(requested, observed):
+            return localization.format(
+                "voice.mismatch", defaultValue: "请求 %.0f%%，硬件读回 %.0f%%。", requested * 100, observed * 100
+            )
         case .failed(let message):
             return message
         }
@@ -104,11 +109,17 @@ protocol DisplayBrightnessControlling: AnyObject {
         for displayID: CGDirectDisplayID
     ) async -> DisplayBrightnessWriteResult
     func cancelOutstandingWrites()
+    var canSetBuiltInBrightness: Bool { get }
+    func setBuiltInBrightnessAndWait(_ value: Double) async -> DisplayBrightnessWriteResult
     func observeBrightness(for displayID: CGDirectDisplayID) async -> DisplayBrightnessObservation?
 }
 
 extension DisplayBrightnessControlling {
     func cancelOutstandingWrites() {}
+    var canSetBuiltInBrightness: Bool { false }
+    func setBuiltInBrightnessAndWait(_ value: Double) async -> DisplayBrightnessWriteResult {
+        .failed(message: PluginKitLocalization.actionUnavailable)
+    }
     func observeBrightness(for displayID: CGDirectDisplayID) async -> DisplayBrightnessObservation? { nil }
 }
 

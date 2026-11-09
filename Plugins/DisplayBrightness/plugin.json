@@ -65,6 +65,8 @@
     "action.disable-built-in-display.description": "@localizable.displayDisable.action.disable",
     "action.restore-built-in-display.title": "@localizable.displayDisable.action.restore",
     "action.restore-built-in-display.description": "@localizable.displayDisable.action.restore",
+    "action.set-built-in-brightness.title": "@localizable.action.setBuiltIn.title",
+    "action.set-built-in-brightness.description": "@localizable.action.setBuiltIn.description",
     "discovery.software-brightness": {
       "ar": "سطوع برمجي",
       "de": "Software-Helligkeit",
@@ -364,6 +366,33 @@
               "trackpad-gesture",
               "app-intent",
               "manual"
+            ],
+            "automaticEligible": true,
+            "externalInvocation": "unavailable"
+          },
+          {
+            "id": "set-built-in-brightness",
+            "title": "@productStrings.action.set-built-in-brightness.title",
+            "description": "@productStrings.action.set-built-in-brightness.description",
+            "keywords": [
+              "brightness",
+              "built-in display",
+              "percent"
+            ],
+            "systemImage": "sun.max",
+            "parameters": [
+              {
+                "id": "percent",
+                "kind": "integer",
+                "isRequired": true,
+                "portability": "portable"
+              }
+            ],
+            "permissionIDs": [],
+            "risk": "safe",
+            "surfaces": [
+              "workflow",
+              "automatic-rule"
             ],
             "automaticEligible": true,
             "externalInvocation": "unavailable"

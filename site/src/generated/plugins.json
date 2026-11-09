@@ -8170,6 +8170,59 @@
                   }
                 },
                 {
+                  "automaticEligible": true,
+                  "description": {
+                    "ar": "اضبط الشاشة المدمجة على سطوع محدد.",
+                    "de": "Stelle das integrierte Display auf eine bestimmte Helligkeit ein.",
+                    "en": "Set the built-in display to a specific brightness.",
+                    "es": "Ajusta la pantalla integrada a un brillo específico.",
+                    "fr": "Règle l’écran intégré sur une luminosité précise.",
+                    "ja": "内蔵ディスプレイを指定の明るさに調整します。",
+                    "ko": "내장 디스플레이를 지정한 밝기로 조절합니다.",
+                    "pt": "Ajusta a tela integrada para um brilho específico.",
+                    "ru": "Устанавливает заданную яркость встроенного дисплея.",
+                    "tr": "Yerleşik ekranı belirli bir parlaklığa ayarlar.",
+                    "zh-Hans": "将内建显示屏调节到指定亮度。",
+                    "zh-Hant": "將內建顯示器調整到指定亮度。"
+                  },
+                  "externalInvocation": "unavailable",
+                  "id": "set-built-in-brightness",
+                  "keywords": [
+                    "brightness",
+                    "built-in display",
+                    "percent"
+                  ],
+                  "parameters": [
+                    {
+                      "id": "percent",
+                      "isRequired": true,
+                      "kind": "integer",
+                      "portability": "portable"
+                    }
+                  ],
+                  "permissionIDs": [],
+                  "risk": "safe",
+                  "surfaces": [
+                    "workflow",
+                    "automatic-rule"
+                  ],
+                  "systemImage": "sun.max",
+                  "title": {
+                    "ar": "ضبط سطوع الشاشة المدمجة",
+                    "de": "Helligkeit des integrierten Displays einstellen",
+                    "en": "Set Built-In Display Brightness",
+                    "es": "Ajustar el brillo de la pantalla integrada",
+                    "fr": "Régler la luminosité de l’écran intégré",
+                    "ja": "内蔵ディスプレイの明るさを設定",
+                    "ko": "내장 디스플레이 밝기 설정",
+                    "pt": "Definir o brilho da tela integrada",
+                    "ru": "Установить яркость встроенного дисплея",
+                    "tr": "Yerleşik ekran parlaklığını ayarla",
+                    "zh-Hans": "设置内建显示屏亮度",
+                    "zh-Hant": "設定內建顯示器亮度"
+                  }
+                },
+                {
                   "automaticEligible": false,
                   "description": {
                     "ar": "ضبط سطوع الشاشة",

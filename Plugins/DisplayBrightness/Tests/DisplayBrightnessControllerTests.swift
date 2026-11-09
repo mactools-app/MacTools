@@ -1,11 +1,64 @@
 import AppKit
 import CoreGraphics
 import XCTest
+import os
 import MacToolsPluginKit
 @testable import DisplayBrightnessPlugin
 
 @MainActor
 final class DisplayBrightnessControllerTests: XCTestCase {
+    func testBuiltInExactBrightnessRequiresNativeReadback() async {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
+        for observed in [0.7, 0.6] {
+            let backend = ScriptedBrightnessBackend(
+                display: display, results: [], suspendsFirstWrite: false, readbackAfterWrite: observed
+            )
+            let controller = DisplayBrightnessController(
+                displayProvider: StaticDisplayProvider(display: display),
+                isBuiltInDisplayEligible: { _ in true },
+                backendBuilder: StaticBrightnessBackendBuilder(backend: backend),
+                minimumWriteInterval: 0
+            )
+            controller.refresh()
+            await waitUntil { controller.canSetBuiltInBrightness }
+            let result = await controller.setBuiltInBrightnessAndWait(0.7)
+            if observed == 0.7 {
+                XCTAssertEqual(result, .succeeded)
+            } else if case .succeeded = result {
+                XCTFail("Mismatched native readback must fail")
+            }
+            XCTAssertEqual(controller.snapshot().displays.first?.brightness, observed)
+            XCTAssertEqual(backend.writeValues, [0.7])
+        }
+    }
+
+    func testQueuedBuiltInBrightnessRechecksEligibilityBeforeWriting() async {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
+        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
+        let eligible = OSAllocatedUnfairLock(initialState: true)
+        let controller = DisplayBrightnessController(
+            displayProvider: StaticDisplayProvider(display: display),
+            isBuiltInDisplayEligible: { _ in eligible.withLock { $0 } },
+            backendBuilder: StaticBrightnessBackendBuilder(backend: backend),
+            minimumWriteInterval: 0
+        )
+        controller.refresh()
+        await waitUntil { controller.canSetBuiltInBrightness }
+        let slider = Task { await controller.setBrightnessAndWait(0.4, for: display.id) }
+        await waitUntil { backend.firstWriteStarted }
+        let scheduled = Task { await controller.setBuiltInBrightnessAndWait(0.7) }
+        await waitUntil { controller.snapshot().displays.first?.brightness == 0.7 }
+        eligible.withLock { $0 = false }
+        backend.releaseFirstWrite()
+
+        let sliderResult = await slider.value
+        XCTAssertEqual(sliderResult, .succeeded)
+        guard case .failed = await scheduled.value else {
+            return XCTFail("A target that became ineligible must fail before the queued write")
+        }
+        XCTAssertEqual(backend.writeValues, [0.4])
+    }
+
     func testShadeObservationKeepsPresentationOnMainAndSkipsInFlightWrites() async {
         let display = makeTestDisplay(id: 42, name: "Shade Display")
         let backend = ScriptedBrightnessBackend(display: display, results: [.success(())],
@@ -664,6 +717,7 @@ private final class ScriptedBrightnessBackend: DisplayBrightnessBackend, @unchec
     private var brightness = 1.0
     private var results: [Result<Void, Error>]
     private let suspendsFirstWrite: Bool
+    private let readbackAfterWrite: Double?
     private var didStartFirstWrite = false
     private var writes: [Double] = []
     private var cleanups = 0
@@ -674,12 +728,14 @@ private final class ScriptedBrightnessBackend: DisplayBrightnessBackend, @unchec
         display: DisplayInfo,
         results: [Result<Void, Error>],
         suspendsFirstWrite: Bool,
-        kind: DisplayBrightnessBackendKind = .appleNative
+        kind: DisplayBrightnessBackendKind = .appleNative,
+        readbackAfterWrite: Double? = nil
     ) {
         self.kind = kind
         self.display = display
         self.results = results
         self.suspendsFirstWrite = suspendsFirstWrite
+        self.readbackAfterWrite = readbackAfterWrite
     }
 
     var firstWriteStarted: Bool {
@@ -732,7 +788,7 @@ private final class ScriptedBrightnessBackend: DisplayBrightnessBackend, @unchec
         try result.get()
 
         lock.lock()
-        brightness = value
+        brightness = readbackAfterWrite ?? value
         lock.unlock()
     }
 

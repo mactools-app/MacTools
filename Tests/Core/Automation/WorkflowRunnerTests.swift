@@ -2,6 +2,7 @@ import Foundation
 import MacToolsPluginKit
 import XCTest
 @testable import MacTools
+@testable import DisplayBrightnessPlugin
 
 @MainActor
 final class WorkflowRunnerTests: XCTestCase {
@@ -15,6 +16,39 @@ final class WorkflowRunnerTests: XCTestCase {
     override func tearDown() {
         UserDefaults(suiteName: suiteName)?.removePersistentDomain(forName: suiteName)
         super.tearDown()
+    }
+
+    func testScheduledBuiltInBrightnessUsesStoredPercentage() async throws {
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        let store = WorkflowStore(userDefaults: defaults)
+        let registry = ActionRegistry()
+        let brightness = MockDisplayBrightnessController()
+        brightness.canSetBuiltInBrightness = true
+        let plugin = DisplayBrightnessPlugin(controller: brightness)
+        registry.synchronize([ActionProviderRegistration(
+            providerID: plugin.metadata.id,
+            identity: ObjectIdentifier(plugin),
+            definitions: plugin.actionDefinitions,
+            catalogEntries: plugin.actionCatalogEntries,
+            availability: { plugin.actionAvailability(for: $0) },
+            begin: { invocation in
+                do { return .success(try plugin.beginAction(invocation)) }
+                catch { return .failure(.providerFailure(error.localizedDescription)) }
+            }
+        )])
+        let reference = try XCTUnwrap(WorkflowBuiltInBrightness.reference(for: 70))
+        XCTAssertFalse(registry.catalogEntries.contains { $0.reference.key == reference.key })
+        let workflow = try saveWorkflow(in: store, steps: [WorkflowStep(reference: reference)])
+        let runner = WorkflowRunner(store: store, registry: registry, executor: ActionExecutor(registry: registry))
+
+        let execution = try runner.makeExecutionHandle(
+            workflowID: workflow.id,
+            source: .automatic(ruleID: UUID(), triggerKind: "schedule"),
+            mode: .background
+        ).get()
+        let result = await execution.actionHandle.result()
+        XCTAssertEqual(result, .succeeded())
+        XCTAssertEqual(brightness.builtInBrightnessWrites, [0.7])
     }
 
     func testRunnerExecutesSeriallyHonorsDelayAndContinuesAfterConfiguredFailure() async throws {
