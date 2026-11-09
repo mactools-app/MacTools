@@ -3,11 +3,13 @@ from __future__ import annotations
 import importlib.util
 import hashlib
 import json
+import os
 import pathlib
 import plistlib
 import stat
 import subprocess
 import tempfile
+import textwrap
 import unittest
 import zipfile
 from unittest import mock
@@ -361,6 +363,69 @@ class NightlyReleaseTests(unittest.TestCase):
             ),
             ["nightly-2-1"],
         )
+
+    def test_workflow_retention_protects_a_deployed_only_catalog_release(self) -> None:
+        workflow = (REPO_ROOT / ".github/workflows/nightly.yml").read_text()
+        step = workflow.split("      - name: Apply bounded Nightly retention\n", 1)[1]
+        body = textwrap.dedent(step.split("        run: |\n", 1)[1].split("\n      - name:", 1)[0])
+        catalog_path = "docs/nightly/plugins/v7/catalog.json"
+        package_root = "https://github.com/example/MacTools/releases/download"
+        fixtures = r'''
+gh() {
+    case "$1 $2" in
+        "api --paginate") cat "$RUNNER_TEMP/releases.json" ;;
+        "release delete") printf '%s\n' "$3" >> "$RUNNER_TEMP/deletions" ;;
+        *) return 1 ;;
+    esac
+}
+git() {
+    case "$1 $2" in
+        "ls-tree -r") printf '%s\n' "$CATALOG_PATH" ;;
+        "show origin/main:docs/nightly/appcast.xml") cat "$RUNNER_TEMP/appcast.xml" ;;
+        "show origin/main:$CATALOG_PATH") cat "$RUNNER_TEMP/committed.json" ;;
+        *) return 1 ;;
+    esac
+}
+curl() {
+    case "$5" in
+        */appcast.xml) cp "$RUNNER_TEMP/appcast.xml" "$7" ;;
+        */v7/catalog.json)
+            case "$CATALOG_AVAILABLE" in
+                yes) cp "$RUNNER_TEMP/deployed.json" "$7" ;;
+                empty) printf ' ' > "$7" ;;
+                *) return 1 ;;
+            esac
+            ;;
+        *) return 1 ;;
+    esac
+}
+'''
+        for available, expected in [("yes", ["nightly-89-1"]), ("empty", []), ("no", [])]:
+            with self.subTest(deployed_catalog=available), tempfile.TemporaryDirectory() as temp:
+                root = pathlib.Path(temp)
+                (root / "appcast.xml").write_text(
+                    f'<rss><enclosure url="{package_root}/nightly-119-1/app.dmg"/></rss>'
+                )
+                for name, tag in [("committed", "nightly-120-1"), ("deployed", "nightly-90-1")]:
+                    (root / f"{name}.json").write_text(json.dumps({
+                        "plugins": [{"package": {"url": f"{package_root}/{tag}/plugin.zip"}}]
+                    }))
+                (root / "releases.json").write_text(json.dumps([[
+                    {"id": index, "tag_name": f"nightly-{tag}-1", "draft": False,
+                     "prerelease": True, "published_at": f"2026-11-{index:02}T00:00:00Z"}
+                    for index, tag in enumerate([89, 90, 119, 120], 1)
+                ]]))
+                subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c", fixtures + body],
+                    cwd=REPO_ROOT, check=True, capture_output=True, text=True,
+                    env={"PATH": os.environ["PATH"], "RUNNER_TEMP": temp,
+                         "GITHUB_REPOSITORY": "example/MacTools",
+                         "NIGHTLY_APPCAST_RELATIVE_PATH": "docs/nightly/appcast.xml",
+                         "CATALOG_PATH": catalog_path, "CATALOG_AVAILABLE": available,
+                         "NIGHTLY_RETENTION_COUNT": "1"},
+                )
+                deletions = root / "deletions"
+                self.assertEqual(deletions.read_text().splitlines() if deletions.exists() else [], expected)
 
     def test_retention_never_deletes_the_advertised_tag(self) -> None:
         advertised_tag = "nightly-100-1"

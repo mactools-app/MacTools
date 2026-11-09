@@ -92,6 +92,15 @@ public struct SystemDisplayService: DisplayProviding {
     }
 }
 
+/// Serializes DDC transactions from plugins that share a monitor's request and reply channel.
+public enum DisplayDDCTransaction {
+    private static let queue = DispatchQueue(label: "MacTools.DisplayDDC")
+
+    public static func perform<Result>(_ transaction: () throws -> Result) rethrows -> Result {
+        try queue.sync(execute: transaction)
+    }
+}
+
 /// Identifies the display in a saved action independently of its current Core Graphics ID.
 public enum DisplayActionTarget {
     public static let parameterID = "display"
@@ -164,8 +173,10 @@ public final class DisplayActionWritePermit: Sendable {
         self.matchesDisplay = matchesDisplay
     }
 
+    public var isTargetCurrent: Bool { matchesDisplay() }
+
     public var canWrite: Bool {
-        matchesDisplay() && !cancelled.withLock { $0 }
+        isTargetCurrent && !cancelled.withLock { $0 }
     }
 
     public func cancel() {

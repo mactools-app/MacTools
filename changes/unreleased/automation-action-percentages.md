@@ -4,4 +4,4 @@ type: added
 area: Automation
 ---
 
-Workflow steps can save an exact percentage for actions that offer a percentage field.
+Workflow steps can save an exact percentage, and manual previews show the chosen display and percentage for display actions.

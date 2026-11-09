@@ -40,10 +40,6 @@ extension DDCVolumeTransport {
     }
 }
 
-private enum DDCCommunicationQueue {
-    static let shared = DispatchQueue(label: "MacTools.DisplayVolume.DDC")
-}
-
 final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
     private let display: DisplayInfo
     private let service: CFTypeRef
@@ -74,7 +70,7 @@ final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
     }
 
     func readVolume() throws -> DDCVolumeValue {
-        try DDCCommunicationQueue.shared.sync {
+        try DisplayDDCTransaction.perform {
             var payload = [DDCVolumeControl.volume]
             var reply = Array(repeating: UInt8.zero, count: 11)
             try performCommunication(send: &payload, reply: &reply)
@@ -87,7 +83,7 @@ final class Arm64DDCTransport: DDCVolumeTransport, @unchecked Sendable {
     }
 
     func writeVolume(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
-        try DDCCommunicationQueue.shared.sync {
+        try DisplayDDCTransaction.perform {
             var payload = [
                 DDCVolumeControl.volume,
                 UInt8(value >> 8),

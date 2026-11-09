@@ -111,6 +111,57 @@ final class DisplayBrightnessControllerTests: XCTestCase {
         XCTAssertEqual(sends, 1, "Cancellation after the first send must prevent the retry")
     }
 
+    func testBrightnessParserRejectsVolumeReply() throws {
+        func reply(code: UInt8) -> [UInt8] {
+            let bytes: [UInt8] = [0x6E, 0x88, 0x02, 0, code, 0, 0, 100, 0, 50]
+            return bytes + [bytes.reduce(0x50, ^)]
+        }
+        let brightness = try IntelDDCTransport.parseReply(reply(code: 0x10), displayName: "Fixture")
+        XCTAssertEqual(brightness.current, 50)
+        XCTAssertThrowsError(try IntelDDCTransport.parseReply(reply(code: 0x62), displayName: "Fixture"))
+    }
+
+    func testExactDDCBrightnessVerifiesRoundedRawStepAndRejectsInvalidReadback() throws {
+        let display = makeTestDisplay(id: 26, name: "External fixture")
+        let transport = ScalingDDCBrightnessTransport(maximum: 20)
+        let backend = try XCTUnwrap(DDCBrightnessBackend(display: display, transport: transport))
+        let permit = DisplayActionWritePermit { true }
+
+        XCTAssertEqual(try backend.writeExactBrightness(0.52, permit: permit), 0.5)
+        XCTAssertEqual(transport.writeValues, [10])
+
+        transport.invalidateRangeAfterNextWrite()
+        XCTAssertThrowsError(try backend.writeExactBrightness(0.5, permit: permit)) { error in
+            guard case DisplayBrightnessExactError.readbackUnavailable = error else {
+                return XCTFail("Expected invalid hardware readback to fail, got \(error)")
+            }
+        }
+        XCTAssertEqual(transport.writeValues, [10, 10])
+    }
+
+    func testCancelledExactBrightnessReconcilesAnInFlightWrite() async {
+        let display = makeTestDisplay(id: 22, name: "Fixture")
+        let backend = ScriptedBrightnessBackend(display: display, results: [.success(())], suspendsFirstWrite: true)
+        let controller = DisplayBrightnessController(
+            displayProvider: StaticDisplayProvider(display: display),
+            displayIdentifier: { _ in "fixture" },
+            backendBuilder: StaticBrightnessBackendBuilder(backend: backend),
+            shortWriteDelay: 0,
+            minimumWriteInterval: 0
+        )
+        controller.refresh()
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        let initialReadCount = backend.readCount
+        let write = Task { await controller.setExactBrightnessAndWait(0.2, for: display.id, identifier: "fixture") }
+        await waitUntil { backend.firstWriteStarted }
+        write.cancel()
+        backend.releaseFirstWrite()
+
+        guard case .failed = await write.value else { return XCTFail("Cancelled action must fail") }
+        XCTAssertGreaterThan(backend.readCount, initialReadCount)
+        XCTAssertEqual(controller.snapshot().displays.first?.brightness, 0.2)
+    }
+
     func testExactBrightnessRejectsAnUnverifiedMonitorBinding() throws {
         let display = makeTestDisplay(id: 26, name: "External fixture")
         let transport = try XCTUnwrap(Arm64DDCTransport(display: display, service: "fixture" as NSString, sendPacket: { _, _ in XCTFail("Unverified binding must not issue I/O"); return -1 }))
@@ -917,18 +968,26 @@ private final class UnavailableNativeBrightnessBackend: DisplayBrightnessBackend
 private final class ScalingDDCBrightnessTransport: DDCBrightnessTransport {
     private let lock = NSLock()
     private let failsReads: Bool
-    private var current: UInt16 = 100
+    private var current: UInt16
+    private var maximum: UInt16
+    private var shouldInvalidateRange = false
     private var writes: [UInt16] = []
     private var shouldFailNextWrite = false
 
-    init(failsReads: Bool = false) { self.failsReads = failsReads }
+    init(failsReads: Bool = false, maximum: UInt16 = 200) {
+        self.failsReads = failsReads
+        self.maximum = maximum
+        self.current = maximum / 2
+    }
+
+    func invalidateRangeAfterNextWrite() { lock.withLock { shouldInvalidateRange = true } }
 
     var currentValue: UInt16 { lock.withLock { current } }
     var writeValues: [UInt16] { lock.withLock { writes } }
 
     func readBrightness() throws -> DDCBrightnessValue {
         if failsReads { throw DisplayBrightnessControllerError.genericBrightnessUnavailable }
-        return lock.withLock { DDCBrightnessValue(current: current, maximum: 200) }
+        return lock.withLock { DDCBrightnessValue(current: current, maximum: maximum) }
     }
 
     func failNextWrite() { lock.withLock { shouldFailNextWrite = true } }
@@ -941,6 +1000,7 @@ private final class ScalingDDCBrightnessTransport: DDCBrightnessTransport {
                 throw TestWriteError.failed
             }
             current = value
+            if shouldInvalidateRange { maximum = 0 }
         }
     }
 }

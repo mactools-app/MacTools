@@ -1974,7 +1974,10 @@ private struct WorkflowRunPreviewSheet: View {
                 .frame(width: 22, height: 22)
                 .background(Circle().fill(Color.accentColor.opacity(0.14)))
             VStack(alignment: .leading, spacing: 3) {
-                Text(step.label ?? definition?.title ?? step.reference.key.id)
+                Text(step.label
+                    ?? automation.catalogEntry(for: step.reference)?.title
+                    ?? definition?.title
+                    ?? step.reference.key.id)
                     .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
                 if let description = definition?.description {
                     Text(description)
@@ -2134,7 +2137,9 @@ enum WorkflowRunPresentation {
             lines.append("Summary: \(summary)")
         }
         for (index, result) in run.stepResults.enumerated() {
-            let title = WorkflowHistoryPresentation.actionTitle(for: result, registry: registry)
+            let title = result.titleSource == .custom
+                ? result.title
+                : registry.definition(for: result.actionKey)?.title ?? result.actionKey.id
             var line = "Step \(index + 1): \(title) [\(result.status.rawValue)]"
             if let message = result.localizedMessage, !message.isEmpty {
                 line += " — \(message)"

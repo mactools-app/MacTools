@@ -119,7 +119,7 @@ Scheduled runs compare the selected source with the source advertised by the dep
 
 Each candidate uses a unique `nightly-<run>-<attempt>` release and plugin versions of `source-major.run.attempt`. Build/signing, credential-free CLI execution, and publication are separate jobs connected by one immutable artifact. Failed pre-publication verification can use **Re-run failed jobs** to reuse that artifact. If the release is already public or draft cleanup failed, use **Re-run all jobs** to create a new candidate. Existing public assets are never overwritten.
 
-Retention keeps the latest 14 matching Nightly prereleases and protects builds referenced by the committed or deployed appcast. Failed candidates and abandoned workflow-owned drafts are cleaned separately; stable and unrelated releases are excluded.
+Retention keeps the latest 14 matching Nightly prereleases and protects builds referenced by committed or deployed appcasts and plugin catalogs. If a deployed feed or catalog cannot be checked, retention skips deleting published releases. Failed candidates and abandoned workflow-owned drafts are cleaned separately; stable and unrelated releases are excluded.
 
 ### Channel isolation
 

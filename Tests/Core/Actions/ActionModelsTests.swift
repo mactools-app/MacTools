@@ -3,6 +3,16 @@ import MacToolsPluginKit
 import XCTest
 
 final class ActionModelsTests: XCTestCase {
+    func testPercentageAcceptsLocalizedDecimalDigits() throws {
+        let parameters = try ActionParameterSet([ActionPercentage.parameterID: .integer(50)])
+        let template = ActionReference(key: ActionKey(providerID: "fixture", actionID: "set"), parameters: parameters)
+
+        let configured = try XCTUnwrap(ActionPercentage.setting(" ٧٥ ", in: template))
+        XCTAssertEqual(ActionPercentage.value(in: configured), 75)
+        XCTAssertNil(ActionPercentage.setting("١٠١", in: template))
+        XCTAssertNil(ActionPercentage.setting("½", in: template))
+    }
+
     func testLegacyActionReferenceDecodesAsSchemaVersionOne() throws {
         let payload = Data(
             #"{"key":{"providerID":"test-provider","actionID":"toggle"},"parameters":[]}"#.utf8

@@ -39,10 +39,6 @@ extension DDCBrightnessTransport {
     }
 }
 
-private enum DDCCommunicationQueue {
-    static let shared = DispatchQueue(label: "MacTools.DisplayBrightness.DDC")
-}
-
 final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
     private let display: DisplayInfo
     private let framebuffer: io_service_t
@@ -79,7 +75,7 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
     }
 
     func readBrightness() throws -> DDCBrightnessValue {
-        try DDCCommunicationQueue.shared.sync {
+        try DisplayDDCTransaction.perform {
             var lastError: Error?
 
             for _ in 0..<DDCBrightnessControl.retryCount {
@@ -100,7 +96,7 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
     }
 
     func writeBrightness(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
-        try DDCCommunicationQueue.shared.sync {
+        try DisplayDDCTransaction.perform {
             var didWrite = false
 
             for _ in 0..<DDCBrightnessControl.writeCycleCount {
@@ -179,7 +175,7 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         _ reply: [UInt8],
         displayName: String
     ) throws -> DDCBrightnessValue {
-        guard reply.count >= 10 else {
+        guard reply.count == 11 else {
             throw DisplayBrightnessControllerError.unsupportedReply(displayName: displayName)
         }
 
@@ -188,7 +184,11 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
             throw DisplayBrightnessControllerError.unsupportedReply(displayName: displayName)
         }
 
-        guard reply[2] == 0x02, reply[3] == 0x00 else {
+        guard reply[0] == DDCBrightnessControl.displayAddress,
+              reply[1] == 0x88,
+              reply[2] == 0x02,
+              reply[3] == 0x00,
+              reply[4] == DDCBrightnessControl.brightness else {
             throw DisplayBrightnessControllerError.unsupportedReply(displayName: displayName)
         }
 
@@ -353,7 +353,7 @@ final class Arm64DDCTransport: DDCBrightnessTransport, @unchecked Sendable {
     }
 
     func readBrightness() throws -> DDCBrightnessValue {
-        try DDCCommunicationQueue.shared.sync {
+        try DisplayDDCTransaction.perform {
             var payload = [DDCBrightnessControl.brightness]
             var reply = Array(repeating: UInt8.zero, count: 11)
             try performCommunication(send: &payload, reply: &reply)
@@ -366,7 +366,7 @@ final class Arm64DDCTransport: DDCBrightnessTransport, @unchecked Sendable {
     }
 
     func writeBrightness(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
-        try DDCCommunicationQueue.shared.sync {
+        try DisplayDDCTransaction.perform {
             var payload = [
                 DDCBrightnessControl.brightness,
                 UInt8(value >> 8),

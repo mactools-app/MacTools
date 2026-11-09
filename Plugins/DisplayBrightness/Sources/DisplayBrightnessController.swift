@@ -591,7 +591,12 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         managedDisplay.writeInFlight = false
         managedDisplay.inFlightWriteID = nil
 
+        let canReconcileExactWrite = writePermits[writeID]?.isTargetCurrent == true
         if invalidatedInFlightWriteIDs.remove(writeID) != nil {
+            if canReconcileExactWrite, let readbackValue {
+                managedDisplay.lastCommittedBrightness = Self.clamp(readbackValue)
+                managedDisplay.hasBrightnessValue = true
+            }
             if managedDisplay.pendingBrightness == nil {
                 managedDisplay.currentBrightness = managedDisplay.lastCommittedBrightness
             }
@@ -603,7 +608,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             onStateChange?()
             if managedDisplay.pendingBrightness != nil {
                 scheduleWrite(for: displayID, delay: 0)
-            } else if !managedDisplay.hasBrightnessValue {
+            } else if (canReconcileExactWrite && readbackValue == nil) || !managedDisplay.hasBrightnessValue {
                 scheduleRead(for: displayID)
             }
             return
@@ -625,6 +630,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             return
         }
 
+        var shouldReconcile = false
         switch result {
         case .success:
             let committedBrightness = readbackValue.map(Self.clamp) ?? targetValue
@@ -637,6 +643,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             managedDisplay.lastWriteError = nil
             resolveWrite(writeID, with: .succeeded)
         case .failure(let error):
+            shouldReconcile = canReconcileExactWrite && error is CancellationError && readbackValue == nil
             let localizedDescription = localizedDescription(for: error)
             logger.error(
                 "write failed for \(displayName, privacy: .public): \(localizedDescription, privacy: .public)"
@@ -667,8 +674,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                     resolveWrite(writeID, with: .failed(message: message))
                 }
             } else {
-                if let readbackValue {
-                    managedDisplay.lastCommittedBrightness = readbackValue
+                if let readbackValue, !(error is CancellationError) || canReconcileExactWrite {
+                    managedDisplay.lastCommittedBrightness = Self.clamp(readbackValue)
                     managedDisplay.hasBrightnessValue = true
                 }
                 if managedDisplay.pendingBrightness == nil {
@@ -693,7 +700,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
 
         if managedDisplay.pendingBrightness != nil {
             scheduleWrite(for: displayID, delay: 0)
-        } else if !managedDisplay.hasBrightnessValue {
+        } else if shouldReconcile || !managedDisplay.hasBrightnessValue {
             scheduleRead(for: displayID)
         }
     }
@@ -926,8 +933,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 writeGate.waitTurn(for: displayID, minimumInterval: minimumWriteInterval)
                 if let permit {
                     if let error = backend.exactActionError(for: targetValue) { throw error }
-                    try backend.writeExactBrightness(targetValue, permit: permit)
-                    if backend.kind == .appleNative || backend.kind == .ddc {
+                    readbackValue = try backend.writeExactBrightness(targetValue, permit: permit)
+                    if backend.kind == .appleNative {
                         // Keep readback in this write's slot so a later write cannot change the result.
                         for delay in [0.0, 0.15, 0.30] {
                             if delay > 0 { Thread.sleep(forTimeInterval: delay) }
@@ -943,6 +950,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                             throw DisplayBrightnessExactError.mismatch(requested: targetValue, observed: readbackValue)
                         }
                     }
+                    guard permit.canWrite else { throw CancellationError() }
                 } else {
                     try backend.writeBrightness(targetValue)
                     if needsReadback {
@@ -951,6 +959,14 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 }
                 result = .success(())
             } catch {
+                if let exactError = error as? DisplayBrightnessExactError,
+                   case let .mismatch(_, observed) = exactError {
+                    readbackValue = observed
+                } else if error is CancellationError, permit?.isTargetCurrent == true,
+                          readbackValue == nil, backend.kind != .shade {
+                    // The monitor may have applied the write before cancellation reached it.
+                    readbackValue = try? backend.readBrightness()
+                }
                 result = .failure(error)
             }
 

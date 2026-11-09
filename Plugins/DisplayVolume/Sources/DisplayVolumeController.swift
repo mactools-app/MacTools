@@ -499,7 +499,11 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         managedDisplay.writeInFlight = false
         managedDisplay.inFlightWriteID = nil
 
+        let canReconcileExactWrite = writePermits[writeID]?.isTargetCurrent == true
         if invalidatedInFlightWriteIDs.remove(writeID) != nil {
+            if canReconcileExactWrite, let readbackValue {
+                managedDisplay.lastCommittedVolume = Self.clamp(readbackValue)
+            }
             if managedDisplay.pendingVolume == nil {
                 managedDisplay.currentVolume = managedDisplay.lastCommittedVolume
             }
@@ -511,11 +515,12 @@ final class DisplayVolumeController: DisplayVolumeControlling {
             onStateChange?()
             if managedDisplay.pendingVolume != nil {
                 scheduleWrite(for: displayID, delay: 0)
+            } else if canReconcileExactWrite && readbackValue == nil {
+                scheduleRead(for: displayID)
             }
             return
         }
 
-        let refreshAfterFailure = writePermits[writeID] != nil
         switch result {
         case .success:
             let committedVolume = readbackValue.map(Self.clamp) ?? targetValue
@@ -532,6 +537,9 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                 "write failed for \(displayName, privacy: .public): \(localizedDescription, privacy: .public)"
             )
 
+            if canReconcileExactWrite, let readbackValue {
+                managedDisplay.lastCommittedVolume = Self.clamp(readbackValue)
+            }
             if managedDisplay.pendingVolume == nil {
                 managedDisplay.currentVolume = managedDisplay.lastCommittedVolume
             }
@@ -553,7 +561,7 @@ final class DisplayVolumeController: DisplayVolumeControlling {
 
         if managedDisplay.pendingVolume != nil {
             scheduleWrite(for: displayID, delay: 0)
-        } else if refreshAfterFailure, case .failure = result {
+        } else if canReconcileExactWrite, readbackValue == nil, case .failure = result {
             scheduleRead(for: displayID)
         }
     }
@@ -747,6 +755,7 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                 writeGate.waitTurn(for: displayID, minimumInterval: minimumWriteInterval)
                 if let permit {
                     readbackValue = try backend.writeExactVolume(targetValue, permit: permit)
+                    guard permit.canWrite else { throw CancellationError() }
                 } else {
                     try backend.writeVolume(targetValue)
                     if needsReadback {
@@ -755,6 +764,9 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                 }
                 result = .success(())
             } catch {
+                if error is CancellationError, permit?.isTargetCurrent == true, readbackValue == nil {
+                    readbackValue = try? backend.readVolume()
+                }
                 result = .failure(error)
             }
 

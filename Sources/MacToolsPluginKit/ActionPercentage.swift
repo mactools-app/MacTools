@@ -30,7 +30,14 @@ public enum ActionPercentage {
     }
 
     public static func setting(_ text: String, in reference: ActionReference) -> ActionReference? {
-        guard let value = Int(text.trimmingCharacters(in: .whitespacesAndNewlines)) else { return nil }
+        let normalized = text.trimmingCharacters(in: .whitespacesAndNewlines).map { character in
+            if character.unicodeScalars.allSatisfy({ $0.properties.generalCategory == .decimalNumber }),
+               let digit = character.wholeNumberValue {
+                return String(digit)
+            }
+            return String(character)
+        }.joined()
+        guard let value = Int(normalized) else { return nil }
         return setting(value, in: reference)
     }
 

@@ -363,15 +363,36 @@ final class DDCBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendable 
 
     var hasVerifiedDisplayBinding: Bool { transport.hasVerifiedDisplayBinding }
 
-    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws {
+    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws -> Double? {
         guard hasVerifiedDisplayBinding else { throw DisplayBrightnessExactError.unverifiedTarget }
         guard permit.canWrite else { throw CancellationError() }
-        guard let reading = try? transport.readBrightness(),
-              let maximum = Self.validMaximum(reading.maximum), reading.current <= maximum else {
+        guard let initial = readExactRange() else {
             throw DisplayBrightnessExactError.rangeUnavailable
         }
-        lock.withLock { maximumValue = maximum }
-        try transport.writeBrightness(UInt16((Double(maximum) * value).rounded()), permit: permit)
+        try transport.writeBrightness(UInt16((Double(initial.maximum) * value).rounded()), permit: permit)
+
+        var lastObserved: Double?
+        for delay in [0.0, 0.15, 0.30] {
+            if delay > 0 { Thread.sleep(forTimeInterval: delay) }
+            guard permit.canWrite else { throw CancellationError() }
+            guard let observed = readExactRange() else { continue }
+            guard permit.canWrite else { throw CancellationError() }
+            let level = Double(observed.current) / Double(observed.maximum)
+            if observed.current == UInt16((Double(observed.maximum) * value).rounded()) {
+                return level
+            }
+            lastObserved = level
+        }
+        guard permit.canWrite else { throw CancellationError() }
+        guard let lastObserved else { throw DisplayBrightnessExactError.readbackUnavailable }
+        throw DisplayBrightnessExactError.mismatch(requested: value, observed: lastObserved)
+    }
+
+    private func readExactRange() -> DDCBrightnessValue? {
+        guard let reading = try? transport.readBrightness(),
+              reading.maximum > 0, reading.current <= reading.maximum else { return nil }
+        lock.withLock { maximumValue = reading.maximum }
+        return reading
     }
 
     func cleanup() {}
@@ -418,8 +439,9 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         try writeBrightness(value, permit: nil)
     }
 
-    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws {
+    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws -> Double? {
         try writeBrightness(value, permit: permit)
+        return value
     }
 
     private func writeBrightness(_ value: Double, permit: DisplayActionWritePermit?) throws {
@@ -574,7 +596,7 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         lock.withLock { currentBrightness = clampedValue }
     }
 
-    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws {
+    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws -> Double? {
         guard value >= DisplayBrightnessBackendKind.shadeMinimumBrightness else {
             throw DisplayBrightnessExactError.shadeRange
         }
@@ -592,6 +614,7 @@ final class ShadeBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
         } else {
             try DispatchQueue.main.sync(execute: apply)
         }
+        return value
     }
 
     func cleanup() {

@@ -96,7 +96,9 @@ jobs:
           elif [[ "$PLUGIN_KIT_VERSION" == "5" ]]; then
             PLUGIN_CATALOG_RELATIVE_PATH="docs/plugins/v5/schema3/catalog.json"
             PLUGIN_CATALOG_MINIMUM_HOST_VERSION="1.2.1"
-          elif [[ "$PLUGIN_KIT_VERSION" == "7" ]]; then
+          # Manual recovery uses the current workflow with the original tagged source.
+          # Tags from before the routing helper stay on the legacy catalog below.
+          elif [[ "$PLUGIN_KIT_VERSION" == "7" && -f scripts/plugin_catalog_routing.py ]]; then
             PLUGIN_CATALOG_RELATIVE_PATH="$(python3 -B scripts/plugin_catalog_routing.py --kit 7)"
             PLUGIN_CATALOG_MINIMUM_HOST_VERSION="$(python3 -B scripts/plugin_catalog_routing.py --kit 7 --minimum-host)"
           else

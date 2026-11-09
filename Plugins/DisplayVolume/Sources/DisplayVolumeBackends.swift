@@ -182,7 +182,8 @@ final class DDCVolumeBackend: DisplayVolumeBackend, @unchecked Sendable {
         lock.withLock { cacheRevision &+= 1 }
         let actual = try ioLock.withLock {
             guard permit.canWrite else { throw CancellationError() }
-            guard let initial = try? transport.readVolume(), initial.maximum > 0 else {
+            guard let initial = try? transport.readVolume(), initial.maximum > 0,
+                  initial.current <= initial.maximum else {
                 throw DisplayVolumeControllerError.volumeUnavailable(displayName: display.name)
             }
             try transport.writeVolume(UInt16((Double(initial.maximum) * value).rounded()), permit: permit)

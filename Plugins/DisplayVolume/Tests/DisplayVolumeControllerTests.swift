@@ -13,6 +13,7 @@ private final class VolumeTestTransport: DDCVolumeTransport, @unchecked Sendable
         var mainThreadReads = 0
         var readCount = 0
         var readGate: DispatchSemaphore?
+        var writeGate: DispatchSemaphore?
     }
     private let lock = NSLock()
     private var state = State()
@@ -37,6 +38,7 @@ private final class VolumeTestTransport: DDCVolumeTransport, @unchecked Sendable
             $0.writes.append(value)
             if !$0.ignoreWrites, let current = $0.value { $0.value = .init(current: value, maximum: current.maximum) }
         }
+        if let gate = read({ $0.writeGate }) { _ = gate.wait(timeout: .now() + 3) }
     }
 }
 
@@ -140,6 +142,48 @@ final class DisplayVolumeControllerTests: XCTestCase {
         permit.cancel()
         XCTAssertThrowsError(try backend.writeExactVolume(0.2, permit: permit))
         XCTAssertEqual(transport.read { $0.writes }, [100, 160])
+    }
+
+    func testExactVolumeDoesNotWriteWithInvalidRange() throws {
+        let cache = VolumeTestCache(value: 0.4)
+        defer { cache.restore() }
+        let transport = VolumeTestTransport()
+        transport.update { $0.value = .init(current: 200, maximum: 20) }
+        let backend = try XCTUnwrap(DDCVolumeBackend(display: display(cache), transport: transport))
+
+        XCTAssertThrowsError(try backend.writeExactVolume(0.5, permit: DisplayActionWritePermit { true }))
+        XCTAssertEqual(transport.read { $0.writes }, [])
+    }
+
+    func testCancelledExactVolumeReconcilesAnInFlightWrite() async throws {
+        let cache = VolumeTestCache(value: 0.95)
+        defer { cache.restore() }
+        let display = display(cache)
+        let gate = DispatchSemaphore(value: 0)
+        let transport = VolumeTestTransport()
+        transport.update {
+            $0.value = .init(current: 95, maximum: 100)
+            $0.writeGate = gate
+        }
+        let backend = try XCTUnwrap(DDCVolumeBackend(display: display, transport: transport))
+        let controller = DisplayVolumeController(
+            displayProvider: VolumeTestDisplays(displays: [display]),
+            displayIdentifier: { _ in "fixture" },
+            backendBuilder: VolumeTestBuilder(backend: backend),
+            shortWriteDelay: 0,
+            minimumWriteInterval: 0
+        )
+        controller.refresh()
+        try await waitUntil { controller.pendingReadCount == 0 }
+        let initialReadCount = transport.read { $0.readCount }
+        let write = Task { await controller.setExactVolumeAndWait(0.2, for: display.id, identifier: "fixture") }
+        try await waitUntil { transport.read { $0.writes == [20] } }
+        write.cancel()
+        gate.signal()
+
+        guard case .failed = await write.value else { return XCTFail("Cancelled action must fail") }
+        XCTAssertGreaterThanOrEqual(transport.read { $0.readCount }, initialReadCount + 2)
+        XCTAssertEqual(controller.snapshot().displays.first?.volume, 0.2)
     }
 
     func testMuteSurvivesRestartAndDecreaseDoesNotRaiseVolume() async throws {

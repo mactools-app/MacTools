@@ -765,13 +765,25 @@ jobs:
             exit 0
           fi
 
-          # Older hosts still use the packages referenced by their last compatible catalog.
-          # Read the committed paths so rollback refs do not need a newer release helper.
+          # Older hosts can still download from a deployed compatibility catalog
+          # after a rollback updates that catalog on main.
           COMMITTED_CATALOGS="$(git ls-tree -r --name-only origin/main docs/nightly/plugins)"
+          COMMITTED_CATALOG_PATH="$RUNNER_TEMP/committed-nightly-catalog.json"
+          DEPLOYED_CATALOG_PATH="$RUNNER_TEMP/deployed-nightly-catalog.json"
           while IFS= read -r catalog_path; do
             [[ "$catalog_path" == */catalog.json ]] || continue
-            CATALOG_TAGS="$(git show "origin/main:$catalog_path" | jq -er \
-              '[.plugins[].package.url | capture("/releases/download/(?<tag>nightly-[0-9]+-[0-9]+)/").tag] | unique[]')"
+            if ! git show "origin/main:$catalog_path" > "$COMMITTED_CATALOG_PATH" \
+              || ! curl --fail --silent --show-error --location \
+                "https://mactools.ggbond.app/${catalog_path#docs/}" --output "$DEPLOYED_CATALOG_PATH" \
+              || ! CATALOG_TAGS="$(jq -ers '
+                if length != 2 then error("Missing Nightly catalog") else
+                  [.[] | if (.plugins | type == "array" and length > 0) then .plugins[] else error("Empty Nightly catalog") end
+                   | .package.url | (capture("/releases/download/(?<tag>nightly-[0-9]+-[0-9]+)/").tag // error("Invalid Nightly package URL"))]
+                  | unique[]
+                end' "$COMMITTED_CATALOG_PATH" "$DEPLOYED_CATALOG_PATH")"; then
+              echo "Cannot verify retained releases for $catalog_path; skipping retention."
+              exit 0
+            fi
             while IFS= read -r catalog_tag; do
               PRESERVE_TAG_ARGS+=(--preserve-tag "$catalog_tag")
             done <<< "$CATALOG_TAGS"

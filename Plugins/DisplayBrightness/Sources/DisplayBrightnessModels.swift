@@ -172,7 +172,7 @@ protocol DisplayBrightnessBackend: AnyObject, Sendable {
 
     func readBrightness() throws -> Double
     func writeBrightness(_ value: Double) throws
-    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws
+    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws -> Double?
     func cleanup()
 }
 
@@ -185,9 +185,10 @@ extension DisplayBrightnessBackend {
         return nil
     }
 
-    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws {
+    func writeExactBrightness(_ value: Double, permit: DisplayActionWritePermit) throws -> Double? {
         guard permit.canWrite else { throw CancellationError() }
         try writeBrightness(value)
+        return nil
     }
 }
 
