@@ -36,7 +36,7 @@ final class WorkflowRunnerTests: XCTestCase {
                 catch { return .failure(.providerFailure(error.localizedDescription)) }
             }
         )])
-        let reference = try XCTUnwrap(WorkflowBuiltInBrightness.reference(for: 70))
+        let reference = try XCTUnwrap(WorkflowBuiltInBrightness.reference(for: "٧٠"))
         XCTAssertFalse(registry.catalogEntries.contains { $0.reference.key == reference.key })
         let workflow = try saveWorkflow(in: store, steps: [WorkflowStep(reference: reference)])
         let runner = WorkflowRunner(store: store, registry: registry, executor: ActionExecutor(registry: registry))
@@ -49,6 +49,17 @@ final class WorkflowRunnerTests: XCTestCase {
         let result = await execution.actionHandle.result()
         XCTAssertEqual(result, .succeeded())
         XCTAssertEqual(brightness.builtInBrightnessWrites, [0.7])
+    }
+
+    func testBuiltInBrightnessPercentageAcceptsOnlyWholeDecimalDigitsInRange() {
+        let seventy = WorkflowBuiltInBrightness.reference(for: 70)
+        XCTAssertNotNil(seventy)
+        for text in ["70", " ٧٠ ", "۷۰", "７０"] {
+            XCTAssertEqual(WorkflowBuiltInBrightness.reference(for: text), seventy)
+        }
+        for text in ["", "101", "١٠١", "-1", "70.5", "70%", "⑦0"] {
+            XCTAssertNil(WorkflowBuiltInBrightness.reference(for: text))
+        }
     }
 
     func testRunnerExecutesSeriallyHonorsDelayAndContinuesAfterConfiguredFailure() async throws {

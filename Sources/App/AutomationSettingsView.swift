@@ -861,6 +861,19 @@ enum WorkflowBuiltInBrightness {
         return ActionReference(key: key, parameters: parameters)
     }
 
+    static func reference(for text: String) -> ActionReference? {
+        let digits = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !digits.isEmpty else { return nil }
+        var percent: Int64 = 0
+        for character in digits {
+            guard character.unicodeScalars.allSatisfy({ $0.properties.generalCategory == .decimalNumber }),
+                  let digit = character.wholeNumberValue, (0...9).contains(digit) else { return nil }
+            percent = percent * 10 + Int64(digit)
+            guard percent <= 100 else { return nil }
+        }
+        return reference(for: percent)
+    }
+
     static func percentage(in reference: ActionReference) -> Int64? {
         guard reference.key == key, case let .integer(percent)? = reference.parameters[parameter],
               (0...100).contains(percent) else { return nil }
@@ -1056,8 +1069,7 @@ private struct WorkflowActionPickerPopoverContent: View {
 
     private func brightnessEditor(_ definition: ActionDefinition) -> some View {
         let title = definition.parameters.first?.title ?? definition.title
-        let reference = Int64(brightnessText.trimmingCharacters(in: .whitespacesAndNewlines))
-            .flatMap(WorkflowBuiltInBrightness.reference(for:))
+        let reference = WorkflowBuiltInBrightness.reference(for: brightnessText)
         let canApply = reference.map { pluginHost.actionAvailability(for: $0).isAvailable } ?? false
         return VStack(alignment: .leading, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
             Text(definition.title)

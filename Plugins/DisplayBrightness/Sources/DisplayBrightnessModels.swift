@@ -133,6 +133,8 @@ protocol DisplayBrightnessBackend: AnyObject, Sendable {
 }
 
 protocol DisplayBrightnessBackendBuilding {
+    func nativeBackend(forBuiltInDisplay display: DisplayInfo) -> (any DisplayBrightnessBackend)?
+
     func backends(
         for displays: [DisplayInfo],
         previous: [CGDirectDisplayID: any DisplayBrightnessBackend]
@@ -146,6 +148,8 @@ protocol DisplayBrightnessBackendBuilding {
 }
 
 extension DisplayBrightnessBackendBuilding {
+    func nativeBackend(forBuiltInDisplay display: DisplayInfo) -> (any DisplayBrightnessBackend)? { nil }
+
     func fallbackBackend(
         after failedBackend: any DisplayBrightnessBackend,
         for display: DisplayInfo,

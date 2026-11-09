@@ -83,6 +83,11 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
         }
     }
 
+    func nativeBackend(forBuiltInDisplay display: DisplayInfo) -> (any DisplayBrightnessBackend)? {
+        guard display.isBuiltin else { return nil }
+        return appleBackend(for: display, previous: [:])
+    }
+
     func backends(
         for displays: [DisplayInfo],
         previous: [CGDirectDisplayID: any DisplayBrightnessBackend]
