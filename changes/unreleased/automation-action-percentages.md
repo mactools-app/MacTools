@@ -4,4 +4,4 @@ type: added
 area: Automation
 ---
 
-Workflow steps can save an exact percentage, and manual previews show the chosen display and percentage for display actions.
+Workflow steps can save exact percentages. Manual previews keep showing the selected display and percentage when the display is disconnected.

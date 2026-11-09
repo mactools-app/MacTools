@@ -129,6 +129,12 @@ jobs:
           elif [[ "$PLUGIN_CATALOG_RELATIVE_PATH" == "docs/plugins/v7/host-2.2.5/catalog.json" ]] && \
                git show origin/main:docs/plugins/v7/catalog.json > "$PLUGIN_PREVIOUS_CATALOG_PATH" 2>/dev/null; then
             echo "Using the original PluginKit 7 catalog as the host-specific catalog baseline."
+            if [[ "$PLUGIN_RELEASE_MODE" == "selected" ]]; then
+              echo "The first host-specific catalog requires a full rebuild. Use mode=all." >&2
+              exit 1
+            fi
+            echo "PLUGIN_RELEASE_MODE=all" >> "$GITHUB_ENV"
+            echo "PLUGIN_RELEASE_REQUIRE_VERSION_BUMP=true" >> "$GITHUB_ENV"
           elif [[ "$PLUGIN_KIT_VERSION" == "5" ]] && \
                git show origin/main:docs/plugins/v5/catalog.json > "$PLUGIN_PREVIOUS_CATALOG_PATH" 2>/dev/null; then
             echo "Using docs/plugins/v5/catalog.json from origin/main as the same-ABI schema migration baseline."

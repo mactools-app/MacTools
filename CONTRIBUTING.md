@@ -158,7 +158,11 @@ Contributions must follow [LICENSE](LICENSE) and [LICENSING.md]. Project-authore
 
 Releases are maintainer-owned. Feature PRs should not pre-bump plugin versions, change signed catalogs, or regenerate release history. Follow the [release workflow](docs/github-actions.md), [plugin catalog](docs/plugins/plugin-catalog.md), and [CLI release gates](docs/plugins/cli-release.md) for release work.
 
-Plugin release preparation regenerates website plugin data after version bumps and includes it in the release commit, including with `--skip-check`. Keep this generated data synchronized so Pages can deploy the signed plugin catalog.
+Stable app builds declare their production plugin catalog URL. Publishing checks the disk image's marketing version and build number against the release configuration. A MacTools 2.2.5 or later v7 disk image must declare the matching host-specific URL. Hosted publish retries check the deployed catalog again before uploading the saved candidate. The catalog must preserve compatible tagged packages and exclude revoked versions from its advertised entries.
+
+Nightly retention protects committed and deployed release references. Keep the shared Pages concurrency group and the check that refreshes `main` and stops pruning if it moves.
+
+The first host-specific PluginKit v7 catalog requires a full rebuild with newer versions for previously published plugins. Plugin release preparation rechecks the confirmed plan after syncing `main`, then regenerates website plugin data after version bumps and includes it in the release commit. Both apply with `--skip-check`. Keep this generated data synchronized so Pages can deploy the signed plugin catalog.
 
 For an agent-assisted readiness review, use the repository skill [`mactools-release-preflight`](.agents/skills/mactools-release-preflight/SKILL.md). It consolidates pending changelog fragments and reports PluginKit compatibility, old/new app and plugin behavior, release scope, and remaining prerequisites; other changes and release execution require separate user instructions.
 

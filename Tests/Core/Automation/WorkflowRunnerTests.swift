@@ -145,6 +145,60 @@ final class WorkflowRunnerTests: XCTestCase {
         )
     }
 
+    func testCopiedDiagnosticsPreservePercentageWithoutLocalDisplay() async throws {
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        let store = WorkflowStore(userDefaults: defaults)
+        let registry = ActionRegistry()
+        let provider = WorkflowRunnerTestProvider(actionIDs: [], timeout: 30)
+        let key = ActionKey(providerID: "display-test", actionID: "set")
+        let monitorID = "private-monitor-identifier"
+        let monitorLabel = "Private monitor label"
+        let reference = ActionReference(
+            key: key,
+            parameters: try ActionParameterSet([
+                DisplayActionTarget.parameterID: .string(monitorID),
+                ActionPercentage.parameterID: .integer(23),
+            ])
+        )
+        let definition = ActionDefinition(
+            key: key,
+            title: "Set Display Brightness",
+            description: "",
+            systemImage: "sun.max",
+            parameters: [
+                ActionParameterDefinition(id: DisplayActionTarget.parameterID, title: "Display", kind: .string,
+                                          portability: .localOnly),
+                ActionPercentage.parameter,
+            ],
+            capabilities: [.background]
+        )
+        registry.synchronize([
+            ActionProviderRegistration(
+                providerID: key.providerID,
+                identity: ObjectIdentifier(provider),
+                definitions: [definition],
+                catalogEntries: [
+                    ActionCatalogEntry(reference: reference,
+                                       title: ActionPercentage.title(definition.title, target: monitorLabel, value: 23)),
+                ],
+                availability: { _ in .available },
+                begin: { _ in .success(ActionExecutionHandle(operation: { .succeeded() })) }
+            ),
+        ])
+        let runner = WorkflowRunner(store: store, registry: registry, executor: ActionExecutor(registry: registry))
+        let workflow = try saveWorkflow(in: store, steps: [WorkflowStep(reference: reference)])
+        let execution = try runner.makeExecutionHandle(workflowID: workflow.id, source: .manual, mode: .foreground).get()
+        _ = await execution.actionHandle.result()
+
+        let run = try XCTUnwrap(WorkflowStore(userDefaults: defaults).history(workflowID: workflow.id).first)
+        let diagnostics = WorkflowRunPresentation.diagnosticText(run, registry: registry)
+        XCTAssertTrue(diagnostics.contains(ActionPercentage.title(definition.title, value: 23)))
+        XCTAssertFalse(diagnostics.contains(monitorLabel))
+        let stored = String(decoding: try XCTUnwrap(defaults.data(forKey: "automation.history.v1")), as: UTF8.self)
+        XCTAssertFalse(stored.contains(monitorID))
+        XCTAssertFalse(stored.contains(monitorLabel))
+    }
+
     func testStopOnErrorSkipsRemainingSteps() async throws {
         let harness = try makeHarness(actionIDs: ["first", "second"])
         harness.provider.results["first"] = .failed(message: "failure")

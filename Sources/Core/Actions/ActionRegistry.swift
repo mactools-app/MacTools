@@ -95,6 +95,14 @@ final class ActionRegistry: ObservableObject {
     private var catalogByReference: [ActionReference: ActionCatalogEntry] = [:]
     private var nextGeneration: UInt64 = 1
     private var synchronizedRegistrations: [ActionProviderRegistration] = []
+    private static let displayLabelsKey = "actions.cached-display-labels"
+    private let displayLabelDefaults: UserDefaults?
+    private var displayLabels: [String: String]
+
+    init(displayLabelDefaults: UserDefaults? = nil) {
+        self.displayLabelDefaults = displayLabelDefaults
+        displayLabels = displayLabelDefaults?.dictionary(forKey: Self.displayLabelsKey) as? [String: String] ?? [:]
+    }
 
     @discardableResult
     func synchronize(_ registrations: [ActionProviderRegistration]) -> [ActionRegistryIssue] {
@@ -213,6 +221,18 @@ final class ActionRegistry: ObservableObject {
         providers = nextProviders
         definitions = nextDefinitions
         catalogByReference = nextCatalog
+        let updatedLabels = nextCatalogOrder.reduce(into: displayLabels) { labels, entry in
+            guard let key = Self.displayLabelKey(for: entry.reference),
+                  let label = entry.subtitle, !label.isEmpty,
+                  nextDefinitions[entry.reference.key]?.parameters.contains(where: {
+                      $0.id == DisplayActionTarget.parameterID && $0.portability == .localOnly
+                  }) == true else { return }
+            labels[key] = label
+        }
+        if updatedLabels != displayLabels {
+            displayLabels = updatedLabels
+            displayLabelDefaults?.set(updatedLabels, forKey: Self.displayLabelsKey)
+        }
         if catalogEntries != nextCatalogOrder {
             catalogEntries = nextCatalogOrder
         }
@@ -258,11 +278,18 @@ final class ActionRegistry: ObservableObject {
         guard let value = ActionPercentage.value(in: reference),
               let template = ActionPercentage.template(for: reference) else { return nil }
         let target = catalogByReference[template]?.subtitle
+            ?? Self.displayLabelKey(for: reference).flatMap { displayLabels[$0] }
         return ActionCatalogEntry(
             reference: reference,
             title: ActionPercentage.title(definition.title, target: target, value: value),
             subtitle: target
         )
+    }
+
+    private static func displayLabelKey(for reference: ActionReference) -> String? {
+        guard ActionPercentage.value(in: reference) != nil,
+              case let .string(identifier)? = reference.parameters[DisplayActionTarget.parameterID] else { return nil }
+        return "\(reference.key.id):\(identifier)"
     }
 
     func definition(for key: ActionKey) -> ActionDefinition? {

@@ -25,27 +25,51 @@ struct DDCBrightnessValue {
 
 protocol DDCBrightnessTransport {
     func readBrightness() throws -> DDCBrightnessValue
+    func readVerifiedBrightness() throws -> DDCBrightnessValue
     var hasVerifiedDisplayBinding: Bool { get }
+    var usesDiscoveredService: Bool { get }
+    var registryEntryID: UInt64? { get }
+    var isDiscoveryCurrent: Bool { get }
     func writeBrightness(_ value: UInt16) throws
     func writeBrightness(_ value: UInt16, permit: DisplayActionWritePermit?) throws
+    func writeVerifiedBrightness(_ value: UInt16, permit: DisplayActionWritePermit) throws
 }
 
 extension DDCBrightnessTransport {
     var hasVerifiedDisplayBinding: Bool { true }
+    var usesDiscoveredService: Bool { false }
+    var registryEntryID: UInt64? { nil }
+    var isDiscoveryCurrent: Bool { true }
+
+    func readVerifiedBrightness() throws -> DDCBrightnessValue { try readBrightness() }
+
+    func writeVerifiedBrightness(_ value: UInt16, permit: DisplayActionWritePermit) throws {
+        try writeBrightness(value, permit: permit)
+    }
 
     func writeBrightness(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
-        guard permit?.canWrite != false else { throw CancellationError() }
+        guard permit?.beginWrite() != false else { throw CancellationError() }
         try writeBrightness(value)
     }
 }
 
 final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
+    struct Bus: Equatable {
+        let index: IOOptionBits
+        let registryEntryID: UInt64?
+    }
+
     private let display: DisplayInfo
     private let framebuffer: io_service_t
     let hasVerifiedDisplayBinding: Bool
+    let registryEntryID: UInt64?
+    private let bindingGeneration: UInt64
     private let replyTransactionType: IOOptionBits
+    // Confined to DisplayDDCTransaction, and valid only for this binding generation.
+    private var verifiedBus: Bus?
 
     init?(display: DisplayInfo) {
+        let generation = DisplayDDCIdentity.bindingGeneration
         guard let binding = Self.framebufferPort(for: display.id) else {
             DisplayBrightnessLog.backend.info(
                 "DDC Intel transport unavailable for \(display.name, privacy: .public): no framebuffer service"
@@ -62,7 +86,9 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         }
 
         self.display = display
+        self.bindingGeneration = generation
         self.framebuffer = binding.service
+        self.registryEntryID = PrivateDDCBridge.registryEntryID(for: binding.service)
         self.hasVerifiedDisplayBinding = binding.verified
         self.replyTransactionType = replyTransactionType
         DisplayBrightnessLog.backend.debug(
@@ -74,21 +100,60 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         IOObjectRelease(framebuffer)
     }
 
+    var isDiscoveryCurrent: Bool {
+        bindingGeneration == DisplayDDCIdentity.bindingGeneration
+            && (registryEntryID.map(PrivateDDCBridge.isActiveRegistryEntry) ?? true)
+    }
+
     func readBrightness() throws -> DDCBrightnessValue {
         try DisplayDDCTransaction.perform {
-            var lastError: Error?
-
-            for _ in 0..<DDCBrightnessControl.retryCount {
-                do {
-                    return try performRead()
-                } catch {
-                    lastError = error
-                    usleep(DDCBrightnessControl.retryDelay)
-                }
-            }
-
-            throw lastError ?? DisplayBrightnessControllerError.i2cUnavailable(displayName: display.name)
+            try readBrightness(on: nil).value
         }
+    }
+
+    func readVerifiedBrightness() throws -> DDCBrightnessValue {
+        try DisplayDDCTransaction.perform {
+            guard hasVerifiedDisplayBinding, isDiscoveryCurrent else { throw CancellationError() }
+            if let verifiedBus { return try readBrightness(on: verifiedBus).value }
+            let observation = try Self.uniqueVerifiedBus(in: 0..<busCount()) { index in
+                try? readBrightness(on: Bus(index: index, registryEntryID: nil))
+            }
+            guard isDiscoveryCurrent else { throw CancellationError() }
+            verifiedBus = observation.bus
+            return observation.value
+        }
+    }
+
+    static func uniqueVerifiedBus(
+        in buses: Range<IOOptionBits>,
+        read: (IOOptionBits) -> (value: DDCBrightnessValue, bus: Bus)?
+    ) throws -> (value: DDCBrightnessValue, bus: Bus) {
+        var candidate: (value: DDCBrightnessValue, bus: Bus)?
+        for index in buses {
+            guard let observation = read(index), observation.value.maximum > 0,
+                  observation.value.current <= observation.value.maximum else { continue }
+            guard candidate == nil, observation.bus.registryEntryID != nil else {
+                throw DisplayBrightnessExactError.rangeUnavailable
+            }
+            candidate = observation
+        }
+        guard let candidate else { throw DisplayBrightnessExactError.rangeUnavailable }
+        return candidate
+    }
+
+    private func readBrightness(on bus: Bus?) throws -> (value: DDCBrightnessValue, bus: Bus) {
+        var lastError: Error?
+        for _ in 0..<DDCBrightnessControl.retryCount {
+            do {
+                return try performRead(on: bus)
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch {
+                lastError = error
+                usleep(DDCBrightnessControl.retryDelay)
+            }
+        }
+        throw lastError ?? DisplayBrightnessControllerError.i2cUnavailable(displayName: display.name)
     }
 
     func writeBrightness(_ value: UInt16) throws {
@@ -97,22 +162,30 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
 
     func writeBrightness(_ value: UInt16, permit: DisplayActionWritePermit?) throws {
         try DisplayDDCTransaction.perform {
-            var didWrite = false
-
-            for _ in 0..<DDCBrightnessControl.writeCycleCount {
-                usleep(DDCBrightnessControl.writeDelay)
-                guard permit?.canWrite != false else { throw CancellationError() }
-                didWrite = performWrite(value, permit: permit) || didWrite
-                guard permit?.canWrite != false else { throw CancellationError() }
-            }
-
-            guard didWrite else {
-                throw DisplayBrightnessControllerError.ddcWriteFailed(displayName: display.name)
-            }
+            try writeBrightness(value, on: nil, permit: permit)
         }
     }
 
-    private func performRead() throws -> DDCBrightnessValue {
+    func writeVerifiedBrightness(_ value: UInt16, permit: DisplayActionWritePermit) throws {
+        try DisplayDDCTransaction.perform {
+            guard let verifiedBus else { throw DisplayBrightnessExactError.rangeUnavailable }
+            try writeBrightness(value, on: verifiedBus, permit: permit)
+        }
+    }
+
+    private func writeBrightness(_ value: UInt16, on bus: Bus?, permit: DisplayActionWritePermit?) throws {
+        var didWrite = false
+        for _ in 0..<DDCBrightnessControl.writeCycleCount {
+            usleep(DDCBrightnessControl.writeDelay)
+            if permit != nil, !isDiscoveryCurrent { throw CancellationError() }
+            guard permit?.canWrite != false else { throw CancellationError() }
+            didWrite = try performWrite(value, on: bus, permit: permit) || didWrite
+            guard permit?.canWrite != false else { throw CancellationError() }
+        }
+        guard didWrite else { throw DisplayBrightnessControllerError.ddcWriteFailed(displayName: display.name) }
+    }
+
+    private func performRead(on bus: Bus?) throws -> (value: DDCBrightnessValue, bus: Bus) {
         var command = [
             DDCBrightnessControl.hostAddress,
             0x82,
@@ -127,26 +200,27 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         request.sendAddress = UInt32(DDCBrightnessControl.displayAddress)
         request.sendTransactionType = IOOptionBits(kIOI2CSimpleTransactionType)
         request.sendBytes = UInt32(command.count)
-        request.sendBuffer = command.withUnsafeBufferPointer {
-            vm_address_t(bitPattern: $0.baseAddress)
-        }
         request.minReplyDelay = 10
         request.replyAddress = UInt32(DDCBrightnessControl.displayReplyAddress)
         request.replySubAddress = DDCBrightnessControl.hostAddress
         request.replyTransactionType = replyTransactionType
         request.replyBytes = UInt32(reply.count)
-        request.replyBuffer = reply.withUnsafeMutableBufferPointer {
-            vm_address_t(bitPattern: $0.baseAddress)
+        let sent = try command.withUnsafeBufferPointer { commandBuffer in
+            try reply.withUnsafeMutableBufferPointer { replyBuffer in
+                request.sendBuffer = vm_address_t(bitPattern: commandBuffer.baseAddress)
+                request.replyBuffer = vm_address_t(bitPattern: replyBuffer.baseAddress)
+                return try send(request: &request, on: bus)
+            }
         }
 
-        guard Self.send(request: &request, to: framebuffer) else {
+        guard let sent else {
             throw DisplayBrightnessControllerError.i2cUnavailable(displayName: display.name)
         }
 
-        return try Self.parseReply(reply, displayName: display.name)
+        return (try Self.parseReply(reply, displayName: display.name), sent)
     }
 
-    private func performWrite(_ value: UInt16, permit: DisplayActionWritePermit?) -> Bool {
+    private func performWrite(_ value: UInt16, on bus: Bus?, permit: DisplayActionWritePermit?) throws -> Bool {
         var command = [
             DDCBrightnessControl.hostAddress,
             0x84,
@@ -162,13 +236,13 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         request.sendAddress = UInt32(DDCBrightnessControl.displayAddress)
         request.sendTransactionType = IOOptionBits(kIOI2CSimpleTransactionType)
         request.sendBytes = UInt32(command.count)
-        request.sendBuffer = command.withUnsafeBufferPointer {
-            vm_address_t(bitPattern: $0.baseAddress)
-        }
         request.replyTransactionType = IOOptionBits(kIOI2CNoTransactionType)
         request.replyBytes = 0
 
-        return Self.send(request: &request, to: framebuffer, permit: permit)
+        return try command.withUnsafeBufferPointer { buffer in
+            request.sendBuffer = vm_address_t(bitPattern: buffer.baseAddress)
+            return try send(request: &request, on: bus, permit: permit) != nil
+        }
     }
 
     static func parseReply(
@@ -202,17 +276,29 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         bytes.reduce(seed, ^)
     }
 
-    private static func send(
-        request: inout IOI2CRequest, to framebuffer: io_service_t, permit: DisplayActionWritePermit? = nil
-    ) -> Bool {
+    private func busCount() throws -> IOItemCount {
         var busCount: IOItemCount = 0
         guard IOFBGetI2CInterfaceCount(framebuffer, &busCount) == KERN_SUCCESS else {
-            return false
+            throw DisplayBrightnessControllerError.i2cUnavailable(displayName: display.name)
+        }
+        return busCount
+    }
+
+    private func send(
+        request: inout IOI2CRequest, on bus: Bus?, permit: DisplayActionWritePermit? = nil
+    ) throws -> Bus? {
+        guard let count = try? busCount() else { return nil }
+        let buses: Range<IOOptionBits>
+        if let bus {
+            guard bus.index < count else { return nil }
+            buses = bus.index..<(bus.index + 1)
+        } else {
+            buses = 0..<count
         }
 
-        for bus in 0..<busCount {
+        for index in buses {
             var interface = io_service_t()
-            guard IOFBCopyI2CInterfaceForBus(framebuffer, bus, &interface) == KERN_SUCCESS else {
+            guard IOFBCopyI2CInterfaceForBus(framebuffer, index, &interface) == KERN_SUCCESS else {
                 continue
             }
 
@@ -229,13 +315,21 @@ final class IntelDDCTransport: DDCBrightnessTransport, @unchecked Sendable {
                 IOI2CInterfaceClose(connect, 0)
             }
 
-            guard permit?.canWrite != false else { return false }
+            let entryID = bus == nil ? nil : PrivateDDCBridge.registryEntryID(for: interface)
+            if let expected = bus?.registryEntryID, entryID != expected { throw CancellationError() }
+            if bus != nil || permit != nil {
+                guard isDiscoveryCurrent else { throw CancellationError() }
+            }
+            guard permit?.beginWrite() != false else { throw CancellationError() }
+            if bus != nil || permit != nil {
+                guard bindingGeneration == DisplayDDCIdentity.bindingGeneration else { throw CancellationError() }
+            }
             if IOI2CSendRequest(connect, 0, &request) == KERN_SUCCESS, request.result == KERN_SUCCESS {
-                return true
+                return Bus(index: index, registryEntryID: entryID)
             }
         }
 
-        return false
+        return nil
     }
 
     private static func supportedReplyTransactionType() -> IOOptionBits? {
@@ -328,15 +422,26 @@ final class Arm64DDCTransport: DDCBrightnessTransport, @unchecked Sendable {
     private let service: CFTypeRef
     private let sendPacket: (CFTypeRef, inout [UInt8]) -> kern_return_t
     let hasVerifiedDisplayBinding: Bool
+    let usesDiscoveredService: Bool
+    let registryEntryID: UInt64?
+    private let bindingGeneration: UInt64
+    private let verifiedDiscoveryIdentity: DisplayDDCIdentity?
 
     init?(
         display: DisplayInfo,
         service matchedService: CFTypeRef?,
+        verifiedDiscovery: Bool = false,
+        registryEntryID: UInt64? = nil,
+        bindingGeneration: UInt64 = DisplayDDCIdentity.bindingGeneration,
         sendPacket: @escaping (CFTypeRef, inout [UInt8]) -> kern_return_t = Arm64DDCTransport.sendToService
     ) {
-        guard
-            let service = matchedService ?? PrivateDDCBridge.createService(for: display.id)
-        else {
+        let binding: (service: CFTypeRef, registryEntryID: UInt64?)?
+        if let matchedService {
+            binding = (matchedService, registryEntryID)
+        } else {
+            binding = PrivateDDCBridge.createService(for: display.id)
+        }
+        guard let binding else {
             DisplayBrightnessLog.backend.info(
                 "DDC ARM64 transport unavailable for \(display.name, privacy: .public): no IOAV service"
             )
@@ -344,12 +449,31 @@ final class Arm64DDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         }
 
         self.display = display
-        self.service = service
+        self.bindingGeneration = bindingGeneration
+        self.service = binding.service
+        self.registryEntryID = binding.registryEntryID
         self.sendPacket = sendPacket
-        self.hasVerifiedDisplayBinding = matchedService == nil
+        self.usesDiscoveredService = matchedService != nil
+        let identity = matchedService != nil && verifiedDiscovery ? DisplayDDCIdentity(
+            vendor: display.vendorNumber, product: display.modelNumber, serial: display.serialNumber
+        ) : nil
+        self.verifiedDiscoveryIdentity = identity
+        self.hasVerifiedDisplayBinding = matchedService == nil || (identity != nil && binding.registryEntryID != nil)
         DisplayBrightnessLog.backend.debug(
             "DDC ARM64 transport ready for \(display.name, privacy: .public)"
         )
+    }
+
+    var isDiscoveryCurrent: Bool {
+        guard bindingGeneration == DisplayDDCIdentity.bindingGeneration else { return false }
+        if let identity = verifiedDiscoveryIdentity {
+            guard let registryEntryID, PrivateDDCBridge.isActiveRegistryEntry(registryEntryID) else { return false }
+            return identity.isUniqueOnline(for: display.id, in: DisplayDDCIdentity.onlineIdentities())
+        }
+        if !usesDiscoveredService, let registryEntryID {
+            return PrivateDDCBridge.isActiveRegistryEntry(registryEntryID)
+        }
+        return true
     }
 
     func readBrightness() throws -> DDCBrightnessValue {
@@ -398,7 +522,10 @@ final class Arm64DDCTransport: DDCBrightnessTransport, @unchecked Sendable {
         var didWrite = false
         for _ in 0..<DDCBrightnessControl.writeCycleCount {
             usleep(DDCBrightnessControl.writeDelay)
-            guard permit?.canWrite != false else { throw CancellationError() }
+            // A topology refresh is debounced. Check uniqueness again at the SET boundary.
+            if permit != nil, !isDiscoveryCurrent { throw CancellationError() }
+            guard permit?.beginWrite() != false else { throw CancellationError() }
+            guard permit == nil || bindingGeneration == DisplayDDCIdentity.bindingGeneration else { throw CancellationError() }
             if sendPacket(service, &packet) == KERN_SUCCESS {
                 didWrite = true
             }
@@ -431,8 +558,11 @@ final class Arm64DDCTransport: DDCBrightnessTransport, @unchecked Sendable {
 }
 
 enum Arm64DDCServiceMatcher {
+    typealias Binding = (service: CFTypeRef, verified: Bool, registryEntryID: UInt64?, generation: UInt64)
+
     struct CandidateService {
         let service: CFTypeRef
+        let registryEntryID: UInt64?
         let name: String?
         let vendorNumber: UInt32?
         let serialNumber: UInt32?
@@ -446,6 +576,7 @@ enum Arm64DDCServiceMatcher {
 
         init(
             service: CFTypeRef,
+            registryEntryID: UInt64? = nil,
             name: String? = nil,
             vendorNumber: UInt32? = nil,
             serialNumber: UInt32? = nil,
@@ -458,6 +589,7 @@ enum Arm64DDCServiceMatcher {
             serviceLocation: Int = 0
         ) {
             self.service = service
+            self.registryEntryID = registryEntryID
             self.name = name
             self.vendorNumber = vendorNumber
             self.serialNumber = serialNumber
@@ -471,21 +603,38 @@ enum Arm64DDCServiceMatcher {
         }
     }
 
-    static func resolveServices(for displays: [DisplayInfo]) -> [CGDirectDisplayID: CFTypeRef] {
-        resolveServices(for: displays, candidates: discoverCandidates())
+    static func resolveServices(for displays: [DisplayInfo]) -> [CGDirectDisplayID: Binding] {
+        let generation = DisplayDDCIdentity.bindingGeneration
+        return resolveServices(
+            for: displays,
+            candidates: discoverCandidates(),
+            onlineIdentities: DisplayDDCIdentity.onlineIdentities(),
+            generation: generation
+        )
     }
 
     static func resolveServices(
         for displays: [DisplayInfo],
-        candidates: [CandidateService]
-    ) -> [CGDirectDisplayID: CFTypeRef] {
+        candidates: [CandidateService],
+        onlineIdentities: [CGDirectDisplayID: DisplayDDCIdentity],
+        generation: UInt64 = DisplayDDCIdentity.bindingGeneration
+    ) -> [CGDirectDisplayID: Binding] {
         let scoredMatches = scoredCandidateMatches(
             for: displays.filter { !$0.isBuiltin },
             candidates: candidates
         )
-        var matches: [CGDirectDisplayID: CFTypeRef] = [:]
-        var usedDisplayIDs: Set<CGDirectDisplayID> = []
-        var usedCandidateIndexes: Set<Int> = []
+        let verified = DisplayDDCIdentity.uniqueMatches(
+            for: displays,
+            candidates: candidates.map {
+                DisplayDDCIdentity(vendor: $0.vendorNumber, product: $0.productID, serial: $0.serialNumber)
+            },
+            onlineIdentities: onlineIdentities
+        )
+        var matches: [CGDirectDisplayID: Binding] = verified.mapValues {
+            (candidates[$0].service, true, candidates[$0].registryEntryID, generation)
+        }
+        var usedDisplayIDs = Set(verified.keys)
+        var usedCandidateIndexes = Set(verified.values)
 
         for match in scoredMatches {
             guard
@@ -495,7 +644,7 @@ enum Arm64DDCServiceMatcher {
                 continue
             }
 
-            matches[match.display.id] = match.candidate.service
+            matches[match.display.id] = (match.candidate.service, false, match.candidate.registryEntryID, generation)
             usedDisplayIDs.insert(match.display.id)
             usedCandidateIndexes.insert(match.candidateIndex)
         }
@@ -504,7 +653,8 @@ enum Arm64DDCServiceMatcher {
             displays: displays.filter { !$0.isBuiltin },
             candidates: candidates,
             matches: &matches,
-            usedCandidateIndexes: usedCandidateIndexes
+            usedCandidateIndexes: usedCandidateIndexes,
+            generation: generation
         )
 
         return matches
@@ -513,8 +663,9 @@ enum Arm64DDCServiceMatcher {
     private static func assignRemainingServicesByStableOrder(
         displays: [DisplayInfo],
         candidates: [CandidateService],
-        matches: inout [CGDirectDisplayID: CFTypeRef],
-        usedCandidateIndexes: Set<Int>
+        matches: inout [CGDirectDisplayID: Binding],
+        usedCandidateIndexes: Set<Int>,
+        generation: UInt64
     ) {
         let unmatchedDisplays = displays
             .filter { matches[$0.id] == nil }
@@ -532,7 +683,7 @@ enum Arm64DDCServiceMatcher {
         }
 
         for (display, candidate) in zip(unmatchedDisplays, unusedCandidates) {
-            matches[display.id] = candidate.service
+            matches[display.id] = (candidate.service, false, candidate.registryEntryID, generation)
         }
     }
 
@@ -582,6 +733,7 @@ enum Arm64DDCServiceMatcher {
             result.append(
                 CandidateService(
                     service: avService,
+                    registryEntryID: PrivateDDCBridge.registryEntryID(for: service),
                     name: productAttributes?["ProductName"] as? String,
                     vendorNumber: numericValue(productAttributes?["LegacyManufacturerID"])
                         ?? numericValue(productAttributes?["ManufacturerID"]),
@@ -1075,7 +1227,7 @@ private enum PrivateDDCBridge {
         "CoreDisplay_DisplayCreateInfoDictionary"
     )
 
-    static func createService(for displayID: CGDirectDisplayID) -> CFTypeRef? {
+    static func createService(for displayID: CGDirectDisplayID) -> (service: CFTypeRef, registryEntryID: UInt64?)? {
         guard let service = framebufferService(for: displayID), let createWithService else {
             if createWithService == nil {
                 DisplayBrightnessLog.backend.info("DDC private symbol IOAVServiceCreateWithService is unavailable")
@@ -1083,7 +1235,22 @@ private enum PrivateDDCBridge {
             return nil
         }
 
-        return createWithService(kCFAllocatorDefault, service)?.takeRetainedValue()
+        guard let avService = createWithService(kCFAllocatorDefault, service)?.takeRetainedValue() else { return nil }
+        return (avService, registryEntryID(for: service))
+    }
+
+    static func registryEntryID(for service: io_service_t) -> UInt64? {
+        var identifier: UInt64 = 0
+        guard IORegistryEntryGetRegistryEntryID(service, &identifier) == KERN_SUCCESS,
+              identifier != 0 else { return nil }
+        return identifier
+    }
+
+    static func isActiveRegistryEntry(_ identifier: UInt64) -> Bool {
+        let service = IOServiceGetMatchingService(kIOMainPortDefault, IORegistryEntryIDMatching(identifier))
+        guard service != 0 else { return false }
+        IOObjectRelease(service)
+        return true
     }
 
     static func framebufferService(for displayID: CGDirectDisplayID) -> io_service_t? {

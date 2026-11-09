@@ -618,6 +618,8 @@ def verify_nightly_app(
     plugin_kit_version: int,
     cli_path: pathlib.Path | None = None,
     signed: bool = False,
+    *,
+    expected_catalog_url: str | None = None,
 ) -> None:
     if plugin_kit_version < 1:
         fail("PluginKit version must be positive")
@@ -641,9 +643,9 @@ def verify_nightly_app(
         "CFBundleVersion": build_number,
         "MTApplicationSupportDirectoryName": "MacTools Nightly",
         "MTReleaseChannel": "nightly",
-        "MTPluginCatalogURL": (
-            "https://mactools.ggbond.app/"
-            + catalog_path(plugin_kit_version, version, nightly=True).removeprefix("docs/")
+        # Keep the legacy default for adapters that import this verifier directly.
+        "MTPluginCatalogURL": expected_catalog_url or (
+            f"https://mactools.ggbond.app/nightly/plugins/v{plugin_kit_version}/catalog.json"
         ),
         "MTRightClickConfigurationHomeRelativePath": (
             "Library/Application Support/MacTools Nightly/right-click-menu.json"
@@ -932,6 +934,7 @@ def main() -> None:
             release_notes=args.release_notes.read_text(encoding="utf-8"),
         )
     elif args.command == "verify-app":
+        public_path = catalog_path(args.plugin_kit_version, args.version, nightly=True).removeprefix("docs/")
         verify_nightly_app(
             args.app,
             args.bundle_identifier_prefix,
@@ -940,6 +943,7 @@ def main() -> None:
             args.plugin_kit_version,
             args.cli,
             args.signed,
+            expected_catalog_url="https://mactools.ggbond.app/" + public_path,
         )
     elif args.command == "verify-catalog":
         verify_nightly_catalog(

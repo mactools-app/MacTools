@@ -174,6 +174,7 @@ struct WorkflowStepRunResult: Codable, Equatable, Sendable, Identifiable {
     var title: String
     var titleSource: WorkflowStepTitleSource?
     var actionReference: ActionReference?
+    let configuredPercentage: Int?
     let startedAt: Date?
     let finishedAt: Date
     let status: WorkflowStepRunStatus
@@ -187,6 +188,7 @@ struct WorkflowStepRunResult: Codable, Equatable, Sendable, Identifiable {
         title: String,
         titleSource: WorkflowStepTitleSource? = nil,
         actionReference: ActionReference? = nil,
+        configuredPercentage: Int? = nil,
         startedAt: Date?,
         finishedAt: Date,
         status: WorkflowStepRunStatus,
@@ -199,6 +201,7 @@ struct WorkflowStepRunResult: Codable, Equatable, Sendable, Identifiable {
         self.title = title
         self.titleSource = titleSource
         self.actionReference = actionReference
+        self.configuredPercentage = configuredPercentage
         self.startedAt = startedAt
         self.finishedAt = finishedAt
         self.status = status

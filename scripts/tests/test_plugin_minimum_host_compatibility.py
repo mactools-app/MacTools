@@ -29,6 +29,7 @@ NEW_API_MINIMUM_HOSTS = {
     "ActionPercentageField": "2.2.5",
     "DisplayActionTarget": "2.2.5",
     "DisplayActionWritePermit": "2.2.5",
+    "DisplayDDCIdentity": "2.2.5",
     "DisplayDDCTransaction": "2.2.5",
     "ActionConfirmationPreparation": "2.2.2",
     "PluginActionConfirmationProviding": "2.2.2",

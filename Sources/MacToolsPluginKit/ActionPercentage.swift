@@ -42,11 +42,37 @@ public enum ActionPercentage {
     }
 
     public static func label(_ value: Int) -> String {
-        (Double(value) / 100).formatted(.percent.precision(.fractionLength(0)))
+        (Double(value) / 100).formatted(
+            .percent.precision(.fractionLength(0)).locale(PluginRuntimeLocalization.locale)
+        )
     }
 
     public static func title(_ title: String, target: String? = nil, value: Int) -> String {
         [title, target, label(value)].compactMap { $0 }.joined(separator: " · ")
+    }
+
+    public static func matchesHardwareLevel(_ observed: Double, requested: Double) -> Bool {
+        (observed * 100).rounded() == (requested * 100).rounded()
+    }
+
+    public static func matchesHardwareLevel(raw: UInt16, maximum: UInt16, requested: Double) -> Bool {
+        guard maximum > 0, raw <= maximum, requested.isFinite, (0...1).contains(requested) else { return false }
+        let range = UInt32(maximum)
+        let roundedPercentage = (UInt32(raw) * 200 + range) / (range * 2)
+        return Double(roundedPercentage) == (requested * 100).rounded()
+    }
+
+    public static func hardwareStep(for level: Double, maximum: UInt16) -> UInt16? {
+        guard maximum > 0, level.isFinite, (0...1).contains(level) else { return nil }
+        let step = UInt16((Double(maximum) * level).rounded())
+        guard matchesHardwareLevel(raw: step, maximum: maximum, requested: level) else { return nil }
+        return step
+    }
+
+    public static var unsupportedHardwareLevel: String {
+        PluginKitLocalization.string(
+            "action.percentage.hardwareUnsupported", defaultValue: "显示器不支持所选的精确百分比。"
+        )
     }
 
     public static func rangeHint(

@@ -70,6 +70,19 @@ class PluginAnalysis:
         )
 
 
+@dataclass(frozen=True)
+class PluginReleasePlan:
+    mode: str
+    selection: list[str]
+    plugin_kit_version: int
+    catalog_path: Path
+    baseline_path: Path
+    baseline: dict
+    compatibility_migration: bool
+    analysis: PluginAnalysis
+    plugins_to_bump: list[PluginInfo]
+
+
 def info(message: str) -> None:
     print(f"[release] {message}", flush=True)
 
@@ -424,6 +437,8 @@ def plugin_catalog_path(plugin_kit_version: int) -> Path:
 def same_abi_catalog_migration_baseline_path(plugin_kit_version: int) -> Path | None:
     if plugin_kit_version == 5:
         return ROOT_DIR / "docs/plugins/v5/catalog.json"
+    if plugin_kit_version == 7 and v7_host_specific_catalog(plugin_kit_version, read_app_versions()[0]):
+        return ROOT_DIR / "docs/plugins/v7/catalog.json"
     return None
 
 
@@ -432,12 +447,6 @@ def previous_plugin_catalog_path() -> Path:
     preferred_path = plugin_catalog_path(plugin_kit_version)
     if preferred_path.exists() or preferred_path == LEGACY_PLUGIN_CATALOG:
         return preferred_path
-
-    host_version = read_app_versions()[0] if plugin_kit_version == 7 else "0"
-    if v7_host_specific_catalog(plugin_kit_version, host_version):
-        legacy_v7 = ROOT_DIR / "docs/plugins/v7/catalog.json"
-        if legacy_v7.exists():
-            return legacy_v7
 
     same_abi_baseline = same_abi_catalog_migration_baseline_path(plugin_kit_version)
     if same_abi_baseline is not None and same_abi_baseline.exists():
@@ -910,7 +919,9 @@ def prepare_plugin_website_data(dry_run: bool) -> list[Path]:
     return paths
 
 
-def run_plugin_plan_check(mode: str, selection: list[str], skip_check: bool, dry_run: bool) -> None:
+def run_plugin_plan_check(
+    mode: str, selection: list[str], skip_check: bool, dry_run: bool, *, require_version_bump: bool
+) -> None:
     if skip_check:
         return
     info("Running plugin release plan check")
@@ -927,6 +938,8 @@ def run_plugin_plan_check(mode: str, selection: list[str], skip_check: bool, dry
     ]
     if mode == "selected" and selection:
         plan_args.extend(["--plugins", ",".join(selection)])
+    if require_version_bump:
+        plan_args.append("--require-version-bump")
     run(plan_args, dry_run=dry_run, mutates=True)
 
 
@@ -1134,39 +1147,50 @@ def release_app(args: argparse.Namespace) -> None:
     info(f"App release tag pushed: {tag}")
 
 
-def release_plugin(args: argparse.Namespace) -> None:
-    mode, raw_selection = choose_plugin_mode(args.plugin_mode, args.plugin)
+def plan_plugin_release(mode: str, raw_selection: list[str]) -> PluginReleasePlan:
     plugins = read_plugins()
     current_plugin_kit = current_plugin_kit_version(plugins)
     ensure_plugin_kit_releasable(current_plugin_kit)
+    catalog_path = plugin_catalog_path(current_plugin_kit)
+    baseline_path = previous_plugin_catalog_path()
     previous_catalog = read_previous_catalog()
     previous_plugin_kit = previous_catalog.get("pluginKitVersion")
     is_compatibility_migration = (
-        not plugin_catalog_path(current_plugin_kit).exists()
-        and same_abi_catalog_migration_baseline_path(current_plugin_kit)
-        == previous_plugin_catalog_path()
+        not catalog_path.exists()
+        and same_abi_catalog_migration_baseline_path(current_plugin_kit) == baseline_path
     )
     if is_compatibility_migration:
         if mode == "selected":
             fail(
-                "检测到同一 PluginKit ABI 的 catalog schema 迁移。"
+                "检测到同一 PluginKit ABI 的 catalog 迁移。"
                 "plugin-mode selected 不能只发布部分插件；"
                 "请使用 plugin-mode all 全量重建并提升所有插件版本。"
             )
         if mode == "auto":
             mode = "all"
-            info(
-                "检测到同一 PluginKit ABI 的 catalog schema 迁移，"
-                "插件发布模式自动切换为 all。"
-            )
     elif mode == "auto" and previous_plugin_kit is not None and previous_plugin_kit != current_plugin_kit:
         mode = "all"
-        info(
-            f"检测到 PluginKit ABI 升级（{previous_plugin_kit} -> {current_plugin_kit}），"
-            "插件发布模式自动切换为 all。"
-        )
     selection = normalize_plugin_selection(raw_selection, plugins) if raw_selection else []
     analysis = analyze_plugins(mode, selection)
+    return PluginReleasePlan(
+        mode, selection, current_plugin_kit, catalog_path, baseline_path, previous_catalog,
+        is_compatibility_migration, analysis, plugins_requiring_version_bump(mode, analysis),
+    )
+
+
+def release_plugin(args: argparse.Namespace) -> None:
+    requested_mode, raw_selection = choose_plugin_mode(args.plugin_mode, args.plugin)
+    plan = plan_plugin_release(requested_mode, raw_selection)
+    mode, selection, analysis = plan.mode, plan.selection, plan.analysis
+    if requested_mode == "auto" and mode == "all":
+        if plan.compatibility_migration:
+            info("检测到同一 PluginKit ABI 的 catalog 迁移，插件发布模式自动切换为 all。")
+        else:
+            previous_plugin_kit = plan.baseline.get("pluginKitVersion")
+            info(
+                f"检测到 PluginKit ABI 升级（{previous_plugin_kit} -> {plan.plugin_kit_version}），"
+                "插件发布模式自动切换为 all。"
+            )
     if not analysis.release_required:
         fail("未检测到需要发布的插件变化。若要强制发布，请使用 ARGS=\"--type plugin --plugin-mode all\"。")
     validate_changelog("plugin", require_pending=True)
@@ -1192,7 +1216,7 @@ def release_plugin(args: argparse.Namespace) -> None:
     print(f"  check: {'skip' if args.skip_check else 'make generate + plan-plugin-release'}")
     print(f"  changelog: {changelog_status_label('plugin')}")
     summarize_plugin_analysis(analysis)
-    plugins_to_bump = plugins_requiring_version_bump(mode, analysis)
+    plugins_to_bump = plan.plugins_to_bump
     if plugins_to_bump:
         print(
             "  将自动 bump: "
@@ -1201,6 +1225,12 @@ def release_plugin(args: argparse.Namespace) -> None:
     confirm("确认执行 bump、check、commit、tag 和 push？", args.yes)
 
     sync_branch_after_confirm(args.remote, args.branch, args.dry_run)
+    try:
+        synced_plan = plan_plugin_release(requested_mode, raw_selection)
+    except ReleaseError as error:
+        fail(f"同步远端后原插件发布计划不再有效：{error} 请重新运行 make release。")
+    if synced_plan != plan:
+        fail("同步远端后插件发布计划发生变化。请重新运行 make release 并确认新计划。")
     validate_changelog("plugin", require_pending=True)
     latest_batch_after_sync = latest_tag_version("plugins-*", PLUGIN_TAG_RE)
     if requested_version and semver_tuple(next_batch) <= semver_tuple(latest_batch_after_sync or "0.0.0"):
@@ -1212,8 +1242,6 @@ def release_plugin(args: argparse.Namespace) -> None:
                 "同步远端后计算出的下一插件批次发生变化："
                 f"{next_batch} -> {expected_batch_after_sync}。请重新运行 make release。"
             )
-    analysis = analyze_plugins(mode, selection)
-    plugins_to_bump = plugins_requiring_version_bump(mode, analysis)
     check_tag_available(tag, args.remote)
     updated_versions = write_plugin_versions(plugins_to_bump, level, args.dry_run)
     if updated_versions:
@@ -1228,7 +1256,9 @@ def release_plugin(args: argparse.Namespace) -> None:
 
     website_paths = prepare_plugin_website_data(args.dry_run)
     run_plugin_generate_check(args.skip_check, args.dry_run)
-    run_plugin_plan_check(mode, selection, args.skip_check, args.dry_run)
+    run_plugin_plan_check(
+        mode, selection, args.skip_check, args.dry_run, require_version_bump=plan.compatibility_migration
+    )
     changelog_paths = prepare_changelog("plugin", tag, args.dry_run)
     changed_manifests = [plugin.manifest_path for plugin in plugins_to_bump]
     made_commit = commit_if_needed(

@@ -219,6 +219,24 @@ final class DisplayBrightnessPluginTests: XCTestCase {
         XCTAssertTrue(definition.capabilities.contains(.cancellable))
     }
 
+    func testAllDisplaysBrightnessDoesNotAdjustReplacementDuringAction() async throws {
+        let controller = MockDisplayBrightnessController()
+        controller.snapshotValue = .init(displays: [
+            makeBrightnessDisplay(id: 7, name: "First", brightness: 0.5),
+            makeBrightnessDisplay(id: 8, name: "Second", brightness: 0.6),
+        ], errorMessage: nil)
+        controller.onCompletedWrite = { [weak controller] in
+            controller?.actionIdentifiers[8] = "replacement"
+        }
+        let preferences = DisplayBrightnessShortcutPreferences(storage: DisplayBrightnessMemoryStorage())
+        preferences.targetMode = .allDisplays
+        let plugin = DisplayBrightnessPlugin(controller: controller, shortcutPreferences: preferences)
+        let reference = ActionReference(key: .init(providerID: "display-brightness", actionID: "display-brightness.decrease"))
+        let handle = try plugin.beginAction(.init(reference: reference, source: .test, mode: .background))
+        guard case .failed = await handle.result() else { return XCTFail("A replaced target should fail") }
+        XCTAssertEqual(controller.brightnessWrites.map(\.displayID), [7])
+    }
+
     func testDeactivationCancelsOutstandingControllerWrites() {
         let controller = MockDisplayBrightnessController()
         let plugin = DisplayBrightnessPlugin(controller: controller)
@@ -290,6 +308,27 @@ final class DisplayBrightnessPluginTests: XCTestCase {
         XCTAssertEqual(controller.brightnessWrites.map(\.displayID), [7, 9])
     }
 
+    func testSliderGestureDoesNotTransferToReplacementAtSameID() throws {
+        let controller = MockDisplayBrightnessController()
+        controller.snapshotValue = .init(
+            displays: [makeBrightnessDisplay(id: 7, name: "Original", brightness: 0.7)], errorMessage: nil
+        )
+        let plugin = DisplayBrightnessPlugin(controller: controller)
+        plugin.handleAction(.setDisclosureExpanded(true))
+        let previous = try XCTUnwrap(plugin.rowState.detail?.primaryControls.first?.id)
+        plugin.handleAction(.setSlider(controlID: previous, value: 0.6, phase: .changed))
+
+        controller.actionIdentifiers[7] = "replacement"
+        controller.snapshotValue = .init(
+            displays: [makeBrightnessDisplay(id: 7, name: "Replacement", brightness: 0.4)], errorMessage: nil
+        )
+        let current = try XCTUnwrap(plugin.rowState.detail?.primaryControls.first?.id)
+        XCTAssertNotEqual(current, previous)
+        plugin.handleAction(.setSlider(controlID: previous, value: 0.6, phase: .ended))
+        plugin.handleAction(.setSlider(controlID: current, value: 0.3, phase: .ended))
+        XCTAssertEqual(controller.brightnessWrites.map(\.value), [0.6, 0.3])
+    }
+
     func testSliderPowerButtonTurnsItsDisplayOffAndBackOn() async throws {
         let controller = MockDisplayBrightnessController()
         controller.snapshotValue = DisplayBrightnessSnapshot(
@@ -313,18 +352,18 @@ final class DisplayBrightnessPluginTests: XCTestCase {
         let controls = try XCTUnwrap(plugin.rowState.detail?.primaryControls)
         // A display switched off by MacTools keeps a greyed slider whose button turns it back on.
         XCTAssertEqual(
-            controls.map(\.id),
-            ["display.7.brightness", "display.9.brightness", "display.1.brightness"]
+            controls.map(\.sectionTitle),
+            ["Studio Display", "LG UltraFine", "Built-in Display"]
         )
         XCTAssertEqual(controls.map(\.actionIconSystemName), ["power", nil, "power"])
         XCTAssertEqual(controls.map(\.isEnabled), [true, true, false])
 
-        plugin.handleAction(.invokeAction(controlID: "display.1.brightness"))
+        plugin.handleAction(.invokeAction(controlID: controls[2].id))
         XCTAssertEqual(coordinator.restoredDisplayIDs, [1])
 
         let disabled = expectation(description: "display switched off")
         coordinator.onDisable = { _ in disabled.fulfill() }
-        plugin.handleAction(.invokeAction(controlID: "display.7.brightness"))
+        plugin.handleAction(.invokeAction(controlID: controls[0].id))
         await fulfillment(of: [disabled], timeout: 1)
 
         XCTAssertEqual(coordinator.disabledDisplayIDs, [7])

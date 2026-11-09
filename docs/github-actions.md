@@ -77,7 +77,7 @@ For an inline workflow failure with otherwise correct tagged source, push the wo
 gh workflow run release.yml --ref main -f tag=v1.3.0
 ```
 
-The workflow definition comes from `main`; app source, scripts, version, catalog, and release notes still come from the tag. **Re-run jobs** on the old run retains its original workflow revision. A source or checked-in script fix needs an updated release source; selecting `main` does not replace tagged files. An already verified plugin batch does not need republishing for an app-only signing fix.
+The workflow definition comes from `main`. The tag supplies the app source, scripts, version, release notes, catalog route, and compatibility baseline. Supported tagged verifiers check the deployed catalog against the current catalog committed on `main` and require it to retain compatible tagged packages. Older tagged verifiers use their original catalog check. **Re-run jobs** on the old run retains its original workflow revision. A source or checked-in script fix needs an updated release source. An already verified plugin batch can be reused for an app-only signing fix.
 
 ## Plugin releases
 
@@ -119,7 +119,7 @@ Scheduled runs compare the selected source with the source advertised by the dep
 
 Each candidate uses a unique `nightly-<run>-<attempt>` release and plugin versions of `source-major.run.attempt`. Build/signing, credential-free CLI execution, and publication are separate jobs connected by one immutable artifact. Failed pre-publication verification can use **Re-run failed jobs** to reuse that artifact. If the release is already public or draft cleanup failed, use **Re-run all jobs** to create a new candidate. Existing public assets are never overwritten.
 
-Retention keeps the latest 14 matching Nightly prereleases and protects builds referenced by committed or deployed appcasts and plugin catalogs. If a deployed feed or catalog cannot be checked, retention skips deleting published releases. Failed candidates and abandoned workflow-owned drafts are cleaned separately; stable and unrelated releases are excluded.
+Retention keeps the latest 14 matching Nightly prereleases and protects builds referenced by committed or deployed appcasts and plugin catalogs. The Nightly publishing job and Pages workflow share a concurrency group. Pages acquires it before checking out `main` and holds it through deployment, so an older checkout cannot deploy during pruning. Retention fetches `main` before collecting references and stops deletion if `main` moves. It checks historical catalog routes because Pages may still serve a route after a revert. A historical route is retired once it is absent from `main` and returns HTTP 404. If any other deployed feed or catalog cannot be checked, retention skips deleting published releases. Failed candidates and abandoned workflow-owned drafts are cleaned separately. Stable and unrelated releases are excluded.
 
 ### Channel isolation
 

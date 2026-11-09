@@ -11,8 +11,13 @@ V7_HOST_FLOOR = "2.2.5"
 
 
 def v7_host_specific_catalog(kit: int, host_version: str) -> bool:
-    version = tuple(int(part) for part in host_version.split("."))
-    return kit == 7 and version >= (2, 2, 5)
+    if kit != 7:
+        return False
+    base_version = host_version.partition("-")[0]
+    if re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", base_version) is None:
+        raise ValueError(f"Invalid host version: {host_version}")
+    version = tuple(int(part) for part in base_version.split("."))
+    return version >= (2, 2, 5)
 
 
 def catalog_path(kit: int, host_version: str, *, nightly: bool = False) -> str:
@@ -33,7 +38,7 @@ def main() -> None:
     parser.add_argument("--nightly", action="store_true")
     args = parser.parse_args()
     config = Path(__file__).resolve().parents[1] / "Configs/AppVersion.xcconfig"
-    version = re.search(r"(?m)^MARKETING_VERSION\s*=\s*([\d.]+)\s*$", config.read_text())
+    version = re.search(r"(?m)^MARKETING_VERSION[ \t]*=[ \t]*([^\s#]+)", config.read_text())
     if version is None:
         parser.error("MARKETING_VERSION is missing from AppVersion.xcconfig")
     host_version = version.group(1)

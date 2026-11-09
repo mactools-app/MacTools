@@ -268,6 +268,24 @@ class NightlyReleaseTests(unittest.TestCase):
                 nightly_release.verify_nightly_app(app, "com.example", "1.2.1", "512.1", 6)
             verify_cli.assert_called_once_with(app, "com.example", None, False)
 
+            app_info["CFBundleShortVersionString"] = "2.2.5"
+            extension_info["CFBundleShortVersionString"] = "2.2.5"
+            extension_info_path.write_bytes(plistlib.dumps(extension_info))
+            app_info["MTPluginCatalogURL"] = "https://mactools.ggbond.app/nightly/plugins/v7/catalog.json"
+            app_info_path.write_bytes(plistlib.dumps(app_info))
+            public_catalog = "https://mactools.ggbond.app/nightly/plugins/v7/host-2.2.5/catalog.json"
+            with mock.patch.object(nightly_release, "verify_nightly_cli"):
+                nightly_release.verify_nightly_app(app, "com.example", "2.2.5", "512.1", 7)
+                with self.assertRaisesRegex(SystemExit, "MTPluginCatalogURL"):
+                    nightly_release.verify_nightly_app(
+                        app, "com.example", "2.2.5", "512.1", 7, expected_catalog_url=public_catalog,
+                    )
+                app_info["MTPluginCatalogURL"] = public_catalog
+                app_info_path.write_bytes(plistlib.dumps(app_info))
+                nightly_release.verify_nightly_app(
+                    app, "com.example", "2.2.5", "512.1", 7, expected_catalog_url=public_catalog,
+                )
+
     def test_appcast_tag_rejects_malformed_content(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             appcast = pathlib.Path(temporary_directory) / "appcast.xml"
@@ -364,6 +382,23 @@ class NightlyReleaseTests(unittest.TestCase):
             ["nightly-2-1"],
         )
 
+    def test_nightly_retention_and_pages_checkout_share_a_concurrency_group(self) -> None:
+        workflows = REPO_ROOT / ".github/workflows"
+        pages = (workflows / "pages.yml").read_text()
+        nightly = (workflows / "nightly.yml").read_text()
+        pages_scope, pages_jobs = pages.split("\njobs:\n", 1)
+        publish_job = nightly.split("\n  publish:\n", 1)[1]
+        pages_lock = pages_scope.split("\nconcurrency:\n", 1)[1]
+        publish_lock = publish_job.split("\n    concurrency:\n", 1)[1].split("\n    runs-on:", 1)[0]
+        self.assertIn("      - name: Checkout main\n", pages_jobs)
+        self.assertIn("      - name: Deploy GitHub Pages\n", pages_jobs)
+        self.assertIn("      - name: Apply bounded Nightly retention\n", publish_job)
+        self.assertEqual(
+            [line.strip() for line in pages_lock.splitlines() if line.strip() and not line.strip().startswith("#")],
+            [line.strip() for line in publish_lock.splitlines()],
+        )
+        self.assertIn("queue: max", pages_lock)
+
     def test_workflow_retention_protects_a_deployed_only_catalog_release(self) -> None:
         workflow = (REPO_ROOT / ".github/workflows/nightly.yml").read_text()
         step = workflow.split("      - name: Apply bounded Nightly retention\n", 1)[1]
@@ -374,39 +409,64 @@ class NightlyReleaseTests(unittest.TestCase):
 gh() {
     case "$1 $2" in
         "api --paginate") cat "$RUNNER_TEMP/releases.json" ;;
+        "auth setup-git") return 0 ;;
         "release delete") printf '%s\n' "$3" >> "$RUNNER_TEMP/deletions" ;;
         *) return 1 ;;
     esac
 }
 git() {
     case "$1 $2" in
-        "ls-tree -r") printf '%s\n' "$CATALOG_PATH" ;;
-        "show origin/main:docs/nightly/appcast.xml") cat "$RUNNER_TEMP/appcast.xml" ;;
-        "show origin/main:$CATALOG_PATH") cat "$RUNNER_TEMP/committed.json" ;;
+        "fetch --no-tags") [[ "$CATALOG_AVAILABLE" != main-fetch-failed ]] ;;
+        "rev-parse --verify") printf 'fresh-main\n' ;;
+        "ls-tree -r")
+            [[ "$4" == fresh-main ]] || return 1
+            if [[ "$CATALOG_AVAILABLE" != historical-* ]]; then printf '%s\n' "$CATALOG_PATH"; fi ;;
+        "log --full-history") [[ "$7" == fresh-main ]] && printf '%s\n' "$CATALOG_PATH" ;;
+        "show fresh-main:docs/nightly/appcast.xml") cat "$RUNNER_TEMP/appcast.xml" ;;
+        "show fresh-main:$CATALOG_PATH") cat "$RUNNER_TEMP/committed.json" ;;
+        "ls-remote --exit-code")
+            if [[ "$CATALOG_AVAILABLE" == main-moved ]]; then printf 'new-main\trefs/heads/main\n'
+            else printf 'fresh-main\trefs/heads/main\n'; fi ;;
         *) return 1 ;;
     esac
 }
 curl() {
-    case "$5" in
-        */appcast.xml) cp "$RUNNER_TEMP/appcast.xml" "$7" ;;
-        */v7/catalog.json)
-            case "$CATALOG_AVAILABLE" in
-                yes) cp "$RUNNER_TEMP/deployed.json" "$7" ;;
-                empty) printf ' ' > "$7" ;;
-                *) return 1 ;;
-            esac
-            ;;
+    if [[ "$1" == --fail ]]; then
+        [[ "$5 $6 $7 $8" == "--connect-timeout 10 --max-time 30" && "$9" == */appcast.xml ]] || return 2
+        [[ "$CATALOG_AVAILABLE" != appcast-timeout ]] || return 28
+        cp "$RUNNER_TEMP/appcast.xml" "${11}"
+        return
+    fi
+    [[ "$4 $5 $6 $7" == "--connect-timeout 10 --max-time 30" && "${10}" == */v7/catalog.json ]] || return 2
+    case "$CATALOG_AVAILABLE" in
+        yes|historical-deployed|fresh-rollback|main-moved) cp "$RUNNER_TEMP/deployed.json" "${12}"; printf '200' ;;
+        empty) printf ' ' > "${12}"; printf '200' ;;
+        no|historical-404) printf '404' ;;
+        catalog-timeout|historical-timeout) return 28 ;;
         *) return 1 ;;
     esac
 }
 '''
-        for available, expected in [("yes", ["nightly-89-1"]), ("empty", []), ("no", [])]:
+        for available, expected in [
+            ("yes", ["nightly-89-1"]),
+            ("empty", []),
+            ("no", []),
+            ("appcast-timeout", []),
+            ("catalog-timeout", []),
+            ("historical-deployed", ["nightly-89-1"]),
+            ("historical-404", ["nightly-90-1", "nightly-89-1"]),
+            ("historical-timeout", []),
+            ("fresh-rollback", []),
+            ("main-moved", []),
+            ("main-fetch-failed", []),
+        ]:
             with self.subTest(deployed_catalog=available), tempfile.TemporaryDirectory() as temp:
                 root = pathlib.Path(temp)
                 (root / "appcast.xml").write_text(
                     f'<rss><enclosure url="{package_root}/nightly-119-1/app.dmg"/></rss>'
                 )
-                for name, tag in [("committed", "nightly-120-1"), ("deployed", "nightly-90-1")]:
+                committed_tag = "nightly-89-1" if available == "fresh-rollback" else "nightly-120-1"
+                for name, tag in [("committed", committed_tag), ("deployed", "nightly-90-1")]:
                     (root / f"{name}.json").write_text(json.dumps({
                         "plugins": [{"package": {"url": f"{package_root}/{tag}/plugin.zip"}}]
                     }))

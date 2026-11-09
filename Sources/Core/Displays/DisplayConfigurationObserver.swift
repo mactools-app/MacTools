@@ -1,5 +1,6 @@
 import AppKit
 import Foundation
+import MacToolsPluginKit
 
 @MainActor
 protocol DisplayConfigurationObserving: AnyObject {
@@ -21,6 +22,7 @@ final class SystemDisplayConfigurationObserver: DisplayConfigurationObserving {
             object: nil,
             queue: .main
         ) { [weak self] _ in
+            DisplayDDCIdentity.invalidateBindings()
             Task { @MainActor in
                 self?.onConfigurationChange?()
             }
@@ -54,17 +56,8 @@ final class SystemDisplayConfigurationObserver: DisplayConfigurationObserving {
 
     nonisolated private static let displayReconfigurationCallback: CGDisplayReconfigurationCallBack = {
         _, flags, userInfo in
-        guard
-            flags.contains(.beginConfigurationFlag)
-                || flags.contains(.addFlag)
-                || flags.contains(.removeFlag)
-                || flags.contains(.setModeFlag)
-                || flags.contains(.enabledFlag)
-                || flags.contains(.disabledFlag),
-            let userInfo
-        else {
-            return
-        }
+        guard !flags.isEmpty, let userInfo else { return }
+        DisplayDDCIdentity.invalidateBindings()
 
         let observer = Unmanaged<SystemDisplayConfigurationObserver>
             .fromOpaque(userInfo)

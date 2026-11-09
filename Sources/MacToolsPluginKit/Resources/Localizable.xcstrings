@@ -1,6 +1,82 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
+    "action.percentage.hardwareUnsupported": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا تدعم الشاشة النسبة المئوية المحددة بدقة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Monitor unterstützt den gewählten Prozentwert nicht exakt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The display does not support the selected exact percentage."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La pantalla no admite el porcentaje exacto seleccionado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’écran ne prend pas en charge le pourcentage exact sélectionné."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ディスプレイは選択した割合に正確に設定できません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "디스플레이가 선택한 정확한 백분율을 지원하지 않습니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O ecrã não suporta a percentagem exata selecionada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дисплей не поддерживает выбранное точное значение в процентах."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran seçilen kesin yüzdeyi desteklemiyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示器不支持所选的精确百分比。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示器不支援所選的精確百分比。"
+          }
+        }
+      }
+    },
     "action.percentage.title": {
       "localizations": {
         "ar": {

@@ -5,6 +5,10 @@ import Foundation
 
 private struct Options {
     var appVersion: String?
+    var buildNumber: String?
+    var printRequiredCatalogURL = false
+    var useCurrentCatalog = false
+    var artifactInfoPath: String?
     var catalogURL: URL?
     var expectedCatalogPath: String?
     var publicKeyBase64: String?
@@ -27,6 +31,7 @@ private struct CatalogRequirement {
     let minimumAppVersion: String
     let url: URL
     let expectedCatalogPath: String
+    let requiresExplicitArtifactURL: Bool
 }
 
 private let productionCatalogID = "com.ggbond.mactools.plugins"
@@ -40,12 +45,22 @@ private func parseOptions() throws -> Options {
     var arguments = Array(CommandLine.arguments.dropFirst())
     while !arguments.isEmpty {
         let option = arguments.removeFirst()
+        if option == "--print-required-catalog-url" {
+            options.printRequiredCatalogURL = true
+            continue
+        }
+        if option == "--use-current-catalog" {
+            options.useCurrentCatalog = true
+            continue
+        }
         guard !arguments.isEmpty else {
             try fail("Missing value for \(option).")
         }
         let value = arguments.removeFirst()
         switch option {
         case "--app-version": options.appVersion = value
+        case "--build-number": options.buildNumber = value
+        case "--artifact-info-plist": options.artifactInfoPath = value
         case "--catalog-url": options.catalogURL = URL(string: value)
         case "--expected-catalog": options.expectedCatalogPath = value
         case "--public-key-base64": options.publicKeyBase64 = value
@@ -69,6 +84,37 @@ private func parseOptions() throws -> Options {
     return options
 }
 
+private func validateArtifactInfo(
+    at path: String,
+    appVersion: String,
+    buildNumber: String,
+    catalogURL: URL,
+    requiresExplicitURL: Bool,
+    publicKey: String
+) throws {
+    let data = try Data(contentsOf: URL(fileURLWithPath: path))
+    guard let info = try PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any],
+          info["CFBundleShortVersionString"] as? String == appVersion else {
+        try fail("The DMG app version does not match release version \(appVersion).")
+    }
+    guard info["CFBundleVersion"] as? String == buildNumber else {
+        try fail("The DMG app build number does not match release build \(buildNumber).")
+    }
+    if let channel = info["MTReleaseChannel"] as? String, !channel.isEmpty, channel != "stable" {
+        try fail("The DMG app uses release channel \(channel). Expected stable.")
+    }
+    if let url = info["MTPluginCatalogURL"] as? String, !url.isEmpty, !url.contains("$(") {
+        guard URL(string: url) == catalogURL else {
+            try fail("The DMG app overrides the required production plugin catalog URL.")
+        }
+    } else if requiresExplicitURL {
+        try fail("The DMG app must declare the required production plugin catalog URL.")
+    }
+    guard info["MTPluginCatalogPublicKey"] as? String == publicKey else {
+        try fail("The DMG app's plugin catalog public key does not match the release key.")
+    }
+}
+
 private func versionComponents(_ value: String) throws -> [Int] {
     let core = value.split(separator: "-", maxSplits: 1).first.map(String.init) ?? value
     let components = core.split(separator: ".")
@@ -82,6 +128,15 @@ private func versionComponents(_ value: String) throws -> [Int] {
 
 private func isVersion(_ value: String, atLeast minimum: String) throws -> Bool {
     try versionComponents(value).lexicographicallyPrecedes(versionComponents(minimum)) == false
+}
+
+private func packageVersionComponents(_ value: String) throws -> [Int] {
+    guard value.range(of: #"^[0-9]+(?:\.[0-9]+){0,2}\z"#, options: .regularExpression)
+        == value.startIndex..<value.endIndex else {
+        try fail("Invalid plugin package version: \(value)")
+    }
+    let components = value.split(separator: ".").map { Int($0) ?? 0 }
+    return components + Array(repeating: 0, count: 3 - components.count)
 }
 
 private func sourcePluginKitVersion() throws -> Int {
@@ -125,7 +180,8 @@ private func catalogRequirement(pluginKitVersion: Int, appVersion: String) throw
     return CatalogRequirement(
         minimumAppVersion: usesHostSpecificV7 ? "2.2.5" : pluginKitVersion >= 7 ? "1.3.1" : pluginKitVersion >= 6 ? "1.3.0" : "1.2.1",
         url: URL(string: "https://mactools.ggbond.app/plugins/\(relativePath)")!,
-        expectedCatalogPath: "docs/plugins/\(relativePath)"
+        expectedCatalogPath: "docs/plugins/\(relativePath)",
+        requiresExplicitArtifactURL: usesHostSpecificV7
     )
 }
 
@@ -253,10 +309,17 @@ private func validateCatalog(
     guard let plugins = catalog["plugins"] as? [[String: Any]], !plugins.isEmpty else {
         try fail("\(label) contains no plugin packages.")
     }
+    guard let revocationEntries = catalog["revoked"] as? [[String: Any]] else {
+        try fail("\(label) has no valid revocation list.")
+    }
+    let revocations = try JSONDecoder().decode(
+        [CatalogRevocation].self, from: JSONSerialization.data(withJSONObject: revocationEntries)
+    )
     var pluginIDs = Set<String>()
     for plugin in plugins {
         guard let id = plugin["id"] as? String, !id.isEmpty,
               pluginIDs.insert(id).inserted,
+              let version = plugin["version"] as? String, !version.isEmpty,
               plugin["pluginKitVersion"] as? Int == expectedPluginKitVersion,
               let package = plugin["package"] as? [String: Any],
               let urlValue = package["url"] as? String,
@@ -266,6 +329,9 @@ private func validateCatalog(
               let size = package["size"] as? NSNumber, size.int64Value > 0
         else {
             try fail("\(label) contains an invalid plugin entry.")
+        }
+        if revocations.contains(where: { $0.id == id && ($0.versions.isEmpty || $0.versions.contains(version)) }) {
+            try fail("\(label) advertises revoked package \(id) \(version).")
         }
     }
     guard let signature = catalog.removeValue(forKey: "signature") as? [String: Any],
@@ -292,6 +358,63 @@ private func validateCatalog(
     return catalog
 }
 
+private func readCurrentCatalog(at path: String) throws -> Data {
+    let git = Process()
+    git.executableURL = URL(fileURLWithPath: "/usr/bin/git")
+    git.arguments = ["show", "refs/remotes/origin/main:\(path)"]
+    let output = Pipe()
+    git.standardOutput = output
+    git.standardError = FileHandle.nullDevice
+    try git.run()
+    let data = output.fileHandleForReading.readDataToEndOfFile()
+    git.waitUntilExit()
+    guard git.terminationStatus == 0 else {
+        try fail("Current plugin catalog is missing from origin/main: \(path).")
+    }
+    return data
+}
+
+private struct CatalogPackage: Decodable {
+    let id: String
+    let version: String
+    let minimumHostVersion: String
+}
+
+private struct CatalogRevocation: Decodable {
+    let id: String
+    let versions: [String]
+}
+
+private struct CatalogCoverage: Decodable {
+    let plugins: [CatalogPackage]
+
+    func availableVersions(for appVersion: String) throws -> [String: [Int]] {
+        let host = try versionComponents(appVersion)
+        var versions: [String: [Int]] = [:]
+        for package in plugins {
+            let minimum = try packageVersionComponents(package.minimumHostVersion)
+            guard !host.lexicographicallyPrecedes(minimum) else { continue }
+            versions[package.id] = try packageVersionComponents(package.version)
+        }
+        return versions
+    }
+}
+
+private func validateCurrentCoverage(
+    tagged: [String: Any], current: [String: Any], appVersion: String
+) throws {
+    let decoder = JSONDecoder()
+    let required = try decoder.decode(CatalogCoverage.self, from: normalizedJSON(tagged)).availableVersions(for: appVersion)
+    let available = try decoder.decode(CatalogCoverage.self, from: normalizedJSON(current)).availableVersions(for: appVersion)
+    let missing = required.keys.sorted().filter { id in
+        guard let version = available[id], let minimum = required[id] else { return true }
+        return version.lexicographicallyPrecedes(minimum)
+    }
+    guard missing.isEmpty else {
+        try fail("Current plugin catalog does not preserve tagged package coverage for MacTools \(appVersion): \(missing.joined(separator: ", ")).")
+    }
+}
+
 do {
     let options = try parseOptions()
     let appVersion = options.appVersion!
@@ -305,33 +428,47 @@ do {
         )
     }
 
+    if options.printRequiredCatalogURL {
+        print(requirement.url.absoluteString)
+        exit(EXIT_SUCCESS)
+    }
     let expectedPath = options.expectedCatalogPath ?? requirement.expectedCatalogPath
     let catalogURL = options.catalogURL ?? requirement.url
     let publicKey = try options.publicKeyBase64 ?? releasePublicKey()
+    if let artifactInfoPath = options.artifactInfoPath {
+        guard let buildNumber = options.buildNumber, !buildNumber.isEmpty else {
+            try fail("--build-number is required with --artifact-info-plist.")
+        }
+        try validateArtifactInfo(
+            at: artifactInfoPath,
+            appVersion: appVersion,
+            buildNumber: buildNumber,
+            catalogURL: catalogURL,
+            requiresExplicitURL: requirement.requiresExplicitArtifactURL,
+            publicKey: publicKey
+        )
+    }
     let requiredSchemaVersion = options.requiredSchemaVersion ?? 3
     let expectedData = try readCatalog(at: expectedPath)
     let deployedData = try options.deployedCatalogPath.map(readCatalog(at:)) ?? fetch(catalogURL)
-    let expected = try validateCatalog(
-        expectedData,
-        label: "Committed plugin catalog",
-        targetAppVersion: appVersion,
-        expectedCatalogID: productionCatalogID,
-        expectedPluginKitVersion: requiredPluginKitVersion,
-        expectedSchemaVersion: requiredSchemaVersion,
-        publicKeyBase64: publicKey
-    )
-    let deployed = try validateCatalog(
-        deployedData,
-        label: "Deployed plugin catalog",
-        targetAppVersion: appVersion,
-        expectedCatalogID: productionCatalogID,
-        expectedPluginKitVersion: requiredPluginKitVersion,
-        expectedSchemaVersion: requiredSchemaVersion,
-        publicKeyBase64: publicKey
-    )
+    func validated(_ data: Data, label: String) throws -> [String: Any] {
+        try validateCatalog(data, label: label, targetAppVersion: appVersion, expectedCatalogID: productionCatalogID,
+                            expectedPluginKitVersion: requiredPluginKitVersion, expectedSchemaVersion: requiredSchemaVersion,
+                            publicKeyBase64: publicKey)
+    }
+    let tagged = try validated(expectedData, label: "Committed plugin catalog")
+    let expected: [String: Any]
+    if options.useCurrentCatalog {
+        expected = try validated(readCurrentCatalog(at: requirement.expectedCatalogPath), label: "Current plugin catalog")
+        try validateCurrentCoverage(tagged: tagged, current: expected, appVersion: appVersion)
+    } else {
+        expected = tagged
+    }
+    let deployed = try validated(deployedData, label: "Deployed plugin catalog")
     guard try normalizedJSON(expected) == normalizedJSON(deployed) else {
+        let expectedRevision = options.useCurrentCatalog ? "origin/main:\(requirement.expectedCatalogPath)" : expectedPath
         try fail(
-            "The deployed plugin catalog does not match \(expectedPath). "
+            "The deployed plugin catalog does not match \(expectedRevision). "
                 + "Wait for the plugin catalog deployment, then retry the app release."
         )
     }

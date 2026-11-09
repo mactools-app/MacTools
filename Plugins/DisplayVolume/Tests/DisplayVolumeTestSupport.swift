@@ -55,6 +55,7 @@ final class MockDisplayVolumeController: DisplayVolumeControlling {
     var onStateChange: (() -> Void)?
     var snapshotValue = DisplayVolumeSnapshot(displays: [], errorMessage: nil)
     var writeResults: [CGDirectDisplayID: DisplayVolumeWriteResult] = [:]
+    var onCompletedWrite: (() -> Void)?
     private(set) var volumeWrites: [VolumeWrite] = []
     private(set) var cancelOutstandingWritesCount = 0
 
@@ -95,6 +96,7 @@ final class MockDisplayVolumeController: DisplayVolumeControlling {
         for displayID: CGDirectDisplayID
     ) async -> DisplayVolumeWriteResult {
         setVolume(value, for: displayID, phase: .ended)
+        onCompletedWrite?()
         return writeResults[displayID] ?? .succeeded
     }
 

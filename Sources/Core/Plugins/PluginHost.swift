@@ -676,7 +676,7 @@ final class PluginHost: ObservableObject {
         self.pluginStateChangeRebuildDelay = pluginStateChangeRebuildDelay
         self.dynamicPluginManager = dynamicPluginManager
         self.pluginCatalogManager = pluginCatalogManager
-        let actionRegistry = ActionRegistry()
+        let actionRegistry = ActionRegistry(displayLabelDefaults: shortcutStore.userDefaults)
         let actionShortcutStore = ActionShortcutAssignmentStore(
             userDefaults: shortcutStore.userDefaults,
             preferencesBackupChangeReporter: preferencesBackupChangeReporter

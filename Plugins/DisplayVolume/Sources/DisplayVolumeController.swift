@@ -34,6 +34,27 @@ private final class VolumeWriteGate: @unchecked Sendable {
 
 @MainActor
 final class DisplayVolumeController: DisplayVolumeControlling {
+    private enum ReadRequirement: Int, Comparable, Sendable {
+        case none
+        case fresh
+        case verified
+
+        static func < (lhs: Self, rhs: Self) -> Bool { lhs.rawValue < rhs.rawValue }
+
+        func read(from backend: any DisplayVolumeBackend) throws -> Double {
+            switch self {
+            case .none: try backend.readVolume()
+            case .fresh: try backend.readFreshVolume()
+            case .verified: try backend.readVerifiedVolume()
+            }
+        }
+    }
+
+    private struct OrdinaryWrite: Sendable {
+        let generation: UInt64
+        let requiresKnownLevel: Bool
+    }
+
     private struct ManagedDisplay {
         var display: DisplayInfo
         let actionIdentifier: String?
@@ -44,9 +65,28 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         var pendingWriteID: UInt64?
         var writeInFlight = false
         var inFlightWriteID: UInt64?
+        var inFlightTarget: Double?
         var scheduledFlush: DispatchWorkItem?
         var pendingReadbackAfterWrite = false
+        var pendingOrdinaryWrite: OrdinaryWrite?
         var lastWriteError: String?
+        var readRequirement: ReadRequirement = .none
+
+        var reusableDDCState: DDCVolumeBackend.CachedState? {
+            guard actionIdentifier != nil, readRequirement == .none, pendingWriteID == nil, !writeInFlight else {
+                return nil
+            }
+            return (backend as? DDCVolumeBackend)?.cachedState(level: lastCommittedVolume)
+        }
+
+        mutating func clearPendingWrite() {
+            scheduledFlush?.cancel()
+            scheduledFlush = nil
+            pendingVolume = nil
+            pendingWriteID = nil
+            pendingReadbackAfterWrite = false
+            pendingOrdinaryWrite = nil
+        }
     }
 
     private enum RetiredWriteResolution {
@@ -56,7 +96,21 @@ final class DisplayVolumeController: DisplayVolumeControlling {
 
     private struct RetiredInFlightWrite {
         let backend: any DisplayVolumeBackend
+        let displayID: CGDirectDisplayID
+        let actionIdentifier: String?
+        let readRequirement: ReadRequirement
         var resolution: RetiredWriteResolution
+
+        func matches(displayID: CGDirectDisplayID, identifier: String?) -> Bool {
+            self.displayID == displayID || (identifier != nil && actionIdentifier == identifier)
+        }
+
+        func recoveryRequirement(for identifier: String?) -> ReadRequirement {
+            if readRequirement == .verified && (identifier == nil || actionIdentifier != identifier) {
+                return .fresh
+            }
+            return readRequirement
+        }
     }
 
     var onStateChange: (() -> Void)?
@@ -71,7 +125,11 @@ final class DisplayVolumeController: DisplayVolumeControlling {
     private let writeTimeout: Duration
     private let writeGate = VolumeWriteGate()
 
+    private var previousDisplays: [CGDirectDisplayID: DisplayInfo] = [:]
+    private var previousIdentifiers: [CGDirectDisplayID: String] = [:]
+    private var previouslyManagedDisplayIDs: Set<CGDirectDisplayID> = []
     private var managedDisplays: [CGDirectDisplayID: ManagedDisplay] = [:]
+    private var disconnectedDDCStates: [String: DDCVolumeBackend.CachedState] = [:]
     private var displayOrder: [CGDirectDisplayID] = []
     private var readTasks: [CGDirectDisplayID: (id: UUID, task: Task<Void, Never>)] = [:]
     private var lastErrorMessage: String?
@@ -80,6 +138,7 @@ final class DisplayVolumeController: DisplayVolumeControlling {
     private var writeWaiters: [UInt64: CheckedContinuation<DisplayVolumeWriteResult, Never>] = [:]
     private var writeTimeoutTasks: [UInt64: Task<Void, Never>] = [:]
     private var waiterDisplayIDs: [UInt64: CGDirectDisplayID] = [:]
+    private var retiredReadRequirements: [String: ReadRequirement] = [:]
     private var retiredInFlightWrites: [UInt64: RetiredInFlightWrite] = [:]
     private var invalidatedInFlightWriteIDs: Set<UInt64> = []
     private var terminateObserver: NSObjectProtocol?
@@ -118,23 +177,51 @@ final class DisplayVolumeController: DisplayVolumeControlling {
     }
 
     func refresh() {
+        refresh(topologyChanged: false)
+    }
+
+    func refreshDisplayTopology() {
+        refresh(topologyChanged: true)
+    }
+
+    private func refresh(topologyChanged: Bool) {
         let displays = displayProvider.listConnectedDisplays()
         let identifiers = Dictionary(uniqueKeysWithValues: displays.compactMap { display in
             displayIdentifier(display.id).map { (display.id, $0) }
         })
+        let displayInventory = Dictionary(uniqueKeysWithValues: displays.map { ($0.id, $0) })
+        let rediscoverServices = topologyChanged || displayInventory != previousDisplays || identifiers != previousIdentifiers
+        previousDisplays = displayInventory
+        previousIdentifiers = identifiers
         let reusableDisplays = managedDisplays.filter { id, previous in
-            guard let display = displays.first(where: { $0.id == id }) else { return false }
+            guard let display = displayInventory[id],
+                  !(topologyChanged && previous.backend.kind == .ddc),
+                  !(rediscoverServices && previous.backend.usesDiscoveredService) else { return false }
             if let identifier = identifiers[id] {
                 return previous.actionIdentifier == identifier
             }
             return previous.actionIdentifier == nil
                 && DisplayActionTarget.sameDisplayWithoutUUID(previous.display, display)
         }
+        // Cancel old exact permits before potentially slow hardware discovery.
+        for (id, previous) in managedDisplays where reusableDisplays[id] == nil {
+            if let writeID = previous.inFlightWriteID { writePermits[writeID]?.cancel() }
+        }
         let previousBackends = reusableDisplays.mapValues(\.backend)
         let nextBackends = backendBuilder.backends(for: displays, previous: previousBackends)
         let nextDisplayIDs = Set(nextBackends.keys)
 
-        cleanupDisconnectedDisplays(keeping: nextDisplayIDs.intersection(reusableDisplays.keys))
+        let retainedDisplays = reusableDisplays.filter { id, previous in
+            guard nextDisplayIDs.contains(id), let backend = nextBackends[id] else { return false }
+            // An exact write owns its backend through verification.
+            return previous.backend === backend || previous.inFlightWriteID.flatMap { writePermits[$0] } == nil
+        }
+        for (id, previous) in managedDisplays where displayInventory[id] == nil {
+            if let identifier = previous.actionIdentifier {
+                disconnectedDDCStates[identifier] = previous.reusableDDCState
+            }
+        }
+        cleanupDisconnectedDisplays(keeping: Set(retainedDisplays.keys))
 
         var nextManagedDisplays: [CGDirectDisplayID: ManagedDisplay] = [:]
         var nextDisplayOrder: [CGDirectDisplayID] = []
@@ -144,14 +231,36 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                 continue
             }
 
-            let previous = reusableDisplays[display.id]
+            let previous = retainedDisplays[display.id]
+            let identifier = identifiers[display.id]
+            let old = managedDisplays[display.id]
+            let changedBackend = previous.map { $0.backend !== backend } ?? true
+            if changedBackend { cancelRead(for: display.id) }
+            let disconnectedState = identifier.flatMap { disconnectedDDCStates.removeValue(forKey: $0) }
+            let oldState = changedBackend && old?.actionIdentifier == identifier ? old?.reusableDDCState : nil
+            let canPreserveLevel: Bool
+            if changedBackend, let state = oldState ?? disconnectedState, let newDDC = backend as? DDCVolumeBackend {
+                canPreserveLevel = newDDC.reuseCachedState(state)
+            } else {
+                canPreserveLevel = false
+            }
+            let retiredRequirement = identifier.flatMap { retiredReadRequirements[$0] } ?? .none
+            var readRequirement = max(previous?.readRequirement ?? .none, retiredRequirement)
+            for write in retiredInFlightWrites.values where write.matches(displayID: display.id, identifier: identifier) {
+                readRequirement = max(readRequirement, write.recoveryRequirement(for: identifier))
+            }
+            let needsInitialLevel = (backend as? DDCVolumeBackend)?.hasKnownVolume == false
+            if changedBackend && !canPreserveLevel
+                && (needsInitialLevel || previouslyManagedDisplayIDs.contains(display.id) || disconnectedState != nil) {
+                readRequirement = max(readRequirement, .fresh)
+            }
             let hasOutstandingWrite = previous?.pendingVolume != nil || previous?.writeInFlight == true
             let cachedVolume = Self.clamp(backend.cachedVolume)
             let volume = hasOutstandingWrite ? (previous?.lastCommittedVolume ?? cachedVolume) : cachedVolume
 
             nextManagedDisplays[display.id] = ManagedDisplay(
                 display: display,
-                actionIdentifier: identifiers[display.id],
+                actionIdentifier: identifier,
                 backend: backend,
                 currentVolume: hasOutstandingWrite ? (previous?.currentVolume ?? volume) : volume,
                 lastCommittedVolume: volume,
@@ -159,13 +268,20 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                 pendingWriteID: previous?.pendingWriteID,
                 writeInFlight: previous?.writeInFlight ?? false,
                 inFlightWriteID: previous?.inFlightWriteID,
+                inFlightTarget: previous?.inFlightTarget,
                 scheduledFlush: previous?.scheduledFlush,
                 pendingReadbackAfterWrite: previous?.pendingReadbackAfterWrite ?? false,
-                lastWriteError: previous?.lastWriteError
+                pendingOrdinaryWrite: previous?.pendingOrdinaryWrite,
+                lastWriteError: previous?.lastWriteError,
+                readRequirement: readRequirement
             )
             nextDisplayOrder.append(display.id)
         }
 
+        for identifier in nextManagedDisplays.values.compactMap(\.actionIdentifier) {
+            retiredReadRequirements.removeValue(forKey: identifier)
+        }
+        previouslyManagedDisplayIDs.formUnion(nextManagedDisplays.keys)
         managedDisplays = nextManagedDisplays
         displayOrder = nextDisplayOrder
 
@@ -187,7 +303,9 @@ final class DisplayVolumeController: DisplayVolumeControlling {
             return DisplayVolumeDisplay(
                 display: managedDisplay.display,
                 volume: managedDisplay.currentVolume,
-                isPendingWrite: managedDisplay.pendingVolume != nil || managedDisplay.writeInFlight
+                isPendingWrite: managedDisplay.pendingVolume != nil || managedDisplay.writeInFlight,
+                isReady: managedDisplay.readRequirement == .none,
+                isSettingExactLevel: hasExactWrite(for: managedDisplay)
             )
         }
 
@@ -207,6 +325,21 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         }
         return backend.hasVerifiedDisplayBinding ? .available : .unavailable(
             DisplayVolumeControllerError.unverifiedDisplayBinding.localizedDescription(localization: localization)
+        )
+    }
+
+    func adjustVolume(by delta: Double, for displayID: CGDirectDisplayID, phase: PluginPanelAction.SliderPhase) {
+        guard let managed = managedDisplays[displayID], managed.readRequirement == .none else { return }
+        enqueueVolume(managed.currentVolume + delta, for: displayID, phase: phase,
+                      writeID: makeWriteID(), requiresKnownLevel: true)
+    }
+
+    func adjustVolumeAndWait(by delta: Double, for displayID: CGDirectDisplayID) async -> DisplayVolumeWriteResult {
+        guard let managed = managedDisplays[displayID], managed.readRequirement == .none else {
+            return .failed(message: PluginKitLocalization.actionUnavailable)
+        }
+        return await setVolumeAndWait(
+            managed.currentVolume + delta, for: displayID, permit: nil, requiresKnownLevel: true
         )
     }
 
@@ -247,7 +380,8 @@ final class DisplayVolumeController: DisplayVolumeControlling {
     private func setVolumeAndWait(
         _ value: Double,
         for displayID: CGDirectDisplayID,
-        permit: DisplayActionWritePermit?
+        permit: DisplayActionWritePermit?,
+        requiresKnownLevel: Bool = false
     ) async -> DisplayVolumeWriteResult {
         let writeID = makeWriteID()
         return await withTaskCancellationHandler {
@@ -268,7 +402,8 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                     value,
                     for: displayID,
                     phase: .ended,
-                    writeID: writeID
+                    writeID: writeID,
+                    requiresKnownLevel: requiresKnownLevel
                 )
             }
         } onCancel: {
@@ -294,19 +429,10 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                     with: .failed(message: PluginKitLocalization.actionUnavailable)
                 )
             }
-            if let writeID = managedDisplay.inFlightWriteID {
-                let permit = writePermits[writeID]
-                permit?.cancel()
-                retireInFlightWrite(
-                    writeID,
-                    backend: managedDisplay.backend,
-                    resolution: permit == nil ? .actualOutcome : .invalidated
-                )
-            } else {
-                managedDisplay.backend.cleanup()
-            }
+            retireDisplay(managedDisplay)
         }
         managedDisplays.removeAll()
+        disconnectedDDCStates.removeAll()
         displayOrder.removeAll()
         lastErrorMessage = nil
         onStateChange?()
@@ -316,7 +442,8 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         _ value: Double,
         for displayID: CGDirectDisplayID,
         phase: PluginPanelAction.SliderPhase,
-        writeID: UInt64
+        writeID: UInt64,
+        requiresKnownLevel: Bool = false
     ) {
         if managedDisplays[displayID] == nil {
             refresh()
@@ -332,6 +459,15 @@ final class DisplayVolumeController: DisplayVolumeControlling {
             return
         }
 
+        guard !requiresKnownLevel || managedDisplay.readRequirement == .none else {
+            resolveWrite(writeID, with: .failed(message: PluginKitLocalization.actionUnavailable))
+            return
+        }
+        // Relative adjustments cannot use an exact write's optimistic target.
+        if requiresKnownLevel && (hasExactWrite(for: managedDisplay) || !isCurrentTarget(managedDisplay)) {
+            resolveWrite(writeID, with: .failed(message: PluginKitLocalization.actionUnavailable))
+            return
+        }
         cancelRead(for: displayID)
         if let supersededWriteID = managedDisplay.pendingWriteID {
             resolveWrite(
@@ -346,6 +482,9 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         managedDisplay.scheduledFlush?.cancel()
         managedDisplay.scheduledFlush = nil
         managedDisplay.pendingReadbackAfterWrite = phase == .ended
+        managedDisplay.pendingOrdinaryWrite = writePermits[writeID] == nil
+            ? OrdinaryWrite(generation: DisplayDDCIdentity.bindingGeneration, requiresKnownLevel: requiresKnownLevel)
+            : nil
         managedDisplay.lastWriteError = nil
         lastErrorMessage = nil
         managedDisplays[displayID] = managedDisplay
@@ -360,14 +499,17 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         guard readTasks[displayID] == nil,
               let managedDisplay = managedDisplays[displayID],
               managedDisplay.pendingVolume == nil,
+              !hasRetiredWrite(for: managedDisplay),
               !managedDisplay.writeInFlight else { return }
 
         let readID = UUID()
+        let generation = DisplayDDCIdentity.bindingGeneration
         let backend = managedDisplay.backend
+        let readRequirement = managedDisplay.readRequirement
         let task = Task.detached(priority: .userInitiated) { [weak self] in
-            let volume = try? backend.readVolume()
+            let volume = try? readRequirement.read(from: backend)
             guard !Task.isCancelled else { return }
-            await self?.finishRead(volume, for: displayID, readID: readID, backend: backend)
+            await self?.finishRead(volume, for: displayID, readID: readID, generation: generation, backend: backend)
         }
         readTasks[displayID] = (readID, task)
     }
@@ -376,18 +518,21 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         _ volume: Double?,
         for displayID: CGDirectDisplayID,
         readID: UUID,
+        generation: UInt64,
         backend: any DisplayVolumeBackend
     ) {
         guard readTasks[displayID]?.id == readID else { return }
         readTasks.removeValue(forKey: displayID)
         guard var managedDisplay = managedDisplays[displayID],
               managedDisplay.backend === backend,
+              generation == DisplayDDCIdentity.bindingGeneration, isCurrentTarget(managedDisplay),
               managedDisplay.pendingVolume == nil,
               !managedDisplay.writeInFlight,
               let volume else { return }
 
         let clamped = Self.clamp(volume)
-        let changed = managedDisplay.currentVolume != clamped
+        let changed = managedDisplay.currentVolume != clamped || managedDisplay.readRequirement != .none
+        managedDisplay.readRequirement = .none
         managedDisplay.currentVolume = clamped
         managedDisplay.lastCommittedVolume = clamped
         managedDisplays[displayID] = managedDisplay
@@ -429,22 +574,46 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         }
 
         guard !managedDisplay.writeInFlight,
+              !hasRetiredWrite(for: managedDisplay),
               let targetValue = managedDisplay.pendingVolume,
               let writeID = managedDisplay.pendingWriteID else {
             return
         }
 
+        let ordinaryWrite = managedDisplay.pendingOrdinaryWrite
+        let identifier = managedDisplay.actionIdentifier
+        let displayIdentifier = self.displayIdentifier
+        let ordinaryPermit = ordinaryWrite.map { write in
+            DisplayActionWritePermit {
+                DisplayDDCIdentity.bindingGeneration == write.generation && displayIdentifier(displayID) == identifier
+            }
+        }
+        if ordinaryPermit?.canWrite == false
+            || (ordinaryWrite?.requiresKnownLevel == true && managedDisplay.readRequirement != .none) {
+            managedDisplay.clearPendingWrite()
+            managedDisplay.currentVolume = managedDisplay.lastCommittedVolume
+            managedDisplays[displayID] = managedDisplay
+            resolveWrite(writeID, with: .failed(message: PluginKitLocalization.actionUnavailable))
+            scheduleRead(for: displayID)
+            onStateChange?()
+            return
+        }
+
         managedDisplay.writeInFlight = true
         managedDisplay.inFlightWriteID = writeID
+        managedDisplay.inFlightTarget = targetValue
         managedDisplay.pendingVolume = nil
         managedDisplay.pendingWriteID = nil
         managedDisplay.scheduledFlush = nil
         let needsReadback = managedDisplay.pendingReadbackAfterWrite
         managedDisplay.pendingReadbackAfterWrite = false
+        managedDisplay.pendingOrdinaryWrite = nil
         let backend = managedDisplay.backend
         let displayName = managedDisplay.display.name
+        let permit = writePermits[writeID]
         let controllerRef = WeakVolumeControllerRef(self)
         managedDisplays[displayID] = managedDisplay
+        (backend as? DDCVolumeBackend)?.prepareWrite()
 
         DispatchQueue.global(qos: .userInitiated).async(
             execute: Self.makeWriteWorkItem(
@@ -454,7 +623,9 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                 writeID: writeID,
                 targetValue: targetValue,
                 needsReadback: needsReadback,
-                permit: writePermits[writeID],
+                readRequirement: managedDisplay.readRequirement,
+                permit: permit,
+                ordinaryPermit: ordinaryPermit,
                 displayName: displayName,
                 writeGate: writeGate,
                 minimumWriteInterval: minimumWriteInterval
@@ -467,9 +638,13 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         writeID: UInt64,
         targetValue: Double,
         readbackValue: Double?,
+        ordinaryPermit: DisplayActionWritePermit?,
         displayName: String,
         result: Result<Void, Error>
     ) {
+        let ordinaryStillCurrent = ordinaryPermit?.canWrite != false
+        let result = ordinaryStillCurrent ? result : .failure(CancellationError())
+        let readbackValue = ordinaryStillCurrent ? readbackValue : nil
         if let retired = retiredInFlightWrites.removeValue(forKey: writeID) {
             retired.backend.cleanup()
             switch retired.resolution {
@@ -480,6 +655,13 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                     writeID,
                     with: .failed(message: PluginKitLocalization.actionUnavailable)
                 )
+            }
+            for (id, display) in managedDisplays where retired.matches(displayID: id, identifier: display.actionIdentifier) {
+                if display.pendingVolume != nil {
+                    scheduleWrite(for: id, delay: 0)
+                } else {
+                    scheduleRead(for: id)
+                }
             }
             onStateChange?()
             return
@@ -498,11 +680,33 @@ final class DisplayVolumeController: DisplayVolumeControlling {
 
         managedDisplay.writeInFlight = false
         managedDisplay.inFlightWriteID = nil
+        managedDisplay.inFlightTarget = nil
 
-        let canReconcileExactWrite = writePermits[writeID]?.isTargetCurrent == true
-        if invalidatedInFlightWriteIDs.remove(writeID) != nil {
-            if canReconcileExactWrite, let readbackValue {
-                managedDisplay.lastCommittedVolume = Self.clamp(readbackValue)
+        let invalidated = invalidatedInFlightWriteIDs.remove(writeID) != nil
+        let permit = writePermits[writeID]
+        if let permit, !permit.isTargetCurrent {
+            if let pendingID = managedDisplay.pendingWriteID {
+                managedDisplay.clearPendingWrite()
+                resolveWrite(pendingID, with: .failed(message: PluginKitLocalization.actionUnavailable))
+            }
+            // The old observation belongs to another display. Rebuild the target
+            // snapshot before making the replacement available for relative controls.
+            managedDisplay.readRequirement = .verified
+            managedDisplay.currentVolume = managedDisplay.lastCommittedVolume
+            managedDisplays[displayID] = managedDisplay
+            resolveWrite(writeID, with: .failed(message: PluginKitLocalization.actionUnavailable))
+            refresh()
+            return
+        }
+        let canReconcileExactWrite = permit?.didAttemptWrite == true
+        if case .failure = result, ordinaryPermit?.didAttemptWrite == true {
+            // A DDC packet may already have applied before the write failed.
+            managedDisplay.readRequirement = max(managedDisplay.readRequirement, .fresh)
+        }
+        if invalidated {
+            if canReconcileExactWrite || (permit != nil && readbackValue != nil) {
+                if let readbackValue { managedDisplay.lastCommittedVolume = Self.clamp(readbackValue) }
+                managedDisplay.readRequirement = readbackValue == nil ? .verified : .none
             }
             if managedDisplay.pendingVolume == nil {
                 managedDisplay.currentVolume = managedDisplay.lastCommittedVolume
@@ -515,7 +719,7 @@ final class DisplayVolumeController: DisplayVolumeControlling {
             onStateChange?()
             if managedDisplay.pendingVolume != nil {
                 scheduleWrite(for: displayID, delay: 0)
-            } else if canReconcileExactWrite && readbackValue == nil {
+            } else if managedDisplay.readRequirement != .none {
                 scheduleRead(for: displayID)
             }
             return
@@ -524,6 +728,9 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         switch result {
         case .success:
             let committedVolume = readbackValue.map(Self.clamp) ?? targetValue
+            if readbackValue != nil || (permit == nil && managedDisplay.readRequirement == .fresh) {
+                managedDisplay.readRequirement = .none
+            }
             managedDisplay.lastCommittedVolume = committedVolume
             if managedDisplay.pendingVolume == nil {
                 managedDisplay.currentVolume = committedVolume
@@ -537,8 +744,9 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                 "write failed for \(displayName, privacy: .public): \(localizedDescription, privacy: .public)"
             )
 
-            if canReconcileExactWrite, let readbackValue {
-                managedDisplay.lastCommittedVolume = Self.clamp(readbackValue)
+            if canReconcileExactWrite || readbackValue != nil {
+                if let readbackValue { managedDisplay.lastCommittedVolume = Self.clamp(readbackValue) }
+                managedDisplay.readRequirement = readbackValue == nil ? .verified : .none
             }
             if managedDisplay.pendingVolume == nil {
                 managedDisplay.currentVolume = managedDisplay.lastCommittedVolume
@@ -561,7 +769,7 @@ final class DisplayVolumeController: DisplayVolumeControlling {
 
         if managedDisplay.pendingVolume != nil {
             scheduleWrite(for: displayID, delay: 0)
-        } else if canReconcileExactWrite, readbackValue == nil, case .failure = result {
+        } else if managedDisplay.readRequirement != .none {
             scheduleRead(for: displayID)
         }
     }
@@ -579,17 +787,7 @@ final class DisplayVolumeController: DisplayVolumeControlling {
             cancelRead(for: displayID)
             managedDisplay.scheduledFlush?.cancel()
             failOutstandingWrites(for: displayID, managedDisplay: managedDisplay)
-            if let writeID = managedDisplay.inFlightWriteID {
-                let permit = writePermits[writeID]
-                permit?.cancel()
-                retireInFlightWrite(
-                    writeID,
-                    backend: managedDisplay.backend,
-                    resolution: permit == nil ? .actualOutcome : .invalidated
-                )
-            } else {
-                managedDisplay.backend.cleanup()
-            }
+            retireDisplay(managedDisplay)
         }
     }
 
@@ -670,13 +868,11 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         }
 
         if managedDisplay.pendingWriteID == writeID {
-            managedDisplay.scheduledFlush?.cancel()
-            managedDisplay.scheduledFlush = nil
-            managedDisplay.pendingVolume = nil
-            managedDisplay.pendingWriteID = nil
-            managedDisplay.currentVolume = managedDisplay.lastCommittedVolume
+            managedDisplay.clearPendingWrite()
+            managedDisplay.currentVolume = managedDisplay.inFlightTarget ?? managedDisplay.lastCommittedVolume
             managedDisplays[displayID] = managedDisplay
             onStateChange?()
+            if managedDisplay.readRequirement != .none { scheduleRead(for: displayID) }
         }
         resolveWrite(writeID, with: .failed(message: message))
     }
@@ -693,16 +889,48 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         }
     }
 
-    private func retireInFlightWrite(
-        _ writeID: UInt64,
-        backend: any DisplayVolumeBackend,
-        resolution: RetiredWriteResolution
-    ) {
+    private func hasExactWrite(for display: ManagedDisplay) -> Bool {
+        display.pendingWriteID.flatMap { writePermits[$0] } != nil
+            || display.inFlightWriteID.flatMap { writePermits[$0] } != nil
+    }
+
+    private func isCurrentTarget(_ display: ManagedDisplay) -> Bool {
+        guard let identifier = display.actionIdentifier else { return true }
+        return displayIdentifier(display.display.id) == identifier
+    }
+
+    private func hasRetiredWrite(for display: ManagedDisplay) -> Bool {
+        retiredInFlightWrites.values.contains {
+            $0.matches(displayID: display.display.id, identifier: display.actionIdentifier)
+        }
+    }
+
+    private func retireDisplay(_ display: ManagedDisplay) {
+        let permit = display.inFlightWriteID.flatMap { writePermits[$0] }
+        permit?.cancel()
+        // Once cancelled, an exact permit cannot begin another SET.
+        let mutationRequirement: ReadRequirement
+        if let permit {
+            mutationRequirement = permit.didAttemptWrite ? .verified : .none
+        } else {
+            mutationRequirement = display.inFlightWriteID == nil ? .none : .fresh
+        }
+        if let identifier = display.actionIdentifier {
+            let requirement = max(display.readRequirement, mutationRequirement, retiredReadRequirements[identifier] ?? .none)
+            if requirement != .none { retiredReadRequirements[identifier] = requirement }
+        }
+        guard let writeID = display.inFlightWriteID else {
+            display.backend.cleanup()
+            return
+        }
         writeTimeoutTasks.removeValue(forKey: writeID)?.cancel()
         invalidatedInFlightWriteIDs.remove(writeID)
         retiredInFlightWrites[writeID] = RetiredInFlightWrite(
-            backend: backend,
-            resolution: resolution
+            backend: display.backend,
+            displayID: display.display.id,
+            actionIdentifier: display.actionIdentifier,
+            readRequirement: mutationRequirement,
+            resolution: permit == nil ? .actualOutcome : .invalidated
         )
     }
 
@@ -742,7 +970,9 @@ final class DisplayVolumeController: DisplayVolumeControlling {
         writeID: UInt64,
         targetValue: Double,
         needsReadback: Bool,
+        readRequirement: ReadRequirement,
         permit: DisplayActionWritePermit?,
+        ordinaryPermit: DisplayActionWritePermit?,
         displayName: String,
         writeGate: VolumeWriteGate,
         minimumWriteInterval: TimeInterval
@@ -757,15 +987,19 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                     readbackValue = try backend.writeExactVolume(targetValue, permit: permit)
                     guard permit.canWrite else { throw CancellationError() }
                 } else {
-                    try backend.writeVolume(targetValue)
-                    if needsReadback {
-                        readbackValue = try? backend.readVolume()
+                    try backend.writeVolume(targetValue, permit: ordinaryPermit)
+                    guard ordinaryPermit?.canWrite != false else { throw CancellationError() }
+                    if needsReadback || readRequirement != .none {
+                        readbackValue = try? readRequirement.read(from: backend)
                     }
                 }
                 result = .success(())
             } catch {
-                if error is CancellationError, permit?.isTargetCurrent == true, readbackValue == nil {
-                    readbackValue = try? backend.readVolume()
+                if let volumeError = error as? DisplayVolumeControllerError,
+                   case let .unsupportedHardwareLevel(observed) = volumeError {
+                    readbackValue = observed
+                } else if permit?.isTargetCurrent == true, permit?.didAttemptWrite == true, readbackValue == nil {
+                    readbackValue = try? backend.readVerifiedVolume()
                 }
                 result = .failure(error)
             }
@@ -776,6 +1010,7 @@ final class DisplayVolumeController: DisplayVolumeControlling {
                     writeID: writeID,
                     targetValue: targetValue,
                     readbackValue: readbackValue,
+                    ordinaryPermit: ordinaryPermit,
                     displayName: displayName,
                     result: result
                 )

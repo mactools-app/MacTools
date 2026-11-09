@@ -1967,6 +1967,7 @@ private struct WorkflowRunPreviewSheet: View {
 
     private func previewRow(index: Int, step: WorkflowStep) -> some View {
         let definition = automation.definition(for: step.reference)
+        let configuredTitle = automation.catalogEntry(for: step.reference)?.title
         let availability = automation.availability(for: step.reference)
         return HStack(alignment: .top, spacing: PluginSettingsTheme.Spacing.rowContentControl) {
             Text("\(index + 1)")
@@ -1975,10 +1976,15 @@ private struct WorkflowRunPreviewSheet: View {
                 .background(Circle().fill(Color.accentColor.opacity(0.14)))
             VStack(alignment: .leading, spacing: 3) {
                 Text(step.label
-                    ?? automation.catalogEntry(for: step.reference)?.title
+                    ?? configuredTitle
                     ?? definition?.title
                     ?? step.reference.key.id)
                     .font(PluginSettingsTheme.Typography.emphasizedRowTitle)
+                if let label = step.label, let configuredTitle, label != configuredTitle {
+                    Text(configuredTitle)
+                        .font(PluginSettingsTheme.Typography.rowDescription)
+                        .foregroundStyle(.secondary)
+                }
                 if let description = definition?.description {
                     Text(description)
                         .font(PluginSettingsTheme.Typography.rowDescription)
@@ -2137,9 +2143,7 @@ enum WorkflowRunPresentation {
             lines.append("Summary: \(summary)")
         }
         for (index, result) in run.stepResults.enumerated() {
-            let title = result.titleSource == .custom
-                ? result.title
-                : registry.definition(for: result.actionKey)?.title ?? result.actionKey.id
+            let title = WorkflowHistoryPresentation.actionTitle(for: result, registry: registry)
             var line = "Step \(index + 1): \(title) [\(result.status.rawValue)]"
             if let message = result.localizedMessage, !message.isEmpty {
                 line += " — \(message)"
@@ -2159,7 +2163,18 @@ enum WorkflowHistoryPresentation {
         guard result.titleSource != .custom else {
             return result.title
         }
+        let definition = registry.definition(for: result.actionKey)
+        if let percentage = result.configuredPercentage, (0...100).contains(percentage) {
+            return ActionPercentage.title(definition?.title ?? result.actionKey.id, value: percentage)
+        }
         let reference = result.actionReference ?? ActionReference(key: result.actionKey)
+        // Legacy history may carry a full reference. Keep display labels and sensitive values out of copied diagnostics.
+        if ActionPercentage.value(in: reference) != nil
+            || definition?.parameters.contains(where: {
+                $0.privacy == .sensitive && reference.parameters[$0.id] != nil
+            }) == true {
+            return definition?.title ?? result.actionKey.id
+        }
         if case let .success(action) = registry.registeredAction(for: reference) {
             return action.presentationEntry?.title ?? action.definition.title
         }

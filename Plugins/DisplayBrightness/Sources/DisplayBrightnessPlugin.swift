@@ -73,6 +73,23 @@ struct DisplayBrightnessShortcutAction: Equatable {
     let id: String
     let direction: DisplayBrightnessShortcutDirection
     let targetDisplayIDs: [CGDirectDisplayID]
+    private let identifiers: [CGDirectDisplayID: String]
+    private let generation: UInt64
+
+    init(id: String, direction: DisplayBrightnessShortcutDirection, targetDisplayIDs: [CGDirectDisplayID],
+         identifier: (CGDirectDisplayID) -> String?) {
+        self.id = id
+        self.direction = direction
+        self.targetDisplayIDs = targetDisplayIDs
+        generation = DisplayDDCIdentity.bindingGeneration
+        identifiers = Dictionary(uniqueKeysWithValues: targetDisplayIDs.compactMap { id in
+            identifier(id).map { (id, $0) }
+        })
+    }
+
+    func matches(_ displayID: CGDirectDisplayID, identifier: String?) -> Bool {
+        generation == DisplayDDCIdentity.bindingGeneration && identifiers[displayID] == identifier
+    }
 }
 
 struct DisplayBrightnessShortcutAcceleration {
@@ -517,19 +534,19 @@ final class DisplayBrightnessPlugin:
         let action = DisplayBrightnessShortcutAction(
             id: invocation.reference.key.actionID,
             direction: direction,
-            targetDisplayIDs: targetDisplayIDs
+            targetDisplayIDs: targetDisplayIDs,
+            identifier: controller.actionIdentifier(for:)
         )
-        let targets = displays(for: action.targetDisplayIDs).map { display in
-            (
-                display.id,
-                min(1, max(0, display.brightness + action.direction.multiplier / 100))
-            )
-        }
+        let delta = action.direction.multiplier / 100
         let controller = controller
         return ActionExecutionHandle {
             var failures: [String] = []
-            for (displayID, target) in targets {
-                switch await controller.setBrightnessAndWait(target, for: displayID) {
+            for displayID in action.targetDisplayIDs {
+                guard action.matches(displayID, identifier: controller.actionIdentifier(for: displayID)) else {
+                    failures.append(PluginKitLocalization.actionUnavailable)
+                    continue
+                }
+                switch await controller.adjustBrightnessAndWait(by: delta, for: displayID) {
                 case .succeeded:
                     continue
                 case let .failed(message):
@@ -579,7 +596,7 @@ final class DisplayBrightnessPlugin:
     func refreshDisplayTopology() {
         brightnessGeneration = UUID().uuidString
         voiceTargetDisplays.removeAll()
-        controller.refresh()
+        controller.refreshDisplayTopology()
         displayDisableCoordinator.reconcileTopology()
         let snapshot = displayDisableCoordinator.snapshot
         offDisplayPlacements = offDisplayPlacements.filter { snapshot.entry(for: $0.key)?.isDisabled == true }
@@ -592,12 +609,9 @@ final class DisplayBrightnessPlugin:
             isExpanded = value
             onStateChange?()
         case let .setSlider(controlID, value, phase):
-            guard let displayID = Self.parseDisplayID(from: controlID) else {
-                DisplayBrightnessLog.plugin.error(
-                    "invalid slider control id \(controlID, privacy: .public)"
-                )
-                return
-            }
+            guard let displayID = controller.snapshot().displays.first(where: {
+                sliderControlID(for: $0.id) == controlID
+            })?.id else { return }
 
             controller.setBrightness(value, for: displayID, phase: phase)
             onStateChange?()
@@ -652,26 +666,11 @@ final class DisplayBrightnessPlugin:
         displayDisableCoordinator.deactivate(restoringDisplays: reason.requiresStateCleanup)
     }
 
-    static func parseDisplayID(from controlID: String) -> CGDirectDisplayID? {
-        guard
-            controlID.hasPrefix(Constants.displayControlPrefix),
-            controlID.hasSuffix(Constants.brightnessControlSuffix)
-        else {
-            return nil
-        }
-
-        let startIndex = controlID.index(
-            controlID.startIndex,
-            offsetBy: Constants.displayControlPrefix.count
-        )
-        let endIndex = controlID.index(
-            controlID.endIndex,
-            offsetBy: -Constants.brightnessControlSuffix.count
-        )
-        guard startIndex <= endIndex else {
-            return nil
-        }
-        return CGDirectDisplayID(controlID[startIndex..<endIndex])
+    private func sliderControlID(for displayID: CGDirectDisplayID) -> String {
+        // SwiftUI retains the gesture's local value for the lifetime of this ID.
+        let identity = controller.actionIdentifier(for: displayID)?.hashValue ?? 0
+        let binding = DisplayDDCIdentity.bindingGeneration
+        return "\(Constants.displayControlPrefix)\(displayID).\(binding).\(identity)\(Constants.brightnessControlSuffix)"
     }
 
     private func subtitle(for displays: [DisplayBrightnessDisplay]) -> String {
@@ -689,7 +688,7 @@ final class DisplayBrightnessPlugin:
                 id: display.id,
                 name: display.display.name,
                 brightness: display.brightness,
-                isAdjustable: display.isReady,
+                isAdjustable: display.isReady || display.needsReadBeforeRelative,
                 disableEntry: switchableEntry(for: display.id, in: disableSnapshot),
                 isReading: !display.isReady
             )
@@ -763,7 +762,7 @@ final class DisplayBrightnessPlugin:
         }
 
         return PluginPanelControl(
-            id: "\(Constants.displayControlPrefix)\(row.id)\(Constants.brightnessControlSuffix)",
+            id: sliderControlID(for: row.id),
             kind: .slider,
             options: [],
             selectedOptionID: nil,
@@ -812,13 +811,15 @@ final class DisplayBrightnessPlugin:
 
     /// The slider's power button: switch its display off, or back on when MacTools turned it off.
     private func handleInvokeAction(controlID: String) {
-        guard let displayID = Self.parseDisplayID(from: controlID),
-              let entry = displayDisableCoordinator.snapshot.entry(for: displayID),
+        guard let entry = displayDisableCoordinator.snapshot.entries.first(where: {
+                  sliderControlID(for: $0.id) == controlID
+              }),
               displayDisableActionTask == nil
         else {
             return
         }
 
+        let displayID = entry.id
         if entry.isDisabled {
             displayDisableCoordinator.restoreDisplay(displayID)
             onStateChange?()
@@ -893,7 +894,8 @@ final class DisplayBrightnessPlugin:
         let action = DisplayBrightnessShortcutAction(
             id: id,
             direction: direction,
-            targetDisplayIDs: targetDisplayIDs
+            targetDisplayIDs: targetDisplayIDs,
+            identifier: controller.actionIdentifier(for:)
         )
         let now = Date()
         let initialStep = shortcutAcceleration.stepForPress(actionID: id, now: now)
@@ -963,36 +965,39 @@ final class DisplayBrightnessPlugin:
         phase: PluginPanelAction.SliderPhase
     ) {
         let delta = Double(step) / 100 * action.direction.multiplier
-        for display in displays(for: action.targetDisplayIDs) {
-            controller.setBrightness(display.brightness + delta, for: display.id, phase: phase)
+        for display in displays(for: action) {
+            controller.adjustBrightness(by: delta, for: display.id, phase: phase)
         }
     }
 
     private func commitShortcutAction(_ action: DisplayBrightnessShortcutAction) {
-        for display in displays(for: action.targetDisplayIDs) {
-            controller.setBrightness(display.brightness, for: display.id, phase: .ended)
+        for display in displays(for: action) {
+            controller.adjustBrightness(by: 0, for: display.id, phase: .ended)
         }
     }
 
-    private func displays(for displayIDs: [CGDirectDisplayID]) -> [DisplayBrightnessDisplay] {
+    private func displays(for action: DisplayBrightnessShortcutAction) -> [DisplayBrightnessDisplay] {
         let displaysByID = Dictionary(uniqueKeysWithValues: controller.snapshot().displays.map { ($0.id, $0) })
-        return displayIDs.compactMap { displaysByID[$0] }
+        return action.targetDisplayIDs.compactMap { id in
+            guard action.matches(id, identifier: controller.actionIdentifier(for: id)) else { return nil }
+            return displaysByID[id]
+        }
     }
 
     private func shortcutTargetDisplayIDs(in snapshot: DisplayBrightnessSnapshot) -> [CGDirectDisplayID] {
-        let displays = snapshot.displays.filter(\.isReady)
+        let displays = snapshot.displays.filter(\.canAdjustRelative)
         switch shortcutPreferences.targetMode {
         case .followsMouse:
             if let mouseDisplayID = mouseDisplayIDProvider(),
                let mouseDisplay = snapshot.displays.first(where: { $0.id == mouseDisplayID }) {
-                return mouseDisplay.isReady ? [mouseDisplayID] : []
+                return mouseDisplay.canAdjustRelative ? [mouseDisplayID] : []
             }
 
             if let mainDisplay = snapshot.displays.first(where: { $0.display.isMain }) {
-                return mainDisplay.isReady ? [mainDisplay.id] : []
+                return mainDisplay.canAdjustRelative ? [mainDisplay.id] : []
             }
 
-            return snapshot.displays.first.flatMap { $0.isReady ? [$0.id] : nil } ?? []
+            return snapshot.displays.first.flatMap { $0.canAdjustRelative ? [$0.id] : nil } ?? []
         case .allDisplays:
             guard displays.count == snapshot.displays.count else { return [] }
             return displays.map(\.id)
