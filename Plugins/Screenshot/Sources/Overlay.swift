@@ -126,6 +126,18 @@ private enum Tool: Int {
     case none, rect, ellipse, line, arrow, pen, text, tag, mosaic, spotlight
 
     var usesStroke: Bool { self != .none && self != .mosaic && self != .spotlight }
+
+    // Physical number-row keys keep the toolbar order consistent across input sources.
+    static let numberedShortcuts: [UInt16: Tool] = [
+        18: .rect, 19: .ellipse, 20: .line, 21: .arrow, 23: .pen,
+        22: .text, 26: .tag, 28: .mosaic, 25: .spotlight
+    ]
+
+    func tooltip(_ title: String) -> String {
+        guard let keyCode = Self.numberedShortcuts.first(where: { $0.value == self })?.key else { return title }
+        let shortcut = ShortcutFormatter.compactDisplayString(for: ShortcutBinding(keyCode: keyCode, modifiers: .command))
+        return "\(title) · \(shortcut)"
+    }
 }
 
 private enum Mode: Int { case shot = 0, ocr = 1, scroll = 2, record = 3 }
@@ -1046,7 +1058,28 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         }
     }
 
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        selectAnnotationTool(with: event) || super.performKeyEquivalent(with: event)
+    }
+
+    private func selectAnnotationTool(with event: NSEvent) -> Bool {
+        guard event.type == .keyDown, editing, mode == .shot, !ocrShowing, dragMode == nil,
+              event.modifierFlags.intersection([.command, .shift, .option, .control]) == .command,
+              let picked = Tool.numberedShortcuts[event.keyCode] else { return false }
+        if let editor = window?.firstResponder as? NSTextView {
+            guard let field = textField, field.currentEditor() === editor,
+                  !editor.hasMarkedText() else { return false }
+            // The field editor can contain text that has not reached the field's value yet.
+            field.stringValue = editor.string
+        }
+        guard !event.isARepeat else { return true }
+        select(tool: picked)
+        window?.makeFirstResponder(self)
+        return true
+    }
+
     override func keyDown(with event: NSEvent) {
+        if selectAnnotationTool(with: event) { return }
         let flags = event.modifierFlags
         let key = (event.charactersIgnoringModifiers ?? "").lowercased()
         switch event.keyCode {
@@ -1306,7 +1339,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
             ("tag", .tag, environment.string("overlay.tool.number", "序号 (N)")),
         ]
         for (symbol, t, tip) in drawTools {
-            let button = iconButton(symbol, tip: tip, action: #selector(pickTool(_:)), tag: t.rawValue)
+            let button = iconButton(symbol, tip: t.tooltip(tip), action: #selector(pickTool(_:)), tag: t.rawValue)
             button.setAccessibilityIdentifier("screenshot.tool.\(t)")
             toolButtons.append(button)
             annotate.append(button)
@@ -1314,7 +1347,7 @@ final class OverlayView: NSView, NSTextFieldDelegate, NSTextViewDelegate {
         annotate.append(separator())
         for (symbol, t, tip) in [("checkerboard.rectangle", Tool.mosaic, environment.string("overlay.tool.mosaic", "马赛克 (M)")),
                                 ("light.max", Tool.spotlight, environment.string("overlay.tool.spotlight", "聚焦"))] {
-            let button = iconButton(symbol, tip: tip, action: #selector(pickTool(_:)), tag: t.rawValue)
+            let button = iconButton(symbol, tip: t.tooltip(tip), action: #selector(pickTool(_:)), tag: t.rawValue)
             button.setAccessibilityIdentifier("screenshot.tool.\(t)")
             toolButtons.append(button)
             annotate.append(button)
