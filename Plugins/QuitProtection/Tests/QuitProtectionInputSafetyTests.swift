@@ -109,6 +109,21 @@ final class QuitProtectionInputSafetyTests: XCTestCase {
         XCTAssertFalse(QuitProtectionSession.forwardingApp("com.moonlight-stream.MoonlightHelper"))
     }
 
+    @MainActor
+    func testParallelsForwardingExclusionsAllowSelectedLocalTools() {
+        let toolbox = "com.parallels.toolbox"
+        var rule = QuitProtectionRule()
+        rule.isEnabled = true
+        rule.selectedApps = [toolbox]
+        XCTAssertTrue(rule.includes(bundleIdentifier: toolbox))
+        XCTAssertFalse(QuitProtectionSession.forwardingApp(toolbox))
+
+        for id in ["com.parallels.desktop.console", "com.parallels.desktop.appstore",
+                   "com.parallels.winapp.example", "com.2X.Client.Mac"] {
+            XCTAssertTrue(QuitProtectionSession.forwardingApp(id), id)
+        }
+    }
+
     func testSuspensionCancelsHoldAndRetainsOnlyKeysStillDownOnResume() {
         let now = Duration.seconds(1)
         let q = UInt16(kVK_ANSI_Q)

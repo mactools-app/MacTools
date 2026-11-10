@@ -465,7 +465,9 @@ final class QuitProtectionSession {
     static func forwardingApp(_ identifier: String) -> Bool {
         let identifier = identifier.lowercased()
         return identifier == "com.apple.screensharing" || identifier.hasPrefix("com.microsoft.rdc")
-            || identifier.hasPrefix("com.parallels.") || identifier.hasPrefix("com.vmware.")
+            || identifier == "com.parallels.desktop.console" || identifier == "com.parallels.desktop.appstore"
+            || identifier == "com.2x.client.mac" || identifier.hasPrefix("com.parallels.winapp.")
+            || identifier.hasPrefix("com.vmware.")
             || identifier.hasPrefix("org.virtualbox.") || identifier.hasPrefix("com.utmapp.")
             || identifier.hasPrefix("com.teamviewer.") || identifier.hasPrefix("com.anydesk.")
             || identifier == "com.philandro.anydesk" || identifier == "com.philandro.anydesk.frontend"

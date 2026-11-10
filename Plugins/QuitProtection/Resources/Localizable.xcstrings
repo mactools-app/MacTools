@@ -1772,6 +1772,160 @@
         }
       }
     },
+    "App scope stays on this Mac until both lists have valid identifiers and at most 512 apps.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "两个列表都使用有效的应用标识符且各不超过 512 个应用后，应用范围才可备份。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يبقى نطاق التطبيقات على هذا الـ Mac حتى تحتوي القائمتان على معرّفات صالحة و512 تطبيقًا كحد أقصى لكل قائمة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der App-Geltungsbereich bleibt auf diesem Mac, bis beide Listen gültige Kennungen und höchstens 512 Apps enthalten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El ámbito de apps permanece en este Mac hasta que ambas listas tengan identificadores válidos y un máximo de 512 apps cada una."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le périmètre des apps reste sur ce Mac tant que les deux listes ne contiennent pas uniquement des identifiants valides et 512 apps au maximum chacune."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "両方のリストの識別子が有効で、それぞれ512個以下になるまで、アプリの適用範囲はこのMacに保持されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "두 목록에 유효한 식별자만 있고 각각 앱이 512개 이하가 될 때까지 앱 범위는 이 Mac에 유지됩니다."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O âmbito das apps permanece neste Mac até que ambas as listas tenham identificadores válidos e no máximo 512 apps cada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Область действия остаётся на этом Mac, пока в обоих списках нет только допустимых идентификаторов и не более 512 приложений в каждом."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her iki liste de geçerli tanımlayıcılar ve en fazla 512 uygulama içerene kadar uygulama kapsamı bu Mac’te kalır."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "兩個清單都使用有效的 App 識別碼且各不超過 512 個 App 後，App 範圍才可備份。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App scope stays on this Mac until both lists have valid identifiers and at most 512 apps."
+          }
+        }
+      }
+    },
+    "Apps couldn’t be added. Use valid app identifiers and keep each list to 512 apps.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法添加应用。请使用有效的应用标识符，每个列表最多 512 个应用。"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت إضافة التطبيقات. استخدم معرّفات صالحة ولا تتجاوز 512 تطبيقًا في كل قائمة."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps konnten nicht hinzugefügt werden. Verwende gültige App-Kennungen und beschränke jede Liste auf 512 Apps."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron añadir las apps. Usa identificadores válidos y limita cada lista a 512 apps."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’ajouter les apps. Utilisez des identifiants valides et limitez chaque liste à 512 apps."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリを追加できませんでした。有効なアプリ識別子を使用し、各リストを512個以下にしてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱을 추가할 수 없습니다. 유효한 앱 식별자를 사용하고 각 목록을 512개 이하로 유지하세요."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível adicionar as apps. Use identificadores válidos e limite cada lista a 512 apps."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось добавить приложения. Используйте допустимые идентификаторы и не более 512 приложений в каждом списке."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulamalar eklenemedi. Geçerli uygulama tanımlayıcıları kullanın ve her listeyi 512 uygulamayla sınırlayın."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法加入 App。請使用有效的 App 識別碼，每個清單最多 512 個 App。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps couldn’t be added. Use valid app identifiers and keep each list to 512 apps."
+          }
+        }
+      }
+    },
     "No apps selected": {
       "extractionState": "manual",
       "localizations": {

@@ -20,7 +20,7 @@ private struct QuitProtectionProvider: PluginProvider {
 @MainActor
 final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityStateHandling, AccessibilityPermissionRefreshing,
     PluginPhysicalInputCompatibilityConsuming {
-    private struct Settings: Codable {
+    private struct Settings: Codable, Equatable {
         var isEnabled = false
         var showsFeedback = true
         var quit = QuitProtectionRule()
@@ -47,10 +47,12 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
     private var hasCompatibleInputPlugins = false
     private var activity: PluginApplicationActivityState = .interactive
     private var appPicker: NSOpenPanel?
+    private var appPickerRejectedSelection = false
     private var permissionObserver: (any NSObjectProtocol)?
     private var voiceOverObserver: NSKeyValueObservation?
 
     var onStateChange: (() -> Void)?
+    var onPersistentPreferencesChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
     var shortcutBindingResolver: ((String) -> ShortcutBinding?)?
 
@@ -106,8 +108,9 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
                                             isAvailable: true, detail: nil, errorMessage: nil)) {
                 [weak self] action in
                 guard let self, case let .setSwitch(enabled) = action else { return }
-                self.settings.protectionEnabled = enabled
-                self.save()
+                var next = self.settings
+                next.protectionEnabled = enabled
+                self.save(next)
             }
         ]
     }
@@ -244,13 +247,19 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
         ]
         var rows = [
             PluginSettingsRow(id: "quit.scope", title: text("App Scope"),
+                              description: PortableAppScope.canTransfer(rule) ? nil
+                                  : text("App scope stays on this Mac until both lists have valid identifiers and at most 512 apps."),
                               control: .picker(selectionID: rule.scope.rawValue, options: scopeOptions, style: .menu))
         ]
         if rule.scope != .all {
             let list = rule.scope == .selected ? rule.selectedApps : rule.excludedApps
-            let description = list.isEmpty
-                ? text(rule.scope == .selected ? "No apps selected" : "No exclusions")
-                : nil
+            let description: String? = if appPickerRejectedSelection {
+                text("Apps couldn’t be added. Use valid app identifiers and keep each list to 512 apps.")
+            } else if list.isEmpty {
+                text(rule.scope == .selected ? "No apps selected" : "No exclusions")
+            } else {
+                nil
+            }
             rows.append(PluginSettingsRow(
                 id: "quit.add", title: text(rule.scope == .selected ? "Protected Apps" : "Excluded Apps"),
                 description: description, control: .action(title: text("Add Apps…"), role: .normal)
@@ -302,11 +311,12 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
     }
 
     func handleSettingsAction(_ action: PluginSettingsAction) {
+        var next = settings
         switch action {
-        case let .setBoolean("master.enabled", enabled): settings.protectionEnabled = enabled
-        case let .setBoolean("feedback.enabled", enabled): settings.showsFeedback = enabled; feedback.hide()
+        case let .setBoolean("master.enabled", enabled): next.protectionEnabled = enabled
+        case let .setBoolean("feedback.enabled", enabled): next.showsFeedback = enabled
         default:
-            var rule = settings.quit
+            var rule = next.quit
             switch action {
             case let .setSelection("quit.scope", selection):
                 guard let scope = QuitProtectionRule.AppScope(rawValue: selection) else { return }
@@ -338,9 +348,9 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
                 }
             default: return
             }
-            settings.quit = rule
+            next.quit = rule
         }
-        save()
+        save(next)
     }
 
     private func chooseApps() {
@@ -356,20 +366,154 @@ final class QuitProtectionPlugin: MacToolsPlugin, PluginApplicationActivityState
             guard let self, let panel else { return }
             self.appPicker = nil
             guard self.active, response == .OK else { return }
-            let identifiers = panel.urls.compactMap { Bundle(url: $0)?.bundleIdentifier }
-            if scope == .selected {
-                self.settings.quit.selectedApps.formUnion(identifiers)
-            } else {
-                self.settings.quit.excludedApps.formUnion(identifiers)
-            }
-            self.save()
+            self.addApps(panel.urls.map { Bundle(url: $0)?.bundleIdentifier }, to: scope)
         }
     }
 
-    private func save() {
-        if let data = try? JSONEncoder().encode(settings) { storage.set(data, forKey: Self.storageKey) }
+    func addApps(_ identifiers: [String?], to scope: QuitProtectionRule.AppScope) {
+        guard scope != .all else { return }
+        let additions = identifiers.compactMap { $0 }
+        let current = scope == .selected ? settings.quit.selectedApps : settings.quit.excludedApps
+        let candidate = current.union(additions)
+        guard additions.count == identifiers.count, PortableAppScope.accepts(candidate) else {
+            appPickerRejectedSelection = true
+            onStateChange?()
+            return
+        }
+        var next = settings
+        if scope == .selected {
+            next.quit.selectedApps = candidate
+        } else {
+            next.quit.excludedApps = candidate
+        }
+        if next == settings, appPickerRejectedSelection {
+            appPickerRejectedSelection = false
+            onStateChange?()
+        } else {
+            save(next)
+        }
+    }
+
+    @discardableResult
+    private func save(_ next: Settings) -> Bool {
+        guard next != settings else { return true }
+        guard let data = try? JSONEncoder().encode(next) else { return false }
+        let previous = storage.object(forKey: Self.storageKey)
+        storage.set(data, forKey: Self.storageKey)
+        guard storage.data(forKey: Self.storageKey) == data else {
+            if let previous { storage.set(previous, forKey: Self.storageKey) }
+            else { storage.removeObject(forKey: Self.storageKey) }
+            return false
+        }
+        let portableChanged = PortableSettings(settings) != PortableSettings(next)
+        if settings.showsFeedback != next.showsFeedback { feedback.hide() }
+        settings = next
+        appPickerRejectedSelection = false
         refresh()
+        if portableChanged { onPersistentPreferencesChange?() }
+        return true
     }
 
     private func text(_ key: String) -> String { localization.string(key, defaultValue: key) }
+}
+
+extension QuitProtectionPlugin: PluginPortablePreferencesProviding, PluginPortablePreferencesRestorationReporting,
+    PluginPersistentPreferencesChangeSignaling {
+    private struct PortableAppScope: Codable, Equatable {
+        private static let bundleIdentifierCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "._-"))
+
+        let scope: QuitProtectionRule.AppScope
+        let selectedApps: [String]
+        let excludedApps: [String]
+
+        init?(_ rule: QuitProtectionRule) {
+            guard Self.canTransfer(rule) else { return nil }
+            scope = rule.scope
+            selectedApps = rule.selectedApps.sorted()
+            excludedApps = rule.excludedApps.sorted()
+        }
+
+        var isValid: Bool {
+            Self.accepts(selectedApps) && Set(selectedApps).count == selectedApps.count
+                && Self.accepts(excludedApps) && Set(excludedApps).count == excludedApps.count
+        }
+
+        static func canTransfer(_ rule: QuitProtectionRule) -> Bool {
+            accepts(rule.selectedApps) && accepts(rule.excludedApps)
+        }
+
+        static func accepts(_ identifiers: some Collection<String>) -> Bool {
+            identifiers.count <= 512 && identifiers.allSatisfy {
+                !$0.isEmpty && $0.utf8.count <= 256
+                    && $0.unicodeScalars.allSatisfy(bundleIdentifierCharacters.contains)
+            }
+        }
+    }
+
+    private struct PortableSettings: Codable, Equatable {
+        static let maximumBytes = 512 * 1_024
+
+        let formatVersion: Int
+        let showsFeedback: Bool
+        let confirmation: QuitProtectionRule.Confirmation
+        let voiceOverDoublePressInterval: Duration?
+        let appScope: PortableAppScope?
+
+        init(_ settings: Settings) {
+            formatVersion = 1
+            showsFeedback = settings.showsFeedback
+            confirmation = settings.quit.confirmation
+            voiceOverDoublePressInterval = settings.quit.voiceOverDoublePressInterval
+            appScope = PortableAppScope(settings.quit)
+        }
+
+        var isValid: Bool {
+            let duration: Duration
+            switch confirmation {
+            case let .hold(value), let .doublePress(value): duration = value
+            case .extraModifier: return false
+            }
+            return formatVersion == 1
+                && QuitProtectionRule.standardTimingRange.contains(duration / .seconds(1))
+                && (voiceOverDoublePressInterval.map {
+                    QuitProtectionRule.voiceOverTimingRange.contains($0 / .seconds(1))
+                } ?? true)
+                && (appScope?.isValid ?? true)
+        }
+    }
+
+    private var hasReadableSavedSettings: Bool {
+        guard let raw = storage.object(forKey: Self.storageKey) else { return true }
+        guard let data = raw as? Data else { return false }
+        return (try? JSONDecoder().decode(Settings.self, from: data)) != nil
+    }
+
+    func makePortablePreferencesBackup() -> Data? {
+        guard hasReadableSavedSettings else { return nil }
+        let payload = PortableSettings(settings)
+        guard payload.isValid, let data = try? JSONEncoder().encode(payload),
+              data.count <= PortableSettings.maximumBytes else { return nil }
+        return data
+    }
+
+    func restorePortablePreferences(from data: Data) {
+        _ = restorePortablePreferencesReportingResult(from: data)
+    }
+
+    func restorePortablePreferencesReportingResult(from data: Data) -> Bool {
+        guard data.count <= PortableSettings.maximumBytes,
+              let payload = try? JSONDecoder().decode(PortableSettings.self, from: data),
+              payload.isValid, hasReadableSavedSettings else { return false }
+        var next = settings
+        next.showsFeedback = payload.showsFeedback
+        next.quit.confirmation = payload.confirmation
+        next.quit.voiceOverDoublePressInterval = payload.voiceOverDoublePressInterval
+        // Scope and lists travel together. A legacy list stays local until the user repairs it.
+        if let appScope = payload.appScope, PortableAppScope.canTransfer(settings.quit) {
+            next.quit.scope = appScope.scope
+            next.quit.selectedApps = Set(appScope.selectedApps)
+            next.quit.excludedApps = Set(appScope.excludedApps)
+        }
+        return save(next)
+    }
 }

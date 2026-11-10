@@ -198,7 +198,11 @@
     "supersedesPluginIDs": []
   },
   "preferencesBackup": {
-    "status": "none",
-    "exclusions": []
+    "status": "partial",
+    "exclusions": [
+      "permissions",
+      "local-activation",
+      "local-policy"
+    ]
   }
 }

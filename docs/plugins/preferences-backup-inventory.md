@@ -6,7 +6,7 @@ Run `python3 scripts/plugins/generate-preferences-backup-inventory.py` after cha
 Declarations describe supported field boundaries. Runtime availability and export/restore failures are reported separately.
 See [the backup contract](preferences-backup.md) for exclusions and recovery limits.
 
-localOnly: 2; none: 26; partial: 36; portable: 7.
+localOnly: 2; none: 25; partial: 37; portable: 7.
 
 | Plugin | ID | Coverage | Exclusion codes |
 | --- | --- | --- | --- |
@@ -60,7 +60,7 @@ localOnly: 2; none: 26; partial: 36; portable: 7.
 | [Clean Mode](../../Plugins/PhysicalCleanMode) | `physical-clean-mode` | none | — |
 | [Power Status](../../Plugins/PowerStatus) | `power-status` | none | — |
 | [Quit Apps](../../Plugins/QuitApps) | `quit-apps` | none | — |
-| [Quit Protection](../../Plugins/QuitProtection) | `quit-protection` | none | — |
+| [Quit Protection](../../Plugins/QuitProtection) | `quit-protection` | partial | permissions, local-activation, local-policy |
 | [Right Click](../../Plugins/RightClick) | `right-click` | partial | application-paths, local-activation |
 | [Saved Scripts](../../Plugins/SavedScripts) | `saved-scripts` | partial | private-content, external-authorization |
 | [Screenshot](../../Plugins/Screenshot) | `screenshot` | partial | private-content, device-state |
