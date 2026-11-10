@@ -110,6 +110,14 @@ final class QuitProtectionInputSafetyTests: XCTestCase {
     }
 
     @MainActor
+    func testAppleRemoteDesktopAndTartUseExactForwardingExclusions() {
+        for id in ["com.apple.RemoteDesktop", "com.github.cirruslabs.tart"] {
+            XCTAssertTrue(QuitProtectionSession.forwardingApp(id), id)
+            XCTAssertFalse(QuitProtectionSession.forwardingApp(id + ".helper"), id)
+        }
+    }
+
+    @MainActor
     func testParallelsForwardingExclusionsAllowSelectedLocalTools() {
         let toolbox = "com.parallels.toolbox"
         var rule = QuitProtectionRule()
