@@ -58,6 +58,7 @@ private struct BuiltInBrightnessOutcome: Sendable {
 @MainActor
 final class DisplayBrightnessController: DisplayBrightnessControlling {
     private struct ManagedDisplay {
+        let connectionID: UUID
         var display: DisplayInfo
         var backend: any DisplayBrightnessBackend
         var currentBrightness: Double
@@ -184,23 +185,26 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             }
 
             let previous = managedDisplays[display.id]
-            let canReuseReading = previous.map {
-                ObjectIdentifier($0.backend) == ObjectIdentifier(backend)
-            } ?? false
+            let previousConnectionID = previous.flatMap {
+                $0.display.hasSameBrightnessControlIdentity(as: display) ? $0.connectionID : nil
+            }
+            let canReuseBackend = previous?.backend === backend
+            let canReuseReading = previousConnectionID != nil && canReuseBackend
             if !canReuseReading {
                 builtInWrites[display.id]?.cancel()
                 readWorkItems.removeValue(forKey: display.id)?.cancel()
-                if let previous {
-                    if let writeID = previous.inFlightWriteID {
-                        replacedBackendsAwaitingWrites[writeID, default: []].append(previous.backend)
-                    } else {
-                        previous.backend.cleanup()
-                    }
+            }
+            if let previous, !canReuseBackend {
+                if let writeID = previous.inFlightWriteID {
+                    replacedBackendsAwaitingWrites[writeID, default: []].append(previous.backend)
+                } else {
+                    previous.backend.cleanup()
                 }
             }
             let brightness = previous?.currentBrightness ?? 1
 
             nextManagedDisplays[display.id] = ManagedDisplay(
+                connectionID: previousConnectionID ?? UUID(),
                 display: display,
                 backend: backend,
                 currentBrightness: previous?.pendingBrightness ?? brightness,
@@ -340,14 +344,15 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
     }
 
     func setBuiltInBrightnessAndWait(_ value: Double) async -> DisplayBrightnessWriteResult {
-        guard let displayID = builtInDisplayID, (0...1).contains(value) else {
+        guard let displayID = builtInDisplayID, let connectionID = managedDisplays[displayID]?.connectionID,
+              (0...1).contains(value) else {
             return .failed(message: PluginKitLocalization.actionUnavailable)
         }
 
         let generation = writeGeneration
         let waitDeadline = ContinuousClock.now.advanced(by: .milliseconds(250))
-        while let display = managedDisplays[displayID], builtInDisplayID == displayID,
-              generation == writeGeneration, !Task.isCancelled {
+        while let display = managedDisplays[displayID], display.connectionID == connectionID,
+              builtInDisplayID == displayID, generation == writeGeneration, !Task.isCancelled {
             guard ContinuousClock.now < waitDeadline else { return .failed(message: writeTimeoutMessage) }
             if !isWriting(displayID), display.pendingBrightness == nil, display.readID == nil {
                 return await writeBuiltInBrightness(value, for: display)
@@ -435,13 +440,16 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         Self.reservedDisplays.contains(displayID)
     }
 
+    private func registerForReservationRelease(for displayID: CGDirectDisplayID) {
+        Self.waitingControllers[displayID, default: [:]][ObjectIdentifier(self)] = WeakBrightnessControllerRef(self)
+    }
+
     private func releaseWriteReservation(for displayID: CGDirectDisplayID) {
         Self.reservedDisplays.remove(displayID)
         guard let waiters = Self.waitingControllers.removeValue(forKey: displayID) else { return }
         for waiter in waiters.values {
-            if let controller = waiter.value, controller !== self,
-               controller.managedDisplays[displayID]?.pendingBrightness != nil {
-                controller.scheduleWrite(for: displayID, delay: 0)
+            if let controller = waiter.value, controller !== self {
+                controller.resumeDisplayWork(for: displayID)
             }
         }
     }
@@ -538,6 +546,10 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
               managedDisplay.readID == nil,
               managedDisplay.pendingBrightness == nil,
               !managedDisplay.writeInFlight else { return }
+        guard !isWriting(displayID) else {
+            registerForReservationRelease(for: displayID)
+            return
+        }
 
         nextReadID &+= 1
         let readID = nextReadID
@@ -631,7 +643,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             return
         }
         guard Self.reservedDisplays.insert(displayID).inserted else {
-            Self.waitingControllers[displayID, default: [:]][ObjectIdentifier(self)] = WeakBrightnessControllerRef(self)
+            registerForReservationRelease(for: displayID)
             return
         }
 

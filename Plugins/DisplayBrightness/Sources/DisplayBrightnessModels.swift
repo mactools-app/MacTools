@@ -2,6 +2,15 @@ import CoreGraphics
 import Foundation
 import MacToolsPluginKit
 
+extension DisplayInfo {
+    func hasSameBrightnessControlIdentity(as other: DisplayInfo) -> Bool {
+        id == other.id && isBuiltin == other.isBuiltin
+            && vendorNumber == other.vendorNumber && modelNumber == other.modelNumber
+            && serialNumber == other.serialNumber
+            && supportsAppleNativeBrightness == other.supportsAppleNativeBrightness
+    }
+}
+
 enum DisplayBrightnessBackendKind: String, Equatable, Sendable {
     case appleNative
     case ddc

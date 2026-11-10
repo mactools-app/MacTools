@@ -222,6 +222,104 @@ final class DisplayBrightnessControllerTests: XCTestCase {
         XCTAssertEqual(backend.writeValues, [0.4, 0.7])
     }
 
+    func testBuiltInWriteWaitingBeforeDisconnectDoesNotWriteAfterReconnect() async {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true)
+        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
+        defer { backend.releaseFirstWrite() }
+        let provider = MutableDisplayProvider(displays: [display])
+        let controller = DisplayBrightnessController(
+            displayProvider: provider,
+            isBuiltInDisplayEligible: { _ in true },
+            backendBuilder: StaticBrightnessBackendBuilder(backend: backend),
+            minimumWriteInterval: 0
+        )
+        controller.refresh()
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        let manual = Task { await controller.setBrightnessAndWait(0.4, for: display.id) }
+        await waitUntil { backend.firstWriteStarted }
+
+        var started = false
+        let scheduled = Task {
+            started = true
+            return await controller.setBuiltInBrightnessAndWait(0.7)
+        }
+        await waitUntil { started }
+        provider.displays = []
+        controller.refresh()
+        provider.displays = [display]
+        controller.refresh()
+        backend.releaseFirstWrite()
+
+        guard case .failed = await scheduled.value else {
+            return XCTFail("A queued write must not survive reconnection with the same display ID")
+        }
+        let manualResult = await manual.value
+        XCTAssertEqual(manualResult, .succeeded)
+        XCTAssertEqual(backend.writeValues, [0.4])
+    }
+
+    func testBuiltInWriteDoesNotFollowReusedBackendToReplacementDisplay() async {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, serialNumber: 1)
+        let replacement = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, serialNumber: 2)
+        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: false)
+        defer { backend.releaseRead() }
+        let provider = MutableDisplayProvider(displays: [display])
+        let controller = DisplayBrightnessController(
+            displayProvider: provider,
+            isBuiltInDisplayEligible: { _ in true },
+            backendBuilder: SystemDisplayBrightnessBackendBuilder(appleFactory: { _ in backend }),
+            minimumWriteInterval: 0
+        )
+        controller.refresh()
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        backend.suspendNextRead()
+        let scheduled = Task { await controller.setBuiltInBrightnessAndWait(0.7) }
+        await waitUntil { backend.readStarted }
+
+        provider.displays = [replacement]
+        controller.refresh()
+        backend.releaseRead()
+
+        guard case .failed = await scheduled.value else {
+            return XCTFail("A display identity change must invalidate the write even if the backend is reused")
+        }
+        XCTAssertTrue(backend.writeValues.isEmpty)
+    }
+
+    func testReplacementControllerReadsAfterCancelledBuiltInWrite() async {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true)
+        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
+        backend.seedBrightness(0.5)
+        defer { backend.releaseFirstWrite() }
+        func makeController() -> DisplayBrightnessController {
+            DisplayBrightnessController(
+                displayProvider: StaticDisplayProvider(display: display),
+                isBuiltInDisplayEligible: { _ in true },
+                backendBuilder: StaticBrightnessBackendBuilder(backend: backend),
+                minimumWriteInterval: 0
+            )
+        }
+
+        let original = makeController()
+        original.refresh()
+        await waitUntil { original.snapshot().displays.first?.isReady == true }
+        let scheduled = Task { await original.setBuiltInBrightnessAndWait(0.7) }
+        await waitUntil { backend.firstWriteStarted }
+        original.cancelOutstandingWrites()
+
+        let replacement = makeController()
+        replacement.refresh()
+        await replacement.waitForScheduledReadsForTests()
+        XCTAssertEqual(replacement.snapshot().displays.first?.isReady, false)
+
+        backend.releaseFirstWrite()
+        guard case .failed = await scheduled.value else {
+            return XCTFail("Deactivation must invalidate the old workflow")
+        }
+        await waitUntil { replacement.snapshot().displays.first?.isReady == true }
+        XCTAssertEqual(replacement.snapshot().displays.first?.brightness, 0.7)
+    }
+
     func testReplacementControllerWaitsForDispatchedWriteAndCleanup() async {
         let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
         let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
@@ -239,14 +337,16 @@ final class DisplayBrightnessControllerTests: XCTestCase {
         var original: DisplayBrightnessController? = makeBuiltInController()
         original?.refresh()
         await waitUntil { original?.snapshot().displays.first?.isReady == true }
+        let replacement = makeBuiltInController()
+        replacement.refresh()
+        await waitUntil { replacement.snapshot().displays.first?.isReady == true }
+
         original?.setBrightness(0.4, for: display.id, phase: .ended)
         await waitUntil { backend.firstWriteStarted }
         original?.cancelOutstandingWrites()
         original = nil
 
-        let replacement = makeBuiltInController()
         replacement.refresh()
-        await waitUntil { replacement.snapshot().displays.first?.isReady == true }
         guard case .failed = await replacement.setBuiltInBrightnessAndWait(0.7) else {
             return XCTFail("A replacement controller must wait for an older hardware write")
         }
@@ -899,13 +999,15 @@ final class DisplayBrightnessControllerTests: XCTestCase {
 
         controller.cancelOutstandingWrites()
         controller.refresh()
-        await waitUntil { controller.snapshot().displays.allSatisfy(\.isReady) }
+        await controller.waitForScheduledReadsForTests()
+        XCTAssertEqual(controller.snapshot().displays.first?.isReady, false)
         retiredBackend.releaseFirstWrite()
 
         guard case .failed = await resultTask.value else {
             return XCTFail("Expected the retired backend's real failure")
         }
-        await waitUntil { retiredBackend.cleanupCount == 1 }
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        XCTAssertEqual(retiredBackend.cleanupCount, 1)
         XCTAssertEqual(builder.fallbackCallCount, 0)
         XCTAssertTrue(replacementBackend.writeValues.isEmpty)
         XCTAssertEqual(

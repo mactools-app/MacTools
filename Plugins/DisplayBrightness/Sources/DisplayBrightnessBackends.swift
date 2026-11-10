@@ -97,7 +97,7 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
 
         for display in displays {
             // Keep an established fallback until the display's identity or capabilities change.
-            if let backend = previous[display.id], hasSameControlIdentity(backend.display, display),
+            if let backend = previous[display.id], backend.display.hasSameBrightnessControlIdentity(as: display),
                backendCandidates(for: display).contains(BackendCandidate(kind: backend.kind)) {
                 backend.display = display
                 result[display.id] = backend
@@ -148,13 +148,6 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
         }
 
         return nil
-    }
-
-    private func hasSameControlIdentity(_ lhs: DisplayInfo, _ rhs: DisplayInfo) -> Bool {
-        lhs.id == rhs.id && lhs.isBuiltin == rhs.isBuiltin
-            && lhs.vendorNumber == rhs.vendorNumber && lhs.modelNumber == rhs.modelNumber
-            && lhs.serialNumber == rhs.serialNumber
-            && lhs.supportsAppleNativeBrightness == rhs.supportsAppleNativeBrightness
     }
 
     private func backendCandidates(for display: DisplayInfo) -> [BackendCandidate] {
