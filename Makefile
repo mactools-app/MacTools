@@ -30,6 +30,7 @@ LOCAL_PLUGIN_BUILD_DIR ?= build/LocalPlugins
 LOCAL_PLUGIN_CATALOG := $(LOCAL_PLUGIN_BUILD_DIR)/catalog.dev.json
 DEBUG_BUILD_PRODUCTS_DIR := $(DERIVED_DATA)/Build/Products/Debug
 DEBUG_CLI_PATH := $(DEBUG_BUILD_PRODUCTS_DIR)/mactools
+TEST_BUILD_PRODUCTS_DIR := $(TEST_DERIVED_DATA)/Build/Products/Debug
 DEBUG_PLUGIN_INSTALL_DIR ?= $(HOME)/Library/Application Support/MacTools Dev/Plugins/Installed
 LOCAL_ICON_GALLERY_DIR ?= build/LocalIconGallery
 LOCAL_ICON_GALLERY_CATALOG := $(LOCAL_ICON_GALLERY_DIR)/catalog.dev.json
@@ -50,6 +51,7 @@ E2E_PACK ?=
 TEST_FILTER ?=
 
 .PHONY: setup validate-local-debug-config generate-plugin-config generate build build-cli validate-changelog validate-generated-plugin-data validate-localization script-tests test ci sync-debug-plugins build-plugin build-plugins generate-icon-gallery package-plugins-release stop-debug-app install-debug-app run run-open e2e-preflight e2e-prepare e2e-upgrade e2e-reseed e2e-resume e2e-rebuild e2e-audit e2e-scenarios e2e-record e2e-record-pack e2e-verify-code e2e-collect e2e-restore e2e-self-test clean release release-local
+.PHONY: print-debug-app-path print-derived-data-path print-test-products-dir sync-built-debug-plugins
 
 setup:
 	@if [ ! -f LocalConfig.xcconfig ]; then cp LocalConfig.sample.xcconfig LocalConfig.xcconfig; fi
@@ -88,6 +90,15 @@ build-cli: validate-local-debug-config generate
 	@"$(XCODEBUILD)" -project $(PROJECT_FILE) -scheme MacToolsCLI -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath "$(DERIVED_DATA)" build -quiet
 	@CLI_BINARY="$(DEBUG_CLI_PATH)"; printf 'CLI ready: %s\n' "$${CLI_BINARY:a}"
 
+print-debug-app-path:
+	@APP_BUNDLE="$(APP_PATH)"; printf '%s\n' "$${APP_BUNDLE:a}"
+
+print-derived-data-path:
+	@BUILD_DIRECTORY="$(DERIVED_DATA)"; printf '%s\n' "$${BUILD_DIRECTORY:a}"
+
+print-test-products-dir:
+	@TEST_PRODUCTS="$(TEST_BUILD_PRODUCTS_DIR)"; printf '%s\n' "$${TEST_PRODUCTS:a}"
+
 validate-changelog:
 	@$(PYTHON3) scripts/changelog.py validate
 
@@ -123,10 +134,11 @@ test: generate
 
 ci: override TEST_FILTER :=
 ci: script-tests test
-	@TEST_PRODUCTS="$(TEST_DERIVED_DATA)/Build/Products/Debug"; \
+	@TEST_PRODUCTS="$(TEST_BUILD_PRODUCTS_DIR)"; \
 	./scripts/plugins/verify-plugin-kit-v7-binary-compatibility.sh "$${TEST_PRODUCTS:a}"
 
 sync-debug-plugins: build
+sync-debug-plugins sync-built-debug-plugins:
 	@if [ -n "$(PLUGIN)" ]; then \
 		PLUGIN_ARGS=(--plugin "$(PLUGIN)"); \
 	else \

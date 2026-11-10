@@ -2,8 +2,9 @@
 # On-demand desktop evidence. Uses only new temporary files, synthetic suites and an owned window.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+cd "$ROOT"
+PRODUCTS="$(make -s --no-print-directory print-test-products-dir)"
 EVIDENCE_DIR="$(mktemp -d "${TMPDIR:-/tmp}/MacToolsBackupEvidence.XXXXXX")"
-PRODUCTS="$ROOT/build/DerivedDataTests/Build/Products/Debug"
 CAPTURE_PID=""
 cleanup() {
   if [[ -n "$CAPTURE_PID" ]]; then kill "$CAPTURE_PID" 2>/dev/null || true; fi
@@ -12,7 +13,6 @@ cleanup() {
   fi
 }
 trap cleanup EXIT
-cd "$ROOT"
 printf 'Evidence directory: %s\n' "$EVIDENCE_DIR"
 uuidgen > "$EVIDENCE_DIR/suite-name.txt"
 mkdir "$EVIDENCE_DIR/native"
