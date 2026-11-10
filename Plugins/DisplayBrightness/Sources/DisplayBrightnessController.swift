@@ -91,6 +91,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
     var onStateChange: (() -> Void)?
 
     private let displayProvider: DisplayProviding
+    private let connectionEvents: DisplayBrightnessConnectionEvents
     private let isBuiltInDisplayEligible: @Sendable (CGDirectDisplayID) -> Bool
     private let backendBuilder: DisplayBrightnessBackendBuilding
     private let localization: PluginLocalization
@@ -139,6 +140,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             CGDisplayIsBuiltin(id) != 0 && CGDisplayIsActive(id) != 0
                 && (CGDisplayIsInMirrorSet(id) == 0 || CGDisplayIsMain(id) != 0)
         },
+        connectionEvents: DisplayBrightnessConnectionEvents = DisplayBrightnessConnectionEvents(),
         backendBuilder: DisplayBrightnessBackendBuilding? = nil,
         localization: PluginLocalization = PluginLocalization(bundle: .main),
         shortWriteDelay: TimeInterval = 0.08,
@@ -147,6 +149,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
     ) {
         self.displayProvider = displayProvider
         self.isBuiltInDisplayEligible = isBuiltInDisplayEligible
+        self.connectionEvents = connectionEvents
         self.localization = localization
         self.backendBuilder = backendBuilder ?? SystemDisplayBrightnessBackendBuilder(
             resolveArm64Services: Arm64DDCServiceMatcher.resolveServices
@@ -337,7 +340,10 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         }
     }
 
-    var canSetBuiltInBrightness: Bool { builtInDisplayID != nil }
+    var canSetBuiltInBrightness: Bool {
+        guard let displayID = builtInDisplayID else { return false }
+        return connectionEvents.generation(for: displayID) != nil
+    }
 
     private var builtInDisplayID: CGDirectDisplayID? {
         displayOrder.first { managedDisplays[$0]?.display.isBuiltin == true && isBuiltInDisplayEligible($0) }
@@ -345,24 +351,29 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
 
     func setBuiltInBrightnessAndWait(_ value: Double) async -> DisplayBrightnessWriteResult {
         guard let displayID = builtInDisplayID, let connectionID = managedDisplays[displayID]?.connectionID,
-              (0...1).contains(value) else {
+              let eventGeneration = connectionEvents.generation(for: displayID), (0...1).contains(value) else {
             return .failed(message: PluginKitLocalization.actionUnavailable)
         }
 
         let generation = writeGeneration
         let waitDeadline = ContinuousClock.now.advanced(by: .milliseconds(250))
         while let display = managedDisplays[displayID], display.connectionID == connectionID,
-              builtInDisplayID == displayID, generation == writeGeneration, !Task.isCancelled {
+              builtInDisplayID == displayID, connectionEvents.generation(for: displayID) == eventGeneration,
+              generation == writeGeneration, !Task.isCancelled {
             guard ContinuousClock.now < waitDeadline else { return .failed(message: writeTimeoutMessage) }
             if !isWriting(displayID), display.pendingBrightness == nil, display.readID == nil {
-                return await writeBuiltInBrightness(value, for: display)
+                return await writeBuiltInBrightness(value, for: display, eventGeneration: eventGeneration)
             }
             try? await Task.sleep(for: .milliseconds(25))
         }
         return .failed(message: PluginKitLocalization.actionUnavailable)
     }
 
-    private func writeBuiltInBrightness(_ value: Double, for display: ManagedDisplay) async -> DisplayBrightnessWriteResult {
+    private func writeBuiltInBrightness(
+        _ value: Double,
+        for display: ManagedDisplay,
+        eventGeneration: UInt64
+    ) async -> DisplayBrightnessWriteResult {
         let displayID = display.display.id
         let previousBackend = display.backend
         guard let backend = previousBackend.kind == .appleNative
@@ -372,7 +383,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         }
 
         let request = BuiltInBrightnessRequest(setterDeadline: ContinuousClock.now.advanced(by: writeTimeout)) {
-            [isBuiltInDisplayEligible] in isBuiltInDisplayEligible(displayID)
+            [isBuiltInDisplayEligible, connectionEvents] in
+            isBuiltInDisplayEligible(displayID) && connectionEvents.generation(for: displayID) == eventGeneration
         }
         Self.reservedDisplays.insert(displayID)
         builtInWrites[displayID] = request

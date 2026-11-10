@@ -170,6 +170,7 @@ final class DisplayBrightnessPlugin:
     private var brightnessGeneration = UUID().uuidString
     private var voiceTargetDisplays: [CGDirectDisplayID: DisplayInfo] = [:]
     private let controller: DisplayBrightnessControlling
+    private let connectionObserver: SystemDisplayBrightnessConnectionObserver?
     private let displayDisableCoordinator: any DisplayDisableCoordinating
     private let showsDisplayDisableControls: Bool
     private let shortcutPreferences: DisplayBrightnessShortcutPreferences
@@ -192,7 +193,16 @@ final class DisplayBrightnessPlugin:
         mouseDisplayIDProvider: @escaping @MainActor () -> CGDirectDisplayID? = DisplayBrightnessPlugin.currentMouseDisplayID
     ) {
         self.localization = localization
-        self.controller = controller ?? DisplayBrightnessController(localization: localization)
+        if let controller {
+            self.controller = controller
+            connectionObserver = nil
+        } else {
+            connectionObserver = SystemDisplayBrightnessConnectionObserver()
+            self.controller = DisplayBrightnessController(
+                connectionEvents: SystemDisplayBrightnessConnectionObserver.events,
+                localization: localization
+            )
+        }
         self.displayDisableCoordinator = displayDisableCoordinator ?? DisplayDisableCoordinator(
             service: Self.defaultDisplayDisableService(),
             store: UserDefaultsDisplayDisableStateStore(),
@@ -601,6 +611,7 @@ final class DisplayBrightnessPlugin:
     }
 
     func activate(context: PluginRuntimeContext) {
+        connectionObserver?.start()
         // A switch-off lasts only for the process that made it. The window server normally
         // reverts it on exit; restore anything a previous run still left off, in case it did not.
         displayDisableCoordinator.restoreAllDisplays()
@@ -611,6 +622,7 @@ final class DisplayBrightnessPlugin:
         displayDisableActionTask = nil
         stopAllShortcutActions()
         controller.cancelOutstandingWrites()
+        connectionObserver?.stop()
         displayDisableCoordinator.deactivate(restoringDisplays: reason.requiresStateCleanup)
     }
 
