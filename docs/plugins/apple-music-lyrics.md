@@ -4,6 +4,8 @@
 
 The floating window is a borderless `NSPanel` with an `NSVisualEffectView` using the `.hudWindow` material, so it blends with the desktop and stays on top of other windows while remaining non-activating. It shows the current track and artist, the current lyric line, and optionally the next line. Track and playback position are polled from Music.app every `0.5 s`; lyrics are matched by title, artist, album, and duration against the cached catalog responses.
 
+Reading playback state sends Apple Events to Music, so the plugin needs **Automation** access. The first poll triggers the macOS prompt; if it is denied, the plugin pauses polling and the panel shows guidance to open **System Settings → Privacy & Security → Automation** and allow MacTools to control Music. Re-enabling the plugin retries after the grant. The AppleScript round trip runs off the main thread with a `1.5 s` timeout and a single in-flight request, so a slow or unresponsive Music process never freezes the MacTools UI. The host is notified only when the displayed state actually changes, not on every poll.
+
 ## Settings
 
 - **启用桌面歌词 / Enable desktop lyrics** turns the plugin on and off.
@@ -16,7 +18,7 @@ The floating window is a borderless `NSPanel` with an `NSVisualEffectView` using
 - **允许拖动位置 / Allow dragging** lets the user drag the window freely and remembers the position across launches.
 - **逐字渲染 / Karaoke rendering** highlights sung and upcoming words progressively. Apple Music's lyric timing is approximate, so the per-word effect may drift from the actual singing.
 
-Preferences are stored locally under `apple-music-lyrics.*` keys. The plugin requests no permissions and makes no network requests.
+Preferences are stored locally under `apple-music-lyrics.*` keys. The appearance preferences (font, opacity, color, next-line, dragging, and karaoke) transfer through Preferences Backup; activation, the saved window position, and the Automation permission stay local to each Mac. The plugin makes no network requests.
 
 ## Karaoke Rendering
 
@@ -39,7 +41,8 @@ xcodebuild \
   -only-testing:MacToolsTests/LyricsTextColorOptionTests \
   -only-testing:MacToolsTests/AppleTTMLParserTests \
   -only-testing:MacToolsTests/AppleMusicCacheLyricsProviderTests \
-  -only-testing:MacToolsTests/LyricsDocumentTests
+  -only-testing:MacToolsTests/LyricsDocumentTests \
+  -only-testing:MacToolsTests/AppleMusicLyricsPollingTests
 ```
 
-Manual verification needs Apple Music playing a song with synced lyrics. Confirm the window appears in the top-right corner, the current line advances with playback, and upcoming text is visibly dimmer when karaoke rendering is enabled. Turn on **允许拖动位置 / Allow dragging**, drag the window, relaunch MacTools, and confirm the position is restored. Toggle **逐字渲染 / Karaoke rendering** and confirm the sung/upcoming contrast appears and disappears.
+Manual verification needs Apple Music playing a song with synced lyrics. Confirm the window appears in the top-right corner, the current line advances with playback, and upcoming text is visibly dimmer when karaoke rendering is enabled. Turn on **允许拖动位置 / Allow dragging**, drag the window, relaunch MacTools, and confirm the position is restored. Toggle **逐字渲染 / Karaoke rendering** and confirm the sung/upcoming contrast appears and disappears. With the background at `10 %` and text at `100 %`, the text must stay fully opaque while the glass dims. If no Automation prompt appears, open **System Settings → Privacy & Security → Automation** and confirm MacTools is allowed to control Music.

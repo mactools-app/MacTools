@@ -2918,7 +2918,9 @@
           "executables": [],
           "hardware": [],
           "minimumMacOSVersion": "14.0",
-          "permissionIDs": [],
+          "permissionIDs": [
+            "automation"
+          ],
           "requiresRelaunch": false,
           "setupComplexity": "simple"
         },

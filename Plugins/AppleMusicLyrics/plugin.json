@@ -71,7 +71,9 @@
     ],
     "settings": "form"
   },
-  "permissions": [],
+  "permissions": [
+    "automation"
+  ],
   "category": "audio",
   "presentation": {
     "longDescription": "@productStrings.summary",
@@ -177,7 +179,9 @@
       }
     ],
     "executables": [],
-    "permissionIDs": [],
+    "permissionIDs": [
+      "automation"
+    ],
     "setupComplexity": "simple",
     "requiresRelaunch": false
   },
@@ -209,7 +213,10 @@
     "supersedesPluginIDs": []
   },
   "preferencesBackup": {
-    "status": "none",
-    "exclusions": []
+    "status": "partial",
+    "exclusions": [
+      "permissions",
+      "local-policy"
+    ]
   }
 }

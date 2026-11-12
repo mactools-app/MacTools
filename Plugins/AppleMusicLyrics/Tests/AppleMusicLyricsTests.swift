@@ -478,3 +478,152 @@ final class LyricsTextColorOptionTests: XCTestCase {
         XCTAssertEqual(color.alphaComponent, 0.18 * 0.6, accuracy: 0.001)
     }
 }
+
+// MARK: - Polling / automation / backup
+
+private final class MockNowPlayingService: AppleMusicNowPlayingServicing, @unchecked Sendable {
+    var isMusicRunning = true
+    var result: Result<TrackInfo?, Error> = .success(nil)
+    private(set) var fetchCount = 0
+
+    func fetch() -> Result<TrackInfo?, Error> {
+        fetchCount += 1
+        return result
+    }
+}
+
+@MainActor
+final class AppleMusicLyricsPollingTests: XCTestCase {
+
+    private func makeStorage() -> PluginStorage {
+        UserDefaultsPluginStorage(pluginID: "apple-music-lyrics-test-\(UUID().uuidString)")
+    }
+
+    private func playingTrack() -> TrackInfo {
+        TrackInfo(
+            title: "Song",
+            artist: "Artist",
+            album: "Album",
+            duration: 180,
+            position: 10,
+            state: .playing
+        )
+    }
+
+    func testAutomationDeniedStopsPollingAndReportsError() async {
+        let storage = makeStorage()
+        let service = MockNowPlayingService()
+        service.result = .failure(AppleMusicScriptError.automationDenied)
+        let controller = AppleMusicLyricsController(
+            storage: storage,
+            localization: PluginLocalization(bundle: .main),
+            nowPlayingService: service
+        )
+        controller.activate()
+        controller.setEnabled(true)
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        XCTAssertNotNil(controller.snapshot.errorMessage)
+        XCTAssertTrue(controller.snapshot.errorMessage?.contains("Automation") == true)
+
+        // Polling must pause after the denial: a manual refresh must not issue
+        // another Apple Event.
+        let fetchCountAfterDenial = service.fetchCount
+        controller.refresh()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        XCTAssertEqual(service.fetchCount, fetchCountAfterDenial)
+
+        // Re-enabling clears the denial so the user can retry after granting
+        // access in System Settings.
+        controller.setEnabled(false)
+        controller.setEnabled(true)
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        XCTAssertGreaterThan(service.fetchCount, fetchCountAfterDenial)
+    }
+
+    func testPollNotifiesOnlyWhenDisplayedStateChanges() async {
+        let storage = makeStorage()
+        let service = MockNowPlayingService()
+        service.result = .success(playingTrack())
+        let controller = AppleMusicLyricsController(
+            storage: storage,
+            localization: PluginLocalization(bundle: .main),
+            nowPlayingService: service
+        )
+        var notifications = 0
+        controller.onStateChange = { notifications += 1 }
+        controller.activate()
+        controller.setEnabled(true)
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // The initial poll published the track. A second poll with identical
+        // state must not re-notify the host.
+        let countAfterFirstPoll = notifications
+        controller.refresh()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        XCTAssertEqual(notifications, countAfterFirstPoll,
+                       "a poll with unchanged displayed state must not notify the host")
+    }
+
+    func testPersistentChangeSignaledOnPortableSetter() {
+        let storage = makeStorage()
+        let controller = AppleMusicLyricsController(
+            storage: storage,
+            localization: PluginLocalization(bundle: .main)
+        )
+        var signaled = 0
+        controller.onPersistentPreferencesChange = { signaled += 1 }
+
+        controller.setFontSize(30)
+        XCTAssertEqual(signaled, 1)
+
+        controller.setTextColor(.white)
+        XCTAssertEqual(signaled, 2)
+
+        // Activation is not a portable appearance preference.
+        controller.setEnabled(true)
+        XCTAssertEqual(signaled, 2)
+    }
+
+    func testPortablePreferencesRoundTrip() throws {
+        let sourceStorage = makeStorage()
+        sourceStorage.set(32.0, forKey: AppleMusicLyricsController.StorageKey.fontSize)
+        sourceStorage.set("white", forKey: AppleMusicLyricsController.StorageKey.textColor)
+        sourceStorage.set(false, forKey: AppleMusicLyricsController.StorageKey.karaokeEnabled)
+        sourceStorage.set("123,456", forKey: AppleMusicLyricsController.StorageKey.windowPosition)
+        let source = AppleMusicLyricsPlugin(
+            storage: sourceStorage,
+            localization: PluginLocalization(bundle: .main)
+        )
+        let data = try XCTUnwrap(source.makePortablePreferencesBackup())
+
+        let destStorage = makeStorage()
+        var restoreNotified = false
+        let dest = AppleMusicLyricsPlugin(
+            storage: destStorage,
+            localization: PluginLocalization(bundle: .main)
+        )
+        dest.onStateChange = { restoreNotified = true }
+        XCTAssertTrue(dest.restorePortablePreferencesReportingResult(from: data))
+        XCTAssertTrue(restoreNotified, "restore must reload the controller")
+
+        XCTAssertEqual(destStorage.object(forKey: AppleMusicLyricsController.StorageKey.fontSize) as? Double, 32.0)
+        XCTAssertEqual(destStorage.string(forKey: AppleMusicLyricsController.StorageKey.textColor), "white")
+        XCTAssertEqual(destStorage.object(forKey: AppleMusicLyricsController.StorageKey.karaokeEnabled) as? Bool, false)
+        // Screen coordinates are local to each Mac and must not transfer.
+        XCTAssertNil(destStorage.object(forKey: AppleMusicLyricsController.StorageKey.windowPosition))
+    }
+
+    func testPortablePreferencesRejectsInvalidPayload() {
+        let storage = makeStorage()
+        let plugin = AppleMusicLyricsPlugin(
+            storage: storage,
+            localization: PluginLocalization(bundle: .main)
+        )
+        // Invalid data (out-of-range font size) must be rejected atomically.
+        let invalid = """
+        {"formatVersion":1,"values":{"apple-music-lyrics.font-size":{"number":999}}}
+        """.data(using: .utf8)!
+        XCTAssertFalse(plugin.restorePortablePreferencesReportingResult(from: invalid))
+    }
+}

@@ -1,10 +1,21 @@
 import AppKit
 import Foundation
 
+/// Abstraction over Music.app playback state so the controller can be tested
+/// with a synchronous fake. Implementations must be safe to call from a
+/// background cooperative worker.
+protocol AppleMusicNowPlayingServicing: Sendable {
+    var isMusicRunning: Bool { get }
+    func fetch() -> Result<TrackInfo?, Error>
+}
+
 /// Polls Music.app for the currently playing track via AppleScript.
-final class AppleMusicNowPlayingService: @unchecked Sendable {
+final class AppleMusicNowPlayingService: AppleMusicNowPlayingServicing, @unchecked Sendable {
     private let delimiter = "\u{1F}"
     private let musicBundleIdentifier = "com.apple.Music"
+    /// `errAEEventNotPermitted`: the user denied the Automation prompt for
+    /// Apple Events to Music.
+    private static let automationDeniedErrorNumber = -1743
 
     private lazy var playerStateScript: NSAppleScript? = NSAppleScript(source: """
         tell application "Music"
@@ -34,6 +45,10 @@ final class AppleMusicNowPlayingService: @unchecked Sendable {
         var errorInfo: NSDictionary?
         let result = playerStateScript.executeAndReturnError(&errorInfo)
         if let errorInfo {
+            let errorNumber = (errorInfo[NSAppleScript.errorNumber] as? NSNumber)?.intValue
+            if errorNumber == Self.automationDeniedErrorNumber {
+                return .failure(AppleMusicScriptError.automationDenied)
+            }
             return .failure(
                 AppleMusicScriptError.executionFailed(errorInfo.description)
             )
@@ -71,6 +86,8 @@ final class AppleMusicNowPlayingService: @unchecked Sendable {
 enum AppleMusicScriptError: LocalizedError {
     case failedToCreate
     case executionFailed(String)
+    case automationDenied
+    case timedOut
     case unknown
 
     var errorDescription: String? {
@@ -79,6 +96,10 @@ enum AppleMusicScriptError: LocalizedError {
             return "Unable to create AppleScript"
         case .executionFailed(let message):
             return "AppleScript execution failed: \(message)"
+        case .automationDenied:
+            return "Automation access to Music was denied. Open System Settings → Privacy & Security → Automation and allow MacTools to control Music."
+        case .timedOut:
+            return "Music did not respond in time"
         case .unknown:
             return "Unknown AppleScript error"
         }

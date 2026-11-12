@@ -293,11 +293,14 @@ final class AppleMusicLyricsPlugin: MacToolsPlugin {
         set { controller.onStateChange = newValue }
     }
 
+    var onPersistentPreferencesChange: (() -> Void)?
+
     var requestPermissionGuidance: ((String) -> Void)?
     var shortcutBindingResolver: ((String) -> ShortcutBinding?)?
 
     private let controller: any AppleMusicLyricsControlling
     private let localization: PluginLocalization
+    private let storage: any PluginStorage
 
     init(
         storage: PluginStorage? = nil,
@@ -305,10 +308,14 @@ final class AppleMusicLyricsPlugin: MacToolsPlugin {
         controller: (any AppleMusicLyricsControlling)? = nil
     ) {
         self.localization = localization
+        self.storage = storage ?? UserDefaultsPluginStorage(pluginID: "apple-music-lyrics")
         self.controller = controller ?? AppleMusicLyricsController(
-            storage: storage ?? UserDefaultsPluginStorage(pluginID: "apple-music-lyrics"),
+            storage: self.storage,
             localization: localization
         )
+        self.controller.onPersistentPreferencesChange = { [weak self] in
+            self?.onPersistentPreferencesChange?()
+        }
     }
 
     var rowState: PluginPanelRowState {
@@ -440,5 +447,73 @@ final class AppleMusicLyricsPlugin: MacToolsPlugin {
     private func handleRowAction(_ action: PluginPanelAction) {
         guard case let .setSwitch(isEnabled) = action else { return }
         controller.setEnabled(isEnabled)
+    }
+}
+
+// MARK: - Portable preferences backup
+
+extension AppleMusicLyricsPlugin:
+    PluginPortablePreferencesProviding,
+    PluginPortablePreferencesRestorationReporting,
+    PluginPersistentPreferencesChangeSignaling {
+
+    /// Appearance preferences transfer between Macs. Activation (`enabled`) and
+    /// the window position stay local: the latter is a screen coordinate, and
+    /// Automation permission is excluded through the manifest exclusion codes.
+    private static func portableStore(storage: any PluginStorage) -> PortablePreferencesStore {
+        PortablePreferencesStore(storage: storage, fields: [
+            AppleMusicLyricsController.StorageKey.fontSize: .number(
+                AppleMusicLyricsController.Defaults.fontSize,
+                range: 14...48
+            ),
+            AppleMusicLyricsController.StorageKey.backgroundOpacity: .number(
+                AppleMusicLyricsController.Defaults.backgroundOpacity,
+                range: 0.1...1.0
+            ),
+            AppleMusicLyricsController.StorageKey.textOpacity: .number(
+                AppleMusicLyricsController.Defaults.textOpacity,
+                range: 0.1...1.0
+            ),
+            AppleMusicLyricsController.StorageKey.cornerRadius: .number(
+                AppleMusicLyricsController.Defaults.cornerRadius,
+                range: 0...28
+            ),
+            AppleMusicLyricsController.StorageKey.showsNextLine: .boolean(
+                AppleMusicLyricsController.Defaults.showsNextLine
+            ),
+            AppleMusicLyricsController.StorageKey.textColor: .choice(
+                AppleMusicLyricsController.Defaults.textColor.rawValue,
+                allowed: LyricsTextColorOption.allCases.map(\.rawValue)
+            ),
+            AppleMusicLyricsController.StorageKey.allowsDragging: .boolean(
+                AppleMusicLyricsController.Defaults.allowsDragging
+            ),
+            AppleMusicLyricsController.StorageKey.karaokeEnabled: .boolean(
+                AppleMusicLyricsController.Defaults.karaokeEnabled
+            ),
+        ])
+    }
+
+    private var portableStore: PortablePreferencesStore {
+        Self.portableStore(storage: storage)
+    }
+
+    func makePortablePreferencesBackup() -> Data? {
+        portableStore.backup()
+    }
+
+    func restorePortablePreferences(from data: Data) {
+        _ = restorePortablePreferencesReportingResult(from: data)
+    }
+
+    func restorePortablePreferencesReportingResult(from data: Data) -> Bool {
+        let before = portableStore.currentValues()
+        guard portableStore.restore(data) else { return false }
+        controller.reloadPortablePreferences()
+        if before != portableStore.currentValues() {
+            onPersistentPreferencesChange?()
+        }
+        onStateChange?()
+        return true
     }
 }

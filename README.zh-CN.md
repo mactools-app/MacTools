@@ -97,7 +97,7 @@ brew upgrade --cask --greedy mactools
 
 [灵动岛悬浮面板](docs/plugins/notch-hover-panel.md)会在悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板；需要带灵动岛的 Mac 屏幕。安装并启用后默认隐藏 MacTools 菜单栏图标，可在插件设置中重新显示。
 
-[Apple Music 桌面歌词](docs/plugins/apple-music-lyrics.md)会在 Apple Music 播放时于屏幕右上角显示毛玻璃桌面歌词，支持自定义字号、透明度、颜色、逐字高亮与可拖动位置。歌词直接读取 Apple Music 已缓存的数据，无需 Apple 账户。
+[Apple Music 桌面歌词](docs/plugins/apple-music-lyrics.md)会在 Apple Music 播放时于屏幕右上角显示毛玻璃桌面歌词，支持自定义字号、透明度、颜色、逐字高亮与可拖动位置。歌词直接读取 Apple Music 已缓存的数据，无需 Apple 账户，通过自动化权限跟随播放状态。
 
 截图支持 macOS 14+；区域录屏和应用音量需要 macOS 15+。硬件控制取决于设备支持，详见[功能指南](docs/README.zh-CN.md)。
 

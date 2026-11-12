@@ -18,6 +18,7 @@ struct AppleMusicLyricsSnapshot: Equatable, Sendable {
 @MainActor
 protocol AppleMusicLyricsControlling: AnyObject {
     var onStateChange: (() -> Void)? { get set }
+    var onPersistentPreferencesChange: (() -> Void)? { get set }
     var snapshot: AppleMusicLyricsSnapshot { get }
 
     var fontSize: Double { get }
@@ -42,11 +43,12 @@ protocol AppleMusicLyricsControlling: AnyObject {
     func setAllowsDragging(_ allows: Bool)
     func setKaraokeEnabled(_ enabled: Bool)
     func resetToDefaults()
+    func reloadPortablePreferences()
 }
 
 @MainActor
 final class AppleMusicLyricsController: AppleMusicLyricsControlling {
-    private enum StorageKey {
+    enum StorageKey {
         static let enabled = "apple-music-lyrics.enabled"
         static let fontSize = "apple-music-lyrics.font-size"
         static let backgroundOpacity = "apple-music-lyrics.background-opacity"
@@ -59,7 +61,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         static let windowPosition = "apple-music-lyrics.window-position"
     }
 
-    private enum Defaults {
+    enum Defaults {
         static let isEnabled = false
         static let fontSize = 24.0
         static let backgroundOpacity = 0.65
@@ -76,11 +78,17 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
     private static let allowedTextOpacityRange: ClosedRange<Double> = 0.1...1.0
     private static let allowedCornerRadiusRange: ClosedRange<Double> = 0...28
     private static let pollInterval: TimeInterval = 0.5
+    /// Maximum time to wait for a single Music.app AppleScript round trip.
+    private static let fetchTimeout: TimeInterval = 1.5
+    /// Spaced retries after a lookup finds no lyrics yet; Music may still be
+    /// writing the catalog response to disk for a freshly started track.
+    private static let lyricsRetryDelays: [TimeInterval] = [2, 4, 8]
 
     var onStateChange: (() -> Void)?
+    var onPersistentPreferencesChange: (() -> Void)?
 
     private let storage: any PluginStorage
-    private let nowPlayingService: AppleMusicNowPlayingService
+    private let nowPlayingService: any AppleMusicNowPlayingServicing
     private let lyricsProvider: AppleMusicCacheLyricsProvider
 
     private var isEnabled: Bool
@@ -98,6 +106,11 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
     private var currentLyrics: LyricsDocument = .empty
     private var currentLine: String = ""
     private var lyricsFetchTask: Task<Void, Never>?
+    private var lyricsRetryTask: Task<Void, Never>?
+    private var lyricsRetryCount = 0
+    private var isFetchInFlight = false
+    private var isAutomationDenied = false
+    private var lastReportedSnapshot: AppleMusicLyricsSnapshot?
     private var errorMessage: String?
     private var isActive = false
 
@@ -106,7 +119,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
     init(
         storage: any PluginStorage,
         localization: PluginLocalization,
-        nowPlayingService: AppleMusicNowPlayingService = AppleMusicNowPlayingService(),
+        nowPlayingService: any AppleMusicNowPlayingServicing = AppleMusicNowPlayingService(),
         lyricsProvider: AppleMusicCacheLyricsProvider = AppleMusicCacheLyricsProvider()
     ) {
         self.storage = storage
@@ -174,6 +187,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
     isolated deinit {
         pollTimer?.invalidate()
         lyricsFetchTask?.cancel()
+        lyricsRetryTask?.cancel()
     }
 
     var currentAppearance: LyricsAppearance {
@@ -230,6 +244,8 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         stopPolling()
         lyricsFetchTask?.cancel()
         lyricsFetchTask = nil
+        lyricsRetryTask?.cancel()
+        lyricsRetryTask = nil
         floatingWindow.hideLyrics()
     }
 
@@ -245,17 +261,60 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         storage.set(isEnabled, forKey: StorageKey.enabled)
 
         if isEnabled {
+            // Re-enabling after an Automation denial retries the Apple Events.
+            isAutomationDenied = false
             startPolling()
             pollNow()
         } else {
             stopPolling()
-            lyricsFetchTask?.cancel()
-            lyricsFetchTask = nil
+            cancelLyricsWork()
             floatingWindow.hideLyrics()
             currentTrack = nil
             currentLyrics = .empty
             currentLine = ""
         }
+        onStateChange?()
+    }
+
+    /// Re-reads the portable appearance preferences from storage after a
+    /// restore. `enabled` and the window position are deliberately not touched
+    /// because they are local to each Mac.
+    func reloadPortablePreferences() {
+        storedFontSize = Self.clampedFontSize(
+            storage.object(forKey: StorageKey.fontSize) as? Double ?? Defaults.fontSize
+        )
+        storedBackgroundOpacity = Self.clampedOpacity(
+            storage.object(forKey: StorageKey.backgroundOpacity) as? Double ?? Defaults.backgroundOpacity
+        )
+        storedTextOpacity = Self.clampedTextOpacity(
+            storage.object(forKey: StorageKey.textOpacity) as? Double ?? Defaults.textOpacity
+        )
+        storedCornerRadius = Self.clampedCornerRadius(
+            storage.object(forKey: StorageKey.cornerRadius) as? Double ?? Defaults.cornerRadius
+        )
+        if storage.object(forKey: StorageKey.showsNextLine) == nil {
+            storedShowsNextLine = Defaults.showsNextLine
+        } else {
+            storedShowsNextLine = storage.bool(forKey: StorageKey.showsNextLine)
+        }
+        if storage.object(forKey: StorageKey.textColor) == nil {
+            storedTextColor = Defaults.textColor
+        } else {
+            storedTextColor = LyricsTextColorOption(
+                rawValue: storage.string(forKey: StorageKey.textColor) ?? ""
+            ) ?? Defaults.textColor
+        }
+        if storage.object(forKey: StorageKey.allowsDragging) == nil {
+            storedAllowsDragging = Defaults.allowsDragging
+        } else {
+            storedAllowsDragging = storage.bool(forKey: StorageKey.allowsDragging)
+        }
+        if storage.object(forKey: StorageKey.karaokeEnabled) == nil {
+            storedKaraokeEnabled = Defaults.karaokeEnabled
+        } else {
+            storedKaraokeEnabled = storage.bool(forKey: StorageKey.karaokeEnabled)
+        }
+        applyAppearance()
         onStateChange?()
     }
 
@@ -265,6 +324,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         storedFontSize = clamped
         storage.set(clamped, forKey: StorageKey.fontSize)
         applyAppearance()
+        onPersistentPreferencesChange?()
         onStateChange?()
     }
 
@@ -274,6 +334,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         storedBackgroundOpacity = clamped
         storage.set(clamped, forKey: StorageKey.backgroundOpacity)
         applyAppearance()
+        onPersistentPreferencesChange?()
         onStateChange?()
     }
 
@@ -283,6 +344,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         storedTextOpacity = clamped
         storage.set(clamped, forKey: StorageKey.textOpacity)
         applyAppearance()
+        onPersistentPreferencesChange?()
         onStateChange?()
     }
 
@@ -292,6 +354,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         storedCornerRadius = clamped
         storage.set(clamped, forKey: StorageKey.cornerRadius)
         applyAppearance()
+        onPersistentPreferencesChange?()
         onStateChange?()
     }
 
@@ -300,6 +363,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         storedShowsNextLine = showsNextLine
         storage.set(showsNextLine, forKey: StorageKey.showsNextLine)
         applyAppearance()
+        onPersistentPreferencesChange?()
         onStateChange?()
     }
 
@@ -308,6 +372,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         storedTextColor = option
         storage.set(option.rawValue, forKey: StorageKey.textColor)
         applyAppearance()
+        onPersistentPreferencesChange?()
         onStateChange?()
     }
 
@@ -316,6 +381,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         storedAllowsDragging = allows
         storage.set(allows, forKey: StorageKey.allowsDragging)
         applyAppearance()
+        onPersistentPreferencesChange?()
         onStateChange?()
     }
 
@@ -324,6 +390,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         storedKaraokeEnabled = enabled
         storage.set(enabled, forKey: StorageKey.karaokeEnabled)
         applyAppearance()
+        onPersistentPreferencesChange?()
         onStateChange?()
     }
 
@@ -353,9 +420,14 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
             pollNow()
         } else {
             stopPolling()
+            cancelLyricsWork()
             floatingWindow.hideLyrics()
+            currentTrack = nil
+            currentLyrics = .empty
+            currentLine = ""
         }
         applyAppearance()
+        onPersistentPreferencesChange?()
         onStateChange?()
     }
 
@@ -380,16 +452,67 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         pollTimer = nil
     }
 
+    /// Queries Music.app without blocking the main thread. The AppleScript round
+    /// trip runs on a cooperative worker and is bounded by `fetchTimeout`; at
+    /// most one request is in flight at a time so a slow reply cannot queue up.
     private func pollNow() {
-        guard isActive, isEnabled else { return }
-
-        switch nowPlayingService.fetch() {
-        case .success(let track):
-            handleTrack(track)
-        case .failure(let error):
-            errorMessage = error.localizedDescription
-            onStateChange?()
+        guard isActive, isEnabled, !isFetchInFlight, !isAutomationDenied else { return }
+        isFetchInFlight = true
+        let service = nowPlayingService
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            let result = await Self.fetchWithTimeout(using: service)
+            self.isFetchInFlight = false
+            guard self.isActive, self.isEnabled else { return }
+            switch result {
+            case .success(let track):
+                self.handleTrack(track)
+            case .failure(let error):
+                self.handleFetchError(error)
+            }
         }
+    }
+
+    private static func fetchWithTimeout(
+        using service: any AppleMusicNowPlayingServicing
+    ) async -> Result<TrackInfo?, AppleMusicPollingError> {
+        await withTaskGroup(of: Result<TrackInfo?, AppleMusicPollingError>.self) { group in
+            group.addTask {
+                service.fetch().mapError(Self.mapPollingError)
+            }
+            group.addTask {
+                try? await Task.sleep(nanoseconds: UInt64(fetchTimeout * 1_000_000_000))
+                return Result<TrackInfo?, AppleMusicPollingError>.failure(.timedOut)
+            }
+            guard let first = await group.next() else {
+                return .failure(.failed("Unknown AppleScript error"))
+            }
+            group.cancelAll()
+            return first
+        }
+    }
+
+    private nonisolated static func mapPollingError(_ error: Error) -> AppleMusicPollingError {
+        if case AppleMusicScriptError.automationDenied = error {
+            return .automationDenied
+        }
+        if case AppleMusicScriptError.timedOut = error {
+            return .timedOut
+        }
+        return .failed(error.localizedDescription)
+    }
+
+    private func handleFetchError(_ error: AppleMusicPollingError) {
+        errorMessage = error.localizedDescription
+        if error == .automationDenied {
+            // The user denied Automation access. Stop polling so we do not
+            // hammer System Settings with repeated denied Apple Events; the
+            // error message points at the Automation pane.
+            isAutomationDenied = true
+            stopPolling()
+            isFetchInFlight = false
+        }
+        notifyIfChanged()
     }
 
     private func handleTrack(_ track: TrackInfo?) {
@@ -400,7 +523,7 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
                 currentLyrics = .empty
                 currentLine = ""
                 floatingWindow.hideLyrics()
-                onStateChange?()
+                notifyIfChanged()
             }
             return
         }
@@ -423,11 +546,13 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         }
 
         applyWindowVisibility()
-        onStateChange?()
+        notifyIfChanged()
     }
 
     private func fetchLyrics(for track: TrackInfo) {
         lyricsFetchTask?.cancel()
+        lyricsRetryTask?.cancel()
+        lyricsRetryCount = 0
         let provider = lyricsProvider
         lyricsFetchTask = Task { @MainActor [weak self] in
             guard let self else { return }
@@ -436,18 +561,77 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
             }.value
 
             guard !Task.isCancelled else { return }
+            guard self.isActive, self.isEnabled else { return }
             guard self.currentTrack?.identityKey == track.identityKey else { return }
 
-            self.currentLyrics = lyrics
-            self.currentLine = lyrics.line(at: track.position)?.text ?? ""
-            if let line = lyrics.line(at: track.position),
-               let translation = line.translation, !translation.isEmpty {
-                self.currentLine = "\(line.text)\n\(translation)"
+            self.applyFetchedLyrics(lyrics, for: track)
+            if lyrics.lines.isEmpty {
+                self.scheduleLyricsRetry(for: track)
             }
-            self.applyWindowVisibility()
-            self.updateDisplayedLine(position: track.position)
-            self.onStateChange?()
         }
+    }
+
+    /// Re-applies a freshly loaded lyric document and notifies only when the
+    /// displayed state actually changed, so repeated polls do not churn the host.
+    private func applyFetchedLyrics(_ lyrics: LyricsDocument, for track: TrackInfo) {
+        currentLyrics = lyrics
+        currentLine = ""
+        if let line = lyrics.line(at: track.position) {
+            currentLine = line.text
+            if let translation = line.translation, !translation.isEmpty {
+                currentLine = "\(line.text)\n\(translation)"
+            }
+        }
+        applyWindowVisibility()
+        updateDisplayedLine(position: track.position)
+        notifyIfChanged()
+    }
+
+    /// Lyrics may appear in Music's cache a moment after a track starts. A few
+    /// spaced retries catch the late write without restarting the track, as long
+    /// as the same track is still playing and lyrics are still missing.
+    private func scheduleLyricsRetry(for track: TrackInfo) {
+        guard lyricsRetryCount < Self.lyricsRetryDelays.count else { return }
+        let delay = Self.lyricsRetryDelays[lyricsRetryCount]
+        lyricsRetryCount += 1
+        let provider = lyricsProvider
+        lyricsRetryTask?.cancel()
+        lyricsRetryTask = Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+            guard !Task.isCancelled else { return }
+            guard let self else { return }
+            guard self.isActive, self.isEnabled else { return }
+            guard self.currentTrack?.identityKey == track.identityKey else { return }
+            guard self.currentLyrics.lines.isEmpty else { return }
+
+            let lyrics = await Task.detached(priority: .userInitiated) {
+                provider.lyrics(for: track)
+            }.value
+            guard !Task.isCancelled else { return }
+            guard self.isActive, self.isEnabled else { return }
+            guard self.currentTrack?.identityKey == track.identityKey else { return }
+            guard self.currentLyrics.lines.isEmpty else { return }
+
+            self.applyFetchedLyrics(lyrics, for: track)
+            if lyrics.lines.isEmpty {
+                self.scheduleLyricsRetry(for: track)
+            }
+        }
+    }
+
+    private func cancelLyricsWork() {
+        lyricsFetchTask?.cancel()
+        lyricsFetchTask = nil
+        lyricsRetryTask?.cancel()
+        lyricsRetryTask = nil
+        lyricsRetryCount = 0
+    }
+
+    private func notifyIfChanged() {
+        let current = snapshot
+        guard current != lastReportedSnapshot else { return }
+        lastReportedSnapshot = current
+        onStateChange?()
     }
 
     private func updateDisplayedLine(position: TimeInterval) {
@@ -524,5 +708,24 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
 
     private static func clampedCornerRadius(_ value: Double) -> Double {
         min(max(value, allowedCornerRadiusRange.lowerBound), allowedCornerRadiusRange.upperBound)
+    }
+}
+
+/// A Sendable, displayable failure from a Music.app poll. Keeping this concrete
+/// (rather than `Error`) lets the asynchronous poll run inside `withTaskGroup`.
+enum AppleMusicPollingError: Error, Sendable, Equatable, LocalizedError {
+    case automationDenied
+    case timedOut
+    case failed(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .automationDenied:
+            return "Automation access to Music was denied. Open System Settings → Privacy & Security → Automation and allow MacTools to control Music."
+        case .timedOut:
+            return "Music did not respond in time"
+        case .failed(let message):
+            return message
+        }
     }
 }

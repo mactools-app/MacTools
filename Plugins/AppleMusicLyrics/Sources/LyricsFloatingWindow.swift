@@ -138,7 +138,10 @@ final class LyricsFloatingWindow: NSPanel {
         effectView.state = .active
         effectView.translatesAutoresizingMaskIntoConstraints = false
 
-        // Content container with rounded clipping
+        // Content container with rounded clipping. It is a sibling of the
+        // frosted-glass `effectView` (not a subview) so `backgroundOpacity`
+        // dims only the glass and never the labels; text opacity is applied
+        // independently through the label colors.
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.wantsLayer = true
 
@@ -181,10 +184,11 @@ final class LyricsFloatingWindow: NSPanel {
         containerView.addSubview(currentLineLabel)
         containerView.addSubview(nextLineLabel)
 
-        effectView.addSubview(containerView)
-
         let contentView = NSView()
+        // The glass is the background layer; the label container sits above it
+        // as a sibling so background opacity never dims the text.
         contentView.addSubview(effectView)
+        contentView.addSubview(containerView)
 
         // Transparent drag overlay: intercepts mouse events only when dragging
         // is enabled so the user can reposition the window freely.
@@ -224,10 +228,10 @@ final class LyricsFloatingWindow: NSPanel {
             dragView.topAnchor.constraint(equalTo: contentView.topAnchor),
             dragView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 
-            containerView.leadingAnchor.constraint(equalTo: effectView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: effectView.trailingAnchor),
-            containerView.topAnchor.constraint(equalTo: effectView.topAnchor),
-            containerView.bottomAnchor.constraint(equalTo: effectView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 
             contentStack.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
             contentStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
