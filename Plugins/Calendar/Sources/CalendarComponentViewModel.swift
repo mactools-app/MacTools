@@ -101,8 +101,11 @@ final class CalendarComponentViewModel: ObservableObject {
                 // Mark the snapshot stale the moment an EventKit change arrives,
                 // before debouncing. If the widget is activated within the debounce
                 // window, the merged event would otherwise be only the activation,
-                // and the next refresh would reuse an outdated snapshot.
-                guard notification.name == .EKEventStoreChanged else { return }
+                // and the next refresh would reuse an outdated snapshot. A system
+                // time-zone change also invalidates it so dates are recalculated
+                // in the new local time zone.
+                guard notification.name == .EKEventStoreChanged
+                    || notification.name == .NSSystemTimeZoneDidChange else { return }
                 Task { @MainActor [weak self] in
                     guard let self, self.showsReminders else { return }
                     self.eventService.invalidateReminderSnapshot()
@@ -172,9 +175,14 @@ final class CalendarComponentViewModel: ObservableObject {
         agendaRange = range
         showsRecentAgenda = isVisible
         self.showsReminders = nextShowsReminders
-        if remindersChanged && !nextShowsReminders {
-            eventsByDay = eventsByDay.mapValues { summaries in
-                summaries.filter { $0.kind != .reminder }
+        if remindersChanged {
+            // Turning the setting back on must refetch rather than reuse a
+            // snapshot that may have missed edits made while it was off.
+            eventService.invalidateReminderSnapshot()
+            if !nextShowsReminders {
+                eventsByDay = eventsByDay.mapValues { summaries in
+                    summaries.filter { $0.kind != .reminder }
+                }
             }
         }
         rebuildMonth()
