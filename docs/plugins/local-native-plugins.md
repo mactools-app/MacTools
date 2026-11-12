@@ -106,7 +106,7 @@ In Debug development, `make run` builds the main `MacTools` scheme, synchronizes
 
 A full Debug sync mirrors the current checkout: packages missing from its local catalog are moved from `Installed` to the sibling `Quarantined` directory so packages left by another worktree cannot appear as incompatible. A filtered sync such as `make sync-debug-plugins PLUGIN=calendar` preserves unrelated installed packages.
 
-For a fast single-plugin debug cycle, `make run-plugin PLUGIN=<plugin directory or id>` builds only the app host (`MacTools` target, excluding all plugin targets) and the selected plugin's bundle scheme, then syncs, installs, and launches that one plugin. `make sync-debug-plugins PLUGIN=calendar` uses the same fast path without launching. Use `make clean` to remove build products together with the installed Debug app and installed plugin packages.
+For a fast single-plugin debug cycle, `make run-plugin PLUGIN=<plugin directory or id>` builds only the app host (`MacTools` target, excluding all plugin targets) and the selected plugin's bundle scheme, then syncs, installs, and launches that one plugin. `make sync-debug-plugins PLUGIN=calendar` uses the same fast path without launching. `make clean` removes only build products, and `make clean-installed` separately removes the installed Debug app and installed plugin packages.
 
 Debug package copies normalize `minHostVersion` to the locally built app version because the host and plugin bundles come from the same checkout. Release packages preserve each source manifest's declared minimum host version.
 

@@ -92,12 +92,18 @@ build-app: validate-local-debug-config generate
 		"$$LSREGISTER" -u "$(CURDIR)/$(APP_PATH)" >/dev/null 2>&1 || true; \
 	fi
 
-# Build one or more plugin bundles into the shared Debug products directory so
-# a filtered 'sync-debug-plugins' can package and install them. PLUGIN accepts
-# a directory name, plugin ID, or a comma-separated list of either.
-build-plugin-scheme: validate-local-debug-config generate
+# Build the Debug app host first, then one or more plugin bundles into the
+# shared Debug products directory so a filtered 'sync-debug-plugins' can
+# package and install them. PLUGIN accepts a directory name, plugin ID, or a
+# comma-separated list of either. Depending on build-app serializes the two
+# xcodebuild invocations so they never race on the shared DerivedData directory
+# when make runs with -j. The scheme comes from the project generator (via its
+# --print-schemes mode) so project.yml build overrides and bundleTarget overrides
+# match the scheme xcodebuild actually creates, and the custom plugin source
+# directory is honored.
+build-plugin-scheme: build-app
 	@test -n "$(PLUGIN)" || { echo "Pass PLUGIN=<plugin directory name or ID>." >&2; exit 1; }
-	@PLUGIN_SCHEMES="$$($(PYTHON3) scripts/plugins/resolve-plugin-scheme.py --plugin "$(PLUGIN)" --list)" \
+	@PLUGIN_SCHEMES="$$(./scripts/plugins/generate-plugin-project-config.rb --print-schemes --plugin "$(PLUGIN)" --source-dir "$(LOCAL_PLUGIN_SOURCE_DIR)")" \
 		|| { echo "Could not resolve a scheme for plugin '$(PLUGIN)'." >&2; exit 1; }; \
 	echo "$$PLUGIN_SCHEMES" | while IFS= read -r PLUGIN_SCHEME; do \
 		[ -n "$$PLUGIN_SCHEME" ] || continue; \
@@ -150,8 +156,9 @@ ci: script-tests test
 	@./scripts/plugins/verify-plugin-kit-v7-binary-compatibility.sh "$(abspath $(TEST_DERIVED_DATA)/Build/Products/Debug)"
 
 # A filtered sync only needs the app host and the selected plugin bundle, so
-# skip the full plugin build for fast single-plugin iteration.
-sync-debug-plugins: $(if $(PLUGIN),build-app build-plugin-scheme,build)
+# skip the full plugin build for fast single-plugin iteration. build-plugin-scheme
+# depends on build-app, so the app host is built before the plugin bundle.
+sync-debug-plugins: $(if $(PLUGIN),build-plugin-scheme,build)
 	@if [ -n "$(PLUGIN)" ]; then \
 		PLUGIN_ARGS=(--plugin "$(PLUGIN)"); \
 	else \
@@ -284,7 +291,10 @@ run-open: stop-debug-app install-debug-app
 
 # Fast single-plugin debug cycle: build only the app host and one plugin,
 # then sync, install, and launch. Requires PLUGIN=<plugin directory name or ID>.
-run-plugin: guard-plugin run
+# The guard is a prerequisite (not a sibling of 'run') so it fails before the
+# build and launch start, even when make runs with -j.
+run-plugin: guard-plugin
+	@$(MAKE) run
 
 guard-plugin:
 	@test -n "$(PLUGIN)" || { echo "Pass PLUGIN=<plugin directory name or ID> to run a single plugin." >&2; exit 1; }
@@ -342,17 +352,22 @@ e2e-restore:
 e2e-self-test:
 	@$(E2E_SCRIPT) self-test
 
-# Remove the locally installed Debug app and installed plugin packages.
-clean-installed:
-	@for target_path in "$(INSTALLED_APP_PATH)" "$(DEBUG_PLUGIN_INSTALL_DIR)" "$$(dirname "$(DEBUG_PLUGIN_INSTALL_DIR)")/Quarantined"; do \
-		if [ -z "$$target_path" ] || [ "$$target_path" = "/" ] || [ "$$target_path" = "$(HOME)" ] || [ "$$target_path" = "$(HOME)/" ]; then \
-			echo "Refusing to remove unsafe path: $$target_path" >&2; exit 1; \
-		fi; \
-		rm -rf "$$target_path"; \
-	done
-
-clean: clean-installed
+# Remove build products and the generated project. This stays local to the
+# checkout and never touches shared user state; use 'make clean-installed' to
+# remove the installed Debug app and installed plugin packages.
+clean:
 	@rm -rf build $(PROJECT_FILE) $(WORKSPACE_FILE) "$(GENERATED_PLUGIN_PROJECT_CONFIG)"
+
+# Remove the locally installed Debug app and installed plugin packages. This is
+# intentionally separate from 'make clean' so removing build products never
+# touches shared user state. The helper resolves and validates every path before
+# deleting anything, and removes only the configured Debug app and identifiable
+# .mactoolsplugin packages, so an accidental override cannot delete the user's
+# home directory.
+clean-installed:
+	@$(PYTHON3) scripts/plugins/clean-installed-debug.py \
+		--app "$(INSTALLED_APP_PATH)" \
+		--plugins-dir "$(DEBUG_PLUGIN_INSTALL_DIR)"
 
 release:
 	@./scripts/release.py $(ARGS)

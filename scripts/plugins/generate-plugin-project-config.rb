@@ -14,9 +14,11 @@ options = {
 }
 
 OptionParser.new do |opts|
-  opts.banner = "Usage: generate-plugin-project-config.rb [--source-dir Plugins] [--output Configs/GeneratedPlugins.yml]"
+  opts.banner = "Usage: generate-plugin-project-config.rb [--source-dir Plugins] [--output Configs/GeneratedPlugins.yml] [--print-schemes] [--plugin FILTER]"
   opts.on("--source-dir PATH", "Plugin source directory") { |value| options[:source_dir] = value }
   opts.on("--output PATH", "Generated XcodeGen spec output") { |value| options[:output] = value }
+  opts.on("--print-schemes", "Print the resolved bundle scheme for each matching plugin, then exit") { options[:print_schemes] = true }
+  opts.on("--plugin FILTER", "Plugin directory name or ID (repeatable or comma-separated)") { |value| (options[:plugins] ||= []).concat(value.split(",").map(&:strip).reject(&:empty?)) }
 end.parse!
 
 repo_root = File.expand_path("../..", __dir__)
@@ -176,6 +178,7 @@ targets = {}
 plugin_schemes = {}
 plugin_bundle_targets = []
 plugin_core_targets = []
+plugin_scheme_records = []
 test_include_paths = []
 test_ldflags = []
 
@@ -194,6 +197,7 @@ plugin_roots.each do |plugin_root|
   bundle_module_name = build["bundleModuleName"] || "#{module_name}Bundle"
   core_target = build["coreTarget"] || "#{scheme}Core"
   bundle_target = build["bundleTarget"] || scheme
+  plugin_scheme_records << { "name" => File.basename(plugin_root), "id" => plugin_id, "scheme" => bundle_target }
 
   common_settings = {
     "GENERATE_INFOPLIST_FILE" => "YES",
@@ -343,6 +347,19 @@ plugin_roots.each do |plugin_root|
     "profile" => { "config" => "Release" },
     "archive" => { "config" => "Release" }
   }
+end
+
+if options[:print_schemes]
+  filters = options[:plugins] || []
+  matches = plugin_scheme_records.select do |record|
+    filters.empty? || filters.include?(record["name"]) || filters.include?(record["id"])
+  end
+  if !filters.empty? && matches.empty?
+    warn "No plugin matched requested filters in #{source_dir}: #{filters.join(', ')}"
+    exit 1
+  end
+  matches.each { |record| puts record["scheme"] }
+  exit 0
 end
 
 test_settings = {

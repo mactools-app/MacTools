@@ -51,7 +51,8 @@ This builds the app and plugins, syncs the Debug catalog, and installs `~/Applic
 | `make run-plugin PLUGIN=calendar` | Build only the app host and the selected plugin, then sync, install, and launch. Fastest single-plugin debug cycle. |
 | `make sync-debug-plugins PLUGIN=calendar` | Build the app host and the selected plugin, then sync only that Debug plugin without launching the app. |
 | `make build-plugin PLUGIN=calendar` | Validate a standalone plugin package and its Debug catalog. |
-| `make clean` | Remove build products and the installed Debug app plus installed plugin packages. |
+| `make clean` | Remove build products and the generated project. |
+| `make clean-installed` | Remove the installed Debug app and installed plugin packages (separate from `make clean`). |
 
 Keep local configuration, credentials, generated projects, and build products out of commits. See [local plugin development](docs/plugins/local-native-plugins.md) for package setup and debugging.
 

@@ -203,7 +203,7 @@ make run
 
 `make run` stages and verifies the latest Debug bundle at `~/Applications/MacTools Dev.app` with rollback on failure, then starts that installed executable directly so the catalog environment variable reaches the app process. If `MACTOOLS_PLUGIN_CATALOG_URL` is not already set and `build/LocalPlugins/catalog.dev.json` exists, Make uses that file automatically. Use `make install-debug-app` when the stable bundle should be updated without launching it.
 
-To iterate on one plugin without rebuilding the other plugin targets, use `make run-plugin PLUGIN=<plugin directory or id>`. It builds only the app host and that plugin's bundle scheme, then syncs, installs, and launches. `make clean` also removes the installed Debug app and installed plugin packages in addition to build products.
+To iterate on one plugin without rebuilding the other plugin targets, use `make run-plugin PLUGIN=<plugin directory or id>`. It builds only the app host and that plugin's bundle scheme, then syncs, installs, and launches. `make clean` removes only build products, and `make clean-installed` separately removes the installed Debug app and installed plugin packages.
 
 You can override the fixed directories:
 
