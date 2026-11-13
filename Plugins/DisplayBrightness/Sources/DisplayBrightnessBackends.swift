@@ -83,6 +83,11 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
         }
     }
 
+    func nativeBackend(forBuiltInDisplay display: DisplayInfo) -> (any DisplayBrightnessBackend)? {
+        guard display.isBuiltin else { return nil }
+        return appleBackend(for: display, previous: [:])
+    }
+
     func backends(
         for displays: [DisplayInfo],
         previous: [CGDirectDisplayID: any DisplayBrightnessBackend]
@@ -92,7 +97,7 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
 
         for display in displays {
             // Keep an established fallback until the display's identity or capabilities change.
-            if let backend = previous[display.id], hasSameControlIdentity(backend.display, display),
+            if let backend = previous[display.id], backend.display.hasSameBrightnessControlIdentity(as: display),
                backendCandidates(for: display).contains(BackendCandidate(kind: backend.kind)) {
                 backend.display = display
                 result[display.id] = backend
@@ -143,13 +148,6 @@ final class SystemDisplayBrightnessBackendBuilder: DisplayBrightnessBackendBuild
         }
 
         return nil
-    }
-
-    private func hasSameControlIdentity(_ lhs: DisplayInfo, _ rhs: DisplayInfo) -> Bool {
-        lhs.id == rhs.id && lhs.isBuiltin == rhs.isBuiltin
-            && lhs.vendorNumber == rhs.vendorNumber && lhs.modelNumber == rhs.modelNumber
-            && lhs.serialNumber == rhs.serialNumber
-            && lhs.supportsAppleNativeBrightness == rhs.supportsAppleNativeBrightness
     }
 
     private func backendCandidates(for display: DisplayInfo) -> [BackendCandidate] {
@@ -422,6 +420,10 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
     }
 
     func cleanup() {
+        try? restoreForNativeHandoff()
+    }
+
+    func restoreForNativeHandoff() throws {
         let snapshot: (id: CGDirectDisplayID, table: TransferTable)? = lock.withLock {
             guard let originalTransferTable else { return nil }
             return (_display.id, originalTransferTable)
@@ -429,13 +431,14 @@ final class GammaBrightnessBackend: DisplayBrightnessBackend, @unchecked Sendabl
 
         guard let snapshot else { return }
 
-        _ = CGSetDisplayTransferByTable(
+        let result = CGSetDisplayTransferByTable(
             snapshot.id,
             UInt32(snapshot.table.red.count),
             snapshot.table.red,
             snapshot.table.green,
             snapshot.table.blue
         )
+        guard result == .success else { throw DisplayBrightnessControllerError.softwareBrightnessFailed }
         lock.withLock { currentBrightness = 1 }
     }
 
@@ -636,22 +639,29 @@ private final class ShadeOverlayController {
 }
 
 final class DisplayServicesBrightnessBridge: @unchecked Sendable {
-    private typealias GetBrightnessFunction = @convention(c) (
+    typealias GetBrightnessFunction = @convention(c) (
         CGDirectDisplayID,
         UnsafeMutablePointer<Float>
     ) -> Int32
-    private typealias SetBrightnessFunction = @convention(c) (CGDirectDisplayID, Float) -> Int32
+    typealias SetBrightnessFunction = @convention(c) (CGDirectDisplayID, Float) -> Int32
 
     private let getBrightness: GetBrightnessFunction?
     private let setBrightness: SetBrightnessFunction?
 
-    init() {
+    convenience init() {
         let handle = dlopen(
             "/System/Library/PrivateFrameworks/DisplayServices.framework/DisplayServices",
             RTLD_LAZY
         )
-        self.getBrightness = Self.loadSymbol("DisplayServicesGetBrightness", from: handle)
-        self.setBrightness = Self.loadSymbol("DisplayServicesSetBrightness", from: handle)
+        self.init(
+            getBrightness: Self.loadSymbol("DisplayServicesGetBrightness", from: handle),
+            setBrightness: Self.loadSymbol("DisplayServicesSetBrightness", from: handle)
+        )
+    }
+
+    init(getBrightness: GetBrightnessFunction?, setBrightness: SetBrightnessFunction?) {
+        self.getBrightness = getBrightness
+        self.setBrightness = setBrightness
     }
 
     func readBrightness(displayID: CGDirectDisplayID) throws -> Double {
@@ -659,12 +669,12 @@ final class DisplayServicesBrightnessBridge: @unchecked Sendable {
             throw DisplayBrightnessControllerError.nativeAPINotAvailable
         }
 
-        var value: Float = 0
-        guard getBrightness(displayID, &value) == 0 else {
+        var value: Float = .nan
+        guard getBrightness(displayID, &value) == 0, (0...1).contains(value) else {
             throw DisplayBrightnessControllerError.genericBrightnessUnavailable
         }
 
-        return Double(max(0, min(value, 1)))
+        return Double(value)
     }
 
     func writeBrightness(_ value: Double, displayID: CGDirectDisplayID) throws {
