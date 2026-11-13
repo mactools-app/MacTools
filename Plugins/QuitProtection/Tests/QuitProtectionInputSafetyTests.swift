@@ -118,6 +118,18 @@ final class QuitProtectionInputSafetyTests: XCTestCase {
     }
 
     @MainActor
+    func testCitrixForwardingExclusionsKeepSecureAccessEligible() {
+        let secureAccess = "com.citrix.NetScalerGateway.macos.app"
+        var rule = QuitProtectionRule()
+        rule.isEnabled = true
+        rule.selectedApps = [secureAccess]
+        XCTAssertTrue(rule.includes(bundleIdentifier: secureAccess))
+        XCTAssertFalse(QuitProtectionSession.forwardingApp(secureAccess))
+        XCTAssertTrue(QuitProtectionSession.forwardingApp("com.citrix.receiver.nomas"))
+        XCTAssertTrue(QuitProtectionSession.forwardingApp("com.citrix.receiver.icaviewer.mac"))
+    }
+
+    @MainActor
     func testParallelsForwardingExclusionsAllowSelectedLocalTools() {
         let toolbox = "com.parallels.toolbox"
         var rule = QuitProtectionRule()

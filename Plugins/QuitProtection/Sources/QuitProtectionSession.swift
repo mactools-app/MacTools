@@ -474,7 +474,8 @@ final class QuitProtectionSession {
             || identifier.hasPrefix("com.teamviewer.") || identifier.hasPrefix("com.anydesk.")
             || identifier == "com.philandro.anydesk" || identifier == "com.philandro.anydesk.frontend"
             || identifier.hasPrefix("com.philandro.anydesk-")
-            || identifier.hasPrefix("com.citrix.") || identifier.hasPrefix("com.realvnc.")
+            || identifier == "com.citrix.receiver.nomas" || identifier == "com.citrix.receiver.icaviewer.mac"
+            || identifier.hasPrefix("com.realvnc.")
             || identifier == "codes.rambo.virtualbuddy" || identifier == "com.carriez.rustdesk"
             || identifier == "com.parsec.www" || identifier == "com.p5sys.jump.mac.viewer"
             || identifier == "com.p5sys.jump.mac.viewer.web"

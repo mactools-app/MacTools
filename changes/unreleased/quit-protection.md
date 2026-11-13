@@ -3,5 +3,5 @@ release: plugin
 type: added
 ---
 
-Add optional ⌘Q confirmation with app scopes, Hold, Double Press, and VoiceOver timing.
-Backups keep activation local, Chrome confirms once, Parallels Toolbox is eligible, and Apple Remote Desktop and Tart retain ⌘Q.
+Optional ⌘Q confirmation offers Hold, Double Press, app scopes, and VoiceOver timing.
+Activation stays local, Chrome confirms once, Secure Access and Parallels Toolbox are eligible, and Remote Desktop and Tart keep ⌘Q.
