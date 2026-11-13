@@ -114,6 +114,16 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
     private var errorMessage: String?
     private var isActive = false
 
+    /// Serial queue for the blocking AppleScript round trip. Using a dedicated
+    /// queue (rather than the Swift cooperative pool) keeps a slow Music reply
+    /// from starving other async work.
+    private let fetchQueue = DispatchQueue(label: "apple-music-lyrics.fetch")
+    /// Identity of the request currently executing on `fetchQueue`, used to
+    /// discard results that arrive after a timeout or after disabling.
+    private var activeFetchRequestID: UUID?
+    private var pendingTimeoutTask: Task<Void, Never>?
+    private var fetchTimedOut = false
+
     private let floatingWindow: LyricsFloatingWindow
 
     init(
@@ -242,10 +252,8 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
     func deactivate() {
         isActive = false
         stopPolling()
-        lyricsFetchTask?.cancel()
-        lyricsFetchTask = nil
-        lyricsRetryTask?.cancel()
-        lyricsRetryTask = nil
+        cancelLyricsWork()
+        invalidateFetchRequest()
         floatingWindow.hideLyrics()
     }
 
@@ -268,10 +276,12 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         } else {
             stopPolling()
             cancelLyricsWork()
+            invalidateFetchRequest()
             floatingWindow.hideLyrics()
             currentTrack = nil
             currentLyrics = .empty
             currentLine = ""
+            errorMessage = nil
         }
         onStateChange?()
     }
@@ -421,10 +431,12 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         } else {
             stopPolling()
             cancelLyricsWork()
+            invalidateFetchRequest()
             floatingWindow.hideLyrics()
             currentTrack = nil
             currentLyrics = .empty
             currentLine = ""
+            errorMessage = nil
         }
         applyAppearance()
         onPersistentPreferencesChange?()
@@ -453,42 +465,53 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
     }
 
     /// Queries Music.app without blocking the main thread. The AppleScript round
-    /// trip runs on a cooperative worker and is bounded by `fetchTimeout`; at
-    /// most one request is in flight at a time so a slow reply cannot queue up.
+    /// trip runs on a dedicated serial queue; a watchdog reports a timeout at
+    /// `fetchTimeout` even though the synchronous AppleScript cannot be stopped
+    /// mid-flight. The request slot stays occupied until the call actually
+    /// finishes, so at most one request is in flight at a time.
     private func pollNow() {
         guard isActive, isEnabled, !isFetchInFlight, !isAutomationDenied else { return }
         isFetchInFlight = true
+        fetchTimedOut = false
+        let requestID = UUID()
+        activeFetchRequestID = requestID
         let service = nowPlayingService
-        Task { @MainActor [weak self] in
-            guard let self else { return }
-            let result = await Self.fetchWithTimeout(using: service)
-            self.isFetchInFlight = false
-            guard self.isActive, self.isEnabled else { return }
-            switch result {
-            case .success(let track):
-                self.handleTrack(track)
-            case .failure(let error):
-                self.handleFetchError(error)
-            }
-        }
-    }
 
-    private static func fetchWithTimeout(
-        using service: any AppleMusicNowPlayingServicing
-    ) async -> Result<TrackInfo?, AppleMusicPollingError> {
-        await withTaskGroup(of: Result<TrackInfo?, AppleMusicPollingError>.self) { group in
-            group.addTask {
-                service.fetch().mapError(Self.mapPollingError)
+        // Watchdog: reports a timeout at the deadline without freeing the slot.
+        let timeoutTask = Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: UInt64(Self.fetchTimeout * 1_000_000_000))
+            guard !Task.isCancelled else { return }
+            guard let self, self.activeFetchRequestID == requestID else { return }
+            self.fetchTimedOut = true
+            self.handleFetchError(.timedOut)
+        }
+        pendingTimeoutTask = timeoutTask
+
+        fetchQueue.async { [weak self] in
+            let outcome = service.fetch().mapError(Self.mapPollingError)
+            DispatchQueue.main.async {
+                guard let self, self.activeFetchRequestID == requestID else { return }
+                self.activeFetchRequestID = nil
+                self.pendingTimeoutTask?.cancel()
+                self.pendingTimeoutTask = nil
+                self.isFetchInFlight = false
+                guard self.isActive, self.isEnabled else { return }
+                if self.fetchTimedOut {
+                    self.fetchTimedOut = false
+                    // A late reply still matters when it is an Automation denial;
+                    // otherwise the result is stale and the next poll refreshes.
+                    if case .failure(let error) = outcome, error == .automationDenied {
+                        self.handleFetchError(error)
+                    }
+                    return
+                }
+                switch outcome {
+                case .success(let track):
+                    self.handleTrack(track)
+                case .failure(let error):
+                    self.handleFetchError(error)
+                }
             }
-            group.addTask {
-                try? await Task.sleep(nanoseconds: UInt64(fetchTimeout * 1_000_000_000))
-                return Result<TrackInfo?, AppleMusicPollingError>.failure(.timedOut)
-            }
-            guard let first = await group.next() else {
-                return .failure(.failed("Unknown AppleScript error"))
-            }
-            group.cancelAll()
-            return first
         }
     }
 
@@ -505,11 +528,16 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
     private func handleFetchError(_ error: AppleMusicPollingError) {
         errorMessage = error.localizedDescription
         if error == .automationDenied {
-            // The user denied Automation access. Stop polling so we do not
-            // hammer System Settings with repeated denied Apple Events; the
-            // error message points at the Automation pane.
+            // The user denied Automation access. Stop polling, drop the stale
+            // track, and hide the window so the previous lyric does not linger;
+            // the error message points at the Automation pane.
             isAutomationDenied = true
             stopPolling()
+            cancelLyricsWork()
+            currentTrack = nil
+            currentLyrics = .empty
+            currentLine = ""
+            floatingWindow.hideLyrics()
             isFetchInFlight = false
         }
         notifyIfChanged()
@@ -518,10 +546,11 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
     private func handleTrack(_ track: TrackInfo?) {
         guard let track else {
             // Music stopped or not playing.
-            if currentTrack != nil || !currentLyrics.lines.isEmpty {
+            if currentTrack != nil || !currentLyrics.lines.isEmpty || errorMessage != nil {
                 currentTrack = nil
                 currentLyrics = .empty
                 currentLine = ""
+                errorMessage = nil
                 floatingWindow.hideLyrics()
                 notifyIfChanged()
             }
@@ -625,6 +654,16 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         lyricsRetryTask?.cancel()
         lyricsRetryTask = nil
         lyricsRetryCount = 0
+    }
+
+    /// Invalidates the in-flight Music request so a late reply is discarded
+    /// instead of reopening the window or applying stale state.
+    private func invalidateFetchRequest() {
+        activeFetchRequestID = nil
+        pendingTimeoutTask?.cancel()
+        pendingTimeoutTask = nil
+        isFetchInFlight = false
+        fetchTimedOut = false
     }
 
     private func notifyIfChanged() {

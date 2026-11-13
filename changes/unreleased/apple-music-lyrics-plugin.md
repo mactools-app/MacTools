@@ -18,7 +18,9 @@ Fixed lyric matching for catalog responses that return a raw TTML document inste
 
 Kept the host responsive by polling Music off the main thread with a timeout and a single in-flight request, and by notifying the host only when the displayed state changes.
 
-Declared Automation access; when it is denied the plugin pauses polling and points users to System Settings → Privacy & Security → Automation.
+Enforced the polling timeout at the deadline even when a slow Music reply cannot be interrupted, keeping one request in flight at a time.
+
+Declared Automation access; denial pauses polling, clears the current lyric, hides the window, and guides users to System Settings. The error clears when the feature is off or playback resumes.
 
 Retried missing lyrics a few times while the same track is playing so lyrics appear as soon as Music caches them.
 

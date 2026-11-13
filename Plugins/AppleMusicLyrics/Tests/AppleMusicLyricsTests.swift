@@ -484,10 +484,15 @@ final class LyricsTextColorOptionTests: XCTestCase {
 private final class MockNowPlayingService: AppleMusicNowPlayingServicing, @unchecked Sendable {
     var isMusicRunning = true
     var result: Result<TrackInfo?, Error> = .success(nil)
+    /// Simulated AppleScript latency; the mock sleeps on the fetch queue.
+    var delay: TimeInterval = 0
     private(set) var fetchCount = 0
 
     func fetch() -> Result<TrackInfo?, Error> {
         fetchCount += 1
+        if delay > 0 {
+            Thread.sleep(forTimeInterval: delay)
+        }
         return result
     }
 }
@@ -539,6 +544,86 @@ final class AppleMusicLyricsPollingTests: XCTestCase {
         controller.setEnabled(true)
         try? await Task.sleep(nanoseconds: 100_000_000)
         XCTAssertGreaterThan(service.fetchCount, fetchCountAfterDenial)
+    }
+
+    func testAutomationDeniedClearsShownTrackAndHidesLyrics() async {
+        let storage = makeStorage()
+        let service = MockNowPlayingService()
+        service.result = .success(playingTrack())
+        let controller = AppleMusicLyricsController(
+            storage: storage,
+            localization: PluginLocalization(bundle: .main),
+            nowPlayingService: service
+        )
+        controller.activate()
+        controller.setEnabled(true)
+        try? await Task.sleep(nanoseconds: 150_000_000)
+        XCTAssertTrue(controller.snapshot.isTrackPlaying)
+        XCTAssertEqual(controller.snapshot.currentTrackTitle, "Song")
+
+        // Deny access on the next poll: the stale track and its lyrics must be
+        // dropped so the previous lyric does not linger on screen.
+        service.result = .failure(AppleMusicScriptError.automationDenied)
+        controller.refresh()
+        try? await Task.sleep(nanoseconds: 150_000_000)
+
+        XCTAssertFalse(controller.snapshot.isTrackPlaying)
+        XCTAssertEqual(controller.snapshot.currentTrackTitle, "")
+        XCTAssertTrue(controller.snapshot.errorMessage?.contains("Automation") == true)
+    }
+
+    func testErrorClearedWhenFeatureTurnedOff() async {
+        let storage = makeStorage()
+        let service = MockNowPlayingService()
+        service.result = .failure(AppleMusicScriptError.automationDenied)
+        let controller = AppleMusicLyricsController(
+            storage: storage,
+            localization: PluginLocalization(bundle: .main),
+            nowPlayingService: service
+        )
+        controller.activate()
+        controller.setEnabled(true)
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        XCTAssertNotNil(controller.snapshot.errorMessage)
+
+        controller.setEnabled(false)
+        XCTAssertNil(controller.snapshot.errorMessage)
+    }
+
+    func testSlowRequestTimesOutAndKeepsOneRequestInFlight() async {
+        let storage = makeStorage()
+        let service = MockNowPlayingService()
+        // Simulated Music reply is slower than the 1.5 s watchdog.
+        service.delay = 3.0
+        service.result = .success(playingTrack())
+        let controller = AppleMusicLyricsController(
+            storage: storage,
+            localization: PluginLocalization(bundle: .main),
+            nowPlayingService: service
+        )
+        controller.activate()
+        controller.setEnabled(true)
+
+        // Past the deadline the timeout must be reported even though the
+        // synchronous AppleScript is still running.
+        try? await Task.sleep(nanoseconds: 2_000_000_000)
+        XCTAssertEqual(service.fetchCount, 1)
+        XCTAssertTrue(
+            controller.snapshot.errorMessage?.contains("did not respond") == true,
+            "the timeout must be reported at the deadline, not after the slow reply"
+        )
+
+        // The slot stays occupied until the slow call finishes, so a manual
+        // refresh must not start a second request.
+        controller.refresh()
+        try? await Task.sleep(nanoseconds: 500_000_000)
+        XCTAssertEqual(service.fetchCount, 1, "one request must stay in flight")
+
+        // After the slow call completes the slot frees and polling resumes.
+        try? await Task.sleep(nanoseconds: 1_500_000_000)
+        controller.refresh()
+        try? await Task.sleep(nanoseconds: 300_000_000)
+        XCTAssertGreaterThan(service.fetchCount, 1, "polling must resume after the slot frees")
     }
 
     func testPollNotifiesOnlyWhenDisplayedStateChanges() async {
