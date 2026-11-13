@@ -23,7 +23,10 @@ HOST_ARCH := $(shell uname -m)
 BUILD_DESTINATION := platform=macOS,arch=$(HOST_ARCH)
 XCODEBUILD ?= $(abspath scripts/xcodebuild-filtered.sh)
 LOCAL_PLUGIN_SOURCE_DIR ?= Plugins
-PLUGIN_PROJECT_SOURCE_DIR ?= Plugins
+# Keep project generation and scheme lookup on the same plugin source directory
+# by default so a custom LOCAL_PLUGIN_SOURCE_DIR is also used to generate the
+# Xcode project (otherwise the generated project lacks the resolved schemes).
+PLUGIN_PROJECT_SOURCE_DIR ?= $(LOCAL_PLUGIN_SOURCE_DIR)
 GENERATED_PLUGIN_PROJECT_CONFIG := Configs/GeneratedPlugins.yml
 LOCAL_PLUGIN_BUILD_DIR ?= build/LocalPlugins
 LOCAL_PLUGIN_CATALOG := $(LOCAL_PLUGIN_BUILD_DIR)/catalog.dev.json
@@ -361,13 +364,16 @@ clean:
 # Remove the locally installed Debug app and installed plugin packages. This is
 # intentionally separate from 'make clean' so removing build products never
 # touches shared user state. The helper resolves and validates every path before
-# deleting anything, and removes only the configured Debug app and identifiable
-# .mactoolsplugin packages, so an accidental override cannot delete the user's
+# deleting anything, and removes only the configured Debug app (verifying its
+# bundle identifier and rejecting a symlink) and identifiable .mactoolsplugin
+# packages, so an accidental override cannot delete another app or the user's
 # home directory.
 clean-installed:
-	@$(PYTHON3) scripts/plugins/clean-installed-debug.py \
+	@EXPECTED_BUNDLE_IDENTIFIER="$$(./scripts/validate-local-debug-config.sh LocalConfig.xcconfig --print-bundle-identifier 2>/dev/null || true)"; \
+	$(PYTHON3) scripts/plugins/clean-installed-debug.py \
 		--app "$(INSTALLED_APP_PATH)" \
-		--plugins-dir "$(DEBUG_PLUGIN_INSTALL_DIR)"
+		--plugins-dir "$(DEBUG_PLUGIN_INSTALL_DIR)" \
+		--expected-bundle-id "$$EXPECTED_BUNDLE_IDENTIFIER"
 
 release:
 	@./scripts/release.py $(ARGS)

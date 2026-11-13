@@ -350,13 +350,25 @@ plugin_roots.each do |plugin_root|
 end
 
 if options[:print_schemes]
-  filters = options[:plugins] || []
-  matches = plugin_scheme_records.select do |record|
-    filters.empty? || filters.include?(record["name"]) || filters.include?(record["id"])
-  end
-  if !filters.empty? && matches.empty?
-    warn "No plugin matched requested filters in #{source_dir}: #{filters.join(', ')}"
-    exit 1
+  if options.key?(:plugins)
+    filters = options[:plugins]
+    if filters.empty?
+      warn "No plugin requested: pass at least one --plugin value."
+      exit 1
+    end
+    known = plugin_scheme_records
+    missing = filters.reject do |filter|
+      known.any? { |record| record["name"] == filter || record["id"] == filter }
+    end
+    unless missing.empty?
+      warn "Unknown plugin(s) in #{source_dir}: #{missing.join(', ')}"
+      exit 1
+    end
+    matches = known.select do |record|
+      filters.include?(record["name"]) || filters.include?(record["id"])
+    end
+  else
+    matches = plugin_scheme_records
   end
   matches.each { |record| puts record["scheme"] }
   exit 0

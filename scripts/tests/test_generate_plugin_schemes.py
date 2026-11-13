@@ -92,7 +92,17 @@ class GeneratorPrintSchemesTests(unittest.TestCase):
     def test_rejects_unknown_plugin(self) -> None:
         result = self.print_schemes("Missing")
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn("No plugin matched", result.stderr)
+        self.assertIn("Unknown plugin", result.stderr)
+
+    def test_rejects_unknown_plugin_within_list(self) -> None:
+        result = self.print_schemes("FanControl,Missing")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Missing", result.stderr)
+
+    def test_rejects_empty_plugin_list(self) -> None:
+        result = self.print_schemes(",")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("No plugin requested", result.stderr)
 
     def test_lists_one_scheme_per_line_for_comma_separated_plugins(self) -> None:
         result = self.print_schemes("FanControl,com.example.demo")
