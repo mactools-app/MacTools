@@ -258,6 +258,68 @@ final class DisplayBrightnessControllerTests: XCTestCase {
         XCTAssertEqual(backend.writeValues, [0.7, 0.51])
     }
 
+    func testQueuedManualWriteDoesNotFollowReusedDisplayID() async {
+        let builtIn = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true)
+        let external = makeTestDisplay(id: builtIn.id, name: "External fixture")
+        let original = ScriptedBrightnessBackend(display: builtIn, results: [], suspendsFirstWrite: false)
+        let replacement = ScriptedBrightnessBackend(display: external, results: [], suspendsFirstWrite: false)
+        let provider = MutableDisplayProvider(displays: [builtIn])
+        let controller = DisplayBrightnessController(
+            displayProvider: provider,
+            isBuiltInDisplayEligible: { _ in true },
+            backendBuilder: SequencedBrightnessBackendBuilder(backends: [original, replacement]),
+            shortWriteDelay: 0,
+            minimumWriteInterval: 0
+        )
+        defer { original.releaseRead() }
+        controller.refresh()
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        original.suspendNextRead()
+        let scheduled = Task { await controller.setBuiltInBrightnessAndWait(0.7) }
+        await waitUntil { original.readStarted }
+
+        controller.setBrightness(0.4, for: builtIn.id, phase: .ended)
+        provider.displays = [external]
+        controller.refresh()
+        original.releaseRead()
+
+        guard case .failed = await scheduled.value else {
+            return XCTFail("The scheduled write must fail when its target is replaced")
+        }
+        await waitUntil {
+            controller.snapshot().displays.first?.isReady == true
+                && controller.snapshot().displays.first?.isPendingWrite == false
+        }
+        XCTAssertTrue(original.writeValues.isEmpty)
+        XCTAssertTrue(replacement.writeValues.isEmpty)
+
+        let manual = await controller.setBrightnessAndWait(0.6, for: external.id)
+        XCTAssertEqual(manual, .succeeded)
+        XCTAssertEqual(replacement.writeValues, [0.6])
+    }
+
+    func testCancelledInitialScheduledReadReleasesDisplayForManualWrite() async {
+        let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true)
+        let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: false)
+        let controller = makeController(display: display, backend: backend)
+        defer { backend.releaseRead() }
+        controller.refresh()
+        await waitUntil { controller.snapshot().displays.first?.isReady == true }
+        backend.suspendNextRead()
+        let scheduled = Task { await controller.setBuiltInBrightnessAndWait(0.7) }
+        await waitUntil { backend.readStarted }
+
+        scheduled.cancel()
+        let manual = await controller.setBrightnessAndWait(0.4, for: display.id)
+        XCTAssertEqual(manual, .succeeded)
+        backend.releaseRead()
+
+        guard case .failed = await scheduled.value else {
+            return XCTFail("A cancelled read must not write")
+        }
+        XCTAssertEqual(backend.writeValues, [0.4])
+    }
+
     func testBuiltInWriteLeavesBusyDisplayAloneAcrossReactivation() async {
         let display = makeTestDisplay(id: 42, name: "Built-in fixture", isBuiltin: true, isMain: true)
         let backend = ScriptedBrightnessBackend(display: display, results: [], suspendsFirstWrite: true)
@@ -877,11 +939,13 @@ final class DisplayBrightnessControllerTests: XCTestCase {
             try? await Task.sleep(for: .milliseconds(250))
 
             if expiresBeforeSetter {
+                let manual = await controller.setBrightnessAndWait(0.4, for: display.id)
+                XCTAssertEqual(manual, .succeeded)
                 backend.releaseRead()
                 guard case .failed = await write.value else {
                     return XCTFail("The expired request must fail before writing")
                 }
-                XCTAssertTrue(backend.writeValues.isEmpty)
+                XCTAssertEqual(backend.writeValues, [0.4])
             } else {
                 backend.releaseFirstWrite()
                 let result = await write.value

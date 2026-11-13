@@ -36,13 +36,49 @@ private final class BuiltInBrightnessRequest: @unchecked Sendable {
     private let isEligible: @Sendable () -> Bool
     private let lock = NSLock()
     private var cancelled = false
+    private var writeStarted = false
+    @MainActor var continuation: CheckedContinuation<BuiltInBrightnessOutcome, Never>?
 
     init(setterDeadline: ContinuousClock.Instant, isEligible: @escaping @Sendable () -> Bool) {
         self.setterDeadline = setterDeadline
         self.isEligible = isEligible
     }
 
-    func cancel() { lock.withLock { cancelled = true } }
+    func cancel(beforeWriteOnly: Bool = false) -> Bool {
+        lock.withLock {
+            if beforeWriteOnly, writeStarted { return false }
+            cancelled = true
+            return !writeStarted
+        }
+    }
+
+    func beginWrite(timeoutMessage: String) throws {
+        guard isEligible() else { throw CancellationError() }
+        try lock.withLock {
+            guard !cancelled else { throw CancellationError() }
+            guard ContinuousClock.now < setterDeadline else {
+                throw DisplayBrightnessControllerError.failed(message: timeoutMessage)
+            }
+            writeStarted = true
+        }
+    }
+
+    @MainActor
+    func complete(_ outcome: BuiltInBrightnessOutcome) {
+        let continuation = self.continuation
+        self.continuation = nil
+        continuation?.resume(returning: outcome)
+    }
+
+    @MainActor
+    func completeBeforeWrite(with error: any Error) {
+        complete(BuiltInBrightnessOutcome(result: .failure(error), observed: nil, attemptedWrite: false))
+    }
+
+    @MainActor
+    func invalidate() {
+        if cancel() { completeBeforeWrite(with: CancellationError()) }
+    }
 
     func validate() throws {
         guard isEligible(), !lock.withLock({ cancelled }) else { throw CancellationError() }
@@ -59,6 +95,7 @@ private struct BuiltInBrightnessOutcome: Sendable {
 final class DisplayBrightnessController: DisplayBrightnessControlling {
     private struct ManagedDisplay {
         let connectionID: UUID
+        let eventGeneration: UInt64?
         var display: DisplayInfo
         var backend: any DisplayBrightnessBackend
         var currentBrightness: Double
@@ -187,15 +224,24 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 continue
             }
 
-            let previous = managedDisplays[display.id]
+            let eventGeneration = connectionEvents.generation(for: display.id)
+            var previous = managedDisplays[display.id]
             let previousConnectionID = previous.flatMap {
-                $0.display.hasSameBrightnessControlIdentity(as: display) ? $0.connectionID : nil
+                $0.eventGeneration == eventGeneration && $0.display.hasSameBrightnessControlIdentity(as: display)
+                    ? $0.connectionID : nil
             }
             let canReuseBackend = previous?.backend === backend
             let canReuseReading = previousConnectionID != nil && canReuseBackend
             if !canReuseReading {
-                builtInWrites[display.id]?.cancel()
+                builtInWrites[display.id]?.invalidate()
                 readWorkItems.removeValue(forKey: display.id)?.cancel()
+            }
+            if previousConnectionID == nil, var oldDisplay = previous {
+                discardPendingWrite(&oldDisplay)
+                if let writeID = oldDisplay.inFlightWriteID {
+                    invalidatedInFlightWriteIDs.insert(writeID)
+                }
+                previous = oldDisplay
             }
             if let previous, !canReuseBackend {
                 if let writeID = previous.inFlightWriteID {
@@ -208,6 +254,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
 
             nextManagedDisplays[display.id] = ManagedDisplay(
                 connectionID: previousConnectionID ?? UUID(),
+                eventGeneration: eventGeneration,
                 display: display,
                 backend: backend,
                 currentBrightness: previous?.pendingBrightness ?? brightness,
@@ -358,6 +405,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         let generation = writeGeneration
         let waitDeadline = ContinuousClock.now.advanced(by: .milliseconds(250))
         while let display = managedDisplays[displayID], display.connectionID == connectionID,
+              display.eventGeneration == eventGeneration,
               builtInDisplayID == displayID, connectionEvents.generation(for: displayID) == eventGeneration,
               generation == writeGeneration, !Task.isCancelled {
             guard ContinuousClock.now < waitDeadline else { return .failed(message: writeTimeoutMessage) }
@@ -389,29 +437,49 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         Self.reservedDisplays.insert(displayID)
         builtInWrites[displayID] = request
         _ = makeWriteID() // Invalidate observations that started before the write.
-        onStateChange?()
 
         let writeGate = writeGate
         let minimumWriteInterval = minimumWriteInterval
         let timeoutMessage = writeTimeoutMessage
+        let timeoutTask = Task { @MainActor in
+            do {
+                try await Task.sleep(until: request.setterDeadline, clock: .continuous)
+            } catch {
+                return
+            }
+            if request.cancel(beforeWriteOnly: true) {
+                request.completeBeforeWrite(with: DisplayBrightnessControllerError.failed(message: timeoutMessage))
+            }
+        }
         let outcome = await withTaskCancellationHandler {
             await withCheckedContinuation { continuation in
+                request.continuation = continuation
+                onStateChange?()
                 DispatchQueue.global(qos: .userInitiated).async {
                     writeGate.waitTurn(for: displayID, minimumInterval: minimumWriteInterval)
-                    continuation.resume(returning: Self.verifyBuiltInWrite(
+                    let outcome = Self.verifyBuiltInWrite(
                         value, backend: backend, request: request, timeoutMessage: timeoutMessage
-                    ))
+                    )
+                    Task { @MainActor in request.complete(outcome) }
                 }
             }
         } onCancel: {
-            request.cancel()
+            if request.cancel() {
+                Task { @MainActor in request.completeBeforeWrite(with: CancellationError()) }
+            }
         }
         var shouldResume = true
         defer {
+            timeoutTask.cancel()
             builtInWrites.removeValue(forKey: displayID)
             releaseWriteReservation(for: displayID)
             if shouldResume { resumeDisplayWork(for: displayID) }
             onStateChange?()
+        }
+
+        if !outcome.attemptedWrite, case .failure(let error as DisplayBrightnessControllerError) = outcome.result,
+           case .failed = error {
+            return writeResult(from: outcome.result)
         }
 
         guard var current = managedDisplays[displayID], current.backend === previousBackend,
@@ -476,7 +544,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
 
     func cancelOutstandingWrites() {
         writeGeneration &+= 1
-        for request in builtInWrites.values { request.cancel() }
+        for request in builtInWrites.values { request.invalidate() }
         cancelReads()
         for (_, managedDisplay) in Array(managedDisplays) {
             managedDisplay.scheduledFlush?.cancel()
@@ -654,6 +722,12 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
               let writeID = managedDisplay.pendingWriteID else {
             return
         }
+        guard connectionEvents.generation(for: displayID) == managedDisplay.eventGeneration else {
+            discardPendingWrite(&managedDisplay)
+            managedDisplays[displayID] = managedDisplay
+            refresh()
+            return
+        }
         guard Self.reservedDisplays.insert(displayID).inserted else {
             registerForReservationRelease(for: displayID)
             return
@@ -679,6 +753,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
                 targetValue: targetValue,
                 needsReadback: needsReadback,
                 displayName: displayName,
+                connectionEvents: connectionEvents,
+                eventGeneration: managedDisplay.eventGeneration,
                 writeGate: writeGate,
                 minimumWriteInterval: minimumWriteInterval
             )
@@ -857,7 +933,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
 
     private func cleanupDisconnectedDisplays(keeping displayIDs: Set<CGDirectDisplayID>) {
         for (displayID, managedDisplay) in managedDisplays where !displayIDs.contains(displayID) {
-            builtInWrites[displayID]?.cancel()
+            builtInWrites[displayID]?.invalidate()
             readWorkItems.removeValue(forKey: displayID)?.cancel()
             managedDisplay.scheduledFlush?.cancel()
             failOutstandingWrites(for: displayID, managedDisplay: managedDisplay)
@@ -875,7 +951,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
 
     private func cleanupAll() {
         writeGeneration &+= 1
-        for request in builtInWrites.values { request.cancel() }
+        for request in builtInWrites.values { request.invalidate() }
         cancelReads()
         for (_, managedDisplay) in managedDisplays {
             managedDisplay.scheduledFlush?.cancel()
@@ -978,6 +1054,17 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         }
     }
 
+    private func discardPendingWrite(_ display: inout ManagedDisplay) {
+        guard display.pendingWriteID != nil else { return }
+        failOutstandingWrites(for: display.display.id, managedDisplay: display)
+        display.scheduledFlush?.cancel()
+        display.scheduledFlush = nil
+        display.pendingBrightness = nil
+        display.pendingWriteID = nil
+        display.pendingReadbackAfterWrite = false
+        display.currentBrightness = display.lastCommittedBrightness
+    }
+
     private func retireInFlightWrite(
         _ writeID: UInt64,
         backend: any DisplayBrightnessBackend,
@@ -1047,10 +1134,7 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             guard (0...1).contains(try backend.readBrightness()) else {
                 throw DisplayBrightnessControllerError.genericBrightnessUnavailable
             }
-            try request.validate()
-            guard ContinuousClock.now < request.setterDeadline else {
-                throw DisplayBrightnessControllerError.failed(message: timeoutMessage)
-            }
+            try request.beginWrite(timeoutMessage: timeoutMessage)
             attemptedWrite = true
             try backend.writeBrightness(value)
             let requestedPercent = (value * 100).rounded()
@@ -1078,6 +1162,8 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
         targetValue: Double,
         needsReadback: Bool,
         displayName: String,
+        connectionEvents: DisplayBrightnessConnectionEvents,
+        eventGeneration: UInt64?,
         writeGate: BrightnessWriteGate,
         minimumWriteInterval: TimeInterval
     ) -> DispatchWorkItem {
@@ -1087,6 +1173,9 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
 
             do {
                 writeGate.waitTurn(for: displayID, minimumInterval: minimumWriteInterval)
+                guard connectionEvents.generation(for: displayID) == eventGeneration else {
+                    throw DisplayBrightnessControllerError.displayUnavailable(displayID: displayID)
+                }
                 try backend.writeBrightness(targetValue)
                 if needsReadback {
                     readbackValue = try? backend.readBrightness()
@@ -1097,6 +1186,11 @@ final class DisplayBrightnessController: DisplayBrightnessControlling {
             }
 
             Task { @MainActor in
+                if case .failure = result,
+                   controller.managedDisplays[displayID]?.inFlightWriteID == writeID,
+                   connectionEvents.generation(for: displayID) != eventGeneration {
+                    controller.invalidatedInFlightWriteIDs.insert(writeID)
+                }
                 controller.finishWrite(
                     for: displayID,
                     writeID: writeID,
