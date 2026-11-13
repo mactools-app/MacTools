@@ -23,7 +23,10 @@ HOST_ARCH := $(shell uname -m)
 BUILD_DESTINATION := platform=macOS,arch=$(HOST_ARCH)
 XCODEBUILD ?= $(abspath scripts/xcodebuild-filtered.sh)
 LOCAL_PLUGIN_SOURCE_DIR ?= Plugins
-PLUGIN_PROJECT_SOURCE_DIR ?= Plugins
+# Keep project generation and scheme lookup on the same plugin source directory
+# by default so a custom LOCAL_PLUGIN_SOURCE_DIR is also used to generate the
+# Xcode project (otherwise the generated project lacks the resolved schemes).
+PLUGIN_PROJECT_SOURCE_DIR ?= $(LOCAL_PLUGIN_SOURCE_DIR)
 GENERATED_PLUGIN_PROJECT_CONFIG := Configs/GeneratedPlugins.yml
 LOCAL_PLUGIN_BUILD_DIR ?= build/LocalPlugins
 LOCAL_PLUGIN_CATALOG := $(LOCAL_PLUGIN_BUILD_DIR)/catalog.dev.json
@@ -48,7 +51,7 @@ E2E_DURATION ?= 90
 E2E_PACK ?=
 TEST_FILTER ?=
 
-.PHONY: setup validate-local-debug-config generate-plugin-config generate build build-cli validate-changelog validate-generated-plugin-data validate-localization script-tests test ci sync-debug-plugins build-plugin build-plugins generate-icon-gallery package-plugins-release stop-debug-app install-debug-app run run-open e2e-preflight e2e-prepare e2e-upgrade e2e-reseed e2e-resume e2e-rebuild e2e-audit e2e-scenarios e2e-record e2e-record-pack e2e-verify-code e2e-collect e2e-restore e2e-self-test clean release release-local
+.PHONY: setup validate-local-debug-config generate-plugin-config generate build build-app build-plugin-scheme build-cli validate-changelog validate-generated-plugin-data validate-localization script-tests test ci sync-debug-plugins build-plugin build-plugins generate-icon-gallery package-plugins-release stop-debug-app install-debug-app run run-open run-plugin guard-plugin e2e-preflight e2e-prepare e2e-upgrade e2e-reseed e2e-resume e2e-rebuild e2e-audit e2e-scenarios e2e-record e2e-record-pack e2e-verify-code e2e-collect e2e-restore e2e-self-test clean clean-installed release release-local
 
 setup:
 	@if [ ! -f LocalConfig.xcconfig ]; then cp LocalConfig.sample.xcconfig LocalConfig.xcconfig; fi
@@ -79,6 +82,37 @@ build: validate-local-debug-config generate
 	if [[ -x "$$LSREGISTER" ]]; then \
 		"$$LSREGISTER" -u "$(CURDIR)/$(APP_PATH)" >/dev/null 2>&1 || true; \
 	fi
+
+# Build only the Debug app host without any plugin targets. Used by the
+# fast single-plugin debug cycle so plugin bundles are not recompiled.
+build-app: validate-local-debug-config generate
+	@echo "Building Debug app host (plugin targets excluded)..."
+	@mkdir -p build
+	@touch build/.metadata_never_index
+	@$(XCODEBUILD) -project $(PROJECT_FILE) -scheme MacToolsAppHost -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath $(DERIVED_DATA) build -quiet
+	@LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister; \
+	if [[ -x "$$LSREGISTER" ]]; then \
+		"$$LSREGISTER" -u "$(CURDIR)/$(APP_PATH)" >/dev/null 2>&1 || true; \
+	fi
+
+# Build the Debug app host first, then one or more plugin bundles into the
+# shared Debug products directory so a filtered 'sync-debug-plugins' can
+# package and install them. PLUGIN accepts a directory name, plugin ID, or a
+# comma-separated list of either. Depending on build-app serializes the two
+# xcodebuild invocations so they never race on the shared DerivedData directory
+# when make runs with -j. The scheme comes from the project generator (via its
+# --print-schemes mode) so project.yml build overrides and bundleTarget overrides
+# match the scheme xcodebuild actually creates, and the custom plugin source
+# directory is honored.
+build-plugin-scheme: build-app
+	@test -n "$(PLUGIN)" || { echo "Pass PLUGIN=<plugin directory name or ID>." >&2; exit 1; }
+	@PLUGIN_SCHEMES="$$(./scripts/plugins/generate-plugin-project-config.rb --print-schemes --plugin "$(PLUGIN)" --source-dir "$(LOCAL_PLUGIN_SOURCE_DIR)")" \
+		|| { echo "Could not resolve a scheme for plugin '$(PLUGIN)'." >&2; exit 1; }; \
+	echo "$$PLUGIN_SCHEMES" | while IFS= read -r PLUGIN_SCHEME; do \
+		[ -n "$$PLUGIN_SCHEME" ] || continue; \
+		echo "Building plugin bundle scheme: $$PLUGIN_SCHEME"; \
+		$(XCODEBUILD) -project $(PROJECT_FILE) -scheme "$$PLUGIN_SCHEME" -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath $(DERIVED_DATA) build -quiet || exit 1; \
+	done
 
 build-cli: validate-local-debug-config generate
 	@echo "Building standalone Debug CLI..."
@@ -124,7 +158,10 @@ ci: override TEST_FILTER :=
 ci: script-tests test
 	@./scripts/plugins/verify-plugin-kit-v7-binary-compatibility.sh "$(abspath $(TEST_DERIVED_DATA)/Build/Products/Debug)"
 
-sync-debug-plugins: build
+# A filtered sync only needs the app host and the selected plugin bundle, so
+# skip the full plugin build for fast single-plugin iteration. build-plugin-scheme
+# depends on build-app, so the app host is built before the plugin bundle.
+sync-debug-plugins: $(if $(PLUGIN),build-plugin-scheme,build)
 	@if [ -n "$(PLUGIN)" ]; then \
 		PLUGIN_ARGS=(--plugin "$(PLUGIN)"); \
 	else \
@@ -255,6 +292,16 @@ run: stop-debug-app install-debug-app
 run-open: stop-debug-app install-debug-app
 	@open -n -W "$(INSTALLED_APP_PATH)"
 
+# Fast single-plugin debug cycle: build only the app host and one plugin,
+# then sync, install, and launch. Requires PLUGIN=<plugin directory name or ID>.
+# The guard is a prerequisite (not a sibling of 'run') so it fails before the
+# build and launch start, even when make runs with -j.
+run-plugin: guard-plugin
+	@$(MAKE) run
+
+guard-plugin:
+	@test -n "$(PLUGIN)" || { echo "Pass PLUGIN=<plugin directory name or ID> to run a single plugin." >&2; exit 1; }
+
 e2e-preflight:
 	@$(E2E_SCRIPT) preflight
 
@@ -308,8 +355,25 @@ e2e-restore:
 e2e-self-test:
 	@$(E2E_SCRIPT) self-test
 
+# Remove build products and the generated project. This stays local to the
+# checkout and never touches shared user state; use 'make clean-installed' to
+# remove the installed Debug app and installed plugin packages.
 clean:
 	@rm -rf build $(PROJECT_FILE) $(WORKSPACE_FILE) "$(GENERATED_PLUGIN_PROJECT_CONFIG)"
+
+# Remove the locally installed Debug app and installed plugin packages. This is
+# intentionally separate from 'make clean' so removing build products never
+# touches shared user state. The helper resolves and validates every path before
+# deleting anything, and removes only the configured Debug app (verifying its
+# bundle identifier and rejecting a symlink) and identifiable .mactoolsplugin
+# packages, so an accidental override cannot delete another app or the user's
+# home directory.
+clean-installed:
+	@EXPECTED_BUNDLE_IDENTIFIER="$$(./scripts/validate-local-debug-config.sh LocalConfig.xcconfig --print-bundle-identifier 2>/dev/null || true)"; \
+	$(PYTHON3) scripts/plugins/clean-installed-debug.py \
+		--app "$(INSTALLED_APP_PATH)" \
+		--plugins-dir "$(DEBUG_PLUGIN_INSTALL_DIR)" \
+		--expected-bundle-id "$$EXPECTED_BUNDLE_IDENTIFIER"
 
 release:
 	@./scripts/release.py $(ARGS)
