@@ -78,6 +78,7 @@ final class CalendarSettingsStore: ObservableObject {
     private enum StorageKey {
         static let weekStartDay = "settings.week-start-day"
         static let showsRecentAgenda = "settings.shows-recent-agenda"
+        static let showsReminders = "settings.shows-reminders"
         static let legacyShowsTodayDetails = "settings.shows-today-details"
         static let agendaDayCount = "settings.agenda-day-count"
         static let agendaDirection = "settings.agenda-direction"
@@ -87,6 +88,7 @@ final class CalendarSettingsStore: ObservableObject {
 
     @Published private(set) var weekStartDay: CalendarWeekStartDay
     @Published private(set) var showsRecentAgenda: Bool
+    @Published private(set) var showsReminders: Bool
     @Published private(set) var agendaRange: CalendarAgendaRange
     @Published private(set) var alternateCalendar: CalendarAlternateCalendar
 
@@ -117,6 +119,11 @@ final class CalendarSettingsStore: ObservableObject {
         if storage.object(forKey: StorageKey.showsRecentAgenda) == nil {
             storage.set(showsRecentAgenda, forKey: StorageKey.showsRecentAgenda)
         }
+        let showsReminders = storage.object(forKey: StorageKey.showsReminders) as? Bool ?? true
+        self.showsReminders = showsReminders
+        if storage.object(forKey: StorageKey.showsReminders) == nil {
+            storage.set(showsReminders, forKey: StorageKey.showsReminders)
+        }
         self.agendaRange = CalendarAgendaRange(
             dayCount: storage.object(forKey: StorageKey.agendaDayCount) as? Int ?? 3,
             direction: storage.string(forKey: StorageKey.agendaDirection)
@@ -129,6 +136,7 @@ final class CalendarSettingsStore: ObservableObject {
         PortablePreferencesStore(storage: storage, fields: [
             StorageKey.weekStartDay: .choice("sunday", allowed: CalendarWeekStartDay.allCases.map(\.rawValue)),
             StorageKey.showsRecentAgenda: .boolean(true),
+            StorageKey.showsReminders: .boolean(true),
             StorageKey.agendaDayCount: .integer(3, range: 1...7),
             StorageKey.agendaDirection: .choice("future", allowed: CalendarAgendaDirection.allCases.map(\.rawValue)),
             StorageKey.alternateCalendar: .choice("none", allowed: CalendarAlternateCalendar.allCases.map(\.rawValue)),
@@ -141,6 +149,7 @@ final class CalendarSettingsStore: ObservableObject {
         guard portableStore.restore(data) else { return false }
         weekStartDay = storage.string(forKey: StorageKey.weekStartDay).flatMap(CalendarWeekStartDay.init(rawValue:)) ?? .sunday
         showsRecentAgenda = storage.object(forKey: StorageKey.showsRecentAgenda) as? Bool ?? true
+        showsReminders = storage.object(forKey: StorageKey.showsReminders) as? Bool ?? true
         agendaRange = CalendarAgendaRange(
             dayCount: storage.object(forKey: StorageKey.agendaDayCount) as? Int ?? 3,
             direction: storage.string(forKey: StorageKey.agendaDirection).flatMap(CalendarAgendaDirection.init(rawValue:)) ?? .future
@@ -177,6 +186,13 @@ final class CalendarSettingsStore: ObservableObject {
             StorageKey.agendaDirection: .string(range.direction.rawValue)
         ]) else { return }
         agendaRange = range
+        onPersistentPreferencesChange?()
+    }
+
+    func setShowsReminders(_ value: Bool) {
+        guard showsReminders != value else { return }
+        guard portableStore.commit([StorageKey.showsReminders: .boolean(value)]) else { return }
+        showsReminders = value
         onPersistentPreferencesChange?()
     }
 

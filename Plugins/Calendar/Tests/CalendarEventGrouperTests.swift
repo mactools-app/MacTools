@@ -61,6 +61,118 @@ final class CalendarEventGrouperTests: XCTestCase {
         XCTAssertEqual(grouped[april2]?.map(\.title), ["Zero"])
     }
 
+    func testRemindersKeepTheirKindAndAllDayPresentation() throws {
+        let calendar = Self.makeCalendar()
+        let april2 = try Self.date(year: 2026, month: 4, day: 2, hour: 0, calendar: calendar)
+        let reminder = CalendarEventInput(
+            id: "reminder",
+            title: "Pay bill",
+            startDate: april2,
+            endDate: try Self.date(year: 2026, month: 4, day: 2, hour: 0, minute: 1, calendar: calendar),
+            isAllDay: true,
+            color: .accent,
+            calendarTitle: "Home",
+            kind: .reminder
+        )
+
+        let grouped = CalendarEventGrouper.group(events: [reminder], visibleDates: [april2], calendar: calendar)
+        let summary = try XCTUnwrap(grouped[april2]?.first)
+
+        XCTAssertEqual(summary.kind, .reminder)
+        XCTAssertEqual(summary.timeText, "全天")
+        XCTAssertEqual(summary.calendarTitle, "Home")
+    }
+
+    func testCompletedRemindersAreMarkedAndSortLast() throws {
+        let calendar = Self.makeCalendar()
+        let april2 = try Self.date(year: 2026, month: 4, day: 2, hour: 0, calendar: calendar)
+        let completed = CalendarEventInput(
+            id: "completed",
+            title: "Done",
+            startDate: april2,
+            endDate: try Self.date(year: 2026, month: 4, day: 2, hour: 0, minute: 1, calendar: calendar),
+            isAllDay: true,
+            color: .accent,
+            kind: .reminder,
+            isCompleted: true
+        )
+        let pending = CalendarEventInput(
+            id: "pending",
+            title: "Pending",
+            startDate: april2,
+            endDate: try Self.date(year: 2026, month: 4, day: 2, hour: 0, minute: 1, calendar: calendar),
+            isAllDay: true,
+            color: .accent,
+            kind: .reminder
+        )
+
+        let grouped = CalendarEventGrouper.group(
+            events: [completed, pending],
+            visibleDates: [april2],
+            calendar: calendar
+        )
+        let items = try XCTUnwrap(grouped[april2])
+
+        XCTAssertEqual(items.map(\.title), ["Pending", "Done"])
+        XCTAssertEqual(items.map(\.isCompleted), [false, true])
+    }
+
+    func testTimedReminderShowsOnlyStartTime() throws {
+        let calendar = Self.makeCalendar()
+        let april2 = try Self.date(year: 2026, month: 4, day: 2, hour: 0, calendar: calendar)
+        let reminder = CalendarEventInput(
+            id: "timed-reminder",
+            title: "Call dentist",
+            startDate: try Self.date(year: 2026, month: 4, day: 2, hour: 10, calendar: calendar),
+            endDate: try Self.date(year: 2026, month: 4, day: 2, hour: 10, minute: 1, calendar: calendar),
+            isAllDay: false,
+            color: .accent,
+            kind: .reminder
+        )
+
+        let grouped = CalendarEventGrouper.group(events: [reminder], visibleDates: [april2], calendar: calendar)
+        let summary = try XCTUnwrap(grouped[april2]?.first)
+
+        // A timed reminder has only a due time, so it must not render a range.
+        // The assertion checks the range separator rather than a locale-specific
+        // time string, which would vary between 12-hour and 24-hour locales.
+        XCTAssertFalse(summary.timeText.contains("–"), "Reminder must not show an end-time range")
+    }
+
+    func testZeroDurationEventShowsOnlyStartTime() throws {
+        let calendar = Self.makeCalendar()
+        let april2 = try Self.date(year: 2026, month: 4, day: 2, hour: 0, calendar: calendar)
+        let event = CalendarEventInput(
+            id: "point-event",
+            title: "Standup",
+            startDate: try Self.date(year: 2026, month: 4, day: 2, hour: 9, calendar: calendar),
+            endDate: try Self.date(year: 2026, month: 4, day: 2, hour: 9, calendar: calendar),
+            isAllDay: false,
+            color: .accent
+        )
+
+        let grouped = CalendarEventGrouper.group(events: [event], visibleDates: [april2], calendar: calendar)
+        let summary = try XCTUnwrap(grouped[april2]?.first)
+
+        // An event that has only a start time must not render a one-minute range.
+        XCTAssertFalse(summary.timeText.contains("–"), "Start-only event must not show an end-time range")
+
+        // A real ranged event still renders a range, keeping the assertion above
+        // meaningful (the separator is hard-coded by the renderer).
+        let ranged = CalendarEventInput(
+            id: "ranged",
+            title: "Meeting",
+            startDate: try Self.date(year: 2026, month: 4, day: 2, hour: 10, calendar: calendar),
+            endDate: try Self.date(year: 2026, month: 4, day: 2, hour: 11, calendar: calendar),
+            isAllDay: false,
+            color: .accent
+        )
+        let rangedSummary = try XCTUnwrap(
+            CalendarEventGrouper.group(events: [ranged], visibleDates: [april2], calendar: calendar)[april2]?.first
+        )
+        XCTAssertTrue(rangedSummary.timeText.contains("–"), "Ranged event should still render a range")
+    }
+
     private static func makeCalendar() -> Calendar {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!
@@ -72,8 +184,11 @@ final class CalendarEventGrouperTests: XCTestCase {
         month: Int,
         day: Int,
         hour: Int,
+        minute: Int = 0,
         calendar: Calendar
     ) throws -> Date {
-        try XCTUnwrap(calendar.date(from: DateComponents(year: year, month: month, day: day, hour: hour)))
+        try XCTUnwrap(calendar.date(from: DateComponents(
+            year: year, month: month, day: day, hour: hour, minute: minute
+        )))
     }
 }
