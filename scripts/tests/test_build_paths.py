@@ -261,25 +261,30 @@ class BuildPathTests(unittest.TestCase):
         # An older session's single exclusion must survive switching to another build directory.
         metadata_path = session / 'session.plist'
         metadata = plistlib.loads(metadata_path.read_bytes())
-        (metadata['sourceOutputDirectory'],) = metadata.pop('sourceOutputDirectories')
+        custom_tests = Path(f'{custom}Tests')
+        self.assertCountEqual(metadata.pop('sourceOutputDirectories'), [str(custom), str(custom_tests)])
+        metadata['sourceOutputDirectory'] = str(custom)
         metadata_path.write_bytes(plistlib.dumps(metadata))
         start_recording = [str(harness), 'start-recording', str(session)]
         other = Path('second build products')
         other_app = self.repo / other / products / current.name
         shutil.copytree(app, other_app)
         (other_app / 'marker').write_text('second', encoding='utf-8')
-        for directory in (custom, other):
+        test_override = Path('custom test products')
+        for directory in (custom, other, test_override):
             checkout = self.repo / directory / 'SourcePackages/checkouts/fixture'
             checkout.mkdir(parents=True)
             subprocess.run(['git', 'init', '-q', str(checkout)], env=self.env, check=True)
-        result = subprocess.run(rebuild[:-1] + [f'DERIVED_DATA={other}'], cwd=self.repo, env=env,
-                                capture_output=True, text=True)
+        result = subprocess.run(
+            rebuild[:-1] + [f'DERIVED_DATA={other}', f'TEST_DERIVED_DATA={test_override}'],
+            cwd=self.repo, env=env, capture_output=True, text=True,
+        )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn('IsADirectoryError', result.stderr)
         self.assertEqual((app / 'marker').read_text(encoding='utf-8'), 'second')
         metadata = plistlib.loads(metadata_path.read_bytes())
-        self.assertCountEqual(metadata['sourceOutputDirectories'], [str(custom), str(other)])
-        for directory in (custom, other):
+        self.assertCountEqual(metadata['sourceOutputDirectories'], [str(custom), str(other), str(test_override)])
+        for directory in (custom, other, test_override):
             (self.repo / directory / 'later-generated-file').touch()
         result = subprocess.run(start_recording, env=env, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)

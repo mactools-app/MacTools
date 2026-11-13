@@ -1054,12 +1054,15 @@ rebuild_session() {
     expected_bundle_id="$(session_value "$session_dir" bundleIdentifier)"
     rebuilt_app_path="$(debug_build_path print-debug-app-path)" || return 1
     recorded_app_path="$(session_value "$session_dir" builtAppPath 2>/dev/null || true)"
-    build_directory="$(debug_build_path print-derived-data-path)" || return 1
-    output_dir="$(source_output_directory "$build_directory")" || return 1
     recorded_output_dirs="$(session_source_output_directories "$session_dir/session.plist")" || return 1
     local -aU output_dirs
+    local build_path_target
     output_dirs=(${(0)recorded_output_dirs})
-    [[ -z "$output_dir" ]] || output_dirs+=("$output_dir")
+    for build_path_target in print-derived-data-path print-test-derived-data-path; do
+        build_directory="$(debug_build_path "$build_path_target")" || return 1
+        output_dir="$(source_output_directory "$build_directory")" || return 1
+        [[ -z "$output_dir" ]] || output_dirs+=("$output_dir")
+    done
 
     local build_source_commit build_source_dirty build_source_tree
     build_source_commit="$(source_commit)"
