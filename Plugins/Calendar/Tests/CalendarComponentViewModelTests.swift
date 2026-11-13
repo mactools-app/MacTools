@@ -624,12 +624,17 @@ final class CalendarComponentViewModelTests: XCTestCase {
         XCTAssertEqual(model.agendaDays.first?.events.map(\.title), ["Old title"])
 
         service.onRemindersRequest = nil
+        service.onRemindersRefresh = nil
         let hiddenEvents = expectation(description: "Reminders turned off reloads events")
         service.onEventsRequest = hiddenEvents.fulfill
-        let hiddenReminders = expectation(description: "Reminders turned off refreshes snapshot")
-        service.onRemindersRefresh = hiddenReminders.fulfill
+        let refreshCountWhileOff = service.reminderRefreshCount
         model.configureAgenda(range: CalendarAgendaRange(), isVisible: true, showsReminders: false)
-        await fulfillment(of: [hiddenEvents, hiddenReminders], timeout: 1)
+        await fulfillment(of: [hiddenEvents], timeout: 1)
+        XCTAssertEqual(
+            service.reminderRefreshCount,
+            refreshCountWhileOff,
+            "Turning reminders off must not fetch reminders"
+        )
         XCTAssertTrue(model.agendaDays.allSatisfy { $0.events.isEmpty })
 
         // Rename the reminder while the setting is off.
