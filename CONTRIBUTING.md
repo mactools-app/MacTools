@@ -91,6 +91,9 @@ Follow the [plugin development standards](docs/plugins/development-guidelines.md
 
 Trackpad input is owned by the host through `TrackpadInputService` (host 2.1.0). Trackpad Gestures, Middle Click, and the optional [experimental Trackpad Scale](docs/plugins/trackpad-scale.md) subscribe to the same listener; preserve temporary gesture suspension and callback lifecycle boundaries when extending this path.
 
+Quit Protection's [routing checks](docs/superpowers/specs/2026-11-07-quit-protection.md#local-prototype) use disposable AppKit fixtures. Validate changes to keyboard routing there before testing against apps with open documents.
+The Quit Protection, Window Switcher, Input Remapping, and Trackpad Gestures packages that coordinate these shortcuts require MacTools 2.2.5. Earlier 2.2.4 Nightly builds lack the required PluginKit symbols.
+
 Host 2.1.0 requires Trackpad Gestures and Middle Click package versions 2.0.2 or later, enforced before loading and installation. Publish these compatible packages before distributing the new host; older packages stay installed with update guidance and preserved preferences.
 
 Translator's private-IP HTTP support requires host 2.2.0 for the matching system-network exceptions. Keep the plugin's literal-address policy and the host's ATS ranges aligned; see the [network boundaries](docs/plugins/development-guidelines.md#safety-and-data). Publish the host support before distributing the updated Translator package to older installations.

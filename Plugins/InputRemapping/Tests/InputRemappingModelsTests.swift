@@ -346,6 +346,73 @@ final class InputRemappingModelsTests: XCTestCase {
         XCTAssertEqual(executions, 1)
     }
 
+    func testRemappedKeyReportsPhysicalClaimBeforeExecutingItsReplacement() {
+        let tap = InputRemappingEventTap(captureStartResult: true)
+        let key = UInt16(kVK_ANSI_W)
+        tap.update(rules: [.init(
+            trigger: .keyboard(keyCode: key, modifiers: .command),
+            action: .shortcut(.init(keyCode: UInt16(kVK_ANSI_S), modifiers: .command))
+        )])
+        let claims = InputRemappingLockedCounter()
+        let observer = NotificationCenter.default.addObserver(
+            forName: .macToolsWillClaimPhysicalInput, object: nil, queue: nil
+        ) { _ in claims.increment() }
+        defer { NotificationCenter.default.removeObserver(observer) }
+        let down = CGEvent(keyboardEventSource: nil, virtualKey: key, keyDown: true)!
+        down.flags = .maskCommand
+        let consumed = tap.handle(type: .keyDown, event: down) { _ in
+            XCTAssertEqual(claims.count, 1)
+            return true
+        } == nil
+        XCTAssertTrue(consumed)
+
+        MacToolsSyntheticInputEvent.mark(down)
+        let passed = tap.handle(type: .keyDown, event: down) { _ in
+            XCTFail("Synthetic events must not be remapped")
+            return false
+        } != nil
+        XCTAssertTrue(passed)
+        XCTAssertEqual(claims.count, 1)
+    }
+
+    func testScrollAndLongPressReportClaimBeforeExecutingTheirReplacement() throws {
+        let tap = InputRemappingEventTap(captureStartResult: true)
+        tap.update(rules: [
+            .init(trigger: .scroll(direction: .up, modifiers: .command), action: .mouseBack),
+            .init(trigger: .mouseButton(number: 4, modifiers: .command, interaction: .longPress), action: .mouseBack)
+        ])
+        let claims = InputRemappingLockedCounter()
+        let observer = NotificationCenter.default.addObserver(
+            forName: .macToolsWillClaimPhysicalInput, object: nil, queue: nil
+        ) { _ in claims.increment() }
+        defer { NotificationCenter.default.removeObserver(observer) }
+
+        let wheel = try XCTUnwrap(CGEvent(scrollWheelEvent2Source: nil, units: .line,
+                                           wheelCount: 1, wheel1: 1, wheel2: 0, wheel3: 0))
+        wheel.flags = .maskCommand
+        var executions = 0
+        let execute: (InputRemappingRule.Action) -> Bool = { _ in
+            executions += 1
+            XCTAssertEqual(claims.count, executions)
+            return true
+        }
+        let consumed = tap.handle(type: .scrollWheel, event: wheel, performAction: execute) == nil
+        XCTAssertTrue(consumed)
+
+        let sequence: [(CGEventType, UInt64)] = [(.otherMouseDown, 1_000_000_000), (.otherMouseUp, 2_000_000_000)]
+        for (phase, time) in sequence {
+            let event = try XCTUnwrap(CGEvent(mouseEventSource: nil, mouseType: phase,
+                                             mouseCursorPosition: .zero, mouseButton: .center))
+            event.flags = .maskCommand
+            event.setIntegerValueField(.mouseEventButtonNumber, value: 4)
+            event.timestamp = time
+            let passed = tap.handle(type: phase, event: event, performAction: execute) != nil
+            XCTAssertTrue(passed)
+        }
+        XCTAssertEqual(executions, 2)
+        XCTAssertEqual(claims.count, 2)
+    }
+
     func testEmergencyShortcutCancelsCaptureAndRunsOnlyOncePerPress() {
         let tap = InputRemappingEventTap(captureStartResult: true)
         let counter = InputRemappingLockedCounter()
@@ -393,6 +460,11 @@ final class InputRemappingModelsTests: XCTestCase {
         plugin.store.replace(rule)
 
         XCTAssertEqual(plugin.claimedTrackpadGestures, [.threeFingerTap])
+        let claims = InputRemappingLockedCounter()
+        let observer = NotificationCenter.default.addObserver(
+            forName: .macToolsWillClaimPhysicalInput, object: nil, queue: nil
+        ) { _ in claims.increment() }
+        defer { NotificationCenter.default.removeObserver(observer) }
         plugin.setOwnedTrackpadGestures([.threeFingerTap])
         plugin.receiveTrackpadGesture(.threeFingerTap, deviceID: 1)
         XCTAssertEqual(tap.executedActions, [.mouseBack])
@@ -401,6 +473,7 @@ final class InputRemappingModelsTests: XCTestCase {
         plugin.receiveTrackpadGesture(.threeFingerTap, deviceID: 1)
         XCTAssertEqual(tap.executedActions, [.mouseBack])
         XCTAssertEqual(plugin.store.rules.count, 1)
+        XCTAssertEqual(claims.count, 1)
     }
 
     func testFailedOrInapplicableDownAndUnpairedUpFailOpen() {

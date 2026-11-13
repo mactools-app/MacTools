@@ -375,7 +375,11 @@ final class PluginHost: ObservableObject {
     }
 
     private let builtInPlugins: [any MacToolsPlugin]
-    private var deactivatedPluginInstances = Set<ObjectIdentifier>()
+    private var deactivatedPluginInstances = Set<ObjectIdentifier>() {
+        didSet {
+            if oldValue != deactivatedPluginInstances { needsPhysicalInputCompatibilityUpdate = true }
+        }
+    }
     private var voiceControlContextOwner: ObjectIdentifier?
     private let shortcutStore: ShortcutStore
     private let pluginOrderingStore: PluginOrderingStore
@@ -453,7 +457,13 @@ final class PluginHost: ObservableObject {
     private var preferencesBackupExportSelection: PreferencesBackupSelection?
     private var preferencesBackupRestoreContext: PreferencesActionRestoreContext?
 
-    private var dynamicPlugins: [any MacToolsPlugin] = []
+    private var dynamicPlugins: [any MacToolsPlugin] = [] {
+        didSet {
+            if Set(oldValue.map(ObjectIdentifier.init)) != Set(dynamicPlugins.map(ObjectIdentifier.init)) {
+                needsPhysicalInputCompatibilityUpdate = true
+            }
+        }
+    }
     private var dynamicPluginCapabilitiesByID: [String: PluginPackageManifest.Capabilities] = [:]
     private var dynamicPluginCategoriesByID: [String: String?] = [:]
     private var dynamicPluginReleaseChannelsByID: [String: String?] = [:]
@@ -464,7 +474,12 @@ final class PluginHost: ObservableObject {
     private var appShortcutErrors: [AppShortcutAction: String] = [:]
     let panelCoordinator = PluginPanelCoordinator()
     private var settingsViewCache: [SettingsViewCacheKey: PluginSettingsContentViewItem] = [:]
-    private var isolatedPluginFailures: [String: String] = [:]
+    private var isolatedPluginFailures: [String: String] = [:] {
+        didSet {
+            if oldValue != isolatedPluginFailures { needsPhysicalInputCompatibilityUpdate = true }
+        }
+    }
+    private var needsPhysicalInputCompatibilityUpdate = true
     private var isHandlingPluginAction = false
     @Published private var didLoadDynamicPlugins = false
     private var areCloudPreferencesReady = false
@@ -3776,6 +3791,8 @@ final class PluginHost: ObservableObject {
         }
 
         synchronizeInputGestureClaims()
+        let compatibilityChanges = synchronizePhysicalInputCompatibility()
+        let dirtyPluginIDs = dirtyPluginIDs.map { $0.union(compatibilityChanges) }
 
         let descriptors = pluginDescriptorSnapshot()
         let isolatedPluginCountAtStart = isolatedPluginFailures.count
@@ -3966,6 +3983,26 @@ final class PluginHost: ObservableObject {
         } else {
             menuBarPanelContentDidChange.send()
         }
+    }
+
+    private func synchronizePhysicalInputCompatibility() -> Set<String> {
+        guard needsPhysicalInputCompatibilityUpdate else { return [] }
+        // A consumer can be isolated while handling this update.
+        needsPhysicalInputCompatibilityUpdate = false
+        let active = activePlugins
+        let isCompatible = !active.contains {
+            ["input-remapping", "trackpad-gestures", "window-switcher"].contains($0.metadata.id)
+                && !($0 is any PluginPhysicalInputClaimReporting)
+        }
+        var changed: Set<String> = []
+        for plugin in active {
+            guard let consumer = plugin as? any PluginPhysicalInputCompatibilityConsuming,
+                  guardedValue(for: plugin, operation: "update physical input compatibility",
+                               consumer.physicalInputCompatibilityDidChange(isCompatible: isCompatible)) == true
+            else { continue }
+            changed.insert(plugin.metadata.id)
+        }
+        return changed
     }
 
     private func synchronizeInputGestureClaims() {
