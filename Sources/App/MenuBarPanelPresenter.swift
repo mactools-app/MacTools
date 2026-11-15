@@ -572,10 +572,10 @@ final class MenuBarPanelPresenter: NSObject {
             panelModel.setNotchHeader(besideIsland: false, topOffset: 0)
             return
         }
-        let tabsWidth = MenuBarPanelTabLayout.contentWidth(count: pluginHost.visibleMenuBarPanels.count)
-        let besideIsland = !panelModel.isEditingLayout && notchPanel.headerFitsBesideIsland(
-            leadingWidth: MenuBarPanelLayout.notchHeaderHorizontalPadding + tabsWidth,
-            panelWidth: panelModel.contentWidth
+        let besideIsland = !panelModel.isEditingLayout && NotchMenuBarPanel.headerFitsBesideIsland(
+            tabCount: pluginHost.visibleMenuBarPanels.count,
+            panelWidth: panelModel.contentWidth,
+            notchWidth: notchPanel.anchor.width
         )
         panelModel.setNotchHeader(
             besideIsland: besideIsland,

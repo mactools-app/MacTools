@@ -127,9 +127,13 @@ final class NotchMenuBarPanel {
         return metrics.screenRect(fromSurfaceRect: rect)
     }
 
-    /// Whether a leading header group of `leadingWidth` stays clear of the island.
-    func headerFitsBesideIsland(leadingWidth: CGFloat, panelWidth: CGFloat) -> Bool {
-        leadingWidth <= panelWidth / 2 - anchor.width / 2 - NotchMorphMetrics.islandClearance
+    /// Both header groups must fit in the space beside the camera housing.
+    static func headerFitsBesideIsland(tabCount: Int, panelWidth: CGFloat, notchWidth: CGFloat) -> Bool {
+        let tabsWidth = MenuBarPanelTabLayout.contentWidth(count: tabCount)
+        let actionsWidth = MenuBarPanelTabLayout.contentWidth(count: 2, width: MenuBarPanelLayout.headerAccessoryWidth)
+        let requiredWidth = max(tabsWidth, actionsWidth) + MenuBarPanelLayout.notchHeaderHorizontalPadding
+        let availableWidth = (panelWidth - notchWidth) / 2 - NotchMorphMetrics.islandClearance
+        return requiredWidth <= availableWidth
     }
 
     /// Extra top inset that moves the header from the island's row to just below it.

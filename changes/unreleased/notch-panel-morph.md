@@ -3,4 +3,4 @@ release: app
 type: changed
 ---
 
-The notch panel grows out of the camera island and folds back into it, with its tabs and actions beside the island. It respects Reduce Motion.
+The notch panel morphs in and out, placing controls beside or below the camera housing as space allows. It respects Reduce Motion.

@@ -7,6 +7,20 @@ final class NotchHoverPanelGeometryTests: XCTestCase {
     private let leftArea = CGRect(x: 0, y: 950, width: 620, height: 32)
     private let rightArea = CGRect(x: 892, y: 950, width: 620, height: 32)
 
+    func testDisplayWithoutCameraHousingHasNoHoverTrigger() {
+        let screen = NotchHoverScreenSnapshot(
+            displayID: 1,
+            frame: screenFrame,
+            auxiliaryTopLeftArea: nil,
+            auxiliaryTopRightArea: nil,
+            isBuiltin: true,
+            isMain: true,
+            isInMirrorSet: false
+        )
+
+        XCTAssertNil(NotchHoverGeometry.display(for: screen, triggerWidth: 52, verticalTriggerReach: 72))
+    }
+
     func testDefaultTriggerIsOnlyTheIsland() throws {
         let display = try XCTUnwrap(makeDisplay(
             triggerWidth: NotchHoverGeometry.defaultTriggerWidth,
