@@ -3,4 +3,4 @@ release: plugin
 type: fixed
 ---
 
-System Status shows battery drain correctly and no longer reports charging wattage while the Mac is unplugged.
+System Status shows the correct battery power direction and hides unreliable wattage or remaining-time estimates when power readings disagree.

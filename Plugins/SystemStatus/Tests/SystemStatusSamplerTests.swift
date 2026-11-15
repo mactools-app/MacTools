@@ -171,6 +171,20 @@ final class SystemStatusSamplerTests: XCTestCase {
         XCTAssertEqual(SystemStatusSampler.batteryPowerWatts(state: .charging) { registry[$0] }, -40)
     }
 
+    func testChargingBatteryFallsBackFromStaleDischargeTelemetry() {
+        var registry: [String: Any] = [
+            "PowerTelemetryData": ["BatteryPower": -40_000],
+            "BatteryPower": -40_000,
+            "Voltage": 12_000,
+            "InstantAmperage": 1_000,
+        ]
+        XCTAssertEqual(SystemStatusSampler.batteryPowerWatts(state: .charging) { registry[$0] }, -12)
+
+        registry["InstantAmperage"] = -1_000
+        XCTAssertNil(SystemStatusSampler.batteryPowerWatts(state: .charging) { registry[$0] })
+        XCTAssertEqual(SystemStatusSampler.batteryPowerWatts(state: .acPower) { registry[$0] }, 40)
+    }
+
     func testCPUUsagePreservesTickWraparound() throws {
         let usage = try XCTUnwrap(SystemStatusCPUUsageCalculator.usage(
             current: .init(user: 10, system: 40, idle: 160, nice: 0),
@@ -353,7 +367,9 @@ final class SystemStatusSamplerTests: XCTestCase {
         battery[kIOPSPowerSourceStateKey] = kIOPSBatteryPowerValue
         XCTAssertEqual(SystemStatusSampler.batteryRemainingMinutes(from: battery), 90)
         battery[kIOPSIsChargingKey] = true
-        XCTAssertEqual(SystemStatusSampler.batteryRemainingMinutes(from: battery), 90)
+        battery[kIOPSTimeToEmptyKey] = 0
+        XCTAssertNil(SystemStatusSampler.batteryRemainingMinutes(from: battery))
+        battery[kIOPSIsChargingKey] = false
         battery[kIOPSTimeToEmptyKey] = -1
         XCTAssertNil(SystemStatusSampler.batteryRemainingMinutes(from: battery))
         battery[kIOPSIsPresentKey] = false

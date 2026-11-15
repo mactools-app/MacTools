@@ -898,10 +898,13 @@ actor SystemStatusSampler: SystemStatusSampling {
     }
 
     nonisolated static func batteryRemainingMinutes(from description: [String: Any]) -> Int? {
+        let isCharging = description[kIOPSIsChargingKey] as? Bool == true
         let key: String
         if description[kIOPSPowerSourceStateKey] as? String == kIOPSBatteryPowerValue {
+            // A charging sample can carry a zero placeholder for time to empty.
+            guard !isCharging else { return nil }
             key = kIOPSTimeToEmptyKey
-        } else if description[kIOPSIsChargingKey] as? Bool == true {
+        } else if isCharging {
             key = kIOPSTimeToFullChargeKey
         } else {
             return nil

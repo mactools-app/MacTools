@@ -736,7 +736,9 @@ enum SystemStatusBatteryPowerNormalizer {
     }
 
     static func wattsMatchingPowerSource(_ watts: Double?, state: SystemStatusBatteryState) -> Double? {
-        guard let watts, state != .unplugged || watts >= 0 else { return nil }
+        guard let watts,
+              state != .unplugged || watts >= 0,
+              state != .charging || watts <= 0 else { return nil }
         return watts
     }
 
