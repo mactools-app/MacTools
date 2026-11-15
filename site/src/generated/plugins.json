@@ -18346,51 +18346,51 @@
       "localizedMetadata": {
         "ar": {
           "displayName": "لوحة تحويم Dynamic Island",
-          "summary": "أظهر لوحة MacTools عند تمرير المؤشر بجانب Dynamic Island أو التحرك لأعلى من أسفله."
+          "summary": "افتح لوحة MacTools عند إبقاء المؤشر فوق Dynamic Island."
         },
         "de": {
           "displayName": "Dynamic-Island-Schwebepanel",
-          "summary": "MacTools-Bedienfeld einblenden, wenn der Zeiger neben der Dynamic Island schwebt oder von direkt darunter nach oben bewegt wird."
+          "summary": "MacTools-Bedienfeld öffnen, wenn der Zeiger auf der Dynamic Island ruht."
         },
         "en": {
           "displayName": "Dynamic Island Hover Panel",
-          "summary": "Slide out the MacTools panel when the pointer hovers beside the Dynamic Island or moves up from directly below it."
+          "summary": "Open the MacTools panel when the pointer rests over the Dynamic Island."
         },
         "es": {
           "displayName": "Panel al pasar por Dynamic Island",
-          "summary": "Muestra el panel de MacTools al pasar el puntero junto a Dynamic Island o moverlo hacia arriba desde justo debajo."
+          "summary": "Abre el panel de MacTools al dejar el puntero sobre Dynamic Island."
         },
         "fr": {
           "displayName": "Panneau de survol de Dynamic Island",
-          "summary": "Affichez le panneau MacTools lorsque le pointeur survole le bord de Dynamic Island ou remonte depuis juste en dessous."
+          "summary": "Ouvrez le panneau MacTools lorsque le pointeur s’arrête sur Dynamic Island."
         },
         "ja": {
           "displayName": "Dynamic Island ホバーパネル",
-          "summary": "ポインタを Dynamic Island の横に重ねるか、真下から上へ動かすと MacTools パネルを表示します。"
+          "summary": "ポインタを Dynamic Island の上に置くと MacTools パネルを開きます。"
         },
         "ko": {
           "displayName": "Dynamic Island 호버 패널",
-          "summary": "포인터를 Dynamic Island 옆에 올리거나 바로 아래에서 위로 이동하면 MacTools 패널을 표시합니다."
+          "summary": "포인터를 Dynamic Island 위에 올리면 MacTools 패널을 엽니다."
         },
         "pt": {
           "displayName": "Painel ao passar no Dynamic Island",
-          "summary": "Mostre o painel do MacTools ao passar o ponteiro ao lado do Dynamic Island ou movê-lo para cima a partir de baixo dele."
+          "summary": "Abra o painel do MacTools ao deixar o ponteiro sobre o Dynamic Island."
         },
         "ru": {
           "displayName": "Панель при наведении на Dynamic Island",
-          "summary": "Показывать панель MacTools при наведении курсора рядом с Dynamic Island или движении вверх из-под него."
+          "summary": "Открывать панель MacTools при наведении курсора на Dynamic Island."
         },
         "tr": {
           "displayName": "Dynamic Island Üzerine Gelme Paneli",
-          "summary": "İmleci Dynamic Island'ın yanına getirdiğinizde veya hemen altından yukarı hareket ettirdiğinizde MacTools panelini gösterin."
+          "summary": "İmleci Dynamic Island'ın üzerinde tuttuğunuzda MacTools panelini açın."
         },
         "zh-Hans": {
           "displayName": "灵动岛悬浮面板",
-          "summary": "鼠标悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板"
+          "summary": "鼠标悬停在灵动岛上时打开 MacTools 面板"
         },
         "zh-Hant": {
           "displayName": "靈動島懸浮面板",
-          "summary": "滑鼠懸停靈動島兩側，或從靈動島正下方往上移動時滑出 MacTools 面板"
+          "summary": "滑鼠懸停在靈動島上時打開 MacTools 面板"
         }
       },
       "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/notch-hover-panel",
@@ -18475,35 +18475,35 @@
             {
               "id": "primary-use",
               "text": {
-                "ar": "أظهر لوحة MacTools عند تمرير المؤشر بجانب Dynamic Island أو التحرك لأعلى من أسفله.",
-                "de": "MacTools-Bedienfeld einblenden, wenn der Zeiger neben der Dynamic Island schwebt oder von direkt darunter nach oben bewegt wird.",
-                "en": "Slide out the MacTools panel when the pointer hovers beside the Dynamic Island or moves up from directly below it.",
-                "es": "Muestra el panel de MacTools al pasar el puntero junto a Dynamic Island o moverlo hacia arriba desde justo debajo.",
-                "fr": "Affichez le panneau MacTools lorsque le pointeur survole le bord de Dynamic Island ou remonte depuis juste en dessous.",
-                "ja": "ポインタを Dynamic Island の横に重ねるか、真下から上へ動かすと MacTools パネルを表示します。",
-                "ko": "포인터를 Dynamic Island 옆에 올리거나 바로 아래에서 위로 이동하면 MacTools 패널을 표시합니다.",
-                "pt": "Mostre o painel do MacTools ao passar o ponteiro ao lado do Dynamic Island ou movê-lo para cima a partir de baixo dele.",
-                "ru": "Показывать панель MacTools при наведении курсора рядом с Dynamic Island или движении вверх из-под него.",
-                "tr": "İmleci Dynamic Island'ın yanına getirdiğinizde veya hemen altından yukarı hareket ettirdiğinizde MacTools panelini gösterin.",
-                "zh-Hans": "鼠标悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板",
-                "zh-Hant": "滑鼠懸停靈動島兩側，或從靈動島正下方往上移動時滑出 MacTools 面板"
+                "ar": "افتح لوحة MacTools عند إبقاء المؤشر فوق Dynamic Island.",
+                "de": "MacTools-Bedienfeld öffnen, wenn der Zeiger auf der Dynamic Island ruht.",
+                "en": "Open the MacTools panel when the pointer rests over the Dynamic Island.",
+                "es": "Abre el panel de MacTools al dejar el puntero sobre Dynamic Island.",
+                "fr": "Ouvrez le panneau MacTools lorsque le pointeur s’arrête sur Dynamic Island.",
+                "ja": "ポインタを Dynamic Island の上に置くと MacTools パネルを開きます。",
+                "ko": "포인터를 Dynamic Island 위에 올리면 MacTools 패널을 엽니다.",
+                "pt": "Abra o painel do MacTools ao deixar o ponteiro sobre o Dynamic Island.",
+                "ru": "Открывать панель MacTools при наведении курсора на Dynamic Island.",
+                "tr": "İmleci Dynamic Island'ın üzerinde tuttuğunuzda MacTools panelini açın.",
+                "zh-Hans": "鼠标悬停在灵动岛上时打开 MacTools 面板",
+                "zh-Hant": "滑鼠懸停在靈動島上時打開 MacTools 面板"
               }
             }
           ],
           "license": "GPL-3.0-only",
           "longDescription": {
-            "ar": "أظهر لوحة MacTools عند تمرير المؤشر بجانب Dynamic Island أو التحرك لأعلى من أسفله.",
-            "de": "MacTools-Bedienfeld einblenden, wenn der Zeiger neben der Dynamic Island schwebt oder von direkt darunter nach oben bewegt wird.",
-            "en": "Slide out the MacTools panel when the pointer hovers beside the Dynamic Island or moves up from directly below it.",
-            "es": "Muestra el panel de MacTools al pasar el puntero junto a Dynamic Island o moverlo hacia arriba desde justo debajo.",
-            "fr": "Affichez le panneau MacTools lorsque le pointeur survole le bord de Dynamic Island ou remonte depuis juste en dessous.",
-            "ja": "ポインタを Dynamic Island の横に重ねるか、真下から上へ動かすと MacTools パネルを表示します。",
-            "ko": "포인터를 Dynamic Island 옆에 올리거나 바로 아래에서 위로 이동하면 MacTools 패널을 표시합니다.",
-            "pt": "Mostre o painel do MacTools ao passar o ponteiro ao lado do Dynamic Island ou movê-lo para cima a partir de baixo dele.",
-            "ru": "Показывать панель MacTools при наведении курсора рядом с Dynamic Island или движении вверх из-под него.",
-            "tr": "İmleci Dynamic Island'ın yanına getirdiğinizde veya hemen altından yukarı hareket ettirdiğinizde MacTools panelini gösterin.",
-            "zh-Hans": "鼠标悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板",
-            "zh-Hant": "滑鼠懸停靈動島兩側，或從靈動島正下方往上移動時滑出 MacTools 面板"
+            "ar": "افتح لوحة MacTools عند إبقاء المؤشر فوق Dynamic Island.",
+            "de": "MacTools-Bedienfeld öffnen, wenn der Zeiger auf der Dynamic Island ruht.",
+            "en": "Open the MacTools panel when the pointer rests over the Dynamic Island.",
+            "es": "Abre el panel de MacTools al dejar el puntero sobre Dynamic Island.",
+            "fr": "Ouvrez le panneau MacTools lorsque le pointeur s’arrête sur Dynamic Island.",
+            "ja": "ポインタを Dynamic Island の上に置くと MacTools パネルを開きます。",
+            "ko": "포인터를 Dynamic Island 위에 올리면 MacTools 패널을 엽니다.",
+            "pt": "Abra o painel do MacTools ao deixar o ponteiro sobre o Dynamic Island.",
+            "ru": "Открывать панель MacTools при наведении курсора на Dynamic Island.",
+            "tr": "İmleci Dynamic Island'ın üzerinde tuttuğunuzda MacTools panelini açın.",
+            "zh-Hans": "鼠标悬停在灵动岛上时打开 MacTools 面板",
+            "zh-Hant": "滑鼠懸停在靈動島上時打開 MacTools 面板"
           },
           "publisher": "MacTools",
           "screenshots": [],
@@ -18554,7 +18554,7 @@
       "releaseChannel": null,
       "releaseNotesURL": null,
       "route": "/plugins/notch-hover-panel/",
-      "summary": "鼠标悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板",
+      "summary": "鼠标悬停在灵动岛上时打开 MacTools 面板",
       "version": "2.2.0"
     },
     {

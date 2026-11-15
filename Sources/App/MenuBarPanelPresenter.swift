@@ -302,6 +302,9 @@ final class MenuBarPanelPresenter: NSObject {
     private var isClassicHoverPopover = false
     private var classicHoverRestingFrame: NSRect?
     private var classicHoverDismissGeneration: UInt = 0
+    /// Set when a click or shortcut brings back a hover panel that was closing.
+    /// The panel then closes only as a click-opened panel does.
+    private var isHoverPanelClaimed = false
 
     init(
         pluginHost: PluginHost,
@@ -488,17 +491,8 @@ final class MenuBarPanelPresenter: NSObject {
     func showPanel(id: String, toggle shouldToggle: Bool, anchorRect: NSRect) {
         guard pluginHost.menuBarPanels.contains(where: { $0.id == id }) else { return }
         let panel = MenuBarPanelTab(id: id)
-        if shouldToggle,
-           isAnyPanelShown,
-           tab(for: selectedPanel).id == id {
-            if panelModel.preventDismissalWhileEditing() {
-                focusPresentedWindow()
-            } else {
-                dismissPanels()
-            }
-            return
-        }
-        present(panel, relativeTo: hoverAnchorView(for: anchorRect))
+        if shouldToggle { toggle(panel, relativeTo: hoverAnchorView(for: anchorRect)) }
+        else { present(panel, relativeTo: hoverAnchorView(for: anchorRect)) }
     }
 
     /// Presents the panel from a plugin-owned screen anchor.
@@ -512,6 +506,7 @@ final class MenuBarPanelPresenter: NSObject {
         else { return false }
 
         if let notchPanel {
+            guard !isHoverPanelClaimed else { return false }
             notchPanel.reopen()
             return true
         }
@@ -522,6 +517,7 @@ final class MenuBarPanelPresenter: NSObject {
         }
 
         guard let selected = resolvedPanelForAnchor(panelID: panelID) else { return false }
+        isHoverPanelClaimed = false
         if style == .classic {
             present(selected, relativeTo: hoverAnchorView(for: anchorRect), asClassicHover: true)
             guard popover.isShown else {
@@ -549,8 +545,9 @@ final class MenuBarPanelPresenter: NSObject {
         PluginPresentationSafety.prepareForWindowOrdering()
         panel.present(size: panelContentSize)
         panel.watchForSystemPanel(systemPanel) { [weak self, weak panel] in
-            guard let self, let panel, self.notchPanel === panel else { return }
-            self.dismissPanelBelowAnchor(animated: false)
+            guard let self, let panel, self.notchPanel === panel,
+                  !self.panelModel.preventDismissalWhileEditing() else { return }
+            self.closeNotchPanel(panel, animated: false)
         }
         focusPresentedWindow()
         scheduleHeightRefresh(for: selected)
@@ -560,15 +557,35 @@ final class MenuBarPanelPresenter: NSObject {
     @discardableResult
     func dismissPanelBelowAnchor(animated: Bool) -> Bool {
         guard !panelModel.preventDismissalWhileEditing() else { return false }
+        // A claimed panel is no longer the hover owner's to close.
+        guard !isHoverPanelClaimed else { return true }
         guard let notchPanel else {
             dismissClassicHoverPopover(animated: animated)
             return true
         }
+        closeNotchPanel(notchPanel, animated: animated)
+        return true
+    }
 
-        notchPanel.dismiss(animated: animated) { [weak self, weak notchPanel] in
-            guard let self, let notchPanel, self.notchPanel === notchPanel else { return }
-            self.finishNotchPanelDismissal(notchPanel)
+    private func closeNotchPanel(_ panel: NotchMenuBarPanel, animated: Bool) {
+        panel.dismiss(animated: animated) { [weak self, weak panel] in
+            guard let self, let panel, self.notchPanel === panel else { return }
+            self.finishNotchPanelDismissal(panel)
         }
+    }
+
+    /// A menu-bar click or panel shortcut during a hover panel's close animation
+    /// brings that panel back instead of being treated as a second close.
+    private func claimClosingHoverPanel() -> Bool {
+        if let notchPanel, notchPanel.isClosing {
+            notchPanel.reopen()
+        } else if isClassicHoverPopover, popover.isShown, classicHoverRestingFrame != nil {
+            cancelClassicHoverDismissalIfNeeded()
+            isClassicHoverPopover = false
+        } else {
+            return false
+        }
+        isHoverPanelClaimed = true
         return true
     }
 
@@ -580,8 +597,8 @@ final class MenuBarPanelPresenter: NSObject {
     func dismissPanels() {
         nativeMenuPresenter.cancel()
         guard !panelModel.preventDismissalWhileEditing() else { return }
-        if notchPanel != nil {
-            dismissPanelBelowAnchor(animated: true)
+        if let notchPanel {
+            closeNotchPanel(notchPanel, animated: true)
         } else {
             resetClassicHoverDismissal()
             popover.performClose(nil)
@@ -607,6 +624,7 @@ final class MenuBarPanelPresenter: NSObject {
     private func finishNotchPanelDismissal(_ panel: NotchMenuBarPanel) {
         panel.detachContent()
         notchPanel = nil
+        isHoverPanelClaimed = false
         panelModel.isNotchPresentation = false
         panelModel.setNotchHeader(besideIsland: false, topOffset: 0)
         containerController.setDrawsBackground(true)
@@ -622,7 +640,11 @@ final class MenuBarPanelPresenter: NSObject {
             || MenuBarPanelWindowRegistry.containsAuxiliaryPanelWindow(window)
     }
 
-    private func toggle(_ panel: PanelKind, relativeTo anchorView: NSView) {
+    private func toggle(_ panel: PanelKind, relativeTo anchorView: @autoclosure () -> NSView) {
+        if claimClosingHoverPanel() {
+            present(panel, relativeTo: anchorView())
+            return
+        }
         let action = MenuBarPanelToggleAction.resolve(
             isPanelShown: isAnyPanelShown,
             selectedTab: tab(for: selectedPanel),
@@ -638,31 +660,40 @@ final class MenuBarPanelPresenter: NSObject {
             return
         }
 
-        present(panel, relativeTo: anchorView)
+        present(panel, relativeTo: anchorView())
     }
 
-    private func present(_ panel: PanelKind, relativeTo anchorView: NSView, asClassicHover: Bool = false) {
+    private func present(
+        _ panel: PanelKind,
+        relativeTo anchorView: @autoclosure () -> NSView,
+        asClassicHover: Bool = false
+    ) {
+        if !asClassicHover { _ = claimClosingHoverPanel() }
         let action = MenuBarPanelPresentationAction.resolve(
             isPanelShown: isAnyPanelShown,
             selectedTab: tab(for: selectedPanel),
             requestedTab: tab(for: panel)
         )
+        // An existing popover must keep its original anchor when a shortcut
+        // reclaims it or switches tabs.
+        let openingAnchor = action == .open ? anchorView() : nil
+        let screen = openingAnchor?.window?.screen ?? presentedWindow?.screen ?? NSScreen.main
         selectedPanel = panel
         updateContent(
             selectedTab: tab(for: panel),
-            screen: anchorView.window?.screen ?? NSScreen.main,
+            screen: screen,
             isPanelVisible: true
         )
         updatePanelSurfaceVisibility(for: tab(for: panel), isPanelVisible: true)
 
-        if action != .open {
+        guard let openingAnchor else {
             focusPresentedWindow()
             scheduleHeightRefresh(for: tab(for: panel))
             return
         }
 
         isClassicHoverPopover = asClassicHover
-        show(popover, relativeTo: anchorView)
+        show(popover, relativeTo: openingAnchor)
         scheduleHeightRefresh(for: tab(for: panel))
     }
 
@@ -810,6 +841,7 @@ final class MenuBarPanelPresenter: NSObject {
         hoverAnchorPanel?.orderOut(nil)
         hoverAnchorPanel = nil
         isClassicHoverPopover = false
+        isHoverPanelClaimed = false
         resetClassicHoverDismissal()
     }
 
@@ -1161,7 +1193,9 @@ final class MenuBarPanelPresenter: NSObject {
         let maximumWidth = MenuBarPanelWidth.maximum(visibleFrameWidth: screen?.visibleFrame.width)
         let preferredWidth = MenuBarPanelWidth.resolved(
             preferred: pluginHost.preferredMenuBarPanelWidth, maximum: maximumWidth)
-        let widthForNotchHeader = notchPanel.map {
+        // Widen only while the header sits beside the notch. Layout editing moves
+        // it below, so editing keeps the width the user chose.
+        let widthForNotchHeader = panelModel.isEditingLayout ? 0 : notchPanel.map {
             NotchMenuBarPanel.minimumWidthForHeaderBesideIsland(
                 tabCount: pluginHost.visibleMenuBarPanels.count, notchWidth: $0.anchor.width)
         } ?? 0
@@ -1695,8 +1729,6 @@ struct MenuBarPanelHeader: View {
     let onUndoLayout: () -> Void
     /// Tabs lead and the actions trail, leaving the middle clear for the camera island.
     var splitsAroundIsland = false
-    @Environment(\.menuBarPanelTheme) private var theme
-    @Environment(\.colorSchemeContrast) private var contrast
 
     var body: some View {
         if isEditingLayout {
@@ -1708,17 +1740,10 @@ struct MenuBarPanelHeader: View {
             HStack(spacing: 0) {
                 navigation.fixedSize()
                 Spacer(minLength: 0)
+                // Standalone icons on the tab strip's grid: same pitch as the
+                // tabs, and the trailing icon mirrors the first tab's inset.
                 HStack(spacing: MenuBarPanelTabLayout.spacing) { accessories }
-                    .padding(MenuBarPanelLayout.tabCapsuleInset)
-                    .background {
-                        // Matches the tab strip's capsule so both groups read as a pair.
-                        Capsule()
-                            .fill(theme.surfaces.panel)
-                            .overlay {
-                                Capsule().strokeBorder(theme.surfaces.separator,
-                                                       lineWidth: contrast == .increased ? 1 : 0.5)
-                            }
-                    }
+                    .padding(.horizontal, MenuBarPanelLayout.tabCapsuleInset)
             }
         } else {
             ZStack {

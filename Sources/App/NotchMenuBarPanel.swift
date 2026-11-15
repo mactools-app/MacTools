@@ -332,6 +332,9 @@ struct NotchMorphMetrics {
     let housingOffset: CGFloat
     /// Distance from the window top to the top of the hosted content.
     let contentTopInset: CGFloat
+    /// A wide camera cutout reaches the display edge, so the surface grows from
+    /// that edge with square top corners instead of floating below it.
+    let meetsDisplayTop: Bool
 
     init(anchor: CGRect, contentSize: CGSize) {
         self.anchor = anchor
@@ -341,14 +344,18 @@ struct NotchMorphMetrics {
         let isWideCameraCutout = anchor.width >= anchor.height * 3
         let housingInset = isWideCameraCutout ? 0 : min(Self.housingTopInset, anchor.height * 0.2)
         let expandedInset = min(Self.expandedTopInset, housingInset)
+        meetsDisplayTop = expandedInset == 0
         housingOffset = housingInset - expandedInset
         housingSize = CGSize(width: anchor.width, height: max(anchor.height - housingInset, 1))
         // Start one point inside the housing so the first frame is hidden by it.
         collapsedSize = CGSize(width: max(housingSize.width - 2, 2), height: max(housingSize.height - 2, 2))
-        // The content's header row is centered on the island, beside it.
+        // The content's header row is centered on the island, beside it. The
+        // content's empty top padding may start above a surface that meets the
+        // display edge, but the header itself never does.
         let islandCenter = housingOffset + housingSize.height / 2
         contentTopInset = max(
-            islandCenter - (MenuBarPanelLayout.panelTopPadding + MenuBarPanelLayout.headerHeight / 2), 0
+            islandCenter - (MenuBarPanelLayout.panelTopPadding + MenuBarPanelLayout.headerHeight / 2),
+            -MenuBarPanelLayout.panelTopPadding
         )
         expandedSize = CGSize(
             width: max(contentSize.width, housingSize.width),
@@ -380,7 +387,8 @@ struct NotchMorphMetrics {
         let width = max(Self.lerp(collapsedSize.width, expandedSize.width, widthFraction), 2)
         let height = max(Self.lerp(collapsedSize.height, expandedSize.height, heightFraction), 2)
         // Rises from inside the housing to the expanded top as the surface deepens.
-        let collapsedTop = housingOffset + (housingSize.height - collapsedSize.height) / 2
+        // A surface that meets the display edge stays pinned to it.
+        let collapsedTop = meetsDisplayTop ? 0 : housingOffset + (housingSize.height - collapsedSize.height) / 2
         let topInset = Self.lerp(collapsedTop, 0, min(max(heightFraction, 0), 1))
         return CGRect(x: size.width / 2 - width / 2, y: size.height - topInset - height,
                       width: width, height: height)
@@ -392,6 +400,10 @@ struct NotchMorphMetrics {
         let pill = min(rect.height, rect.width) / 2
         let settle = NotchMorphModel.smoothstep(0.12, 1, heightFraction)
         return min(Self.lerp(pill, Self.expandedCornerRadius, settle), pill)
+    }
+
+    func topCornerRadius(for rect: CGRect, heightFraction: Double) -> CGFloat {
+        meetsDisplayTop ? 0 : cornerRadius(for: rect, heightFraction: heightFraction)
     }
 
     func screenRect(fromSurfaceRect rect: CGRect) -> CGRect {
@@ -406,41 +418,52 @@ struct NotchMorphMetrics {
 enum NotchSurfacePath {
     /// A rounded rectangle whose corners ease into the straight edges
     /// (continuous curvature) when there is room, and become exact circular
-    /// arcs as the shape approaches a pill, so morphing never changes the
-    /// path structure.
-    static func make(in rect: CGRect, radius requestedRadius: CGFloat) -> CGPath {
+    /// arcs as the shape approaches a pill. The top corners can use a smaller
+    /// radius, down to square, for a surface that meets the display edge.
+    static func make(in rect: CGRect, radius: CGFloat, topRadius: CGFloat? = nil) -> CGPath {
         let limit = min(rect.width, rect.height) / 2
-        let radius = max(min(requestedRadius, limit), 0)
-        let path = CGMutablePath()
-        guard radius > 0 else {
-            path.addRect(rect)
-            return path
-        }
-
-        let smoothing = min(max((limit / radius - 1) / 0.4, 0), 1)
-        let extent = radius * (1 + 0.4 * smoothing)
-        let handle = extent * (0.5523 + (0.8 - 0.5523) * smoothing)
+        let bottom = Corner(radius: radius, limit: limit)
+        let top = Corner(radius: topRadius ?? radius, limit: limit)
         let minX = rect.minX, maxX = rect.maxX, minY = rect.minY, maxY = rect.maxY
+        let path = CGMutablePath()
 
-        path.move(to: CGPoint(x: minX + extent, y: maxY))
-        path.addLine(to: CGPoint(x: maxX - extent, y: maxY))
-        path.addCurve(to: CGPoint(x: maxX, y: maxY - extent),
-                      control1: CGPoint(x: maxX - extent + handle, y: maxY),
-                      control2: CGPoint(x: maxX, y: maxY - extent + handle))
-        path.addLine(to: CGPoint(x: maxX, y: minY + extent))
-        path.addCurve(to: CGPoint(x: maxX - extent, y: minY),
-                      control1: CGPoint(x: maxX, y: minY + extent - handle),
-                      control2: CGPoint(x: maxX - extent + handle, y: minY))
-        path.addLine(to: CGPoint(x: minX + extent, y: minY))
-        path.addCurve(to: CGPoint(x: minX, y: minY + extent),
-                      control1: CGPoint(x: minX + extent - handle, y: minY),
-                      control2: CGPoint(x: minX, y: minY + extent - handle))
-        path.addLine(to: CGPoint(x: minX, y: maxY - extent))
-        path.addCurve(to: CGPoint(x: minX + extent, y: maxY),
-                      control1: CGPoint(x: minX, y: maxY - extent + handle),
-                      control2: CGPoint(x: minX + extent - handle, y: maxY))
+        path.move(to: CGPoint(x: minX + top.extent, y: maxY))
+        path.addLine(to: CGPoint(x: maxX - top.extent, y: maxY))
+        path.addCurve(to: CGPoint(x: maxX, y: maxY - top.extent),
+                      control1: CGPoint(x: maxX - top.extent + top.handle, y: maxY),
+                      control2: CGPoint(x: maxX, y: maxY - top.extent + top.handle))
+        path.addLine(to: CGPoint(x: maxX, y: minY + bottom.extent))
+        path.addCurve(to: CGPoint(x: maxX - bottom.extent, y: minY),
+                      control1: CGPoint(x: maxX, y: minY + bottom.extent - bottom.handle),
+                      control2: CGPoint(x: maxX - bottom.extent + bottom.handle, y: minY))
+        path.addLine(to: CGPoint(x: minX + bottom.extent, y: minY))
+        path.addCurve(to: CGPoint(x: minX, y: minY + bottom.extent),
+                      control1: CGPoint(x: minX + bottom.extent - bottom.handle, y: minY),
+                      control2: CGPoint(x: minX, y: minY + bottom.extent - bottom.handle))
+        path.addLine(to: CGPoint(x: minX, y: maxY - top.extent))
+        path.addCurve(to: CGPoint(x: minX + top.extent, y: maxY),
+                      control1: CGPoint(x: minX, y: maxY - top.extent + top.handle),
+                      control2: CGPoint(x: minX + top.extent - top.handle, y: maxY))
         path.closeSubpath()
         return path
+    }
+
+    /// One corner's reach along each edge and its Bézier handle length.
+    private struct Corner {
+        let extent: CGFloat
+        let handle: CGFloat
+
+        init(radius requested: CGFloat, limit: CGFloat) {
+            let radius = max(min(requested, limit), 0)
+            guard radius > 0 else {
+                extent = 0
+                handle = 0
+                return
+            }
+            let smoothing = min(max((limit / radius - 1) / 0.4, 0), 1)
+            extent = radius * (1 + 0.4 * smoothing)
+            handle = extent * (0.5523 + (0.8 - 0.5523) * smoothing)
+        }
     }
 }
 
@@ -504,7 +527,10 @@ final class NotchMorphView: NSView {
     func apply(model: NotchMorphModel, metrics: NotchMorphMetrics) {
         let rect = metrics.surfaceRect(for: model)
         let radius = metrics.cornerRadius(for: rect, heightFraction: model.height.value)
-        let path = NotchSurfacePath.make(in: rect, radius: radius)
+        let path = NotchSurfacePath.make(
+            in: rect, radius: radius,
+            topRadius: metrics.topCornerRadius(for: rect, heightFraction: model.height.value)
+        )
         surfacePath = path
 
         CATransaction.begin()
