@@ -118,6 +118,30 @@ final class SystemStatusSamplingDemandTests: XCTestCase {
         XCTAssertEqual(snapshot.memory.usage, 0.8)
     }
 
+    func testBatteryPowerStaysWithItsSampledPowerSource() {
+        var snapshot = SystemStatusSnapshot.empty
+        var sample = SystemStatusSnapshot.empty
+        sample.battery = .init(isAvailable: true, level: 1, state: .charging,
+            timeRemainingMinutes: 5, adapterWatts: nil, batteryPowerWatts: -40,
+            temperatureCelsius: nil, healthPercent: nil, cycleCount: nil)
+        snapshot.merge(sample, demand: [.battery, .batteryDetails])
+        XCTAssertEqual(snapshot.battery.batteryPowerWatts, -40)
+
+        sample.battery = .init(isAvailable: true, level: 1, state: .unplugged,
+            timeRemainingMinutes: 120, adapterWatts: nil, batteryPowerWatts: nil,
+            temperatureCelsius: nil, healthPercent: nil, cycleCount: nil)
+        snapshot.merge(sample, demand: .battery)
+        XCTAssertEqual(snapshot.battery.state, .unplugged)
+        XCTAssertNil(snapshot.battery.batteryPowerWatts)
+
+        sample.battery = .init(isAvailable: true, level: 1, state: .charging,
+            timeRemainingMinutes: 5, adapterWatts: nil, batteryPowerWatts: -20,
+            temperatureCelsius: nil, healthPercent: nil, cycleCount: nil)
+        snapshot.merge(sample, demand: .batteryDetails)
+        XCTAssertEqual(snapshot.battery.state, .charging)
+        XCTAssertEqual(snapshot.battery.batteryPowerWatts, -20)
+    }
+
     func testStoppedSamplingRejectsAnInFlightResult() async {
         let sampler = DemandSampler()
         let viewModel = SystemStatusViewModel(sampler: sampler, historyStore: DemandHistory())

@@ -834,7 +834,8 @@ actor SystemStatusSampler: SystemStatusSampling {
             isCharged: isCharged,
             powerSource: powerSource
         )
-        let registryInfo = !demand.intersection([.batteryDetails, .batteryHealth]).isEmpty ? Self.collectBatteryRegistryInfo()
+        let registryInfo = !demand.intersection([.batteryDetails, .batteryHealth]).isEmpty
+            ? Self.collectBatteryRegistryInfo(state: state)
             : (temperatureCelsius: nil, healthPercent: nil, cycleCount: nil, batteryPowerWatts: nil)
         let healthPercent: Int?
         if !demand.contains(.batteryHealth) {
@@ -898,10 +899,10 @@ actor SystemStatusSampler: SystemStatusSampling {
 
     nonisolated static func batteryRemainingMinutes(from description: [String: Any]) -> Int? {
         let key: String
-        if description[kIOPSIsChargingKey] as? Bool == true {
-            key = kIOPSTimeToFullChargeKey
-        } else if description[kIOPSPowerSourceStateKey] as? String == kIOPSBatteryPowerValue {
+        if description[kIOPSPowerSourceStateKey] as? String == kIOPSBatteryPowerValue {
             key = kIOPSTimeToEmptyKey
+        } else if description[kIOPSIsChargingKey] as? Bool == true {
+            key = kIOPSTimeToFullChargeKey
         } else {
             return nil
         }
@@ -912,8 +913,8 @@ actor SystemStatusSampler: SystemStatusSampling {
     private static func batteryState(
         level: Double?, isCharging: Bool, isCharged: Bool, powerSource: String
     ) -> SystemStatusBatteryState {
-        if isCharging { return .charging }
         if powerSource == kIOPSBatteryPowerValue { return .unplugged }
+        if isCharging { return .charging }
         if powerSource == kIOPSACPowerValue {
             return isCharged || (level ?? 0) >= 0.999 ? .charged : .acPower
         }
@@ -932,7 +933,7 @@ actor SystemStatusSampler: SystemStatusSampling {
         return watts
     }
 
-    private static func collectBatteryRegistryInfo() -> (
+    private static func collectBatteryRegistryInfo(state: SystemStatusBatteryState) -> (
         temperatureCelsius: Double?,
         healthPercent: Int?,
         cycleCount: Int?,
@@ -978,40 +979,34 @@ actor SystemStatusSampler: SystemStatusSampling {
             temperature,
             healthPercent,
             registryIntValue(service: service, key: "CycleCount"),
-            batteryPowerWatts(service: service)
+            batteryPowerWatts(state: state) { registryRawValue(service: service, key: $0) }
         )
     }
 
-    private static func batteryPowerWatts(service: io_registry_entry_t) -> Double? {
-        if
-            let telemetry = registryDictionaryValue(service: service, key: "PowerTelemetryData"),
-            let watts = SystemStatusBatteryPowerNormalizer.telemetryWatts(
-                fromRawMilliwatts: telemetry["BatteryPower"]
-            )
-        {
+    nonisolated static func batteryPowerWatts(
+        state: SystemStatusBatteryState, registryValue: (String) -> Any?
+    ) -> Double? {
+        func telemetryWatts(_ rawValue: Any?) -> Double? {
+            let watts = SystemStatusBatteryPowerNormalizer.telemetryWatts(fromRawMilliwatts: rawValue)
+            return SystemStatusBatteryPowerNormalizer.wattsMatchingPowerSource(watts, state: state)
+        }
+
+        let telemetry = registryValue("PowerTelemetryData") as? NSDictionary
+        if let watts = telemetryWatts(telemetry?["BatteryPower"])
+            ?? telemetryWatts(registryValue("BatteryPower")) {
             return watts
         }
 
-        if
-            let watts = SystemStatusBatteryPowerNormalizer.telemetryWatts(
-                fromRawMilliwatts: registryRawValue(service: service, key: "BatteryPower")
-            )
-        {
-            return watts
-        }
+        let voltageMillivolts = registryValue("AppleRawBatteryVoltage").flatMap(numberValue)
+            ?? registryValue("Voltage").flatMap(numberValue)
+        let amperageMilliamps = SystemStatusBatteryPowerNormalizer.signedNumberValue(registryValue("InstantAmperage"))
+            ?? SystemStatusBatteryPowerNormalizer.signedNumberValue(registryValue("Amperage"))
 
-        let voltageMillivolts = registryNumberValue(service: service, key: "AppleRawBatteryVoltage")
-            ?? registryNumberValue(service: service, key: "Voltage")
-        let amperageMilliamps = SystemStatusBatteryPowerNormalizer.signedNumberValue(
-            registryRawValue(service: service, key: "InstantAmperage")
-        ) ?? SystemStatusBatteryPowerNormalizer.signedNumberValue(
-            registryRawValue(service: service, key: "Amperage")
-        )
-
-        return SystemStatusBatteryPowerNormalizer.derivedWatts(
+        let watts = SystemStatusBatteryPowerNormalizer.derivedWatts(
             voltageMillivolts: voltageMillivolts,
             amperageMilliamps: amperageMilliamps
         )
+        return SystemStatusBatteryPowerNormalizer.wattsMatchingPowerSource(watts, state: state)
     }
 
     nonisolated static func batteryHealthPercent(
@@ -1130,14 +1125,6 @@ actor SystemStatusSampler: SystemStatusSampling {
             }
         }
         return nil
-    }
-
-    private static func registryNumberValue(service: io_registry_entry_t, key: String) -> Double? {
-        guard let rawValue = registryRawValue(service: service, key: key) else {
-            return nil
-        }
-
-        return numberValue(rawValue)
     }
 
     private static func registryRawValue(service: io_registry_entry_t, key: String) -> Any? {

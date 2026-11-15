@@ -145,15 +145,30 @@ final class SystemStatusSamplerTests: XCTestCase {
     }
 
     func testBatteryPowerNormalizerUsesSignedBatteryPowerMilliwatts() throws {
+        let encodedDischarge = NSNumber(value: UInt64(bitPattern: -40_000))
         let dischargingWatts = try XCTUnwrap(
-            SystemStatusBatteryPowerNormalizer.telemetryWatts(fromRawMilliwatts: 13_654)
+            SystemStatusBatteryPowerNormalizer.telemetryWatts(fromRawMilliwatts: encodedDischarge)
         )
         let chargingWatts = try XCTUnwrap(
-            SystemStatusBatteryPowerNormalizer.telemetryWatts(fromRawMilliwatts: -12_345)
+            SystemStatusBatteryPowerNormalizer.telemetryWatts(fromRawMilliwatts: 12_345)
         )
 
-        XCTAssertEqual(dischargingWatts, 13.654, accuracy: 0.001)
+        XCTAssertEqual(dischargingWatts, 40, accuracy: 0.001)
         XCTAssertEqual(chargingWatts, -12.345, accuracy: 0.001)
+    }
+
+    func testUnpluggedBatteryFallsBackFromStaleChargingTelemetry() {
+        var registry: [String: Any] = [
+            "PowerTelemetryData": ["BatteryPower": 40_000],
+            "BatteryPower": 40_000,
+            "Voltage": 12_000,
+            "InstantAmperage": UInt64(bitPattern: -1_000),
+        ]
+        XCTAssertEqual(SystemStatusSampler.batteryPowerWatts(state: .unplugged) { registry[$0] }, 12)
+
+        registry["InstantAmperage"] = 1_000
+        XCTAssertNil(SystemStatusSampler.batteryPowerWatts(state: .unplugged) { registry[$0] })
+        XCTAssertEqual(SystemStatusSampler.batteryPowerWatts(state: .charging) { registry[$0] }, -40)
     }
 
     func testCPUUsagePreservesTickWraparound() throws {
@@ -336,6 +351,8 @@ final class SystemStatusSamplerTests: XCTestCase {
         XCTAssertEqual(SystemStatusSampler.batteryRemainingMinutes(from: battery), 30)
         battery[kIOPSIsChargingKey] = false
         battery[kIOPSPowerSourceStateKey] = kIOPSBatteryPowerValue
+        XCTAssertEqual(SystemStatusSampler.batteryRemainingMinutes(from: battery), 90)
+        battery[kIOPSIsChargingKey] = true
         XCTAssertEqual(SystemStatusSampler.batteryRemainingMinutes(from: battery), 90)
         battery[kIOPSTimeToEmptyKey] = -1
         XCTAssertNil(SystemStatusSampler.batteryRemainingMinutes(from: battery))
