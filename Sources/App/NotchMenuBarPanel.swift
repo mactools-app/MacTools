@@ -129,11 +129,15 @@ final class NotchMenuBarPanel {
 
     /// Both header groups must fit in the space beside the camera housing.
     static func headerFitsBesideIsland(tabCount: Int, panelWidth: CGFloat, notchWidth: CGFloat) -> Bool {
+        panelWidth >= minimumWidthForHeaderBesideIsland(tabCount: tabCount, notchWidth: notchWidth)
+    }
+
+    static func minimumWidthForHeaderBesideIsland(tabCount: Int, notchWidth: CGFloat) -> CGFloat {
         let tabsWidth = MenuBarPanelTabLayout.contentWidth(count: tabCount)
         let actionsWidth = MenuBarPanelTabLayout.contentWidth(count: 2, width: MenuBarPanelLayout.headerAccessoryWidth)
-        let requiredWidth = max(tabsWidth, actionsWidth) + MenuBarPanelLayout.notchHeaderHorizontalPadding
-        let availableWidth = (panelWidth - notchWidth) / 2 - NotchMorphMetrics.islandClearance
-        return requiredWidth <= availableWidth
+        let sideWidth = max(tabsWidth, actionsWidth) + MenuBarPanelLayout.notchHeaderHorizontalPadding
+            + NotchMorphMetrics.islandClearance
+        return (notchWidth + sideWidth * 2).rounded(.up)
     }
 
     /// Extra top inset that moves the header from the island's row to just below it.
@@ -305,7 +309,7 @@ struct NotchMorphModel {
 /// Geometry in window coordinates (origin at the bottom left). The window's top
 /// edge is aligned with the top of the expanded surface.
 struct NotchMorphMetrics {
-    /// The housing sits a few points below the top of the screen.
+    /// The compact island sits a few points below the top of the screen.
     static let housingTopInset: CGFloat = 6
     /// The system draws its own island around the housing and grows it upward
     /// (to about 4pt) while the pointer is on it, so the expanded surface rises
@@ -332,7 +336,10 @@ struct NotchMorphMetrics {
     init(anchor: CGRect, contentSize: CGSize) {
         self.anchor = anchor
         self.contentSize = contentSize
-        let housingInset = min(Self.housingTopInset, anchor.height * 0.2)
+        // AppKit reports the housing rectangle. A wide camera cutout reaches the
+        // display edge, while the compact island has space above it.
+        let isWideCameraCutout = anchor.width >= anchor.height * 3
+        let housingInset = isWideCameraCutout ? 0 : min(Self.housingTopInset, anchor.height * 0.2)
         let expandedInset = min(Self.expandedTopInset, housingInset)
         housingOffset = housingInset - expandedInset
         housingSize = CGSize(width: anchor.width, height: max(anchor.height - housingInset, 1))
@@ -351,10 +358,10 @@ struct NotchMorphMetrics {
 
     var windowFrame: CGRect {
         let width = expandedSize.width + Self.margin * 2
-        let height = expandedSize.height + Self.margin
+        let height = (expandedSize.height + Self.margin).rounded()
         let top = anchor.maxY - (anchor.height - housingSize.height) + housingOffset
-        return CGRect(x: (anchor.midX - width / 2).rounded(), y: (top - height).rounded(),
-                      width: width.rounded(), height: height.rounded())
+        return CGRect(x: (anchor.midX - width / 2).rounded(), y: top - height,
+                      width: width.rounded(), height: height)
     }
 
     var windowSize: CGSize { windowFrame.size }

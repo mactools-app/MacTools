@@ -1072,9 +1072,13 @@ final class MenuBarPanelPresenter: NSObject {
         screen: NSScreen?
     ) -> MenuBarPanelHeightResolution {
         let maximumWidth = MenuBarPanelWidth.maximum(visibleFrameWidth: screen?.visibleFrame.width)
-        panelModel.updateWidth(MenuBarPanelWidth.resolved(
-            preferred: pluginHost.preferredMenuBarPanelWidth, maximum: maximumWidth),
-            maximum: maximumWidth)
+        let preferredWidth = MenuBarPanelWidth.resolved(
+            preferred: pluginHost.preferredMenuBarPanelWidth, maximum: maximumWidth)
+        let widthForNotchHeader = notchPanel.map {
+            NotchMenuBarPanel.minimumWidthForHeaderBesideIsland(
+                tabCount: pluginHost.visibleMenuBarPanels.count, notchWidth: $0.anchor.width)
+        } ?? 0
+        panelModel.updateWidth(min(maximumWidth, max(preferredWidth, widthForNotchHeader)), maximum: maximumWidth)
         let surfaceWidth = panelModel.contentWidth - MenuBarPanelLayout.outerPadding * 2
         let maximumFeatureListHeight = MenuBarPanelLayout.maximumFeatureListHeight(for: screen)
         let components = pluginHost.componentItems(in: tab.id)
