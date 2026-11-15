@@ -487,6 +487,9 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         // cannot retry or cancel the close.
         let accepted = requestMenuBarPanelDismissal?(animated) ?? true
         guard accepted else { return }
+        // Keep ownership while the host animates closed so a pointer moving
+        // back onto the island can reverse the transition.
+        if animated, isEnabled, isPresentedMenuBarPanelVisible?() == true { return }
 
         ownsPanelPresentation = false
         activeDisplay = nil

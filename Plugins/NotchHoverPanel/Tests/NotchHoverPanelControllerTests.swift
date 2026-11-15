@@ -100,6 +100,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
             screensProvider: { [Self.notchScreenSnapshot()] },
             mouseLocationProvider: { mouse.value }
         )
+        controller.setVerticalTriggerReach(72)
         controller.setShowDelay(0)
         controller.setHideDelay(0.05)
 
@@ -241,6 +242,44 @@ final class NotchHoverPanelControllerTests: XCTestCase {
             2,
             "Ownership should let a later pointer update retry the dismissal."
         )
+        XCTAssertTrue(controller.snapshot.isPanelVisible)
+    }
+
+    func testReturningDuringAnimatedDismissalReopensThePanel() {
+        let mouse = TestState(Self.triggerPoint)
+        let controller = NotchHoverPanelController(
+            storage: NotchHoverMemoryStorage(),
+            screensProvider: { [Self.notchScreenSnapshot()] },
+            mouseLocationProvider: { mouse.value }
+        )
+        controller.setShowDelay(0)
+        controller.setHideDelay(0.05)
+
+        var isPanelVisible = false
+        var isClosing = false
+        controller.isPresentedMenuBarPanelVisible = { isPanelVisible }
+        controller.requestMenuBarPanelPresentation = { _ in
+            isPanelVisible = true
+            isClosing = false
+            return true
+        }
+        controller.requestMenuBarPanelDismissal = { animated in
+            isClosing = animated
+            return true
+        }
+
+        controller.handlePointerLocation(mouse.value)
+        waitForScheduledWork()
+        XCTAssertTrue(controller.snapshot.isPanelVisible)
+
+        mouse.value = NSPoint(x: 40, y: 40)
+        controller.handlePointerLocation(mouse.value)
+        waitForScheduledWork()
+        XCTAssertTrue(isClosing)
+
+        mouse.value = Self.triggerPoint
+        controller.handlePointerLocation(mouse.value)
+        XCTAssertFalse(isClosing)
         XCTAssertTrue(controller.snapshot.isPanelVisible)
     }
 

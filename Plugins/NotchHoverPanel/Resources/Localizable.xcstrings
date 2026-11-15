@@ -84,73 +84,73 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "أظهر لوحة MacTools عند تمرير المؤشر بجانب Dynamic Island أو التحرك لأعلى من أسفله."
+            "value": "ضع المؤشر فوق Dynamic Island لفتح لوحة MacTools."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "MacTools-Bedienfeld einblenden, wenn der Zeiger neben der Dynamic Island schwebt oder von direkt darunter nach oben bewegt wird."
+            "value": "Bewege den Zeiger über die Dynamic Island, um das MacTools-Panel zu öffnen."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Slide out the MacTools panel when the pointer hovers beside the Dynamic Island or moves up from directly below it."
+            "value": "Hover over the Dynamic Island to open the MacTools panel."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Muestra el panel de MacTools al pasar el puntero junto a Dynamic Island o moverlo hacia arriba desde justo debajo."
+            "value": "Coloca el puntero sobre Dynamic Island para abrir el panel de MacTools."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Affichez le panneau MacTools lorsque le pointeur survole le bord de Dynamic Island ou remonte depuis juste en dessous."
+            "value": "Survolez la Dynamic Island pour ouvrir le panneau MacTools."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ポインタを Dynamic Island の横に重ねるか、真下から上へ動かすと MacTools パネルを表示します。"
+            "value": "Dynamic Island にポインタを合わせると、MacTools パネルが開きます。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "포인터를 Dynamic Island 옆에 올리거나 바로 아래에서 위로 이동하면 MacTools 패널을 표시합니다."
+            "value": "Dynamic Island에 포인터를 올리면 MacTools 패널이 열립니다."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostre o painel do MacTools ao passar o ponteiro ao lado do Dynamic Island ou movê-lo para cima a partir de baixo dele."
+            "value": "Passe o ponteiro sobre o Dynamic Island para abrir o painel do MacTools."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывать панель MacTools при наведении курсора рядом с Dynamic Island или движении вверх из-под него."
+            "value": "Наведите указатель на Dynamic Island, чтобы открыть панель MacTools."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "İmleci Dynamic Island'ın yanına getirdiğinizde veya hemen altından yukarı hareket ettirdiğinizde MacTools panelini gösterin."
+            "value": "MacTools panelini açmak için imleci Dynamic Island'ın üzerine getirin."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "鼠标悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板"
+            "value": "将鼠标悬停在灵动岛上即可打开 MacTools 面板。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "滑鼠懸停靈動島兩側，或從靈動島正下方往上移動時滑出 MacTools 面板"
+            "value": "將滑鼠游標停在靈動島上即可開啟 MacTools 面板。"
           }
         }
       }
@@ -546,73 +546,73 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "مرّر المؤشر فوق أي جانب من Dynamic Island أو حرّكه لأعلى من أسفله مباشرة لعرض اللوحة؛ ادخل إلى اللوحة لإبقائها ظاهرة."
+            "value": "ضع المؤشر فوق Dynamic Island لفتح لوحة MacTools. حرّك المؤشر إلى اللوحة لإبقائها مفتوحة."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Fahre über eine Seite der Dynamic Island oder von direkt darunter nach oben, um das Bedienfeld anzuzeigen; bewege den Zeiger in das Bedienfeld, um es sichtbar zu halten."
+            "value": "Bewege den Zeiger über die Dynamic Island, um das MacTools-Panel zu öffnen. Bewege den Zeiger auf das Panel, um es offen zu halten."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hover either side of the Dynamic Island, or move upward from directly below it, to show the panel; move into the panel to keep it visible."
+            "value": "Hover over the Dynamic Island to open the MacTools panel. Move the pointer into the panel to keep it open."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pasa el puntero por cualquier lado de Dynamic Island o muévelo hacia arriba desde justo debajo para mostrar el panel; entra en el panel para mantenerlo visible."
+            "value": "Coloca el puntero sobre Dynamic Island para abrir el panel de MacTools. Mueve el puntero al panel para mantenerlo abierto."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Survolez un côté de Dynamic Island ou remontez depuis juste en dessous pour afficher le panneau ; entrez dans le panneau pour le maintenir visible."
+            "value": "Survolez la Dynamic Island pour ouvrir le panneau MacTools. Déplacez le pointeur dans le panneau pour le garder ouvert."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dynamic Island の左右にポインタを合わせるか、真下から上へ動かすとパネルが表示されます。パネル内に移動すると表示が維持されます。"
+            "value": "Dynamic Island にポインタを合わせると、MacTools パネルが開きます。ポインタをパネル内に移動すると、開いたままになります。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dynamic Island 양옆에 포인터를 올리거나 바로 아래에서 위로 이동하면 패널이 표시됩니다. 패널 안으로 이동하면 계속 표시됩니다."
+            "value": "Dynamic Island에 포인터를 올리면 MacTools 패널이 열립니다. 포인터를 패널 안으로 옮기면 열린 상태로 유지됩니다."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Passe o ponteiro em qualquer lado do Dynamic Island ou mova-o para cima a partir de baixo dele para mostrar o painel; entre no painel para mantê-lo visível."
+            "value": "Passe o ponteiro sobre o Dynamic Island para abrir o painel do MacTools. Mova o ponteiro para dentro do painel para mantê-lo aberto."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Наведите курсор на любую сторону Dynamic Island или переместите его вверх из-под неё, чтобы показать панель; переместите курсор на панель, чтобы оставить её открытой."
+            "value": "Наведите указатель на Dynamic Island, чтобы открыть панель MacTools. Переместите указатель на панель, чтобы она оставалась открытой."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Paneli göstermek için imleci Dynamic Island'ın her iki yanına getirin veya hemen altından yukarı doğru hareket ettirin; görünür kalması için panele girin."
+            "value": "MacTools panelini açmak için imleci Dynamic Island'ın üzerine getirin. Paneli açık tutmak için imleci panelin içine getirin."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "悬停灵动岛两侧，或从灵动岛正下方往上移动，即可显示面板；将鼠标移入面板可保持显示。"
+            "value": "将鼠标悬停在灵动岛上即可打开 MacTools 面板。将鼠标移入面板可使其保持打开。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "懸停靈動島兩側，或從靈動島正下方往上移動，即可顯示面板；將滑鼠移入面板可保持顯示。"
+            "value": "將滑鼠游標停在靈動島上即可開啟 MacTools 面板。將滑鼠游標移入面板即可保持開啟。"
           }
         }
       }
@@ -700,73 +700,73 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "أظهر لوحة MacTools عندما يدخل المؤشر إلى أي جانب من Dynamic Island أو يتحرك لأعلى من أسفله مباشرة."
+            "value": "ضع المؤشر فوق Dynamic Island لفتح لوحة MacTools."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "MacTools-Bedienfeld anzeigen, wenn der Zeiger eine Seite der Dynamic Island erreicht oder von direkt darunter nach oben bewegt wird."
+            "value": "Bewege den Zeiger über die Dynamic Island, um das MacTools-Panel zu öffnen."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Show the MacTools panel when the pointer enters either side of the Dynamic Island or moves upward from directly below it."
+            "value": "Hover over the Dynamic Island to open the MacTools panel."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Muestra el panel de MacTools cuando el puntero entra en cualquier lado de Dynamic Island o se mueve hacia arriba desde justo debajo."
+            "value": "Coloca el puntero sobre Dynamic Island para abrir el panel de MacTools."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Afficher le panneau MacTools lorsque le pointeur entre sur un côté de Dynamic Island ou remonte depuis juste en dessous."
+            "value": "Survolez la Dynamic Island pour ouvrir le panneau MacTools."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ポインタが Dynamic Island の左右に入るか、真下から上へ移動すると MacTools パネルを表示します。"
+            "value": "Dynamic Island にポインタを合わせると、MacTools パネルが開きます。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "포인터가 Dynamic Island 양옆으로 들어오거나 바로 아래에서 위로 이동하면 MacTools 패널을 표시합니다."
+            "value": "Dynamic Island에 포인터를 올리면 MacTools 패널이 열립니다."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostra o painel do MacTools quando o ponteiro entra em qualquer lado do Dynamic Island ou se move para cima a partir de baixo dele."
+            "value": "Passe o ponteiro sobre o Dynamic Island para abrir o painel do MacTools."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывать панель MacTools, когда курсор попадает на любую сторону Dynamic Island или движется вверх из-под неё."
+            "value": "Наведите указатель на Dynamic Island, чтобы открыть панель MacTools."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "İmleç Dynamic Island'ın her iki yanına girdiğinde veya hemen altından yukarı doğru hareket ettiğinde MacTools panelini göster."
+            "value": "MacTools panelini açmak için imleci Dynamic Island'ın üzerine getirin."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "鼠标移入灵动岛两侧，或从灵动岛正下方往上接近灵动岛时显示 MacTools 面板。"
+            "value": "将鼠标悬停在灵动岛上即可打开 MacTools 面板。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "滑鼠移入靈動島兩側，或從靈動島正下方往上接近靈動島時顯示 MacTools 面板。"
+            "value": "將滑鼠游標停在靈動島上即可開啟 MacTools 面板。"
           }
         }
       }

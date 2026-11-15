@@ -47,7 +47,7 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
             order: 41,
             defaultDescription: localization.string(
                 "metadata.description",
-                defaultValue: "鼠标悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板"
+                defaultValue: "将鼠标悬停在灵动岛上即可打开 MacTools 面板。"
             )
         )
     }
@@ -80,7 +80,7 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
                 ),
                 description: localization.string(
                     "settings.enabled.description",
-                    defaultValue: "鼠标移入灵动岛两侧，或从灵动岛正下方往上接近灵动岛时显示 MacTools 面板。"
+                    defaultValue: "将鼠标悬停在灵动岛上即可打开 MacTools 面板。"
                 ),
                 systemImage: "rectangle.topthird.inset.filled",
                 control: .toggle(isOn: snapshot.isEnabled)
@@ -248,7 +248,7 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
                     systemImage: "rectangle.topthird.inset.filled",
                     footer: localization.string(
                         "settings.footer",
-                        defaultValue: "悬停灵动岛两侧，或从灵动岛正下方往上移动，即可显示面板；将鼠标移入面板可保持显示。"
+                        defaultValue: "将鼠标悬停在灵动岛上即可打开 MacTools 面板。将鼠标移入面板可使其保持打开。"
                     ),
                     rows: rows
                 ),
