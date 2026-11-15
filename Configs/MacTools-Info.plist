@@ -58,6 +58,8 @@
 	<string>$(PLUGIN_CATALOG_URL)</string>
 	<key>MTApplicationSupportDirectoryName</key>
 	<string>$(APPLICATION_SUPPORT_DIRECTORY_NAME)</string>
+	<key>MTSupportsNotchHoverPanelStyles</key>
+	<true/>
 	<key>MTReleaseChannel</key>
 	<string>$(MACTOOLS_RELEASE_CHANNEL)</string>
 	<key>MTRightClickConfigurationHomeRelativePath</key>

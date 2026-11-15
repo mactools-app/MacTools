@@ -6,6 +6,7 @@ struct NotchHoverPanelSnapshot: Equatable, Sendable {
     let isEnabled: Bool
     let hasSupportedDisplay: Bool
     let showsMenuBarIcon: Bool
+    let panelStyle: NotchHoverPanelStyle
     let isBelowTriggerEnabled: Bool
     let triggerWidth: Double
     let verticalTriggerReach: Double
@@ -25,6 +26,7 @@ protocol NotchHoverPanelControlling: AnyObject, PluginMenuBarPanelPresenting,
     func refresh()
     func setEnabled(_ isEnabled: Bool)
     func setShowsMenuBarIcon(_ showsMenuBarIcon: Bool)
+    func setPanelStyle(_ style: NotchHoverPanelStyle)
     func setEnableBelowTrigger(_ enabled: Bool)
     func setTriggerWidth(_ width: Double)
     func setVerticalTriggerReach(_ reach: Double)
@@ -171,6 +173,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
             isEnabled: isEnabled,
             hasSupportedDisplay: !displays.isEmpty,
             showsMenuBarIcon: showsMenuBarIcon,
+            panelStyle: NotchHoverPanelStyle.stored(in: storage),
             isBelowTriggerEnabled: enableBelowTrigger,
             triggerWidth: triggerWidth,
             verticalTriggerReach: verticalTriggerReach,
@@ -258,6 +261,12 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         onStateChange?()
     }
 
+    func setPanelStyle(_ style: NotchHoverPanelStyle) {
+        guard style != NotchHoverPanelStyle.stored(in: storage) else { return }
+        storage.set(style.rawValue, forKey: NotchHoverPanelStyle.storageKey)
+        onStateChange?()
+    }
+
     func setTriggerWidth(_ width: Double) {
         let clamped = Self.clampedTriggerWidth(width)
         guard triggerWidth != clamped else { return }
@@ -303,6 +312,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
 
         storage.set(isEnabled, forKey: StorageKey.enabled)
         storage.set(showsMenuBarIcon, forKey: StorageKey.showsMenuBarIcon)
+        storage.removeObject(forKey: NotchHoverPanelStyle.storageKey)
         storage.set(enableBelowTrigger, forKey: StorageKey.enableBelowTrigger)
         storage.set(Int(triggerWidth.rounded()), forKey: StorageKey.triggerWidth)
         storage.set(Int(verticalTriggerReach.rounded()), forKey: StorageKey.verticalTriggerReach)

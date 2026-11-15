@@ -512,6 +512,10 @@ final class PluginPackageStore {
         }
     }
 
+    func storage(for pluginID: String) -> UserDefaultsPluginStorage {
+        UserDefaultsPluginStorage(pluginID: pluginID, userDefaults: userDefaults)
+    }
+
     func runtimeContext(for record: PluginPackageRecord) -> PluginRuntimeContext {
         let pluginID = record.id
 
@@ -526,7 +530,7 @@ final class PluginPackageStore {
         return PluginRuntimeContext(
             pluginID: pluginID,
             resourceBundle: Bundle(url: record.bundleURL) ?? .main,
-            storage: UserDefaultsPluginStorage(pluginID: pluginID, userDefaults: userDefaults),
+            storage: storage(for: pluginID),
             supportDirectory: supportURL,
             cacheDirectory: cacheURL,
             temporaryDirectory: tempURL

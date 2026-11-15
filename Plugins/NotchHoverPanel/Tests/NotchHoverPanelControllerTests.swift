@@ -33,6 +33,34 @@ private final class TestState<Value> {
 
 @MainActor
 final class NotchHoverPanelControllerTests: XCTestCase {
+    func testPanelStylePickerChangesPersistedStyle() throws {
+        let storage = NotchHoverMemoryStorage()
+        let controller = makeController(storage: storage)
+        let plugin = NotchHoverPanelPlugin(controller: controller, supportsPanelStyleSelection: true)
+        let row = try XCTUnwrap(panelStyleRow(in: plugin))
+        guard case let .picker(selectionID, options, _) = row.control else {
+            return XCTFail("Panel style should use a picker")
+        }
+        XCTAssertEqual(selectionID, "morph")
+        XCTAssertEqual(options.map(\.id), ["morph", "classic"])
+
+        plugin.handleSettingsAction(.setSelection(controlID: row.id, optionID: "classic"))
+        XCTAssertEqual(controller.snapshot.panelStyle, .classic)
+        XCTAssertEqual(makeController(storage: storage).snapshot.panelStyle, .classic)
+
+        plugin.handleSettingsAction(.setSelection(controlID: row.id, optionID: "morph"))
+        XCTAssertEqual(makeController(storage: storage).snapshot.panelStyle, .morph)
+    }
+
+    func testPanelStylePickerRequiresHostSupport() {
+        let controller = makeController(storage: NotchHoverMemoryStorage())
+        let plugin = NotchHoverPanelPlugin(controller: controller, supportsPanelStyleSelection: false)
+
+        XCTAssertNil(panelStyleRow(in: plugin))
+        plugin.handleSettingsAction(.setSelection(controlID: "panel-style", optionID: "classic"))
+        XCTAssertEqual(controller.snapshot.panelStyle, .morph)
+    }
+
     func testMenuBarIconDefaultsToVisibleWithoutOverridingSavedPreferences() {
         for savedPreference: Bool? in [nil, false, true] {
             let storage = NotchHoverMemoryStorage()
@@ -134,6 +162,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
         let storage = NotchHoverMemoryStorage()
         let controller = makeController(storage: storage)
         controller.setShowsMenuBarIcon(false)
+        controller.setPanelStyle(.classic)
         controller.setEnableBelowTrigger(false)
         controller.setTriggerWidth(NotchHoverGeometry.allowedTriggerWidthRange.upperBound)
         controller.setVerticalTriggerReach(NotchHoverGeometry.allowedVerticalTriggerReachRange.upperBound)
@@ -143,6 +172,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
         controller.resetToDefaults()
 
         let snapshot = controller.snapshot
+        XCTAssertEqual(snapshot.panelStyle, .morph)
         XCTAssertTrue(snapshot.isEnabled)
         XCTAssertTrue(snapshot.showsMenuBarIcon)
         XCTAssertTrue(snapshot.isBelowTriggerEnabled)
@@ -293,6 +323,12 @@ final class NotchHoverPanelControllerTests: XCTestCase {
 
     private static let triggerPoint = NSPoint(x: 700, y: 960)
     private static let triggerPointBelowNotch = NSPoint(x: 700, y: 900)
+
+    private func panelStyleRow(in plugin: NotchHoverPanelPlugin) -> PluginSettingsRow? {
+        guard case let .form(sections) = plugin.settingsPage?.body,
+              case let .rows(rows) = sections.first?.content else { return nil }
+        return rows.first { $0.id == "panel-style" }
+    }
 
     private func waitForScheduledWork() {
         RunLoop.current.run(until: Date().addingTimeInterval(0.15))

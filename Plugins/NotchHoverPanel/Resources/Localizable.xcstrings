@@ -1310,79 +1310,310 @@
         }
       }
     },
+    "settings.style.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط اللوحة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panelstil"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel style"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estilo del panel"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Style du panneau"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パネルのスタイル"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "패널 스타일"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estilo do painel"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Стиль панели"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel stili"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "面板样式"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "面板樣式"
+          }
+        }
+      }
+    },
+    "settings.style.morph": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灵动岛"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "靈動島"
+          }
+        }
+      }
+    },
+    "settings.style.classic": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كلاسيكي"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klassisch"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clásico"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classique"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クラシック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클래식"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clássico"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Классический"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "经典"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "經典"
+          }
+        }
+      }
+    },
     "settings.reset.description": {
       "extractionState": "manual",
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يستعيد نطاقات التشغيل والتشغيل السفلي والتأخيرات وإعداد رمز شريط القوائم إلى قيمها الأولية."
+            "value": "استعادة الإعدادات الافتراضية للوحة التحويم."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Stellt Auslösebereiche, die untere Auslösung, Verzögerungen und die Einstellung für das Menüleistensymbol auf die Anfangswerte zurück."
+            "value": "Die Standardeinstellungen des Hover-Panels wiederherstellen."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restore trigger ranges, the lower trigger, delays, and the menu-bar icon setting to their initial values."
+            "value": "Restore the default hover panel settings."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restaura los rangos de activación, la activación inferior, los retrasos y el ajuste del icono de la barra de menús."
+            "value": "Restaura los ajustes predeterminados del panel."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Rétablit les zones de déclenchement, le déclenchement inférieur, les délais et le réglage de l’icône de la barre des menus."
+            "value": "Rétablissez les réglages par défaut du panneau de survol."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "トリガー範囲、下側トリガー、遅延、メニューバーアイコンの設定を初期状態に戻します。"
+            "value": "ホバーパネルの設定を初期状態に戻します。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "트리거 범위, 아래쪽 트리거, 지연 시간 및 메뉴 막대 아이콘 설정을 초기 상태로 되돌립니다."
+            "value": "호버 패널의 기본 설정을 복원합니다."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restaura os intervalos de ativação, a ativação inferior, os atrasos e o ajuste do ícone da barra de menus."
+            "value": "Restaure os ajustes padrão do painel ao passar o ponteiro."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Возвращает диапазоны срабатывания, нижнее срабатывание, задержки и настройку значка в строке меню к исходным значениям."
+            "value": "Восстановите настройки панели наведения по умолчанию."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tetikleme aralıklarını, alt tetiklemeyi, gecikmeleri ve menü çubuğu simgesi ayarını ilk değerlerine döndürür."
+            "value": "Üzerine gelme panelinin varsayılan ayarlarını geri yükleyin."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "将触发范围、下方触发、显示延迟和菜单栏图标恢复为初始状态。"
+            "value": "恢复悬浮面板的默认设置。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "將觸發範圍、下方觸發、顯示延遲和選單列圖示恢復為初始狀態。"
+            "value": "恢復懸浮面板的預設設定。"
           }
         }
       }

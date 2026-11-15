@@ -299,6 +299,9 @@ final class MenuBarPanelPresenter: NSObject {
     private var popoverSafeAreaInsets = MenuBarPopoverGeometry.fallbackSafeAreaInsets
     private var hoverAnchorPanel: NSPanel?
     private var notchPanel: NotchMenuBarPanel?
+    private var isClassicHoverPopover = false
+    private var classicHoverRestingFrame: NSRect?
+    private var classicHoverDismissGeneration: UInt = 0
 
     init(
         pluginHost: PluginHost,
@@ -498,9 +501,9 @@ final class MenuBarPanelPresenter: NSObject {
         present(panel, relativeTo: hoverAnchorView(for: anchorRect))
     }
 
-    /// Presents the regular panel inside a shape anchored to the camera housing.
+    /// Presents the panel from a plugin-owned screen anchor.
     @discardableResult
-    func presentPanelBelowAnchor(panelID: String?, anchorRect: NSRect) -> Bool {
+    func presentPanelBelowAnchor(panelID: String?, anchorRect: NSRect, style: NotchHoverPanelStyle) -> Bool {
         guard !anchorRect.isEmpty,
               anchorRect.width.isFinite,
               anchorRect.height.isFinite,
@@ -512,11 +515,25 @@ final class MenuBarPanelPresenter: NSObject {
             notchPanel.reopen()
             return true
         }
+        if popover.isShown {
+            guard isClassicHoverPopover else { return false }
+            cancelClassicHoverDismissalIfNeeded()
+            return true
+        }
+
+        guard let selected = resolvedPanelForAnchor(panelID: panelID) else { return false }
+        if style == .classic {
+            present(selected, relativeTo: hoverAnchorView(for: anchorRect), asClassicHover: true)
+            guard popover.isShown else {
+                cleanupHoverAnchor()
+                finishDismissal()
+                return false
+            }
+            return true
+        }
 
         let systemPanel = NotchMenuBarPanel.systemPanelDetector(over: anchorRect)
-        guard !popover.isShown, !systemPanel.isVisible,
-              let selected = resolvedPanelForAnchor(panelID: panelID)
-        else { return false }
+        guard !systemPanel.isVisible else { return false }
 
         selectedPanel = selected
         popover.contentViewController = nil
@@ -543,7 +560,10 @@ final class MenuBarPanelPresenter: NSObject {
     @discardableResult
     func dismissPanelBelowAnchor(animated: Bool) -> Bool {
         guard !panelModel.preventDismissalWhileEditing() else { return false }
-        guard let notchPanel else { return true }
+        guard let notchPanel else {
+            dismissClassicHoverPopover(animated: animated)
+            return true
+        }
 
         notchPanel.dismiss(animated: animated) { [weak self, weak notchPanel] in
             guard let self, let notchPanel, self.notchPanel === notchPanel else { return }
@@ -563,6 +583,7 @@ final class MenuBarPanelPresenter: NSObject {
         if notchPanel != nil {
             dismissPanelBelowAnchor(animated: true)
         } else {
+            resetClassicHoverDismissal()
             popover.performClose(nil)
         }
     }
@@ -620,7 +641,7 @@ final class MenuBarPanelPresenter: NSObject {
         present(panel, relativeTo: anchorView)
     }
 
-    private func present(_ panel: PanelKind, relativeTo anchorView: NSView) {
+    private func present(_ panel: PanelKind, relativeTo anchorView: NSView, asClassicHover: Bool = false) {
         let action = MenuBarPanelPresentationAction.resolve(
             isPanelShown: isAnyPanelShown,
             selectedTab: tab(for: selectedPanel),
@@ -640,6 +661,7 @@ final class MenuBarPanelPresenter: NSObject {
             return
         }
 
+        isClassicHoverPopover = asClassicHover
         show(popover, relativeTo: anchorView)
         scheduleHeightRefresh(for: tab(for: panel))
     }
@@ -674,7 +696,70 @@ final class MenuBarPanelPresenter: NSObject {
         PluginPresentationSafety.prepareForWindowOrdering()
         popover.show(relativeTo: anchorView.bounds, of: anchorView, preferredEdge: .minY)
         applyCurrentAppearance()
+        if let window = presentedWindow {
+            if isClassicHoverPopover && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion {
+                animateClassicHoverPopoverIn(window)
+            } else {
+                window.alphaValue = 1
+            }
+        }
         focusPresentedWindow()
+    }
+
+    private static let classicHoverSlideDistance: CGFloat = 18
+
+    private func animateClassicHoverPopoverIn(_ window: NSWindow) {
+        let targetFrame = window.frame
+        window.setFrame(targetFrame.offsetBy(dx: 0, dy: Self.classicHoverSlideDistance), display: false)
+        window.alphaValue = 0
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.22
+            context.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            window.animator().setFrame(targetFrame, display: true)
+            window.animator().alphaValue = 1
+        }
+    }
+
+    private func dismissClassicHoverPopover(animated: Bool) {
+        guard isClassicHoverPopover, popover.isShown else { return }
+        guard animated, !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion, let window = presentedWindow else {
+            resetClassicHoverDismissal()
+            popover.performClose(nil)
+            return
+        }
+        guard classicHoverRestingFrame == nil else { return }
+
+        classicHoverDismissGeneration &+= 1
+        let generation = classicHoverDismissGeneration
+        let restingFrame = window.frame
+        classicHoverRestingFrame = restingFrame
+        NSAnimationContext.runAnimationGroup({ context in
+            context.duration = 0.16
+            context.timingFunction = CAMediaTimingFunction(name: .easeIn)
+            window.animator().setFrame(restingFrame.offsetBy(dx: 0, dy: Self.classicHoverSlideDistance), display: true)
+            window.animator().alphaValue = 0
+        }, completionHandler: { [weak self] in
+            Task { @MainActor [weak self] in
+                guard let self, self.classicHoverDismissGeneration == generation else { return }
+                self.popover.performClose(nil)
+            }
+        })
+    }
+
+    private func cancelClassicHoverDismissalIfNeeded() {
+        guard let restingFrame = classicHoverRestingFrame, let window = presentedWindow else { return }
+        resetClassicHoverDismissal()
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.14
+            context.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            window.animator().setFrame(restingFrame, display: true)
+            window.animator().alphaValue = 1
+        }
+    }
+
+    private func resetClassicHoverDismissal() {
+        classicHoverDismissGeneration &+= 1
+        classicHoverRestingFrame = nil
     }
 
     private func resolvedPanelForAnchor(panelID: String?) -> MenuBarPanelTab? {
@@ -724,6 +809,8 @@ final class MenuBarPanelPresenter: NSObject {
     private func cleanupHoverAnchor() {
         hoverAnchorPanel?.orderOut(nil)
         hoverAnchorPanel = nil
+        isClassicHoverPopover = false
+        resetClassicHoverDismissal()
     }
 
     private func installKeyboardShortcutMonitorIfNeeded() {

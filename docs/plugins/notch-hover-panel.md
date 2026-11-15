@@ -1,6 +1,6 @@
 # Dynamic Island Hover Panel
 
-`Plugins/NotchHoverPanel/` opens the regular MacTools menu-bar panel when the pointer rests over the Dynamic Island. The panel expands from the notch and contracts back into it when it closes. The plugin handles hover detection, delays, and which presentation it owns. The host handles panel content, positioning, and animation.
+`Plugins/NotchHoverPanel/` opens the regular MacTools menu-bar panel when the pointer rests over the Dynamic Island. In **Panel style**, **Dynamic Island** expands from the notch and contracts into it when it closes. **Classic** slides the original popover below the notch. Both styles are available on Macs with a notch and use the same hover area and delays. The plugin handles hover detection, delays, and which presentation it owns. The host handles panel content, positioning, and animation.
 
 The default trigger matches the Dynamic Island. The side-reach setting extends the trigger into the adjacent menu-bar areas. When enabled, the lower trigger extends below the island by the configured lower reach. The panel stays open while the pointer is over the island or inside the panel. It hides after the configured delay once the pointer leaves both. Mirrored secondary displays are ignored.
 

@@ -3,4 +3,4 @@ release: plugin
 type: changed
 ---
 
-The Dynamic Island Hover Panel now opens only when the pointer is over the island. Trigger Width and Lower Trigger Reach can still widen the area.
+Hover directly over the notch by default. Adjust the trigger area or choose Dynamic Island or Classic under Panel style.
