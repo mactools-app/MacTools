@@ -123,20 +123,18 @@ struct SettingsView: View {
                 }
             }
         } detail: {
-            SettingsDetailColumn {
-                SettingsDetailPane(
-                    pluginHost: pluginHost,
-                    navigationCoordinator: navigationCoordinator,
-                    destination: navigationCoordinator.destination,
-                    uninstallConfirmationSession: uninstallConfirmationSession,
-                    appUpdater: appUpdater,
-                    menuBarIconSettings: menuBarIconSettings,
-                    menuBarIconGallery: menuBarIconGallery,
-                    launchAtLoginController: launchAtLoginController,
-                    menuBarPanelThemeStore: menuBarPanelThemeStore,
-                    appearanceUserDefaults: appearanceUserDefaults
-                )
-            }
+            SettingsDetailPane(
+                pluginHost: pluginHost,
+                navigationCoordinator: navigationCoordinator,
+                destination: navigationCoordinator.destination,
+                uninstallConfirmationSession: uninstallConfirmationSession,
+                appUpdater: appUpdater,
+                menuBarIconSettings: menuBarIconSettings,
+                menuBarIconGallery: menuBarIconGallery,
+                launchAtLoginController: launchAtLoginController,
+                menuBarPanelThemeStore: menuBarPanelThemeStore,
+                appearanceUserDefaults: appearanceUserDefaults
+            )
             .frame(
                 minWidth: SettingsSplitViewLayout.detailMinWidth,
                 maxWidth: .infinity,
@@ -145,6 +143,8 @@ struct SettingsView: View {
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 StarterPackProgressBanner(controller: pluginHost.starterPacks, navigation: navigationCoordinator)
             }
+            // Let the window reserve space for its toolbar; only the background extends behind it.
+            .background(SettingsStyle.contentBackground, ignoresSafeAreaEdges: .top)
             .toolbar {
                 if #available(macOS 26.0, *) {
                     ToolbarItem(placement: .navigation) {
@@ -3701,34 +3701,6 @@ private struct SettingsSidebarColumn<Content: View>: View {
         content
             .padding(.top, headerHeight)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background {
-                SettingsWindowTopSafeAreaReader(topInset: $headerHeight)
-                    .frame(width: 0, height: 0)
-            }
-            .ignoresSafeArea(.container, edges: .top)
-    }
-}
-
-private struct SettingsDetailColumn<Content: View>: View {
-    private let content: Content
-    @State private var headerHeight: CGFloat = 0
-
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
-    }
-
-    var body: some View {
-        content
-            .padding(.top, headerHeight)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .overlay(alignment: .top) {
-                if headerHeight > 0 {
-                    SettingsStyle.contentBackground
-                        .frame(height: headerHeight)
-                        .allowsHitTesting(false)
-                        .accessibilityHidden(true)
-                }
-            }
             .background {
                 SettingsWindowTopSafeAreaReader(topInset: $headerHeight)
                     .frame(width: 0, height: 0)
