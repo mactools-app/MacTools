@@ -772,9 +772,16 @@ final class IslandNotificationsController {
     }
 
     func setHistoryContentHeight(_ height: CGFloat) {
-        let total = height > 0
-            ? min(IslandHistoryLayout.maximumHeight, height)
-            : IslandHistoryLayout.emptyHeight
+        // The list and its "No Notifications" line can both report as the panel opens, the line
+        // after the list has measured itself, so what the list holds decides which one counts.
+        let total: CGFloat
+        if history.entries.isEmpty {
+            total = IslandHistoryLayout.emptyHeight
+        } else if height > 0 {
+            total = min(IslandHistoryLayout.maximumHeight, height)
+        } else {
+            return
+        }
         let span = PluginPanelWidgetLayoutMetrics.default.heightSpan(fittingContentHeight: total)
         // At once, both ways: the panel glides to the new height on the same spring the list
         // uses, and the list waits the panel's short update delay (see IslandHistoryLayout.motion).
