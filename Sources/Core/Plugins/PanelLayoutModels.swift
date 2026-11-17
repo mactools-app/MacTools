@@ -131,6 +131,7 @@ struct MenuBarPanelConfiguration: Codable, Equatable, Sendable {
                 customCount += 1
             }
             var panel = original
+            if let width = panel.width, !width.isFinite || width < Self.defaultWidth { panel.width = nil }
             panel.name = String(panel.name.trimmingCharacters(in: .whitespacesAndNewlines)
                 .prefix(MenuBarPanelDefinition.maximumNameLength))
             if panel.systemImage.isEmpty { panel.systemImage = "square.grid.2x2" }

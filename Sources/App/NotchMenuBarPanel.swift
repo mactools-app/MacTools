@@ -29,6 +29,8 @@ final class NotchMenuBarPanel {
     private var lastFrameTimestamp: CFTimeInterval?
     private var closeCompletion: (@MainActor () -> Void)?
     private var systemPanelMonitor: DispatchSourceTimer?
+    /// The content size the surface shows while the panel changes size; nil when settled.
+    private var sizeSpring: (width: NotchMorphModel.Spring, height: NotchMorphModel.Spring)?
     private(set) var isClosing = false
 
     init(anchor: CGRect, content: NSViewController) {
@@ -80,7 +82,22 @@ final class NotchMenuBarPanel {
 
     func resize(to size: CGSize) {
         guard !isClosing, size != metrics.contentSize else { return }
-        applyContentSize(size)
+        let shown = sizeSpring.map { CGSize(width: $0.width.value, height: $0.height.value) } ?? metrics.contentSize
+        // Size changes (a list growing, a wider panel) glide on a spring from wherever the surface
+        // is now. Reduce Motion, or a panel still opening or closing, just applies the new size.
+        guard model.isSettled, model.target == 1, !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion else {
+            applyContentSize(size)
+            render()
+            startDisplayLinkIfNeeded()
+            return
+        }
+        sizeSpring = (NotchMorphModel.Spring(value: Double(shown.width), velocity: sizeSpring?.width.velocity ?? 0),
+                      NotchMorphModel.Spring(value: Double(shown.height), velocity: sizeSpring?.height.velocity ?? 0))
+        metrics = NotchMorphMetrics(anchor: anchor, contentSize: size)
+        metrics.windowContentSize = CGSize(width: max(shown.width, size.width), height: max(shown.height, size.height))
+        metrics.revealedContentSize = shown
+        let frame = metrics.windowFrame
+        if window.frame != frame { window.setFrame(frame, display: false) }
         render()
         startDisplayLinkIfNeeded()
     }
@@ -103,6 +120,8 @@ final class NotchMenuBarPanel {
         }
         guard !isClosing else { return }
         isClosing = true
+        // A size change in progress stops where it is; the surface folds away from there.
+        sizeSpring = nil
         closeCompletion = completion
         window.ignoresMouseEvents = true
         setExpanded(false)
@@ -150,6 +169,7 @@ final class NotchMenuBarPanel {
     // MARK: - Animation
 
     private func applyContentSize(_ size: CGSize) {
+        sizeSpring = nil
         metrics = NotchMorphMetrics(anchor: anchor, contentSize: size)
         let frame = metrics.windowFrame
         if window.frame != frame {
@@ -186,13 +206,33 @@ final class NotchMenuBarPanel {
         let now = link.targetTimestamp
         let elapsed = lastFrameTimestamp.map { now - $0 } ?? (link.targetTimestamp - link.timestamp)
         lastFrameTimestamp = now
-        model.advance(by: min(max(elapsed, 0), 1.0 / 30.0))
+        let dt = min(max(elapsed, 0), 1.0 / 30.0)
+        model.advance(by: dt)
+        if var springs = sizeSpring {
+            let target = metrics.contentSize
+            // The spring SwiftUI content in the panel uses, so a panel following its content keeps pace.
+            springs.width.step(toward: Double(target.width), response: 0.36, dampingRatio: 0.86, dt: dt)
+            springs.height.step(toward: Double(target.height), response: 0.36, dampingRatio: 0.86, dt: dt)
+            func settled(_ spring: NotchMorphModel.Spring, _ value: CGFloat) -> Bool {
+                abs(spring.value - Double(value)) < 0.5 && abs(spring.velocity) < 1
+            }
+            if settled(springs.width, target.width), settled(springs.height, target.height) {
+                sizeSpring = nil
+                metrics.revealedContentSize = nil
+                metrics.windowContentSize = nil
+                let frame = metrics.windowFrame
+                if window.frame != frame { window.setFrame(frame, display: false) }
+            } else {
+                sizeSpring = springs
+                metrics.revealedContentSize = CGSize(width: springs.width.value, height: springs.height.value)
+            }
+        }
         render()
         finishIfSettled()
     }
 
     private func finishIfSettled() {
-        guard model.isSettled else { return }
+        guard model.isSettled, sizeSpring == nil else { return }
         model.snapToTarget()
         render()
         stopDisplayLink()

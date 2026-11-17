@@ -118,9 +118,23 @@ struct NotchMorphMetrics {
         )
     }
 
+    /// While the host panel changes size, its window keeps the larger of the two sizes and the
+    /// surface shows `revealedContentSize` of the content, so the change can be one motion.
+    var windowContentSize: CGSize?
+    var revealedContentSize: CGSize?
+
+    /// The expanded surface: all of the content, or the part being revealed.
+    var expandedWidth: CGFloat {
+        revealedContentSize.map { max($0.width, housingSize.width) } ?? expandedSize.width
+    }
+    var expandedHeight: CGFloat {
+        revealedContentSize.map { contentTopInset + $0.height + Self.bottomInset } ?? expandedSize.height
+    }
+
     var windowFrame: CGRect {
-        let width = expandedSize.width + Self.margin * 2
-        let height = (expandedSize.height + Self.margin).rounded()
+        let width = (windowContentSize.map { max($0.width, housingSize.width) } ?? expandedSize.width) + Self.margin * 2
+        let contentHeight = windowContentSize.map { contentTopInset + $0.height + Self.bottomInset } ?? expandedSize.height
+        let height = (contentHeight + Self.margin).rounded()
         let top = anchor.maxY - (anchor.height - housingSize.height) + housingOffset
         return CGRect(x: (anchor.midX - width / 2).rounded(), y: top - height,
                       width: width.rounded(), height: height)
@@ -139,8 +153,8 @@ struct NotchMorphMetrics {
 
     func surfaceRect(widthFraction: Double, heightFraction: Double) -> CGRect {
         let size = windowSize
-        let width = max(Self.lerp(collapsedSize.width, expandedSize.width, widthFraction), 2)
-        let height = max(Self.lerp(collapsedSize.height, expandedSize.height, heightFraction), 2)
+        let width = max(Self.lerp(collapsedSize.width, expandedWidth, widthFraction), 2)
+        let height = max(Self.lerp(collapsedSize.height, expandedHeight, heightFraction), 2)
         // Rises from inside the housing to the expanded top as the surface deepens.
         // A surface that meets the display edge stays pinned to it.
         let collapsedTop = meetsDisplayTop ? 0 : housingOffset + (housingSize.height - collapsedSize.height) / 2
@@ -319,6 +333,21 @@ final class NotchMorphView: NSView {
                 content.setFrameOrigin(origin)
             }
             content.alphaValue = CGFloat(min(max(model.contentOpacity, 0), 1))
+            // While the surface is shorter than its content, the content ends where the surface does.
+            if metrics.revealedContentSize != nil {
+                content.wantsLayer = true
+                let mask = (content.layer?.mask as? CAShapeLayer) ?? CAShapeLayer()
+                mask.frame = content.bounds
+                // Into the content's own coordinates, which SwiftUI's hosting view flips.
+                var shift = content.isFlipped
+                    ? CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: -content.frame.minX,
+                                        ty: content.bounds.height + content.frame.minY)
+                    : CGAffineTransform(translationX: -content.frame.minX, y: -content.frame.minY)
+                mask.path = path.copy(using: &shift)
+                content.layer?.mask = mask
+            } else if content.layer?.mask != nil {
+                content.layer?.mask = nil
+            }
         }
         CATransaction.commit()
     }

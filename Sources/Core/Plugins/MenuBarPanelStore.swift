@@ -4,6 +4,7 @@ import MacToolsPluginKit
 struct MenuBarPanelDefinition: Codable, Equatable, Identifiable, Sendable {
     static let componentsID = "components"
     static let featuresID = "features"
+    static let notificationsID = "notifications"
     static let maximumCount = 5
     static let maximumNameLength = 24
 
@@ -11,6 +12,9 @@ struct MenuBarPanelDefinition: Codable, Equatable, Identifiable, Sendable {
     var name: String
     var systemImage: String
     var isHidden = false
+    /// Opt-in: this panel's own width while it is showing. nil (every panel unless a dedicated
+    /// panel below sets it) uses the shared width, and a full-width widget keeps its declared size.
+    var width: Double?
 
     var isDefault: Bool { id == Self.componentsID || id == Self.featuresID }
 
@@ -21,6 +25,8 @@ struct MenuBarPanelDefinition: Codable, Equatable, Identifiable, Sendable {
             AppL10n.plugins("plugin.panel.components", defaultValue: "组件面板")
         case Self.featuresID:
             AppL10n.plugins("plugin.panel.features", defaultValue: "功能面板")
+        case Self.notificationsID:
+            AppL10n.plugins("plugin.panel.notifications", defaultValue: "通知")
         default:
             FeatureL10n.string("新面板")
         }
@@ -31,6 +37,14 @@ struct MenuBarPanelDefinition: Codable, Equatable, Identifiable, Sendable {
         while names.contains(FeatureL10n.format("面板 %lld", number)) { number += 1 }
         return FeatureL10n.format("面板 %lld", number)
     }
+
+    /// Widgets that get a panel of their own the first time they appear. The Island Notifications
+    /// list reads like Notification Centre, whose column is 344 pt wide: its panel is sized for that
+    /// (344 plus the list's 8 pt margins and the panel's 6 pt padding on each side).
+    static let dedicatedPanels: [PluginPanelItemKey: Self] = [
+        PluginPanelItemKey(pluginID: "island-notifications", itemID: "history"):
+            Self(id: notificationsID, name: "", systemImage: "bell", width: 372),
+    ]
 
     static var defaults: [Self] {
         [
@@ -169,6 +183,13 @@ final class MenuBarPanelStore {
                 let index = existing.firstIndex { $0.item.itemID == item.key.itemID && successors.contains($0.item.pluginID) }
                 existing.insert(placement, at: index ?? existing.count)
                 next.placementsByPanelID[panelID] = existing
+                continue
+            }
+            if let panel = MenuBarPanelDefinition.dedicatedPanels[item.key],
+               !next.panels.contains(where: { $0.id == panel.id }),
+               next.panels.count < MenuBarPanelDefinition.maximumCount {
+                next.panels.append(panel)
+                next.placementsByPanelID[panel.id] = [MenuBarPanelPlacement(item: item.key)]
                 continue
             }
             guard let initial = item.initialPlacement else { continue }

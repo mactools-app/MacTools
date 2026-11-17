@@ -1191,8 +1191,10 @@ final class MenuBarPanelPresenter: NSObject {
         screen: NSScreen?
     ) -> MenuBarPanelHeightResolution {
         let maximumWidth = MenuBarPanelWidth.maximum(visibleFrameWidth: screen?.visibleFrame.width)
+        // A panel with its own width (opt-in, see MenuBarPanelDefinition.width) uses it while shown.
+        let panelWidth = pluginHost.menuBarPanels.first { $0.id == tab.id }?.width
         let preferredWidth = MenuBarPanelWidth.resolved(
-            preferred: pluginHost.preferredMenuBarPanelWidth, maximum: maximumWidth)
+            preferred: panelWidth ?? pluginHost.preferredMenuBarPanelWidth, maximum: maximumWidth)
         // Widen only while the header sits beside the notch. Layout editing moves
         // it below, so editing keeps the width the user chose.
         let widthForNotchHeader = panelModel.isEditingLayout ? 0 : notchPanel.map {

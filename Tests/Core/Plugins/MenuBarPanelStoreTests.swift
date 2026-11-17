@@ -56,6 +56,28 @@ final class MenuBarPanelStoreTests: XCTestCase {
         XCTAssertEqual(migrated.configuration.legacySeed?.dashboardHidden, ["example"])
     }
 
+    /// A panel's own width is opt-in: only a dedicated panel gets one, once, and only while the
+    /// panel limit allows; every other panel keeps the shared width.
+    func testDedicatedPanelIsCreatedOnceWithItsWidthAndOthersHaveNone() throws {
+        let history = PluginPanelItemKey(pluginID: "island-notifications", itemID: "history")
+        XCTAssertTrue(store.reconcile([(history, .dashboard)]))
+        let panel = try XCTUnwrap(store.configuration.panels.first { $0.id == MenuBarPanelDefinition.notificationsID })
+        XCTAssertEqual(panel.width, 372)
+        XCTAssertEqual(store.configuration.placementsByPanelID[panel.id]?.map(\.item), [history])
+        XCTAssertNil(store.configuration.placementsByPanelID[MenuBarPanelDefinition.componentsID])
+        XCTAssertTrue(store.configuration.panels.filter { $0.id != panel.id }.allSatisfy { $0.width == nil })
+        // Once seen, the item never creates the panel again, even if the person removes it.
+        let reloaded = MenuBarPanelStore(userDefaults: defaults)
+        XCTAssertFalse(reloaded.reconcile([(history, .dashboard)]))
+        XCTAssertEqual(reloaded.configuration.panels.filter { $0.id == panel.id }.count, 1)
+    }
+
+    func testAPanelWidthBelowTheSharedMinimumIsDropped() {
+        var configuration = MenuBarPanelConfiguration()
+        configuration.panels.append(MenuBarPanelDefinition(id: "narrow", name: "", systemImage: "bell", width: 100))
+        XCTAssertNil(configuration.normalized().panels.first { $0.id == "narrow" }?.width)
+    }
+
     func testInitialPlacementIsAppliedOnceIncludingLibraryOnlyItems() throws {
         let row = key()
         let widget = key("example", "widget")
