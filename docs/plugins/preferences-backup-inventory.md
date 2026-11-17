@@ -11,7 +11,7 @@ localOnly: 2; none: 25; partial: 36; portable: 7.
 | Plugin | ID | Coverage | Exclusion codes |
 | --- | --- | --- | --- |
 | [AI Assistant](../../Plugins/AIAssistant) | `ai-assistant` | partial | credentials, permissions, private-content |
-| [AI Usage](../../Plugins/AIUsage) | `ai-usage` | partial | credentials, permissions, history |
+| [AI Usage](../../Plugins/AIUsage) | `ai-usage` | partial | history |
 | [Action Grid](../../Plugins/ActionGrid) | `action-grid` | portable | — |
 | [Activity Stats](../../Plugins/ActivityBar) | `activity-bar` | partial | local-activation, history |
 | [App Hotkeys](../../Plugins/AppHotkey) | `app-hotkey` | partial | application-paths |

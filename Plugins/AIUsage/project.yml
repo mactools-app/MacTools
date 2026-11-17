@@ -1,3 +1,0 @@
-settings:
-  base:
-    OTHER_LDFLAGS: -framework Security -framework LocalAuthentication
