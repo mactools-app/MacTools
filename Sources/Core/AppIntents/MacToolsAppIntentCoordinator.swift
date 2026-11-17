@@ -128,20 +128,24 @@ final class MacToolsAppIntentCoordinator {
     private let runtime: MacToolsAppIntentRuntime
     private let activityHandler: MacToolsAppIntentRuntime.ActivityHandler?
     private let circuitBreaker: any MacToolsAppIntentCircuitBreaking
+    private let refreshShortcutParameters: @MainActor () -> Void
     private var hasBecomeReady = false
+    private var publishedActions: [MacToolsAppIntentAction]?
 
     init(
         registry: ActionRegistry,
         executor: ActionExecutor,
         runtime: MacToolsAppIntentRuntime = .shared,
         activityHandler: MacToolsAppIntentRuntime.ActivityHandler? = nil,
-        circuitBreaker: any MacToolsAppIntentCircuitBreaking = MacToolsAppIntentCircuitBreaker.shared
+        circuitBreaker: any MacToolsAppIntentCircuitBreaking = MacToolsAppIntentCircuitBreaker.shared,
+        refreshShortcutParameters: @escaping @MainActor () -> Void = { MacToolsAppShortcuts.refreshParameters() }
     ) {
         self.registry = registry
         self.executor = executor
         self.runtime = runtime
         self.activityHandler = activityHandler
         self.circuitBreaker = circuitBreaker
+        self.refreshShortcutParameters = refreshShortcutParameters
     }
 
     func beginPreparation() {
@@ -167,12 +171,22 @@ final class MacToolsAppIntentCoordinator {
         guard !hasBecomeReady else { return }
         hasBecomeReady = true
         runtime.markReady()
-        MacToolsAppShortcuts.refreshParameters()
+        refreshShortcutParametersIfActionsChanged()
     }
 
     func actionCatalogDidChange() {
         guard hasBecomeReady else { return }
-        MacToolsAppShortcuts.refreshParameters()
+        refreshShortcutParametersIfActionsChanged()
+    }
+
+    /// Availability is invalidated on every coalesced plugin state change, which can
+    /// happen several times a second. linkd rate-limits parameter refreshes, so only
+    /// publish when the choices Spotlight and Shortcuts would show actually differ.
+    private func refreshShortcutParametersIfActionsChanged() {
+        let actions = catalog.actions(includeUnavailable: false)
+        guard actions != publishedActions else { return }
+        publishedActions = actions
+        refreshShortcutParameters()
     }
 
     var eligibleActionCount: Int {

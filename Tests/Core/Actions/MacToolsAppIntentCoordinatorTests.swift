@@ -78,6 +78,7 @@ final class MacToolsAppIntentCoordinatorTests: XCTestCase {
     func testRuntimeWaitsForRegistryPreparationBeforeReturningChoices() async {
         let runtime = MacToolsAppIntentRuntime()
         var providerCallCount = 0
+        var activityCount = 0
         let expected = MacToolsAppIntentAction(
             id: "ready",
             title: "Ready",
@@ -88,7 +89,8 @@ final class MacToolsAppIntentCoordinatorTests: XCTestCase {
                 providerCallCount += 1
                 return [expected]
             },
-            actionExecutor: { _ in .succeeded(message: "Done") }
+            actionExecutor: { _ in .succeeded(message: "Done") },
+            activityHandler: { activityCount += 1 }
         )
 
         let choices = Task { @MainActor in
@@ -96,6 +98,8 @@ final class MacToolsAppIntentCoordinatorTests: XCTestCase {
         }
         await Task.yield()
         XCTAssertEqual(providerCallCount, 0)
+        // Spotlight parameter lookups must suppress the reopen Settings recovery.
+        XCTAssertEqual(activityCount, 1)
 
         runtime.markReady()
         let resolvedChoices = await choices.value
@@ -180,6 +184,39 @@ final class MacToolsAppIntentCoordinatorTests: XCTestCase {
         XCTAssertEqual(provider.lastInvocation?.reference, reference)
         XCTAssertEqual(provider.lastInvocation?.source, .appIntent)
         XCTAssertEqual(provider.lastInvocation?.mode, .background)
+    }
+
+    func testShortcutParametersRefreshOnlyWhenOfferedActionsChange() {
+        let registry = ActionRegistry()
+        let provider = AppIntentActionTestProvider()
+        let definition = provider.definition(actionID: "eligible")
+        let reference = ActionReference(key: definition.key)
+        registry.synchronize([provider.registration(
+            definitions: [definition],
+            entries: [ActionCatalogEntry(reference: reference, title: definition.title)]
+        )])
+        var refreshCount = 0
+        let coordinator = MacToolsAppIntentCoordinator(
+            registry: registry,
+            executor: ActionExecutor(registry: registry),
+            runtime: MacToolsAppIntentRuntime(),
+            circuitBreaker: AllowingAppIntentCircuitBreaker(),
+            refreshShortcutParameters: { refreshCount += 1 }
+        )
+        coordinator.beginPreparation()
+        coordinator.actionRegistryDidBecomeReady()
+        XCTAssertEqual(refreshCount, 1)
+
+        // Plugin state churn invalidates availability without changing the offered actions.
+        for _ in 0..<5 {
+            registry.invalidateAvailability()
+            coordinator.actionCatalogDidChange()
+        }
+        XCTAssertEqual(refreshCount, 1)
+
+        provider.unavailableActionIDs = [definition.key.actionID]
+        coordinator.actionCatalogDidChange()
+        XCTAssertEqual(refreshCount, 2)
     }
 
     func testExecutionReportsCurrentAvailabilityFailureForPreviouslyResolvedEntity() async throws {

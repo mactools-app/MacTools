@@ -81,11 +81,14 @@ public final class MacToolsAppIntentRuntime {
     }
 
     public func actions(includeUnavailable: Bool) async -> [MacToolsAppIntentAction] {
+        // Parameter lookups from Spotlight or Shortcuts also reopen the app.
+        noteActivity()
         await waitUntilReady()
         return actionProvider?(includeUnavailable) ?? []
     }
 
     public func actions(for identifiers: [String]) async -> [MacToolsAppIntentAction] {
+        noteActivity()
         await waitUntilReady()
         return actionResolver?(identifiers) ?? []
     }
