@@ -13874,6 +13874,236 @@
     {
       "capabilities": {
         "panelItems": [
+          "widget"
+        ],
+        "settings": "form"
+      },
+      "category": "display",
+      "displayName": "灵动岛下载",
+      "id": "island-downloads",
+      "localizedMetadata": {
+        "ar": {
+          "displayName": "تنزيلات Dynamic Island",
+          "summary": "اعرض تقدم التنزيلات بجانب جزيرة الكاميرا واحصل على إشعار عند اكتمالها."
+        },
+        "de": {
+          "displayName": "Dynamic-Island-Downloads",
+          "summary": "Downloadfortschritt neben der Kamera-Insel anzeigen und bei Abschluss benachrichtigt werden."
+        },
+        "en": {
+          "displayName": "Dynamic Island Downloads",
+          "summary": "Show download progress beside the camera island and get notified when a download finishes."
+        },
+        "es": {
+          "displayName": "Descargas en Dynamic Island",
+          "summary": "Muestra el progreso de las descargas junto a la isla de la cámara y avisa cuando terminan."
+        },
+        "fr": {
+          "displayName": "Téléchargements Dynamic Island",
+          "summary": "Affichez la progression des téléchargements près de l’îlot de la caméra et soyez averti à la fin."
+        },
+        "ja": {
+          "displayName": "Dynamic Island ダウンロード",
+          "summary": "カメラのアイランドの横にダウンロードの進行状況を表示し、完了時に通知します。"
+        },
+        "ko": {
+          "displayName": "Dynamic Island 다운로드",
+          "summary": "카메라 아일랜드 옆에 다운로드 진행률을 표시하고 완료되면 알려 줍니다."
+        },
+        "pt": {
+          "displayName": "Downloads na Dynamic Island",
+          "summary": "Mostre o progresso dos downloads ao lado da ilha da câmera e receba um aviso ao terminar."
+        },
+        "ru": {
+          "displayName": "Загрузки в Dynamic Island",
+          "summary": "Прогресс загрузок рядом с островком камеры и уведомление о завершении."
+        },
+        "tr": {
+          "displayName": "Dynamic Island İndirmeleri",
+          "summary": "İndirme ilerlemesini kamera adasının yanında gösterin ve indirme bitince bildirim alın."
+        },
+        "zh-Hans": {
+          "displayName": "灵动岛下载",
+          "summary": "在灵动岛旁显示下载进度，并在下载完成时通知。"
+        },
+        "zh-Hant": {
+          "displayName": "靈動島下載",
+          "summary": "在靈動島旁顯示下載進度，並在下載完成時通知。"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/island-downloads",
+      "product": {
+        "actions": null,
+        "discovery": {
+          "alternativePluginIDs": [],
+          "goalCategories": [
+            "display"
+          ],
+          "keywords": [
+            "downloads",
+            "dynamic island",
+            "notch",
+            "progress",
+            "safari",
+            "chrome"
+          ],
+          "localizedSynonyms": {
+            "ar": [
+              "تنزيلات Dynamic Island"
+            ],
+            "de": [
+              "Dynamic-Island-Downloads"
+            ],
+            "en": [
+              "Dynamic Island Downloads"
+            ],
+            "es": [
+              "Descargas en Dynamic Island"
+            ],
+            "fr": [
+              "Téléchargements Dynamic Island"
+            ],
+            "ja": [
+              "Dynamic Island ダウンロード"
+            ],
+            "ko": [
+              "Dynamic Island 다운로드"
+            ],
+            "pt": [
+              "Downloads na Dynamic Island"
+            ],
+            "ru": [
+              "Загрузки в Dynamic Island"
+            ],
+            "tr": [
+              "Dynamic Island İndirmeleri"
+            ],
+            "zh-Hans": [
+              "灵动岛下载"
+            ],
+            "zh-Hant": [
+              "靈動島下載"
+            ]
+          },
+          "relatedPluginIDs": [],
+          "useCases": [
+            {
+              "id": "primary-use",
+              "title": {
+                "ar": "تنزيلات Dynamic Island",
+                "de": "Dynamic-Island-Downloads",
+                "en": "Dynamic Island Downloads",
+                "es": "Descargas en Dynamic Island",
+                "fr": "Téléchargements Dynamic Island",
+                "ja": "Dynamic Island ダウンロード",
+                "ko": "Dynamic Island 다운로드",
+                "pt": "Downloads na Dynamic Island",
+                "ru": "Загрузки в Dynamic Island",
+                "tr": "Dynamic Island İndirmeleri",
+                "zh-Hans": "灵动岛下载",
+                "zh-Hant": "靈動島下載"
+              }
+            }
+          ]
+        },
+        "presentation": {
+          "documentationURL": "https://github.com/ggbond268/MacTools#plugins-and-settings",
+          "examples": [
+            {
+              "id": "primary-use",
+              "text": {
+                "ar": "اعرض تقدم التنزيلات بجانب جزيرة الكاميرا واحصل على إشعار عند اكتمالها.",
+                "de": "Downloadfortschritt neben der Kamera-Insel anzeigen und bei Abschluss benachrichtigt werden.",
+                "en": "Show download progress beside the camera island and get notified when a download finishes.",
+                "es": "Muestra el progreso de las descargas junto a la isla de la cámara y avisa cuando terminan.",
+                "fr": "Affichez la progression des téléchargements près de l’îlot de la caméra et soyez averti à la fin.",
+                "ja": "カメラのアイランドの横にダウンロードの進行状況を表示し、完了時に通知します。",
+                "ko": "카메라 아일랜드 옆에 다운로드 진행률을 표시하고 완료되면 알려 줍니다.",
+                "pt": "Mostre o progresso dos downloads ao lado da ilha da câmera e receba um aviso ao terminar.",
+                "ru": "Прогресс загрузок рядом с островком камеры и уведомление о завершении.",
+                "tr": "İndirme ilerlemesini kamera adasının yanında gösterin ve indirme bitince bildirim alın.",
+                "zh-Hans": "在灵动岛旁显示下载进度，并在下载完成时通知。",
+                "zh-Hant": "在靈動島旁顯示下載進度，並在下載完成時通知。"
+              }
+            }
+          ],
+          "license": "GPL-3.0-only",
+          "longDescription": {
+            "ar": "اعرض تقدم التنزيلات بجانب جزيرة الكاميرا واحصل على إشعار عند اكتمالها.",
+            "de": "Downloadfortschritt neben der Kamera-Insel anzeigen und bei Abschluss benachrichtigt werden.",
+            "en": "Show download progress beside the camera island and get notified when a download finishes.",
+            "es": "Muestra el progreso de las descargas junto a la isla de la cámara y avisa cuando terminan.",
+            "fr": "Affichez la progression des téléchargements près de l’îlot de la caméra et soyez averti à la fin.",
+            "ja": "カメラのアイランドの横にダウンロードの進行状況を表示し、完了時に通知します。",
+            "ko": "카메라 아일랜드 옆에 다운로드 진행률을 표시하고 완료되면 알려 줍니다.",
+            "pt": "Mostre o progresso dos downloads ao lado da ilha da câmera e receba um aviso ao terminar.",
+            "ru": "Прогресс загрузок рядом с островком камеры и уведомление о завершении.",
+            "tr": "İndirme ilerlemesini kamera adasının yanında gösterin ve indirme bitince bildirim alın.",
+            "zh-Hans": "在灵动岛旁显示下载进度，并在下载完成时通知。",
+            "zh-Hant": "在靈動島旁顯示下載進度，並在下載完成時通知。"
+          },
+          "publisher": "MacTools",
+          "screenshots": [],
+          "supportURL": "https://github.com/ggbond268/MacTools/issues"
+        },
+        "privacy": {
+          "allowsUserConfiguredDomains": false,
+          "dataObserved": [
+            "filesystem-paths",
+            "file-sizes",
+            "menu-bar-items",
+            "frontmost-application",
+            "display-state"
+          ],
+          "dataPersisted": [
+            "plugin-configuration"
+          ],
+          "diagnosticExportsContainUserData": false,
+          "networkDomains": [],
+          "networkUse": "none",
+          "processesSensitiveUserContent": true,
+          "retention": {
+            "policy": "user-controlled"
+          },
+          "telemetry": "none"
+        },
+        "relationships": {
+          "includedPackIDs": [],
+          "relatedPluginIDs": [],
+          "suggestedRecipeIDs": [],
+          "supersedesPluginIDs": []
+        },
+        "requirements": {
+          "applications": [],
+          "architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "executables": [],
+          "hardware": [
+            "MacBook Pro camera island"
+          ],
+          "minimumMacOSVersion": "27.0",
+          "permissionIDs": [
+            "accessibility"
+          ],
+          "requiresRelaunch": false,
+          "setupComplexity": "simple"
+        },
+        "setup": {
+          "optionalSurfaces": [],
+          "steps": []
+        }
+      },
+      "releaseChannel": null,
+      "releaseNotesURL": null,
+      "route": "/plugins/island-downloads/",
+      "summary": "在灵动岛旁显示下载进度，并在下载完成时通知。",
+      "version": "1.0.0"
+    },
+    {
+      "capabilities": {
+        "panelItems": [
           "row"
         ],
         "settings": "form"

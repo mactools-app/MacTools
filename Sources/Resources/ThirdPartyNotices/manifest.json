@@ -280,6 +280,28 @@
         "scripts/plugins/prepare-cua-driver.py"
       ],
       "licenseFile": "Sources/Resources/ThirdPartyNotices/CuaDriver-LICENSE.txt"
+    },
+    {
+      "id": "vorssaint-utils",
+      "name": "Vorssaint",
+      "repository": "https://github.com/vorssaint/vorssaint-utils",
+      "revision": "89d2626089d693bf0462ba29ea5d047d80c9da2e",
+      "license": "GPL-3.0-or-later",
+      "gpl3Compatibility": "compatible",
+      "relationship": "adapted",
+      "products": [
+        "plugin:island-downloads"
+      ],
+      "paths": [
+        "Plugins/IslandDownloads/Sources/DownloadNotifier.swift",
+        "Plugins/IslandDownloads/Sources/Downloads/NotchDownloadProgressObserver.swift",
+        "Plugins/IslandDownloads/Sources/Downloads/NotchDownloadService.swift",
+        "Plugins/IslandDownloads/Sources/Downloads/NotchDownloadSupport.swift",
+        "Plugins/IslandDownloads/Sources/Views/NotchDownloadChrome.swift",
+        "Plugins/IslandDownloads/Sources/Views/NotchDownloadStrings.swift",
+        "Plugins/IslandDownloads/Sources/Views/NotchDownloadsView.swift"
+      ],
+      "licenseFile": "Sources/Resources/ThirdPartyNotices/Vorssaint-LICENSE.txt"
     }
   ]
 }
