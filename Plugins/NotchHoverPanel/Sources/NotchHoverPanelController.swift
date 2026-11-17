@@ -344,7 +344,9 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         }
 
         let panelFrame = presentedMenuBarPanelScreenFrame?()
-        let isInsideTrigger = triggerDisplay != nil
+        // A MacTools window floating above the menu bar (an island notification card) owns the
+        // pointer there, so the panel must not open underneath it.
+        let isInsideTrigger = triggerDisplay != nil && !Self.isCoveredByOwnFloatingWindow(point)
         let isInsideActiveArea = pointerIsActive(
             point,
             triggerDisplay: triggerDisplay,
@@ -403,6 +405,19 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         )
     }
 
+    /// True when one of this app's windows above the menu-bar level (an island notification card)
+    /// has visible content under the point. macOS draws its own island above every window, so the
+    /// topmost window at the camera is never ours; check our windows' shapes directly instead.
+    private static func isCoveredByOwnFloatingWindow(_ point: NSPoint) -> Bool {
+        NSApp.windows.contains { window in
+            guard window.isVisible, !window.ignoresMouseEvents,
+                  window.level.rawValue > NSWindow.Level.statusBar.rawValue,
+                  window.frame.contains(point), let content = window.contentView else { return false }
+            let local = window.convertPoint(fromScreen: point)
+            return content.hitTest(content.superview.map { $0.convert(local, from: nil) } ?? local) != nil
+        }
+    }
+
     private func displayContainingTrigger(_ point: NSPoint) -> NotchHoverDisplay? {
         displays.first { display in
             display.triggerRects.contains(where: { $0.contains(point) })
@@ -457,7 +472,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         guard isPresentedMenuBarPanelVisible?() != true else { return }
 
         let point = mouseLocationProvider()
-        guard let display = displayContainingTrigger(point) else { return }
+        guard let display = displayContainingTrigger(point), !Self.isCoveredByOwnFloatingWindow(point) else { return }
         activeDisplay = display
 
         let request = PluginMenuBarPanelPresentationRequest(anchorRect: display.notchFrame)

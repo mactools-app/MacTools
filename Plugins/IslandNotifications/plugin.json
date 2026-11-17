@@ -1,0 +1,236 @@
+{
+  "id": "island-notifications",
+  "displayName": "灵动岛通知",
+  "summary": "在灵动岛显示通知，保留通知中心历史记录。",
+  "localizedMetadata": {
+    "zh-Hans": {
+      "displayName": "灵动岛通知",
+      "summary": "在灵动岛显示通知，保留通知中心历史记录。"
+    },
+    "en": {
+      "displayName": "Dynamic Island Notifications",
+      "summary": "Show notifications at the camera island while preserving Notification Centre history."
+    },
+    "zh-Hant": {
+      "displayName": "靈動島通知",
+      "summary": "在靈動島顯示通知，保留通知中心歷史記錄。"
+    },
+    "de": {
+      "displayName": "Dynamic-Island-Mitteilungen",
+      "summary": "Mitteilungen an der Kamera-Insel anzeigen und im Mitteilungszentrum behalten."
+    },
+    "es": {
+      "displayName": "Notificaciones de Dynamic Island",
+      "summary": "Muestra notificaciones junto a la cámara y conserva el historial del Centro de notificaciones."
+    },
+    "fr": {
+      "displayName": "Notifications Dynamic Island",
+      "summary": "Affiche les notifications près de la caméra et conserve l’historique du Centre de notifications."
+    },
+    "pt": {
+      "displayName": "Notificações da Dynamic Island",
+      "summary": "Mostra notificações junto à câmara e mantém o histórico da Central de Notificações."
+    },
+    "ru": {
+      "displayName": "Уведомления Dynamic Island",
+      "summary": "Показывает уведомления у камеры, сохраняя историю Центра уведомлений."
+    },
+    "ja": {
+      "displayName": "Dynamic Island 通知",
+      "summary": "カメラ部分に通知を表示し、通知センターの履歴を保持します。"
+    },
+    "ko": {
+      "displayName": "Dynamic Island 알림",
+      "summary": "카메라 영역에 알림을 표시하고 알림 센터 기록을 유지합니다."
+    },
+    "ar": {
+      "displayName": "إشعارات Dynamic Island",
+      "summary": "عرض الإشعارات عند الكاميرا مع الاحتفاظ بسجل مركز الإشعارات."
+    },
+    "tr": {
+      "displayName": "Dynamic Island Bildirimleri",
+      "summary": "Bildirimleri kamera çevresinde gösterir ve Bildirim Merkezi geçmişini korur."
+    }
+  },
+  "productStrings": {
+    "display-name": "@displayName",
+    "summary": "@summary",
+    "discovery.notification-history": {
+      "ar": "سجل الإشعارات",
+      "de": "Mitteilungsverlauf",
+      "en": "Notification history",
+      "es": "Historial de notificaciones",
+      "fr": "Historique des notifications",
+      "ja": "通知履歴",
+      "ko": "알림 기록",
+      "pt": "Histórico de notificações",
+      "ru": "История уведомлений",
+      "tr": "Bildirim geçmişi",
+      "zh-Hans": "通知历史",
+      "zh-Hant": "通知歷史"
+    },
+    "discovery.reply-to-notifications": {
+      "ar": "الرد على الإشعارات",
+      "de": "Auf Mitteilungen antworten",
+      "en": "Reply to notifications",
+      "es": "Responder a notificaciones",
+      "fr": "Répondre aux notifications",
+      "ja": "通知に返信",
+      "ko": "알림에 답장",
+      "pt": "Responder a notificações",
+      "ru": "Ответ на уведомления",
+      "tr": "Bildirimleri yanıtla",
+      "zh-Hans": "回复通知",
+      "zh-Hant": "回覆通知"
+    }
+  },
+  "version": "1.0.0",
+  "minHostVersion": "2.2.0",
+  "pluginKitVersion": 7,
+  "bundleRelativePath": "IslandNotifications.bundle",
+  "factoryClass": "IslandNotificationsPlugin.IslandNotificationsPluginFactory",
+  "build": {
+    "project": "../../MacTools.xcodeproj",
+    "scheme": "IslandNotificationsPlugin"
+  },
+  "capabilities": {
+    "panelItems": [
+      "row",
+      "widget"
+    ],
+    "settings": "form"
+  },
+  "permissions": [
+    "accessibility"
+  ],
+  "category": "display",
+  "presentation": {
+    "longDescription": "@productStrings.summary",
+    "examples": [
+      {
+        "id": "primary-use",
+        "text": "@productStrings.summary"
+      }
+    ],
+    "screenshots": [],
+    "documentationURL": "https://github.com/ggbond268/MacTools#plugins-and-settings",
+    "supportURL": "https://github.com/ggbond268/MacTools/issues",
+    "publisher": "MacTools",
+    "license": "GPL-3.0-only"
+  },
+  "discovery": {
+    "keywords": [
+      "dynamic island",
+      "notifications",
+      "notch",
+      "notification history",
+      "notification center",
+      "reply"
+    ],
+    "localizedSynonyms": {
+      "zh-Hans": [
+        "灵动岛通知"
+      ],
+      "en": [
+        "Dynamic Island Notifications"
+      ],
+      "zh-Hant": [
+        "靈動島通知"
+      ],
+      "de": [
+        "Dynamic-Island-Mitteilungen"
+      ],
+      "es": [
+        "Notificaciones de Dynamic Island"
+      ],
+      "fr": [
+        "Notifications Dynamic Island"
+      ],
+      "pt": [
+        "Notificações da Dynamic Island"
+      ],
+      "ru": [
+        "Уведомления Dynamic Island"
+      ],
+      "ja": [
+        "Dynamic Island 通知"
+      ],
+      "ko": [
+        "Dynamic Island 알림"
+      ],
+      "ar": [
+        "إشعارات Dynamic Island"
+      ],
+      "tr": [
+        "Dynamic Island Bildirimleri"
+      ]
+    },
+    "localizedSynonymRefs": [
+      "@productStrings.discovery.notification-history",
+      "@productStrings.discovery.reply-to-notifications"
+    ],
+    "useCases": [
+      {
+        "id": "primary-use",
+        "title": "@productStrings.display-name"
+      }
+    ],
+    "goalCategories": [
+      "display"
+    ],
+    "relatedPluginIDs": [],
+    "alternativePluginIDs": []
+  },
+  "requirements": {
+    "minimumMacOSVersion": "27.0",
+    "architectures": [
+      "arm64",
+      "x86_64"
+    ],
+    "hardware": [
+      "MacBook Pro camera island"
+    ],
+    "applications": [],
+    "executables": [],
+    "permissionIDs": [
+      "accessibility"
+    ],
+    "setupComplexity": "simple",
+    "requiresRelaunch": false
+  },
+  "privacy": {
+    "dataObserved": [
+      "notification-content",
+      "display-state"
+    ],
+    "dataPersisted": [
+      "plugin-configuration"
+    ],
+    "retention": {
+      "policy": "user-controlled"
+    },
+    "networkUse": "none",
+    "networkDomains": [],
+    "allowsUserConfiguredDomains": false,
+    "telemetry": "none",
+    "processesSensitiveUserContent": true,
+    "diagnosticExportsContainUserData": false
+  },
+  "setup": {
+    "steps": [],
+    "optionalSurfaces": []
+  },
+  "relationships": {
+    "relatedPluginIDs": [],
+    "includedPackIDs": [],
+    "suggestedRecipeIDs": [],
+    "supersedesPluginIDs": []
+  },
+  "preferencesBackup": {
+    "status": "localOnly",
+    "exclusions": [
+      "local-activation",
+      "private-content"
+    ]
+  }
+}

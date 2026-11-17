@@ -6,7 +6,7 @@ Run `python3 scripts/plugins/generate-preferences-backup-inventory.py` after cha
 Declarations describe supported field boundaries. Runtime availability and export/restore failures are reported separately.
 See [the backup contract](preferences-backup.md) for exclusions and recovery limits.
 
-localOnly: 2; none: 25; partial: 36; portable: 7.
+localOnly: 3; none: 25; partial: 36; portable: 7.
 
 | Plugin | ID | Coverage | Exclusion codes |
 | --- | --- | --- | --- |
@@ -45,6 +45,7 @@ localOnly: 2; none: 25; partial: 36; portable: 7.
 | [Homebrew Manager](../../Plugins/Homebrew) | `homebrew` | none | — |
 | [IP Check](../../Plugins/IPOverview) | `ip-overview` | partial | history, local-policy |
 | [Custom Shortcuts: Keyboard, Trackpad, Mouse](../../Plugins/InputRemapping) | `input-remapping` | partial | external-authorization |
+| [Dynamic Island Notifications](../../Plugins/IslandNotifications) | `island-notifications` | localOnly | local-activation, private-content |
 | [Keep Awake](../../Plugins/KeepAwake) | `keep-awake` | partial | local-activation |
 | [Key Stats](../../Plugins/KeyStats) | `key-stats` | localOnly | local-activation, history |
 | [Launch Items](../../Plugins/LaunchControl) | `launch-control` | partial | private-content, local-activation, local-policy |

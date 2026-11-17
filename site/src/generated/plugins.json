@@ -13874,6 +13874,258 @@
     {
       "capabilities": {
         "panelItems": [
+          "row",
+          "widget"
+        ],
+        "settings": "form"
+      },
+      "category": "display",
+      "displayName": "灵动岛通知",
+      "id": "island-notifications",
+      "localizedMetadata": {
+        "ar": {
+          "displayName": "إشعارات Dynamic Island",
+          "summary": "عرض الإشعارات عند الكاميرا مع الاحتفاظ بسجل مركز الإشعارات."
+        },
+        "de": {
+          "displayName": "Dynamic-Island-Mitteilungen",
+          "summary": "Mitteilungen an der Kamera-Insel anzeigen und im Mitteilungszentrum behalten."
+        },
+        "en": {
+          "displayName": "Dynamic Island Notifications",
+          "summary": "Show notifications at the camera island while preserving Notification Centre history."
+        },
+        "es": {
+          "displayName": "Notificaciones de Dynamic Island",
+          "summary": "Muestra notificaciones junto a la cámara y conserva el historial del Centro de notificaciones."
+        },
+        "fr": {
+          "displayName": "Notifications Dynamic Island",
+          "summary": "Affiche les notifications près de la caméra et conserve l’historique du Centre de notifications."
+        },
+        "ja": {
+          "displayName": "Dynamic Island 通知",
+          "summary": "カメラ部分に通知を表示し、通知センターの履歴を保持します。"
+        },
+        "ko": {
+          "displayName": "Dynamic Island 알림",
+          "summary": "카메라 영역에 알림을 표시하고 알림 센터 기록을 유지합니다."
+        },
+        "pt": {
+          "displayName": "Notificações da Dynamic Island",
+          "summary": "Mostra notificações junto à câmara e mantém o histórico da Central de Notificações."
+        },
+        "ru": {
+          "displayName": "Уведомления Dynamic Island",
+          "summary": "Показывает уведомления у камеры, сохраняя историю Центра уведомлений."
+        },
+        "tr": {
+          "displayName": "Dynamic Island Bildirimleri",
+          "summary": "Bildirimleri kamera çevresinde gösterir ve Bildirim Merkezi geçmişini korur."
+        },
+        "zh-Hans": {
+          "displayName": "灵动岛通知",
+          "summary": "在灵动岛显示通知，保留通知中心历史记录。"
+        },
+        "zh-Hant": {
+          "displayName": "靈動島通知",
+          "summary": "在靈動島顯示通知，保留通知中心歷史記錄。"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/island-notifications",
+      "product": {
+        "actions": null,
+        "discovery": {
+          "alternativePluginIDs": [],
+          "goalCategories": [
+            "display"
+          ],
+          "keywords": [
+            "dynamic island",
+            "notifications",
+            "notch",
+            "notification history",
+            "notification center",
+            "reply"
+          ],
+          "localizedSynonyms": {
+            "ar": [
+              "إشعارات Dynamic Island",
+              "سجل الإشعارات",
+              "الرد على الإشعارات"
+            ],
+            "de": [
+              "Dynamic-Island-Mitteilungen",
+              "Mitteilungsverlauf",
+              "Auf Mitteilungen antworten"
+            ],
+            "en": [
+              "Dynamic Island Notifications",
+              "Notification history",
+              "Reply to notifications"
+            ],
+            "es": [
+              "Notificaciones de Dynamic Island",
+              "Historial de notificaciones",
+              "Responder a notificaciones"
+            ],
+            "fr": [
+              "Notifications Dynamic Island",
+              "Historique des notifications",
+              "Répondre aux notifications"
+            ],
+            "ja": [
+              "Dynamic Island 通知",
+              "通知履歴",
+              "通知に返信"
+            ],
+            "ko": [
+              "Dynamic Island 알림",
+              "알림 기록",
+              "알림에 답장"
+            ],
+            "pt": [
+              "Notificações da Dynamic Island",
+              "Histórico de notificações",
+              "Responder a notificações"
+            ],
+            "ru": [
+              "Уведомления Dynamic Island",
+              "История уведомлений",
+              "Ответ на уведомления"
+            ],
+            "tr": [
+              "Dynamic Island Bildirimleri",
+              "Bildirim geçmişi",
+              "Bildirimleri yanıtla"
+            ],
+            "zh-Hans": [
+              "灵动岛通知",
+              "通知历史",
+              "回复通知"
+            ],
+            "zh-Hant": [
+              "靈動島通知",
+              "通知歷史",
+              "回覆通知"
+            ]
+          },
+          "relatedPluginIDs": [],
+          "useCases": [
+            {
+              "id": "primary-use",
+              "title": {
+                "ar": "إشعارات Dynamic Island",
+                "de": "Dynamic-Island-Mitteilungen",
+                "en": "Dynamic Island Notifications",
+                "es": "Notificaciones de Dynamic Island",
+                "fr": "Notifications Dynamic Island",
+                "ja": "Dynamic Island 通知",
+                "ko": "Dynamic Island 알림",
+                "pt": "Notificações da Dynamic Island",
+                "ru": "Уведомления Dynamic Island",
+                "tr": "Dynamic Island Bildirimleri",
+                "zh-Hans": "灵动岛通知",
+                "zh-Hant": "靈動島通知"
+              }
+            }
+          ]
+        },
+        "presentation": {
+          "documentationURL": "https://github.com/ggbond268/MacTools#plugins-and-settings",
+          "examples": [
+            {
+              "id": "primary-use",
+              "text": {
+                "ar": "عرض الإشعارات عند الكاميرا مع الاحتفاظ بسجل مركز الإشعارات.",
+                "de": "Mitteilungen an der Kamera-Insel anzeigen und im Mitteilungszentrum behalten.",
+                "en": "Show notifications at the camera island while preserving Notification Centre history.",
+                "es": "Muestra notificaciones junto a la cámara y conserva el historial del Centro de notificaciones.",
+                "fr": "Affiche les notifications près de la caméra et conserve l’historique du Centre de notifications.",
+                "ja": "カメラ部分に通知を表示し、通知センターの履歴を保持します。",
+                "ko": "카메라 영역에 알림을 표시하고 알림 센터 기록을 유지합니다.",
+                "pt": "Mostra notificações junto à câmara e mantém o histórico da Central de Notificações.",
+                "ru": "Показывает уведомления у камеры, сохраняя историю Центра уведомлений.",
+                "tr": "Bildirimleri kamera çevresinde gösterir ve Bildirim Merkezi geçmişini korur.",
+                "zh-Hans": "在灵动岛显示通知，保留通知中心历史记录。",
+                "zh-Hant": "在靈動島顯示通知，保留通知中心歷史記錄。"
+              }
+            }
+          ],
+          "license": "GPL-3.0-only",
+          "longDescription": {
+            "ar": "عرض الإشعارات عند الكاميرا مع الاحتفاظ بسجل مركز الإشعارات.",
+            "de": "Mitteilungen an der Kamera-Insel anzeigen und im Mitteilungszentrum behalten.",
+            "en": "Show notifications at the camera island while preserving Notification Centre history.",
+            "es": "Muestra notificaciones junto a la cámara y conserva el historial del Centro de notificaciones.",
+            "fr": "Affiche les notifications près de la caméra et conserve l’historique du Centre de notifications.",
+            "ja": "カメラ部分に通知を表示し、通知センターの履歴を保持します。",
+            "ko": "카메라 영역에 알림을 표시하고 알림 센터 기록을 유지합니다.",
+            "pt": "Mostra notificações junto à câmara e mantém o histórico da Central de Notificações.",
+            "ru": "Показывает уведомления у камеры, сохраняя историю Центра уведомлений.",
+            "tr": "Bildirimleri kamera çevresinde gösterir ve Bildirim Merkezi geçmişini korur.",
+            "zh-Hans": "在灵动岛显示通知，保留通知中心历史记录。",
+            "zh-Hant": "在靈動島顯示通知，保留通知中心歷史記錄。"
+          },
+          "publisher": "MacTools",
+          "screenshots": [],
+          "supportURL": "https://github.com/ggbond268/MacTools/issues"
+        },
+        "privacy": {
+          "allowsUserConfiguredDomains": false,
+          "dataObserved": [
+            "notification-content",
+            "display-state"
+          ],
+          "dataPersisted": [
+            "plugin-configuration"
+          ],
+          "diagnosticExportsContainUserData": false,
+          "networkDomains": [],
+          "networkUse": "none",
+          "processesSensitiveUserContent": true,
+          "retention": {
+            "policy": "user-controlled"
+          },
+          "telemetry": "none"
+        },
+        "relationships": {
+          "includedPackIDs": [],
+          "relatedPluginIDs": [],
+          "suggestedRecipeIDs": [],
+          "supersedesPluginIDs": []
+        },
+        "requirements": {
+          "applications": [],
+          "architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "executables": [],
+          "hardware": [
+            "MacBook Pro camera island"
+          ],
+          "minimumMacOSVersion": "27.0",
+          "permissionIDs": [
+            "accessibility"
+          ],
+          "requiresRelaunch": false,
+          "setupComplexity": "simple"
+        },
+        "setup": {
+          "optionalSurfaces": [],
+          "steps": []
+        }
+      },
+      "releaseChannel": null,
+      "releaseNotesURL": null,
+      "route": "/plugins/island-notifications/",
+      "summary": "在灵动岛显示通知，保留通知中心历史记录。",
+      "version": "1.0.0"
+    },
+    {
+      "capabilities": {
+        "panelItems": [
           "row"
         ],
         "settings": "form"
