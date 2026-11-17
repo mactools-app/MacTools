@@ -58,6 +58,9 @@ final class IslandNotificationsPlugin: MacToolsPlugin {
                                                        onContentHeight: { controller.setHistoryContentHeight($0) })
                      }
                  })
+        .onVisibilityChange { [controller] visible in
+            if visible { controller.historyBecameVisible() }
+        }
     }
 
     private var enabledRow: PluginPanelItem {

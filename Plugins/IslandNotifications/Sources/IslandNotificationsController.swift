@@ -783,6 +783,12 @@ final class IslandNotificationsController {
         onStateChange?()
     }
 
+    /// The list only measures itself while it is on screen, so a list that changed while the panel
+    /// was shut asks the host again for its size as the panel shows it.
+    func historyBecameVisible() {
+        onStateChange?()
+    }
+
     func openHistory(_ entry: IslandHistoryEntry) {
         logger.notice("list open inCentre=\(entry.centerApp != nil, privacy: .public) claude=\(entry.claudeChat != nil, privacy: .public)")
         history.remove(entry)
