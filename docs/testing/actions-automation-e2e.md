@@ -33,7 +33,7 @@ make e2e-self-test
 make e2e-preflight
 ```
 
-Preflight verifies the stable app path, deep signature, Apple Development authority, Team ID, installed Debug plugins, process count, recorder dependencies (including `ffmpeg` and `ffprobe`), and whether the process hosting the harness can post synthetic shortcuts. It also rejects a leftover Derived Data test host, because a second app with the development bundle identity can steal Run Links from the stable app. When the stable app owns the Trackpad Gestures listener lease, preflight reports permission state as `granted`: that listener starts only after the app observes both Accessibility and Input Monitoring access. Otherwise it reports `unverified`, never a guessed denial or a hard-coded pending state.
+Preflight verifies the stable app path, deep signature, Apple Development authority, Team ID, installed Debug plugins, process count, recorder dependencies (including `ffmpeg` and `ffprobe`), and whether the process hosting the harness can post synthetic shortcuts. It checks for running copies in the configured build directory and the default test-host directory, because a second app with the development bundle identity can steal Run Links from the stable app. When the stable app owns the Trackpad Gestures listener lease, preflight reports permission state as `granted`: that listener starts only after the app observes both Accessibility and Input Monitoring access. Otherwise it reports `unverified`, never a guessed denial or a hard-coded pending state.
 
 Evidence collection is bound to the exact local product assembled by the harness. Rebuild snapshots the source commit, dirty state, and deterministic tracked/untracked source-tree hash before building, verifies that source did not change during the build, then records the installed app executable and CodeDirectory hashes, the complete installed plugin-package tree hash, and the local catalog hash. Recording and collection revalidate every value. A changed checkout, rebuilt or re-signed app, replaced plugin package, edited catalog, or session that has not completed this source-bound rebuild is rejected rather than being attributed to the wrong code.
 
@@ -216,7 +216,7 @@ make e2e-rebuild E2E_SESSION="$E2E_SESSION"
 make e2e-resume E2E_SESSION="$E2E_SESSION"
 ```
 
-`e2e-rebuild` builds the host and local plugins, verifies the staged identity, keeps the previous app inside the session as a recoverable backup, replaces the stable bundle, compares before/after designated requirements, and relaunches it. It does not reseed or restore preferences. Preview it without mutation with:
+`e2e-rebuild` builds the host and local plugins, verifies the staged identity, keeps the previous app inside the session as a recoverable backup, replaces the stable bundle, compares before/after designated requirements, and relaunches it. It does not reseed or restore preferences. It uses the same `DERIVED_DATA` setting as `make build`. Inside the checkout, use dedicated build directories free of source files. The session remembers each directory it builds in so source verification can skip generated files when you switch directories. Preview it without mutation with:
 
 ```bash
 scripts/e2e/mactools-e2e.sh rebuild "$E2E_SESSION" --dry-run

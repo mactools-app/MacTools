@@ -17,6 +17,8 @@ protocol WindowSwitcherShortcutListening: AnyObject {
 }
 
 final class WindowSwitcherShortcutTap: WindowSwitcherShortcutListening, @unchecked Sendable {
+    static let willHandleShortcut = Notification.Name("MacTools.WindowSwitcher.willHandleShortcut")
+
     var onShortcutPressed: @MainActor (_ reversed: Bool, _ isRepeat: Bool, _ currentApp: Bool) -> Void = { _, _, _ in }
     var onShortcutReleased: @MainActor () -> Void = {}
     var onEscape: @MainActor () -> Void = {}
@@ -174,6 +176,9 @@ final class WindowSwitcherShortcutTap: WindowSwitcherShortcutListening, @uncheck
         }), let binding = match.0 else { return Unmanaged.passUnretained(event) }
         let currentApp = match.1
 
+        // The tap runs on the main run loop. Notify Quit Protection before
+        // consuming the key or queuing chooser presentation.
+        NotificationCenter.default.post(name: Self.willHandleShortcut, object: nil)
         setActiveModifiers(binding.modifiers)
         let isRepeat = event.getIntegerValueField(.keyboardEventAutorepeat) != 0
         let reversed = !binding.modifiers.contains(.shift) && event.flags.contains(.maskShift)

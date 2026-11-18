@@ -59,6 +59,8 @@ Keep adjacent plugin tests limited to the main action, durable state, and conseq
 
 ## Visual and interaction design
 
+Plugins that intercept quit shortcuts should preserve the original application and input context. See the [Quit Protection routing checks](../superpowers/specs/2026-11-07-quit-protection.md#local-prototype).
+
 These rules apply to host and plugin UI across settings, menu-bar panels, widgets, and floating windows. Prefer native macOS appearance and behavior, using standard SwiftUI/AppKit controls and semantic system styling. Use Apple's [macOS Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/designing-for-macos) as the platform reference, applying the guidance to the app's menu-bar utility context and supported macOS versions.
 
 Keep equivalent controls consistent in typography, SF Symbol usage, spacing roles, color meaning, and interaction feedback. Settings forms, compact menu-bar panels, and task-oriented windows may use different density and grouping while retaining the same visual language. Preserve native menu presentation where a surface uses a system menu.
