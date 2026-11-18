@@ -249,7 +249,7 @@ enum IslandMessagesChat {
         // Message dates are nanoseconds since 2001; look back five minutes.
         let since = Int64((Date().timeIntervalSinceReferenceDate - 300) * 1_000_000_000)
         let sql = """
-        SELECT c.guid, m.text, m.attributedBody, c.group_id FROM message m
+        SELECT c.guid, m.text, m.attributedBody, c.group_id, m.message_summary_info FROM message m
         JOIN chat_message_join j ON j.message_id = m.ROWID
         JOIN chat c ON c.ROWID = j.chat_id
         WHERE m.is_from_me = 0 AND m.date > ?1
@@ -269,7 +269,12 @@ enum IslandMessagesChat {
             if text == nil, let blob = sqlite3_column_blob(statement, 2) {
                 text = attributedBodyText(Data(bytes: blob, count: Int(sqlite3_column_bytes(statement, 2))))
             }
-            guard let text, matches(normalized(text), candidates) else { continue }
+            // An edited message keeps its earlier versions; the banner shows the one that arrived.
+            var versions = text.map { [$0] } ?? []
+            if let blob = sqlite3_column_blob(statement, 4) {
+                versions += editedVersions(Data(bytes: blob, count: Int(sqlite3_column_bytes(statement, 4))))
+            }
+            guard versions.contains(where: { matches(normalized($0), candidates) }) else { continue }
             chats.insert(guid)
             if let groupID = sqlite3_column_text(statement, 3).map({ String(cString: $0) }), !groupID.isEmpty {
                 groupIDs[guid] = groupID
@@ -303,9 +308,19 @@ enum IslandMessagesChat {
         candidates.contains { $0 == text || ($0.count >= 12 && text.hasPrefix($0.trimmingCharacters(in: CharacterSet(charactersIn: "…")))) }
     }
 
+    /// `message_summary_info` holds each version of an edited message under "ec": the message's
+    /// part number, then a list of versions, each with its text archived like `attributedBody` ("t").
+    static func editedVersions(_ data: Data) -> [String] {
+        guard let info = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any],
+              let parts = info["ec"] as? [String: Any] else { return [] }
+        return parts.values.flatMap { part -> [String] in
+            ((part as? [[String: Any]]) ?? []).compactMap { ($0["t"] as? Data).flatMap(attributedBodyText) }
+        }
+    }
+
     /// Newer macOS stores some message text only in `attributedBody` (an archived NSAttributedString):
     /// the string follows the "NSString" class marker as a length-prefixed UTF-8 run.
-    private static func attributedBodyText(_ data: Data) -> String? {
+    static func attributedBodyText(_ data: Data) -> String? {
         let bytes = [UInt8](data)
         guard let marker = bytes.firstRange(of: Array("NSString".utf8)) else { return nil }
         var index = marker.upperBound

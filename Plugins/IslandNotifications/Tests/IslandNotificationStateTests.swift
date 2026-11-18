@@ -67,4 +67,30 @@ final class IslandNotificationStateTests: XCTestCase {
                                                           hasUnexpectedContent: gate == 1, complete: gate != 2))
         }
     }
+
+    /// An archived string the way Messages stores one: the "NSString" class marker, then "+" and
+    /// a length-prefixed UTF-8 run (one byte, or 0x81 and two bytes).
+    private func archivedText(_ text: String) -> Data {
+        let utf8 = Array(text.utf8)
+        let length: [UInt8] = utf8.count < 0x80 ? [UInt8(utf8.count)] : [0x81, UInt8(utf8.count & 0xFF), UInt8(utf8.count >> 8)]
+        return Data([0x04, 0x0B] + Array("streamtyped".utf8) + Array("NSString".utf8) + [0x01, 0x94, 0x84, 0x01, 0x2B] + length + utf8 + [0x86])
+    }
+
+    func testEditedMessageKeepsEveryVersionForMatchingTheBanner() throws {
+        let original = "See you at the station"
+        let edited = String(repeating: "Running late, ", count: 10) + original
+        let info: [String: Any] = [
+            "ec": ["0": [["t": archivedText(original), "d": 1.0], ["t": archivedText(edited), "d": 2.0]]],
+            "ust": true
+        ]
+        let data = try PropertyListSerialization.data(fromPropertyList: info, format: .binary, options: 0)
+        XCTAssertEqual(IslandMessagesChat.editedVersions(data), [original, edited])
+        XCTAssertEqual(IslandMessagesChat.attributedBodyText(archivedText(edited)), edited)
+    }
+
+    func testUneditedMessageHasNoEarlierVersions() throws {
+        let data = try PropertyListSerialization.data(fromPropertyList: ["amc": 0], format: .binary, options: 0)
+        XCTAssertEqual(IslandMessagesChat.editedVersions(data), [])
+        XCTAssertEqual(IslandMessagesChat.editedVersions(Data([0x00, 0x01])), [])
+    }
 }
