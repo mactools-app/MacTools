@@ -10,6 +10,11 @@ struct CalendarEventColor: Equatable, Sendable {
     static let accent = CalendarEventColor(red: 0.0, green: 0.48, blue: 1.0, alpha: 1.0)
 }
 
+enum CalendarItemKind: String, Equatable, Sendable {
+    case event
+    case reminder
+}
+
 struct CalendarEventInput: Equatable, Sendable {
     let id: String
     let title: String
@@ -18,6 +23,8 @@ struct CalendarEventInput: Equatable, Sendable {
     let isAllDay: Bool
     let color: CalendarEventColor
     var calendarTitle: String = ""
+    var kind: CalendarItemKind = .event
+    var isCompleted: Bool = false
 }
 
 struct CalendarEventSummary: Identifiable, Equatable, Sendable {
@@ -29,6 +36,8 @@ struct CalendarEventSummary: Identifiable, Equatable, Sendable {
     let isAllDay: Bool
     let color: CalendarEventColor
     var calendarTitle: String = ""
+    var kind: CalendarItemKind = .event
+    var isCompleted: Bool = false
 }
 
 enum CalendarHolidayKind: Int, Equatable, Sendable {
