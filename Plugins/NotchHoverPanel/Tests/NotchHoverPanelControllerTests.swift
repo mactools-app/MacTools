@@ -313,6 +313,55 @@ final class NotchHoverPanelControllerTests: XCTestCase {
         XCTAssertTrue(controller.snapshot.isPanelVisible)
     }
 
+    func testDismissedPanelStaysClosedUntilThePointerLeavesAndReturns() {
+        let mouse = TestState(Self.triggerPoint)
+        let controller = NotchHoverPanelController(
+            storage: NotchHoverMemoryStorage(),
+            screensProvider: { [Self.notchScreenSnapshot()] },
+            mouseLocationProvider: { mouse.value }
+        )
+        controller.setShowDelay(0)
+        controller.setHideDelay(0.05)
+
+        var isPanelVisible = false
+        var isClosingByDismissal = false
+        var presentations = 0
+        controller.isPresentedMenuBarPanelVisible = { isPanelVisible }
+        controller.requestMenuBarPanelPresentation = { _ in
+            // The host declines to reverse a close that was a dismissal.
+            guard !isClosingByDismissal else { return false }
+            presentations += 1
+            isPanelVisible = true
+            return true
+        }
+        controller.requestMenuBarPanelDismissal = { _ in true }
+
+        controller.handlePointerLocation(mouse.value)
+        waitForScheduledWork()
+        XCTAssertEqual(presentations, 1)
+
+        // Escape: the host closes the panel; moving within the trigger must not bring it back.
+        isClosingByDismissal = true
+        controller.handlePointerLocation(NSPoint(x: Self.triggerPoint.x + 2, y: Self.triggerPoint.y))
+        XCTAssertEqual(presentations, 1)
+        isPanelVisible = false
+        isClosingByDismissal = false
+        controller.handlePointerLocation(NSPoint(x: Self.triggerPoint.x + 4, y: Self.triggerPoint.y))
+        waitForScheduledWork()
+        controller.handlePointerLocation(NSPoint(x: Self.triggerPoint.x + 6, y: Self.triggerPoint.y))
+        waitForScheduledWork()
+        XCTAssertEqual(presentations, 1, "A dismissed panel stays closed while the pointer stays on the island.")
+        XCTAssertFalse(controller.snapshot.isPanelVisible)
+
+        // Leaving and coming back opens it again.
+        mouse.value = NSPoint(x: 40, y: 40)
+        controller.handlePointerLocation(mouse.value)
+        mouse.value = Self.triggerPoint
+        controller.handlePointerLocation(mouse.value)
+        waitForScheduledWork()
+        XCTAssertEqual(presentations, 2)
+    }
+
     private func makeController(storage: NotchHoverMemoryStorage) -> NotchHoverPanelController {
         NotchHoverPanelController(
             storage: storage,

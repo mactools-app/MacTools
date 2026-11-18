@@ -30,6 +30,15 @@ final class NotchMenuBarPanel {
     private var closeCompletion: (@MainActor () -> Void)?
     private var systemPanelMonitor: DispatchSourceTimer?
     private(set) var isClosing = false
+    /// Why the panel is closing. Only a close because the pointer left can be undone by the pointer
+    /// coming back; Escape, a click elsewhere or a system panel closes it for good.
+    enum CloseReason { case pointerLeft, dismissed }
+    private(set) var closeReason: CloseReason?
+    /// The latest size asked for while closing, applied if the panel reopens.
+    private var pendingSize: CGSize?
+
+    var canReopenOnHover: Bool { isClosing && closeReason == .pointerLeft }
+    var contentSize: CGSize { metrics.contentSize }
 
     init(anchor: CGRect, content: NSViewController) {
         self.anchor = anchor
@@ -79,7 +88,9 @@ final class NotchMenuBarPanel {
     }
 
     func resize(to size: CGSize) {
-        guard !isClosing, size != metrics.contentSize else { return }
+        guard size != metrics.contentSize else { pendingSize = nil; return }
+        // While closing the shape keeps the size it is folding from; the new one waits for a reopen.
+        guard !isClosing else { pendingSize = size; return }
         applyContentSize(size)
         render()
         startDisplayLinkIfNeeded()
@@ -88,21 +99,33 @@ final class NotchMenuBarPanel {
     func reopen() {
         guard isClosing else { return }
         isClosing = false
+        closeReason = nil
         closeCompletion = nil
+        if let pendingSize {
+            self.pendingSize = nil
+            applyContentSize(pendingSize)
+            render()
+        }
         window.ignoresMouseEvents = false
         setExpanded(true)
     }
 
-    func dismiss(animated: Bool, completion: @escaping @MainActor () -> Void) {
+    func dismiss(animated: Bool, reason: CloseReason = .dismissed, completion: @escaping @MainActor () -> Void) {
         guard animated else {
             stopDisplayLink()
             isClosing = true
+            closeReason = reason
             closeCompletion = nil
             completion()
             return
         }
-        guard !isClosing else { return }
+        guard !isClosing else {
+            // A close that becomes explicit stays explicit.
+            if reason == .dismissed { closeReason = .dismissed }
+            return
+        }
         isClosing = true
+        closeReason = reason
         closeCompletion = completion
         window.ignoresMouseEvents = true
         setExpanded(false)

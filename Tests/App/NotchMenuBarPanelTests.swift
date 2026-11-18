@@ -1,3 +1,4 @@
+import AppKit
 import CoreGraphics
 import XCTest
 @testable import MacTools
@@ -67,5 +68,39 @@ final class NotchMenuBarPanelTests: XCTestCase {
         let expandedSurface = metrics.screenRect(fromSurfaceRect: metrics.surfaceRect(expandedFraction: 1))
 
         XCTAssertLessThan(expandedSurface.maxY, anchor.maxY)
+    }
+
+    private func makePanel() -> NotchMenuBarPanel {
+        let content = NSViewController()
+        content.view = NSView(frame: CGRect(x: 0, y: 0, width: 349, height: 120))
+        return NotchMenuBarPanel(anchor: CGRect(x: 663.5, y: 950, width: 185, height: 32), content: content)
+    }
+
+    func testOnlyAPointerLeftCloseCanBeReversedByHover() {
+        let left = makePanel()
+        left.present(size: CGSize(width: 349, height: 120))
+        left.dismiss(animated: true, reason: .pointerLeft) {}
+        XCTAssertTrue(left.canReopenOnHover)
+
+        let dismissed = makePanel()
+        dismissed.present(size: CGSize(width: 349, height: 120))
+        dismissed.dismiss(animated: true, reason: .dismissed) {}
+        XCTAssertFalse(dismissed.canReopenOnHover, "Escape or a click elsewhere is not undone by hovering.")
+
+        // A hover close that becomes an explicit one stays explicit.
+        left.dismiss(animated: true, reason: .dismissed) {}
+        XCTAssertFalse(left.canReopenOnHover)
+        left.detachContent(); dismissed.detachContent()
+    }
+
+    func testSizeChangedWhileClosingIsUsedWhenThePanelReopens() {
+        let panel = makePanel()
+        panel.present(size: CGSize(width: 349, height: 120))
+        panel.dismiss(animated: true, reason: .pointerLeft) {}
+        panel.resize(to: CGSize(width: 349, height: 260))
+        XCTAssertEqual(panel.contentSize.height, 120, "The closing shape keeps the size it folds from.")
+        panel.reopen()
+        XCTAssertEqual(panel.contentSize.height, 260)
+        panel.detachContent()
     }
 }
