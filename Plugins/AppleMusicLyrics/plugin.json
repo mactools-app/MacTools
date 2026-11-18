@@ -1,0 +1,222 @@
+{
+  "id": "apple-music-lyrics",
+  "displayName": "Apple Music 歌词",
+  "summary": "在屏幕右上角显示毛玻璃效果的 Apple Music 桌面歌词",
+  "localizedMetadata": {
+    "ar": {
+      "displayName": "كلمات Apple Music",
+      "summary": "اعرض كلمات الأغاني من Apple Music في الزاوية العلوية اليمنى من الشاشة مع تأثير زجاجي."
+    },
+    "de": {
+      "displayName": "Apple Music Liedtexte",
+      "summary": "Zeigt Apple-Music-Liedtexte mit Glas-Effekt in der oberen rechten Bildschirmecke an."
+    },
+    "en": {
+      "displayName": "Apple Music Lyrics",
+      "summary": "Show frosted-glass Apple Music lyrics in the top-right corner of the screen."
+    },
+    "es": {
+      "displayName": "Letras de Apple Music",
+      "summary": "Muestra letras de Apple Music con efecto de vidrio esmerilado en la esquina superior derecha de la pantalla."
+    },
+    "fr": {
+      "displayName": "Paroles Apple Music",
+      "summary": "Affiche les paroles Apple Music avec un effet verre dépoli dans le coin supérieur droit de l’écran."
+    },
+    "ja": {
+      "displayName": "Apple Music 歌詞",
+      "summary": "Apple Musicの歌詞をすりガラス効果付きで画面の右上に表示します。"
+    },
+    "ko": {
+      "displayName": "Apple Music 가사",
+      "summary": "Apple Music 가사를 유리 효과와 함께 화면 오른쪽 상단에 표시합니다."
+    },
+    "pt": {
+      "displayName": "Letras do Apple Music",
+      "summary": "Mostra letras do Apple Music com efeito de vidro fosco no canto superior direito da tela."
+    },
+    "ru": {
+      "displayName": "Тексты Apple Music",
+      "summary": "Показывайте тексты песен Apple Music с эффектом матового стекла в правом верхнем углу экрана."
+    },
+    "tr": {
+      "displayName": "Apple Music Şarkı Sözleri",
+      "summary": "Apple Music şarkı sözlerini buzlu cam efektli olarak ekranın sağ üst köşesinde gösterin."
+    },
+    "zh-Hans": {
+      "displayName": "Apple Music 歌词",
+      "summary": "在屏幕右上角显示毛玻璃效果的 Apple Music 桌面歌词"
+    },
+    "zh-Hant": {
+      "displayName": "Apple Music 歌詞",
+      "summary": "在螢幕右上角顯示毛玻璃效果的 Apple Music 桌面歌詞"
+    }
+  },
+  "productStrings": {
+    "display-name": "@displayName",
+    "summary": "@summary"
+  },
+  "version": "2.2.0",
+  "minHostVersion": "1.3.1",
+  "pluginKitVersion": 7,
+  "bundleRelativePath": "AppleMusicLyrics.bundle",
+  "factoryClass": "AppleMusicLyricsPlugin.AppleMusicLyricsPluginFactory",
+  "build": {
+    "project": "../../MacTools.xcodeproj",
+    "scheme": "AppleMusicLyricsPlugin"
+  },
+  "capabilities": {
+    "panelItems": [
+      "row"
+    ],
+    "settings": "form"
+  },
+  "permissions": [
+    "automation"
+  ],
+  "category": "audio",
+  "presentation": {
+    "longDescription": "@productStrings.summary",
+    "examples": [
+      {
+        "id": "primary-use",
+        "text": "@productStrings.summary"
+      }
+    ],
+    "screenshots": [],
+    "documentationURL": "https://github.com/ggbond268/MacTools#plugins-and-settings",
+    "supportURL": "https://github.com/ggbond268/MacTools/issues",
+    "publisher": "MacTools",
+    "license": "GPL-3.0-only"
+  },
+  "discovery": {
+    "keywords": [
+      "apple music",
+      "lyrics",
+      "desktop lyrics",
+      "music",
+      "karaoke",
+      "歌词",
+      "桌面歌词"
+    ],
+    "localizedSynonyms": {
+      "ar": [
+        "كلمات الأغاني",
+        "موسيقى"
+      ],
+      "de": [
+        "Liedtexte",
+        "Musik"
+      ],
+      "en": [
+        "apple music lyrics",
+        "desktop lyrics",
+        "music"
+      ],
+      "es": [
+        "letras",
+        "música"
+      ],
+      "fr": [
+        "paroles",
+        "musique"
+      ],
+      "ja": [
+        "歌詞",
+        "ミュージック"
+      ],
+      "ko": [
+        "가사",
+        "음악"
+      ],
+      "pt": [
+        "letras",
+        "música"
+      ],
+      "ru": [
+        "тексты",
+        "музыка"
+      ],
+      "tr": [
+        "şarkı sözleri",
+        "müzik"
+      ],
+      "zh-Hans": [
+        "Apple Music 歌词",
+        "桌面歌词",
+        "音乐"
+      ],
+      "zh-Hant": [
+        "Apple Music 歌詞",
+        "桌面歌詞",
+        "音樂"
+      ]
+    },
+    "useCases": [
+      {
+        "id": "show-desktop-lyrics",
+        "title": "@productStrings.display-name"
+      }
+    ],
+    "goalCategories": [
+      "media"
+    ],
+    "relatedPluginIDs": [],
+    "alternativePluginIDs": [],
+    "localizedSynonymRefs": []
+  },
+  "requirements": {
+    "minimumMacOSVersion": "14.0",
+    "architectures": [
+      "arm64",
+      "x86_64"
+    ],
+    "hardware": [],
+    "applications": [
+      {
+        "bundleID": "com.apple.Music",
+        "name": "Music"
+      }
+    ],
+    "executables": [],
+    "permissionIDs": [
+      "automation"
+    ],
+    "setupComplexity": "simple",
+    "requiresRelaunch": false
+  },
+  "privacy": {
+    "dataObserved": [
+      "media-playback-state"
+    ],
+    "dataPersisted": [
+      "plugin-configuration"
+    ],
+    "retention": {
+      "policy": "user-controlled"
+    },
+    "networkUse": "none",
+    "networkDomains": [],
+    "allowsUserConfiguredDomains": false,
+    "telemetry": "none",
+    "processesSensitiveUserContent": false,
+    "diagnosticExportsContainUserData": false
+  },
+  "setup": {
+    "steps": [],
+    "optionalSurfaces": []
+  },
+  "relationships": {
+    "relatedPluginIDs": [],
+    "includedPackIDs": [],
+    "suggestedRecipeIDs": [],
+    "supersedesPluginIDs": []
+  },
+  "preferencesBackup": {
+    "status": "partial",
+    "exclusions": [
+      "permissions",
+      "local-policy"
+    ]
+  }
+}

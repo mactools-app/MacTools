@@ -17,6 +17,7 @@ localOnly: 2; none: 25; partial: 37; portable: 7.
 | [App Hotkeys](../../Plugins/AppHotkey) | `app-hotkey` | partial | application-paths |
 | [App Volume](../../Plugins/AppVolume) | `app-volume` | partial | permissions, device-state |
 | [Dark Mode](../../Plugins/Appearance) | `appearance` | none | — |
+| [Apple Music Lyrics](../../Plugins/AppleMusicLyrics) | `apple-music-lyrics` | partial | permissions, local-policy |
 | [Apple Shortcuts](../../Plugins/AppleShortcuts) | `apple-shortcuts` | partial | private-content |
 | [Auto-hide Dock](../../Plugins/AutoHideDock) | `auto-hide-dock` | none | — |
 | [Auto-hide Menu Bar](../../Plugins/AutoHideMenuBar) | `auto-hide-menu-bar` | none | — |
