@@ -72,7 +72,7 @@ final class NotchDownloadProgressObserver: @unchecked Sendable {
         queue.async { [self] in
             guard !cancellation.isCancelled, let removed = progress.removeValue(forKey: id) else { return }
             observations.removeValue(forKey: id)
-            let snapshot = NotchDownloadProgressSnapshot(removed)
+            let snapshot = NotchDownloadProgressSnapshot(removed).endedByUnpublishing()
             rememberCompletion(id, snapshot: snapshot)
             var completed: [NotchDownloadItem] = []
             if var publication = publications.removeValue(forKey: id),

@@ -40,7 +40,7 @@ struct NotchDownloadProgressSnapshot {
     let fileURL: URL?
     let fileOperationKind: Progress.FileOperationKind?
     let isFile: Bool
-    let isFinished: Bool
+    private(set) var isFinished: Bool
     let isPaused: Bool
     let isCancelled: Bool
     let completedUnitCount: Int64
@@ -63,6 +63,16 @@ struct NotchDownloadProgressSnapshot {
         totalUnitCount = progress.totalUnitCount
         fractionCompleted = progress.fractionCompleted
         isIndeterminate = progress.isIndeterminate
+    }
+
+    /// A download of unknown size that stops being published without being cancelled has ended:
+    /// that is all such a publisher says. The file at its destination still decides whether it
+    /// finished, as for any download: new or changed there, and not a partial file.
+    func endedByUnpublishing() -> Self {
+        guard totalUnitCount <= 0, !isCancelled else { return self }
+        var ended = self
+        ended.isFinished = true
+        return ended
     }
 }
 
