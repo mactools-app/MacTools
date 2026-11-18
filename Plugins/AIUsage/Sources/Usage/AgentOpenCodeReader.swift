@@ -60,7 +60,7 @@ enum AgentOpenCodeReader {
     /// ones past `cursor.offset`, the last rowid read, and the only rows that
     /// change afterwards are replies still being written, looked up by id.
     static func readAppended(_ cursor: AgentLogCursor, since horizon: Date = .distantPast,
-                             shouldContinue: () -> Bool = { true }, line: (Data) -> Void) {
+                             shouldContinue: @escaping () -> Bool = { true }, line: (Data) -> Void) {
         guard shouldContinue() else { return }
         var info = stat()
         guard stat(cursor.path, &info) == 0, (info.st_mode & S_IFMT) == S_IFREG else { return }
@@ -74,13 +74,21 @@ enum AgentOpenCodeReader {
         }
         cursor.modified = modified(cursor.path) ?? date(info.st_mtimespec)
 
+        // While OpenCode writes, SQLite waits up to two seconds per query,
+        // but a stop ends the wait at once: the service then never holds a
+        // save, or a quit, behind a locked database.
+        let wait = BusyWait(shouldContinue: shouldContinue)
+        defer { withExtendedLifetime(wait) {} }
         var db: OpaquePointer?
         // SQLite hands back a connection to close even when opening fails.
         defer { sqlite3_close(db) }
         guard sqlite3_open_v2(cursor.path, &db, SQLITE_OPEN_READONLY | SQLITE_OPEN_NOMUTEX, nil) == SQLITE_OK else {
             return
         }
-        sqlite3_busy_timeout(db, 2000)
+        sqlite3_busy_handler(db, { context, count in
+            guard let context else { return 0 }
+            return Unmanaged<BusyWait>.fromOpaque(context).takeUnretainedValue().retry(count: count) ? 1 : 0
+        }, Unmanaged.passUnretained(wait).toOpaque())
 
         // OpenCode 1 keeps a session_message table of its own since 1.15,
         // so only the session_v2 table tells OpenCode 2 apart.
@@ -359,5 +367,18 @@ enum AgentOpenCodeReader {
         guard sqlite3_prepare_v2(db, query, -1, &stmt, nil) == SQLITE_OK else { return false }
         defer { sqlite3_finalize(stmt) }
         return sqlite3_step(stmt) == SQLITE_ROW
+    }
+}
+
+/// SQLite's wait for a locked database, in 50 ms steps up to two seconds,
+/// that gives up as soon as reading should stop.
+final class BusyWait {
+    private let shouldContinue: () -> Bool
+    init(shouldContinue: @escaping () -> Bool) { self.shouldContinue = shouldContinue }
+
+    func retry(count: Int32) -> Bool {
+        guard count < 40, shouldContinue() else { return false }
+        usleep(50_000)
+        return true
     }
 }

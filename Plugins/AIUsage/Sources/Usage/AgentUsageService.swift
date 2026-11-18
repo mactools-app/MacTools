@@ -189,12 +189,13 @@ final class AgentUsageService: ObservableObject, @unchecked Sendable {
         }
     }
 
-    func stop(keepingProgress keeps: Bool = true) {
+    /// `quitting`: MacTools ends right after, so the save gets a short wait.
+    func stop(keepingProgress keeps: Bool = true, quitting: Bool = false) {
         pageVisible = false
-        // A first read still going stops at its next chunk, so the wait
-        // below is short.
+        // A first read still going stops at its next chunk, and a database
+        // wait at once, so the save queued below starts soon.
         if running { cancellation.cancel() }
-        settleArchive(keeping: keeps && NotchAgentSupport.isEnabled())
+        settleArchive(keeping: keeps && NotchAgentSupport.isEnabled(), quitting: quitting)
         guard running else { return }
         running = false
         cancelClaudeLimits()
@@ -344,13 +345,17 @@ final class AgentUsageService: ObservableObject, @unchecked Sendable {
     }
 
     /// Saves progress, or removes it once the section is off, even what an
-    /// earlier launch saved. Quitting stops the service too and ends the
-    /// process right after, so this returns only once the file is settled.
-    /// Main thread.
-    private func settleArchive(keeping keeps: Bool) {
-        queue.sync {
+    /// earlier launch saved. It runs after whatever the reader is doing, so
+    /// the main thread never waits on it, except when quitting: the process
+    /// ends right after, so it waits up to a second. A save that misses it
+    /// costs only a longer first read next launch. Main thread.
+    private func settleArchive(keeping keeps: Bool, quitting: Bool) {
+        let settled = DispatchSemaphore(value: 0)
+        queue.async { [self] in
             if keeps { saveProgress() } else { AgentUsageArchive.remove() }
+            settled.signal()
         }
+        if quitting { _ = settled.wait(timeout: .now() + 1) }
     }
 
     /// Saves what was read, when reading moved on since the last save. Runs

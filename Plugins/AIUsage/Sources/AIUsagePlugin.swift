@@ -147,7 +147,7 @@ final class AIUsagePlugin: MacToolsPlugin, PluginSettingsPresenting {
         // weeks of logs. Disabling or removing the plugin removes it. The
         // service is stopped while still marked active: it keeps progress
         // only for an active plugin.
-        service.stop(keepingProgress: reason == .hostShutdown || reason == .updating)
+        service.stop(keepingProgress: reason == .hostShutdown || reason == .updating, quitting: reason == .hostShutdown)
         AgentPluginEnvironment.active = false
     }
 

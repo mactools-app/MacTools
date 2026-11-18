@@ -782,7 +782,10 @@ enum AgentLogReader {
                              including: ((Data, Range<Int>) -> Bool)? = nil, line: (Data) -> Void) {
         guard shouldContinue() else { return }
         if cursor.provider == .opencode {
-            AgentOpenCodeReader.readAppended(cursor, since: horizon, shouldContinue: shouldContinue, line: line)
+            // The database wait holds the check only while this read runs.
+            withoutActuallyEscaping(shouldContinue) { check in
+                AgentOpenCodeReader.readAppended(cursor, since: horizon, shouldContinue: check, line: line)
+            }
             return
         }
         var info = stat()
