@@ -41,6 +41,7 @@ struct CalendarComponentView: View {
     private let localization: PluginLocalization
     private let onContentHeightChange: (CGFloat) -> Void
     private let onRequestAccess: () -> Void
+    private let onRequestReminderAccess: () -> Void
     @Environment(\.pluginComponentTheme) private var theme
 
     init(
@@ -49,6 +50,7 @@ struct CalendarComponentView: View {
         settingsStore: CalendarSettingsStore,
         localization: PluginLocalization = PluginLocalization(bundle: .main),
         onRequestAccess: @escaping () -> Void = {},
+        onRequestReminderAccess: @escaping () -> Void = {},
         onContentHeightChange: @escaping (CGFloat) -> Void = { _ in }
     ) {
         self.viewModel = viewModel
@@ -56,6 +58,7 @@ struct CalendarComponentView: View {
         self.localization = localization
         self.onContentHeightChange = onContentHeightChange
         self.onRequestAccess = onRequestAccess
+        self.onRequestReminderAccess = onRequestReminderAccess
     }
 
     var body: some View {
@@ -120,10 +123,13 @@ struct CalendarComponentView: View {
             dates: viewModel.agendaDates,
             today: viewModel.todayDay?.date ?? Date(),
             authorization: viewModel.authorization,
+            remindersAuthorization: viewModel.remindersAuthorization,
+            showsReminders: settingsStore.showsReminders,
             errorMessage: viewModel.eventLoadingError,
             localization: localization,
             onOpenDay: { viewModel.open($0) },
             onRequestAccess: onRequestAccess,
+            onRequestReminderAccess: onRequestReminderAccess,
             onRetry: { viewModel.refresh() }
         )
     }
@@ -475,6 +481,7 @@ private struct CalendarEventDots: View {
                 Circle()
                     .fill(Color(calendarEventColor: event.color))
                     .frame(width: Self.dotSize, height: Self.dotSize)
+                    .opacity(event.isCompleted ? 0.35 : 1)
             }
         }
         .accessibilityHidden(true)
@@ -686,12 +693,21 @@ private struct CalendarEventRow: View {
 
     var body: some View {
         HStack(spacing: 6) {
-            Circle()
-                .fill(Color(calendarEventColor: event.color))
-                .frame(width: 6, height: 6)
+            if event.kind == .reminder {
+                Image(systemName: event.isCompleted ? "checkmark.circle.fill" : "checkmark.circle")
+                    .font(PluginTypography.caption.font.weight(.semibold))
+                    .foregroundStyle(event.isCompleted ? theme.text.tertiary : Color(calendarEventColor: event.color))
+                    .frame(width: 8, height: 8)
+            } else {
+                Circle()
+                    .fill(Color(calendarEventColor: event.color))
+                    .frame(width: 6, height: 6)
+            }
 
             Text(event.title)
                 .font(PluginTypography.detail.font)
+                .strikethrough(event.isCompleted)
+                .foregroundStyle(event.isCompleted ? theme.text.secondary : theme.text.primary)
                 .lineLimit(1)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -703,7 +719,7 @@ private struct CalendarEventRow: View {
     }
 }
 
-private extension Color {
+extension Color {
     init(calendarEventColor color: CalendarEventColor) {
         self.init(
             red: color.red,

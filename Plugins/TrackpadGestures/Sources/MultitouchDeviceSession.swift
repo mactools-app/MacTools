@@ -1367,6 +1367,13 @@ final class MultitouchDeviceSession: MultitouchDeviceSessionManaging,
             }
             return middleClickCoordinator.handleNativeEvent(type: type, event: event, proxy: proxy)
         }
+        if result == nil, type == .leftMouseDown || type == .rightMouseDown,
+           event.getIntegerValueField(.eventSourceUnixProcessID) == 0,
+           !MacToolsSyntheticInputEvent.isMarked(event) {
+            // The session tap never sees a physical down swallowed at HID.
+            // Report it synchronously, outside the recognition lock.
+            NotificationCenter.default.post(name: .macToolsWillClaimPhysicalInput, object: nil)
+        }
         if !middleClickCoordinator.hasTerminalNativePairsAwaitingUp {
             DispatchQueue.main.async { [weak self] in
                 self?.finishDeferredEventTapStopIfPossible()

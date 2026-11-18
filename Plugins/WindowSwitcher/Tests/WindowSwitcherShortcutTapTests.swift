@@ -1,11 +1,27 @@
 import AppKit
 import Carbon.HIToolbox
+import os
 import XCTest
 import MacToolsPluginKit
 @testable import WindowSwitcherPlugin
 
 @MainActor
 final class WindowSwitcherShortcutTapTests: XCTestCase {
+
+    func testClaimedShortcutNotifiesBeforeChooserPresentation() throws {
+        let tap = WindowSwitcherShortcutTap(accessibilityTrusted: { true })
+        tap.configure(allBinding: WindowSwitcherShortcutBindingStore.legacyBinding, currentAppBinding: nil)
+        let claims = OSAllocatedUnfairLock(initialState: 0)
+        let observer = NotificationCenter.default.addObserver(
+            forName: WindowSwitcherShortcutTap.willHandleShortcut, object: nil, queue: nil
+        ) { _ in claims.withLock { $0 += 1 } }
+        defer { NotificationCenter.default.removeObserver(observer) }
+
+        XCTAssertTrue(tap.handle(type: .keyDown, event: try event(kVK_Tab, flags: .maskControl)) != nil)
+        XCTAssertEqual(claims.withLock { $0 }, 0)
+        XCTAssertTrue(tap.handle(type: .keyDown, event: try event(kVK_Tab, flags: .maskCommand)) == nil)
+        XCTAssertEqual(claims.withLock { $0 }, 1)
+    }
 
     func testStoppedListenerDropsQueuedReleaseEscapeAndRevocation() async throws {
         let tap = WindowSwitcherShortcutTap(accessibilityTrusted: { true })
