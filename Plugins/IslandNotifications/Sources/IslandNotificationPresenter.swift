@@ -95,6 +95,7 @@ final class IslandNotificationPresenter {
         naturalFullHeight = pill && !replyable ? compactSize.height
             : Layout.expandedHeight(islandBottom: islandBottom, body: notification.displayBody, maxHeight: .greatestFiniteMagnitude, reply: replyable)
         replyExtra = 0
+        shownReplyExtra = NotchMorphModel.Spring()
         fullSize = CGSize(width: Layout.width, height: fullHeight)
         self.anchor = anchor
         self.activity = activity
@@ -194,16 +195,23 @@ final class IslandNotificationPresenter {
     private var maxCardHeight: CGFloat = 0
     /// Extra height of a reply field grown past one line.
     private var replyExtra: CGFloat = 0
+    /// The reply area's extra height as drawn, in points: it springs to `replyExtra`, so the field
+    /// and the card grow and shrink together, as the Messages field does.
+    private var shownReplyExtra = NotchMorphModel.Spring()
     private var fullHeight: CGFloat {
-        max(compactSize.height, min(naturalFullHeight + replyExtra, max(maxCardHeight, compactSize.height)))
+        max(compactSize.height, min(naturalFullHeight + CGFloat(shownReplyExtra.value), max(maxCardHeight, compactSize.height)))
     }
 
-    /// The reply field grew or shrank by a line: the card follows, its top staying put.
+    /// The reply field grew or shrank by a line, or emptied as a reply left it: the card follows,
+    /// its top staying put.
     private func replyHeightChanged(_ extra: CGFloat) {
         guard extra != replyExtra else { return }
         replyExtra = extra
-        fullSize.height = fullHeight
-        render()
+        if reduceMotion || window == nil {
+            shownReplyExtra = NotchMorphModel.Spring(value: Double(extra))
+            fullSize.height = fullHeight
+            render()
+        } else { startLink() }
     }
 
     private func frame(height: CGFloat) -> CGRect {
@@ -369,8 +377,10 @@ final class IslandNotificationPresenter {
         while remaining > 0 {
             let slice = min(remaining, 1.0 / 480.0)
             size.step(toward: sizeTarget, response: 0.42, dampingRatio: 0.84, dt: slice)
+            shownReplyExtra.step(toward: Double(replyExtra), response: 0.34, dampingRatio: 0.9, dt: slice)
             remaining -= slice
         }
+        fullSize.height = fullHeight
         render(); finish()
     }
 
@@ -379,6 +389,7 @@ final class IslandNotificationPresenter {
         let height = NotchMorphMetrics.lerp(compactSize.height, fullSize.height, max(size.value, 0))
         if metrics?.contentSize.height != height { updateGeometry(height: height) }
         card?.expansion = CGFloat(min(max(size.value, 0), 1))
+        card?.shownReplyExtra = CGFloat(shownReplyExtra.value)
         // Going back into the island, the content shrinks toward it and blurs as it fades, the way
         // the Dynamic Island folds its content away; opening, it is left exactly as laid out.
         let folding = model.target < 0.5 && completion != nil && !reduceMotion
@@ -393,7 +404,10 @@ final class IslandNotificationPresenter {
     }
 
     private func finish() {
-        guard model.isSettled, size.isSettled(at: sizeTarget) else { return }
+        guard model.isSettled, size.isSettled(at: sizeTarget),
+              abs(shownReplyExtra.value - Double(replyExtra)) < 0.25, abs(shownReplyExtra.velocity) < 1 else { return }
+        shownReplyExtra = NotchMorphModel.Spring(value: Double(replyExtra))
+        fullSize.height = fullHeight
         model.snapToTarget()
         size = NotchMorphModel.Spring(value: sizeTarget)
         if sizeTarget == 0 { card?.setExpandedMode(false) }
@@ -740,7 +754,9 @@ private final class IslandNotificationCard: NSView {
         // The reply field sits at the bottom of the expanded card and fades in as it opens.
         var bottomLimit = bounds.height - Layout.bottomPadding
         if let reply {
-            let replyHeight = reply.preferredHeight
+            // The field as drawn, following the card's spring rather than jumping to its new height.
+            let status = replyStatus.isHidden ? 0 : Layout.replyStatusHeight + 4
+            let replyHeight = Layout.replyHeight + max(0, shownReplyExtra - status)
             let replyRect = CGRect(x: 20, y: bounds.height - Layout.replyBottom - replyHeight,
                                    width: bounds.width - 40, height: replyHeight)
             reply.frame = replyRect
@@ -834,6 +850,10 @@ private final class IslandNotificationCard: NSView {
     /// What the reply area adds to the card: the field's extra lines, and the status line while
     /// it shows, so the status never sits on the message.
     private var replyFieldExtra: CGFloat = 0
+    /// The reply area's extra height as the presenter draws it this frame.
+    var shownReplyExtra: CGFloat = 0 {
+        didSet { if oldValue != shownReplyExtra { needsLayout = true } }
+    }
     private func reportReplyHeight() {
         let status = replyStatus.isHidden ? 0 : Layout.replyStatusHeight + 4
         onReplyHeightChange?(replyFieldExtra + status)
@@ -1034,6 +1054,8 @@ private final class IslandReplyBar: NSView, NSTextViewDelegate {
     init(placeholder text: String, sendLabel: String) {
         super.init(frame: .zero)
         wantsLayer = true
+        // A reply lifting out of the field stays inside it.
+        layer?.masksToBounds = true
         layer?.backgroundColor = NSColor.white.withAlphaComponent(0.12).cgColor
         layer?.cornerCurve = .continuous
         layer?.borderWidth = 0.5
@@ -1132,7 +1154,9 @@ private final class IslandReplyBar: NSView, NSTextViewDelegate {
         isSending = sending
         textView.isEditable = !sending
         if sending {
-            liftText()
+            // The reply leaves the field first; then the field empties back to one line. The text
+            // stays in it unseen, so a send that fails can bring it back.
+            liftText { [weak self] in self?.collapseWhileSending() }
             textView.alphaValue = 0
             crossfade(send, to: 0)
             spinner.alphaValue = 1
@@ -1140,6 +1164,7 @@ private final class IslandReplyBar: NSView, NSTextViewDelegate {
         } else {
             spinner.stopAnimation(nil)
             crossfade(send, to: 1)
+            updateHeight()
             textView.alphaValue = 0
             NSAnimationContext.runAnimationGroup { context in
                 context.duration = 0.22
@@ -1149,20 +1174,26 @@ private final class IslandReplyBar: NSView, NSTextViewDelegate {
         updateSend()
     }
 
-    /// The text as drawn, rising and fading out of the field.
-    private func liftText() {
+    private func collapseWhileSending() {
+        guard isSending, preferredHeight != IslandNotificationCard.Layout.replyHeight else { return }
+        preferredHeight = IslandNotificationCard.Layout.replyHeight
+        onHeightChange?(preferredHeight)
+    }
+
+    /// The text as drawn, rising and fading out of the field, then `done`.
+    private func liftText(then done: @escaping () -> Void) {
         guard let layer, !trimmed.isEmpty, !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion,
-              let image = bitmap(of: scroll) else { return }
+              let image = bitmap(of: scroll) else { done(); return }
         let lifted = CALayer()
         lifted.contents = image
         lifted.contentsScale = window?.backingScaleFactor ?? 2
         lifted.frame = scroll.frame
         layer.addSublayer(lifted)
-        let duration = 0.34
+        let duration = 0.26
         let curve = CAMediaTimingFunction(controlPoints: 0.2, 0.8, 0.2, 1)
         let rise = CABasicAnimation(keyPath: "position.y")
         // The bar is flipped: up is toward a smaller y.
-        rise.byValue = -14
+        rise.byValue = -12
         let fade = CABasicAnimation(keyPath: "opacity")
         fade.fromValue = 1; fade.toValue = 0
         let group = CAAnimationGroup()
@@ -1171,7 +1202,7 @@ private final class IslandReplyBar: NSView, NSTextViewDelegate {
         group.timingFunction = curve
         lifted.opacity = 0
         CATransaction.begin()
-        CATransaction.setCompletionBlock { lifted.removeFromSuperlayer() }
+        CATransaction.setCompletionBlock { lifted.removeFromSuperlayer(); done() }
         lifted.add(group, forKey: "lift")
         CATransaction.commit()
     }
@@ -1224,7 +1255,8 @@ private final class IslandReplyBar: NSView, NSTextViewDelegate {
 
     /// One line up to `replyMaxLines`; past that the field keeps its height and scrolls.
     private func updateHeight() {
-        guard let container = textView.textContainer, let manager = textView.layoutManager else { return }
+        // A reply on its way has left the field, which stays at one line until it comes back.
+        guard !isSending, let container = textView.textContainer, let manager = textView.layoutManager else { return }
         manager.ensureLayout(for: container)
         let line = IslandNotificationCard.Layout.replyLineHeight
         let content = max(line, ceil(manager.usedRect(for: container).height))
