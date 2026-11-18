@@ -105,7 +105,8 @@ final class IslandNotificationPresenter {
         updateGeometry(height: compactSize.height)
         // Room for the reply field to grow to its line limit without resizing the window.
         windowSizeFrame = frame(height: replyable
-            ? max(fullSize.height, min(naturalFullHeight + Layout.replyMaxExtra, maxCardHeight)) : fullSize.height)
+            ? max(fullSize.height, min(naturalFullHeight + Layout.replyMaxExtra + Layout.replyStatusHeight + 4, maxCardHeight))
+            : fullSize.height)
         let card = IslandNotificationCard(notification: notification, localization: localization, previewLines: previewLines,
                                           replyable: replyable,
                                           islandCenter: islandCenter, islandBottom: islandBottom,
@@ -134,6 +135,8 @@ final class IslandNotificationPresenter {
             root.addSubview(split)
         } else {
             let surface = NotchMorphView(content: card)
+            // The card's text never shows past the surface as it folds back into the island.
+            surface.clipsContentToSurface = true
             self.surface = surface
             root.addSubview(surface)
         }
@@ -252,6 +255,8 @@ final class IslandNotificationPresenter {
 
     func setReplySending() { card?.setReplySending() }
     func showReplySent() { card?.showReplySent() }
+    /// Typing stops in a card that is about to go; the keyboard returns to the app as it closes.
+    func stopEditing() { card?.endEditing() }
     func showReplyError(_ message: String) { card?.showReplyError(message) }
 
     /// Hands typing back to the app the user was in. MacTools never became active, so
@@ -374,6 +379,10 @@ final class IslandNotificationPresenter {
         let height = NotchMorphMetrics.lerp(compactSize.height, fullSize.height, max(size.value, 0))
         if metrics?.contentSize.height != height { updateGeometry(height: height) }
         card?.expansion = CGFloat(min(max(size.value, 0), 1))
+        // Going back into the island, the content shrinks toward it and blurs as it fades, the way
+        // the Dynamic Island folds its content away; opening, it is left exactly as laid out.
+        let folding = model.target < 0.5 && completion != nil && !reduceMotion
+        card?.setFolding(folding ? CGFloat(1 - min(max(model.height.value, 0), 1)) : 0)
         guard let metrics else { return }
         let current = frame(height: height).offsetBy(dx: -windowSizeFrame.minX, dy: -windowSizeFrame.minY)
         let morph: NSView? = splitSurface ?? surface
@@ -659,8 +668,8 @@ private final class IslandNotificationCard: NSView {
             reply.router = self
             reply.onCancel = { [weak self] in self?.onCancelReply?() }
             reply.onHeightChange = { [weak self] height in
-                self?.onReplyHeightChange?(height - Layout.replyHeight)
-                self?.needsLayout = true
+                self?.replyFieldExtra = height - Layout.replyHeight
+                self?.reportReplyHeight()
             }
             reply.isHidden = true
             addSubview(reply, positioned: .below, relativeTo: close)
@@ -793,18 +802,57 @@ private final class IslandNotificationCard: NSView {
 
     func endEditing() { reply?.endEditing() }
     func focusReply() { reply?.focus() }
+
+    private var folding: CGFloat = 0
+
+    /// 0 while the card is shown; toward 1 as it folds into the island: it shrinks toward the
+    /// island at its top and blurs, while the surface fades it.
+    func setFolding(_ progress: CGFloat) {
+        let progress = min(max(progress, 0), 1)
+        guard progress != folding, let layer else { return }
+        folding = progress
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        let scale = 1 - 0.12 * progress
+        // About the top centre, where the island is; the card's layer has its origin at the top left.
+        var transform = CATransform3DMakeTranslation(bounds.midX, 0, 0)
+        transform = CATransform3DScale(transform, scale, scale, 1)
+        layer.sublayerTransform = CATransform3DTranslate(transform, -bounds.midX, 0, 0)
+        if progress > 0 {
+            if layer.filters == nil {
+                layerUsesCoreImageFilters = true
+                let blur = CIFilter(name: "CIGaussianBlur")
+                blur?.name = "fold"
+                layer.filters = blur.map { [$0] }
+            }
+            layer.setValue(10 * progress, forKeyPath: "filters.fold.inputRadius")
+        } else {
+            layer.filters = nil
+        }
+        CATransaction.commit()
+    }
+    /// What the reply area adds to the card: the field's extra lines, and the status line while
+    /// it shows, so the status never sits on the message.
+    private var replyFieldExtra: CGFloat = 0
+    private func reportReplyHeight() {
+        let status = replyStatus.isHidden ? 0 : Layout.replyStatusHeight + 4
+        onReplyHeightChange?(replyFieldExtra + status)
+        needsLayout = true
+    }
+
     func setReplySending() {
         replyStatus.isHidden = true
         reply?.setSending(true)
-        needsLayout = true
+        reportReplyHeight()
     }
     func showReplySent() { reply?.showSent(localization.string("reply.sent", defaultValue: "已发送")) }
+
     func showReplyError(_ message: String) {
         reply?.setSending(false)
         replyStatus.stringValue = message
         replyStatus.toolTip = message
         replyStatus.isHidden = false
-        needsLayout = true
+        reportReplyHeight()
     }
 
     func updateCount(_ waiting: Int) {
@@ -969,6 +1017,7 @@ private final class IslandReplyBar: NSView, NSTextViewDelegate {
     private let textView = TextView()
     private let placeholder = NSTextField(labelWithString: "")
     private let send = NSButton()
+    private let spinner = NSProgressIndicator()
     private var isSending = false
     private(set) var preferredHeight = IslandNotificationCard.Layout.replyHeight
     var onSend: ((String) -> Void)?
@@ -1027,7 +1076,12 @@ private final class IslandReplyBar: NSView, NSTextViewDelegate {
         send.action = #selector(sendTapped)
         send.toolTip = sendLabel
         send.setAccessibilityLabel(sendLabel)
-        for view in [scroll, placeholder, send] as [NSView] { addSubview(view) }
+        spinner.style = .spinning
+        spinner.controlSize = .small
+        spinner.isDisplayedWhenStopped = false
+        spinner.appearance = NSAppearance(named: .darkAqua)
+        spinner.wantsLayer = true
+        for view in [scroll, placeholder, send, spinner] as [NSView] { addSubview(view) }
         updateSend()
     }
 
@@ -1043,6 +1097,7 @@ private final class IslandReplyBar: NSView, NSTextViewDelegate {
         // The send button stays at the bottom right, beside the last line (iOS).
         send.frame = CGRect(x: bounds.width - 4 - button, y: h - 4 - button, width: button, height: button)
         send.layer?.cornerRadius = button / 2
+        spinner.frame = send.frame.insetBy(dx: 4, dy: 4)
         let textFrame = CGRect(x: 14, y: Self.verticalPadding, width: send.frame.minX - 20,
                                height: max(0, h - Self.verticalPadding * 2))
         if scroll.frame != textFrame {
@@ -1069,25 +1124,90 @@ private final class IslandReplyBar: NSView, NSTextViewDelegate {
         if window?.firstResponder === textView { window?.makeFirstResponder(nil) }
     }
 
+    /// Sending: the text lifts out of the field the moment Send is pressed, as a sent message
+    /// leaves the Messages field, and the button turns to a spinner. The field keeps its height,
+    /// so the card doesn't move. A send that fails brings the text back as it was.
     func setSending(_ sending: Bool) {
+        guard sending != isSending else { return }
         isSending = sending
         textView.isEditable = !sending
-        textView.textColor = sending ? NSColor.white.withAlphaComponent(0.5) : .white
+        if sending {
+            liftText()
+            textView.alphaValue = 0
+            crossfade(send, to: 0)
+            spinner.alphaValue = 1
+            spinner.startAnimation(nil)
+        } else {
+            spinner.stopAnimation(nil)
+            crossfade(send, to: 1)
+            textView.alphaValue = 0
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = 0.22
+                textView.animator().alphaValue = 1
+            }
+        }
         updateSend()
     }
 
+    /// The text as drawn, rising and fading out of the field.
+    private func liftText() {
+        guard let layer, !trimmed.isEmpty, !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion,
+              let image = bitmap(of: scroll) else { return }
+        let lifted = CALayer()
+        lifted.contents = image
+        lifted.contentsScale = window?.backingScaleFactor ?? 2
+        lifted.frame = scroll.frame
+        layer.addSublayer(lifted)
+        let duration = 0.34
+        let curve = CAMediaTimingFunction(controlPoints: 0.2, 0.8, 0.2, 1)
+        let rise = CABasicAnimation(keyPath: "position.y")
+        // The bar is flipped: up is toward a smaller y.
+        rise.byValue = -14
+        let fade = CABasicAnimation(keyPath: "opacity")
+        fade.fromValue = 1; fade.toValue = 0
+        let group = CAAnimationGroup()
+        group.animations = [rise, fade]
+        group.duration = duration
+        group.timingFunction = curve
+        lifted.opacity = 0
+        CATransaction.begin()
+        CATransaction.setCompletionBlock { lifted.removeFromSuperlayer() }
+        lifted.add(group, forKey: "lift")
+        CATransaction.commit()
+    }
+
+    private func bitmap(of view: NSView) -> CGImage? {
+        guard view.bounds.width > 0, view.bounds.height > 0,
+              let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return nil }
+        view.cacheDisplay(in: view.bounds, to: rep)
+        return rep.cgImage
+    }
+
+    private func crossfade(_ view: NSView, to alpha: CGFloat) {
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.18
+            view.animator().alphaValue = alpha
+        }
+    }
+
+    /// Sent: the spinner becomes a green check and "Sent" settles into the empty field, in place.
     func showSent(_ label: String) {
         isSending = true
         textView.isEditable = false
-        textView.string = ""
+        spinner.stopAnimation(nil)
         placeholder.stringValue = label
         placeholder.font = NSFont.systemFont(ofSize: 14, weight: .medium)
         placeholder.textColor = NSColor.white.withAlphaComponent(0.75)
+        placeholder.alphaValue = 0
         placeholder.isHidden = false
         send.image = NSImage(systemSymbolName: "checkmark", accessibilityDescription: label)
         send.layer?.backgroundColor = NSColor.systemGreen.cgColor
         send.isEnabled = false
-        updateHeight()
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.2
+            send.animator().alphaValue = 1
+            placeholder.animator().alphaValue = 1
+        }
         NSAccessibility.post(element: self, notification: .announcementRequested,
                              userInfo: [.announcement: label, .priority: NSAccessibilityPriorityLevel.high.rawValue])
     }

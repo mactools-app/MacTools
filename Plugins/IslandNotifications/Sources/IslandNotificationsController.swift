@@ -695,10 +695,13 @@ final class IslandNotificationsController {
             logger.notice("reply outcome=\(String(describing: outcome), privacy: .public)")
             switch outcome {
             case .sent:
+                // The check shows for a moment, then the card folds straight back into the island.
+                // Typing stops now; the keyboard returns to the app once the card has gone, so the
+                // card never blinks out and back while it closes.
                 presenter.showReplySent()
-                try? await Task.sleep(for: .milliseconds(900))
+                presenter.stopEditing()
+                try? await Task.sleep(for: .milliseconds(450))
                 guard self.generation == generation, queue.current === notification else { return }
-                presenter.returnKeyboard()
                 finishCurrent(dismissNative: true, reason: "replied")
             case .noConversation:
                 presenter.showReplyError(localization.string("reply.error.conversation", defaultValue: "找不到这个对话。点按卡片以打开“信息”。"))

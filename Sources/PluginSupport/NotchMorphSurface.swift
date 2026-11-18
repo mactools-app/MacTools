@@ -258,6 +258,10 @@ final class NotchMorphView: NSView {
     private let surfaceMask = CAShapeLayer()
     private weak var content: NSView?
     private var surfacePath: CGPath?
+    /// Keeps the content inside the surface at every size, so nothing shows beyond its edge while
+    /// the surface folds back over content still fading. Off by default: the surface then clips
+    /// only while it reveals part of its content.
+    var clipsContentToSurface = false
 
     init(content: NSView) {
         self.content = content
@@ -334,7 +338,7 @@ final class NotchMorphView: NSView {
             }
             content.alphaValue = CGFloat(min(max(model.contentOpacity, 0), 1))
             // While the surface is shorter than its content, the content ends where the surface does.
-            if metrics.revealedContentSize != nil {
+            if metrics.revealedContentSize != nil || clipsContentToSurface {
                 content.wantsLayer = true
                 let mask = (content.layer?.mask as? CAShapeLayer) ?? CAShapeLayer()
                 mask.frame = content.bounds
