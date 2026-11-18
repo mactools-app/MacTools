@@ -892,15 +892,21 @@ final class IslandClaudeTurnWatcher {
     private var stream: FSEventStreamRef?
     private var reader: IslandClaudeTranscriptReader?
     private let queue = DispatchQueue(label: "MacTools.IslandNotifications.ClaudeLogs", qos: .utility)
+    /// Bumped by every stop, so a turn read just before it is not shown after it.
+    private var generation = 0
 
     func start() {
         guard stream == nil else { return }
         try? FileManager.default.removeItem(at: Self.legacyDirectory)
         let roots = Self.logRoots
         guard !roots.isEmpty else { return }
+        let generation = generation
         let reader = IslandClaudeTranscriptReader(roots: roots) { [weak self] turn in
             DispatchQueue.main.async { [weak self] in
-                MainActor.assumeIsolated { self?.onTurn?(turn) }
+                MainActor.assumeIsolated {
+                    guard let self, self.generation == generation else { return }
+                    self.onTurn?(turn)
+                }
             }
         }
         guard let stream = Self.makeStream(paths: roots.map(\.path), reader: reader, queue: queue) else { return }
@@ -933,10 +939,12 @@ final class IslandClaudeTurnWatcher {
     }
 
     func stop() {
+        generation += 1
         if let stream {
             FSEventStreamStop(stream); FSEventStreamInvalidate(stream); FSEventStreamRelease(stream)
-            // Let any callback already queued finish before the reader goes.
-            queue.sync {}
+            // FSEvents holds the reader unretained. A callback already queued may still run, so the
+            // queue keeps the reader until it has; the main thread never waits for a log read.
+            if let reader { queue.async { withExtendedLifetime(reader) {} } }
         }
         stream = nil; reader = nil
     }
