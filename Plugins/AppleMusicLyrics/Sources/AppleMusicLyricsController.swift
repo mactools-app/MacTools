@@ -488,13 +488,31 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         pendingTimeoutTask = timeoutTask
 
         fetchQueue.async { [weak self] in
+            // If the request was invalidated (disabled/reset) while still
+            // queued, skip it without running AppleScript and release the
+            // slot so polling can resume once re-enabled.
+            let isStillValid = DispatchQueue.main.sync {
+                self?.activeFetchRequestID == requestID
+            }
+            guard isStillValid else {
+                DispatchQueue.main.async {
+                    guard let self, self.activeFetchRequestID == nil else { return }
+                    self.isFetchInFlight = false
+                }
+                return
+            }
             let outcome = service.fetch().mapError(Self.mapPollingError)
             DispatchQueue.main.async {
-                guard let self, self.activeFetchRequestID == requestID else { return }
-                self.activeFetchRequestID = nil
+                guard let self else { return }
+                // The underlying call has finished, so the request slot is
+                // released regardless of whether the result is still wanted.
+                self.isFetchInFlight = false
                 self.pendingTimeoutTask?.cancel()
                 self.pendingTimeoutTask = nil
-                self.isFetchInFlight = false
+                // A result invalidated while running (disabled/reset) is
+                // discarded so it cannot reopen the window or apply stale state.
+                guard self.activeFetchRequestID == requestID else { return }
+                self.activeFetchRequestID = nil
                 guard self.isActive, self.isEnabled else { return }
                 if self.fetchTimedOut {
                     self.fetchTimedOut = false
@@ -530,7 +548,8 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         if error == .automationDenied {
             // The user denied Automation access. Stop polling, drop the stale
             // track, and hide the window so the previous lyric does not linger;
-            // the error message points at the Automation pane.
+            // the error message points at the Automation pane. The request slot
+            // was already released by the fetch completion.
             isAutomationDenied = true
             stopPolling()
             cancelLyricsWork()
@@ -538,7 +557,6 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
             currentLyrics = .empty
             currentLine = ""
             floatingWindow.hideLyrics()
-            isFetchInFlight = false
         }
         notifyIfChanged()
     }
@@ -656,14 +674,23 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
         lyricsRetryCount = 0
     }
 
-    /// Invalidates the in-flight Music request so a late reply is discarded
-    /// instead of reopening the window or applying stale state.
+    /// Invalidates the in-flight or queued Music request so a late reply is
+    /// discarded instead of reopening the window or applying stale state.
+    ///
+    /// The request slot (`isFetchInFlight`) is deliberately left occupied when
+    /// a request is actually in flight: it stays held until the underlying
+    /// fetch finishes, so a re-enable during a slow query cannot enqueue a
+    /// second request behind it. The completion (or the skip check at the head
+    /// of the queue block) releases the slot.
     private func invalidateFetchRequest() {
+        let hadActiveRequest = activeFetchRequestID != nil
         activeFetchRequestID = nil
         pendingTimeoutTask?.cancel()
         pendingTimeoutTask = nil
-        isFetchInFlight = false
         fetchTimedOut = false
+        if !hadActiveRequest {
+            isFetchInFlight = false
+        }
     }
 
     private func notifyIfChanged() {

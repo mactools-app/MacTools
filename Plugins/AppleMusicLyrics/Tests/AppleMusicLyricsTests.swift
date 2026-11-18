@@ -626,6 +626,46 @@ final class AppleMusicLyricsPollingTests: XCTestCase {
         XCTAssertGreaterThan(service.fetchCount, 1, "polling must resume after the slot frees")
     }
 
+    func testDisableReenableDuringSlowQueryDoesNotQueueExtraQueries() async {
+        let storage = makeStorage()
+        let service = MockNowPlayingService()
+        // Simulated Music reply is slower than a poll interval, so the request
+        // slot stays occupied while the feature is toggled off and on.
+        service.delay = 2.0
+        service.result = .success(playingTrack())
+        let controller = AppleMusicLyricsController(
+            storage: storage,
+            localization: PluginLocalization(bundle: .main),
+            nowPlayingService: service
+        )
+        controller.activate()
+        controller.setEnabled(true)
+        // Wait for the first (slow) request to start.
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        XCTAssertEqual(service.fetchCount, 1)
+
+        // Toggle the feature off and on three times while the first request is
+        // still blocked on the simulated slow Music reply. The request slot
+        // must stay occupied until the reply finishes, so a re-enable must not
+        // enqueue a second request behind the first.
+        for _ in 0..<3 {
+            controller.setEnabled(false)
+            controller.setEnabled(true)
+            try? await Task.sleep(nanoseconds: 50_000_000)
+        }
+        XCTAssertEqual(
+            service.fetchCount, 1,
+            "re-enabling during a slow query must not queue extra requests"
+        )
+
+        // Once the slow reply finishes the slot frees, so a later refresh
+        // issues a fresh request and polling resumes.
+        try? await Task.sleep(nanoseconds: 2_000_000_000)
+        controller.refresh()
+        try? await Task.sleep(nanoseconds: 300_000_000)
+        XCTAssertGreaterThan(service.fetchCount, 1, "polling must resume after the slot frees")
+    }
+
     func testPollNotifiesOnlyWhenDisplayedStateChanges() async {
         let storage = makeStorage()
         let service = MockNowPlayingService()
