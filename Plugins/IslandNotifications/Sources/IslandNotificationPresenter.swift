@@ -203,11 +203,13 @@ final class IslandNotificationPresenter {
     }
 
     /// The reply field grew or shrank by a line, or emptied as a reply left it: the card follows,
-    /// its top staying put.
+    /// its top staying put. Lines added or removed while typing take effect at once, as in Messages,
+    /// so the text never moves under the cursor; only the field emptying after Send is animated.
     private func replyHeightChanged(_ extra: CGFloat) {
         guard extra != replyExtra else { return }
         replyExtra = extra
-        if reduceMotion || window == nil {
+        let emptying = card?.isSendingReply == true && Double(extra) < shownReplyExtra.value
+        if reduceMotion || window == nil || !emptying {
             shownReplyExtra = NotchMorphModel.Spring(value: Double(extra))
             fullSize.height = fullHeight
             render()
