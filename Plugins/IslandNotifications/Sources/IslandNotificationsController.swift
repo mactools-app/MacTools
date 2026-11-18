@@ -884,6 +884,8 @@ final class IslandNotificationsController {
         }
     }
 
+    private var lastActivityCheck: TimeInterval = 0
+
     private func tick() {
         guard active else { return }
         guard enabled, trusted, let anchor else { return }
@@ -903,7 +905,11 @@ final class IslandNotificationsController {
                 logger.notice("card hidden under a hover panel")
                 presenter.hide()
             }
-            else if !blocked, presenter.window == nil { activityChanged() }
+            else if !blocked, presenter.window == nil, now - lastActivityCheck >= 0.5 {
+                // A hidden card waits for its place to come back; looking twice a second is enough.
+                lastActivityCheck = now
+                activityChanged()
+            }
             if blocked != wasBlocked { updateLifetime() }
         } else { presentNext(checkBlocking: false) }
     }

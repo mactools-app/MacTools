@@ -21,6 +21,12 @@ final class IslandLiveActivityObserver {
     private var generation = 0
     private var reading: Task<IslandLiveActivityPlacement, Never>?
     private var change: DispatchWorkItem?
+    /// MenuBarAgent, found once and kept while it runs: finding it checks every running app's path.
+    private var agent: NSRunningApplication?
+    /// When the last change was handed on (system uptime). Changes arriving faster are coalesced, so
+    /// a Live Activity that redraws constantly costs at most two reads a second.
+    private var lastChange: TimeInterval = 0
+    private static let minimumChangeInterval: TimeInterval = 0.5
     nonisolated private static let logger = Logger(subsystem: "MacTools.IslandNotifications", category: "liveactivity")
     nonisolated private static let messagingTimeout: Float = 0.2
 
@@ -30,7 +36,10 @@ final class IslandLiveActivityObserver {
     }
 
     func refresh(anchor: CGRect) async -> IslandLiveActivityPlacement {
-        guard let app = NSWorkspace.shared.runningApplications.first(where: Self.isMenuBarAgent) else {
+        if agent?.isTerminated != false {
+            agent = NSWorkspace.shared.runningApplications.first(where: Self.isMenuBarAgent)
+        }
+        guard let app = agent else {
             Self.logger.debug("appFound=false decision=native reason=menubaragent-not-found")
             return .native
         }
@@ -66,14 +75,10 @@ final class IslandLiveActivityObserver {
                 _ = AXObserverCreate(pid, islandActivityCallback, &observer)
                 active = IslandActivitySession(pid: pid, application: application, observer: observer)
             }
-            // Replace element subscriptions rather than retaining stale AX handles.
-            if let observer = active.observer {
-                for element in active.observed {
-                    for name in Self.notifications {
-                        AXObserverRemoveNotification(observer, element, name as CFString)
-                    }
-                }
-            }
+            // Subscriptions change only where the elements did. Registering again for elements already
+            // watched makes MenuBarAgent report changes that start another read, so a read never
+            // re-registers what it already watches.
+            let previous = active.observed
             active.observed = [active.application]
             var frames: [CGRect?] = []
             var complete = true
@@ -144,7 +149,11 @@ final class IslandLiveActivityObserver {
             }
             Self.logger.debug("activities=\(frames.count, privacy: .public) nodes=\(250 - budget, privacy: .public) complete=\(complete, privacy: .public)")
             if let observer = active.observer {
-                for element in active.observed {
+                let contains = { (list: [AXUIElement], element: AXUIElement) in list.contains { CFEqual($0, element) } }
+                for element in previous where !contains(active.observed, element) {
+                    for name in Self.notifications { AXObserverRemoveNotification(observer, element, name as CFString) }
+                }
+                for element in active.observed where !contains(previous, element) {
                     for name in Self.notifications {
                         _ = AXObserverAddNotification(observer, element, name as CFString,
                                                       UnsafeMutableRawPointer(bitPattern: context))
@@ -187,10 +196,13 @@ final class IslandLiveActivityObserver {
         let work = DispatchWorkItem { [weak self] in
             guard let self else { return }
             self.change = nil
+            self.lastChange = ProcessInfo.processInfo.systemUptime
             self.onChange?()
         }
         change = work
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(20), execute: work)
+        let sinceLast = ProcessInfo.processInfo.systemUptime - lastChange
+        let delay = max(0.02, Self.minimumChangeInterval - sinceLast)
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
     }
 
     private static func remove(_ session: IslandActivitySession) async {
@@ -204,6 +216,7 @@ final class IslandLiveActivityObserver {
 
     func stop() {
         generation += 1
+        agent = nil
         reading?.cancel(); reading = nil
         change?.cancel(); change = nil
         if let session {
