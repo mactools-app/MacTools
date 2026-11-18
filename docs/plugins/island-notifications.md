@@ -12,14 +12,15 @@ Shows macOS notifications as cards that grow out of the camera island on the Mac
 
 The plugin watches Notification Centre's banner windows through Accessibility. When a banner appears, its window is moved off screen before it draws, and the plugin shows its own non-activating card in its place.
 
-Notification Centre stays the record. Every notification still goes into its history, and Focus, notification styles and preview privacy apply before a banner exists. The plugin never changes notification settings and never reads Notification Centre's database.
+Notification Centre stays the record. Every notification still goes into its history, and Focus, notification styles and preview privacy apply before a banner exists, so the island shows only what macOS would show. The plugin never changes notification settings and never reads Notification Centre's database.
 
 Cards:
 
 - **Lifetime:** a temporary card stays for five seconds, paused while it is hovered, held open, being replied to, or under the MacTools hover panel. A persistent alert waits until it is dismissed.
 - **Several notifications:** one card shows at a time. A newer temporary notification replaces an idle card after one second; a held or busy card is never interrupted.
 - **Gestures:** swipe up to dismiss. Pull down to open the full message, or to hold a card that has nothing more to show. A click opens the exact item through the banner's own action, and Esc closes the card.
-- **Replies:** Messages cards reply to the conversation found in Messages' history, never to one matched by name. Claude cards follow Claude Code's session logs and type the reply into that chat, without bringing Claude forward.
+- **Replies:** Messages cards reply to the conversation found in Messages' history among messages received around the banner, never to one matched by name. Claude cards type the reply into their chat without bringing Claude forward; the chat is checked again by its id and on screen just before sending, and another chat with the same title refuses the reply.
+- **Claude chat cards** (off by default): Claude posts its own notices without a banner, so with this on the plugin reads Claude Code's session logs and, when a chat finishes a turn while Claude is in the background, MacTools posts a notification of its own. Its banner becomes the card. MacTools' notification settings, Focus and preview privacy apply to it, it stays in Notification Centre's history, and nothing shows when macOS would show nothing.
 - **Live Activities:** with a compact system Live Activity showing, the card splits below it. With an expanded or unreadable activity, banners stay native.
 
 Notification text never leaves the Mac and is never written to disk. The logs record steps only.

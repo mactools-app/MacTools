@@ -232,6 +232,160 @@
         }
       }
     },
+    "settings.claudeCards": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude 对话卡片"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude chat cards"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude 對話卡片"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude-Chat-Karten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarjetas de chats de Claude"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartes des conversations Claude"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartões de conversas do Claude"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Карточки чатов Claude"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude チャットのカード"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude 채팅 카드"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بطاقات محادثات Claude"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude sohbet kartları"
+          }
+        }
+      }
+    },
+    "settings.claudeCards.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude Code 对话在后台完成一轮时，MacTools 会发送一条通知，并显示为带回复栏的卡片。适用 MacTools 的通知设置、专注模式和预览设置。会读取这台 Mac 上 Claude Code 的会话记录。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When a Claude Code chat finishes a turn in the background, MacTools posts a notification and shows it as a card with a reply field. MacTools' notification settings, Focus and previews apply. Reads Claude Code's session logs on this Mac."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude Code 對話在背景完成一輪時，MacTools 會傳送一則通知，並顯示為帶回覆欄的卡片。適用 MacTools 的通知設定、專注模式和預覽設定。會讀取這台 Mac 上 Claude Code 的工作階段記錄。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beendet ein Claude Code-Chat eine Runde im Hintergrund, sendet MacTools eine Mitteilung und zeigt sie als Karte mit Antwortfeld. Es gelten die Mitteilungseinstellungen von MacTools, Fokus und Vorschauen. Liest die Sitzungsprotokolle von Claude Code auf diesem Mac."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando un chat de Claude Code termina un turno en segundo plano, MacTools publica una notificación y la muestra como una tarjeta con campo de respuesta. Se aplican los ajustes de notificaciones de MacTools, Concentración y las previsualizaciones. Lee los registros de sesión de Claude Code en este Mac."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lorsqu’une conversation Claude Code termine un tour en arrière-plan, MacTools envoie une notification et l’affiche sous forme de carte avec un champ de réponse. Les réglages de notification de MacTools, les modes de concentration et les aperçus s’appliquent. Lit les journaux de session de Claude Code sur ce Mac."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quando uma conversa do Claude Code termina uma resposta em segundo plano, o MacTools publica uma notificação e mostra-a como um cartão com campo de resposta. Aplicam-se as definições de notificações do MacTools, o Foco e as pré-visualizações. Lê os registos de sessão do Claude Code neste Mac."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Когда чат Claude Code завершает ход в фоне, MacTools отправляет уведомление и показывает его карточкой с полем ответа. Действуют настройки уведомлений MacTools, режимы фокусирования и предпросмотр. Читает журналы сеансов Claude Code на этом Mac."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude Code のチャットがバックグラウンドでターンを終えると、MacTools が通知を送信し、返信欄付きのカードとして表示します。MacTools の通知設定、集中モード、プレビューが適用されます。この Mac 上の Claude Code のセッションログを読み取ります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude Code 채팅이 백그라운드에서 차례를 마치면 MacTools가 알림을 보내고 답장 필드가 있는 카드로 표시합니다. MacTools의 알림 설정, 집중 모드 및 미리보기가 적용됩니다. 이 Mac에 있는 Claude Code의 세션 기록을 읽습니다."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عندما تُنهي محادثة Claude Code دورًا في الخلفية، يرسل MacTools إشعارًا ويعرضه كبطاقة بها حقل للرد. تنطبق إعدادات إشعارات MacTools ووضع التركيز والمعاينات. يقرأ سجلات جلسات Claude Code على هذا الـ Mac."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir Claude Code sohbeti arka planda bir turu bitirdiğinde MacTools bir bildirim gönderir ve bunu yanıt alanı olan bir kart olarak gösterir. MacTools'un bildirim ayarları, Odak ve önizlemeler geçerlidir. Bu Mac'teki Claude Code oturum kayıtlarını okur."
+          }
+        }
+      }
+    },
     "settings.previewLines": {
       "extractionState": "manual",
       "localizations": {

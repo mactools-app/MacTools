@@ -82,6 +82,10 @@ final class IslandNotificationsPlugin: MacToolsPlugin {
             PluginSettingsSection(id: "notifications", title: localization.string("metadata.title", defaultValue: "灵动岛通知"), systemImage: "bell.badge.fill", rows: [
                 PluginSettingsRow(id: "enabled", title: localization.string("settings.enabled", defaultValue: "启用灵动岛通知"), description: status,
                                   systemImage: "bell.badge.fill", control: .toggle(isOn: controller.enabled)),
+                PluginSettingsRow(id: "claudeCards", title: localization.string("settings.claudeCards", defaultValue: "Claude 对话卡片"),
+                                  description: localization.string("settings.claudeCards.description",
+                                                                   defaultValue: "Claude Code 对话在后台完成一轮时，MacTools 会发送一条通知，并显示为带回复栏的卡片。适用 MacTools 的通知设置、专注模式和预览设置。会读取这台 Mac 上 Claude Code 的会话记录。"),
+                                  systemImage: "bubble.left.and.text.bubble.right", control: .toggle(isOn: controller.claudeCards)),
                 PluginSettingsRow(id: "previewLines", title: localization.string("settings.previewLines", defaultValue: "预览行数"),
                                   description: localization.string("settings.previewLines.description", defaultValue: "展开前显示的消息行数。向下滚动卡片可查看全文。"),
                                   systemImage: "text.alignleft",
@@ -118,6 +122,7 @@ final class IslandNotificationsPlugin: MacToolsPlugin {
     func handleSettingsAction(_ action: PluginSettingsAction) {
         switch action {
         case let .setBoolean(id, value) where id == "enabled": setEnabled(value)
+        case let .setBoolean(id, value) where id == "claudeCards": controller.setClaudeCards(value)
         case let .setSelection(id, option) where id == "previewLines": Int(option).map(controller.setPreviewLines)
         default: break
         }

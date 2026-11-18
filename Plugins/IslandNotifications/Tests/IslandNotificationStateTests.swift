@@ -119,4 +119,24 @@ final class IslandNotificationStateTests: XCTestCase {
         XCTAssertEqual(IslandClaudeTurnWatcher.desktopChat(in: [card, other]) { $0.cliSessionIDs.contains("cli-b") }?.localID, "local_b")
         XCTAssertNil(IslandClaudeTurnWatcher.desktopChat(in: [other]) { $0.localID == "local_a" })
     }
+
+    func testOnlyTheBannerShowingAClaudeTurnBecomesItsCard() {
+        var posts = IslandClaudePosts()
+        let chat = IslandClaudeChat(localID: "local_a", title: "Fix the build")
+        posts.add(chat, message: "Done. The build passes:\n\nall 42 tests green.", at: 100)
+        // A banner with its preview hidden shows neither the chat's title nor the reply.
+        XCTAssertNil(posts.take(title: "MacTools", body: "Notification", at: 101))
+        // Another app's banner with the same title is not this turn.
+        XCTAssertNil(posts.take(title: "Fix the build", body: "Something else entirely", at: 101))
+        // The banner shortens and rewraps the reply; it still names the turn, once.
+        XCTAssertEqual(posts.take(title: "Fix the build", body: "Done. The build passes: all 42…", at: 102)?.chat, chat)
+        XCTAssertNil(posts.take(title: "Fix the build", body: "Done. The build passes: all 42…", at: 102))
+    }
+
+    func testAClaudeTurnWhoseBannerNeverCameExpires() {
+        var posts = IslandClaudePosts()
+        posts.add(IslandClaudeChat(localID: "local_a", title: "Notes"), message: "Saved.", at: 0)
+        // Focus kept the banner from showing; a later banner with the same text is not this turn.
+        XCTAssertNil(posts.take(title: "Notes", body: "Saved.", at: IslandClaudePosts.wait + 1))
+    }
 }

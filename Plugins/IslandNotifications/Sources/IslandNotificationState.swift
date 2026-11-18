@@ -347,3 +347,42 @@ enum IslandMessagesChat {
         return String(bytes: bytes[index..<(index + length)], encoding: .utf8)
     }
 }
+
+/// Claude turns posted as MacTools notifications, each waiting for its banner. Only a banner that
+/// shows the chat's title and the start of the reply becomes a Claude card: Focus can keep the
+/// banner from showing at all, and hidden previews show neither, so both are honoured as for any app.
+struct IslandClaudePosts {
+    struct Post: Equatable {
+        let chat: IslandClaudeChat
+        let message: String
+        let postedAt: TimeInterval
+    }
+
+    /// How long a post waits for its banner (system uptime seconds).
+    static let wait: TimeInterval = 30
+    private(set) var posts: [Post] = []
+
+    mutating func add(_ chat: IslandClaudeChat, message: String, at now: TimeInterval) {
+        prune(now)
+        posts.append(Post(chat: chat, message: message, postedAt: now))
+        if posts.count > 8 { posts.removeFirst(posts.count - 8) }
+    }
+
+    /// The post this banner shows, taken so no other banner can claim it.
+    mutating func take(title: String, body: String, at now: TimeInterval) -> Post? {
+        prune(now)
+        let shown = Self.normalized(body).trimmingCharacters(in: CharacterSet(charactersIn: "…"))
+        guard !shown.isEmpty, let index = posts.firstIndex(where: {
+            $0.chat.title == title && Self.normalized($0.message).hasPrefix(shown)
+        }) else { return nil }
+        return posts.remove(at: index)
+    }
+
+    private mutating func prune(_ now: TimeInterval) {
+        posts.removeAll { now - $0.postedAt > Self.wait }
+    }
+
+    private static func normalized(_ text: String) -> String {
+        text.split(whereSeparator: { $0.isWhitespace || $0.isNewline }).joined(separator: " ")
+    }
+}

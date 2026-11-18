@@ -69,6 +69,7 @@ final class IslandNotificationsController {
         self.storage = storage
         self.localization = localization
         enabled = storage.bool(forKey: "enabled")
+        claudeCards = storage.bool(forKey: "claudeCards")
         presenter = IslandNotificationPresenter(localization: localization)
         let lines = storage.integer(forKey: "previewLines")
         if IslandNotificationPresenter.previewLineRange.contains(lines) { presenter.previewLines = lines }
@@ -122,6 +123,16 @@ final class IslandNotificationsController {
         onStateChange?()
     }
 
+    /// Off by default: reading Claude Code's session logs is its own choice.
+    private(set) var claudeCards = false
+    private var claudePosts = IslandClaudePosts()
+
+    func setClaudeCards(_ value: Bool) {
+        claudeCards = value; storage.set(value, forKey: "claudeCards")
+        if value { IslandClaudeNotice.requestAuthorization() }
+        refresh(); onStateChange?()
+    }
+
     func setEnabled(_ value: Bool) {
         enabled = value; storage.set(value, forKey: "enabled")
         refresh(); onStateChange?()
@@ -137,7 +148,8 @@ final class IslandNotificationsController {
         }
         updateTimer()
         guard trusted, anchor != nil else { stop(); onStateChange?(); return }
-        claudeTurns.start()
+        // Claude's session logs are read only while Claude chat cards are on.
+        if claudeCards { claudeTurns.start() } else { claudeTurns.stop() }
         if !loggedHistoryAccess {
             loggedHistoryAccess = true
             let logger = logger
@@ -259,19 +271,30 @@ final class IslandNotificationsController {
         updateTimer()
     }
 
-    /// A Claude chat finished a turn while the user is elsewhere: show Claude's reply as a card.
+    /// A Claude chat finished a turn while the user is elsewhere. Claude posts its own notices without
+    /// a banner, so MacTools posts one and its banner becomes the card: MacTools' notification
+    /// settings, Focus and hidden previews then apply as for any app.
     private func receive(_ turn: IslandClaudeTurnWatcher.Turn) {
-        guard active, enabled, trusted, anchor != nil, !fallingBack, !centerOpen,
+        guard active, enabled, claudeCards, trusted, anchor != nil,
               NSWorkspace.shared.frontmostApplication?.bundleIdentifier != IslandClaudeReply.bundleIdentifier else { return }
-        // There is no system banner behind this card; the system-wide element is only a placeholder.
-        let placeholder = AXUIElementCreateSystemWide()
-        let notification = IslandNotification(element: placeholder, window: placeholder, originalPosition: .zero,
-                                              style: .temporary, title: turn.chat.title, body: turn.message,
-                                              identityHints: [IslandClaudeReply.bundleIdentifier])
-        notification.claudeChat = turn.chat
-        notification.resolveIdentity()
-        record(notification)
-        enqueue([notification])
+        claudePosts.add(turn.chat, message: turn.message, at: ProcessInfo.processInfo.systemUptime)
+        IslandClaudeNotice.post(turn)
+    }
+
+    /// A banner, or MacTools' own notice of a Claude turn: then the card is that chat's, with the
+    /// whole reply (the banner showed its preview) and a reply field.
+    private func makeNotification(_ group: IslandAXWindowSnapshot.Group, window: AXUIElement,
+                                  original: CGPoint) -> IslandNotification {
+        if let post = claudePosts.take(title: group.title, body: group.body, at: ProcessInfo.processInfo.systemUptime) {
+            let notification = IslandNotification(element: group.element, window: window, originalPosition: original,
+                                                  style: group.style, title: post.chat.title, body: post.message,
+                                                  identityHints: [IslandClaudeReply.bundleIdentifier] + group.hints)
+            notification.claudeChat = post.chat
+            return notification
+        }
+        return IslandNotification(element: group.element, window: window, originalPosition: original,
+                                  style: group.style, title: group.title, body: group.body,
+                                  identityHints: group.hints, lineCount: group.lines)
     }
 
     private func receive(_ window: IslandAXElement) {
@@ -362,9 +385,7 @@ final class IslandNotificationsController {
                         ?? seen.last(where: { CFEqual($0.element, group.element) }),
                       old.title != group.title || old.body != group.body else { continue }
                 let original = movedIndex(window.value).map { moved[$0].original } ?? old.originalPosition
-                let notification = IslandNotification(element: group.element, window: window.value, originalPosition: original,
-                                                      style: group.style, title: group.title, body: group.body,
-                                                      identityHints: group.hints, lineCount: group.lines)
+                let notification = makeNotification(group, window: window.value, original: original)
                 notification.label = group.label
                 notification.resolveIdentity()
                 hidden.removeAll { $0 === old }
@@ -423,9 +444,7 @@ final class IslandNotificationsController {
             remember(window.value, original: original, taken: true)
             var arrivals: [IslandNotification] = []
             for group in fresh {
-                let notification = IslandNotification(element: group.element, window: window.value, originalPosition: original,
-                                                      style: group.style, title: group.title, body: group.body,
-                                                      identityHints: group.hints, lineCount: group.lines)
+                let notification = makeNotification(group, window: window.value, original: original)
                 notification.label = group.label
                 hidden.append(notification)
                 seen.append(notification)
