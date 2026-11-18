@@ -10,7 +10,7 @@ REMOTE_URL ?= git@github.com:owner/MacTools.git
 PLACEHOLDER_REMOTE_URL := git@github.com:owner/MacTools.git
 PROJECT_FILE := $(PROJECT_NAME).xcodeproj
 WORKSPACE_FILE := $(PROJECT_NAME).xcworkspace
-DERIVED_DATA := build/DerivedData
+DERIVED_DATA ?= build/DerivedData
 # Keep unsigned XCTest host bundles out of the signed local app build.
 TEST_DERIVED_DATA ?= $(DERIVED_DATA)Tests
 APP_PATH := $(DERIVED_DATA)/Build/Products/Debug/$(APP_PRODUCT_NAME).app
@@ -22,6 +22,7 @@ INSTALLED_APP_EXECUTABLE := $(INSTALLED_APP_PATH)/Contents/MacOS/$(APP_PRODUCT_N
 HOST_ARCH := $(shell uname -m)
 BUILD_DESTINATION := platform=macOS,arch=$(HOST_ARCH)
 XCODEBUILD ?= $(abspath scripts/xcodebuild-filtered.sh)
+LSREGISTER ?= /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
 LOCAL_PLUGIN_SOURCE_DIR ?= Plugins
 PLUGIN_PROJECT_SOURCE_DIR ?= Plugins
 GENERATED_PLUGIN_PROJECT_CONFIG := Configs/GeneratedPlugins.yml
@@ -29,6 +30,7 @@ LOCAL_PLUGIN_BUILD_DIR ?= build/LocalPlugins
 LOCAL_PLUGIN_CATALOG := $(LOCAL_PLUGIN_BUILD_DIR)/catalog.dev.json
 DEBUG_BUILD_PRODUCTS_DIR := $(DERIVED_DATA)/Build/Products/Debug
 DEBUG_CLI_PATH := $(DEBUG_BUILD_PRODUCTS_DIR)/mactools
+TEST_BUILD_PRODUCTS_DIR := $(TEST_DERIVED_DATA)/Build/Products/Debug
 DEBUG_PLUGIN_INSTALL_DIR ?= $(HOME)/Library/Application Support/MacTools Dev/Plugins/Installed
 LOCAL_ICON_GALLERY_DIR ?= build/LocalIconGallery
 LOCAL_ICON_GALLERY_CATALOG := $(LOCAL_ICON_GALLERY_DIR)/catalog.dev.json
@@ -49,6 +51,7 @@ E2E_PACK ?=
 TEST_FILTER ?=
 
 .PHONY: setup validate-local-debug-config generate-plugin-config generate build build-cli validate-changelog validate-generated-plugin-data validate-localization script-tests test ci sync-debug-plugins build-plugin build-plugins generate-icon-gallery package-plugins-release stop-debug-app install-debug-app run run-open e2e-preflight e2e-prepare e2e-upgrade e2e-reseed e2e-resume e2e-rebuild e2e-audit e2e-scenarios e2e-record e2e-record-pack e2e-verify-code e2e-collect e2e-restore e2e-self-test clean release release-local
+.PHONY: print-debug-app-path print-derived-data-path print-test-derived-data-path print-test-products-dir sync-built-debug-plugins
 
 setup:
 	@if [ ! -f LocalConfig.xcconfig ]; then cp LocalConfig.sample.xcconfig LocalConfig.xcconfig; fi
@@ -74,18 +77,30 @@ build: validate-local-debug-config generate
 	@echo "Building Debug app and plugins..."
 	@mkdir -p build
 	@touch build/.metadata_never_index
-	@$(XCODEBUILD) -project $(PROJECT_FILE) -scheme $(PROJECT_NAME) -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath $(DERIVED_DATA) build -quiet
-	@LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister; \
-	if [[ -x "$$LSREGISTER" ]]; then \
-		"$$LSREGISTER" -u "$(CURDIR)/$(APP_PATH)" >/dev/null 2>&1 || true; \
+	@"$(XCODEBUILD)" -project $(PROJECT_FILE) -scheme $(PROJECT_NAME) -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath "$(DERIVED_DATA)" build -quiet
+	@if [[ -x "$(LSREGISTER)" ]]; then \
+		APP_BUNDLE="$(APP_PATH)"; \
+		"$(LSREGISTER)" -u "$${APP_BUNDLE:a}" >/dev/null 2>&1 || true; \
 	fi
 
 build-cli: validate-local-debug-config generate
 	@echo "Building standalone Debug CLI..."
 	@mkdir -p build
 	@touch build/.metadata_never_index
-	@$(XCODEBUILD) -project $(PROJECT_FILE) -scheme MacToolsCLI -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath $(DERIVED_DATA) build -quiet
-	@echo "CLI ready: $(abspath $(DEBUG_CLI_PATH))"
+	@"$(XCODEBUILD)" -project $(PROJECT_FILE) -scheme MacToolsCLI -configuration Debug -destination "$(BUILD_DESTINATION)" -derivedDataPath "$(DERIVED_DATA)" build -quiet
+	@CLI_BINARY="$(DEBUG_CLI_PATH)"; printf 'CLI ready: %s\n' "$${CLI_BINARY:a}"
+
+print-debug-app-path:
+	@APP_BUNDLE="$(APP_PATH)"; printf '%s\n' "$${APP_BUNDLE:a}"
+
+print-derived-data-path:
+	@BUILD_DIRECTORY="$(DERIVED_DATA)"; printf '%s\n' "$${BUILD_DIRECTORY:a}"
+
+print-test-derived-data-path:
+	@BUILD_DIRECTORY="$(TEST_DERIVED_DATA)"; printf '%s\n' "$${BUILD_DIRECTORY:a}"
+
+print-test-products-dir:
+	@TEST_PRODUCTS="$(TEST_BUILD_PRODUCTS_DIR)"; printf '%s\n' "$${TEST_PRODUCTS:a}"
 
 validate-changelog:
 	@$(PYTHON3) scripts/changelog.py validate
@@ -103,12 +118,12 @@ script-tests: validate-changelog validate-generated-plugin-data validate-localiz
 	@$(PYTHON3) -m unittest discover -s scripts/tests -p 'test_*.py'
 
 test: generate
-	@$(XCODEBUILD) \
+	@"$(XCODEBUILD)" \
 		-project $(PROJECT_FILE) \
 		-scheme $(PROJECT_NAME) \
 		-configuration Debug \
 		-destination "$(BUILD_DESTINATION)" \
-		-derivedDataPath $(TEST_DERIVED_DATA) \
+		-derivedDataPath "$(TEST_DERIVED_DATA)" \
 		CODE_SIGNING_ALLOWED=NO \
 		CODE_SIGNING_REQUIRED=NO \
 		CODE_SIGN_IDENTITY= \
@@ -122,9 +137,11 @@ test: generate
 
 ci: override TEST_FILTER :=
 ci: script-tests test
-	@./scripts/plugins/verify-plugin-kit-v7-binary-compatibility.sh "$(abspath $(TEST_DERIVED_DATA)/Build/Products/Debug)"
+	@TEST_PRODUCTS="$(TEST_BUILD_PRODUCTS_DIR)"; \
+	./scripts/plugins/verify-plugin-kit-v7-binary-compatibility.sh "$${TEST_PRODUCTS:a}"
 
 sync-debug-plugins: build
+sync-debug-plugins sync-built-debug-plugins:
 	@if [ -n "$(PLUGIN)" ]; then \
 		PLUGIN_ARGS=(--plugin "$(PLUGIN)"); \
 	else \
@@ -206,7 +223,7 @@ stop-debug-app:
 install-debug-app: sync-debug-plugins generate-icon-gallery
 	@EXPECTED_BUNDLE_IDENTIFIER="$$(./scripts/validate-local-debug-config.sh LocalConfig.xcconfig --print-bundle-identifier)"; \
 	./scripts/install-debug-app.sh \
-		"$(CURDIR)/$(APP_PATH)" \
+		"$(APP_PATH)" \
 		"$(INSTALLED_APP_PATH)" \
 		"$$EXPECTED_BUNDLE_IDENTIFIER"
 
