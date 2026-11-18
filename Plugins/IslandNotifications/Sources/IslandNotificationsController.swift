@@ -51,6 +51,9 @@ final class IslandNotificationsController {
     private static let prehideGrace: TimeInterval = 0.5
     private var ignored: [IslandAXElement] = []
     private var receiving: [IslandAXElement] = []
+    /// Windows whose next read adopts what it finds: banners already there when MacTools started,
+    /// or that came while a read was skipped. Their arrival time is unknown.
+    private var adopting: [IslandAXElement] = []
     private var pending: [IslandAXElement] = []
     private var generation = 0
     private var ready = false
@@ -189,7 +192,7 @@ final class IslandNotificationsController {
             ready = true
             // Notifications already on screen when MacTools starts become cards too. macOS keeps them
             // in one window with any that arrive later, so skipping them would leave those native.
-            for window in windows { receive(window) }
+            for window in windows { receive(window, adopting: true) }
         }
     }
 
@@ -252,7 +255,7 @@ final class IslandNotificationsController {
     isolated deinit { deactivate() }
 
     private func stop() {
-        generation += 1; ready = false; receiving.removeAll(); pending.removeAll()
+        generation += 1; ready = false; receiving.removeAll(); pending.removeAll(); adopting.removeAll()
         replaceWork?.cancel(); replaceWork = nil
         observer.stop()
         claudeTurns.stop()
@@ -277,28 +280,48 @@ final class IslandNotificationsController {
     private func receive(_ turn: IslandClaudeTurnWatcher.Turn) {
         guard active, enabled, claudeCards, trusted, anchor != nil,
               NSWorkspace.shared.frontmostApplication?.bundleIdentifier != IslandClaudeReply.bundleIdentifier else { return }
-        claudePosts.add(turn.chat, message: turn.message, at: ProcessInfo.processInfo.systemUptime)
-        IslandClaudeNotice.post(turn)
+        let requestID = UUID().uuidString
+        // Waiting before the request goes out, so a quick banner finds it; claiming it also needs
+        // macOS to have delivered this request (see makeNotification).
+        claudePosts.add(turn.chat, message: turn.message, posted: IslandClaudeNotice.postedText(turn),
+                        requestID: requestID, at: ProcessInfo.processInfo.systemUptime)
+        Task {
+            if await !IslandClaudeNotice.post(turn, requestID: requestID) { claudePosts.remove(requestID: requestID) }
+        }
     }
 
     /// A banner, or MacTools' own notice of a Claude turn: then the card is that chat's, with the
-    /// whole reply (the banner showed its preview) and a reply field.
+    /// whole reply (the banner showed its preview) and a reply field. Only MacTools' own banner,
+    /// showing the posted text, for one waiting turn whose request macOS delivered, counts; any
+    /// other banner keeps its own content.
     private func makeNotification(_ group: IslandAXWindowSnapshot.Group, window: AXUIElement,
-                                  original: CGPoint) -> IslandNotification {
-        if let post = claudePosts.take(title: group.title, body: group.body, at: ProcessInfo.processInfo.systemUptime) {
+                                  original: CGPoint, adopted: Bool) async -> IslandNotification {
+        let fromMacTools = group.app.map { IslandClaudeNotice.ownNames.contains($0) } ?? false
+        if let post = claudePosts.take(title: group.title, body: group.body, fromMacTools: fromMacTools,
+                                       at: ProcessInfo.processInfo.systemUptime),
+           await IslandClaudeNotice.isDelivered(post.requestID) {
             let notification = IslandNotification(element: group.element, window: window, originalPosition: original,
                                                   style: group.style, title: post.chat.title, body: post.message,
                                                   identityHints: [IslandClaudeReply.bundleIdentifier] + group.hints)
             notification.claudeChat = post.chat
             return notification
         }
-        return IslandNotification(element: group.element, window: window, originalPosition: original,
-                                  style: group.style, title: group.title, body: group.body,
-                                  identityHints: group.hints, lineCount: group.lines)
+        let notification = IslandNotification(element: group.element, window: window, originalPosition: original,
+                                              style: group.style, title: group.title, body: group.body,
+                                              identityHints: group.hints, lineCount: group.lines)
+        notification.arrivalConfirmed = !adopted
+        return notification
     }
 
-    private func receive(_ window: IslandAXElement) {
-        guard active, ready, !fallingBack, !centerPressing else { return }
+    /// `adopting`: this window may hold banners that came while the island wasn't reading it.
+    private func receive(_ window: IslandAXElement, adopting adopt: Bool = false) {
+        if adopt, !adopting.contains(where: { CFEqual($0.value, window.value) }) { adopting.append(window) }
+        guard active, ready, !fallingBack else { return }
+        guard !centerPressing else {
+            // Banners arriving now are read later, when their arrival time is no longer known.
+            if !adopting.contains(where: { CFEqual($0.value, window.value) }) { adopting.append(window) }
+            return
+        }
         if receiving.contains(where: { CFEqual($0.value, window.value) }) {
             if !pending.contains(where: { CFEqual($0.value, window.value) }) { pending.append(window) }
             return
@@ -319,8 +342,12 @@ final class IslandNotificationsController {
             // A failed query is unknown, never "closed".
             let focus = await observer.centerFocus()
             guard self.generation == generation, active else { return }
-            if focus == true { await centerOpened(); return }
-            guard focus == false else { return }
+            guard focus == false else {
+                // Not read now: what this window holds is read later, its arrival time unknown.
+                if !adopting.contains(where: { CFEqual($0.value, window.value) }) { adopting.append(window) }
+                if focus == true { await centerOpened() }
+                return
+            }
             centerOpen = false
             // Hide a new banner window at once, before reading it, so the banner never draws its first
             // frames natively. A window the island doesn't take comes back (see settleUntaken).
@@ -374,6 +401,7 @@ final class IslandNotificationsController {
                 await settleUntaken(window, definitive: snapshot.unexpected || ignoredHit || !enabled)
                 return
             }
+            let adopted = adopting.contains { CFEqual($0.value, window.value) }
             let fresh = snapshot.groups.filter { group in
                 !hidden.contains { CFEqual($0.element, group.element) } && !seen.contains { CFEqual($0.element, group.element) }
             }
@@ -385,7 +413,8 @@ final class IslandNotificationsController {
                         ?? seen.last(where: { CFEqual($0.element, group.element) }),
                       old.title != group.title || old.body != group.body else { continue }
                 let original = movedIndex(window.value).map { moved[$0].original } ?? old.originalPosition
-                let notification = makeNotification(group, window: window.value, original: original)
+                let notification = await makeNotification(group, window: window.value, original: original, adopted: adopted)
+                guard self.generation == generation, !centerOpen else { return }
                 notification.label = group.label
                 notification.resolveIdentity()
                 hidden.removeAll { $0 === old }
@@ -400,6 +429,8 @@ final class IslandNotificationsController {
                 if let index = movedIndex(window.value) { moved[index].taken = true }
                 enqueue(replacements)
             }
+            // Read in full: later banners in this window are seen as they come.
+            if snapshot.complete, !snapshot.unexpected, fresh.isEmpty { adopting.removeAll { CFEqual($0.value, window.value) } }
             guard !fresh.isEmpty else {
                 // Nothing new for the island in a window moved on arrival: it goes straight back.
                 if replacements.isEmpty { await settleUntaken(window, definitive: true) }
@@ -441,10 +472,19 @@ final class IslandNotificationsController {
                 _ = await IslandAX.run { IslandAX.restore(window.value, to: original) }
                 return
             }
+            var made: [(IslandAXWindowSnapshot.Group, IslandNotification)] = []
+            for group in fresh {
+                made.append((group, await makeNotification(group, window: window.value, original: original, adopted: adopted)))
+            }
+            // Confirming a Claude notice's delivery is a short wait; anything can have changed.
+            guard self.generation == generation, !fallingBack, !centerOpen else {
+                _ = await IslandAX.run { IslandAX.restore(window.value, to: original) }
+                return
+            }
             remember(window.value, original: original, taken: true)
             var arrivals: [IslandNotification] = []
-            for group in fresh {
-                let notification = makeNotification(group, window: window.value, original: original)
+            adopting.removeAll { CFEqual($0.value, window.value) }
+            for (group, notification) in made {
                 notification.label = group.label
                 hidden.append(notification)
                 seen.append(notification)
@@ -719,28 +759,40 @@ final class IslandNotificationsController {
     }
 
     /// The exact conversation comes from Messages' history; the message may land there a moment
-    /// after its banner. No match (or no access) means no reply, never a guess.
+    /// after its banner. No match (or no access) means no reply, never a guess. Until the banner's
+    /// own message has surely been written (`settledAfter`), only messages from around its arrival
+    /// count; after that the whole window, where a second conversation with the same text makes the
+    /// match ambiguous. Only a banner whose arrival MacTools saw is looked up at all.
     private static func messagesConversation(body: String, lineCount: Int, arrivedAt arrival: Date) async -> IslandMessagesChat.Lookup {
         let lines = body.components(separatedBy: "\n") + [body]
         let isGroup = lineCount > 2
         var lookup = IslandMessagesChat.Lookup.notFound
-        // Messages writes its history a few seconds after the banner, so a quick reply keeps
-        // looking until 15 seconds after the banner arrived; a later one tries a few times.
         var attempts = 0
         repeat {
+            let settled = Date().timeIntervalSince(arrival) >= IslandMessagesChat.settledAfter
             lookup = await Task.detached(priority: .userInitiated) {
-                IslandMessagesChat.resolve(bannerLines: lines, isGroupBanner: isGroup, arrivedAt: arrival)
+                IslandMessagesChat.resolve(bannerLines: lines, isGroupBanner: isGroup, arrivedAt: arrival, recentOnly: !settled)
             }.value
             guard lookup == .notFound else { break }
+            if settled, attempts >= 3 { break }
             attempts += 1
             try? await Task.sleep(for: .milliseconds(500))
-        } while attempts < 4 || Date().timeIntervalSince(arrival) < 15
+        } while true
+        return lookup
+    }
+
+    /// The card's conversation: found once, then kept, so a reply and an open go to the same one.
+    private static func conversation(for notification: IslandNotification) async -> IslandMessagesChat.Lookup {
+        guard notification.arrivalConfirmed else { return .notFound }
+        if let chat = notification.messagesChat { return .found(chat) }
+        let lookup = await messagesConversation(body: notification.body, lineCount: notification.lineCount,
+                                                arrivedAt: notification.arrivalDate)
+        if case .found(let chat) = lookup { notification.messagesChat = chat }
         return lookup
     }
 
     private static func replyInMessages(_ text: String, to notification: IslandNotification) async -> IslandReplyOutcome {
-        guard case .found(let chat) = await messagesConversation(body: notification.body, lineCount: notification.lineCount,
-                                                                    arrivedAt: notification.arrivalDate) else { return .noConversation }
+        guard case .found(let chat) = await conversation(for: notification) else { return .noConversation }
         return await IslandMessagesReply.send(text, toChat: chat)
     }
 
@@ -767,10 +819,10 @@ final class IslandNotificationsController {
             logger.notice("card open banner=\(opened, privacy: .public)")
             guard self.generation == generation else { return }
             // macOS removes a banner after a few seconds; a Messages card that outlives it still
-            // opens its conversation, found the same way replies are.
+            // opens its conversation, found the same way replies are (one adopted from before
+            // MacTools saw it opens Messages itself).
             if !opened, notification.bundleIdentifier == "com.apple.MobileSMS",
-               case .found(let chat) = await Self.messagesConversation(body: notification.body, lineCount: notification.lineCount,
-                                                                      arrivedAt: notification.arrivalDate),
+               case .found(let chat) = await Self.conversation(for: notification),
                let url = chat.openURL, NSWorkspace.shared.open(url) {
                 // Opened the exact conversation.
             } else if !opened, let url = notification.appURL {
@@ -796,7 +848,8 @@ final class IslandNotificationsController {
                                        centerApp: centerApp, appURL: notification.appURL,
                                        bundleIdentifier: notification.bundleIdentifier,
                                        title: notification.title, body: notification.body,
-                                       claudeChat: notification.claudeChat, lineCount: notification.lineCount))
+                                       claudeChat: notification.claudeChat, lineCount: notification.lineCount,
+                                       arrivalConfirmed: notification.arrivalConfirmed))
     }
 
     func setHistoryContentHeight(_ height: CGFloat) {
@@ -831,7 +884,8 @@ final class IslandNotificationsController {
         Task {
             var opened = await inCenter(.open, entry)
             // Gone from Notification Centre (the app withdrew it, or it was cleared there).
-            if !opened, entry.bundleIdentifier == "com.apple.MobileSMS",
+            // An entry adopted from before MacTools saw it opens Messages itself.
+            if !opened, entry.bundleIdentifier == "com.apple.MobileSMS", entry.arrivalConfirmed,
                case .found(let chat) = await Self.messagesConversation(body: entry.body, lineCount: entry.lineCount, arrivedAt: entry.date),
                let url = chat.openURL {
                 opened = NSWorkspace.shared.open(url)

@@ -1,4 +1,4 @@
-import Foundation
+import AppKit
 import UserNotifications
 
 /// MacTools' own notice of a finished Claude turn. Claude's notices arrive without a banner, so
@@ -12,22 +12,40 @@ enum IslandClaudeNotice {
         }
     }
 
-    static func post(_ turn: IslandClaudeTurnWatcher.Turn) {
-        let title = turn.chat.title
-        // Banners carry at most 1,024 characters; the card shows the whole reply.
-        let body = String(turn.message.prefix(1_000))
-        let thread = "claude." + turn.chat.localID
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
-            switch settings.authorizationStatus {
-            case .authorized, .provisional, .ephemeral: break
-            default: return
-            }
-            let content = UNMutableNotificationContent()
-            content.title = title
-            content.body = body
-            content.threadIdentifier = thread
-            UNUserNotificationCenter.current().add(UNNotificationRequest(identifier: UUID().uuidString,
-                                                                         content: content, trigger: nil))
+    /// What the notification carries: banners hold at most 1,024 characters; the card shows the whole reply.
+    static func postedText(_ turn: IslandClaudeTurnWatcher.Turn) -> String {
+        String(turn.message.prefix(1_000))
+    }
+
+    /// Posts the notice; true once macOS accepted the request. Without permission nothing is posted.
+    static func post(_ turn: IslandClaudeTurnWatcher.Turn, requestID: String) async -> Bool {
+        let center = UNUserNotificationCenter.current()
+        switch await center.notificationSettings().authorizationStatus {
+        case .authorized, .provisional, .ephemeral: break
+        default: return false
         }
+        let content = UNMutableNotificationContent()
+        content.title = turn.chat.title
+        content.body = postedText(turn)
+        content.threadIdentifier = "claude." + turn.chat.localID
+        do {
+            try await center.add(UNNotificationRequest(identifier: requestID, content: content, trigger: nil))
+            return true
+        } catch {
+            return false
+        }
+    }
+
+    /// True while Notification Centre holds this request: macOS delivered it.
+    static func isDelivered(_ requestID: String) async -> Bool {
+        await UNUserNotificationCenter.current().deliveredNotifications().contains { $0.request.identifier == requestID }
+    }
+
+    /// MacTools' names as a banner shows them: the bundle's display name, falling back to its name.
+    static var ownNames: Set<String> {
+        let info = Bundle.main.localizedInfoDictionary ?? [:]
+        let plain = Bundle.main.infoDictionary ?? [:]
+        let names = ["CFBundleDisplayName", "CFBundleName"].flatMap { [info[$0], plain[$0]] }.compactMap { $0 as? String }
+        return Set((names + [NSRunningApplication.current.localizedName].compactMap { $0 }).filter { !$0.isEmpty })
     }
 }

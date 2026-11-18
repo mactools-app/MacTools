@@ -220,6 +220,13 @@ final class IslandNotification: @unchecked Sendable {
     let arrivedAt = ProcessInfo.processInfo.systemUptime
     /// The same moment on the clock, which Messages' history dates are compared with.
     let arrivalDate = Date()
+    /// False for a banner that was already on screen when the island first read it (at start, or
+    /// after a read it missed): when it really arrived is unknown, so Messages' history can't be
+    /// matched to it. Such a card has no reply field and opens Messages itself.
+    @MainActor var arrivalConfirmed = true
+    /// The Messages conversation this card's message was found in, once found: replies and opening
+    /// keep to it.
+    @MainActor var messagesChat: IslandMessagesChat.Conversation?
     /// A header label from the banner, e.g. "TIME-SENSITIVE".
     @MainActor var label: String?
     @MainActor var appURL: URL?
@@ -229,9 +236,10 @@ final class IslandNotification: @unchecked Sendable {
     /// Set for a card made from a finished Claude chat turn (no system banner behind it).
     @MainActor var claudeChat: IslandClaudeChat?
     /// Claude chat cards and Messages banners get the inline reply field. Messages replies go only
-    /// to the exact conversation id from Messages' history, so they need that history to be readable.
+    /// to the exact conversation id from Messages' history, so they need that history to be readable
+    /// and a confirmed arrival to match it against.
     @MainActor var canReply: Bool {
-        claudeChat != nil || (bundleIdentifier == "com.apple.MobileSMS" && IslandMessagesChat.isAvailable)
+        claudeChat != nil || (bundleIdentifier == "com.apple.MobileSMS" && arrivalConfirmed && IslandMessagesChat.isAvailable)
     }
 
     /// A banner with a third line has a subtitle between the title and the message: for a group
@@ -333,6 +341,8 @@ struct IslandAXWindowSnapshot: @unchecked Sendable {
         var lines = 2
         /// A small all-caps header above the title, e.g. "TIME-SENSITIVE".
         var label: String?
+        /// The sending app as the banner names it, when its description gives one.
+        var app: String?
         let element: AXUIElement
         let style: IslandNotificationStyle
         let title: String
@@ -367,10 +377,10 @@ struct IslandAXWindowSnapshot: @unchecked Sendable {
             let title = text.first ?? ""
             let body = text.dropFirst().joined(separator: "\n")
             // macOS 27 describes a banner as "<App>, <title>, <body>"; the app comes first.
-            if let app = IslandNotification.appName(fromDescription: hints.first ?? "", title: title, body: body) {
-                hints.insert(app, at: 0)
-            }
+            let app = IslandNotification.appName(fromDescription: hints.first ?? "", title: title, body: body)
+            if let app { hints.insert(app, at: 0) }
             var group = Group(element: element, style: style, title: title, body: body, hints: hints)
+            group.app = app
             group.lines = text.count
             group.label = label
             groups.append(group)

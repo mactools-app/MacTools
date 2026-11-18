@@ -18,6 +18,8 @@ struct IslandHistoryEntry: Identifiable, Equatable {
     let claudeChat: IslandClaudeChat?
     /// Banner text lines, for finding a Messages conversation if Notification Centre no longer has it.
     let lineCount: Int
+    /// MacTools saw the banner arrive; without that its Messages conversation isn't looked up.
+    var arrivalConfirmed = true
 
     var groupKey: String { bundleIdentifier ?? appName }
 

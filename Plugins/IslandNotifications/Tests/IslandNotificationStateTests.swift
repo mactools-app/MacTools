@@ -1,4 +1,5 @@
 import XCTest
+import ApplicationServices
 @testable import IslandNotificationsPlugin
 
 final class IslandNotificationStateTests: XCTestCase {
@@ -120,23 +121,76 @@ final class IslandNotificationStateTests: XCTestCase {
         XCTAssertNil(IslandClaudeTurnWatcher.desktopChat(in: [other]) { $0.localID == "local_a" })
     }
 
-    func testOnlyTheBannerShowingAClaudeTurnBecomesItsCard() {
+    func testOnlyMacToolsOwnBannerShowingAClaudeTurnBecomesItsCard() {
         var posts = IslandClaudePosts()
         let chat = IslandClaudeChat(localID: "local_a", title: "Fix the build")
-        posts.add(chat, message: "Done. The build passes:\n\nall 42 tests green.", at: 100)
+        let reply = "Done. The build passes:\n\nall 42 tests green."
+        posts.add(chat, message: reply, posted: reply, requestID: "r1", at: 100)
         // A banner with its preview hidden shows neither the chat's title nor the reply.
-        XCTAssertNil(posts.take(title: "MacTools", body: "Notification", at: 101))
-        // Another app's banner with the same title is not this turn.
-        XCTAssertNil(posts.take(title: "Fix the build", body: "Something else entirely", at: 101))
+        XCTAssertNil(posts.take(title: "MacTools", body: "Notification", fromMacTools: true, at: 101))
+        // Another app's banner with the same title and text is not this turn.
+        XCTAssertNil(posts.take(title: "Fix the build", body: "Done. The build passes: all 42 tests green.", fromMacTools: false, at: 101))
+        // MacTools' own banner with other text is not this turn.
+        XCTAssertNil(posts.take(title: "Fix the build", body: "Something else entirely", fromMacTools: true, at: 101))
         // The banner shortens and rewraps the reply; it still names the turn, once.
-        XCTAssertEqual(posts.take(title: "Fix the build", body: "Done. The build passes: all 42…", at: 102)?.chat, chat)
-        XCTAssertNil(posts.take(title: "Fix the build", body: "Done. The build passes: all 42…", at: 102))
+        XCTAssertEqual(posts.take(title: "Fix the build", body: "Done. The build passes: all 42…", fromMacTools: true, at: 102)?.chat, chat)
+        XCTAssertNil(posts.take(title: "Fix the build", body: "Done. The build passes: all 42…", fromMacTools: true, at: 102))
     }
 
-    func testAClaudeTurnWhoseBannerNeverCameExpires() {
+    func testAShortBannerMustShowTheWholePostedText() {
         var posts = IslandClaudePosts()
-        posts.add(IslandClaudeChat(localID: "local_a", title: "Notes"), message: "Saved.", at: 0)
+        let chat = IslandClaudeChat(localID: "local_a", title: "Notes")
+        posts.add(chat, message: "Done. I saved the notes and the summary.", posted: "Done. I saved the notes and the summary.",
+                  requestID: "r1", at: 0)
+        // "Notes / Done." from anywhere, even MacTools, is not this turn: it shows only the start.
+        XCTAssertNil(posts.take(title: "Notes", body: "Done.", fromMacTools: true, at: 1))
+        XCTAssertNil(posts.take(title: "Notes", body: "Done.…", fromMacTools: true, at: 1))
+        XCTAssertEqual(posts.take(title: "Notes", body: "Done. I saved the notes and the summary.", fromMacTools: true, at: 1)?.chat, chat)
+    }
+
+    func testTwoWaitingTurnsABannerCouldBeAreNeitherTaken() {
+        var posts = IslandClaudePosts()
+        let first = IslandClaudeChat(localID: "local_a", title: "Notes")
+        let second = IslandClaudeChat(localID: "local_b", title: "Notes")
+        posts.add(first, message: "Done. The first summary is ready.", posted: "Done. The first summary is ready.", requestID: "r1", at: 0)
+        posts.add(second, message: "Done. The first draft is ready.", posted: "Done. The first draft is ready.", requestID: "r2", at: 0)
+        // Shortened to a start both share: no card takes either reply.
+        XCTAssertNil(posts.take(title: "Notes", body: "Done. The first…", fromMacTools: true, at: 1))
+        XCTAssertEqual(posts.posts.count, 2)
+        // The whole text tells them apart.
+        XCTAssertEqual(posts.take(title: "Notes", body: "Done. The first draft is ready.", fromMacTools: true, at: 1)?.chat, second)
+    }
+
+    func testAClaudeTurnMacOSRefusedOrThatNeverShowedIsNotTaken() {
+        var posts = IslandClaudePosts()
+        posts.add(IslandClaudeChat(localID: "local_a", title: "Notes"), message: "Saved the file.", posted: "Saved the file.",
+                  requestID: "r1", at: 0)
+        posts.remove(requestID: "r1")
+        XCTAssertNil(posts.take(title: "Notes", body: "Saved the file.", fromMacTools: true, at: 1))
+        posts.add(IslandClaudeChat(localID: "local_a", title: "Notes"), message: "Saved the file.", posted: "Saved the file.",
+                  requestID: "r2", at: 0)
         // Focus kept the banner from showing; a later banner with the same text is not this turn.
-        XCTAssertNil(posts.take(title: "Notes", body: "Saved.", at: IslandClaudePosts.wait + 1))
+        XCTAssertNil(posts.take(title: "Notes", body: "Saved the file.", fromMacTools: true, at: IslandClaudePosts.wait + 1))
+    }
+
+    func testUntilTheHistoryHasSettledOnlyMessagesFromAroundTheArrivalCount() {
+        let arrival = Date(timeIntervalSinceReferenceDate: 800_000_000)
+        let window = IslandMessagesChat.dateWindow(around: arrival, recentOnly: true)
+        let nanoseconds = { (offset: TimeInterval) in Int64((arrival.timeIntervalSinceReferenceDate + offset) * 1_000_000_000) }
+        XCTAssertTrue(window.contains(nanoseconds(-20)))
+        XCTAssertTrue(window.contains(nanoseconds(25)))
+        // Someone else's identical message from three minutes earlier is not this banner's.
+        XCTAssertFalse(window.contains(nanoseconds(-180)))
+    }
+
+    @MainActor
+    func testAnAlertAdoptedFromBeforeMacToolsSawItHasNoMessagesReply() {
+        let element = AXUIElementCreateApplication(getpid())
+        let notification = IslandNotification(element: element, window: element, originalPosition: .zero, style: .persistent,
+                                              title: "Alice", body: "See you there", identityHints: [])
+        notification.appURL = URL(fileURLWithPath: "/System/Applications/Messages.app")
+        XCTAssertEqual(notification.canReply, IslandMessagesChat.isAvailable)
+        notification.arrivalConfirmed = false
+        XCTAssertFalse(notification.canReply)
     }
 }

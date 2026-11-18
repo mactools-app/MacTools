@@ -242,20 +242,27 @@ enum IslandMessagesChat {
     /// The messages a banner can be about: received up to five minutes before it arrived, or within
     /// half a minute after (Messages writes its history a few seconds late). Fixed to the arrival, so
     /// a card held open never comes to match a later message with the same text from someone else.
+    /// `recentOnly`: only messages from the half minute around the arrival. Until the banner's own
+    /// message has had time to reach the history, an older one with the same text from someone else
+    /// could be the only match, so only these count then (see `settledAfter`).
     /// Message dates are nanoseconds since 2001.
-    static func dateWindow(around arrival: Date) -> ClosedRange<Int64> {
+    static func dateWindow(around arrival: Date, recentOnly: Bool = false) -> ClosedRange<Int64> {
         let seconds = arrival.timeIntervalSinceReferenceDate
-        return Int64((seconds - 300) * 1_000_000_000)...Int64((seconds + 30) * 1_000_000_000)
+        return Int64((seconds - (recentOnly ? 30 : 300)) * 1_000_000_000)...Int64((seconds + 30) * 1_000_000_000)
     }
+
+    /// Seconds after the banner by which Messages has written its message to the history: from then
+    /// the whole window is searched, and a single matching conversation is the banner's.
+    static let settledAfter: TimeInterval = 15
 
     /// `bannerLines`: the banner's text lines after its title. A group banner (three lines) must lead
     /// to a group conversation and a one-to-one banner to a one-to-one conversation.
-    static func resolve(bannerLines: [String], isGroupBanner: Bool, arrivedAt arrival: Date) -> Lookup {
+    static func resolve(bannerLines: [String], isGroupBanner: Bool, arrivedAt arrival: Date, recentOnly: Bool = false) -> Lookup {
         guard let db = open() else { return .unavailable }
         defer { sqlite3_close(db) }
         let candidates = Set(bannerLines.map(normalized).filter { !$0.isEmpty })
         guard !candidates.isEmpty else { return .notFound }
-        let window = dateWindow(around: arrival)
+        let window = dateWindow(around: arrival, recentOnly: recentOnly)
         let sql = """
         SELECT c.guid, m.text, m.attributedBody, c.group_id, m.message_summary_info FROM message m
         JOIN chat_message_join j ON j.message_id = m.ROWID
@@ -348,34 +355,59 @@ enum IslandMessagesChat {
     }
 }
 
-/// Claude turns posted as MacTools notifications, each waiting for its banner. Only a banner that
-/// shows the chat's title and the start of the reply becomes a Claude card: Focus can keep the
-/// banner from showing at all, and hidden previews show neither, so both are honoured as for any app.
+/// Claude turns posted as MacTools notifications, each waiting for its banner. A banner becomes a
+/// Claude card only when MacTools itself posted it (its app is MacTools), it shows the chat's title
+/// and the text that was posted, and exactly one waiting turn fits; the controller then confirms
+/// macOS delivered that very request. Anything else keeps the banner's own content. Focus can keep
+/// the banner from showing at all, and hidden previews show neither, so both are honoured as for
+/// any app.
 struct IslandClaudePosts {
     struct Post: Equatable {
         let chat: IslandClaudeChat
+        /// The whole reply, which the card shows.
         let message: String
+        /// What the notification carried: the start of the reply.
+        let posted: String
+        /// The notification request's identifier, checked against Notification Centre's delivered list.
+        let requestID: String
         let postedAt: TimeInterval
     }
 
     /// How long a post waits for its banner (system uptime seconds).
     static let wait: TimeInterval = 30
+    /// A shortened banner ("…") must still show at least this much of the posted text.
+    static let minimumShortenedMatch = 12
     private(set) var posts: [Post] = []
 
-    mutating func add(_ chat: IslandClaudeChat, message: String, at now: TimeInterval) {
+    mutating func add(_ chat: IslandClaudeChat, message: String, posted: String, requestID: String, at now: TimeInterval) {
         prune(now)
-        posts.append(Post(chat: chat, message: message, postedAt: now))
+        posts.append(Post(chat: chat, message: message, posted: posted, requestID: requestID, postedAt: now))
         if posts.count > 8 { posts.removeFirst(posts.count - 8) }
     }
 
-    /// The post this banner shows, taken so no other banner can claim it.
-    mutating func take(title: String, body: String, at now: TimeInterval) -> Post? {
+    /// A request macOS refused (no permission, or an error) has no banner to wait for.
+    mutating func remove(requestID: String) {
+        posts.removeAll { $0.requestID == requestID }
+    }
+
+    /// The post this banner shows, taken so no other banner can claim it. `fromMacTools`: the
+    /// banner's app is MacTools itself. None when no post, or more than one, fits.
+    mutating func take(title: String, body: String, fromMacTools: Bool, at now: TimeInterval) -> Post? {
         prune(now)
-        let shown = Self.normalized(body).trimmingCharacters(in: CharacterSet(charactersIn: "…"))
-        guard !shown.isEmpty, let index = posts.firstIndex(where: {
-            $0.chat.title == title && Self.normalized($0.message).hasPrefix(shown)
-        }) else { return nil }
-        return posts.remove(at: index)
+        guard fromMacTools else { return nil }
+        let shown = Self.normalized(body)
+        let matching = posts.indices.filter { posts[$0].chat.title == title && Self.shows(shown, Self.normalized(posts[$0].posted)) }
+        guard matching.count == 1 else { return nil }
+        return posts.remove(at: matching[0])
+    }
+
+    /// The banner shows the posted text whole, or shortened with "…" after a long enough start.
+    private static func shows(_ shown: String, _ posted: String) -> Bool {
+        guard !shown.isEmpty else { return false }
+        if shown == posted { return true }
+        guard shown.hasSuffix("…") else { return false }
+        let start = shown.trimmingCharacters(in: CharacterSet(charactersIn: "…").union(.whitespaces))
+        return start.count >= minimumShortenedMatch && posted.hasPrefix(start)
     }
 
     private mutating func prune(_ now: TimeInterval) {
