@@ -37,6 +37,11 @@ final class AIUsagePlugin: MacToolsPlugin, PluginSettingsPresenting {
     private var observation: AnyCancellable?
     /// The widget height last handed to the host, in grid rows.
     private var heightRows = 0
+    /// Tells the host when a portable choice changed, from Settings or from the page itself (both
+    /// write their own defaults), so automatic backup and sync pick it up.
+    let preferencesChange = PluginPersistentPreferencesChangeEmitter()
+    private var portableSnapshot: AIUsagePreferencesBackup
+    private var defaultsObservation: AnyCancellable?
 
     var onStateChange: (() -> Void)?
     var requestPermissionGuidance: ((String) -> Void)?
@@ -48,6 +53,21 @@ final class AIUsagePlugin: MacToolsPlugin, PluginSettingsPresenting {
         AgentPluginEnvironment.resourceBundle = context.resourceBundle
         AgentPluginEnvironment.cacheDirectory = context.cacheDirectory
         AgentPluginEnvironment.supportDirectory = context.supportDirectory
+        // Before anything reads the providers: the earlier plugin's choices carry over once.
+        let migrated = AIUsagePreferencesBackup.migrateLegacyPreferences(from: context.storage)
+        portableSnapshot = AIUsagePreferencesBackup.current()
+        if migrated { preferencesChange.didPersist() }
+        defaultsObservation = NotificationCenter.default
+            .publisher(for: UserDefaults.didChangeNotification, object: UserDefaults.standard)
+            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
+            .sink { [weak self] _ in self?.portableDefaultsMayHaveChanged() }
+    }
+
+    private func portableDefaultsMayHaveChanged() {
+        let current = AIUsagePreferencesBackup.current()
+        guard current != portableSnapshot else { return }
+        portableSnapshot = current
+        preferencesChange.didPersist()
     }
 
     var metadata: PluginMetadata {
