@@ -6,7 +6,7 @@ Run `python3 scripts/plugins/generate-preferences-backup-inventory.py` after cha
 Declarations describe supported field boundaries. Runtime availability and export/restore failures are reported separately.
 See [the backup contract](preferences-backup.md) for exclusions and recovery limits.
 
-localOnly: 2; none: 25; partial: 37; portable: 7.
+localOnly: 4; none: 25; partial: 37; portable: 7.
 
 | Plugin | ID | Coverage | Exclusion codes |
 | --- | --- | --- | --- |
@@ -22,6 +22,7 @@ localOnly: 2; none: 25; partial: 37; portable: 7.
 | [Auto-hide Menu Bar](../../Plugins/AutoHideMenuBar) | `auto-hide-menu-bar` | none | — |
 | [Auto Input](../../Plugins/AutoInput) | `auto-input` | partial | application-paths |
 | [Battery Charge Limit](../../Plugins/BatteryChargeLimit) | `battery-charge-limit` | partial | local-activation, device-state |
+| [Bitwarden](../../Plugins/Bitwarden) | `bitwarden` | localOnly | credentials, private-content, external-authorization |
 | [Calendar](../../Plugins/Calendar) | `calendar` | partial | permissions, private-content |
 | [Clear Clipboard](../../Plugins/ClipboardClear) | `clipboard-clear` | none | — |
 | [Clipboard](../../Plugins/ClipboardHistory) | `clipboard` | partial | private-content, local-activation |
@@ -73,6 +74,7 @@ localOnly: 2; none: 25; partial: 37; portable: 7.
 | [Power Actions](../../Plugins/SystemPower) | `system-power` | none | — |
 | [System Soft Restart](../../Plugins/SystemSoftRestart) | `system-soft-restart` | portable | — |
 | [System Status](../../Plugins/SystemStatus) | `system-status` | portable | — |
+| [Tailscale](../../Plugins/Tailscale) | `tailscale` | localOnly | local-policy, external-authorization |
 | [Trackpad Gestures](../../Plugins/TrackpadGestures) | `trackpad-gestures` | partial | permissions |
 | [Trackpad Scale](../../Plugins/TrackpadScale) | `trackpad-scale` | partial | device-state |
 | [Translator](../../Plugins/Translator) | `translator` | partial | credentials, permissions, private-content |

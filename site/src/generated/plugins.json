@@ -5022,6 +5022,77 @@
     {
       "capabilities": {
         "panelItems": [
+          "row",
+          "widget"
+        ],
+        "settings": "workspace"
+      },
+      "category": "productivity",
+      "displayName": "Bitwarden",
+      "id": "bitwarden",
+      "localizedMetadata": {
+        "en": {
+          "displayName": "Bitwarden",
+          "summary": "Sign in, search, and manage your Bitwarden vault in MacTools"
+        },
+        "zh-Hans": {
+          "displayName": "Bitwarden",
+          "summary": "直接在 MacTools 中登录、搜索和管理 Bitwarden 保管库"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/bitwarden",
+      "product": {
+        "actions": null,
+        "discovery": null,
+        "presentation": null,
+        "privacy": {
+          "allowsUserConfiguredDomains": true,
+          "dataObserved": [
+            "vault-items",
+            "account-state"
+          ],
+          "dataPersisted": [
+            "encrypted-cli-state"
+          ],
+          "diagnosticExportsContainUserData": false,
+          "networkDomains": [
+            "bitwarden.com",
+            "bitwarden.eu"
+          ],
+          "networkUse": "required",
+          "processesSensitiveUserContent": true,
+          "retention": {
+            "policy": "user-controlled"
+          },
+          "telemetry": "none"
+        },
+        "relationships": null,
+        "requirements": {
+          "applications": [],
+          "architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "executables": [
+            "bw"
+          ],
+          "hardware": [],
+          "minimumMacOSVersion": "14.0",
+          "permissionIDs": [],
+          "requiresRelaunch": false,
+          "setupComplexity": "simple"
+        },
+        "setup": null
+      },
+      "releaseChannel": null,
+      "releaseNotesURL": null,
+      "route": "/plugins/bitwarden/",
+      "summary": "直接在 MacTools 中登录、搜索和管理 Bitwarden 保管库",
+      "version": "1.0.0"
+    },
+    {
+      "capabilities": {
+        "panelItems": [
           "widget"
         ],
         "settings": "form"
@@ -23873,6 +23944,281 @@
       "route": "/plugins/system-status/",
       "summary": "实时查看系统状态",
       "version": "2.1.1"
+    },
+    {
+      "capabilities": {
+        "panelItems": [
+          "row",
+          "widget"
+        ],
+        "settings": "none"
+      },
+      "category": "system",
+      "displayName": "Tailscale",
+      "id": "tailscale",
+      "localizedMetadata": {
+        "ar": {
+          "displayName": "Tailscale",
+          "summary": "أدر اتصال Tailscale وعُقَد الخروج والأجهزة المفضلة واختبر الاتصال من شريط القائمة."
+        },
+        "de": {
+          "displayName": "Tailscale",
+          "summary": "Verwalte Tailscale-Verbindung, Exit-Nodes und Favoriten und teste die Erreichbarkeit in der Menüleiste."
+        },
+        "en": {
+          "displayName": "Tailscale",
+          "summary": "Manage your Tailscale connection, exit node, and favorite devices, and test connectivity from the menu bar."
+        },
+        "es": {
+          "displayName": "Tailscale",
+          "summary": "Gestiona la conexión de Tailscale, el nodo de salida y los dispositivos favoritos, y prueba la conectividad desde la barra de menús."
+        },
+        "fr": {
+          "displayName": "Tailscale",
+          "summary": "Gérez la connexion Tailscale, le nœud de sortie et les appareils favoris, et testez la connectivité depuis la barre des menus."
+        },
+        "ja": {
+          "displayName": "Tailscale",
+          "summary": "メニューバーで Tailscale の接続、出口ノード、よく使うデバイスを管理し、接続をテストできます。"
+        },
+        "ko": {
+          "displayName": "Tailscale",
+          "summary": "메뉴 막대에서 Tailscale 연결, 출구 노드 및 즐겨찾는 기기를 관리하고 연결을 테스트합니다."
+        },
+        "pt": {
+          "displayName": "Tailscale",
+          "summary": "Gerencie a conexão do Tailscale, o nó de saída e os dispositivos favoritos e teste a conectividade na barra de menus."
+        },
+        "ru": {
+          "displayName": "Tailscale",
+          "summary": "Управляйте подключением Tailscale, выходным узлом и избранными устройствами и проверяйте связь из строки меню."
+        },
+        "tr": {
+          "displayName": "Tailscale",
+          "summary": "Menü çubuğundan Tailscale bağlantısını, çıkış düğümünü ve favori cihazları yönetin ve bağlantıyı test edin."
+        },
+        "zh-Hans": {
+          "displayName": "Tailscale",
+          "summary": "在菜单栏管理 Tailscale 连接、出口节点和常用设备，并测试连通性"
+        },
+        "zh-Hant": {
+          "displayName": "Tailscale",
+          "summary": "在選單列管理 Tailscale 連線、出口節點和常用裝置，並測試連線。"
+        }
+      },
+      "openInMacToolsURL": "mactools://app/settings/plugins/marketplace/tailscale",
+      "product": {
+        "actions": null,
+        "discovery": {
+          "alternativePluginIDs": [],
+          "goalCategories": [
+            "system"
+          ],
+          "keywords": [
+            "tailscale",
+            "tailnet",
+            "vpn",
+            "magicdns",
+            "exit node",
+            "ping"
+          ],
+          "localizedSynonyms": {
+            "ar": [
+              "عقدة الخروج",
+              "اختبار الاتصال"
+            ],
+            "de": [
+              "Exit-Node",
+              "Verbindung testen"
+            ],
+            "en": [
+              "Exit Node",
+              "Test Connectivity"
+            ],
+            "es": [
+              "Nodo de salida",
+              "Probar conectividad"
+            ],
+            "fr": [
+              "Nœud de sortie",
+              "Tester la connectivité"
+            ],
+            "ja": [
+              "出口ノード",
+              "接続をテスト"
+            ],
+            "ko": [
+              "출구 노드",
+              "연결 테스트"
+            ],
+            "pt": [
+              "Nó de saída",
+              "Testar conectividade"
+            ],
+            "ru": [
+              "Выходной узел",
+              "Проверить соединение"
+            ],
+            "tr": [
+              "Çıkış düğümü",
+              "Bağlantıyı test et"
+            ],
+            "zh-Hans": [
+              "出口节点",
+              "测试连通性"
+            ],
+            "zh-Hant": [
+              "出口節點",
+              "測試連線"
+            ]
+          },
+          "relatedPluginIDs": [],
+          "useCases": [
+            {
+              "id": "exit-node",
+              "title": {
+                "ar": "عقدة الخروج",
+                "de": "Exit-Node",
+                "en": "Exit Node",
+                "es": "Nodo de salida",
+                "fr": "Nœud de sortie",
+                "ja": "出口ノード",
+                "ko": "출구 노드",
+                "pt": "Nó de saída",
+                "ru": "Выходной узел",
+                "tr": "Çıkış düğümü",
+                "zh-Hans": "出口节点",
+                "zh-Hant": "出口節點"
+              }
+            },
+            {
+              "id": "test-connectivity",
+              "title": {
+                "ar": "اختبار الاتصال",
+                "de": "Verbindung testen",
+                "en": "Test Connectivity",
+                "es": "Probar conectividad",
+                "fr": "Tester la connectivité",
+                "ja": "接続をテスト",
+                "ko": "연결 테스트",
+                "pt": "Testar conectividade",
+                "ru": "Проверить соединение",
+                "tr": "Bağlantıyı test et",
+                "zh-Hans": "测试连通性",
+                "zh-Hant": "測試連線"
+              }
+            }
+          ]
+        },
+        "presentation": {
+          "documentationURL": "https://github.com/mactools-app/MacTools/blob/main/docs/plugins/tailscale.md",
+          "examples": [
+            {
+              "id": "exit-node",
+              "text": {
+                "ar": "عقدة الخروج",
+                "de": "Exit-Node",
+                "en": "Exit Node",
+                "es": "Nodo de salida",
+                "fr": "Nœud de sortie",
+                "ja": "出口ノード",
+                "ko": "출구 노드",
+                "pt": "Nó de saída",
+                "ru": "Выходной узел",
+                "tr": "Çıkış düğümü",
+                "zh-Hans": "出口节点",
+                "zh-Hant": "出口節點"
+              }
+            },
+            {
+              "id": "test-connectivity",
+              "text": {
+                "ar": "اختبار الاتصال",
+                "de": "Verbindung testen",
+                "en": "Test Connectivity",
+                "es": "Probar conectividad",
+                "fr": "Tester la connectivité",
+                "ja": "接続をテスト",
+                "ko": "연결 테스트",
+                "pt": "Testar conectividade",
+                "ru": "Проверить соединение",
+                "tr": "Bağlantıyı test et",
+                "zh-Hans": "测试连通性",
+                "zh-Hant": "測試連線"
+              }
+            }
+          ],
+          "license": "GPL-3.0-only",
+          "longDescription": {
+            "ar": "أدر اتصال Tailscale وعُقَد الخروج والأجهزة المفضلة واختبر الاتصال من شريط القائمة.",
+            "de": "Verwalte Tailscale-Verbindung, Exit-Nodes und Favoriten und teste die Erreichbarkeit in der Menüleiste.",
+            "en": "Manage your Tailscale connection, exit node, and favorite devices, and test connectivity from the menu bar.",
+            "es": "Gestiona la conexión de Tailscale, el nodo de salida y los dispositivos favoritos, y prueba la conectividad desde la barra de menús.",
+            "fr": "Gérez la connexion Tailscale, le nœud de sortie et les appareils favoris, et testez la connectivité depuis la barre des menus.",
+            "ja": "メニューバーで Tailscale の接続、出口ノード、よく使うデバイスを管理し、接続をテストできます。",
+            "ko": "메뉴 막대에서 Tailscale 연결, 출구 노드 및 즐겨찾는 기기를 관리하고 연결을 테스트합니다.",
+            "pt": "Gerencie a conexão do Tailscale, o nó de saída e os dispositivos favoritos e teste a conectividade na barra de menus.",
+            "ru": "Управляйте подключением Tailscale, выходным узлом и избранными устройствами и проверяйте связь из строки меню.",
+            "tr": "Menü çubuğundan Tailscale bağlantısını, çıkış düğümünü ve favori cihazları yönetin ve bağlantıyı test edin.",
+            "zh-Hans": "在菜单栏管理 Tailscale 连接、出口节点和常用设备，并测试连通性",
+            "zh-Hant": "在選單列管理 Tailscale 連線、出口節點和常用裝置，並測試連線。"
+          },
+          "publisher": "MacTools",
+          "screenshots": [],
+          "supportURL": "https://github.com/mactools-app/MacTools/issues"
+        },
+        "privacy": {
+          "allowsUserConfiguredDomains": false,
+          "dataObserved": [
+            "network-state",
+            "tailnet-device-addresses",
+            "connectivity-results"
+          ],
+          "dataPersisted": [
+            "favorite-device-ids"
+          ],
+          "diagnosticExportsContainUserData": false,
+          "networkDomains": [
+            "login.tailscale.com"
+          ],
+          "networkUse": "optional",
+          "processesSensitiveUserContent": false,
+          "retention": {
+            "policy": "user-controlled"
+          },
+          "telemetry": "none"
+        },
+        "relationships": {
+          "includedPackIDs": [],
+          "relatedPluginIDs": [],
+          "suggestedRecipeIDs": [],
+          "supersedesPluginIDs": []
+        },
+        "requirements": {
+          "applications": [],
+          "architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "executables": [
+            "tailscale"
+          ],
+          "hardware": [],
+          "minimumMacOSVersion": "14.0",
+          "permissionIDs": [],
+          "requiresRelaunch": false,
+          "setupComplexity": "simple"
+        },
+        "setup": {
+          "optionalSurfaces": [],
+          "steps": []
+        }
+      },
+      "releaseChannel": null,
+      "releaseNotesURL": null,
+      "route": "/plugins/tailscale/",
+      "summary": "在菜单栏管理 Tailscale 连接、出口节点和常用设备，并测试连通性",
+      "version": "1.0.0"
     },
     {
       "capabilities": {

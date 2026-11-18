@@ -1,0 +1,153 @@
+{
+  "id": "tailscale",
+  "displayName": "Tailscale",
+  "summary": "在菜单栏管理 Tailscale 连接、出口节点和常用设备，并测试连通性",
+  "localizedMetadata": {
+    "ar": {
+      "displayName": "Tailscale",
+      "summary": "أدر اتصال Tailscale وعُقَد الخروج والأجهزة المفضلة واختبر الاتصال من شريط القائمة."
+    },
+    "de": {
+      "displayName": "Tailscale",
+      "summary": "Verwalte Tailscale-Verbindung, Exit-Nodes und Favoriten und teste die Erreichbarkeit in der Menüleiste."
+    },
+    "en": {
+      "displayName": "Tailscale",
+      "summary": "Manage your Tailscale connection, exit node, and favorite devices, and test connectivity from the menu bar."
+    },
+    "es": {
+      "displayName": "Tailscale",
+      "summary": "Gestiona la conexión de Tailscale, el nodo de salida y los dispositivos favoritos, y prueba la conectividad desde la barra de menús."
+    },
+    "fr": {
+      "displayName": "Tailscale",
+      "summary": "Gérez la connexion Tailscale, le nœud de sortie et les appareils favoris, et testez la connectivité depuis la barre des menus."
+    },
+    "ja": {
+      "displayName": "Tailscale",
+      "summary": "メニューバーで Tailscale の接続、出口ノード、よく使うデバイスを管理し、接続をテストできます。"
+    },
+    "ko": {
+      "displayName": "Tailscale",
+      "summary": "메뉴 막대에서 Tailscale 연결, 출구 노드 및 즐겨찾는 기기를 관리하고 연결을 테스트합니다."
+    },
+    "pt": {
+      "displayName": "Tailscale",
+      "summary": "Gerencie a conexão do Tailscale, o nó de saída e os dispositivos favoritos e teste a conectividade na barra de menus."
+    },
+    "ru": {
+      "displayName": "Tailscale",
+      "summary": "Управляйте подключением Tailscale, выходным узлом и избранными устройствами и проверяйте связь из строки меню."
+    },
+    "tr": {
+      "displayName": "Tailscale",
+      "summary": "Menü çubuğundan Tailscale bağlantısını, çıkış düğümünü ve favori cihazları yönetin ve bağlantıyı test edin."
+    },
+    "zh-Hans": {
+      "displayName": "Tailscale",
+      "summary": "在菜单栏管理 Tailscale 连接、出口节点和常用设备，并测试连通性"
+    },
+    "zh-Hant": {
+      "displayName": "Tailscale",
+      "summary": "在選單列管理 Tailscale 連線、出口節點和常用裝置，並測試連線。"
+    }
+  },
+  "productStrings": {
+    "summary": "@summary",
+    "exit-node": "@localizable.exit.title",
+    "test-connectivity": "@localizable.ping.run"
+  },
+  "version": "1.0.0",
+  "minHostVersion": "1.3.1",
+  "pluginKitVersion": 7,
+  "bundleRelativePath": "Tailscale.bundle",
+  "factoryClass": "TailscalePlugin.TailscalePluginFactory",
+  "build": {
+    "project": "../../MacTools.xcodeproj",
+    "scheme": "TailscalePlugin"
+  },
+  "capabilities": {
+    "panelItems": [
+      "row",
+      "widget"
+    ],
+    "settings": "none"
+  },
+  "permissions": [],
+  "category": "system",
+  "presentation": {
+    "longDescription": "@productStrings.summary",
+    "examples": [
+      {"id": "exit-node", "text": "@productStrings.exit-node"},
+      {"id": "test-connectivity", "text": "@productStrings.test-connectivity"}
+    ],
+    "screenshots": [],
+    "documentationURL": "https://github.com/mactools-app/MacTools/blob/main/docs/plugins/tailscale.md",
+    "supportURL": "https://github.com/mactools-app/MacTools/issues",
+    "publisher": "MacTools",
+    "license": "GPL-3.0-only"
+  },
+  "discovery": {
+    "keywords": ["tailscale", "tailnet", "vpn", "magicdns", "exit node", "ping"],
+    "localizedSynonyms": {
+      "ar": [], "de": [], "en": [], "es": [], "fr": [], "ja": [],
+      "ko": [], "pt": [], "ru": [], "tr": [], "zh-Hans": [], "zh-Hant": []
+    },
+    "localizedSynonymRefs": ["@productStrings.exit-node", "@productStrings.test-connectivity"],
+    "useCases": [
+      {"id": "exit-node", "title": "@productStrings.exit-node"},
+      {"id": "test-connectivity", "title": "@productStrings.test-connectivity"}
+    ],
+    "goalCategories": ["system"],
+    "relatedPluginIDs": [],
+    "alternativePluginIDs": []
+  },
+  "preferencesBackup": {
+    "status": "localOnly",
+    "exclusions": ["local-policy", "external-authorization"]
+  },
+  "requirements": {
+    "minimumMacOSVersion": "14.0",
+    "architectures": [
+      "arm64",
+      "x86_64"
+    ],
+    "hardware": [],
+    "applications": [],
+    "executables": [
+      "tailscale"
+    ],
+    "permissionIDs": [],
+    "setupComplexity": "simple",
+    "requiresRelaunch": false
+  },
+  "privacy": {
+    "dataObserved": [
+      "network-state",
+      "tailnet-device-addresses",
+      "connectivity-results"
+    ],
+    "dataPersisted": [
+      "favorite-device-ids"
+    ],
+    "retention": {
+      "policy": "user-controlled"
+    },
+    "networkUse": "optional",
+    "networkDomains": ["login.tailscale.com"],
+    "allowsUserConfiguredDomains": false,
+    "telemetry": "none",
+    "processesSensitiveUserContent": false,
+    "diagnosticExportsContainUserData": false
+  },
+  "setup": {
+    "steps": [],
+    "optionalSurfaces": []
+  },
+  "relationships": {
+    "relatedPluginIDs": [],
+    "includedPackIDs": [],
+    "suggestedRecipeIDs": [],
+    "supersedesPluginIDs": []
+  }
+}
