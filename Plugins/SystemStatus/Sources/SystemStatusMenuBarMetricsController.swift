@@ -378,9 +378,9 @@ enum SystemStatusMenuBarMetricsFormatter {
         switch battery.state {
         case .acPower, .charged:
             return compactBatteryState(battery.state, localization: localization)
-        case .charging, .unplugged:
+        case .charging:
             return "…"
-        case .unavailable, .unknown:
+        case .unplugged, .unavailable, .unknown:
             return "—"
         }
     }

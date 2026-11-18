@@ -123,20 +123,18 @@ struct SettingsView: View {
                 }
             }
         } detail: {
-            SettingsDetailColumn {
-                SettingsDetailPane(
-                    pluginHost: pluginHost,
-                    navigationCoordinator: navigationCoordinator,
-                    destination: navigationCoordinator.destination,
-                    uninstallConfirmationSession: uninstallConfirmationSession,
-                    appUpdater: appUpdater,
-                    menuBarIconSettings: menuBarIconSettings,
-                    menuBarIconGallery: menuBarIconGallery,
-                    launchAtLoginController: launchAtLoginController,
-                    menuBarPanelThemeStore: menuBarPanelThemeStore,
-                    appearanceUserDefaults: appearanceUserDefaults
-                )
-            }
+            SettingsDetailPane(
+                pluginHost: pluginHost,
+                navigationCoordinator: navigationCoordinator,
+                destination: navigationCoordinator.destination,
+                uninstallConfirmationSession: uninstallConfirmationSession,
+                appUpdater: appUpdater,
+                menuBarIconSettings: menuBarIconSettings,
+                menuBarIconGallery: menuBarIconGallery,
+                launchAtLoginController: launchAtLoginController,
+                menuBarPanelThemeStore: menuBarPanelThemeStore,
+                appearanceUserDefaults: appearanceUserDefaults
+            )
             .frame(
                 minWidth: SettingsSplitViewLayout.detailMinWidth,
                 maxWidth: .infinity,
@@ -145,6 +143,8 @@ struct SettingsView: View {
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 StarterPackProgressBanner(controller: pluginHost.starterPacks, navigation: navigationCoordinator)
             }
+            // Let the window reserve space for its toolbar; only the background extends behind it.
+            .background(SettingsStyle.contentBackground, ignoresSafeAreaEdges: .top)
             .toolbar {
                 if #available(macOS 26.0, *) {
                     ToolbarItem(placement: .navigation) {
@@ -3709,34 +3709,6 @@ private struct SettingsSidebarColumn<Content: View>: View {
     }
 }
 
-private struct SettingsDetailColumn<Content: View>: View {
-    private let content: Content
-    @State private var headerHeight: CGFloat = 0
-
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
-    }
-
-    var body: some View {
-        content
-            .padding(.top, headerHeight)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .overlay(alignment: .top) {
-                if headerHeight > 0 {
-                    SettingsStyle.contentBackground
-                        .frame(height: headerHeight)
-                        .allowsHitTesting(false)
-                        .accessibilityHidden(true)
-                }
-            }
-            .background {
-                SettingsWindowTopSafeAreaReader(topInset: $headerHeight)
-                    .frame(width: 0, height: 0)
-            }
-            .ignoresSafeArea(.container, edges: .top)
-    }
-}
-
 private struct SettingsWindowTopSafeAreaReader: NSViewRepresentable {
     @Binding var topInset: CGFloat
 
@@ -4856,6 +4828,7 @@ private struct PluginSettingsRowView: View {
         case let .slider(value, range, step, valueFormat):
             PluginSettingsSliderControl(
                 controlID: row.id,
+                title: row.title,
                 value: value,
                 range: range,
                 step: step,
@@ -5127,6 +5100,7 @@ struct PluginSettingsSliderInteractionState: Sendable {
 
 private struct PluginSettingsSliderControl: View {
     let controlID: String
+    let title: String
     let value: Double
     let range: ClosedRange<Double>
     let step: Double?
@@ -5136,6 +5110,7 @@ private struct PluginSettingsSliderControl: View {
 
     init(
         controlID: String,
+        title: String,
         value: Double,
         range: ClosedRange<Double>,
         step: Double?,
@@ -5143,6 +5118,7 @@ private struct PluginSettingsSliderControl: View {
         onAction: @escaping (PluginSettingsAction) -> Void
     ) {
         self.controlID = controlID
+        self.title = title
         self.value = value
         self.range = range
         self.step = step
@@ -5153,7 +5129,7 @@ private struct PluginSettingsSliderControl: View {
 
     var body: some View {
         HStack(spacing: PluginSettingsTheme.Spacing.controlCluster) {
-            PluginSettingsSlider(
+            let slider = PluginSettingsSlider(
                 value: Binding(
                     get: { interactionState.currentValue },
                     set: { rawValue in
@@ -5173,12 +5149,18 @@ private struct PluginSettingsSliderControl: View {
                     actions.forEach(onAction)
                 }
             )
+            .accessibilityLabel(Text(verbatim: title))
 
             if let valueFormat {
-                Text(valueFormat.text(for: interactionState.currentValue))
+                let formattedValue = Text(verbatim: valueFormat.text(for: interactionState.currentValue))
+                slider.accessibilityValue(formattedValue)
+                formattedValue
                     .font(PluginSettingsTheme.Typography.monospacedValue)
                     .foregroundStyle(.secondary)
                     .frame(minWidth: 44, alignment: .trailing)
+                    .accessibilityHidden(true)
+            } else {
+                slider
             }
         }
         .frame(minWidth: 180, idealWidth: 240, maxWidth: 320)

@@ -20,7 +20,7 @@ separate system actions because macOS delivers them as system-defined events.
 - Settings layout: `workspace`.
 - Permissions: Accessibility, Input Monitoring.
 - `pluginKitVersion`: `7`.
-- Minimum host: MacTools `1.3.1`.
+- Minimum host: MacTools `2.2.5`.
 
 ## Shared trackpad gestures
 

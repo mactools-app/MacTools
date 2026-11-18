@@ -61,7 +61,7 @@
     "discovery.recent-events": "@localizable.agenda.title"
   },
   "version": "2.2.0",
-  "minHostVersion": "2.0.1",
+  "minHostVersion": "2.2.4",
   "pluginKitVersion": 7,
   "bundleRelativePath": "Calendar.bundle",
   "factoryClass": "CalendarPlugin.CalendarPluginFactory",
@@ -175,7 +175,8 @@
   },
   "privacy": {
     "dataObserved": [
-      "calendar-events"
+      "calendar-events",
+      "reminders"
     ],
     "dataPersisted": [
       "plugin-configuration"

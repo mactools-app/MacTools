@@ -184,12 +184,17 @@ extension SystemStatusSnapshot {
         }
         if demand.contains(.network) { network = sample.network }
         if !demand.intersection([.battery, .batteryDetails, .batteryHealth]).isEmpty {
+            // Power readings carry their own source state. A state-only update
+            // cannot carry wattage from before a plug-in or unplug event.
+            let updatesPowerSource = demand.contains(.battery) || demand.contains(.batteryDetails)
+            let state = updatesPowerSource ? sample.battery.state : battery.state
+            let cachedWatts = state == battery.state ? battery.batteryPowerWatts : nil
             battery = .init(isAvailable: sample.battery.isAvailable,
                 level: value(.battery, sample.battery.level, battery.level),
-                state: value(.battery, sample.battery.state, battery.state),
-                timeRemainingMinutes: value(.battery, sample.battery.timeRemainingMinutes, battery.timeRemainingMinutes),
+                state: state,
+                timeRemainingMinutes: updatesPowerSource ? sample.battery.timeRemainingMinutes : battery.timeRemainingMinutes,
                 adapterWatts: value(.batteryDetails, sample.battery.adapterWatts, battery.adapterWatts),
-                batteryPowerWatts: value(.batteryDetails, sample.battery.batteryPowerWatts, battery.batteryPowerWatts),
+                batteryPowerWatts: value(.batteryDetails, sample.battery.batteryPowerWatts, cachedWatts),
                 temperatureCelsius: value(.batteryDetails, sample.battery.temperatureCelsius, battery.temperatureCelsius),
                 healthPercent: value(.batteryHealth, sample.battery.healthPercent, battery.healthPercent),
                 cycleCount: value(.batteryDetails, sample.battery.cycleCount, battery.cycleCount))
