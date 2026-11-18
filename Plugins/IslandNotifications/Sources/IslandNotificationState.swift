@@ -239,26 +239,35 @@ enum IslandMessagesChat {
         return db
     }
 
+    /// The messages a banner can be about: received up to five minutes before it arrived, or within
+    /// half a minute after (Messages writes its history a few seconds late). Fixed to the arrival, so
+    /// a card held open never comes to match a later message with the same text from someone else.
+    /// Message dates are nanoseconds since 2001.
+    static func dateWindow(around arrival: Date) -> ClosedRange<Int64> {
+        let seconds = arrival.timeIntervalSinceReferenceDate
+        return Int64((seconds - 300) * 1_000_000_000)...Int64((seconds + 30) * 1_000_000_000)
+    }
+
     /// `bannerLines`: the banner's text lines after its title. A group banner (three lines) must lead
     /// to a group conversation and a one-to-one banner to a one-to-one conversation.
-    static func resolve(bannerLines: [String], isGroupBanner: Bool) -> Lookup {
+    static func resolve(bannerLines: [String], isGroupBanner: Bool, arrivedAt arrival: Date) -> Lookup {
         guard let db = open() else { return .unavailable }
         defer { sqlite3_close(db) }
         let candidates = Set(bannerLines.map(normalized).filter { !$0.isEmpty })
         guard !candidates.isEmpty else { return .notFound }
-        // Message dates are nanoseconds since 2001; look back five minutes.
-        let since = Int64((Date().timeIntervalSinceReferenceDate - 300) * 1_000_000_000)
+        let window = dateWindow(around: arrival)
         let sql = """
         SELECT c.guid, m.text, m.attributedBody, c.group_id, m.message_summary_info FROM message m
         JOIN chat_message_join j ON j.message_id = m.ROWID
         JOIN chat c ON c.ROWID = j.chat_id
-        WHERE m.is_from_me = 0 AND m.date > ?1
+        WHERE m.is_from_me = 0 AND m.date >= ?1 AND m.date <= ?2
         ORDER BY m.date DESC LIMIT 200
         """
         var statement: OpaquePointer?
         guard sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK, let statement else { return .notFound }
         defer { sqlite3_finalize(statement) }
-        sqlite3_bind_int64(statement, 1, since)
+        sqlite3_bind_int64(statement, 1, window.lowerBound)
+        sqlite3_bind_int64(statement, 2, window.upperBound)
         var rows = 0
         var chats = Set<String>()
         var groupIDs: [String: String] = [:]

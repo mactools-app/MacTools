@@ -698,22 +698,27 @@ final class IslandNotificationsController {
 
     /// The exact conversation comes from Messages' history; the message may land there a moment
     /// after its banner. No match (or no access) means no reply, never a guess.
-    private static func messagesConversation(body: String, lineCount: Int) async -> IslandMessagesChat.Lookup {
+    private static func messagesConversation(body: String, lineCount: Int, arrivedAt arrival: Date) async -> IslandMessagesChat.Lookup {
         let lines = body.components(separatedBy: "\n") + [body]
         let isGroup = lineCount > 2
         var lookup = IslandMessagesChat.Lookup.notFound
-        for _ in 0..<4 {
+        // Messages writes its history a few seconds after the banner, so a quick reply keeps
+        // looking until 15 seconds after the banner arrived; a later one tries a few times.
+        var attempts = 0
+        repeat {
             lookup = await Task.detached(priority: .userInitiated) {
-                IslandMessagesChat.resolve(bannerLines: lines, isGroupBanner: isGroup)
+                IslandMessagesChat.resolve(bannerLines: lines, isGroupBanner: isGroup, arrivedAt: arrival)
             }.value
             guard lookup == .notFound else { break }
+            attempts += 1
             try? await Task.sleep(for: .milliseconds(500))
-        }
+        } while attempts < 4 || Date().timeIntervalSince(arrival) < 15
         return lookup
     }
 
     private static func replyInMessages(_ text: String, to notification: IslandNotification) async -> IslandReplyOutcome {
-        guard case .found(let chat) = await messagesConversation(body: notification.body, lineCount: notification.lineCount) else { return .noConversation }
+        guard case .found(let chat) = await messagesConversation(body: notification.body, lineCount: notification.lineCount,
+                                                                    arrivedAt: notification.arrivalDate) else { return .noConversation }
         return await IslandMessagesReply.send(text, toChat: chat)
     }
 
@@ -742,7 +747,8 @@ final class IslandNotificationsController {
             // macOS removes a banner after a few seconds; a Messages card that outlives it still
             // opens its conversation, found the same way replies are.
             if !opened, notification.bundleIdentifier == "com.apple.MobileSMS",
-               case .found(let chat) = await Self.messagesConversation(body: notification.body, lineCount: notification.lineCount),
+               case .found(let chat) = await Self.messagesConversation(body: notification.body, lineCount: notification.lineCount,
+                                                                      arrivedAt: notification.arrivalDate),
                let url = chat.openURL, NSWorkspace.shared.open(url) {
                 // Opened the exact conversation.
             } else if !opened, let url = notification.appURL {
@@ -764,7 +770,7 @@ final class IslandNotificationsController {
         let centerApp = notification.claudeChat == nil
             ? IslandNotification.appName(fromDescription: description, title: notification.title, body: notification.body)
             : nil
-        history.add(IslandHistoryEntry(date: Date(), appName: notification.appName ?? centerApp ?? notification.title,
+        history.add(IslandHistoryEntry(date: notification.arrivalDate, appName: notification.appName ?? centerApp ?? notification.title,
                                        centerApp: centerApp, appURL: notification.appURL,
                                        bundleIdentifier: notification.bundleIdentifier,
                                        title: notification.title, body: notification.body,
@@ -804,7 +810,7 @@ final class IslandNotificationsController {
             var opened = await inCenter(.open, entry)
             // Gone from Notification Centre (the app withdrew it, or it was cleared there).
             if !opened, entry.bundleIdentifier == "com.apple.MobileSMS",
-               case .found(let chat) = await Self.messagesConversation(body: entry.body, lineCount: entry.lineCount),
+               case .found(let chat) = await Self.messagesConversation(body: entry.body, lineCount: entry.lineCount, arrivedAt: entry.date),
                let url = chat.openURL {
                 opened = NSWorkspace.shared.open(url)
             }

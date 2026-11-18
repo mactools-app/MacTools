@@ -93,4 +93,30 @@ final class IslandNotificationStateTests: XCTestCase {
         XCTAssertEqual(IslandMessagesChat.editedVersions(data), [])
         XCTAssertEqual(IslandMessagesChat.editedVersions(Data([0x00, 0x01])), [])
     }
+
+    func testMessagesLookupWindowStaysFixedToTheBannersArrival() {
+        let arrival = Date(timeIntervalSinceReferenceDate: 800_000_000)
+        let window = IslandMessagesChat.dateWindow(around: arrival)
+        let nanoseconds = { (offset: TimeInterval) in Int64((arrival.timeIntervalSinceReferenceDate + offset) * 1_000_000_000) }
+        XCTAssertTrue(window.contains(nanoseconds(-299)))
+        XCTAssertTrue(window.contains(nanoseconds(25)))
+        // A message from someone else ten minutes later never matches a card that is still open.
+        XCTAssertFalse(window.contains(nanoseconds(600)))
+        XCTAssertFalse(window.contains(nanoseconds(-301)))
+    }
+
+    func testClaudeChatIsUniqueOnlyWhileNoOtherChatHasItsTitle() {
+        typealias Session = IslandClaudeTurnWatcher.DesktopSession
+        let card = Session(localID: "local_a", title: "Fix the build", cliSessionIDs: ["cli-a"])
+        let other = Session(localID: "local_b", title: "Notes", cliSessionIDs: ["cli-b"])
+        let unique = IslandClaudeTurnWatcher.desktopChat(in: [card, other]) { $0.localID == "local_a" }
+        XCTAssertEqual(unique?.title, "Fix the build")
+        XCTAssertEqual(unique?.isUnique, true)
+        // A chat opened later with the same title makes the card's chat ambiguous at send time.
+        let later = Session(localID: "local_c", title: "Fix the build", cliSessionIDs: ["cli-c"])
+        XCTAssertEqual(IslandClaudeTurnWatcher.desktopChat(in: [card, other, later]) { $0.localID == "local_a" }?.isUnique, false)
+        // The session found by its Claude Code id, and a chat that has gone.
+        XCTAssertEqual(IslandClaudeTurnWatcher.desktopChat(in: [card, other]) { $0.cliSessionIDs.contains("cli-b") }?.localID, "local_b")
+        XCTAssertNil(IslandClaudeTurnWatcher.desktopChat(in: [other]) { $0.localID == "local_a" })
+    }
 }

@@ -218,6 +218,8 @@ final class IslandNotification: @unchecked Sendable {
     let lineCount: Int
     /// When MacTools received it (system uptime).
     let arrivedAt = ProcessInfo.processInfo.systemUptime
+    /// The same moment on the clock, which Messages' history dates are compared with.
+    let arrivalDate = Date()
     /// A header label from the banner, e.g. "TIME-SENSITIVE".
     @MainActor var label: String?
     @MainActor var appURL: URL?
@@ -649,7 +651,13 @@ enum IslandClaudeReply {
     }
 
     @MainActor
-    static func send(_ text: String, to chat: IslandClaudeChat) async -> IslandReplyOutcome {
+    static func send(_ text: String, to card: IslandClaudeChat) async -> IslandReplyOutcome {
+        // The card's chat as Claude records it now: a chat opened or renamed since the card arrived
+        // may share its title, and the title is all the window shows.
+        let localID = card.localID
+        guard let chat = await Task.detached(priority: .userInitiated, operation: {
+            IslandClaudeTurnWatcher.desktopChat(localID: localID)
+        }).value else { return .failed }
         guard chat.isUnique else { return .ambiguousChat }
         guard let claude = NSRunningApplication.runningApplications(withBundleIdentifier: bundleIdentifier).first else {
             return .failed
@@ -680,6 +688,7 @@ enum IslandClaudeReply {
         }
         logger.notice("claude page ready=\(scan.prompt != nil, privacy: .public) attempts=\(attempts, privacy: .public) showing=\(isShowing(title, in: scan.chatTitle), privacy: .public) entries=\(scan.sidebarEntries.count, privacy: .public)")
         guard scan.prompt != nil, !scan.chatTitle.isEmpty else { return .failed }
+        guard scan.sidebarEntries.count <= 1 else { logger.notice("claude sidebar has the title twice"); return .ambiguousChat }
         if !isShowing(title, in: scan.chatTitle) {
             if scan.sidebarEntries.count == 1, let entry = scan.sidebarEntries.first.map(IslandAXElement.init) {
                 _ = await IslandAX.run { AXUIElementPerformAction(entry.value, kAXPressAction as CFString) == .success }
@@ -711,6 +720,8 @@ enum IslandClaudeReply {
         let existing = await IslandAX.run { promptText(prompt.value) }
         guard let existing else { return .failed }
         guard existing.isEmpty else { logger.notice("claude chat has an unsent draft"); return .claudeDraft }
+        // Still that chat, and still the only one with its title, just before the text goes in.
+        guard await stillTarget(chat, pid: pid) else { return .ambiguousChat }
         let filled = await IslandAX.run { () -> Bool in
             guard AXUIElementSetAttributeValue(prompt.value, kAXValueAttribute as CFString, text as CFString) == .success else { return false }
             return AXUIElementSetAttributeValue(prompt.value, kAXFocusedAttribute as CFString, kCFBooleanTrue) == .success
@@ -719,8 +730,15 @@ enum IslandClaudeReply {
         try? await Task.sleep(for: .milliseconds(150))
         // Idle: press Claude's Send button (it appears once there is text). Working: Command-Return
         // queues the reply instead of interrupting. Both work with Claude in the background.
+        // The window can change chat while the text goes in; then nothing is sent and the text is taken back.
+        let final = await IslandAX.run { read(pid: pid, sidebarTitle: nil) }
+        guard isShowing(title, in: final.chatTitle) else {
+            logger.notice("claude chat changed before sending")
+            await takeBack(text, from: prompt)
+            return .failed
+        }
         let pressed = busy ? false : await IslandAX.run { () -> Bool in
-            guard let send = read(pid: pid, sidebarTitle: nil).send else { return false }
+            guard let send = final.send else { return false }
             return AXUIElementPerformAction(send, kAXPressAction as CFString) == .success
         }
         if !pressed {
@@ -738,9 +756,27 @@ enum IslandClaudeReply {
             if await IslandAX.run({ promptText(prompt.value) })?.isEmpty == true { return .sent }
         }
         logger.notice("claude send not confirmed")
-        // Not sent: leave the box as it was (empty) rather than holding a stray reply.
-        _ = await IslandAX.run { AXUIElementSetAttributeValue(prompt.value, kAXValueAttribute as CFString, "" as CFString) }
+        await takeBack(text, from: prompt)
         return .failed
+    }
+
+    /// Not sent: the box goes back to empty, as it was, but only while it still holds just this
+    /// reply, so nothing typed there meanwhile is lost.
+    private static func takeBack(_ text: String, from prompt: IslandAXElement) async {
+        _ = await IslandAX.run { () -> Bool in
+            guard promptText(prompt.value) == text else { return false }
+            return AXUIElementSetAttributeValue(prompt.value, kAXValueAttribute as CFString, "" as CFString) == .success
+        }
+    }
+
+    /// The chat on screen is still this one, the sidebar shows its title at most once, and Claude's
+    /// records still give no other open chat that title.
+    private static func stillTarget(_ chat: IslandClaudeChat, pid: pid_t) async -> Bool {
+        let scan = await IslandAX.run { read(pid: pid, sidebarTitle: chat.title) }
+        guard isShowing(chat.title, in: scan.chatTitle), scan.sidebarEntries.count <= 1 else { return false }
+        let localID = chat.localID
+        let now = await Task.detached(priority: .userInitiated) { IslandClaudeTurnWatcher.desktopChat(localID: localID) }.value
+        return now?.title == chat.title && now?.isUnique == true
     }
 
     @IslandAXExecutor
@@ -950,27 +986,46 @@ final class IslandClaudeTurnWatcher {
         return false
     }
 
-    /// The desktop chat that runs this Claude Code session (none for terminal sessions).
-    nonisolated static func desktopChat(forSession sessionID: String) -> IslandClaudeChat? {
+    /// One open chat in Claude's records: its app-side id, title and the Claude Code sessions it ran.
+    struct DesktopSession: Equatable, Sendable {
+        let localID: String
+        let title: String
+        let cliSessionIDs: [String]
+    }
+
+    nonisolated static func desktopSessions() -> [DesktopSession] {
         let root = FileManager.default.homeDirectoryForCurrentUser
             .appendingPathComponent("Library/Application Support/Claude/claude-code-sessions", isDirectory: true)
-        guard let enumerator = FileManager.default.enumerator(at: root, includingPropertiesForKeys: nil) else { return nil }
-        var match: IslandClaudeChat?
-        var titles: [String] = []
+        guard let enumerator = FileManager.default.enumerator(at: root, includingPropertiesForKeys: nil) else { return [] }
+        var sessions: [DesktopSession] = []
         for case let file as URL in enumerator where file.lastPathComponent.hasPrefix("local_") && file.pathExtension == "json" {
             guard let data = try? Data(contentsOf: file),
                   let info = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                   (info["isArchived"] as? Bool) != true,
                   let localID = info["sessionId"] as? String else { continue }
-            let title = info["title"] as? String ?? "Claude"
-            titles.append(title)
-            if info["cliSessionId"] as? String == sessionID || info["lastAssistantCliSessionId"] as? String == sessionID {
-                match = IslandClaudeChat(localID: localID, title: title)
-            }
+            let cli = [info["cliSessionId"], info["lastAssistantCliSessionId"]].compactMap { $0 as? String }
+            sessions.append(DesktopSession(localID: localID, title: info["title"] as? String ?? "Claude", cliSessionIDs: cli))
         }
-        guard var chat = match else { return nil }
-        chat.isUnique = titles.filter { $0 == chat.title }.count == 1
+        return sessions
+    }
+
+    /// The chat found by `matches`, unique only while no other open chat has its title: the title is
+    /// all Claude's window shows to tell chats apart.
+    nonisolated static func desktopChat(in sessions: [DesktopSession], where matches: (DesktopSession) -> Bool) -> IslandClaudeChat? {
+        guard let session = sessions.first(where: matches) else { return nil }
+        var chat = IslandClaudeChat(localID: session.localID, title: session.title)
+        chat.isUnique = sessions.filter { $0.title == session.title }.count == 1
         return chat
+    }
+
+    /// The desktop chat that runs this Claude Code session (none for terminal sessions).
+    nonisolated static func desktopChat(forSession sessionID: String) -> IslandClaudeChat? {
+        desktopChat(in: desktopSessions()) { $0.cliSessionIDs.contains(sessionID) }
+    }
+
+    /// The same chat as it is now: its current title, and whether another chat has taken that title since.
+    nonisolated static func desktopChat(localID: String) -> IslandClaudeChat? {
+        desktopChat(in: desktopSessions()) { $0.localID == localID }
     }
 
     /// The text of the last assistant entry in a Claude Code transcript (JSON lines), read from its tail.
