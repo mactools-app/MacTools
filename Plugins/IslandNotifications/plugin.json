@@ -85,7 +85,7 @@
     }
   },
   "version": "1.0.0",
-  "minHostVersion": "2.2.0",
+  "minHostVersion": "2.2.4",
   "pluginKitVersion": 7,
   "bundleRelativePath": "IslandNotifications.bundle",
   "factoryClass": "IslandNotificationsPlugin.IslandNotificationsPluginFactory",
