@@ -19,6 +19,8 @@ The following plugin source directories publish canonical actions:
 
 Parameterized actions publish concrete catalog entries rather than asking each action surface to construct parameters. For example, Sidecar publishes per-device entries, Display Resolution publishes current display modes, App Volume publishes current audio apps, Battery Charge Limit publishes useful limit presets, and Fan Control publishes saved presets. Availability is resolved again at execution time so stale hardware, processes, or configuration fail safely.
 
+Display Brightness registers the exact built-in brightness action for Automation. The workflow picker supplies its percentage, and the action stays out of the shared catalog.
+
 Clipboard publishes its nine parameter-free actions in the source manifest and runtime
 consistency test. Product metadata describes local encrypted storage without embedding clipboard
 content, and remains independent of the manifest's private-data uninstall policy.

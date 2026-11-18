@@ -48,8 +48,11 @@ This builds the app and plugins, syncs the Debug catalog, and installs `~/Applic
 | --- | --- |
 | `make generate` | Generate plugin targets and the Xcode project. Use this instead of bare `xcodegen generate`. |
 | `make build` | Compile the app and its plugin targets. |
-| `make sync-debug-plugins PLUGIN=calendar` | Build the app targets, then sync only the selected Debug plugin without launching the app. |
+| `make run-plugin PLUGIN=calendar` | Build only the app host and the selected plugin, then sync, install, and launch. Fastest single-plugin debug cycle. |
+| `make sync-debug-plugins PLUGIN=calendar` | Build the app host and the selected plugin, then sync only that Debug plugin without launching the app. |
 | `make build-plugin PLUGIN=calendar` | Validate a standalone plugin package and its Debug catalog. |
+| `make clean` | Remove build products and the generated project. |
+| `make clean-installed` | Remove the installed Debug app and installed plugin packages (separate from `make clean`). |
 
 Keep local configuration, credentials, generated projects, and build products out of commits. See [local plugin development](docs/plugins/local-native-plugins.md) for package setup and debugging.
 
@@ -91,6 +94,9 @@ Follow the [plugin development standards](docs/plugins/development-guidelines.md
 
 Trackpad input is owned by the host through `TrackpadInputService` (host 2.1.0). Trackpad Gestures, Middle Click, and the optional [experimental Trackpad Scale](docs/plugins/trackpad-scale.md) subscribe to the same listener; preserve temporary gesture suspension and callback lifecycle boundaries when extending this path.
 
+Quit Protection's [routing checks](docs/superpowers/specs/2026-11-07-quit-protection.md#local-prototype) use disposable AppKit fixtures. Validate changes to keyboard routing there before testing against apps with open documents.
+The Quit Protection, Window Switcher, Input Remapping, and Trackpad Gestures packages that coordinate these shortcuts require MacTools 2.2.5. Earlier 2.2.4 Nightly builds lack the required PluginKit symbols.
+
 Host 2.1.0 requires Trackpad Gestures and Middle Click package versions 2.0.2 or later, enforced before loading and installation. Publish these compatible packages before distributing the new host; older packages stay installed with update guidance and preserved preferences.
 
 Translator's private-IP HTTP support requires host 2.2.0 for the matching system-network exceptions. Keep the plugin's literal-address policy and the host's ATS ranges aligned; see the [network boundaries](docs/plugins/development-guidelines.md#safety-and-data). Publish the host support before distributing the updated Translator package to older installations.
@@ -116,6 +122,13 @@ make test TEST_FILTER=ActionExecutorTests
 Use `TEST_FILTER=ClassName/testMethod` for one method, or `make test` for all retained XCTest cases. The target regenerates the project and uses serial execution with per-test timeouts. `make script-tests` validates tooling separately; `make ci` also checks frozen-client binary compatibility. Use temporary directories, fixtures, and fake services rather than real user data or accounts. Broaden validation only for failures, shared contracts, or other affected behavior.
 
 Unsigned XCTest builds use `build/DerivedDataTests` by default, separate from the signed app used by `make run`. Override `TEST_DERIVED_DATA` when needed, keeping it separate from `DERIVED_DATA` to avoid leaving a test bundle inside the installed app.
+
+Set `DERIVED_DATA` and `TEST_DERIVED_DATA` through the environment or Make command-line overrides; command-line values take precedence. Relative paths are interpreted from the checkout directory, and absolute paths are used directly. Quote paths containing spaces, for example:
+
+```bash
+make build DERIVED_DATA="/path/to/build storage/Debug"
+make test TEST_DERIVED_DATA="/path/to/build storage/Tests"
+```
 
 Fallback plugin packaging compiles reuse a locked internal compiler cache, while packages and per-run logs remain in the requested output directory. Use `MACTOOLS_PLUGIN_FRESH_BUILD=1 make build-plugin PLUGIN=<name>` for a cold validation build. See [local plugin build storage](docs/plugins/local-native-plugins.md#development-steps) for cache roots and probe isolation; normal Makefile app/test reuse and aggregate-product packaging keep their existing paths.
 
