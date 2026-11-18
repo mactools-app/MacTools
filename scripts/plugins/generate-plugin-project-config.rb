@@ -14,9 +14,11 @@ options = {
 }
 
 OptionParser.new do |opts|
-  opts.banner = "Usage: generate-plugin-project-config.rb [--source-dir Plugins] [--output Configs/GeneratedPlugins.yml]"
+  opts.banner = "Usage: generate-plugin-project-config.rb [--source-dir Plugins] [--output Configs/GeneratedPlugins.yml] [--print-schemes] [--plugin FILTER]"
   opts.on("--source-dir PATH", "Plugin source directory") { |value| options[:source_dir] = value }
   opts.on("--output PATH", "Generated XcodeGen spec output") { |value| options[:output] = value }
+  opts.on("--print-schemes", "Print the resolved bundle scheme for each matching plugin, then exit") { options[:print_schemes] = true }
+  opts.on("--plugin FILTER", "Plugin directory name or ID (repeatable or comma-separated)") { |value| (options[:plugins] ||= []).concat(value.split(",").map(&:strip).reject(&:empty?)) }
 end.parse!
 
 repo_root = File.expand_path("../..", __dir__)
@@ -176,6 +178,7 @@ targets = {}
 plugin_schemes = {}
 plugin_bundle_targets = []
 plugin_core_targets = []
+plugin_scheme_records = []
 test_include_paths = []
 test_ldflags = []
 
@@ -194,6 +197,7 @@ plugin_roots.each do |plugin_root|
   bundle_module_name = build["bundleModuleName"] || "#{module_name}Bundle"
   core_target = build["coreTarget"] || "#{scheme}Core"
   bundle_target = build["bundleTarget"] || scheme
+  plugin_scheme_records << { "name" => File.basename(plugin_root), "id" => plugin_id, "scheme" => bundle_target }
 
   common_settings = {
     "GENERATE_INFOPLIST_FILE" => "YES",
@@ -345,6 +349,31 @@ plugin_roots.each do |plugin_root|
   }
 end
 
+if options[:print_schemes]
+  if options.key?(:plugins)
+    filters = options[:plugins]
+    if filters.empty?
+      warn "No plugin requested: pass at least one --plugin value."
+      exit 1
+    end
+    known = plugin_scheme_records
+    missing = filters.reject do |filter|
+      known.any? { |record| record["name"] == filter || record["id"] == filter }
+    end
+    unless missing.empty?
+      warn "Unknown plugin(s) in #{source_dir}: #{missing.join(', ')}"
+      exit 1
+    end
+    matches = known.select do |record|
+      filters.include?(record["name"]) || filters.include?(record["id"])
+    end
+  else
+    matches = plugin_scheme_records
+  end
+  matches.each { |record| puts record["scheme"] }
+  exit 0
+end
+
 test_settings = {
   "base" => {
     "PRODUCT_BUNDLE_IDENTIFIER" => "$(BUNDLE_IDENTIFIER_PREFIX).mactoolsTests",
@@ -417,6 +446,24 @@ schemes = {
         }
       ]
     },
+    "profile" => { "config" => "Release" },
+    "archive" => { "config" => "Release" }
+  },
+  # Host-only scheme: builds the app and its non-plugin dependencies but no
+  # plugin bundle targets. Used by 'make build-app' for the fast single-plugin
+  # debug cycle so plugin bundles are not recompiled.
+  "MacToolsAppHost" => {
+    "build" => {
+      "targets" => {
+        "MacToolsPluginKit" => "all",
+        "MacToolsAppIntents" => "all",
+        "MacToolsCLIProtocol" => "all",
+        "MacToolsCLI" => "all",
+        "MacToolsCLIBroker" => "all",
+        "MacTools" => "all"
+      }
+    },
+    "run" => { "config" => "Debug" },
     "profile" => { "config" => "Release" },
     "archive" => { "config" => "Release" }
   },

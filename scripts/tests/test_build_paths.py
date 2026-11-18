@@ -130,6 +130,32 @@ class BuildPathTests(unittest.TestCase):
                 result = self.run_make(DERIVED_DATA=debug, TEST_DERIVED_DATA=tests)
                 self.assert_paths(result, debug, tests)
 
+    def test_single_plugin_builds_use_configured_paths(self):
+        executable(self.repo / 'scripts/plugins/generate-plugin-project-config.rb', '''\
+            #!/bin/sh
+            if [ "$1" = --print-schemes ]; then
+                printf '%s\\n' ReviewPlugin
+            fi
+            ''')
+        for debug in (Path('custom build storage/Debug'), self.root / 'external build storage/Debug'):
+            with self.subTest(debug=debug):
+                if self.log.exists():
+                    self.log.unlink()
+                result = subprocess.run(
+                    ['make', '-j2', 'build-plugin-scheme', 'PLUGIN=review', f'DERIVED_DATA={debug}'],
+                    cwd=self.repo, env=self.env, capture_output=True, text=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                records = [json.loads(line) for line in self.log.read_text(encoding='utf-8').splitlines()]
+                builds = [record['args'] for record in records if record['tool'] == 'build']
+                self.assertEqual([args[args.index('-scheme') + 1] for args in builds],
+                                 ['MacToolsAppHost', 'ReviewPlugin'])
+                self.assertEqual([args[args.index('-derivedDataPath') + 1] for args in builds],
+                                 [str(debug), str(debug)])
+                registrations = [record['args'] for record in records if record['tool'] == 'registration']
+                app = (self.repo / debug / 'Build/Products/Debug/MacTools Dev.app').resolve()
+                self.assertEqual(registrations, [['-u', str(app)]])
+
     def test_e2e_rebuild_installs_the_configured_app_and_preserves_source_checks(self):
         harness = self.repo / 'scripts/e2e/mactools-e2e.sh'
         harness.parent.mkdir()
