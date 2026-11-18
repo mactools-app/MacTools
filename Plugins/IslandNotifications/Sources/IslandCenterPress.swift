@@ -115,10 +115,11 @@ enum IslandCenterPress {
         let deadline = ProcessInfo.processInfo.systemUptime + 1.5
         while ProcessInfo.processInfo.systemUptime < deadline {
             let rows = rows(application)
-            if let row = rows.first(where: { $0.single && IslandCenterMatch.row($0.description, matchesApp: target.app,
-                                                                                 title: target.title, body: target.body) }) {
-                return row.element
-            }
+            let matches = rows.filter { $0.single && IslandCenterMatch.row($0.description, matchesApp: target.app,
+                                                                          title: target.title, body: target.body) }
+            // Two rows that read the same can't be told apart: neither is opened or cleared.
+            if matches.count > 1 { logger.notice("center rows ambiguous count=\(matches.count, privacy: .public)"); return nil }
+            if let row = matches.first { return row.element }
             if let before {
                 // The stack opened and the notification isn't in it.
                 if rows.count != before { return nil }

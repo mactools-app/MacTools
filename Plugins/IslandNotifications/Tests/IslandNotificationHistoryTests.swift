@@ -17,6 +17,24 @@ final class IslandNotificationHistoryTests: XCTestCase {
                                              body: "Confirmed on Viator."))
         XCTAssertFalse(IslandCenterMatch.row(row, matchesApp: "Spark Desktop", title: "💬 Yannis › Please Respond: New Booking",
                                              body: "Cancelled."))
+        // The same start is not the same notification: all of the text must match.
+        let longer = "Spark Desktop, 💬 Yannis › Please Respond: New Booking, Confirmed on Viator. Pick-up moved to 9 am."
+        XCTAssertFalse(IslandCenterMatch.row(longer, matchesApp: "Spark Desktop", title: "💬 Yannis › Please Respond: New Booking",
+                                             body: "Confirmed on Viator."))
+        XCTAssertFalse(IslandCenterMatch.row(row, matchesApp: "Spark Desktop", title: "💬 Yannis › Please Respond: New Booking",
+                                             body: "Confirmed on Viator. Pick-up moved to 9 am."))
+        // A row Notification Centre shortened matches the banner's full text, and a short cut does not.
+        let shortened = "Spark Desktop, 💬 Yannis › Please Respond: New Booking, Confirmed on Viator. Pick-up…"
+        XCTAssertTrue(IslandCenterMatch.row(shortened, matchesApp: "Spark Desktop", title: "💬 Yannis › Please Respond: New Booking",
+                                            body: "Confirmed on Viator. Pick-up moved to 9 am."))
+        XCTAssertFalse(IslandCenterMatch.row("Spark Desktop, 💬 Yannis › Please Respond: New Booking, Conf…", matchesApp: "Spark Desktop",
+                                             title: "💬 Yannis › Please Respond: New Booking", body: "Confirmed on Viator."))
+        // A notification with no text matches only a row with none.
+        XCTAssertTrue(IslandCenterMatch.row("Reminders, Bins", matchesApp: "Reminders", title: "Bins", body: ""))
+        XCTAssertFalse(IslandCenterMatch.row("Reminders, Bins, Recycling too", matchesApp: "Reminders", title: "Bins", body: ""))
+        // A group's subtitle is its own line on the banner and its own part in the row.
+        XCTAssertTrue(IslandCenterMatch.row("Messages, Alex, Family, See you soon", matchesApp: "Messages", title: "Alex",
+                                            body: "Family\nSee you soon"))
         XCTAssertTrue(IslandCenterMatch.stack(row, isApp: "Spark Desktop"))
         XCTAssertFalse(IslandCenterMatch.stack(row, isApp: "Spark"))
     }

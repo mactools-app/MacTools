@@ -75,8 +75,9 @@ enum IslandCenterMatch {
             .split(whereSeparator: { $0.isWhitespace || $0.isNewline }).joined(separator: " ")
     }
 
-    /// The row is this notification: it starts with the app, then has the title and the start of
-    /// its text. The marks between the parts depend on the language (", " "、" "，" "،").
+    /// The row is this notification: it starts with the app, then has the title and then all of its
+    /// text. The marks between the parts depend on the language (", " "、" "，" "،"). Text either
+    /// side shortened with "…" may stop early, but must agree for at least 12 characters.
     static func row(_ description: String, matchesApp app: String, title: String, body: String) -> Bool {
         let row = normalized(description)
         let title = normalized(title)
@@ -84,9 +85,20 @@ enum IslandCenterMatch {
         guard let rest = afterApp(row, app: app), rest.hasPrefix(title) else { return false }
         let afterTitle = rest.dropFirst(title.count)
         guard afterTitle.isEmpty || isMark(afterTitle) else { return false }
-        let text = normalized(body).trimmingCharacters(in: CharacterSet(charactersIn: "…"))
-        guard !text.isEmpty else { return true }
-        return afterTitle.contains(String(text.prefix(40)))
+        let wanted = normalized(body), shown = String(afterTitle)
+        let want = compact(wanted), have = compact(shown)
+        if want == have { return true }
+        if wanted.hasSuffix("…"), want.count >= 12, have.hasPrefix(want) { return true }
+        if shown.hasSuffix("…"), have.count >= 12, want.hasPrefix(have) { return true }
+        return false
+    }
+
+    /// The text alone: without spaces, line breaks, the list marks between parts (a subtitle is its
+    /// own part in a row but its own line on a banner) and a closing "…".
+    private static func compact(_ text: String) -> String {
+        String(text.unicodeScalars.filter {
+            !CharacterSet.whitespacesAndNewlines.contains($0) && !IslandNotification.descriptionSeparators.contains($0)
+        }.map(Character.init)).trimmingCharacters(in: CharacterSet(charactersIn: "…"))
     }
 
     /// A collapsed stack of this app's notifications; only its newest shows in the description.
