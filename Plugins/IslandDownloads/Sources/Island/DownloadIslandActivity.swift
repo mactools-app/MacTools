@@ -233,49 +233,101 @@ enum DownloadIslandAX {
 
 /// Reports status items and Live Activities appearing or disappearing in MenuBarAgent, and the
 /// nearest status item moving or resizing. Runs only while a download shows; there is no polling.
+///
+/// Registering and removing observations messages MenuBarAgent, so it runs on the AX queue with
+/// short timeouts and the main thread never waits on it; only the callbacks arrive on main. A
+/// setup that finishes after a stop is undone instead of attached.
 @MainActor
 final class DownloadMenuBarWatcher {
     var onChange: (() -> Void)?
-    private var observer: AXObserver?
-    private var application: AXUIElement?
-    private var observed: AXUIElement?
-    private var pending: DispatchWorkItem?
     private(set) var pid: pid_t?
+    private var session: Session?
+    /// Bumped by every start and stop; a setup from an earlier one is discarded.
+    private var generation = 0
+    /// The status item to follow, kept until the session it belongs to is ready.
+    private var wanted: Element?
+    private var pending: DispatchWorkItem?
 
-    private static let appNotifications = [kAXCreatedNotification, kAXUIElementDestroyedNotification]
-    private static let itemNotifications = [kAXMovedNotification, kAXResizedNotification]
+    private nonisolated static let appNotifications = [kAXCreatedNotification, kAXUIElementDestroyedNotification]
+    private nonisolated static let itemNotifications = [kAXMovedNotification, kAXResizedNotification]
+    private nonisolated static let timeout: Float = 0.25
+
+    /// AX handles are immutable references; the observed item changes only on the AX queue.
+    private final class Session: @unchecked Sendable {
+        let observer: AXObserver
+        let application: AXUIElement
+        let context: UnsafeMutableRawPointer
+        var observed: AXUIElement?
+        init(observer: AXObserver, application: AXUIElement, context: UnsafeMutableRawPointer) {
+            self.observer = observer; self.application = application; self.context = context
+        }
+    }
+
+    private struct Element: @unchecked Sendable { let value: AXUIElement }
 
     func start(pid: pid_t) {
-        guard observer == nil || self.pid != pid else { return }
+        guard self.pid != pid else { return }
         stop()
-        var created: AXObserver?
-        guard AXObserverCreate(pid, downloadMenuBarCallback, &created) == .success, let created else { return }
-        let application = AXUIElementCreateApplication(pid)
-        let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
-        for name in Self.appNotifications { _ = AXObserverAddNotification(created, application, name as CFString, context) }
-        CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(created), .commonModes)
-        observer = created
-        self.application = application
         self.pid = pid
+        let generation = generation
+        let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
+        DownloadIslandAX.queue.async {
+            // A setup that fails leaves nothing behind, and the next start tries again.
+            let failed = {
+                DispatchQueue.main.async { [weak self] in
+                    if let self, self.generation == generation { self.pid = nil }
+                }
+            }
+            var created: AXObserver?
+            guard AXObserverCreate(pid, downloadMenuBarCallback, &created) == .success, let created else { return failed() }
+            let application = AXUIElementCreateApplication(pid)
+            guard AXUIElementSetMessagingTimeout(application, Self.timeout) == .success else { return failed() }
+            for name in Self.appNotifications { _ = AXObserverAddNotification(created, application, name as CFString, context) }
+            let session = Session(observer: created, application: application, context: context)
+            DispatchQueue.main.async { [weak self] in
+                guard let self, self.generation == generation else {
+                    DownloadIslandAX.queue.async { Self.remove(session) }
+                    return
+                }
+                CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(session.observer), .commonModes)
+                self.session = session
+                if let wanted = self.wanted { Self.follow(wanted, in: session) }
+            }
+        }
     }
 
     /// Follows this status item's moves and resizes; nothing changes when it is the same item.
     func observe(_ item: AXUIElement?) {
-        guard let observer else { return }
-        if let item, let observed, CFEqual(item, observed) { return }
-        if item == nil, observed == nil { return }
-        let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
-        if let observed {
-            for name in Self.itemNotifications { AXObserverRemoveNotification(observer, observed, name as CFString) }
-        }
-        observed = item
-        if let item {
-            for name in Self.itemNotifications { _ = AXObserverAddNotification(observer, item, name as CFString, context) }
+        wanted = item.map(Element.init)
+        guard let session else { return }
+        Self.follow(wanted, in: session)
+    }
+
+    private nonisolated static func follow(_ item: Element?, in session: Session) {
+        DownloadIslandAX.queue.async {
+            if let item, let observed = session.observed, CFEqual(item.value, observed) { return }
+            if item == nil, session.observed == nil { return }
+            if let observed = session.observed {
+                for name in itemNotifications { AXObserverRemoveNotification(session.observer, observed, name as CFString) }
+            }
+            session.observed = item?.value
+            if let item = item?.value, AXUIElementSetMessagingTimeout(item, timeout) == .success {
+                for name in itemNotifications { _ = AXObserverAddNotification(session.observer, item, name as CFString, session.context) }
+            }
         }
     }
 
+    /// Runs on the AX queue.
+    private nonisolated static func remove(_ session: Session) {
+        if let observed = session.observed {
+            for name in itemNotifications { AXObserverRemoveNotification(session.observer, observed, name as CFString) }
+        }
+        for name in appNotifications { AXObserverRemoveNotification(session.observer, session.application, name as CFString) }
+        session.observed = nil
+    }
+
     fileprivate func changed() {
-        guard pending == nil else { return }
+        guard session != nil, pending == nil else { return }
         // Coalesce: a status item that updates its text resizes often; measuring once a second is plenty.
         let work = DispatchWorkItem { [weak self] in
             self?.pending = nil
@@ -286,17 +338,14 @@ final class DownloadMenuBarWatcher {
     }
 
     func stop() {
+        generation += 1
         pending?.cancel(); pending = nil
-        if let observer {
-            if let observed {
-                for name in Self.itemNotifications { AXObserverRemoveNotification(observer, observed, name as CFString) }
-            }
-            if let application {
-                for name in Self.appNotifications { AXObserverRemoveNotification(observer, application, name as CFString) }
-            }
-            CFRunLoopRemoveSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), .commonModes)
-        }
-        observer = nil; application = nil; observed = nil; pid = nil
+        wanted = nil; pid = nil
+        guard let session else { return }
+        self.session = nil
+        // Off the run loop at once, so no callback arrives after a stop; the removals message MenuBarAgent.
+        CFRunLoopRemoveSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(session.observer), .commonModes)
+        DownloadIslandAX.queue.async { Self.remove(session) }
     }
 }
 
