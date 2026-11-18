@@ -717,7 +717,9 @@ enum SystemStatusBatteryPowerNormalizer {
         }
 
         let signedMilliwatts = twosComplementSignedValueIfNeeded(milliwatts)
-        return validBatteryWatts(signedMilliwatts / 1_000)
+        // IOKit reports power into the battery as positive. System Status
+        // stores discharge as positive, just as it does for voltage × current.
+        return validBatteryWatts(-signedMilliwatts / 1_000)
     }
 
     static func derivedWatts(voltageMillivolts: Double?, amperageMilliamps: Double?) -> Double? {
@@ -731,6 +733,13 @@ enum SystemStatusBatteryPowerNormalizer {
         }
 
         return validBatteryWatts(-(voltageMillivolts * amperageMilliamps) / 1_000_000)
+    }
+
+    static func wattsMatchingPowerSource(_ watts: Double?, state: SystemStatusBatteryState) -> Double? {
+        guard let watts,
+              state != .unplugged || watts >= 0,
+              state != .charging || watts <= 0 else { return nil }
+        return watts
     }
 
     static func signedNumberValue(_ rawValue: Any?) -> Double? {

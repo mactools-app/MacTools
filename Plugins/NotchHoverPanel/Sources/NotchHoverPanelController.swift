@@ -87,6 +87,11 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
     private var displays: [NotchHoverDisplay] = []
     private var activeDisplay: NotchHoverDisplay?
     private var ownsPanelPresentation = false
+    /// Set while this controller is animating its own panel closed because the pointer left.
+    private var dismissingForPointer = false
+    /// After the panel was closed some other way (Escape, a click elsewhere), hovering opens it again
+    /// only once the pointer has left the trigger and come back.
+    private var waitsForTriggerExit = false
     private var showWorkItem: DispatchWorkItem?
     private var hideWorkItem: DispatchWorkItem?
     private var localMouseMonitor: Any?
@@ -347,6 +352,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         // A MacTools window floating above the menu bar (an island notification card) owns the
         // pointer there, so the panel must not open underneath it.
         let isInsideTrigger = triggerDisplay != nil && !Self.isCoveredByOwnFloatingWindow(point)
+        if waitsForTriggerExit, !isInsideTrigger { waitsForTriggerExit = false }
         let isInsideActiveArea = pointerIsActive(
             point,
             triggerDisplay: triggerDisplay,
@@ -355,7 +361,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
 
         if isInsideActiveArea {
             cancelScheduledHide()
-            if isInsideTrigger, !ownsPanelPresentation, isPresentedMenuBarPanelVisible?() != true {
+            if isInsideTrigger, !waitsForTriggerExit, !ownsPanelPresentation, isPresentedMenuBarPanelVisible?() != true {
                 scheduleShow()
             } else {
                 cancelScheduledShow()
@@ -363,10 +369,13 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
             if ownsPanelPresentation,
                let activeDisplay,
                isPresentedMenuBarPanelVisible?() == true {
-                // Cancel any in-flight hide animation when the pointer returns.
-                _ = requestMenuBarPanelPresentation?(
+                // Cancel any in-flight hide animation when the pointer returns. The host declines
+                // when the panel is closing because it was dismissed rather than left.
+                if requestMenuBarPanelPresentation?(
                     PluginMenuBarPanelPresentationRequest(anchorRect: activeDisplay.notchFrame)
-                )
+                ) == true {
+                    dismissingForPointer = false
+                }
             }
         } else {
             cancelScheduledShow()
@@ -482,6 +491,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         }
 
         ownsPanelPresentation = true
+        dismissingForPointer = false
         onStateChange?()
     }
 
@@ -514,7 +524,10 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         guard accepted else { return }
         // Keep ownership while the host animates closed so a pointer moving
         // back onto the island can reverse the transition.
-        if animated, isEnabled, isPresentedMenuBarPanelVisible?() == true { return }
+        if animated, isEnabled, isPresentedMenuBarPanelVisible?() == true {
+            dismissingForPointer = true
+            return
+        }
 
         ownsPanelPresentation = false
         activeDisplay = nil
@@ -523,6 +536,9 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
 
     private func syncOwnedPanelVisibility() {
         guard ownsPanelPresentation, isPresentedMenuBarPanelVisible?() == false else { return }
+        // Closed by something other than this controller's own pointer-left dismissal.
+        waitsForTriggerExit = !dismissingForPointer
+        dismissingForPointer = false
         ownsPanelPresentation = false
         activeDisplay = nil
         cancelScheduledInteractions()

@@ -130,16 +130,26 @@ PY
 }
 
 source_tree_sha256() {
-    "$PYTHON3" - "$REPO_ROOT" <<'PY'
+    "$PYTHON3" - "$REPO_ROOT" "$@" <<'PY'
 import hashlib
 import os
 import subprocess
 import sys
 
 root = os.path.realpath(sys.argv[1])
-paths = subprocess.check_output(
-    ["git", "-C", root, "ls-files", "-z", "--cached", "--others", "--exclude-standard"]
-).split(b"\0")
+output_dirs = sys.argv[2:]
+git_ls_files = ["git", "-C", root, "ls-files", "-z"]
+if output_dirs:
+    tracked = subprocess.check_output([*git_ls_files, "--cached"])
+    untracked = subprocess.check_output([
+        *git_ls_files, "--others", "--exclude-standard", "--", ".",
+        *(f":(exclude,top,literal){directory}" for directory in output_dirs),
+    ])
+    paths = (tracked + untracked).split(b"\0")
+else:
+    paths = subprocess.check_output([
+        *git_ls_files, "--cached", "--others", "--exclude-standard",
+    ]).split(b"\0")
 digest = hashlib.sha256()
 for raw in sorted(path for path in paths if path):
     relative = raw.decode("utf-8", "surrogateescape")
@@ -170,11 +180,62 @@ source_commit() {
 }
 
 source_dirty() {
-    if [[ -n "$(git -C "$REPO_ROOT" status --porcelain --untracked-files=normal)" ]]; then
+    local changes
+    if (( $# > 0 )); then
+        changes="$(git -C "$REPO_ROOT" status --porcelain --untracked-files=no)" || return 1
+        if [[ -z "$changes" ]]; then
+            local -a exclusions
+            local directory
+            for directory in "$@"; do
+                exclusions+=(":(exclude,top,literal)$directory")
+            done
+            changes="$(git -C "$REPO_ROOT" ls-files --others --exclude-standard \
+                -- . "${exclusions[@]}")" || return 1
+        fi
+    else
+        changes="$(git -C "$REPO_ROOT" status --porcelain --untracked-files=normal)" || return 1
+    fi
+    if [[ -n "$changes" ]]; then
         print -r -- true
     else
         print -r -- false
     fi
+}
+
+debug_build_path() {
+    env DEVELOPER_DIR="$E2E_DEVELOPER_DIR" make -s --no-print-directory -C "$REPO_ROOT" "$1"
+}
+
+source_output_directory() {
+    local build_directory="${1:A}"
+    if [[ "$build_directory" == "$REPO_ROOT" ]]; then
+        print -u2 -r -- "error: Derived Data cannot be the checkout root"
+        return 1
+    fi
+    [[ "$build_directory" == "$REPO_ROOT/"* ]] || return 0
+
+    local relative_directory="${build_directory#"$REPO_ROOT/"}"
+    local tracked_files
+    tracked_files="$(git -C "$REPO_ROOT" ls-files -- ":(top,literal)$relative_directory")" || return 1
+    [[ -z "$tracked_files" ]] || {
+        print -u2 -r -- "error: Derived Data must use a dedicated directory without tracked files: $build_directory"
+        return 1
+    }
+    print -r -- "$relative_directory"
+}
+
+session_source_output_directories() {
+    "$PYTHON3" - "$1" <<'PY'
+import os
+import plistlib
+import sys
+
+with open(sys.argv[1], "rb") as handle:
+    metadata = plistlib.load(handle)
+for directory in metadata.get("sourceOutputDirectories", [metadata.get("sourceOutputDirectory")]):
+    if directory:
+        sys.stdout.buffer.write(os.fsencode(directory) + b"\0")
+PY
 }
 
 extension_bundle_identifier() {
@@ -437,11 +498,28 @@ single_executable_pid() {
 }
 
 matching_built_pids() {
-    [[ -d "$BUILT_APP_PATH" ]] || return 0
-    local executable_name executable
-    executable_name="$(plist_value "$BUILT_APP_PATH/Contents/Info.plist" CFBundleExecutable)"
-    executable="$BUILT_APP_PATH/Contents/MacOS/$executable_name"
-    pgrep -f -x "$executable" || true
+    local bundle_path="${1:-$BUILT_APP_PATH}"
+    local executable_name executable_pattern
+    [[ -f "$bundle_path/Contents/Info.plist" ]] || return 0
+    executable_name="$(plist_value "$bundle_path/Contents/Info.plist" CFBundleExecutable 2>/dev/null)" || return 0
+    [[ -n "$executable_name" && "$executable_name" != */* ]] || return 0
+    executable_pattern="$(print -r -- "$bundle_path/Contents/MacOS/$executable_name" \
+        | sed 's/[][\\.^$*+?(){}|]/\\&/g')"
+    pgrep -f -x "$executable_pattern" || true
+}
+
+conflicting_built_pids() {
+    local -aU build_app_paths
+    build_app_paths=("$BUILT_APP_PATH" "${BUILT_APP_PATH:A}")
+    local candidate
+    for candidate in "$@"; do
+        [[ -n "$candidate" ]] || continue
+        build_app_paths+=("$candidate" "${candidate:A}")
+    done
+    local bundle_path
+    for bundle_path in "${build_app_paths[@]}"; do
+        matching_built_pids "$bundle_path"
+    done
 }
 
 stop_app() {
@@ -630,6 +708,11 @@ PY
 preflight() {
     require_app
     local output_path="${1:-$ARTIFACT_ROOT/preflight-latest.json}"
+    local recorded_app_path="${2:-}"
+    local configured_app_path="${3:-}"
+    if [[ -z "$configured_app_path" ]]; then
+        configured_app_path="$(debug_build_path print-debug-app-path)" || return 1
+    fi
     local bundle_id
     bundle_id="$(app_bundle_identifier)"
 
@@ -652,7 +735,7 @@ preflight() {
     fi
     local conflicting_process_count=0
     local conflicting_process_output
-    conflicting_process_output="$(matching_built_pids)"
+    conflicting_process_output="$(conflicting_built_pids "$configured_app_path" "$recorded_app_path")"
     if [[ -n "$conflicting_process_output" ]]; then
         conflicting_process_count="$(print -r -- "$conflicting_process_output" | wc -l | tr -d ' ')"
     fi
@@ -691,7 +774,7 @@ preflight() {
     (( plugin_count > 0 )) || failures+=("no installed Debug plugin packages were found")
     (( process_count <= 1 )) || failures+=("more than one stable-path app instance is running")
     (( conflicting_process_count == 0 )) \
-        || failures+=("a Derived Data MacTools test host is still running")
+        || failures+=("a MacTools app is still running from Derived Data")
     [[ -z "$listener_other_owners" ]] \
         || failures+=("the global trackpad listener lease is owned by another process: ${listener_other_owners//$'\n'/,}")
     [[ -f "$CAPTURE_RECT_TOOL" ]] || failures+=("private capture rectangle helper is unavailable")
@@ -777,6 +860,9 @@ write_session_metadata() {
 write_session_provenance() {
     local metadata="$1"
     local source_build_bound="${2:-false}"
+    local configured_app_path="${3:-}"
+    local -a output_dirs
+    output_dirs=("${@:4}")
     local executable
     executable="$(app_executable)"
     [[ -f "$executable" ]] || {
@@ -794,13 +880,19 @@ write_session_provenance() {
         return 1
     }
 
-    for key in sourceCommit sourceDirty sourceTreeSHA256 sourceBuildBound appVersion appBuild appExecutableSHA256 appCodeDirectoryHash pluginPackageTreeSHA256 pluginCatalogSHA256; do
+    for key in sourceCommit sourceDirty sourceTreeSHA256 sourceBuildBound sourceOutputDirectory sourceOutputDirectories builtAppPath appVersion appBuild appExecutableSHA256 appCodeDirectoryHash pluginPackageTreeSHA256 pluginCatalogSHA256; do
         plutil -remove "$key" "$metadata" >/dev/null 2>&1 || true
     done
     plutil -insert sourceCommit -string "$(source_commit)" "$metadata"
-    plutil -insert sourceDirty -bool "$(source_dirty)" "$metadata"
-    plutil -insert sourceTreeSHA256 -string "$(source_tree_sha256)" "$metadata"
+    plutil -insert sourceDirty -bool "$(source_dirty "${output_dirs[@]}")" "$metadata"
+    plutil -insert sourceTreeSHA256 -string "$(source_tree_sha256 "${output_dirs[@]}")" "$metadata"
     plutil -insert sourceBuildBound -bool "$source_build_bound" "$metadata"
+    if [[ -n "$configured_app_path" ]]; then
+        local output_dirs_json
+        output_dirs_json="$("$PYTHON3" -c 'import json, sys; print(json.dumps(sys.argv[1:]))' "${output_dirs[@]}")"
+        plutil -insert sourceOutputDirectories -json "$output_dirs_json" "$metadata"
+        plutil -insert builtAppPath -string "$configured_app_path" "$metadata"
+    fi
     plutil -insert appVersion -string "$(app_version)" "$metadata"
     plutil -insert appBuild -string "$(app_build)" "$metadata"
     plutil -insert appExecutableSHA256 -string "$(sha256_file "$executable")" "$metadata"
@@ -936,7 +1028,7 @@ resume_session() {
     validate_session_identity "$session_dir" || return 1
 
     ensure_privacy_helpers "$session_dir"
-    preflight "$session_dir/preflight.json"
+    preflight "$session_dir/preflight.json" "$(session_value "$session_dir" builtAppPath 2>/dev/null || true)"
     audit_session "$session_dir" >/dev/null
     /usr/bin/open -a "$APP_PATH" "mactools-dev://app/settings/plugins/marketplace"
 
@@ -958,37 +1050,55 @@ rebuild_session() {
     local mode="${2:-}"
     validate_session_identity "$session_dir" true || return 1
 
-    local expected_bundle_id
+    local expected_bundle_id rebuilt_app_path recorded_app_path build_directory output_dir recorded_output_dirs
     expected_bundle_id="$(session_value "$session_dir" bundleIdentifier)"
+    rebuilt_app_path="$(debug_build_path print-debug-app-path)" || return 1
+    recorded_app_path="$(session_value "$session_dir" builtAppPath 2>/dev/null || true)"
+    recorded_output_dirs="$(session_source_output_directories "$session_dir/session.plist")" || return 1
+    local -aU output_dirs
+    local build_path_target
+    output_dirs=(${(0)recorded_output_dirs})
+    for build_path_target in print-derived-data-path print-test-derived-data-path; do
+        build_directory="$(debug_build_path "$build_path_target")" || return 1
+        output_dir="$(source_output_directory "$build_directory")" || return 1
+        [[ -z "$output_dir" ]] || output_dirs+=("$output_dir")
+    done
 
     local build_source_commit build_source_dirty build_source_tree
     build_source_commit="$(source_commit)"
-    build_source_dirty="$(source_dirty)"
-    build_source_tree="$(source_tree_sha256)"
+    build_source_dirty="$(source_dirty "${output_dirs[@]}")"
+    build_source_tree="$(source_tree_sha256 "${output_dirs[@]}")"
 
-    print -r -- "env DEVELOPER_DIR='$E2E_DEVELOPER_DIR' make -C '$REPO_ROOT' sync-debug-plugins"
-    print -r -- "Replace '$APP_PATH' from '$BUILT_APP_PATH'"
+    print -r -- "env DEVELOPER_DIR='$E2E_DEVELOPER_DIR' make -C '$REPO_ROOT' build"
+    print -r -- "env DEVELOPER_DIR='$E2E_DEVELOPER_DIR' make -C '$REPO_ROOT' sync-built-debug-plugins"
+    print -r -- "Replace '$APP_PATH' from '$rebuilt_app_path'"
     if [[ "$mode" == --dry-run ]]; then
         return
     fi
 
-    env DEVELOPER_DIR="$E2E_DEVELOPER_DIR" make -C "$REPO_ROOT" sync-debug-plugins
+    env DEVELOPER_DIR="$E2E_DEVELOPER_DIR" make -C "$REPO_ROOT" build
+    local conflicting_processes
+    conflicting_processes="$(conflicting_built_pids "$rebuilt_app_path" "$recorded_app_path")"
+    [[ -z "$conflicting_processes" ]] || {
+        print -u2 -r -- "error: a MacTools app is still running from Derived Data"
+        return 1
+    }
+    env DEVELOPER_DIR="$E2E_DEVELOPER_DIR" make -C "$REPO_ROOT" sync-built-debug-plugins
     [[ "$build_source_commit" == "$(source_commit)"
-        && "$build_source_dirty" == "$(source_dirty)"
-        && "$build_source_tree" == "$(source_tree_sha256)" ]] || {
+        && "$build_source_dirty" == "$(source_dirty "${output_dirs[@]}")"
+        && "$build_source_tree" == "$(source_tree_sha256 "${output_dirs[@]}")" ]] || {
         print -u2 -r -- "error: source changed while E2E artifacts were being built"
         return 1
     }
-    [[ -d "$BUILT_APP_PATH" ]] || {
-        print -u2 -r -- "error: rebuilt app not found at $BUILT_APP_PATH"
+    [[ -d "$rebuilt_app_path" ]] || {
+        print -u2 -r -- "error: rebuilt app not found at $rebuilt_app_path"
         return 1
     }
-
     mkdir -p "$ARTIFACT_ROOT"
     local install_stage staged_app
     install_stage="$(mktemp -d "$ARTIFACT_ROOT/install-staging.XXXXXX")"
     staged_app="$install_stage/${APP_PATH:t}"
-    /usr/bin/ditto --rsrc --extattr --acl "$BUILT_APP_PATH" "$staged_app"
+    /usr/bin/ditto --rsrc --extattr --acl "$rebuilt_app_path" "$staged_app"
     codesign --verify --deep --strict "$staged_app"
 
     local staged_bundle_id staged_signature staged_team expected_team
@@ -1028,10 +1138,10 @@ rebuild_session() {
         return 1
     }
     invalidate_session_recordings "$session_dir"
-    write_session_provenance "$session_dir/session.plist" true
+    write_session_provenance "$session_dir/session.plist" true "$rebuilt_app_path" "${output_dirs[@]}"
     plutil -replace preparedAt -date "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$session_dir/session.plist"
     plutil -replace preparedAtEpoch -integer "$(date '+%s')" "$session_dir/session.plist"
-    preflight "$session_dir/preflight.json"
+    preflight "$session_dir/preflight.json" "$recorded_app_path" "$rebuilt_app_path"
     /usr/bin/open -n -a "$APP_PATH" "mactools-dev://app/settings/plugins/marketplace"
     print -r -- "Rebuilt stable app with an unchanged designated requirement."
     print -r -- "Recoverable previous app: $backup_app"
@@ -1208,7 +1318,7 @@ validate_session_identity() {
         return 1
     }
 
-    local recorded_commit recorded_dirty recorded_source_tree actual_source_tree source_build_bound
+    local recorded_commit recorded_dirty recorded_source_tree source_build_bound
     local executable recorded_executable_hash actual_executable_hash
     recorded_commit="$(session_value "$session_dir" sourceCommit)"
     recorded_dirty="$(session_value "$session_dir" sourceDirty)"
@@ -1224,21 +1334,26 @@ validate_session_identity() {
         print -u2 -r -- "error: session source dirty state is invalid"
         return 1
     }
-    [[ "$allow_unbound" == true
-        || ( "$recorded_commit" == "$(source_commit)" && "$recorded_dirty" == "$(source_dirty)" ) ]] || {
-        print -u2 -r -- "error: session source revision does not match the current checkout"
-        return 1
-    }
-    [[ "$source_build_bound" == true || "$allow_unbound" == true ]] || {
-        print -u2 -r -- "error: session artifacts are not bound to the recorded source; run '$HARNESS_PATH rebuild "$session_dir"'"
-        return 1
-    }
-    actual_source_tree="$(source_tree_sha256)"
-    [[ "$allow_unbound" == true
-        || ( -n "$recorded_source_tree" && "$recorded_source_tree" == "$actual_source_tree" ) ]] || {
-        print -u2 -r -- "error: session source tree hash does not match the current checkout"
-        return 1
-    }
+    if [[ "$allow_unbound" != true ]]; then
+        local recorded_output_dirs actual_source_tree
+        recorded_output_dirs="$(session_source_output_directories "$metadata")" || return 1
+        local -a output_dirs
+        output_dirs=(${(0)recorded_output_dirs})
+        [[ "$recorded_commit" == "$(source_commit)"
+            && "$recorded_dirty" == "$(source_dirty "${output_dirs[@]}")" ]] || {
+            print -u2 -r -- "error: session source revision does not match the current checkout"
+            return 1
+        }
+        [[ "$source_build_bound" == true ]] || {
+            print -u2 -r -- "error: session artifacts are not bound to the recorded source; run '$HARNESS_PATH rebuild "$session_dir"'"
+            return 1
+        }
+        actual_source_tree="$(source_tree_sha256 "${output_dirs[@]}")" || return 1
+        [[ -n "$recorded_source_tree" && "$recorded_source_tree" == "$actual_source_tree" ]] || {
+            print -u2 -r -- "error: session source tree hash does not match the current checkout"
+            return 1
+        }
+    fi
     [[ -f "$executable" ]] || {
         print -u2 -r -- "error: installed app executable is missing"
         return 1
@@ -1841,7 +1956,7 @@ verify_code_session() {
 collect_session() {
     local session_dir="$1"
     validate_session_identity "$session_dir" || return 1
-    preflight "$session_dir/preflight.json" >/dev/null || true
+    preflight "$session_dir/preflight.json" "$(session_value "$session_dir" builtAppPath 2>/dev/null || true)" >/dev/null || true
     audit_session "$session_dir" >/dev/null
     codesign -dv --verbose=4 "$APP_PATH" >"$session_dir/signature.txt" 2>&1
     codesign -d -r- "$APP_PATH" >"$session_dir/designated-requirement.txt" 2>&1
@@ -1899,6 +2014,9 @@ provenance = {
     "sourceCommit": metadata["sourceCommit"],
     "sourceDirty": metadata["sourceDirty"],
     "sourceTreeSHA256": metadata["sourceTreeSHA256"],
+    "sourceOutputDirectories": metadata.get(
+        "sourceOutputDirectories", [metadata["sourceOutputDirectory"]] if metadata.get("sourceOutputDirectory") else [],
+    ),
     "sourceBuildBound": metadata["sourceBuildBound"],
     "appVersion": metadata["appVersion"],
     "appBuild": metadata["appBuild"],

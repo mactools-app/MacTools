@@ -32,6 +32,15 @@ final class NotchMenuBarPanel {
     /// The content size the surface shows while the panel changes size; nil when settled.
     private var sizeSpring: (width: NotchMorphModel.Spring, height: NotchMorphModel.Spring)?
     private(set) var isClosing = false
+    /// Why the panel is closing. Only a close because the pointer left can be undone by the pointer
+    /// coming back; Escape, a click elsewhere or a system panel closes it for good.
+    enum CloseReason { case pointerLeft, dismissed }
+    private(set) var closeReason: CloseReason?
+    /// The latest size asked for while closing, applied if the panel reopens.
+    private var pendingSize: CGSize?
+
+    var canReopenOnHover: Bool { isClosing && closeReason == .pointerLeft }
+    var contentSize: CGSize { metrics.contentSize }
 
     init(anchor: CGRect, content: NSViewController) {
         self.anchor = anchor
@@ -81,7 +90,9 @@ final class NotchMenuBarPanel {
     }
 
     func resize(to size: CGSize) {
-        guard !isClosing, size != metrics.contentSize else { return }
+        guard size != metrics.contentSize else { pendingSize = nil; return }
+        // While closing the shape keeps the size it is folding from; the new one waits for a reopen.
+        guard !isClosing else { pendingSize = size; return }
         let shown = sizeSpring.map { CGSize(width: $0.width.value, height: $0.height.value) } ?? metrics.contentSize
         // Size changes (a list growing, a wider panel) glide on a spring from wherever the surface
         // is now. Reduce Motion, or a panel still opening or closing, just applies the new size.
@@ -105,21 +116,33 @@ final class NotchMenuBarPanel {
     func reopen() {
         guard isClosing else { return }
         isClosing = false
+        closeReason = nil
         closeCompletion = nil
+        if let pendingSize {
+            self.pendingSize = nil
+            applyContentSize(pendingSize)
+            render()
+        }
         window.ignoresMouseEvents = false
         setExpanded(true)
     }
 
-    func dismiss(animated: Bool, completion: @escaping @MainActor () -> Void) {
+    func dismiss(animated: Bool, reason: CloseReason = .dismissed, completion: @escaping @MainActor () -> Void) {
         guard animated else {
             stopDisplayLink()
             isClosing = true
+            closeReason = reason
             closeCompletion = nil
             completion()
             return
         }
-        guard !isClosing else { return }
+        guard !isClosing else {
+            // A close that becomes explicit stays explicit.
+            if reason == .dismissed { closeReason = .dismissed }
+            return
+        }
         isClosing = true
+        closeReason = reason
         // A size change in progress stops where it is; the surface folds away from there.
         sizeSpring = nil
         closeCompletion = completion

@@ -135,6 +135,8 @@ final class DisplayBrightnessPlugin:
 
     private enum Constants {
         static let setBrightnessActionID = "set-brightness"
+        static let setBuiltInBrightnessActionID = "set-built-in-brightness"
+        static let percentParameterID = "percent"
         static let displayControlPrefix = "display."
         static let brightnessControlSuffix = ".brightness"
         static let disableBuiltInDisplayActionID = "disable-built-in-display"
@@ -168,6 +170,7 @@ final class DisplayBrightnessPlugin:
     private var brightnessGeneration = UUID().uuidString
     private var voiceTargetDisplays: [CGDirectDisplayID: DisplayInfo] = [:]
     private let controller: DisplayBrightnessControlling
+    private let connectionObserver: SystemDisplayBrightnessConnectionObserver?
     private let displayDisableCoordinator: any DisplayDisableCoordinating
     private let showsDisplayDisableControls: Bool
     private let shortcutPreferences: DisplayBrightnessShortcutPreferences
@@ -190,7 +193,16 @@ final class DisplayBrightnessPlugin:
         mouseDisplayIDProvider: @escaping @MainActor () -> CGDirectDisplayID? = DisplayBrightnessPlugin.currentMouseDisplayID
     ) {
         self.localization = localization
-        self.controller = controller ?? DisplayBrightnessController(localization: localization)
+        if let controller {
+            self.controller = controller
+            connectionObserver = nil
+        } else {
+            connectionObserver = SystemDisplayBrightnessConnectionObserver()
+            self.controller = DisplayBrightnessController(
+                connectionEvents: SystemDisplayBrightnessConnectionObserver.events,
+                localization: localization
+            )
+        }
         self.displayDisableCoordinator = displayDisableCoordinator ?? DisplayDisableCoordinator(
             service: Self.defaultDisplayDisableService(),
             store: UserDefaultsDisplayDisableStateStore(),
@@ -309,7 +321,7 @@ final class DisplayBrightnessPlugin:
                 capabilities: [.automatic, .background, .foregroundInteractive, .cancellable]
             )
         }
-        return brightnessActions + [voiceSetBrightnessDefinition,
+        return brightnessActions + [voiceSetBrightnessDefinition, builtInBrightnessDefinition,
             ActionDefinition(
                 key: ActionKey(
                     providerID: metadata.id,
@@ -362,6 +374,12 @@ final class DisplayBrightnessPlugin:
     }
 
     func actionAvailability(for reference: ActionReference) -> ActionAvailability {
+        if reference.key.actionID == Constants.setBuiltInBrightnessActionID {
+            guard Self.builtInBrightnessPercentage(reference) != nil, controller.canSetBuiltInBrightness else {
+                return .unavailable(PluginKitLocalization.actionUnavailable)
+            }
+            return .available
+        }
         if reference.key.actionID == Constants.setBrightnessActionID {
             return voiceBrightnessTarget(reference) == nil ? .unavailable(PluginKitLocalization.actionUnavailable) : .available
         }
@@ -397,6 +415,17 @@ final class DisplayBrightnessPlugin:
     }
 
     func beginAction(_ invocation: ActionInvocation) throws -> ActionExecutionHandle {
+        if invocation.reference.key.actionID == Constants.setBuiltInBrightnessActionID {
+            let percent = Self.builtInBrightnessPercentage(invocation.reference)
+            return ActionExecutionHandle { [controller] in
+                guard !Task.isCancelled else { return .cancelled }
+                guard let percent else { return .failed(message: PluginKitLocalization.actionUnavailable) }
+                switch await controller.setBuiltInBrightnessAndWait(Double(percent) / 100) {
+                case .succeeded: return .succeeded()
+                case let .failed(message): return .failed(message: message)
+                }
+            }
+        }
         if invocation.reference.key.actionID == Constants.setBrightnessActionID {
             let reference = invocation.reference
             return ActionExecutionHandle { [weak self] in
@@ -582,6 +611,7 @@ final class DisplayBrightnessPlugin:
     }
 
     func activate(context: PluginRuntimeContext) {
+        connectionObserver?.start()
         // A switch-off lasts only for the process that made it. The window server normally
         // reverts it on exit; restore anything a previous run still left off, in case it did not.
         displayDisableCoordinator.restoreAllDisplays()
@@ -592,6 +622,7 @@ final class DisplayBrightnessPlugin:
         displayDisableActionTask = nil
         stopAllShortcutActions()
         controller.cancelOutstandingWrites()
+        connectionObserver?.stop()
         displayDisableCoordinator.deactivate(restoringDisplays: reason.requiresStateCleanup)
     }
 
@@ -1030,6 +1061,7 @@ extension DisplayBrightnessPlugin: PluginPortablePreferencesProviding,
 
 extension DisplayBrightnessPlugin: PluginVoiceQueryProviding, PluginVoiceParameterizedActionProviding, PluginActionExposureProviding {
     func exposurePolicy(for reference: ActionReference, on surface: ActionExposureSurface) -> ActionExposurePolicy {
+        if reference.key.actionID == Constants.setBuiltInBrightnessActionID { return .excluded }
         // Shortcut increments use cursor/user-configured targets. Voice always resolves its explicit display first.
         if surface.rawValue == "voice-control", Self.shortcutDirection(for: reference.key.actionID) != nil { return .excluded }
         return .automatic
@@ -1049,6 +1081,27 @@ extension DisplayBrightnessPlugin: PluginVoiceQueryProviding, PluginVoiceParamet
                            .init(id: "percent", title: "percent", kind: .double)],
               capabilities: [.foregroundInteractive, .background, .cancellable])
     }
+    private var builtInBrightnessDefinition: ActionDefinition {
+        .init(
+            key: .init(providerID: metadata.id, actionID: Constants.setBuiltInBrightnessActionID),
+            title: localization.string("action.setBuiltIn.title", defaultValue: "设置内建显示屏亮度"),
+            description: localization.string("action.setBuiltIn.description", defaultValue: "将内建显示屏调节到指定亮度。"),
+            keywords: [metadata.title], systemImage: "sun.max",
+            parameters: [
+                .init(id: Constants.percentParameterID, title: localization.string(
+                    "action.setBuiltIn.percent", defaultValue: "目标百分比"
+                ), kind: .integer)
+            ],
+            capabilities: [.automatic, .background, .foregroundInteractive, .cancellable]
+        )
+    }
+
+    private static func builtInBrightnessPercentage(_ reference: ActionReference) -> Int64? {
+        guard case let .integer(value)? = reference.parameters[Constants.percentParameterID],
+              (0...100).contains(value) else { return nil }
+        return value
+    }
+
     private func voiceBrightnessWriteResult(display: DisplayInfo, generation: String, requestedPercent: Double) async -> ActionExecutionResult {
         @MainActor func targetStillMatches() -> Bool {
             generation == brightnessGeneration && voiceTargetDisplays[display.id] == display

@@ -507,7 +507,11 @@ final class MenuBarPanelPresenter: NSObject {
 
         if let notchPanel {
             guard !isHoverPanelClaimed else { return false }
-            notchPanel.reopen()
+            // Hovering back reverses only a close the pointer caused by leaving.
+            if notchPanel.isClosing {
+                guard notchPanel.canReopenOnHover else { return false }
+                notchPanel.reopen()
+            }
             return true
         }
         if popover.isShown {
@@ -563,12 +567,14 @@ final class MenuBarPanelPresenter: NSObject {
             dismissClassicHoverPopover(animated: animated)
             return true
         }
-        closeNotchPanel(notchPanel, animated: animated)
+        // The hover owner closes the panel only because the pointer left it.
+        closeNotchPanel(notchPanel, animated: animated, reason: .pointerLeft)
         return true
     }
 
-    private func closeNotchPanel(_ panel: NotchMenuBarPanel, animated: Bool) {
-        panel.dismiss(animated: animated) { [weak self, weak panel] in
+    private func closeNotchPanel(_ panel: NotchMenuBarPanel, animated: Bool,
+                                 reason: NotchMenuBarPanel.CloseReason = .dismissed) {
+        panel.dismiss(animated: animated, reason: reason) { [weak self, weak panel] in
             guard let self, let panel, self.notchPanel === panel else { return }
             self.finishNotchPanelDismissal(panel)
         }
