@@ -52,6 +52,9 @@ NEW_API_MINIMUM_HOSTS = {
     "TrackpadInputPurpose": "2.1.0",
     "TrackpadInputService": "2.1.0",
     "TrackpadInputServiceConsuming": "2.1.0",
+    "PluginPhysicalInputClaimReporting": "2.2.5",
+    "PluginPhysicalInputCompatibilityConsuming": "2.2.5",
+    ".macToolsWillClaimPhysicalInput": "2.2.5",
     "PluginTypography": "2.0.1",
     "PluginMetricValue": "2.0.1",
     "PluginPanelWidgetGrid": "1.3.1",
@@ -376,6 +379,12 @@ class PluginMinimumHostCompatibilityTests(unittest.TestCase):
             with self.subTest(symbol=symbol):
                 self.assertEqual(NEW_API_MINIMUM_HOSTS.get(symbol), "2.2.4")
                 self.assertTrue(minimum_host_violations("probe", "2.2.3", symbol))
+
+    def test_physical_input_claim_packages_exclude_pre_claim_nightly_hosts(self) -> None:
+        for plugin in ("InputRemapping", "QuitProtection", "TrackpadGestures", "WindowSwitcher"):
+            with self.subTest(plugin=plugin):
+                manifest = json.loads((PLUGINS_ROOT / plugin / "plugin.json").read_text(encoding="utf-8"))
+                self.assertGreater(version_tuple(manifest["minHostVersion"]), version_tuple("2.2.4"))
 
     def test_semantic_voice_function_contract_records_minimum_host(self) -> None:
         source = PLUGIN_INTERFACES.with_name("PluginVoiceFunctions.swift").read_text(encoding="utf-8")
