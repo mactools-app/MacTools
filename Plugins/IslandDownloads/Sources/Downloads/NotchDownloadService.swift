@@ -61,9 +61,8 @@ final class NotchDownloadService: ObservableObject {
 
     private init() {}
 
-    /// Whether the plugin wants the folder watched. MacTools is not
-    /// sandboxed, so the Downloads folder is watched until another folder is
-    /// chosen or it is forgotten; Vorssaint asks first because it is.
+    /// Whether the plugin wants the folder watched. Nothing is watched until
+    /// the person chooses a folder, as Vorssaint does.
     var enabled = false
 
     func syncWithPreferences() {
@@ -78,9 +77,6 @@ final class NotchDownloadService: ObservableObject {
                 return
             }
             start(url)
-        } else if !defaults.bool(forKey: DefaultsKey.folderForgotten),
-                  let downloads = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first {
-            start(downloads)
         } else {
             folderName = nil
             folderUnavailable = false

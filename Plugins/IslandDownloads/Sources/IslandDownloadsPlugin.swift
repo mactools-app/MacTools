@@ -44,7 +44,11 @@ final class IslandDownloadsPlugin: MacToolsPlugin, PluginSettingsPresenting {
     private let service = NotchDownloadService.shared
     private let island = DownloadIslandController()
     private var active = false
+    /// Running on the camera island. Remembered once seen, so a closed lid doesn't stop it.
+    private var supported = false
+    private var running = false
     private var observation: AnyCancellable?
+    private var screens: AnyCancellable?
     private var trusted = AXIsProcessTrusted()
 
     var onStateChange: (() -> Void)?
@@ -77,7 +81,7 @@ final class IslandDownloadsPlugin: MacToolsPlugin, PluginSettingsPresenting {
                             fittingContentHeight: NotchDownloadsLayout.contentHeight))!),
                     state: PluginPanelWidgetState(subtitle: metadata.defaultDescription,
                                                   isActive: service.items.contains { $0.active && !$0.completed },
-                                                  isEnabled: true, isAvailable: true, errorMessage: nil),
+                                                  isEnabled: true, isAvailable: supported, errorMessage: nil),
                     content: { _ in
                         AnyView(GeometryReader { proxy in NotchDownloadsView(size: proxy.size) })
                     }),
@@ -141,7 +145,7 @@ final class IslandDownloadsPlugin: MacToolsPlugin, PluginSettingsPresenting {
             if value, !trusted { requestPermissionGuidance?(ID.accessibility) }
         case let .setBoolean(id, value) where id == ID.notify:
             storage.set(value, forKey: ID.notify)
-            if value { DownloadNotifier.requestAuthorizationIfNeeded() }
+            requestNotificationsIfReady()
         case .invoke(controlID: ID.chooseFolder):
             service.chooseFolder()
         case .invoke(controlID: ID.forgetFolder):
@@ -152,27 +156,59 @@ final class IslandDownloadsPlugin: MacToolsPlugin, PluginSettingsPresenting {
         onStateChange?()
     }
 
+    /// Starts only on the camera island with macOS 27; anywhere else nothing runs and the plugin
+    /// reports itself unavailable. The folder is watched only once one is chosen, and notification
+    /// permission is asked for only then.
     func activate(context: PluginRuntimeContext) {
         active = true
         trusted = AXIsProcessTrusted()
+        // The built-in display can come back later (a closed lid), and with it the island.
+        screens = NotificationCenter.default
+            .publisher(for: NSApplication.didChangeScreenParametersNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.startIfSupported() }
+        startIfSupported()
+    }
+
+    private func startIfSupported() {
+        guard active, !running else { return }
+        if !supported { supported = DownloadIslandController.notchAnchor() != nil }
+        guard supported else { return }
+        running = true
         service.onArrival = { [weak self] item in
             guard let self, self.active, self.notify else { return }
             DownloadNotifier.post(item)
         }
-        // The widget's state follows the folder and whether something downloads.
+        // The widget's state follows the folder and whether something downloads; a folder chosen
+        // is also when notification permission is first asked for.
         observation = service.objectWillChange
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
-            .sink { [weak self] _ in self?.onStateChange?() }
+            .sink { [weak self] _ in
+                self?.requestNotificationsIfReady()
+                self?.onStateChange?()
+            }
         service.enabled = true
         service.syncWithPreferences()
         island.enabled = liveProgress
         island.start()
-        if notify { DownloadNotifier.requestAuthorizationIfNeeded() }
+        requestNotificationsIfReady()
+        onStateChange?()
+    }
+
+    private var askedForNotifications = false
+
+    private func requestNotificationsIfReady() {
+        guard running, notify, service.folderName != nil, !askedForNotifications else { return }
+        askedForNotifications = true
+        DownloadNotifier.requestAuthorizationIfNeeded()
     }
 
     func deactivate(reason: PluginDeactivationReason) {
         active = false
+        screens = nil
         observation = nil
+        guard running else { return }
+        running = false
         island.stop()
         service.onArrival = nil
         service.enabled = false
