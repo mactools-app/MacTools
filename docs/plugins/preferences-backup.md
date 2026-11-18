@@ -40,6 +40,8 @@ Keep compact tests for round trips, excluded/local-state preservation, invalid/f
 
 After a focused test build, run `scripts/testing/preferences-backup/run.sh` from an Accessibility-authorized terminal. It creates a new temporary evidence directory, synthetic preference suites, a target window, and a separate denied-permission app identity. It does not install, sign, publish, replace installed apps, copy user settings, or change permission grants. The granted check briefly moves the pointer over its owned window; run it while not interacting with the desktop.
 
+Set `TEST_DERIVED_DATA` in the script's environment to choose a custom test build directory. The script builds its XCTest and links the desktop helper using the same setting.
+
 The check covers actual modifier movement, centered-guide display and snap, relaunch persistence, denied-permission preservation, real host action dependencies, native export screenshots in four languages, an unresolved Right Click app row, accessibility labels, Return/Escape, and disclosure activation. Review the generated images and AX reports; ordinary Tab traversal follows the Mac's Keyboard Navigation setting. The on-demand XCTest is skipped during normal CI. Synthetic preference domains are removed on exit; evidence files remain for review.
 
 Run `TEST_RUNNER_MACTOOLS_RUN_DESKTOP_TESTS=1 make test TEST_FILTER=InputRemappingModelsTests/testMountedEditorPreservesCloudRestoredRuleOnSubsequentToggle` to verify that an open Input Remapping editor retains a cloud-restored action after its next toggle. It uses a synthetic settings window and injected input services, with no global input events or live cloud transport.

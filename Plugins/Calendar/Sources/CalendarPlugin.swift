@@ -45,12 +45,14 @@ final class CalendarPlugin: MacToolsPlugin {
 
     private enum PermissionID {
         static let calendarEvents = "calendar-events"
+        static let calendarReminders = "calendar-reminders"
         static let calendarAutomation = "calendar-automation"
     }
 
     private enum ControlID {
         static let weekStartDay = "week-start-day"
         static let showsRecentAgenda = "show-recent-agenda"
+        static let showsReminders = "show-reminders"
         static let agendaDirection = "agenda-direction"
         static let agendaDayCount = "agenda-day-count"
         static let alternateCalendar = "alternate-calendar"
@@ -117,6 +119,7 @@ final class CalendarPlugin: MacToolsPlugin {
             localization: localization,
             agendaRange: self.settingsStore.agendaRange,
             showsRecentAgenda: self.settingsStore.showsRecentAgenda,
+            showsReminders: self.settingsStore.showsReminders,
             alternateCalendar: self.settingsStore.alternateCalendar,
             calendarProvider: { CalendarComponentCalendars.gregorian() }
         )
@@ -146,6 +149,15 @@ final class CalendarPlugin: MacToolsPlugin {
                 description: localization.string(
                     "permission.events.description",
                     defaultValue: "读取系统日历事件，用于在日历组件中显示当天日程。"
+                )
+            ),
+            PluginPermissionRequirement(
+                id: PermissionID.calendarReminders,
+                kind: .calendarFullAccess,
+                title: localization.string("permission.reminders.title", defaultValue: "系统提醒事项"),
+                description: localization.string(
+                    "permission.reminders.description",
+                    defaultValue: "读取系统提醒事项，用于在近期日程中显示到期提醒。"
                 )
             ),
             PluginPermissionRequirement(
@@ -222,6 +234,16 @@ final class CalendarPlugin: MacToolsPlugin {
                 control: .toggle(isOn: settingsStore.showsRecentAgenda)
             ),
             PluginSettingsRow(
+                id: ControlID.showsReminders,
+                title: localization.string("settings.reminders.show", defaultValue: "显示提醒事项"),
+                description: localization.string(
+                    "settings.reminders.description",
+                    defaultValue: "在近期日程中显示到期提醒，需要提醒事项访问权限。"
+                ),
+                isEnabled: settingsStore.showsRecentAgenda,
+                control: .toggle(isOn: settingsStore.showsReminders)
+            ),
+            PluginSettingsRow(
                 id: ControlID.agendaDirection,
                 title: localization.string("settings.agenda.direction", defaultValue: "时间范围"),
                 isEnabled: settingsStore.showsRecentAgenda,
@@ -266,6 +288,9 @@ final class CalendarPlugin: MacToolsPlugin {
                 onRequestAccess: { [weak self] in
                     self?.handleCalendarEventsPermissionAction()
                 },
+                onRequestReminderAccess: { [weak self] in
+                    self?.handleCalendarRemindersPermissionAction()
+                },
                 onContentHeightChange: { [weak self] height in
                     guard !context.isPreview else { return }
                     self?.componentContentHeightDidChange(height)
@@ -305,6 +330,8 @@ final class CalendarPlugin: MacToolsPlugin {
         switch permissionID {
         case PermissionID.calendarEvents:
             return calendarEventsPermissionState
+        case PermissionID.calendarReminders:
+            return calendarRemindersPermissionState
         case PermissionID.calendarAutomation:
             return PluginPermissionState(
                 isGranted: false,
@@ -325,6 +352,8 @@ final class CalendarPlugin: MacToolsPlugin {
         switch id {
         case PermissionID.calendarEvents:
             handleCalendarEventsPermissionAction()
+        case PermissionID.calendarReminders:
+            handleCalendarRemindersPermissionAction()
         case PermissionID.calendarAutomation:
             openPrivacyPane(anchor: "Privacy_Automation")
         default:
@@ -348,6 +377,10 @@ final class CalendarPlugin: MacToolsPlugin {
             guard settingsStore.showsRecentAgenda != value else { return }
             settingsStore.setShowsRecentAgenda(value)
             updateAgendaConfiguration()
+        case let .setBoolean(controlID, value) where controlID == ControlID.showsReminders:
+            guard settingsStore.showsReminders != value else { return }
+            settingsStore.setShowsReminders(value)
+            updateAgendaConfiguration()
         case let .setSelection(controlID, optionID) where controlID == ControlID.agendaDirection:
             guard let direction = CalendarAgendaDirection(rawValue: optionID) else { return }
             settingsStore.setAgendaRange(CalendarAgendaRange(
@@ -368,7 +401,11 @@ final class CalendarPlugin: MacToolsPlugin {
 
     private func updateAgendaConfiguration() {
         measuredComponentSpanHeight = nil
-        viewModel.configureAgenda(range: settingsStore.agendaRange, isVisible: settingsStore.showsRecentAgenda)
+        viewModel.configureAgenda(
+            range: settingsStore.agendaRange,
+            isVisible: settingsStore.showsRecentAgenda,
+            showsReminders: settingsStore.showsReminders
+        )
         onStateChange?()
     }
 
@@ -402,6 +439,39 @@ final class CalendarPlugin: MacToolsPlugin {
         }
     }
 
+    private var calendarRemindersPermissionState: PluginPermissionState {
+        guard eventService.hostProvidesReminderPrivacyDescription else {
+            return PluginPermissionState(
+                isGranted: false,
+                footnote: localization.string(
+                    "permission.reminders.hostUpdateRequired",
+                    defaultValue: "当前版本的 MacTools 未包含提醒事项权限描述，请更新 MacTools 后重试。"
+                )
+            )
+        }
+        switch eventService.remindersAuthorization {
+        case .fullAccess:
+            return PluginPermissionState(isGranted: true, footnote: nil)
+        case .notDetermined:
+            return PluginPermissionState(
+                isGranted: false,
+                footnote: localization.string(
+                    "permission.reminders.notDetermined",
+                    defaultValue: "点击请求授权后，系统会询问是否允许读取提醒事项。"
+                )
+            )
+        case let .denied(message):
+            return PluginPermissionState(
+                isGranted: false,
+                footnote: localization.format(
+                    "permission.reminders.denied",
+                    defaultValue: "%@。可在系统设置的提醒事项隐私项中重新允许。",
+                    message
+                )
+            )
+        }
+    }
+
     private func handleCalendarEventsPermissionAction() {
         Task { @MainActor [weak self] in
             guard let self else {
@@ -411,6 +481,24 @@ final class CalendarPlugin: MacToolsPlugin {
             let authorization = await eventService.requestAccess()
             if case .denied = authorization {
                 openPrivacyPane(anchor: "Privacy_Calendars")
+            }
+            viewModel.refreshIfVisible()
+            onStateChange?()
+        }
+    }
+
+    private func handleCalendarRemindersPermissionAction() {
+        Task { @MainActor [weak self] in
+            guard let self else {
+                return
+            }
+
+            let authorization = await eventService.requestReminderAccess()
+            // A host that predates the Reminders usage descriptions cannot grant
+            // access; the permission card already prompts for an app update, so
+            // opening the system privacy pane would only mislead the user.
+            if case .denied = authorization, eventService.hostProvidesReminderPrivacyDescription {
+                openPrivacyPane(anchor: "Privacy_Reminders")
             }
             viewModel.refreshIfVisible()
             onStateChange?()
@@ -442,7 +530,11 @@ extension CalendarPlugin: PluginPortablePreferencesProviding, PluginPortablePref
         measuredComponentSpanHeight = nil
         viewModel.setWeekStartDay(settingsStore.weekStartDay)
         viewModel.setAlternateCalendar(settingsStore.alternateCalendar)
-        viewModel.configureAgenda(range: settingsStore.agendaRange, isVisible: settingsStore.showsRecentAgenda)
+        viewModel.configureAgenda(
+            range: settingsStore.agendaRange,
+            isVisible: settingsStore.showsRecentAgenda,
+            showsReminders: settingsStore.showsReminders
+        )
         onStateChange?()
         return true
     }

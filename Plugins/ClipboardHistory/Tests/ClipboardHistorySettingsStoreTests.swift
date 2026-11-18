@@ -21,6 +21,25 @@ final class ClipboardHistorySettingsStoreTests: XCTestCase {
         XCTAssertTrue(ClipboardHistorySettingsStore(storage: storage).remembersPanelFilters)
     }
 
+    func testPanelPreviewPreferencePersistsRestoresAndRollsBackFailedWrites() throws {
+        let storage = RetentionSettingsStorage()
+        let settings = ClipboardHistorySettingsStore(storage: storage)
+        XCTAssertTrue(settings.showsPanelPreview)
+        settings.showsPanelPreview = false
+        XCTAssertFalse(ClipboardHistorySettingsStore(storage: storage).showsPanelPreview)
+        let destination = ClipboardHistorySettingsStore(storage: RetentionSettingsStorage())
+        XCTAssertTrue(destination.restorePortableBackup(try XCTUnwrap(settings.portableBackup())))
+        XCTAssertFalse(destination.showsPanelPreview)
+
+        storage.blockedKeys = ["history-panel-show-preview"]
+        settings.showsPanelPreview = true
+        XCTAssertFalse(settings.showsPanelPreview)
+        XCTAssertFalse(ClipboardHistorySettingsStore(storage: storage).showsPanelPreview)
+        storage.blockedKeys = []
+        settings.showsPanelPreview = true
+        XCTAssertTrue(ClipboardHistorySettingsStore(storage: storage).showsPanelPreview)
+    }
+
     func testPortableRetentionDeferralIsDurableAndNeverTransfers() throws {
         let source = ClipboardHistorySettingsStore(storage: RetentionSettingsStorage())
         source.expiration = .oneDay

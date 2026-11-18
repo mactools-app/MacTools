@@ -5219,7 +5219,8 @@
         "privacy": {
           "allowsUserConfiguredDomains": false,
           "dataObserved": [
-            "calendar-events"
+            "calendar-events",
+            "reminders"
           ],
           "dataPersisted": [
             "plugin-configuration"

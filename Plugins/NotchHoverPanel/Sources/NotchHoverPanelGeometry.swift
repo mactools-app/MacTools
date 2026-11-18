@@ -35,13 +35,15 @@ enum NotchHoverGeometry {
     static func displays(
         from screens: [NotchHoverScreenSnapshot],
         triggerWidth: CGFloat,
-        verticalTriggerReach: CGFloat = defaultVerticalTriggerReach
+        verticalTriggerReach: CGFloat = defaultVerticalTriggerReach,
+        enableBelowTrigger: Bool = true
     ) -> [NotchHoverDisplay] {
         screens.compactMap {
             display(
                 for: $0,
                 triggerWidth: triggerWidth,
-                verticalTriggerReach: verticalTriggerReach
+                verticalTriggerReach: verticalTriggerReach,
+                enableBelowTrigger: enableBelowTrigger
             )
         }
     }
@@ -49,7 +51,8 @@ enum NotchHoverGeometry {
     static func display(
         for screen: NotchHoverScreenSnapshot,
         triggerWidth: CGFloat,
-        verticalTriggerReach: CGFloat = defaultVerticalTriggerReach
+        verticalTriggerReach: CGFloat = defaultVerticalTriggerReach,
+        enableBelowTrigger: Bool = true
     ) -> NotchHoverDisplay? {
         // Mirrored secondary screens repeat the built-in display's menu bar and
         // would otherwise create two competing notch triggers.
@@ -91,16 +94,19 @@ enum NotchHoverGeometry {
         ).intersection(screen.frame)
 
         // Extend the trigger directly below the notch so moving upward toward
-        // the notch from the content area also reveals the panel.
-        let belowNotchTrigger = CGRect(
-            x: notchFrame.minX,
-            y: notchFrame.minY - verticalReach,
-            width: notchFrame.width,
-            height: notchFrame.height + verticalReach
-        ).intersection(screen.frame)
-
-        let triggers = [leftTrigger, rightTrigger, belowNotchTrigger]
-            .filter { !$0.isEmpty }
+        // the notch from the content area also reveals the panel. The lower
+        // trigger can be disabled independently of the side triggers.
+        var triggers = [leftTrigger, rightTrigger]
+        if enableBelowTrigger {
+            let belowNotchTrigger = CGRect(
+                x: notchFrame.minX,
+                y: notchFrame.minY - verticalReach,
+                width: notchFrame.width,
+                height: notchFrame.height + verticalReach
+            ).intersection(screen.frame)
+            triggers.append(belowNotchTrigger)
+        }
+        triggers = triggers.filter { !$0.isEmpty }
         guard !triggers.isEmpty else { return nil }
 
         return NotchHoverDisplay(

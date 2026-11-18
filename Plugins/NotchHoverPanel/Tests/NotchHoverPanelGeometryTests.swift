@@ -62,6 +62,28 @@ final class NotchHoverPanelGeometryTests: XCTestCase {
         ), "The trigger below the notch stays within the notch width.")
     }
 
+    func testDisablingBelowTriggerKeepsOnlySideTriggers() throws {
+        let display = try XCTUnwrap(
+            makeDisplay(triggerWidth: 52, enableBelowTrigger: false)
+        )
+
+        XCTAssertEqual(display.triggerRects.count, 2, "Only the side triggers remain.")
+        XCTAssertEqual(display.triggerRects[0], CGRect(x: 568, y: 950, width: 52, height: 32))
+        XCTAssertEqual(display.triggerRects[1], CGRect(x: 892, y: 950, width: 52, height: 32))
+        XCTAssertFalse(NotchHoverGeometry.isPointerActive(
+            CGPoint(x: 756, y: 900),
+            triggers: display.triggerRects,
+            notchFrame: display.notchFrame,
+            panelFrame: nil
+        ), "Pointer below the notch must not trigger when the lower trigger is disabled.")
+        XCTAssertTrue(NotchHoverGeometry.isPointerActive(
+            CGPoint(x: 600, y: 960),
+            triggers: display.triggerRects,
+            notchFrame: display.notchFrame,
+            panelFrame: nil
+        ), "Side triggers keep working when the lower trigger is disabled.")
+    }
+
     func testVerticalTriggerReachIsClampedAndRespected() throws {
         let minimum = try XCTUnwrap(makeDisplay(triggerWidth: 52, verticalTriggerReach: 1))
         let maximum = try XCTUnwrap(makeDisplay(triggerWidth: 52, verticalTriggerReach: 500))
@@ -133,7 +155,8 @@ final class NotchHoverPanelGeometryTests: XCTestCase {
 
     private func makeDisplay(
         triggerWidth: CGFloat,
-        verticalTriggerReach: CGFloat = NotchHoverGeometry.defaultVerticalTriggerReach
+        verticalTriggerReach: CGFloat = NotchHoverGeometry.defaultVerticalTriggerReach,
+        enableBelowTrigger: Bool = true
     ) -> NotchHoverDisplay? {
         NotchHoverGeometry.display(
             for: NotchHoverScreenSnapshot(
@@ -146,7 +169,8 @@ final class NotchHoverPanelGeometryTests: XCTestCase {
                 isInMirrorSet: false
             ),
             triggerWidth: triggerWidth,
-            verticalTriggerReach: verticalTriggerReach
+            verticalTriggerReach: verticalTriggerReach,
+            enableBelowTrigger: enableBelowTrigger
         )
     }
 }

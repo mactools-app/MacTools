@@ -25,6 +25,8 @@ Adapted from the [Snap screenshot implementation](https://github.com/idev19/Snap
 
 Escape closes the active selection interface. Screenshot and Quick Capture global shortcuts are unassigned by default and are configured above the output section in the plugin's settings. While scrolling capture or recording is active, the capture action finishes that session instead of opening another selection interface.
 
+During screenshot annotation, Command-1 through Command-9 select Rectangle, Ellipse, Line, Arrow, Pen, Text, Number, Mosaic, and Spotlight in toolbar order. Existing letter shortcuts remain available; tooltips show both forms. Press the active tool's shortcut again to return to selection/editing. Command-number commits an active text annotation before switching tools; ordinary typing and text-editing shortcuts remain native, and input-method composition is left uninterrupted. These shortcuts apply to annotation tools, not the capture-mode bar or global capture actions.
+
 ## Permissions and compatibility
 
 The plugin supports macOS 14 or later on Apple silicon and Intel. Region recording additionally requires macOS 15 or later; screenshot editing, recognition, pinning, and scrolling capture remain available on macOS 14.

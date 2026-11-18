@@ -33,6 +33,7 @@ final class ClipboardHistorySettingsStore: ObservableObject {
         static let didPresentInitialSetup = "did-present-initial-setup"
         static let sequentialHUDDismissal = "sequential-hud-dismissal"
         static let hidesSequentialHUDPreview = "sequential-hud-hide-preview"
+        static let showsPanelPreview = "history-panel-show-preview"
         static let keywordExpansionEnabled = "saved-keyword-expansion-enabled"
         static let maximumExpandedTextByteCount = "snippet-maximum-expanded-text-byte-count"
         static let panelPositions = "history-panel-positions-by-display"
@@ -233,6 +234,25 @@ final class ClipboardHistorySettingsStore: ObservableObject {
         }
     }
 
+    @Published var showsPanelPreview: Bool {
+        didSet {
+            guard !isApplyingPortableSnapshot, showsPanelPreview != oldValue else { return }
+            let candidate = showsPanelPreview
+            let previous = portableStore.currentValues()
+            guard portableStore.commit([Key.showsPanelPreview: .boolean(candidate)]) else {
+                isApplyingPortableSnapshot = true
+                showsPanelPreview = oldValue
+                isApplyingPortableSnapshot = false
+                return
+            }
+            if previous != portableStore.currentValues() {
+                portableRevision &+= 1
+                onPersistentPreferencesChange?()
+            }
+            onChange?()
+        }
+    }
+
     @Published var isKeywordExpansionEnabled: Bool {
         didSet {
             storage.set(isKeywordExpansionEnabled, forKey: Key.keywordExpansionEnabled)
@@ -263,6 +283,7 @@ final class ClipboardHistorySettingsStore: ObservableObject {
             Key.sequentialHUDDismissal: integer(10, allowed: ClipboardSequentialHUDDismissal.allCases.map(\.rawValue)),
             Key.hidesSequentialHUDPreview: .boolean(false),
             Key.remembersPanelFilters: .boolean(false),
+            Key.showsPanelPreview: .boolean(true),
             Key.maximumExpandedTextByteCount: integer(ClipboardSnippetExpansionContext.defaultMaximumUTF8ByteCount, allowed: allowedExpandedTextByteCounts),
             Key.excludedApplications: .data(try! JSONEncoder().encode(defaults.excludedApplications), maximumBytes: 256 * 1_024) { data in
                 guard let apps = try? JSONDecoder().decode([ClipboardExcludedApplication].self, from: data), apps.count <= 512,
@@ -276,8 +297,8 @@ final class ClipboardHistorySettingsStore: ObservableObject {
     private var portableStore: PortablePreferencesStore { Self.portableStore(storage: storage) }
     private static var portableKeys: Set<String> {
         [Key.maximumItemCount, Key.expirationDays, Key.maximumItemByteCount, Key.maximumTotalPayloadByteCount,
-         Key.sequentialHUDDismissal, Key.hidesSequentialHUDPreview, Key.maximumExpandedTextByteCount, Key.excludedApplications,
-         Key.remembersPanelFilters]
+         Key.sequentialHUDDismissal, Key.hidesSequentialHUDPreview, Key.showsPanelPreview,
+         Key.maximumExpandedTextByteCount, Key.excludedApplications, Key.remembersPanelFilters]
     }
 
     var isRetentionDeferred: Bool {
@@ -317,6 +338,7 @@ final class ClipboardHistorySettingsStore: ObservableObject {
         excludedApplications = restored.excludedApplications
         sequentialHUDDismissal = restored.sequentialHUDDismissal
         hidesSequentialHUDPreview = restored.hidesSequentialHUDPreview
+        showsPanelPreview = restored.showsPanelPreview
         maximumExpandedTextByteCount = restored.maximumExpandedTextByteCount
         remembersPanelFilters = restored.remembersPanelFilters
         if !remembersPanelFilters {
@@ -393,6 +415,7 @@ final class ClipboardHistorySettingsStore: ObservableObject {
             rawValue: storage.integer(forKey: Key.sequentialHUDDismissal)
         ) ?? .tenSeconds
         hidesSequentialHUDPreview = storage.bool(forKey: Key.hidesSequentialHUDPreview)
+        showsPanelPreview = storage.object(forKey: Key.showsPanelPreview) as? Bool ?? true
         let keywordExpansionEnabled = storage.bool(forKey: Key.keywordExpansionEnabled)
         maximumExpandedTextByteCount = Self.validExpandedTextByteCount(storage.integer(forKey: Key.maximumExpandedTextByteCount))
         isKeywordExpansionEnabled = keywordExpansionEnabled

@@ -2447,6 +2447,12 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
             self?.invalidatePendingItemAction()
             self?.historyController.settings.recordPanelFilters(filters)
         }
+        historyController.settings.$showsPanelPreview.dropFirst().sink { [weak self] showsPreview in
+            DispatchQueue.main.async { [weak self] in
+                guard let self, self.historyController.settings.showsPanelPreview == showsPreview else { return }
+                self.updatePreviewVisibility(showsPreview)
+            }
+        }.store(in: &itemSubscriptions)
         PluginRuntimeLocalization.source.$revision.dropFirst().sink { [weak self] _ in
             DispatchQueue.main.async { [weak self] in self?.refreshPanelLocalization() }
         }.store(in: &itemSubscriptions)
@@ -2599,10 +2605,9 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
             pointer: NSEvent.mouseLocation,
             screens: screens
         ) {
-            panel.minSize = NSSize(
-                width: min(860, screen.visibleFrame.width),
-                height: min(540, screen.visibleFrame.height)
-            )
+            let minimum = Self.minimumPanelSize(showsPreview: historyController.settings.showsPanelPreview)
+            panel.minSize = NSSize(width: min(minimum.width, screen.visibleFrame.width),
+                                   height: min(minimum.height, screen.visibleFrame.height))
             let frame = ClipboardHistoryPanelPlacement.frame(
                 size: panel.frame.size,
                 on: screen,
@@ -2612,6 +2617,42 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
         }
         PluginPanelPresentation.present(panel)
         positionTracker.reset(frame: panel.frame, screens: screens)
+    }
+
+    private static func minimumPanelSize(showsPreview: Bool) -> NSSize {
+        showsPreview ? NSSize(width: 860, height: 540) : NSSize(width: 480, height: 360)
+    }
+
+    private func updatePreviewVisibility(_ showsPreview: Bool) {
+        if !showsPreview {
+            previewCache.cancelPendingLoads()
+            richTextPreviewCache.invalidatePendingLoad()
+        }
+        guard let panel else { return }
+        let originalFrame = panel.frame
+        let visibleFrame = panel.screen?.visibleFrame ?? NSScreen.main?.visibleFrame
+        let requestedMinimum = Self.minimumPanelSize(showsPreview: showsPreview)
+        let minimum = NSSize(
+            width: min(requestedMinimum.width, visibleFrame?.width ?? requestedMinimum.width),
+            height: min(requestedMinimum.height, visibleFrame?.height ?? requestedMinimum.height)
+        )
+        panel.minSize = minimum
+        guard showsPreview else { return }
+        var frame = originalFrame
+        frame.size.width = max(frame.width, minimum.width)
+        frame.size.height = max(frame.height, minimum.height)
+        frame.origin.y = originalFrame.maxY - frame.height
+        if let visibleFrame {
+            frame.size.width = min(frame.width, visibleFrame.width)
+            frame.size.height = min(frame.height, visibleFrame.height)
+            frame.origin.x = min(max(frame.minX, visibleFrame.minX), visibleFrame.maxX - frame.width)
+            frame.origin.y = min(max(frame.minY, visibleFrame.minY), visibleFrame.maxY - frame.height)
+        }
+        guard frame != panel.frame else { return }
+        isPositioningPanel = true
+        defer { isPositioningPanel = false }
+        panel.setFrame(frame, display: true)
+        positionTracker.reset(frame: panel.frame, screens: ClipboardHistoryPanelScreen.currentScreens())
     }
 
     private func beginPanelUserMovement() {
@@ -2826,7 +2867,7 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
 
     private func makePanel() -> KeyablePanel {
         let panel = KeyablePanel(
-            contentRect: NSRect(x: 0, y: 0, width: 900, height: 620),
+            contentRect: NSRect(x: 0, y: 0, width: historyController.settings.showsPanelPreview ? 900 : 480, height: 620),
             styleMask: Self.panelStyleMask,
             backing: .buffered,
             defer: false
@@ -2848,7 +2889,7 @@ final class ClipboardHistoryPanelController: NSObject, NSWindowDelegate {
         panel.level = .floating
         // This persistent workspace follows the chosen Space when summoned.
         panel.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary, .canJoinAllApplications, .ignoresCycle]
-        panel.minSize = NSSize(width: 860, height: 540)
+        panel.minSize = Self.minimumPanelSize(showsPreview: historyController.settings.showsPanelPreview)
         panel.delegate = self
         windowSnapCoordinator.attach(to: panel)
         panel.contentView = ClipboardHistoryWindowContent.makeHostingView(
@@ -4368,6 +4409,9 @@ struct ClipboardHistoryPanelView: View {
             // The companion has its own hosting view and needs the updated entries.
             if model.isActionPalettePresented { onRefreshActionPalette(actionMenuEntries()) }
         }
+        .onChange(of: settings.showsPanelPreview) { _, _ in
+            if model.isActionPalettePresented { onRefreshActionPalette(actionMenuEntries()) }
+        }
         .onChange(of: model.actionContext) { _, _ in
             if model.isActionPalettePresented { onRefreshActionPalette(actionMenuEntries()) }
         }
@@ -4613,10 +4657,12 @@ struct ClipboardHistoryPanelView: View {
             HStack(spacing: Layout.columnSpacing) {
                 historyList
                     .frame(width: listWidth(availableWidth: geometry.size.width))
-                Divider()
-                    .frame(width: Layout.columnDividerWidth)
-                detail
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                if settings.showsPanelPreview {
+                    Divider()
+                        .frame(width: Layout.columnDividerWidth)
+                    detail
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
             }
         }
         .disabled(model.runtimeStatus.isClearingHistory || model.isPreparingPresentation)
@@ -4715,8 +4761,36 @@ struct ClipboardHistoryPanelView: View {
                 .frame(maxWidth: .infinity)
             }
 
-            filterControlBar
+            HStack(alignment: .top, spacing: 10) {
+                filterControlBar
+                Button(action: togglePreview) {
+                    Image(systemName: "sidebar.right")
+                        .flipsForRightToLeftLayoutDirection(true)
+                        .frame(width: 28, height: 28)
+                        .foregroundStyle(settings.showsPanelPreview ? Color.accentColor : Color.secondary)
+                        .background(settings.showsPanelPreview ? Color.accentColor.opacity(0.12) : Color.clear,
+                                    in: RoundedRectangle(cornerRadius: 6))
+                }
+                .buttonStyle(.plain)
+                .help(previewToggleTitle)
+                .accessibilityLabel(previewToggleTitle)
+                .accessibilityValue(settings.showsPanelPreview
+                    ? localization.string("panel.preview.visible", defaultValue: "预览已显示")
+                    : localization.string("panel.preview.hidden", defaultValue: "预览已隐藏"))
+                .accessibilityIdentifier("mactools.clipboard-history.toggle-preview")
+            }
         }
+    }
+
+    private var previewToggleTitle: String {
+        settings.showsPanelPreview
+            ? localization.string("panel.preview.hide", defaultValue: "隐藏预览")
+            : localization.string("panel.preview.show", defaultValue: "显示预览")
+    }
+
+    private func togglePreview() {
+        settings.showsPanelPreview.toggle()
+        model.requestSearchFocus()
     }
 
     private var searchPlaceholder: String {
@@ -4755,6 +4829,7 @@ struct ClipboardHistoryPanelView: View {
     }
 
     private func listWidth(availableWidth: CGFloat) -> CGFloat {
+        guard settings.showsPanelPreview else { return max(0, availableWidth) }
         let columnsWidth = availableWidth - Layout.columnSpacing * 2 - Layout.columnDividerWidth
         return max(Layout.listMinimumWidth, columnsWidth * 0.4)
     }
@@ -4899,8 +4974,9 @@ struct ClipboardHistoryPanelView: View {
                     proxy.scrollTo(itemID)
                 }
                 .task(id: ClipboardPreviewRequestID(key: model.selectedItemID,
-                    presentation: model.previewResetRevision, isActive: model.isPreviewPresentationActive)) {
-                    guard model.isPreviewPresentationActive,
+                    presentation: model.previewResetRevision,
+                    isActive: model.isPreviewPresentationActive && settings.showsPanelPreview)) {
+                    guard model.isPreviewPresentationActive, settings.showsPanelPreview,
                           let item = selectedItem,
                           item.kind == .image, !item.hasCompletedImageTextIndexing,
                           await ClipboardPreviewLoadPolicy.waitForSelection() else { return }
@@ -5795,10 +5871,14 @@ struct ClipboardHistoryPanelView: View {
     }
 
     private func actionMenuEntries() -> [ClipboardHistoryExportMenuEntry] {
-        let filters = filterActionMenuEntries()
+        let previewEntry = ClipboardHistoryExportMenuEntry(
+            title: previewToggleTitle, action: .togglePreview, group: .history,
+            systemImage: "sidebar.right"
+        )
+        let windowEntries = filterActionMenuEntries() + [previewEntry]
         guard model.canPasteCurrentResults,
-              !model.isActionPalettePresented || presentedActionContext == model.actionContext else { return filters }
-        var entries = rawActionMenuEntries() + filters
+              !model.isActionPalettePresented || presentedActionContext == model.actionContext else { return windowEntries }
+        var entries = rawActionMenuEntries() + windowEntries
         if model.actionItemIDs.count == 1, let itemID = model.actionItemIDs.first {
             entries.insert(ClipboardHistoryExportMenuEntry(
                 title: itemShortcutAssignment(itemID, .original) == nil
@@ -6272,12 +6352,15 @@ struct ClipboardHistoryPanelView: View {
             settings.setRemembersPanelFilters(remembers, current: model.filters)
             model.requestSearchFocus()
             return
+        case .togglePreview:
+            togglePreview()
+            return
         default: break
         }
         if let expectedContext, !model.canPerformAction(in: expectedContext) { return }
         let ids = expectedContext?.itemIDs ?? model.actionItemIDs
         switch action {
-        case .filter, .rememberFilters: break
+        case .filter, .rememberFilters, .togglePreview: break
         case .paste:
             if let id = ids.first {
                 pastePanelItem(id, asPlainText: false)
@@ -6583,7 +6666,7 @@ struct ClipboardHistoryPanelView: View {
              .share, .combinedExport, .startQueue, .assignItemShortcut, .requestExport, .saveToLibrary, .delete,
              .createSnippet, .removeFromHistory, .removeFromSaved,
              .editSaved, .toggleMultiSelection, .toggleFocusedSelection,
-             .toggleCollection, .ignoreNextCopy,
+             .toggleCollection, .togglePreview, .ignoreNextCopy,
              .clearAll, .filter, .rememberFilters:
             return
         }
@@ -7530,6 +7613,7 @@ struct ClipboardHistoryExportMenuEntry: Equatable, Identifiable {
         case toggleMultiSelection
         case toggleFocusedSelection
         case toggleCollection
+        case togglePreview
         case ignoreNextCopy
         case clearAll
     }
