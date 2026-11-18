@@ -16,7 +16,14 @@ Not ported: Vorssaint's closed-island strip and working indicator, turn-finished
 - OpenCode: its SQLite database, read only. GitHub Copilot: its session event logs.
 - Prices: the bundled `agent-prices.json`. With price updates on, the same public list is fetched at most once a day from `raw.githubusercontent.com`; the request carries no usage.
 
-Logs are read in place. Only counters are kept: in memory, and in an archive in the plugin's cache folder so later launches read only new lines. Prompts, replies and files are never stored, and usage never leaves the Mac. Disabling or removing the plugin removes the archive.
+Logs are read in place. What is kept, in memory and in an archive in the plugin's cache folder so later launches read only new lines: the usage counts with the model, project name and session id each belongs to, and each log's path and how far it was read. Prompts, replies and file contents are never stored, and usage never leaves the Mac. Disabling or removing the plugin removes the archive.
+
+## Coming from the earlier AI Usage
+
+This page replaces the earlier plugin, which queried Codex and Claude for their plan limits and could show them in the menu bar.
+
+- The Codex and Claude switches carry over once, and a backup made before the update restores them.
+- The menu bar item and the refresh interval are gone: the page reads the agents' own logs while it is on screen, and there is no status item.
 
 ## Performance
 
