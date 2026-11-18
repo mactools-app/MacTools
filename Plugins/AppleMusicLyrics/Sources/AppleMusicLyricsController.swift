@@ -77,7 +77,9 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
     private static let allowedOpacityRange: ClosedRange<Double> = 0.1...1.0
     private static let allowedTextOpacityRange: ClosedRange<Double> = 0.1...1.0
     private static let allowedCornerRadiusRange: ClosedRange<Double> = 0...28
-    private static let pollInterval: TimeInterval = 0.5
+    /// Poll interval for refreshing the now-playing state. Internal var so tests
+    /// can disable the timer for deterministic timing of slow-query scenarios.
+    static var pollInterval: TimeInterval = 0.5
     /// Maximum time to wait for a single Music.app AppleScript round trip.
     private static let fetchTimeout: TimeInterval = 1.5
     /// Spaced retries after a lookup finds no lyrics yet; Music may still be
@@ -677,20 +679,19 @@ final class AppleMusicLyricsController: AppleMusicLyricsControlling {
     /// Invalidates the in-flight or queued Music request so a late reply is
     /// discarded instead of reopening the window or applying stale state.
     ///
-    /// The request slot (`isFetchInFlight`) is deliberately left occupied when
-    /// a request is actually in flight: it stays held until the underlying
-    /// fetch finishes, so a re-enable during a slow query cannot enqueue a
-    /// second request behind it. The completion (or the skip check at the head
-    /// of the queue block) releases the slot.
+    /// The request slot (`isFetchInFlight`) is deliberately left occupied
+    /// regardless of result validity: it is released only when the request's
+    /// own work finishes (the completion) or is skipped at the head of the
+    /// queue. Repeated invalidation only marks the result unwanted and never
+    /// frees the slot, so a re-enable during a slow query cannot enqueue a
+    /// second request behind the first. Because the slot stays held, at most
+    /// one request is in the pipeline at a time, so a completion always
+    /// operates on its own request and cancels only its own timeout.
     private func invalidateFetchRequest() {
-        let hadActiveRequest = activeFetchRequestID != nil
         activeFetchRequestID = nil
         pendingTimeoutTask?.cancel()
         pendingTimeoutTask = nil
         fetchTimedOut = false
-        if !hadActiveRequest {
-            isFetchInFlight = false
-        }
     }
 
     private func notifyIfChanged() {

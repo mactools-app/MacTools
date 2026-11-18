@@ -20,7 +20,7 @@ Kept the host responsive by polling Music off the main thread with a timeout and
 
 Enforced the polling timeout at the deadline even when a slow Music reply cannot be interrupted, keeping one request in flight at a time.
 
-Kept the request slot occupied until a Music query finishes even when the feature is disabled or reset, so toggling during a slow query never queues extra requests.
+Kept the request slot occupied until a Music query finishes regardless of how often the feature is toggled, so a slow query never queues extra requests and a later reply is still applied.
 
 Declared Automation access; denial pauses polling, clears the current lyric, hides the window, and guides users to System Settings. The error clears when the feature is off or playback resumes.
 

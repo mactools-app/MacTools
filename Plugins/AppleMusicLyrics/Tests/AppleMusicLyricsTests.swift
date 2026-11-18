@@ -484,16 +484,22 @@ final class LyricsTextColorOptionTests: XCTestCase {
 private final class MockNowPlayingService: AppleMusicNowPlayingServicing, @unchecked Sendable {
     var isMusicRunning = true
     var result: Result<TrackInfo?, Error> = .success(nil)
+    /// Per-call result override, keyed by 1-based call index; falls back to
+    /// `result` when nil.
+    var resultProvider: ((Int) -> Result<TrackInfo?, Error>)?
     /// Simulated AppleScript latency; the mock sleeps on the fetch queue.
     var delay: TimeInterval = 0
+    /// Number of leading calls that should apply `delay`. Defaults to every
+    /// call so the existing slow-request tests keep their behavior.
+    var delayedCallCount = Int.max
     private(set) var fetchCount = 0
 
     func fetch() -> Result<TrackInfo?, Error> {
         fetchCount += 1
-        if delay > 0 {
+        if delay > 0, fetchCount <= delayedCallCount {
             Thread.sleep(forTimeInterval: delay)
         }
-        return result
+        return resultProvider?(fetchCount) ?? result
     }
 }
 
@@ -664,6 +670,58 @@ final class AppleMusicLyricsPollingTests: XCTestCase {
         controller.refresh()
         try? await Task.sleep(nanoseconds: 300_000_000)
         XCTAssertGreaterThan(service.fetchCount, 1, "polling must resume after the slot frees")
+    }
+
+    func testValidReplyAppliedAfterTwoOffOnCyclesDuringSlowQuery() async {
+        let storage = makeStorage()
+        let service = MockNowPlayingService()
+        // Disable the polling timer so the test can control exactly which
+        // requests run instead of spontaneous timer polls.
+        AppleMusicLyricsController.pollInterval = 3600
+        defer { AppleMusicLyricsController.pollInterval = 0.5 }
+        let track = playingTrack()
+        // Only the first (blocked) query is slow. The first two queries return
+        // a track; a later superseding refresh reports nothing playing, so a
+        // discarded valid reply would leave the displayed title empty.
+        service.delay = 2.0
+        service.delayedCallCount = 1
+        service.resultProvider = { call in
+            call <= 2 ? .success(track) : .success(nil)
+        }
+        let controller = AppleMusicLyricsController(
+            storage: storage,
+            localization: PluginLocalization(bundle: .main),
+            nowPlayingService: service
+        )
+        controller.activate()
+        controller.setEnabled(true)
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        XCTAssertEqual(service.fetchCount, 1)
+
+        // Toggle the feature off and on twice while the first query is blocked.
+        // The slot must stay occupied regardless of result validity, so neither
+        // toggle may queue a second request behind the blocked one.
+        for _ in 0..<2 {
+            controller.setEnabled(false)
+            controller.setEnabled(true)
+            try? await Task.sleep(nanoseconds: 50_000_000)
+        }
+        XCTAssertEqual(
+            service.fetchCount, 1,
+            "re-enabling during a slow query must not queue extra requests"
+        )
+
+        // Wait for the blocked query to finish (its reply is discarded) and
+        // the slot to free, then start the next query with a refresh.
+        try? await Task.sleep(nanoseconds: 2_000_000_000)
+        controller.refresh()
+        try? await Task.sleep(nanoseconds: 300_000_000)
+
+        // The refresh's valid reply must be applied, not discarded by a stale
+        // completion from the earlier request or by a queued request that was
+        // superseded.
+        XCTAssertTrue(controller.snapshot.isTrackPlaying)
+        XCTAssertEqual(controller.snapshot.currentTrackTitle, "Song")
     }
 
     func testPollNotifiesOnlyWhenDisplayedStateChanges() async {
