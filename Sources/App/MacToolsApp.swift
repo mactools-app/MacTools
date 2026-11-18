@@ -65,6 +65,10 @@ final class MacToolsAppDelegate: NSObject, NSApplicationDelegate, UNUserNotifica
             launchDisposition = .primary(recoveryRequested: false)
             return
         }
+        // Before launch finishes, as Apple requires: a click on a notification that launched
+        // MacTools arrives before instance coordination has started the runtime. The click
+        // handler needs nothing from the runtime.
+        UNUserNotificationCenter.current().delegate = self
 
         launchDisposition = .secondary(.timedOut)
         let commandHandler = instanceCommandHandler()
