@@ -51,6 +51,27 @@ final class MacToolsAppDelegateTests: XCTestCase {
         XCTAssertEqual(showSettingsCount, 2)
     }
 
+    func testAppIntentsServiceCannotQuitAppOrOpenSettings() {
+        var senderPath: String? = AppleEventSender.appIntentsServicePath
+        let delegate = MacToolsAppDelegate(
+            acceptedURLSchemes: ["mactools"],
+            appleEventSenderPath: { senderPath }
+        )
+        var showSettingsCount = 0
+        delegate.setShowSettingsForRecoveryForTesting { showSettingsCount += 1 }
+
+        XCTAssertEqual(delegate.applicationShouldTerminate(NSApplication.shared), .terminateCancel)
+        _ = delegate.applicationShouldHandleReopen(NSApplication.shared, hasVisibleWindows: false)
+        XCTAssertEqual(showSettingsCount, 0)
+
+        for path in ["/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder", nil] {
+            senderPath = path
+            XCTAssertEqual(delegate.applicationShouldTerminate(NSApplication.shared), .terminateNow)
+            _ = delegate.applicationShouldHandleReopen(NSApplication.shared, hasVisibleWindows: false)
+        }
+        XCTAssertEqual(showSettingsCount, 2)
+    }
+
     func testIncomingDeepLinksAreQueuedBeforeRuntimeCreation() {
         let delegate = MacToolsAppDelegate(acceptedURLSchemes: ["mactools"])
         let urls = [

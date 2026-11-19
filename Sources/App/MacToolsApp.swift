@@ -36,6 +36,7 @@ final class MacToolsAppDelegate: NSObject, NSApplicationDelegate, UNUserNotifica
 
     private let instanceCoordinator: AppInstanceCoordinator
     private let acceptedURLSchemes: Set<String>
+    private let appleEventSenderPath: @MainActor () -> String?
     private var launchDisposition: AppInstanceLaunchDisposition?
     private var didFinishLaunching = false
     private var runtime: MacToolsAppRuntime?
@@ -49,9 +50,13 @@ final class MacToolsAppDelegate: NSObject, NSApplicationDelegate, UNUserNotifica
         self.init(acceptedURLSchemes: RightClickURLRouter.bundleURLSchemes())
     }
 
-    init(acceptedURLSchemes: Set<String>) {
+    init(
+        acceptedURLSchemes: Set<String>,
+        appleEventSenderPath: @escaping @MainActor () -> String? = AppleEventSender.currentSenderPath
+    ) {
         instanceCoordinator = AppInstanceCoordinator()
         self.acceptedURLSchemes = Set(acceptedURLSchemes.map { $0.lowercased() })
+        self.appleEventSenderPath = appleEventSenderPath
         super.init()
     }
 
@@ -60,6 +65,10 @@ final class MacToolsAppDelegate: NSObject, NSApplicationDelegate, UNUserNotifica
             launchDisposition = .primary(recoveryRequested: false)
             return
         }
+        // Before launch finishes, as Apple requires: a click on a notification that launched
+        // MacTools arrives before instance coordination has started the runtime. The click
+        // handler needs nothing from the runtime.
+        UNUserNotificationCenter.current().delegate = self
 
         launchDisposition = .secondary(.timedOut)
         let commandHandler = instanceCommandHandler()
@@ -151,8 +160,34 @@ final class MacToolsAppDelegate: NSObject, NSApplicationDelegate, UNUserNotifica
         _ sender: NSApplication,
         hasVisibleWindows _: Bool
     ) -> Bool {
+        // linkd reopens the app to serve Spotlight and Shortcuts requests; that is
+        // not a person asking for Settings.
+        guard !isAppIntentsServiceEvent(context: "reopen") else { return false }
+        // A click on one of MacTools' own notifications (a finished download) reopens the app too;
+        // the notification's own action handles it, and Settings stays shut.
+        if let path = appleEventSenderPath(), AppleEventSender.isNotificationService(path: path) {
+            AppLog.appIntents.notice("Ignored reopen Apple Event from Notification Centre")
+            return false
+        }
         _ = requestSettingsRecovery()
         return false
+    }
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        // linkd quits apps it launched for an App Intent after a short idle period.
+        // MacTools is a resident menu-bar utility whose features (for example Keep
+        // Awake) must outlive the intent, so only that system quit is declined.
+        isAppIntentsServiceEvent(context: "quit") ? .terminateCancel : .terminateNow
+    }
+
+    private func isAppIntentsServiceEvent(context: StaticString) -> Bool {
+        guard let path = appleEventSenderPath(),
+              AppleEventSender.isAppIntentsService(path: path)
+        else {
+            return false
+        }
+        AppLog.appIntents.notice("Ignored \(context, privacy: .public) Apple Event from the App Intents service")
+        return true
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -170,6 +205,22 @@ final class MacToolsAppDelegate: NSObject, NSApplicationDelegate, UNUserNotifica
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
         completionHandler([.banner, .list, .sound])
+    }
+
+    /// A plugin notification can name a file to show in Finder when it is clicked, such as a
+    /// finished download. Only an existing absolute path is revealed; nothing is opened.
+    nonisolated func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        let path = response.notification.request.content.userInfo["MacTools.revealFileURL"] as? String
+        if response.actionIdentifier == UNNotificationDefaultActionIdentifier, let path, path.hasPrefix("/"),
+           FileManager.default.fileExists(atPath: path) {
+            let url = URL(fileURLWithPath: path)
+            DispatchQueue.main.async { NSWorkspace.shared.activateFileViewerSelecting([url]) }
+        }
+        completionHandler()
     }
 
     private func requestSettingsRecovery() -> AppInstanceResponse {
@@ -252,6 +303,33 @@ final class MacToolsAppDelegate: NSObject, NSApplicationDelegate, UNUserNotifica
         pendingURLs
     }
     #endif
+}
+
+/// Identifies the process that sent the Apple Event AppKit is currently handling.
+enum AppleEventSender {
+    static let appIntentsServicePath = "/usr/libexec/linkd"
+
+    static func isAppIntentsService(path: String) -> Bool {
+        path == appIntentsServicePath
+    }
+
+    /// Notification Centre and the notification daemon, which reopen an app when its notification is clicked.
+    static func isNotificationService(path: String) -> Bool {
+        path.hasPrefix("/System/Library/CoreServices/NotificationCenter.app/") || path == "/usr/sbin/usernoted"
+    }
+
+    @MainActor
+    static func currentSenderPath() -> String? {
+        guard let event = NSAppleEventManager.shared().currentAppleEvent,
+              let pid = event.attributeDescriptor(forKeyword: AEKeyword(keySenderPIDAttr))?.int32Value,
+              pid > 0
+        else {
+            return nil
+        }
+        var buffer = [CChar](repeating: 0, count: Int(MAXPATHLEN) * 4)
+        guard proc_pidpath(pid, &buffer, UInt32(buffer.count)) > 0 else { return nil }
+        return String(cString: buffer)
+    }
 }
 
 /// Keeps one-shot automation events from observing an incomplete action registry
