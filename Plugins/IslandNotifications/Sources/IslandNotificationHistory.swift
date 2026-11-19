@@ -14,12 +14,14 @@ struct IslandHistoryEntry: Identifiable, Equatable {
     let bundleIdentifier: String?
     let title: String
     let body: String
-    /// A Claude chat turn: there is no Notification Centre row behind it, only the chat.
+    /// A Claude chat turn: its row in Notification Centre is MacTools' notice (see `claudeRequestID`).
     let claudeChat: IslandClaudeChat?
     /// Banner text lines, for finding a Messages conversation if Notification Centre no longer has it.
     let lineCount: Int
     /// MacTools saw the banner arrive; without that its Messages conversation isn't looked up.
     var arrivalConfirmed = true
+    /// A Claude entry: MacTools' own notice behind it, removed when the entry is opened or cleared.
+    var claudeRequestID: String?
 
     var groupKey: String { bundleIdentifier ?? appName }
 

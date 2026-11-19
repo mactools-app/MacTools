@@ -241,7 +241,8 @@ final class IslandNotification: @unchecked Sendable {
     @MainActor var appName: String?
     @MainActor var appIcon: NSImage?
     @MainActor var bundleIdentifier: String? { appURL.flatMap { Bundle(url: $0)?.bundleIdentifier } }
-    /// Set for a card made from a finished Claude chat turn (no system banner behind it).
+    /// Set for a card made from a finished Claude chat turn. Behind it is MacTools' own banner, which
+    /// is tracked like any other; only what the card shows and where a reply goes differ.
     @MainActor var claudeChat: IslandClaudeChat?
     /// Claude chat cards and Messages banners get the inline reply field. Messages replies go only
     /// to the exact conversation id from Messages' history, so they need that history to be readable

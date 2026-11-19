@@ -535,7 +535,7 @@ final class IslandNotificationsController {
         if !restored { logger.error("Could not put back a notification window") }
         dropWaiting { CFEqual($0.window, window) }
         hidden.removeAll { CFEqual($0.window, window) }
-        if let current = queue.current, current.claudeChat == nil, CFEqual(current.window, window) {
+        if let current = queue.current, CFEqual(current.window, window) {
             finishCurrent(dismissNative: false, reason: "banner back to native")
         }
     }
@@ -812,8 +812,10 @@ final class IslandNotificationsController {
         lifetimeTimer?.invalidate(); lifetimeTimer = nil
         let generation = generation
         if let link = notification.claudeChat?.link {
-            // A Claude chat card opens its chat with Claude's own link.
+            // A Claude chat card opens its chat with Claude's own link; its notice goes, as a
+            // clicked notification does.
             NSWorkspace.shared.open(link)
+            Self.removeClaudeNotice(notification.claudeRequestID)
             closing = false
             finishCurrent(dismissNative: false, reason: "opened")
             return
@@ -852,8 +854,8 @@ final class IslandNotificationsController {
             let motion = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion ? nil : IslandHistoryLayout.motion
             withAnimation(motion) { history.remove(entry) }
         }
-        if let requestID = notification.claudeRequestID {
-            UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [requestID])
+        if notification.claudeRequestID != nil {
+            Self.removeClaudeNotice(notification.claudeRequestID)
             return
         }
         // An alert is closed with the card (finishCurrent), which takes it out of Notification Centre.
@@ -877,6 +879,12 @@ final class IslandNotificationsController {
         }
     }
 
+    /// MacTools' own notice behind a Claude card, taken out of Notification Centre.
+    private static func removeClaudeNotice(_ requestID: String?) {
+        guard let requestID else { return }
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [requestID])
+    }
+
     // MARK: The panel's Notifications list
     //
     // Opening or clearing an entry acts on its row in Notification Centre, out of sight, as a click
@@ -893,7 +901,8 @@ final class IslandNotificationsController {
                                        bundleIdentifier: notification.bundleIdentifier,
                                        title: notification.title, body: notification.body,
                                        claudeChat: notification.claudeChat, lineCount: notification.lineCount,
-                                       arrivalConfirmed: notification.arrivalConfirmed)
+                                       arrivalConfirmed: notification.arrivalConfirmed,
+                                       claudeRequestID: notification.claudeRequestID)
         notification.historyID = entry.id
         history.add(entry)
     }
@@ -926,7 +935,11 @@ final class IslandNotificationsController {
     func openHistory(_ entry: IslandHistoryEntry) {
         logger.notice("list open inCentre=\(entry.centerApp != nil, privacy: .public) claude=\(entry.claudeChat != nil, privacy: .public)")
         history.remove(entry)
-        if let link = entry.claudeChat?.link { NSWorkspace.shared.open(link); return }
+        if let link = entry.claudeChat?.link {
+            NSWorkspace.shared.open(link)
+            Self.removeClaudeNotice(entry.claudeRequestID)
+            return
+        }
         Task {
             var opened = await inCenter(.open, entry)
             // Gone from Notification Centre (the app withdrew it, or it was cleared there).
@@ -944,8 +957,10 @@ final class IslandNotificationsController {
 
     func clearHistory(_ entries: [IslandHistoryEntry]) {
         for entry in entries { history.remove(entry) }
+        // A Claude entry's row is MacTools' own notice, removed directly.
+        for entry in entries { Self.removeClaudeNotice(entry.claudeRequestID) }
         Task {
-            for entry in entries { _ = await inCenter(.clear, entry) }
+            for entry in entries where entry.claudeRequestID == nil { _ = await inCenter(.clear, entry) }
         }
     }
 
@@ -992,7 +1007,7 @@ final class IslandNotificationsController {
         // macOS swaps a newer notification from the same app into its existing banner without any
         // creation event, so re-read the shown card's hidden banner window twice a second.
         let now = ProcessInfo.processInfo.systemUptime
-        if now - lastRescan >= 0.5, let current = queue.current, current.claudeChat == nil, !closing {
+        if now - lastRescan >= 0.5, let current = queue.current, !closing {
             lastRescan = now
             receive(IslandAXElement(value: current.window))
         }
