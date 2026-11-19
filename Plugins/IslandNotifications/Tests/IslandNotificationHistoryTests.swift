@@ -55,6 +55,15 @@ final class IslandNotificationHistoryTests: XCTestCase {
                        "Spark Desktop")
     }
 
+    /// A sender written in capitals is the title; a header label is not part of the description's text.
+    func testAnAllCapsSenderIsTheTitleNotAHeaderLabel() {
+        let email = "Spark Desktop, SERPROBOT, Weekly report, Here is your automatic report"
+        XCTAssertFalse(IslandNotification.isLabel("SERPROBOT", beforeTitle: "Weekly report", description: email))
+        XCTAssertTrue(IslandNotification.isLabel("TIME-SENSITIVE", beforeTitle: "Standup", description: "Calendar, Standup, In 5 minutes"))
+        // No description to go by: as before, a short all-caps first line is a label.
+        XCTAssertTrue(IslandNotification.isLabel("TIME-SENSITIVE", beforeTitle: "Standup", description: ""))
+    }
+
     @MainActor
     func testListGroupsByAppNewestFirstAndKeepsALimit() {
         let history = IslandNotificationHistory()

@@ -303,6 +303,16 @@ final class IslandNotification: @unchecked Sendable {
         return first.isEmpty || first == title ? nil : first
     }
 
+    /// An all-caps first line can be a header label ("TIME-SENSITIVE") or simply the title: an email
+    /// from "SERPROBOT". The description lists the banner's text after the app; a line listed there as
+    /// its own part, right before the next line, is the title, not a label.
+    nonisolated static func isLabel(_ line: String, beforeTitle title: String, description: String) -> Bool {
+        guard let app = appName(fromDescription: description, title: title, body: "") else { return true }
+        let parts = app.split(whereSeparator: { $0.unicodeScalars.allSatisfy { ",、，،".unicodeScalars.contains($0) } })
+            .map { String($0).trimmingCharacters(in: descriptionSeparators) }
+        return !(parts.count > 1 && parts.last == line.trimmingCharacters(in: descriptionSeparators))
+    }
+
     @MainActor func resolveIdentity() {
         guard identityHints.contains(where: { !$0.isEmpty }) else { return }
         let runningApplications = NSWorkspace.shared.runningApplications
@@ -374,7 +384,8 @@ struct IslandAXWindowSnapshot: @unchecked Sendable {
             // Time Sensitive (and similar) banners put a short all-caps label above the title.
             var label: String?
             if text.count >= 3, let first = text.first, first.count <= 24,
-               first.rangeOfCharacter(from: .letters) != nil, first.rangeOfCharacter(from: .lowercaseLetters) == nil {
+               first.rangeOfCharacter(from: .letters) != nil, first.rangeOfCharacter(from: .lowercaseLetters) == nil,
+               IslandNotification.isLabel(first, beforeTitle: text[1], description: hints.first ?? "") {
                 label = first
                 text.removeFirst()
             }
