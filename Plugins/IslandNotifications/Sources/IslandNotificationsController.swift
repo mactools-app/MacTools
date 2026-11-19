@@ -300,11 +300,13 @@ final class IslandNotificationsController {
                                   original: CGPoint, adopted: Bool) async -> IslandNotification {
         let fromMacTools = group.app.map { IslandClaudeNotice.ownNames.contains($0) } ?? false
         let waiting = !claudePosts.posts.isEmpty
+        let mismatch = fromMacTools ? claudePosts.mismatch(title: group.title, body: group.body) : ""
         let post = claudePosts.take(title: group.title, body: group.body, fromMacTools: fromMacTools,
                                     at: ProcessInfo.processInfo.systemUptime)
         let delivered = if let post { await IslandClaudeNotice.isDelivered(post.requestID) } else { false }
         if waiting {
             logger.notice("claude banner fromMacTools=\(fromMacTools, privacy: .public) matched=\(post != nil, privacy: .public) delivered=\(delivered, privacy: .public)")
+            if fromMacTools, post == nil { logger.notice("claude banner unmatched \(mismatch, privacy: .public)") }
         }
         if let post, delivered {
             let notification = IslandNotification(element: group.element, window: window, originalPosition: original,

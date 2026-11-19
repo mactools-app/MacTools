@@ -401,6 +401,20 @@ struct IslandClaudePosts {
         return posts.remove(at: matching[0])
     }
 
+    /// Why no post fits a banner, in counts and lengths only (no text), for the log.
+    func mismatch(title: String, body: String) -> String {
+        let shown = Self.normalized(body)
+        let sameTitle = posts.filter { $0.chat.title == title }
+        let fits = sameTitle.filter { Self.shows(shown, Self.normalized($0.posted)) }.count
+        let lengths = sameTitle.map { post -> String in
+            let posted = Self.normalized(post.posted)
+            let common = zip(shown, posted).prefix { $0 == $1 }.count
+            return "\(posted.count)/common\(common)"
+        }
+        let titleLengths = posts.map { "\($0.chat.title.count)" }.joined(separator: ",")
+        return "posts=\(posts.count) titleLengths=[\(titleLengths)] bannerTitle=\(title.count) sameTitle=\(sameTitle.count) fits=\(fits) shown=\(shown.count) ellipsis=\(shown.hasSuffix("…")) posted=[\(lengths.joined(separator: ","))]"
+    }
+
     /// The banner shows the posted text whole, or shortened with "…" after a long enough start.
     private static func shows(_ shown: String, _ posted: String) -> Bool {
         guard !shown.isEmpty else { return false }
