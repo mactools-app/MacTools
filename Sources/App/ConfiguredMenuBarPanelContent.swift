@@ -23,11 +23,22 @@ enum ConfiguredMenuBarPanelLayout {
         return ComponentPanelLayout.gridContentHeight(for: ComponentGridPlacementEngine.placements(for: items))
     }
 
+    /// `fillsBand`: in a panel with its own width, a full-width widget alone in a single column
+    /// fills the column instead of keeping its declared width. Off everywhere else.
     static func placement(
         entries: [MenuBarPanelEntry], components: [PluginPanelWidgetSnapshot], features: [PluginPanelRowSnapshot],
-        width: CGFloat = MenuBarPanelLayout.surfaceWidth
+        width: CGFloat = MenuBarPanelLayout.surfaceWidth, fillsBand: Bool = false
     ) -> Placement {
-        placement(order: entries.map { ($0.id, $0.kind) }, components: components, features: features, width: width)
+        var result = placement(order: entries.map { ($0.id, $0.kind) }, components: components, features: features, width: width)
+        guard fillsBand, MenuBarPanelWidth.columns(forSurfaceWidth: width) == 1 else { return result }
+        result.components = result.components.map { item in
+            guard item.span.width == item.span.grid.rawValue else { return item }
+            return ComponentGridPlacement(id: item.id, row: item.row, column: item.column, span: item.span,
+                                          yOffset: item.yOffset, gridColumns: item.gridColumns, gridSpacing: item.gridSpacing,
+                                          xOffset: 0, size: CGSize(width: width, height: item.size?.height
+                                              ?? ComponentPanelLayout.itemHeight(for: item.span)))
+        }
+        return result
     }
 
     static func placement(features: [PluginPanelRowSnapshot], width: CGFloat = MenuBarPanelLayout.surfaceWidth) -> Placement {
@@ -75,9 +86,12 @@ enum ConfiguredMenuBarPanelLayout {
 
     static func contentHeight(
         components: [PluginPanelWidgetSnapshot], features: [PluginPanelRowSnapshot], screen: NSScreen?,
-        entries: [MenuBarPanelEntry]? = nil, width: CGFloat = MenuBarPanelLayout.surfaceWidth
+        entries: [MenuBarPanelEntry]? = nil, width: CGFloat = MenuBarPanelLayout.surfaceWidth,
+        minimumFeatureContentHeight: CGFloat = MenuBarPanelLayout.minimumContentHeight
     ) -> CGFloat {
-        if entries == nil && width == MenuBarPanelLayout.surfaceWidth && !features.contains(where: \.usesCompactPresentation) {
+        if entries == nil && width == MenuBarPanelLayout.surfaceWidth
+            && minimumFeatureContentHeight == MenuBarPanelLayout.minimumContentHeight
+            && !features.contains(where: \.usesCompactPresentation) {
             if components.isEmpty { return MenuBarPanelLayout.preferredFeatureContentHeight(for: features, screen: screen) }
             if features.isEmpty { return ComponentPanelLayout.preferredContentHeight(for: components, screen: screen) }
         }
@@ -85,11 +99,12 @@ enum ConfiguredMenuBarPanelLayout {
             ?? components.map { ($0.id, PluginPanelItemKind.widget) } + features.map { ($0.id, PluginPanelItemKind.row) }
         let height = placement(order: order, components: components, features: features, width: width).height
         if components.isEmpty {
-            return MenuBarPanelLayout.preferredFeatureContentHeight(featureContentHeight: height,
-                maximumFeatureListHeight: MenuBarPanelLayout.maximumFeatureListHeight(for: screen))
+            let maxHeight = MenuBarPanelLayout.maximumFeatureListHeight(for: screen)
+            let minimum = features.isEmpty ? MenuBarPanelLayout.minimumContentHeight : minimumFeatureContentHeight
+            return max(min(height, maxHeight) + MenuBarPanelLayout.contentVerticalPadding, minimum)
         }
         let raw = height + MenuBarPanelLayout.contentVerticalPadding
-        let minimum = features.isEmpty ? raw : MenuBarPanelLayout.minimumContentHeight
+        let minimum = features.isEmpty ? raw : minimumFeatureContentHeight
         return min(max(raw, minimum), MenuBarPanelLayout.maximumContentHeight(for: screen))
     }
 }
@@ -150,6 +165,7 @@ private struct ConfiguredMenuBarPanelContent: View {
     let onPresentLaunchControlConfiguration: () -> Void
 
     @State private var scrollCoordinateSpace = UUID()
+    private var hasOwnWidth: Bool { pluginHost.menuBarPanels.first { $0.id == panelID }?.width != nil }
     @State private var retainedBodyHeight: CGFloat?
     @State private var isComponentDetailInline = false
     @State private var isFeatureDetailInline = false
@@ -164,7 +180,8 @@ private struct ConfiguredMenuBarPanelContent: View {
         Group {
             if !features.isEmpty {
                 let placement = ConfiguredMenuBarPanelLayout.placement(
-                    entries: pluginHost.panelEntries(in: panelID), components: components, features: features, width: surfaceWidth
+                    entries: pluginHost.panelEntries(in: panelID), components: components, features: features, width: surfaceWidth,
+                    fillsBand: hasOwnWidth
                 )
                 ScrollView(.vertical, showsIndicators: false) {
                     ZStack(alignment: .topLeading) {
@@ -193,7 +210,8 @@ private struct ConfiguredMenuBarPanelContent: View {
                 ))
             } else if !components.isEmpty {
                 let placement = ConfiguredMenuBarPanelLayout.placement(
-                    entries: pluginHost.panelEntries(in: panelID), components: components, features: [], width: surfaceWidth
+                    entries: pluginHost.panelEntries(in: panelID), components: components, features: [], width: surfaceWidth,
+                    fillsBand: hasOwnWidth
                 )
                 componentContent(components, height: contentBodyHeight, placements: placement.components,
                                  gridHeight: placement.height)

@@ -245,6 +245,10 @@ final class DynamicPluginManager: ObservableObject {
         self.pluginLoader = pluginLoader ?? DynamicPluginLoader(packageStore: packageStore)
     }
 
+    func storage(for pluginID: String) -> UserDefaultsPluginStorage {
+        packageStore.storage(for: pluginID)
+    }
+
     func loadInstalledPlugins() -> [any MacToolsPlugin] {
         loadInstalledPluginsAndMetadata().plugins
     }

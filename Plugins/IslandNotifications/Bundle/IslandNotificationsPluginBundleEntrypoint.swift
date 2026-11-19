@@ -1,0 +1,3 @@
+import IslandNotificationsPlugin
+
+private let islandNotificationsPluginFactoryAnchor: Any.Type = IslandNotificationsPluginFactory.self

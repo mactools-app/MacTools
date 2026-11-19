@@ -33,6 +33,34 @@ private final class TestState<Value> {
 
 @MainActor
 final class NotchHoverPanelControllerTests: XCTestCase {
+    func testPanelStylePickerChangesPersistedStyle() throws {
+        let storage = NotchHoverMemoryStorage()
+        let controller = makeController(storage: storage)
+        let plugin = NotchHoverPanelPlugin(controller: controller, supportsPanelStyleSelection: true)
+        let row = try XCTUnwrap(panelStyleRow(in: plugin))
+        guard case let .picker(selectionID, options, _) = row.control else {
+            return XCTFail("Panel style should use a picker")
+        }
+        XCTAssertEqual(selectionID, "morph")
+        XCTAssertEqual(options.map(\.id), ["morph", "classic"])
+
+        plugin.handleSettingsAction(.setSelection(controlID: row.id, optionID: "classic"))
+        XCTAssertEqual(controller.snapshot.panelStyle, .classic)
+        XCTAssertEqual(makeController(storage: storage).snapshot.panelStyle, .classic)
+
+        plugin.handleSettingsAction(.setSelection(controlID: row.id, optionID: "morph"))
+        XCTAssertEqual(makeController(storage: storage).snapshot.panelStyle, .morph)
+    }
+
+    func testPanelStylePickerRequiresHostSupport() {
+        let controller = makeController(storage: NotchHoverMemoryStorage())
+        let plugin = NotchHoverPanelPlugin(controller: controller, supportsPanelStyleSelection: false)
+
+        XCTAssertNil(panelStyleRow(in: plugin))
+        plugin.handleSettingsAction(.setSelection(controlID: "panel-style", optionID: "classic"))
+        XCTAssertEqual(controller.snapshot.panelStyle, .morph)
+    }
+
     func testMenuBarIconDefaultsToVisibleWithoutOverridingSavedPreferences() {
         for savedPreference: Bool? in [nil, false, true] {
             let storage = NotchHoverMemoryStorage()
@@ -100,6 +128,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
             screensProvider: { [Self.notchScreenSnapshot()] },
             mouseLocationProvider: { mouse.value }
         )
+        controller.setVerticalTriggerReach(72)
         controller.setShowDelay(0)
         controller.setHideDelay(0.05)
 
@@ -133,6 +162,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
         let storage = NotchHoverMemoryStorage()
         let controller = makeController(storage: storage)
         controller.setShowsMenuBarIcon(false)
+        controller.setPanelStyle(.classic)
         controller.setEnableBelowTrigger(false)
         controller.setTriggerWidth(NotchHoverGeometry.allowedTriggerWidthRange.upperBound)
         controller.setVerticalTriggerReach(NotchHoverGeometry.allowedVerticalTriggerReachRange.upperBound)
@@ -142,6 +172,7 @@ final class NotchHoverPanelControllerTests: XCTestCase {
         controller.resetToDefaults()
 
         let snapshot = controller.snapshot
+        XCTAssertEqual(snapshot.panelStyle, .morph)
         XCTAssertTrue(snapshot.isEnabled)
         XCTAssertTrue(snapshot.showsMenuBarIcon)
         XCTAssertTrue(snapshot.isBelowTriggerEnabled)
@@ -244,6 +275,93 @@ final class NotchHoverPanelControllerTests: XCTestCase {
         XCTAssertTrue(controller.snapshot.isPanelVisible)
     }
 
+    func testReturningDuringAnimatedDismissalReopensThePanel() {
+        let mouse = TestState(Self.triggerPoint)
+        let controller = NotchHoverPanelController(
+            storage: NotchHoverMemoryStorage(),
+            screensProvider: { [Self.notchScreenSnapshot()] },
+            mouseLocationProvider: { mouse.value }
+        )
+        controller.setShowDelay(0)
+        controller.setHideDelay(0.05)
+
+        var isPanelVisible = false
+        var isClosing = false
+        controller.isPresentedMenuBarPanelVisible = { isPanelVisible }
+        controller.requestMenuBarPanelPresentation = { _ in
+            isPanelVisible = true
+            isClosing = false
+            return true
+        }
+        controller.requestMenuBarPanelDismissal = { animated in
+            isClosing = animated
+            return true
+        }
+
+        controller.handlePointerLocation(mouse.value)
+        waitForScheduledWork()
+        XCTAssertTrue(controller.snapshot.isPanelVisible)
+
+        mouse.value = NSPoint(x: 40, y: 40)
+        controller.handlePointerLocation(mouse.value)
+        waitForScheduledWork()
+        XCTAssertTrue(isClosing)
+
+        mouse.value = Self.triggerPoint
+        controller.handlePointerLocation(mouse.value)
+        XCTAssertFalse(isClosing)
+        XCTAssertTrue(controller.snapshot.isPanelVisible)
+    }
+
+    func testDismissedPanelStaysClosedUntilThePointerLeavesAndReturns() {
+        let mouse = TestState(Self.triggerPoint)
+        let controller = NotchHoverPanelController(
+            storage: NotchHoverMemoryStorage(),
+            screensProvider: { [Self.notchScreenSnapshot()] },
+            mouseLocationProvider: { mouse.value }
+        )
+        controller.setShowDelay(0)
+        controller.setHideDelay(0.05)
+
+        var isPanelVisible = false
+        var isClosingByDismissal = false
+        var presentations = 0
+        controller.isPresentedMenuBarPanelVisible = { isPanelVisible }
+        controller.requestMenuBarPanelPresentation = { _ in
+            // The host declines to reverse a close that was a dismissal.
+            guard !isClosingByDismissal else { return false }
+            presentations += 1
+            isPanelVisible = true
+            return true
+        }
+        controller.requestMenuBarPanelDismissal = { _ in true }
+
+        controller.handlePointerLocation(mouse.value)
+        waitForScheduledWork()
+        XCTAssertEqual(presentations, 1)
+
+        // Escape: the host closes the panel; moving within the trigger must not bring it back.
+        isClosingByDismissal = true
+        controller.handlePointerLocation(NSPoint(x: Self.triggerPoint.x + 2, y: Self.triggerPoint.y))
+        XCTAssertEqual(presentations, 1)
+        isPanelVisible = false
+        isClosingByDismissal = false
+        controller.handlePointerLocation(NSPoint(x: Self.triggerPoint.x + 4, y: Self.triggerPoint.y))
+        waitForScheduledWork()
+        controller.handlePointerLocation(NSPoint(x: Self.triggerPoint.x + 6, y: Self.triggerPoint.y))
+        waitForScheduledWork()
+        XCTAssertEqual(presentations, 1, "A dismissed panel stays closed while the pointer stays on the island.")
+        XCTAssertFalse(controller.snapshot.isPanelVisible)
+
+        // Leaving and coming back opens it again.
+        mouse.value = NSPoint(x: 40, y: 40)
+        controller.handlePointerLocation(mouse.value)
+        mouse.value = Self.triggerPoint
+        controller.handlePointerLocation(mouse.value)
+        waitForScheduledWork()
+        XCTAssertEqual(presentations, 2)
+    }
+
     private func makeController(storage: NotchHoverMemoryStorage) -> NotchHoverPanelController {
         NotchHoverPanelController(
             storage: storage,
@@ -254,6 +372,12 @@ final class NotchHoverPanelControllerTests: XCTestCase {
 
     private static let triggerPoint = NSPoint(x: 700, y: 960)
     private static let triggerPointBelowNotch = NSPoint(x: 700, y: 900)
+
+    private func panelStyleRow(in plugin: NotchHoverPanelPlugin) -> PluginSettingsRow? {
+        guard case let .form(sections) = plugin.settingsPage?.body,
+              case let .rows(rows) = sections.first?.content else { return nil }
+        return rows.first { $0.id == "panel-style" }
+    }
 
     private func waitForScheduledWork() {
         RunLoop.current.run(until: Date().addingTimeInterval(0.15))

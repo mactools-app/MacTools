@@ -6,6 +6,7 @@ struct NotchHoverPanelSnapshot: Equatable, Sendable {
     let isEnabled: Bool
     let hasSupportedDisplay: Bool
     let showsMenuBarIcon: Bool
+    let panelStyle: NotchHoverPanelStyle
     let isBelowTriggerEnabled: Bool
     let triggerWidth: Double
     let verticalTriggerReach: Double
@@ -25,6 +26,7 @@ protocol NotchHoverPanelControlling: AnyObject, PluginMenuBarPanelPresenting,
     func refresh()
     func setEnabled(_ isEnabled: Bool)
     func setShowsMenuBarIcon(_ showsMenuBarIcon: Bool)
+    func setPanelStyle(_ style: NotchHoverPanelStyle)
     func setEnableBelowTrigger(_ enabled: Bool)
     func setTriggerWidth(_ width: Double)
     func setVerticalTriggerReach(_ reach: Double)
@@ -85,6 +87,11 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
     private var displays: [NotchHoverDisplay] = []
     private var activeDisplay: NotchHoverDisplay?
     private var ownsPanelPresentation = false
+    /// Set while this controller is animating its own panel closed because the pointer left.
+    private var dismissingForPointer = false
+    /// After the panel was closed some other way (Escape, a click elsewhere), hovering opens it again
+    /// only once the pointer has left the trigger and come back.
+    private var waitsForTriggerExit = false
     private var showWorkItem: DispatchWorkItem?
     private var hideWorkItem: DispatchWorkItem?
     private var localMouseMonitor: Any?
@@ -171,6 +178,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
             isEnabled: isEnabled,
             hasSupportedDisplay: !displays.isEmpty,
             showsMenuBarIcon: showsMenuBarIcon,
+            panelStyle: NotchHoverPanelStyle.stored(in: storage),
             isBelowTriggerEnabled: enableBelowTrigger,
             triggerWidth: triggerWidth,
             verticalTriggerReach: verticalTriggerReach,
@@ -258,6 +266,12 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         onStateChange?()
     }
 
+    func setPanelStyle(_ style: NotchHoverPanelStyle) {
+        guard style != NotchHoverPanelStyle.stored(in: storage) else { return }
+        storage.set(style.rawValue, forKey: NotchHoverPanelStyle.storageKey)
+        onStateChange?()
+    }
+
     func setTriggerWidth(_ width: Double) {
         let clamped = Self.clampedTriggerWidth(width)
         guard triggerWidth != clamped else { return }
@@ -303,6 +317,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
 
         storage.set(isEnabled, forKey: StorageKey.enabled)
         storage.set(showsMenuBarIcon, forKey: StorageKey.showsMenuBarIcon)
+        storage.removeObject(forKey: NotchHoverPanelStyle.storageKey)
         storage.set(enableBelowTrigger, forKey: StorageKey.enableBelowTrigger)
         storage.set(Int(triggerWidth.rounded()), forKey: StorageKey.triggerWidth)
         storage.set(Int(verticalTriggerReach.rounded()), forKey: StorageKey.verticalTriggerReach)
@@ -334,7 +349,10 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         }
 
         let panelFrame = presentedMenuBarPanelScreenFrame?()
-        let isInsideTrigger = triggerDisplay != nil
+        // A MacTools window floating above the menu bar (an island notification card) owns the
+        // pointer there, so the panel must not open underneath it.
+        let isInsideTrigger = triggerDisplay != nil && !Self.isCoveredByOwnFloatingWindow(point)
+        if waitsForTriggerExit, !isInsideTrigger { waitsForTriggerExit = false }
         let isInsideActiveArea = pointerIsActive(
             point,
             triggerDisplay: triggerDisplay,
@@ -343,7 +361,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
 
         if isInsideActiveArea {
             cancelScheduledHide()
-            if isInsideTrigger, !ownsPanelPresentation, isPresentedMenuBarPanelVisible?() != true {
+            if isInsideTrigger, !waitsForTriggerExit, !ownsPanelPresentation, isPresentedMenuBarPanelVisible?() != true {
                 scheduleShow()
             } else {
                 cancelScheduledShow()
@@ -351,10 +369,13 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
             if ownsPanelPresentation,
                let activeDisplay,
                isPresentedMenuBarPanelVisible?() == true {
-                // Cancel any in-flight hide animation when the pointer returns.
-                _ = requestMenuBarPanelPresentation?(
+                // Cancel any in-flight hide animation when the pointer returns. The host declines
+                // when the panel is closing because it was dismissed rather than left.
+                if requestMenuBarPanelPresentation?(
                     PluginMenuBarPanelPresentationRequest(anchorRect: activeDisplay.notchFrame)
-                )
+                ) == true {
+                    dismissingForPointer = false
+                }
             }
         } else {
             cancelScheduledShow()
@@ -391,6 +412,19 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
             notchFrame: activeDisplay.notchFrame,
             panelFrame: panelFrame
         )
+    }
+
+    /// True when one of this app's windows above the menu-bar level (an island notification card)
+    /// has visible content under the point. macOS draws its own island above every window, so the
+    /// topmost window at the camera is never ours; check our windows' shapes directly instead.
+    private static func isCoveredByOwnFloatingWindow(_ point: NSPoint) -> Bool {
+        NSApp.windows.contains { window in
+            guard window.isVisible, !window.ignoresMouseEvents,
+                  window.level.rawValue > NSWindow.Level.statusBar.rawValue,
+                  window.frame.contains(point), let content = window.contentView else { return false }
+            let local = window.convertPoint(fromScreen: point)
+            return content.hitTest(content.superview.map { $0.convert(local, from: nil) } ?? local) != nil
+        }
     }
 
     private func displayContainingTrigger(_ point: NSPoint) -> NotchHoverDisplay? {
@@ -447,7 +481,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         guard isPresentedMenuBarPanelVisible?() != true else { return }
 
         let point = mouseLocationProvider()
-        guard let display = displayContainingTrigger(point) else { return }
+        guard let display = displayContainingTrigger(point), !Self.isCoveredByOwnFloatingWindow(point) else { return }
         activeDisplay = display
 
         let request = PluginMenuBarPanelPresentationRequest(anchorRect: display.notchFrame)
@@ -457,6 +491,7 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         }
 
         ownsPanelPresentation = true
+        dismissingForPointer = false
         onStateChange?()
     }
 
@@ -487,6 +522,12 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
         // cannot retry or cancel the close.
         let accepted = requestMenuBarPanelDismissal?(animated) ?? true
         guard accepted else { return }
+        // Keep ownership while the host animates closed so a pointer moving
+        // back onto the island can reverse the transition.
+        if animated, isEnabled, isPresentedMenuBarPanelVisible?() == true {
+            dismissingForPointer = true
+            return
+        }
 
         ownsPanelPresentation = false
         activeDisplay = nil
@@ -495,6 +536,9 @@ final class NotchHoverPanelController: NotchHoverPanelControlling {
 
     private func syncOwnedPanelVisibility() {
         guard ownsPanelPresentation, isPresentedMenuBarPanelVisible?() == false else { return }
+        // Closed by something other than this controller's own pointer-left dismissal.
+        waitsForTriggerExit = !dismissingForPointer
+        dismissingForPointer = false
         ownsPanelPresentation = false
         activeDisplay = nil
         cancelScheduledInteractions()

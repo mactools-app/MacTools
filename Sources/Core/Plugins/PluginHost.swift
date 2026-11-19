@@ -407,7 +407,7 @@ final class PluginHost: ObservableObject {
     /// Injected by the app shell for plugins that present the regular menu-bar
     /// panel at an explicit screen anchor.
     var anchoredMenuBarPanelPresentationHandler:
-        ((PluginMenuBarPanelPresentationRequest) -> Bool)?
+        ((PluginMenuBarPanelPresentationRequest, _ pluginID: String, any PluginStorage) -> Bool)?
     var anchoredMenuBarPanelDismissalHandler: ((_ animated: Bool) -> Bool)?
     var anchoredMenuBarPanelFrameProvider: (() -> NSRect?)?
     var anchoredMenuBarPanelVisibilityProvider: (() -> Bool)?
@@ -3508,8 +3508,10 @@ final class PluginHost: ObservableObject {
                 }
             }
             if let anchoredPanelPresenting = plugin as? any PluginMenuBarPanelPresenting {
+                let storage = dynamicPluginManager?.storage(for: pluginID)
+                    ?? UserDefaultsPluginStorage(pluginID: pluginID, userDefaults: shortcutStore.userDefaults)
                 anchoredPanelPresenting.requestMenuBarPanelPresentation = { [weak self] request in
-                    self?.anchoredMenuBarPanelPresentationHandler?(request) ?? false
+                    self?.anchoredMenuBarPanelPresentationHandler?(request, pluginID, storage) ?? false
                 }
                 anchoredPanelPresenting.requestMenuBarPanelDismissal = { [weak self] animated in
                     self?.anchoredMenuBarPanelDismissalHandler?(animated) ?? false

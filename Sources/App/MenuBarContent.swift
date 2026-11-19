@@ -21,6 +21,8 @@ enum MenuBarPanelLayout {
     static let panelSpacing: CGFloat = 10
     static let outerPadding: CGFloat = 6
     static let panelTopPadding: CGFloat = 4
+    /// Keeps the header capsules concentric with the notch surface's top corners.
+    static let notchHeaderHorizontalPadding: CGFloat = 12
     static let contentTopPadding: CGFloat = 4
     static let contentBottomPadding: CGFloat = 2
     static let panelBottomPadding: CGFloat = outerPadding - contentBottomPadding
