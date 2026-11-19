@@ -1,0 +1,206 @@
+{
+  "id": "island-downloads",
+  "displayName": "灵动岛下载",
+  "summary": "在灵动岛旁显示下载进度，并在下载完成时通知。",
+  "localizedMetadata": {
+    "zh-Hans": {
+      "displayName": "灵动岛下载",
+      "summary": "在灵动岛旁显示下载进度，并在下载完成时通知。"
+    },
+    "en": {
+      "displayName": "Dynamic Island Downloads",
+      "summary": "Show download progress beside the camera island and get notified when a download finishes."
+    },
+    "zh-Hant": {
+      "displayName": "靈動島下載",
+      "summary": "在靈動島旁顯示下載進度，並在下載完成時通知。"
+    },
+    "de": {
+      "displayName": "Dynamic-Island-Downloads",
+      "summary": "Downloadfortschritt neben der Kamera-Insel anzeigen und bei Abschluss benachrichtigt werden."
+    },
+    "es": {
+      "displayName": "Descargas en Dynamic Island",
+      "summary": "Muestra el progreso de las descargas junto a la isla de la cámara y avisa cuando terminan."
+    },
+    "fr": {
+      "displayName": "Téléchargements Dynamic Island",
+      "summary": "Affichez la progression des téléchargements près de l’îlot de la caméra et soyez averti à la fin."
+    },
+    "pt": {
+      "displayName": "Downloads na Dynamic Island",
+      "summary": "Mostre o progresso dos downloads ao lado da ilha da câmera e receba um aviso ao terminar."
+    },
+    "ru": {
+      "displayName": "Загрузки в Dynamic Island",
+      "summary": "Прогресс загрузок рядом с островком камеры и уведомление о завершении."
+    },
+    "ja": {
+      "displayName": "Dynamic Island ダウンロード",
+      "summary": "カメラのアイランドの横にダウンロードの進行状況を表示し、完了時に通知します。"
+    },
+    "ko": {
+      "displayName": "Dynamic Island 다운로드",
+      "summary": "카메라 아일랜드 옆에 다운로드 진행률을 표시하고 완료되면 알려 줍니다."
+    },
+    "ar": {
+      "displayName": "تنزيلات Dynamic Island",
+      "summary": "اعرض تقدم التنزيلات بجانب جزيرة الكاميرا واحصل على إشعار عند اكتمالها."
+    },
+    "tr": {
+      "displayName": "Dynamic Island İndirmeleri",
+      "summary": "İndirme ilerlemesini kamera adasının yanında gösterin ve indirme bitince bildirim alın."
+    }
+  },
+  "productStrings": {
+    "display-name": "@displayName",
+    "summary": "@summary"
+  },
+  "version": "1.0.0",
+  "minHostVersion": "2.2.4",
+  "pluginKitVersion": 7,
+  "bundleRelativePath": "IslandDownloads.bundle",
+  "factoryClass": "IslandDownloadsPlugin.IslandDownloadsPluginFactory",
+  "build": {
+    "project": "../../MacTools.xcodeproj",
+    "scheme": "IslandDownloadsPlugin"
+  },
+  "capabilities": {
+    "panelItems": [
+      "widget"
+    ],
+    "settings": "form"
+  },
+  "permissions": [
+    "accessibility"
+  ],
+  "category": "display",
+  "presentation": {
+    "longDescription": "@productStrings.summary",
+    "examples": [
+      {
+        "id": "primary-use",
+        "text": "@productStrings.summary"
+      }
+    ],
+    "screenshots": [],
+    "documentationURL": "https://github.com/ggbond268/MacTools#plugins-and-settings",
+    "supportURL": "https://github.com/ggbond268/MacTools/issues",
+    "publisher": "MacTools",
+    "license": "GPL-3.0-only"
+  },
+  "discovery": {
+    "keywords": [
+      "downloads",
+      "dynamic island",
+      "notch",
+      "progress",
+      "safari",
+      "chrome"
+    ],
+    "localizedSynonyms": {
+      "zh-Hans": [
+        "灵动岛下载"
+      ],
+      "en": [
+        "Dynamic Island Downloads"
+      ],
+      "zh-Hant": [
+        "靈動島下載"
+      ],
+      "de": [
+        "Dynamic-Island-Downloads"
+      ],
+      "es": [
+        "Descargas en Dynamic Island"
+      ],
+      "fr": [
+        "Téléchargements Dynamic Island"
+      ],
+      "pt": [
+        "Downloads na Dynamic Island"
+      ],
+      "ru": [
+        "Загрузки в Dynamic Island"
+      ],
+      "ja": [
+        "Dynamic Island ダウンロード"
+      ],
+      "ko": [
+        "Dynamic Island 다운로드"
+      ],
+      "ar": [
+        "تنزيلات Dynamic Island"
+      ],
+      "tr": [
+        "Dynamic Island İndirmeleri"
+      ]
+    },
+    "useCases": [
+      {
+        "id": "primary-use",
+        "title": "@productStrings.display-name"
+      }
+    ],
+    "goalCategories": [
+      "display"
+    ],
+    "relatedPluginIDs": [],
+    "alternativePluginIDs": []
+  },
+  "requirements": {
+    "minimumMacOSVersion": "27.0",
+    "architectures": [
+      "arm64",
+      "x86_64"
+    ],
+    "hardware": [
+      "MacBook Pro camera island"
+    ],
+    "applications": [],
+    "executables": [],
+    "permissionIDs": [
+      "accessibility"
+    ],
+    "setupComplexity": "simple",
+    "requiresRelaunch": false
+  },
+  "privacy": {
+    "dataObserved": [
+      "filesystem-paths",
+      "file-sizes",
+      "menu-bar-items",
+      "frontmost-application",
+      "display-state"
+    ],
+    "dataPersisted": [
+      "plugin-configuration"
+    ],
+    "retention": {
+      "policy": "user-controlled"
+    },
+    "networkUse": "none",
+    "networkDomains": [],
+    "allowsUserConfiguredDomains": false,
+    "telemetry": "none",
+    "processesSensitiveUserContent": true,
+    "diagnosticExportsContainUserData": false
+  },
+  "setup": {
+    "steps": [],
+    "optionalSurfaces": []
+  },
+  "relationships": {
+    "relatedPluginIDs": [],
+    "includedPackIDs": [],
+    "suggestedRecipeIDs": [],
+    "supersedesPluginIDs": []
+  },
+  "preferencesBackup": {
+    "status": "localOnly",
+    "exclusions": [
+      "local-activation",
+      "private-content"
+    ]
+  }
+}
