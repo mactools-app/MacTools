@@ -297,9 +297,14 @@ final class IslandNotificationsController {
     private func makeNotification(_ group: IslandAXWindowSnapshot.Group, window: AXUIElement,
                                   original: CGPoint, adopted: Bool) async -> IslandNotification {
         let fromMacTools = group.app.map { IslandClaudeNotice.ownNames.contains($0) } ?? false
-        if let post = claudePosts.take(title: group.title, body: group.body, fromMacTools: fromMacTools,
-                                       at: ProcessInfo.processInfo.systemUptime),
-           await IslandClaudeNotice.isDelivered(post.requestID) {
+        let waiting = !claudePosts.posts.isEmpty
+        let post = claudePosts.take(title: group.title, body: group.body, fromMacTools: fromMacTools,
+                                    at: ProcessInfo.processInfo.systemUptime)
+        let delivered = if let post { await IslandClaudeNotice.isDelivered(post.requestID) } else { false }
+        if waiting {
+            logger.notice("claude banner fromMacTools=\(fromMacTools, privacy: .public) matched=\(post != nil, privacy: .public) delivered=\(delivered, privacy: .public)")
+        }
+        if let post, delivered {
             let notification = IslandNotification(element: group.element, window: window, originalPosition: original,
                                                   style: group.style, title: post.chat.title, body: post.message,
                                                   identityHints: [IslandClaudeReply.bundleIdentifier] + group.hints)
