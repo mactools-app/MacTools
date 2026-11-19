@@ -3,6 +3,8 @@ import Combine
 import ApplicationServices
 import MacToolsPluginKit
 import OSLog
+import SwiftUI
+import UserNotifications
 
 /// A NotificationCenter window MacTools moved off screen. `taken`: the island shows its banner.
 struct IslandMovedWindow: @unchecked Sendable {
@@ -309,6 +311,7 @@ final class IslandNotificationsController {
                                                   style: group.style, title: post.chat.title, body: post.message,
                                                   identityHints: [IslandClaudeReply.bundleIdentifier] + group.hints)
             notification.claudeChat = post.chat
+            notification.claudeRequestID = post.requestID
             return notification
         }
         let notification = IslandNotification(element: group.element, window: window, originalPosition: original,
@@ -748,6 +751,7 @@ final class IslandNotificationsController {
                 try? await Task.sleep(for: .milliseconds(450))
                 guard self.generation == generation, queue.current === notification else { return }
                 finishCurrent(dismissNative: true, reason: "replied")
+                clearReplied(notification)
             case .noConversation:
                 presenter.showReplyError(localization.string("reply.error.conversation", defaultValue: "找不到这个对话。点按卡片以打开“信息”。"))
             case .notAuthorized:
@@ -838,6 +842,40 @@ final class IslandNotificationsController {
         }
     }
 
+    /// Replying from a notification itself marks the chat read, and its notification goes: a reply
+    /// sent from a card removes it from the list and from Notification Centre the same way.
+    private func clearReplied(_ notification: IslandNotification) {
+        let entry = history.entries.first { $0.id == notification.historyID }
+        if let entry {
+            // On the list's spring, in case the panel is open.
+            let motion = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion ? nil : IslandHistoryLayout.motion
+            withAnimation(motion) { history.remove(entry) }
+        }
+        if let requestID = notification.claudeRequestID {
+            UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [requestID])
+            return
+        }
+        // An alert is closed with the card (finishCurrent), which takes it out of Notification Centre.
+        guard notification.style == .temporary else { return }
+        let desktopMinX = Self.desktopMinX
+        let generation = generation
+        Task {
+            // Still a banner, off screen: closing it there takes it out of Notification Centre too.
+            let closed = await IslandAX.run { () -> Bool in
+                guard let position = IslandAX.position(notification.window), position.x < desktopMinX - 5000 else { return false }
+                return IslandAX.perform(anyOf: IslandAX.centerAction("Close"), on: notification.element)
+            }
+            logger.notice("replied notification closed banner=\(closed, privacy: .public)")
+            guard !closed, let entry, entry.centerApp != nil else { return }
+            // Filed in Notification Centre by now: its row is cleared there, as the list's Clear does,
+            // once the card has folded away.
+            try? await Task.sleep(for: .seconds(1))
+            guard self.generation == generation else { return }
+            let cleared = await inCenter(.clear, entry)
+            logger.notice("replied notification cleared inCentre=\(cleared, privacy: .public)")
+        }
+    }
+
     // MARK: The panel's Notifications list
     //
     // Opening or clearing an entry acts on its row in Notification Centre, out of sight, as a click
@@ -849,12 +887,14 @@ final class IslandNotificationsController {
         let centerApp = notification.claudeChat == nil
             ? IslandNotification.appName(fromDescription: description, title: notification.title, body: notification.body)
             : nil
-        history.add(IslandHistoryEntry(date: notification.arrivalDate, appName: notification.appName ?? centerApp ?? notification.title,
+        let entry = IslandHistoryEntry(date: notification.arrivalDate, appName: notification.appName ?? centerApp ?? notification.title,
                                        centerApp: centerApp, appURL: notification.appURL,
                                        bundleIdentifier: notification.bundleIdentifier,
                                        title: notification.title, body: notification.body,
                                        claudeChat: notification.claudeChat, lineCount: notification.lineCount,
-                                       arrivalConfirmed: notification.arrivalConfirmed))
+                                       arrivalConfirmed: notification.arrivalConfirmed)
+        notification.historyID = entry.id
+        history.add(entry)
     }
 
     func setHistoryContentHeight(_ height: CGFloat) {

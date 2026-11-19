@@ -111,7 +111,9 @@ struct IslandNotificationHistoryView: View {
                                   folded: level,
                                   onClick: {
                                       if top, !open, more > 0 { withAnimation(animation) { expanded = group.id } }
-                                      else { onOpen(entry) }
+                                      // Opening takes the notification off the list, as Clear does: the
+                                      // cards below move up on the panel's spring instead of leaving a gap.
+                                      else { withAnimation(animation) { onOpen(entry) } }
                                   },
                                   onClose: { withAnimation(animation) { onClear(top && !open ? group.entries : [entry]) } })
                     .padding(.horizontal, CGFloat(min(level, 2)) * 12)

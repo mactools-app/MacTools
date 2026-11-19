@@ -227,6 +227,10 @@ final class IslandNotification: @unchecked Sendable {
     /// The Messages conversation this card's message was found in, once found: replies and opening
     /// keep to it.
     @MainActor var messagesChat: IslandMessagesChat.Conversation?
+    /// Its entry in the panel's list.
+    @MainActor var historyID: UUID?
+    /// For a Claude card: MacTools' own notice behind it.
+    @MainActor var claudeRequestID: String?
     /// A header label from the banner, e.g. "TIME-SENSITIVE".
     @MainActor var label: String?
     @MainActor var appURL: URL?
