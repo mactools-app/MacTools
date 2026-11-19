@@ -301,13 +301,11 @@ final class IslandNotificationsController {
                                   original: CGPoint, adopted: Bool) async -> IslandNotification {
         let fromMacTools = group.app.map { IslandClaudeNotice.ownNames.contains($0) } ?? false
         let waiting = !claudePosts.posts.isEmpty
-        let mismatch = fromMacTools ? claudePosts.mismatch(title: group.title, body: group.body) : ""
         let post = claudePosts.take(title: group.title, body: group.body, fromMacTools: fromMacTools,
                                     at: ProcessInfo.processInfo.systemUptime)
         let delivered = if let post { await IslandClaudeNotice.isDelivered(post.requestID) } else { false }
         if waiting {
             logger.notice("claude banner fromMacTools=\(fromMacTools, privacy: .public) matched=\(post != nil, privacy: .public) delivered=\(delivered, privacy: .public)")
-            if fromMacTools, post == nil { logger.notice("claude banner unmatched \(mismatch, privacy: .public)") }
         }
         if let post, delivered {
             let notification = IslandNotification(element: group.element, window: window, originalPosition: original,
@@ -776,14 +774,13 @@ final class IslandNotificationsController {
     /// count; after that the whole window, where a second conversation with the same text makes the
     /// match ambiguous. Only a banner whose arrival MacTools saw is looked up at all.
     private static func messagesConversation(body: String, lineCount: Int, arrivedAt arrival: Date) async -> IslandMessagesChat.Lookup {
-        let lines = body.components(separatedBy: "\n") + [body]
         let isGroup = lineCount > 2
         var lookup = IslandMessagesChat.Lookup.notFound
         var attempts = 0
         repeat {
             let settled = Date().timeIntervalSince(arrival) >= IslandMessagesChat.settledAfter
             lookup = await Task.detached(priority: .userInitiated) {
-                IslandMessagesChat.resolve(bannerLines: lines, isGroupBanner: isGroup, arrivedAt: arrival, recentOnly: !settled)
+                IslandMessagesChat.resolve(body: body, isGroupBanner: isGroup, arrivedAt: arrival, recentOnly: !settled)
             }.value
             guard lookup == .notFound else { break }
             if settled, attempts >= 3 { break }

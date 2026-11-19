@@ -257,11 +257,11 @@ enum IslandMessagesChat {
 
     /// `bannerLines`: the banner's text lines after its title. A group banner (three lines) must lead
     /// to a group conversation and a one-to-one banner to a one-to-one conversation.
-    static func resolve(bannerLines: [String], isGroupBanner: Bool, arrivedAt arrival: Date, recentOnly: Bool = false) -> Lookup {
+    static func resolve(body: String, isGroupBanner: Bool, arrivedAt arrival: Date, recentOnly: Bool = false) -> Lookup {
         guard let db = open() else { return .unavailable }
         defer { sqlite3_close(db) }
-        let candidates = Set(bannerLines.map(normalized).filter { !$0.isEmpty })
-        guard !candidates.isEmpty else { return .notFound }
+        let banner = BannerText(body: body, isGroup: isGroupBanner)
+        guard !banner.whole.isEmpty else { return .notFound }
         let window = dateWindow(around: arrival, recentOnly: recentOnly)
         let sql = """
         SELECT c.guid, m.text, m.attributedBody, c.group_id, m.message_summary_info FROM message m
@@ -290,7 +290,7 @@ enum IslandMessagesChat {
             if let blob = sqlite3_column_blob(statement, 4) {
                 versions += editedVersions(Data(bytes: blob, count: Int(sqlite3_column_bytes(statement, 4))))
             }
-            guard versions.contains(where: { matches(normalized($0), candidates) }) else { continue }
+            guard versions.contains(where: { banner.matches($0) }) else { continue }
             chats.insert(guid)
             if let groupID = sqlite3_column_text(statement, 3).map({ String(cString: $0) }), !groupID.isEmpty {
                 groupIDs[guid] = groupID
@@ -315,13 +315,38 @@ enum IslandMessagesChat {
         return Conversation(identifier: String(parts[2]), isGroup: parts[1] == "+")
     }
 
-    private static func normalized(_ text: String) -> String {
-        text.split(whereSeparator: { $0.isWhitespace || $0.isNewline }).joined(separator: " ")
+    /// Attachment placeholders (U+FFFC) aside, the words with their spacing evened out.
+    static func normalized(_ text: String) -> String {
+        text.replacingOccurrences(of: "\u{FFFC}", with: " ")
+            .split(whereSeparator: { $0.isWhitespace || $0.isNewline }).joined(separator: " ")
     }
 
-    /// Banners can shorten long messages, so a long enough banner line may be a prefix.
-    private static func matches(_ text: String, _ candidates: Set<String>) -> Bool {
-        candidates.contains { $0 == text || ($0.count >= 12 && text.hasPrefix($0.trimmingCharacters(in: CharacterSet(charactersIn: "…")))) }
+    /// What a banner shows, to match a message against. A message matches a line exactly, or the
+    /// whole text (for a group, the text under the group's name). Only a banner macOS shortened,
+    /// ending in "…" or cut at its 1,024-character limit, may show just the start of the message, so
+    /// only then does a long enough start count: "See you tomorrow" is not "See you tomorrow at noon".
+    struct BannerText {
+        let lines: Set<String>
+        let whole: Set<String>
+        let shortened: Bool
+
+        init(body: String, isGroup: Bool) {
+            let parts = body.components(separatedBy: "\n")
+            lines = Set(parts.map(IslandMessagesChat.normalized).filter { !$0.isEmpty })
+            let texts = [body] + (isGroup && parts.count > 1 ? [parts.dropFirst().joined(separator: "\n")] : [])
+            whole = Set(texts.map(IslandMessagesChat.normalized).filter { !$0.isEmpty })
+            shortened = body.hasSuffix("…") || body.count == 1024
+        }
+
+        func matches(_ message: String) -> Bool {
+            let text = IslandMessagesChat.normalized(message)
+            if lines.contains(text) || whole.contains(text) { return true }
+            guard shortened else { return false }
+            return whole.contains { candidate in
+                let start = candidate.trimmingCharacters(in: CharacterSet(charactersIn: "…").union(.whitespaces))
+                return start.count >= 12 && text.hasPrefix(start)
+            }
+        }
     }
 
     /// `message_summary_info` holds each version of an edited message under "ec": the message's
@@ -402,27 +427,8 @@ struct IslandClaudePosts {
         guard fromMacTools else { return nil }
         let shown = Self.normalized(body)
         let matching = posts.indices.filter { posts[$0].chat.title == title && Self.shows(shown, Self.normalized(posts[$0].posted)) }
-        // Copies of one chat's same reply are one turn; replies of different chats, or different
-        // replies, that the banner could each be are not told apart.
-        let turns = Set(matching.map { posts[$0].chat.localID + "\u{0}" + posts[$0].posted })
-        guard turns.count == 1, let newest = matching.last else { return nil }
-        let post = posts[newest]
-        for index in matching.reversed() { posts.remove(at: index) }
-        return post
-    }
-
-    /// Why no post fits a banner, in counts and lengths only (no text), for the log.
-    func mismatch(title: String, body: String) -> String {
-        let shown = Self.normalized(body)
-        let sameTitle = posts.filter { $0.chat.title == title }
-        let fits = sameTitle.filter { Self.shows(shown, Self.normalized($0.posted)) }.count
-        let lengths = sameTitle.map { post -> String in
-            let posted = Self.normalized(post.posted)
-            let common = zip(shown, posted).prefix { $0 == $1 }.count
-            return "\(posted.count)/common\(common)"
-        }
-        let titleLengths = posts.map { "\($0.chat.title.count)" }.joined(separator: ",")
-        return "posts=\(posts.count) titleLengths=[\(titleLengths)] bannerTitle=\(title.count) sameTitle=\(sameTitle.count) fits=\(fits) shown=\(shown.count) ellipsis=\(shown.hasSuffix("…")) posted=[\(lengths.joined(separator: ","))]"
+        guard matching.count == 1 else { return nil }
+        return posts.remove(at: matching[0])
     }
 
     /// The banner shows the posted text whole, or shortened with "…" after a long enough start.

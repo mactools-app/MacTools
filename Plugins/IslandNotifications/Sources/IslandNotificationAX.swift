@@ -659,8 +659,8 @@ private func islandAXObserverCallback(_ observer: AXObserver, _ element: AXUIEle
 /// scripting interface, so this drives its accessibility interface: when another chat is open, that
 /// chat's sidebar entry is pressed in the background; nothing is typed until the window shows exactly
 /// the expected chat; an unsent draft in Claude is never overwritten, and a failed send leaves the
-/// box as it was. Claude is never brought forward: its own chat link (which always activates it) is
-/// used only while Claude is already in front.
+/// box as it was. Claude is never brought forward: its own chat link always activates it, so it is
+/// only for opening the chat from the card.
 enum IslandClaudeReply {
     static let bundleIdentifier = "com.anthropic.claudefordesktop"
     /// Steps only, never message text.
@@ -696,7 +696,7 @@ enum IslandClaudeReply {
 
     /// The page title is exactly "<chat title> - Claude Code" (so "Foo" never matches "Foo bar").
     nonisolated static func isShowing(_ title: String, in pageTitle: String) -> Bool {
-        pageTitle == title + " - Claude Code" || pageTitle == title + " - Claude"
+        pageTitle == title + " - Claude Code"
     }
 
     @MainActor
@@ -715,17 +715,13 @@ enum IslandClaudeReply {
         guard scan.prompt != nil, !scan.chatTitle.isEmpty else { return .failed }
         guard scan.sidebarEntries.count <= 1 else { logger.notice("claude sidebar has the title twice"); return .ambiguousChat }
         if !isShowing(title, in: scan.chatTitle) {
-            if scan.sidebarEntries.count == 1, let entry = scan.sidebarEntries.first.map(IslandAXElement.init) {
-                _ = await IslandAX.run { AXUIElementPerformAction(entry.value, kAXPressAction as CFString) == .success }
-            } else if NSWorkspace.shared.frontmostApplication?.processIdentifier == pid, let link = chat.link {
-                // Claude's link always brings Claude forward, so it is used only when Claude is
-                // already in front. Otherwise the reply fails and the card offers to open the chat:
-                // Claude never flashes up behind a reply.
-                _ = try? await NSWorkspace.shared.open(link)
-            } else {
+            // Claude's own link always brings Claude forward, so only its sidebar entry is pressed. Without
+            // one the reply fails and the card offers to open the chat: Claude never flashes up.
+            guard scan.sidebarEntries.count == 1, let entry = scan.sidebarEntries.first.map(IslandAXElement.init) else {
                 logger.notice("claude chat not in the sidebar")
                 return .failed
             }
+            _ = await IslandAX.run { AXUIElementPerformAction(entry.value, kAXPressAction as CFString) == .success }
             // Wait until the chat has opened and stayed open for two checks in a row.
             var matches = 0
             for _ in 0..<20 where matches < 2 {
@@ -863,16 +859,23 @@ enum IslandClaudeReply {
         return scan
     }
 
-    /// A sidebar entry is a button around a label whose first text is the chat's title; status text
-    /// such as "Running" or "Forked from …" follows it. Links to a chat inside a transcript have no
-    /// such label, so they never count as its entry.
+    /// A sidebar entry is a button whose first text is the chat's title; status text such as
+    /// "Running" or "Forked from …" follows it, and how deeply Claude nests it varies (a selected or
+    /// hovered row has more groups). A fork's first text is "<title> (fork)". Links to a chat inside
+    /// a transcript have no text of their own, so they never count as its entry.
     @IslandAXExecutor
     private static func entryTitle(_ button: AXUIElement) -> String? {
-        guard let label = IslandAX.children(button, timeout: 0.5)?.first,
-              IslandAX.value(label, kAXRoleAttribute, timeout: 0.5) as? String == kAXGroupRole,
-              let text = IslandAX.children(label, timeout: 0.5)?.first,
-              IslandAX.value(text, kAXRoleAttribute, timeout: 0.5) as? String == kAXStaticTextRole else { return nil }
-        return IslandAX.value(text, kAXValueAttribute, timeout: 0.5) as? String
+        func firstText(_ element: AXUIElement, depth: Int) -> String?? {
+            guard depth <= 4 else { return nil }
+            for child in IslandAX.children(element, timeout: 0.5) ?? [] {
+                if IslandAX.value(child, kAXRoleAttribute, timeout: 0.5) as? String == kAXStaticTextRole {
+                    return .some(IslandAX.value(child, kAXValueAttribute, timeout: 0.5) as? String)
+                }
+                if let found = firstText(child, depth: depth + 1) { return found }
+            }
+            return nil
+        }
+        return firstText(button, depth: 1) ?? nil
     }
 }
 

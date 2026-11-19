@@ -169,17 +169,16 @@ final class IslandNotificationStateTests: XCTestCase {
         XCTAssertEqual(IslandClaudeTranscriptReader.replyText([], lastMessage: { "Last reply" }), "Last reply")
     }
 
-    func testCopiesOfOneChatsReplyAreOneTurn() {
+    func testAReplyAlreadyWaitingIsNotPostedAgainAndTwoChatsAreNotGuessed() {
         var posts = IslandClaudePosts()
         let chat = IslandClaudeChat(localID: "local_a", title: "Notes")
         let reply = "You're right, the threshold was too high."
         posts.add(chat, message: reply, posted: reply, requestID: "r1", at: 0)
+        // The controller doesn't post a reply that already waits, so it shows once.
         XCTAssertTrue(posts.isWaiting(chat, message: reply))
         XCTAssertFalse(posts.isWaiting(IslandClaudeChat(localID: "local_b", title: "Notes"), message: reply))
-        posts.add(chat, message: reply, posted: reply, requestID: "r2", at: 0)
-        XCTAssertEqual(posts.take(title: "Notes", body: reply, fromMacTools: true, at: 1)?.requestID, "r2")
-        XCTAssertTrue(posts.posts.isEmpty)
-        // The same reply from two different chats with one title stays ambiguous.
+        XCTAssertEqual(posts.take(title: "Notes", body: reply, fromMacTools: true, at: 1)?.requestID, "r1")
+        // The same reply from two different chats with one title: neither is taken.
         posts.add(chat, message: reply, posted: reply, requestID: "r3", at: 2)
         posts.add(IslandClaudeChat(localID: "local_b", title: "Notes"), message: reply, posted: reply, requestID: "r4", at: 2)
         XCTAssertNil(posts.take(title: "Notes", body: reply, fromMacTools: true, at: 3))
@@ -195,6 +194,27 @@ final class IslandNotificationStateTests: XCTestCase {
                   requestID: "r2", at: 0)
         // Focus kept the banner from showing; a later banner with the same text is not this turn.
         XCTAssertNil(posts.take(title: "Notes", body: "Saved the file.", fromMacTools: true, at: IslandClaudePosts.wait + 1))
+    }
+
+    func testABannerMatchesOnlyTheStartOfAMessageWhenMacOSShortenedIt() {
+        typealias Banner = IslandMessagesChat.BannerText
+        // A whole banner is not the start of someone else's longer message.
+        let full = Banner(body: "See you tomorrow", isGroup: false)
+        XCTAssertTrue(full.matches("See you tomorrow"))
+        XCTAssertFalse(full.matches("See you tomorrow at noon"))
+        // Shortened with "…", or cut at the 1,024-character limit, a long enough start counts.
+        XCTAssertTrue(Banner(body: "See you tomorrow at the…", isGroup: false).matches("See you tomorrow at the station"))
+        let long = String(repeating: "word ", count: 300)
+        XCTAssertTrue(Banner(body: String(long.prefix(1024)), isGroup: false).matches(long))
+        XCTAssertFalse(Banner(body: "Hi…", isGroup: false).matches("Hi there, how are you?"))
+    }
+
+    func testAGroupBannersMessageMatchesWithoutTheGroupsName() {
+        let banner = IslandMessagesChat.BannerText(body: "The team\nFirst line\nsecond line", isGroup: true)
+        XCTAssertTrue(banner.matches("First line\nsecond line"))
+        XCTAssertFalse(banner.matches("First line and more"))
+        // A photo's placeholder in the message is not text the banner shows.
+        XCTAssertTrue(IslandMessagesChat.BannerText(body: "Look at this", isGroup: false).matches("\u{FFFC}Look at this"))
     }
 
     func testUntilTheHistoryHasSettledOnlyMessagesFromAroundTheArrivalCount() {
