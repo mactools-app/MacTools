@@ -385,6 +385,11 @@ struct IslandClaudePosts {
         if posts.count > 8 { posts.removeFirst(posts.count - 8) }
     }
 
+    /// The same reply of the same chat already waits: it is not posted twice.
+    func isWaiting(_ chat: IslandClaudeChat, message: String) -> Bool {
+        posts.contains { $0.chat.localID == chat.localID && $0.message == message }
+    }
+
     /// A request macOS refused (no permission, or an error) has no banner to wait for.
     mutating func remove(requestID: String) {
         posts.removeAll { $0.requestID == requestID }
@@ -397,8 +402,13 @@ struct IslandClaudePosts {
         guard fromMacTools else { return nil }
         let shown = Self.normalized(body)
         let matching = posts.indices.filter { posts[$0].chat.title == title && Self.shows(shown, Self.normalized(posts[$0].posted)) }
-        guard matching.count == 1 else { return nil }
-        return posts.remove(at: matching[0])
+        // Copies of one chat's same reply are one turn; replies of different chats, or different
+        // replies, that the banner could each be are not told apart.
+        let turns = Set(matching.map { posts[$0].chat.localID + "\u{0}" + posts[$0].posted })
+        guard turns.count == 1, let newest = matching.last else { return nil }
+        let post = posts[newest]
+        for index in matching.reversed() { posts.remove(at: index) }
+        return post
     }
 
     /// Why no post fits a banner, in counts and lengths only (no text), for the log.

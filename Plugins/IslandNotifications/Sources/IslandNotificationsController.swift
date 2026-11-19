@@ -281,7 +281,8 @@ final class IslandNotificationsController {
     /// settings, Focus and hidden previews then apply as for any app.
     private func receive(_ turn: IslandClaudeTurnWatcher.Turn) {
         guard active, enabled, claudeCards, trusted, anchor != nil,
-              NSWorkspace.shared.frontmostApplication?.bundleIdentifier != IslandClaudeReply.bundleIdentifier else { return }
+              NSWorkspace.shared.frontmostApplication?.bundleIdentifier != IslandClaudeReply.bundleIdentifier,
+              !claudePosts.isWaiting(turn.chat, message: turn.message) else { return }
         let requestID = UUID().uuidString
         // Waiting before the request goes out, so a quick banner finds it; claiming it also needs
         // macOS to have delivered this request (see makeNotification).

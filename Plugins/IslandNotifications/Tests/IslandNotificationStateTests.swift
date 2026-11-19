@@ -161,6 +161,30 @@ final class IslandNotificationStateTests: XCTestCase {
         XCTAssertEqual(posts.take(title: "Notes", body: "Done. The first draft is ready.", fromMacTools: true, at: 1)?.chat, second)
     }
 
+    func testAReplysThinkingLineIsNotTheReply() {
+        // Claude writes a reply with thinking as two turn-ending lines: the thinking, then the text.
+        XCTAssertNil(IslandClaudeTranscriptReader.replyText([["type": "thinking", "thinking": "…"]], lastMessage: { "Earlier reply" }))
+        XCTAssertEqual(IslandClaudeTranscriptReader.replyText([["type": "text", "text": "The reply"]], lastMessage: { nil }), "The reply")
+        // A turn that ends after tools, with no text of its own, reports the last reply.
+        XCTAssertEqual(IslandClaudeTranscriptReader.replyText([], lastMessage: { "Last reply" }), "Last reply")
+    }
+
+    func testCopiesOfOneChatsReplyAreOneTurn() {
+        var posts = IslandClaudePosts()
+        let chat = IslandClaudeChat(localID: "local_a", title: "Notes")
+        let reply = "You're right, the threshold was too high."
+        posts.add(chat, message: reply, posted: reply, requestID: "r1", at: 0)
+        XCTAssertTrue(posts.isWaiting(chat, message: reply))
+        XCTAssertFalse(posts.isWaiting(IslandClaudeChat(localID: "local_b", title: "Notes"), message: reply))
+        posts.add(chat, message: reply, posted: reply, requestID: "r2", at: 0)
+        XCTAssertEqual(posts.take(title: "Notes", body: reply, fromMacTools: true, at: 1)?.requestID, "r2")
+        XCTAssertTrue(posts.posts.isEmpty)
+        // The same reply from two different chats with one title stays ambiguous.
+        posts.add(chat, message: reply, posted: reply, requestID: "r3", at: 2)
+        posts.add(IslandClaudeChat(localID: "local_b", title: "Notes"), message: reply, posted: reply, requestID: "r4", at: 2)
+        XCTAssertNil(posts.take(title: "Notes", body: reply, fromMacTools: true, at: 3))
+    }
+
     func testAClaudeTurnMacOSRefusedOrThatNeverShowedIsNotTaken() {
         var posts = IslandClaudePosts()
         posts.add(IslandClaudeChat(localID: "local_a", title: "Notes"), message: "Saved the file.", posted: "Saved the file.",

@@ -1114,6 +1114,9 @@ final class IslandClaudeTranscriptReader: @unchecked Sendable {
     private let deliver: @Sendable (IslandClaudeTurnWatcher.Turn) -> Void
     private let started = Date()
     private var files: [String: LogFile] = [:]
+    /// The last reply reported for each session, by its message id: Claude writes one reply as
+    /// several lines (its thinking, then its text), each marked as ending the turn.
+    private var reported: [String: String] = [:]
     private let timestampFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
@@ -1158,6 +1161,16 @@ final class IslandClaudeTranscriptReader: @unchecked Sendable {
         for line in lines { apply(line, path: path, fallbackSession: fallbackSession, notBefore: file.notBefore) }
     }
 
+    /// The text a turn-ending line reports. A line holding only the reply's thinking is not the reply:
+    /// its text follows on the next line, under the same message id. A turn that ends with no text
+    /// of its own (after tools) reports the last reply in the log.
+    static func replyText(_ blocks: [[String: Any]], lastMessage: () -> String?) -> String? {
+        let text = blocks.filter { $0["type"] as? String == "text" }.compactMap { $0["text"] as? String }.joined(separator: "\n")
+        guard text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return text }
+        let thinking = blocks.contains { ["thinking", "redacted_thinking"].contains($0["type"] as? String ?? "") }
+        return thinking ? nil : lastMessage()
+    }
+
     private static func firstSight(_ path: String, size: UInt64, started: Date) -> LogFile {
         let created = (try? FileManager.default.attributesOfItem(atPath: path)[.creationDate] as? Date) ?? .distantPast
         // A log created while watching is read whole; an older one only from near its end, and only
@@ -1181,14 +1194,15 @@ final class IslandClaudeTranscriptReader: @unchecked Sendable {
             guard time >= notBefore else { return }
         }
         let session = entry["sessionId"] as? String ?? fallbackSession
+        let messageID = message["id"] as? String
+        // Each reply once, however many lines it is written as.
+        if let messageID, reported[session] == messageID { return }
         let blocks = message["content"] as? [[String: Any]] ?? []
-        var text = blocks.filter { $0["type"] as? String == "text" }.compactMap { $0["text"] as? String }.joined(separator: "\n")
-        if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            text = IslandClaudeTurnWatcher.lastAssistantMessage(in: path) ?? ""
-        }
+        guard let text = Self.replyText(blocks, lastMessage: { IslandClaudeTurnWatcher.lastAssistantMessage(in: path) }) else { return }
         let cleaned = IslandClaudeTurnWatcher.cleaned(text)
         // Only desktop chats get a card: a reply goes into the chat in the Claude app.
         guard !cleaned.isEmpty, let chat = IslandClaudeTurnWatcher.desktopChat(forSession: session) else { return }
+        if let messageID { reported[session] = messageID }
         deliver(IslandClaudeTurnWatcher.Turn(chat: chat, message: cleaned))
     }
 }
