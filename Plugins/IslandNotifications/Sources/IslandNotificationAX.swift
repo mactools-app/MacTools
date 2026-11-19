@@ -214,6 +214,10 @@ final class IslandNotification: @unchecked Sendable {
     let title: String
     let body: String
     let identityHints: [String]
+    /// What the banner itself shows. A Claude card shows the whole reply instead, so a re-read of
+    /// its window compares the banner with this, never with the card's text.
+    let bannerTitle: String
+    let bannerBody: String
     /// Text lines in the banner. A third line is a subtitle, which group conversations use.
     let lineCount: Int
     /// When MacTools received it (system uptime).
@@ -265,7 +269,8 @@ final class IslandNotification: @unchecked Sendable {
     }
 
     init(element: AXUIElement, window: AXUIElement, originalPosition: CGPoint,
-         style: IslandNotificationStyle, title: String, body: String, identityHints: [String], lineCount: Int = 2) {
+         style: IslandNotificationStyle, title: String, body: String, identityHints: [String], lineCount: Int = 2,
+         bannerTitle: String? = nil, bannerBody: String? = nil) {
         self.element = element
         self.window = window
         self.originalPosition = originalPosition
@@ -274,6 +279,13 @@ final class IslandNotification: @unchecked Sendable {
         self.body = body
         self.identityHints = identityHints
         self.lineCount = lineCount
+        self.bannerTitle = bannerTitle ?? title
+        self.bannerBody = bannerBody ?? body
+    }
+
+    /// macOS swapped a newer notification into this banner when its text is no longer what it was.
+    func bannerChanged(title: String, body: String) -> Bool {
+        bannerTitle != title || bannerBody != body
     }
 
     /// The marks Notification Centre puts between the parts of a description, in every language it

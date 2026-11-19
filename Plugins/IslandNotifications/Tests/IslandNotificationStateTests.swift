@@ -227,6 +227,16 @@ final class IslandNotificationStateTests: XCTestCase {
         XCTAssertFalse(window.contains(nanoseconds(-180)))
     }
 
+    func testAClaudeCardsBannerIsNotTakenForANewerNotification() {
+        let element = AXUIElementCreateApplication(getpid())
+        // The card shows the whole reply; its banner showed the start.
+        let card = IslandNotification(element: element, window: element, originalPosition: .zero, style: .temporary,
+                                      title: "Notes", body: "Done. The whole reply, with every paragraph.",
+                                      identityHints: [], bannerTitle: "Notes", bannerBody: "Done. The whole…")
+        XCTAssertFalse(card.bannerChanged(title: "Notes", body: "Done. The whole…"))
+        XCTAssertTrue(card.bannerChanged(title: "Notes", body: "Something newer"))
+    }
+
     @MainActor
     func testAnAlertAdoptedFromBeforeMacToolsSawItHasNoMessagesReply() {
         let element = AXUIElementCreateApplication(getpid())

@@ -310,7 +310,8 @@ final class IslandNotificationsController {
         if let post, delivered {
             let notification = IslandNotification(element: group.element, window: window, originalPosition: original,
                                                   style: group.style, title: post.chat.title, body: post.message,
-                                                  identityHints: [IslandClaudeReply.bundleIdentifier] + group.hints)
+                                                  identityHints: [IslandClaudeReply.bundleIdentifier] + group.hints,
+                                                  bannerTitle: group.title, bannerBody: group.body)
             notification.claudeChat = post.chat
             notification.claudeRequestID = post.requestID
             return notification
@@ -420,7 +421,7 @@ final class IslandNotificationsController {
             for group in snapshot.groups {
                 guard let old = hidden.first(where: { CFEqual($0.element, group.element) })
                         ?? seen.last(where: { CFEqual($0.element, group.element) }),
-                      old.title != group.title || old.body != group.body else { continue }
+                      old.bannerChanged(title: group.title, body: group.body) else { continue }
                 let original = movedIndex(window.value).map { moved[$0].original } ?? old.originalPosition
                 let notification = await makeNotification(group, window: window.value, original: original, adopted: adopted)
                 guard self.generation == generation, !centerOpen else { return }
