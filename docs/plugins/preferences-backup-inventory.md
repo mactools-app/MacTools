@@ -6,7 +6,7 @@ Run `python3 scripts/plugins/generate-preferences-backup-inventory.py` after cha
 Declarations describe supported field boundaries. Runtime availability and export/restore failures are reported separately.
 See [the backup contract](preferences-backup.md) for exclusions and recovery limits.
 
-localOnly: 2; none: 25; partial: 37; portable: 7.
+localOnly: 2; none: 25; partial: 38; portable: 7.
 
 | Plugin | ID | Coverage | Exclusion codes |
 | --- | --- | --- | --- |
