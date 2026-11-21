@@ -20,16 +20,17 @@ struct NotchHoverDisplay: Equatable, Sendable {
 }
 
 enum NotchHoverGeometry {
-    static let defaultTriggerWidth: CGFloat = 52
-    static let minimumTriggerWidth: CGFloat = 24
+    // By default only the island itself opens the panel; both extensions are opt-in.
+    static let defaultTriggerWidth: CGFloat = 0
+    static let minimumTriggerWidth: CGFloat = 0
     static let maximumTriggerWidth: CGFloat = 120
-    static let allowedTriggerWidthRange: ClosedRange<Double> = 24...120
+    static let allowedTriggerWidthRange: ClosedRange<Double> = 0...120
     static let triggerWidthStep: Double = 4
 
-    static let defaultVerticalTriggerReach: CGFloat = 72
-    static let minimumVerticalTriggerReach: CGFloat = 24
+    static let defaultVerticalTriggerReach: CGFloat = 0
+    static let minimumVerticalTriggerReach: CGFloat = 0
     static let maximumVerticalTriggerReach: CGFloat = 160
-    static let allowedVerticalTriggerReachRange: ClosedRange<Double> = 24...160
+    static let allowedVerticalTriggerReachRange: ClosedRange<Double> = 0...160
     static let verticalTriggerReachStep: Double = 8
 
     static func displays(
@@ -69,10 +70,9 @@ enum NotchHoverGeometry {
         guard notchWidth > 0 else { return nil }
 
         let bandWidth = min(max(triggerWidth, minimumTriggerWidth), maximumTriggerWidth)
-        let verticalReach = min(
-            max(verticalTriggerReach, minimumVerticalTriggerReach),
-            maximumVerticalTriggerReach
-        )
+        let verticalReach = enableBelowTrigger
+            ? min(max(verticalTriggerReach, minimumVerticalTriggerReach), maximumVerticalTriggerReach)
+            : 0
         let notchFrame = CGRect(
             x: screen.frame.minX + leftArea.width,
             y: screen.frame.maxY - topBandHeight,
@@ -93,21 +93,14 @@ enum NotchHoverGeometry {
             height: notchFrame.height
         ).intersection(screen.frame)
 
-        // Extend the trigger directly below the notch so moving upward toward
-        // the notch from the content area also reveals the panel. The lower
-        // trigger can be disabled independently of the side triggers.
-        var triggers = [leftTrigger, rightTrigger]
-        if enableBelowTrigger {
-            let belowNotchTrigger = CGRect(
-                x: notchFrame.minX,
-                y: notchFrame.minY - verticalReach,
-                width: notchFrame.width,
-                height: notchFrame.height + verticalReach
-            ).intersection(screen.frame)
-            triggers.append(belowNotchTrigger)
-        }
-        triggers = triggers.filter { !$0.isEmpty }
-        guard !triggers.isEmpty else { return nil }
+        // The lower-hover preference controls only the extension below the island.
+        let islandTrigger = CGRect(
+            x: notchFrame.minX,
+            y: notchFrame.minY - verticalReach,
+            width: notchFrame.width,
+            height: notchFrame.height + verticalReach
+        ).intersection(screen.frame)
+        let triggers = [leftTrigger, rightTrigger, islandTrigger].filter { !$0.isEmpty }
 
         return NotchHoverDisplay(
             displayID: screen.displayID,

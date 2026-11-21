@@ -29,6 +29,7 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
         static let section = "hover"
         static let enabled = "enabled"
         static let showsMenuBarIcon = "show-menu-bar-icon"
+        static let panelStyle = "panel-style"
         static let enableBelowTrigger = "enable-below-trigger"
         static let triggerWidth = "trigger-width"
         static let verticalTriggerReach = "vertical-trigger-reach"
@@ -40,14 +41,14 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
 
     var metadata: PluginMetadata {
         PluginMetadata(
-            id: "notch-hover-panel",
+            id: NotchHoverPanelStyle.pluginID,
             title: localization.string("metadata.title", defaultValue: "灵动岛悬浮面板"),
             iconName: "rectangle.topthird.inset.filled",
             iconTint: Color(nsColor: .systemTeal),
             order: 41,
             defaultDescription: localization.string(
                 "metadata.description",
-                defaultValue: "鼠标悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板"
+                defaultValue: "将鼠标悬停在灵动岛上即可打开 MacTools 面板。"
             )
         )
     }
@@ -80,11 +81,35 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
                 ),
                 description: localization.string(
                     "settings.enabled.description",
-                    defaultValue: "鼠标移入灵动岛两侧，或从灵动岛正下方往上接近灵动岛时显示 MacTools 面板。"
+                    defaultValue: "将鼠标悬停在灵动岛上即可打开 MacTools 面板。"
                 ),
                 systemImage: "rectangle.topthird.inset.filled",
                 control: .toggle(isOn: snapshot.isEnabled)
             ),
+        ]
+        if supportsPanelStyleSelection {
+            rows.append(PluginSettingsRow(
+                id: SettingsID.panelStyle,
+                title: localization.string("settings.style.title", defaultValue: "面板样式"),
+                systemImage: "rectangle.inset.filled",
+                isEnabled: snapshot.isEnabled,
+                control: .picker(
+                    selectionID: snapshot.panelStyle.rawValue,
+                    options: [
+                        PluginSettingsOption(
+                            id: NotchHoverPanelStyle.morph.rawValue,
+                            title: localization.string("settings.style.morph", defaultValue: "灵动岛")
+                        ),
+                        PluginSettingsOption(
+                            id: NotchHoverPanelStyle.classic.rawValue,
+                            title: localization.string("settings.style.classic", defaultValue: "经典")
+                        ),
+                    ],
+                    style: .menu
+                )
+            ))
+        }
+        rows += [
             PluginSettingsRow(
                 id: SettingsID.showsMenuBarIcon,
                 title: localization.string(
@@ -197,7 +222,7 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
                 ),
                 description: localization.string(
                     "settings.reset.description",
-                    defaultValue: "将触发范围、显示延迟和菜单栏图标恢复为初始状态。"
+                    defaultValue: "恢复悬浮面板的默认设置。"
                 ),
                 systemImage: "arrow.counterclockwise",
                 control: .action(
@@ -248,7 +273,7 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
                     systemImage: "rectangle.topthird.inset.filled",
                     footer: localization.string(
                         "settings.footer",
-                        defaultValue: "悬停灵动岛两侧，或从灵动岛正下方往上移动，即可显示面板；将鼠标移入面板可保持显示。"
+                        defaultValue: "将鼠标悬停在灵动岛上即可打开 MacTools 面板。将鼠标移入面板可使其保持打开。"
                     ),
                     rows: rows
                 ),
@@ -292,14 +317,17 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
 
     private let controller: any NotchHoverPanelControlling
     private let localization: PluginLocalization
+    private let supportsPanelStyleSelection: Bool
 
     init(
-        context: PluginRuntimeContext = PluginRuntimeContext(pluginID: "notch-hover-panel"),
+        context: PluginRuntimeContext = PluginRuntimeContext(pluginID: NotchHoverPanelStyle.pluginID),
         controller: (any NotchHoverPanelControlling)? = nil,
-        localization: PluginLocalization = PluginLocalization(bundle: .main)
+        localization: PluginLocalization = PluginLocalization(bundle: .main),
+        supportsPanelStyleSelection: Bool = Bundle.main.object(forInfoDictionaryKey: NotchHoverPanelStyle.hostSupportKey) as? Bool == true
     ) {
         self.localization = localization
         self.controller = controller ?? NotchHoverPanelController(storage: context.storage)
+        self.supportsPanelStyleSelection = supportsPanelStyleSelection
     }
 
     var rowState: PluginPanelRowState {
@@ -344,6 +372,9 @@ final class NotchHoverPanelPlugin: MacToolsPlugin, PluginMenuBarPanelPresenting,
             controller.setShowsMenuBarIcon(value)
         case let .setBoolean(controlID, value) where controlID == SettingsID.enableBelowTrigger:
             controller.setEnableBelowTrigger(value)
+        case let .setSelection(controlID, optionID) where controlID == SettingsID.panelStyle && supportsPanelStyleSelection:
+            guard let style = NotchHoverPanelStyle(rawValue: optionID) else { return }
+            controller.setPanelStyle(style)
         case let .invoke(controlID) where controlID == SettingsID.reset:
             controller.resetToDefaults()
         case let .setNumber(controlID, value, phase) where phase == .committed:

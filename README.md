@@ -123,7 +123,7 @@ Clipboard selection and scrolling respond immediately. Rapid navigation skips tr
 
 Screenshots work on macOS 14+; region recording and per-app volume require macOS 15+. Hardware controls depend on device support. See the [feature guides](docs/README.md) for details.
 
-[Dynamic Island Hover Panel](docs/plugins/notch-hover-panel.md) slides out the MacTools panel when the pointer rests beside the Dynamic Island or moves up from directly below it; it requires a Mac display with a Dynamic Island. The plugin hides the MacTools menu-bar icon by default and can restore it in its settings.
+[Dynamic Island Hover Panel](docs/plugins/notch-hover-panel.md) expands the MacTools panel from the notch when the pointer rests over it. The plugin requires a Mac display with a Dynamic Island and offers settings for the hover area and menu-bar icon visibility.
 
 Experimental [Trackpad Scale](docs/plugins/trackpad-scale.md) estimates small-object weight on a built-in Force Touch trackpad. Start with no object and keep one finger lightly resting in place; it automatically tares after about one second. Wait for the ready message, then gently place the object while maintaining that contact. Auto capture stops sampling after a stable reading and keeps the result visible so you can lift your finger; turn it off for continuous measuring. Calibration pauses auto capture and includes manual **Tare**; **⌘T** also resets the baseline while measuring.
 
