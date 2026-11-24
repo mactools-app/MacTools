@@ -46,6 +46,37 @@ final class IPOverviewParserTests: XCTestCase {
         XCTAssertEqual(info?.timezone, "America/Los_Angeles")
     }
 
+    func testParsesInternetDataGeoPayload() {
+        let data = """
+        {
+          "ip": "8.8.8.8",
+          "location": {
+            "country": "US",
+            "country_name": "United States",
+            "timezone": "America/Los_Angeles"
+          },
+          "asn": {
+            "asn": 15169,
+            "name": "Google LLC",
+            "type": "hosting"
+          },
+          "company": {
+            "name": "Google LLC"
+          }
+        }
+        """.data(using: .utf8)!
+
+        let info = IPOverviewParser.geoInfoFromInternetData(data, ip: "8.8.8.8")
+
+        XCTAssertEqual(info?.locationText, "United States")
+        XCTAssertEqual(info?.countryCode, "US")
+        XCTAssertEqual(info?.asn, "AS15169")
+        XCTAssertEqual(info?.organization, "Google LLC")
+        XCTAssertEqual(info?.timezone, "America/Los_Angeles")
+        XCTAssertEqual(info?.isHosting, true)
+        XCTAssertEqual(info?.networkType, .datacenter)
+    }
+
     func testParsesIPAPIGeoPayload() {
         let data = """
         {

@@ -299,6 +299,10 @@ struct IPOverviewService: IPOverviewProviding {
                     if let info = IPOverviewParser.geoInfoFromIPAPI(data, ip: ip) {
                         return info
                     }
+                case .internetdata:
+                    if let info = IPOverviewParser.geoInfoFromInternetData(data, ip: ip) {
+                        return info
+                    }
                 }
             } catch {
                 continue
@@ -574,6 +578,7 @@ struct IPOverviewPublicIPSource: Sendable {
 enum IPOverviewGeoSource: CaseIterable {
     case ipwhois
     case ipapi
+    case internetdata
 
     func url(ip: String) -> URL {
         switch self {
@@ -581,6 +586,8 @@ enum IPOverviewGeoSource: CaseIterable {
             return url(ip: ip, languageCode: IPOverviewLocale.geoLanguageCode())
         case .ipapi:
             return URL(string: "https://ipapi.co/\(ip)/json/")!
+        case .internetdata:
+            return URL(string: "https://api.internetdata.io/\(ip)")!
         }
     }
 
@@ -594,6 +601,8 @@ enum IPOverviewGeoSource: CaseIterable {
             return components.url!
         case .ipapi:
             return URL(string: "https://ipapi.co/\(ip)/json/")!
+        case .internetdata:
+            return URL(string: "https://api.internetdata.io/\(ip)")!
         }
     }
 }
@@ -765,6 +774,38 @@ enum IPOverviewParser {
             isProxy: nil,
             isHosting: nil,
             source: "ipapi.co"
+        )
+    }
+
+    static func geoInfoFromInternetData(_ data: Data, ip: String) -> IPOverviewGeoInfo? {
+        guard let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let location = object["location"] as? [String: Any] else {
+            return nil
+        }
+
+        let asn = object["asn"] as? [String: Any]
+        let company = object["company"] as? [String: Any]
+        let organization = asn?["name"] as? String
+        let isp = company?["name"] as? String ?? organization
+        let isHosting = (asn?["type"] as? String).map { $0 == "hosting" }
+        return IPOverviewGeoInfo(
+            ip: ip,
+            country: location["country_name"] as? String,
+            countryCode: location["country"] as? String,
+            region: location["region"] as? String,
+            city: location["city"] as? String,
+            isp: isp,
+            organization: organization,
+            asn: (asn?["asn"] as? Int).map { "AS\($0)" },
+            timezone: location["timezone"] as? String,
+            networkType: IPOverviewNetworkType.infer(
+                organization: organization,
+                isp: isp,
+                isHosting: isHosting
+            ),
+            isProxy: nil,
+            isHosting: isHosting,
+            source: "internetdata.io"
         )
     }
 }
