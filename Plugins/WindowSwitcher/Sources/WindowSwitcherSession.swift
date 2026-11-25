@@ -150,6 +150,10 @@ struct WindowSwitcherRecency {
         }
     }
     mutating func clearInference() { inferredFocusID = nil }
+    mutating func clearFocus() {
+        confirmedFocusID = nil
+        clearInference()
+    }
 
     mutating func record(_ id: String) {
         clearInference()

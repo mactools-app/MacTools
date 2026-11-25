@@ -69,10 +69,17 @@ final class WindowSwitcherWindowRecordsTests: XCTestCase {
         XCTAssertEqual(current.records.map(\.windowNumber), [2])
         XCTAssertEqual(provider.counts.completed, 1)
 
+        let entry = WindowSwitcherAppEntry(id: "latest", processIdentifier: 42, bundleIdentifier: "fixture",
+            appName: "Fixture", windowTitle: "Fixture", icon: nil, windowElement: nil, isMinimized: false,
+            windowNumber: 3, windowBounds: CGRect(x: 0, y: 30, width: 800, height: 600), shortcutToken: nil)
+        let validated = await reader.isCurrentFallback(entry)
+        XCTAssertTrue(validated)
+        XCTAssertEqual(provider.counts.completed, 2)
+
         provider.release.signal()
         let superseded = await older.value
         XCTAssertFalse(superseded.isFresh)
-        XCTAssertEqual(superseded.records.map(\.windowNumber), [2])
+        XCTAssertEqual(superseded.records.map(\.windowNumber), [3])
     }
 
     func testTimeoutKeepsPhysicalQueriesBoundedAndIgnoresTheirLateResults() async throws {

@@ -21,6 +21,7 @@ struct WindowSwitcherScan: Sendable {
     var unavailable: Bool
     var windowListReadSucceeded = true
     var reportedFocusedWindow = false
+    var excludedWindowNumbers: Set<CGWindowID> = []
 }
 
 struct WindowSwitcherAXIdentity: Hashable {
@@ -158,6 +159,7 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
         }
         var indexes = Dictionary(uniqueKeysWithValues: records.enumerated().map { (WindowSwitcherAXIdentity(element: $0.element.element), $0.offset) })
         var excluded = Set<String>()
+        var excludedWindowNumbers = Set<CGWindowID>()
         var didRead = 0
         var metadataFailed = false
         let count = windows.count
@@ -173,8 +175,9 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
                 if let oldIndex { records[oldIndex] = snapshot }
                 else { indexes[key] = records.count; records.append(snapshot) }
                 if uptime() < deadline { observe(window) }
-            case .excluded:
+            case let .excluded(number):
                 if let oldIndex { excluded.insert(records[oldIndex].id) }
+                if let number { excludedWindowNumbers.insert(number) }
             case .unavailable:
                 metadataFailed = true
                 if let oldIndex { records[oldIndex].unavailable = true }
@@ -186,27 +189,32 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
         let focused = uptime() < deadline ? copyElement(app, kAXFocusedWindowAttribute) : nil
         let focusedID = focused.flatMap { element in records.first { CFEqual($0.element, element) }?.id }
         return WindowSwitcherScan(windows: records, focusedID: focusedID,
-            unavailable: metadataFailed || didRead < count, reportedFocusedWindow: focused != nil)
+            unavailable: metadataFailed || didRead < count, reportedFocusedWindow: focused != nil,
+            excludedWindowNumbers: excludedWindowNumbers)
     }
 
-    private enum Admission { case eligible(WindowSwitcherWindowSnapshot), excluded, unavailable }
+    private enum Admission {
+        case eligible(WindowSwitcherWindowSnapshot)
+        case excluded(CGWindowID? = nil)
+        case unavailable
+    }
     private func snapshot(_ window: AXUIElement, id: String) -> Admission {
         guard let values = access.windowAttributes(window), values.count == 6,
               let role = values[0] as? String else { return .unavailable }
         // A process root masquerading as a window is invalid AX data, not
         // evidence that the app has no user windows.
         if role == kAXApplicationRole as String { return .unavailable }
-        guard role == kAXWindowRole as String else { return .excluded }
+        guard role == kAXWindowRole as String else { return .excluded() }
         if let subrole = values[1] as? String,
            ![kAXStandardWindowSubrole as String, kAXDialogSubrole as String, "AXFullScreenWindow"].contains(subrole) {
-            return .excluded
+            return .excluded()
         }
         guard let minimized = values[3] as? Bool,
               let point = decodePoint(values[4]),
               let size = decodeSize(values[5]) else { return .unavailable }
         guard point.x.isFinite, point.y.isFinite, size.width.isFinite, size.height.isFinite,
               size.width >= 0, size.height >= 0 else { return .unavailable }
-        guard minimized || (size.width >= 80 && size.height >= 60) else { return .excluded }
+        guard minimized || (size.width >= 80 && size.height >= 60) else { return .excluded() }
         let title = values[2] as? String ?? ""
         if !minimized,
            values[1] as? String == kAXDialogSubrole as String,
@@ -217,7 +225,7 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
             // Some apps expose empty, unfocused compositor surfaces as AX
             // dialogs even while WindowServer marks them visible. A dialog
             // with content or foreground status remains a selectable window.
-            return .excluded
+            return .excluded(access.windowNumber(window))
         }
         let snapshot = WindowSwitcherWindowSnapshot(id: id, element: window, title: title,
                                                        minimized: minimized, bounds: CGRect(origin: point, size: size),

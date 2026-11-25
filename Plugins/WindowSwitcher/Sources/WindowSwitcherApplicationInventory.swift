@@ -182,7 +182,8 @@ final class WindowSwitcherApplicationInventory {
             let active = application.isActive
             return Application(processIdentifier: pid, bundleIdentifier: metadata.bundleIdentifier,
                 bundlePath: metadata.bundlePath, localizedName: nil, launchDate: metadata.launchDate,
-                isRegular: application.activationPolicy == .regular, isHidden: hidden, isActive: active,
+                isRegular: application.activationPolicy == .regular, isFinishedLaunching: application.isFinishedLaunching,
+                isHidden: hidden, isActive: active,
                 loadPresentation: { self.value(isHidden: hidden, isActive: active) })
         }
 

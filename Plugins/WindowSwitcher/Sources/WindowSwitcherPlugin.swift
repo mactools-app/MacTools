@@ -829,6 +829,7 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
     }
 
     private func cancelSession() {
+        let wasWaitingForDiscovery = pendingInvocation != nil
         shortcutTap.setSessionActive(false)
         shortcutTap.setEditing(false)
         sessionGeneration += 1
@@ -837,6 +838,7 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         pendingInvocation = nil; pendingRelease = false; pendingSteps = 0
         overlayController.hide()
         session = nil
+        if wasWaitingForDiscovery { appCatalog.cancelInvocation() }
     }
 
     private func ensureAccessibilityForInvocation() -> Bool {

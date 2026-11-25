@@ -30,6 +30,8 @@ private final class ControlledSwitcherCatalog: WindowSwitcherCatalog {
     var isInvocationReady: Bool { invocationReady ?? isInitialDiscoveryComplete }
     var prepareInvocation: (() -> Void)?
     func prepareForInvocation() { prepareInvocation?() }
+    var cancelledInvocations = 0
+    func cancelInvocation() { cancelledInvocations += 1 }
     var windows: [WindowSwitcherAppEntry] = []
     var activated: [String] = []
     var activationResult: WindowSwitcherActionResult = .succeeded
@@ -338,6 +340,7 @@ final class WindowSwitcherLifecycleTests: XCTestCase {
         XCTAssertNil(plugin.session)
         XCTAssertNil(plugin.pendingInvocation)
         XCTAssertTrue(catalog.activated.isEmpty)
+        XCTAssertEqual(catalog.cancelledInvocations, 1)
     }
 
     func testModifierReleaseAfterEnteringSearchDoesNotCommit() async throws {

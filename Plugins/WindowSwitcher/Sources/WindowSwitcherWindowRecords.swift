@@ -247,7 +247,10 @@ final class WindowSwitcherWindowRecords {
 
     func freshWindowRecordSnapshot(requiresNewCapture: Bool = false) async -> WindowSwitcherWindowRecordSnapshot {
         guard !Task.isCancelled else { return .init(records: windowRecords, isFresh: false) }
-        let generation = requiresNewCapture ? startCapture() : captures.keys.max() ?? startCapture()
+        // An older read can still be physically running after a newer one
+        // completes. Joining it cannot provide fresh validation.
+        let joinable = captures.keys.max().flatMap { $0 > cachedGeneration ? $0 : nil }
+        let generation = requiresNewCapture ? startCapture() : joinable ?? startCapture()
         guard let generation else {
             return WindowSwitcherWindowRecordSnapshot(records: windowRecords, isFresh: false)
         }
