@@ -66,8 +66,26 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
 
     struct DiscoveryEnvironment {
         var applications: (() -> [Application])? = nil
+        var foregroundProcessIdentifier: () -> pid_t? = { NSWorkspace.shared.frontmostApplication?.processIdentifier }
         var isAccessibilityTrusted: () -> Bool = { AXIsProcessTrusted() }
         var isDragging: () -> Bool = { CGEventSource.buttonState(.combinedSessionState, button: .left) }
+    }
+
+    private struct FocusObservation {
+        let workerPID: pid_t
+        let id: String?
+        let windowNumber: CGWindowID?
+        let unavailable: Bool
+        let reportedFocusedWindow: Bool
+        var canInfer: Bool { !unavailable && !reportedFocusedWindow }
+
+        init(workerPID: pid_t, scan: WindowSwitcherScan) {
+            self.workerPID = workerPID
+            id = scan.focusedID
+            windowNumber = scan.focusedID.flatMap { id in scan.windows.first { $0.id == id }?.windowNumber }
+            unavailable = scan.unavailable
+            reportedFocusedWindow = scan.reportedFocusedWindow
+        }
     }
 
     var onChange: (() -> Void)?
@@ -107,14 +125,19 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     private var publicationTask: Task<Void, Never>?
     private var publicationDirty = false
     private var removedProcesses: Set<pid_t> = []
-    private var pendingFocus: [pid_t: (id: String?, unavailable: Bool)] = [:]
+    private var pendingFocus: [pid_t: [pid_t: FocusObservation]] = [:]
+    private var inferredFocusWorkerLifetime: UUID?
     private var windowRecordsPending = false
     private var sleeping = false
     private var sessionInactive = false
     private var suspended: Bool { sleeping || sessionInactive }
     private var invocationGeneration = UUID()
+    private var invocationInProgress = false
     private var invocationRequiredHosts: Set<pid_t> = []
+    private var invocationScansStarted: Set<pid_t> = []
+    private var queuedInvocationRetryHost: pid_t?
     private var invocationRequiresRecords = false
+    private var invocationCanRetryForegroundDiscovery = false
     private let allSpacesCatalog: WindowSwitcherWindowRecords
     private let discovery: DiscoveryEnvironment
     private var publication = WindowSwitcherPublishedWindows()
@@ -204,11 +227,16 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         publicationDirty = false
         removedProcesses.removeAll()
         pendingFocus.removeAll()
+        inferredFocusWorkerLifetime = nil
         applicationInventory?.stop()
         allSpacesGeneration = UUID()
         invocationGeneration = UUID()
+        invocationInProgress = false
         invocationRequiredHosts.removeAll()
+        invocationScansStarted.removeAll()
+        queuedInvocationRetryHost = nil
         invocationRequiresRecords = false
+        invocationCanRetryForegroundDiscovery = false
         isInvocationReady = false
         windowRecordsPending = false
         allSpacesRefreshTask?.cancel(); allSpacesRefreshTask = nil
@@ -276,12 +304,22 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     func prepareForInvocation() {
         guard running else { return }
         invocationGeneration = UUID()
+        invocationInProgress = true
         isInvocationReady = false
+        pendingFocus.removeAll()
+        inferredFocusWorkerLifetime = nil
+        publication.recency.clearInference()
         applicationInventory?.reconcile(notify: false)
+        if let pid = discovery.foregroundProcessIdentifier() {
+            applicationInventory?.reload(processIdentifier: pid, notify: false)
+        }
         reloadApplications()
         applyInvalidations()
         invocationRequiredHosts = expectedHostPIDs
+        invocationScansStarted.removeAll()
+        queuedInvocationRetryHost = nil
         invocationRequiresRecords = true
+        invocationCanRetryForegroundDiscovery = true
         dirtyHosts.formUnion(expectedHostPIDs)
         windowRecordsPending = true
         markPublicationDirty()
@@ -330,6 +368,10 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         }
         dirtyHosts.formIntersection(expectedHostPIDs)
         invocationRequiredHosts.formIntersection(expectedHostPIDs)
+        invocationScansStarted.formIntersection(expectedHostPIDs)
+        if let queuedInvocationRetryHost, !expectedHostPIDs.contains(queuedInvocationRetryHost) {
+            self.queuedInvocationRetryHost = nil
+        }
         dirtyHosts.formUnion(expectedHostPIDs.filter { snapshots[$0] == nil })
     }
 
@@ -342,10 +384,15 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         // Preserve pending work during tracking; the short retry exists only
         // while a user drag prevents a requested refresh from proceeding.
         guard !discovery.isDragging() else { scheduleRefresh(); return }
-        if windowRecordsPending { refreshAllSpaces() }
+        // Finish publishing the invocation's visibility snapshot before
+        // servicing any refreshes queued behind it.
+        if windowRecordsPending, !invocationInProgress || invocationRequiresRecords {
+            refreshAllSpaces()
+        }
+        let foregroundHostPID = foregroundTarget()?.hostPID
         let pids = dirtyHosts.sorted {
-            let lhsActive = activeWorkerPID(for: $0) != nil
-            let rhsActive = activeWorkerPID(for: $1) != nil
+            let lhsActive = $0 == foregroundHostPID
+            let rhsActive = $1 == foregroundHostPID
             return lhsActive == rhsActive ? $0 < $1 : lhsActive
         }
         for pid in pids {
@@ -353,6 +400,11 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             guard !inFlight.contains(pid), let application = applicationsByPID[pid] else { continue }
             let worker = ensureWorker(pid: pid, launchDate: application.launchDate, applicationLifetime: application.lifetime)
             dirtyHosts.remove(pid)
+            if invocationInProgress { invocationScansStarted.insert(pid) }
+            if queuedInvocationRetryHost == pid {
+                queuedInvocationRetryHost = nil
+                pendingInvalidations.remove(pid)
+            }
             inFlight.insert(pid)
             activeScanCount += 1
             let app = application.withPresentation()
@@ -368,7 +420,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                 guard let self, running, workers[pid] === worker else { return }
                 var entries = windowEntries(from: result, app: app, ownerPID: pid)
                 var helperUnavailable = false
-                var helperFocusIDs: [pid_t: String] = [:]
+                var focusObservations = [pid: FocusObservation(workerPID: pid, scan: result)]
                 for helperPID in (helperPIDsByHost[pid] ?? []).sorted() {
                     guard let helperApp = applicationsByPID[helperPID] else { continue }
                     let helperWorker = ensureWorker(pid: helperPID, launchDate: helperApp.launchDate,
@@ -377,7 +429,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                     guard running, workers[pid] === worker else { return }
                     guard workers[helperPID] === helperWorker else { continue }
                     if helperScan.unavailable { helperUnavailable = true }
-                    helperFocusIDs[helperPID] = helperScan.focusedID
+                    focusObservations[helperPID] = FocusObservation(workerPID: helperPID, scan: helperScan)
                     entries = WindowSwitcherListing.preferringUniqueWindowNumbers(
                         entries + windowEntries(from: helperScan, app: app, ownerPID: helperPID))
                 }
@@ -398,12 +450,11 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                 }
                 snapshots[pid] = entries
                 if previous != entries { markPublicationDirty() }
-                if let activePID = activeWorkerPID(for: pid) {
-                    pendingFocus[pid] = (activePID == pid ? result.focusedID : helperFocusIDs[activePID], unavailableScan)
-                    markPublicationDirty()
-                }
                 if invocation == invocationGeneration {
-                    invocationRequiredHosts.remove(pid)
+                    if queuedInvocationRetryHost != pid { invocationRequiredHosts.remove(pid) }
+                    if let target = foregroundTarget(), target.hostPID == pid {
+                        pendingFocus[pid] = focusObservations
+                    }
                 }
                 schedulePublication()
             }
@@ -411,13 +462,12 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         schedulePublication()
     }
 
-    private func activeWorkerPID(for hostPID: pid_t) -> pid_t? {
-        if let helperPID = (helperPIDsByHost[hostPID] ?? []).sorted().first(where: {
-            applicationsByPID[$0]?.isActive == true
-        }) {
-            return helperPID
-        }
-        return applicationsByPID[hostPID]?.isActive == true ? hostPID : nil
+    private func foregroundTarget() -> (hostPID: pid_t, workerPID: pid_t)? {
+        guard let foregroundPID = discovery.foregroundProcessIdentifier() else { return nil }
+        let hostPID = processMapping.host(for: foregroundPID)
+        guard expectedHostPIDs.contains(hostPID),
+              foregroundPID == hostPID || helperPIDsByHost[hostPID]?.contains(foregroundPID) == true else { return nil }
+        return (hostPID, foregroundPID)
     }
 
     func entries(sortMode: WindowSwitcherSortMode) -> [WindowSwitcherAppEntry] {
@@ -493,6 +543,125 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         }
     }
 
+    private func inferredForegroundWindowID(in entries: [WindowSwitcherAppEntry],
+                                           target: (hostPID: pid_t, workerPID: pid_t)) -> String? {
+        guard allSpacesRecordsAreFresh, !entries.isEmpty else { return nil }
+        let onscreenWindowNumbers = foregroundOnscreenWindowNumbers(target: target)
+        guard !hasUnresolvedOnscreenWindow(onscreenWindowNumbers, in: entries) else { return nil }
+        // A fresh WindowServer snapshot can distinguish a visible window from
+        // windows that are still restoring or live on other Spaces.
+        let screenVisibility = Dictionary(allSpacesRecords.compactMap { record in
+            record.isOnScreen.map { (record.windowNumber, $0) }
+        }, uniquingKeysWith: { first, _ in first })
+        let candidates = entries.filter { entry in
+            (entry.axWorkerPID == target.workerPID || entry.owningProcessIdentifier == target.workerPID)
+                && isUsableWindow(entry)
+                && !publication.lostAXConfirmation(entry)
+                && entry.windowNumber.flatMap { screenVisibility[$0] } != false
+        }
+        if candidates.count == 1 { return candidates.first?.id }
+        let onscreen = candidates.filter { $0.windowNumber.flatMap { screenVisibility[$0] } == true }
+        return onscreen.count == 1 ? onscreen.first?.id : nil
+    }
+
+    private func isUsableWindow(_ entry: WindowSwitcherAppEntry) -> Bool {
+        entry.isWindowEntry && !entry.isHidden && !entry.isMinimized
+            && !entry.isOnOtherDesktop && !entry.metadataUnavailable
+    }
+
+    private func foregroundOnscreenWindowNumbers(target: (hostPID: pid_t, workerPID: pid_t)) -> Set<CGWindowID> {
+        let ownerPIDs = target.workerPID == target.hostPID
+            ? (helperPIDsByHost[target.hostPID] ?? []).union([target.workerPID])
+            : [target.workerPID]
+        return Set(allSpacesRecords.lazy.filter {
+            $0.isOnScreen == true && $0.isOnActiveSpace != false && ownerPIDs.contains($0.processIdentifier)
+        }.map(\.windowNumber))
+    }
+
+    private func hasUnresolvedOnscreenWindow(_ onscreen: Set<CGWindowID>, in entries: [WindowSwitcherAppEntry],
+                                             requiresAXConfirmation: Bool = false) -> Bool {
+        let listed = Set(entries.filter { entry in
+            isUsableWindow(entry) && (entry.windowElement != nil
+                || (!requiresAXConfirmation && !publication.lostAXConfirmation(entry)))
+        }.compactMap(\.windowNumber))
+        return !onscreen.isSubset(of: listed)
+    }
+
+    private func exactWindowID(for focus: FocusObservation, in entries: [WindowSwitcherAppEntry]) -> String? {
+        // Deduplication can keep the host's AX row for a helper-owned window.
+        entries.first { entry in
+            (entry.workerWindowID ?? entry.id) == focus.id
+                || (entry.owningProcessIdentifier == focus.workerPID
+                    && focus.windowNumber != nil && entry.windowNumber == focus.windowNumber)
+        }?.id
+    }
+
+    private func publishForegroundFocus() -> Bool {
+        guard inferredFocusWorkerLifetime != nil || !pendingFocus.isEmpty else { return false }
+        let target = foregroundTarget()
+        let workerLifetime = target.flatMap { workers[$0.workerPID]?.lifetime }
+        if let inferredFocusWorkerLifetime, inferredFocusWorkerLifetime != workerLifetime {
+            self.inferredFocusWorkerLifetime = nil
+            publication.recency.clearInference()
+        }
+        guard !pendingFocus.isEmpty else { return false }
+        let observations = target.flatMap { pendingFocus[$0.hostPID] }
+        pendingFocus.removeAll()
+        guard let target, let observations, let focus = observations[target.workerPID] else {
+            publication.recency.clearInference()
+            inferredFocusWorkerLifetime = nil
+            return false
+        }
+        let entries = publication.entries.filter { $0.processIdentifier == target.hostPID }
+        var exactID = exactWindowID(for: focus, in: entries)
+        // Workspace can report the host for a focused helper. A cached active
+        // flag permits checking a helper's exact AX focus, but cannot infer it.
+        if exactID == nil, !focus.reportedFocusedWindow, target.workerPID == target.hostPID {
+            exactID = helperPIDsByHost[target.hostPID]?.sorted().lazy.compactMap { pid -> String? in
+                guard self.applicationsByPID[pid]?.isActive == true, let helperFocus = observations[pid] else { return nil }
+                return self.exactWindowID(for: helperFocus, in: entries)
+            }.first
+        }
+        let shouldInfer = exactID == nil && focus.canInfer
+        let unresolvedReportedFocus = exactID == nil && focus.reportedFocusedWindow
+        // AX can finish before the current WindowServer read. Keep the focus
+        // observation for publication when the matching visibility is available.
+        let visibilityPending = invocationInProgress
+            ? invocationRequiresRecords || !invocationRequiredHosts.isEmpty
+            : windowRecordsPending || allSpacesRefreshTask != nil
+        if shouldInfer || unresolvedReportedFocus, visibilityPending {
+            pendingFocus[target.hostPID] = observations
+            publication.recency.clearInference()
+            inferredFocusWorkerLifetime = nil
+            return false
+        }
+        let inferredID = shouldInfer ? inferredForegroundWindowID(in: entries, target: target) : nil
+        inferredFocusWorkerLifetime = inferredID == nil ? nil : workerLifetime
+        publication.recency.observeForeground(entries: entries, focusedWindowID: exactID,
+            inferredWindowID: inferredID, unavailable: focus.unavailable)
+        return unresolvedReportedFocus
+    }
+
+    private func retryForegroundDiscoveryIfNeeded(unresolvedReportedFocus: Bool) {
+        guard invocationCanRetryForegroundDiscovery else { return }
+        invocationCanRetryForegroundDiscovery = false
+        // A launch can put a window onscreen before the app publishes its AX
+        // window list. Retry the scan while keeping the normal listing rules.
+        guard allSpacesRecordsAreFresh, let target = foregroundTarget() else { return }
+        let entries = publication.entries.filter { $0.processIdentifier == target.hostPID }
+        let onscreen = foregroundOnscreenWindowNumbers(target: target)
+        let hasConfirmedOnscreenFocus = entries.contains { entry in
+            entry.id == publication.recency.confirmedFocusID
+                && entry.windowNumber.map(onscreen.contains) == true
+        }
+        guard !hasConfirmedOnscreenFocus,
+              hasUnresolvedOnscreenWindow(onscreen, in: entries, requiresAXConfirmation: unresolvedReportedFocus)
+        else { return }
+        queuedInvocationRetryHost = target.hostPID
+        invocationRequiredHosts.insert(target.hostPID)
+        invalidate(processIdentifiers: [target.hostPID], windowRecords: false)
+    }
+
     private func markPublicationDirty() {
         publicationDirty = true
         schedulePublication()
@@ -514,18 +683,18 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                 removedProcesses.removeAll()
                 rebuildPublication()
             }
-            for (pid, focus) in pendingFocus where activeWorkerPID(for: pid) != nil {
-                let entries = publication.entries.filter { $0.processIdentifier == pid }
-                let id = entries.first { ($0.workerWindowID ?? $0.id) == focus.id }?.id
-                publication.recency.observeForeground(entries: entries, focusedWindowID: id, unavailable: focus.unavailable)
-            }
-            pendingFocus.removeAll()
+            let unresolvedReportedFocus = publishForegroundFocus()
             isInitialDiscoveryComplete = didReadAllSpaces && expectedHostPIDs.allSatisfy { snapshots[$0] != nil }
-            isInvocationReady = isInitialDiscoveryComplete && !invocationRequiresRecords && invocationRequiredHosts.isEmpty
+            let discoveryIsReady = isInitialDiscoveryComplete && !invocationRequiresRecords && invocationRequiredHosts.isEmpty
+            if discoveryIsReady { retryForegroundDiscoveryIfNeeded(unresolvedReportedFocus: unresolvedReportedFocus) }
+            isInvocationReady = discoveryIsReady && invocationRequiredHosts.isEmpty && pendingFocus.isEmpty
+            let completedInvocation = invocationInProgress && isInvocationReady
+            if completedInvocation { invocationInProgress = false }
             if oldEntries != publication.entries || oldFocus != publication.recency.focusedID
                 || wasComplete != isInitialDiscoveryComplete || wasReady != isInvocationReady {
                 onChange?()
             }
+            if completedInvocation, windowRecordsPending { drainRefreshes() }
         }
     }
 
@@ -534,9 +703,10 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         windowRecordsPending = false
         let generation = allSpacesGeneration
         let invocation = invocationGeneration
+        let isInvocationCapture = invocationInProgress && invocationRequiresRecords
         allSpacesRefreshTask = Task { [weak self] in
             guard let self else { return }
-            let result = await allSpacesCatalog.freshWindowRecordSnapshot()
+            let result = await allSpacesCatalog.freshWindowRecordSnapshot(requiresNewCapture: isInvocationCapture)
             guard !Task.isCancelled, running, allSpacesGeneration == generation else { return }
             allSpacesRefreshTask = nil
             let oldRecords = Dictionary(grouping: allSpacesRecords, by: \.processIdentifier)
@@ -551,17 +721,29 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             helperPIDsByHost = processMapping.helpersByHost(owningWindowsIn: allSpacesRecords)
             allSpacesRecordsAreFresh = result.isFresh
             if oldHelpers != helperPIDsByHost { reloadApplications() }
+            let foregroundRetryHost = isInvocationCapture && invocation == invocationGeneration
+                ? foregroundTarget()?.hostPID : nil
             // New helper ownership and missing AX events must schedule a scoped
             // scan, including when another read of that host is already active.
             for pid in expectedHostPIDs {
                 let changed = changedOwners.contains { processMapping.host(for: $0) == pid }
                 if oldHelpers[pid] != helperPIDsByHost[pid] || (changed && snapshots[pid] != nil) {
                     dirtyHosts.insert(pid)
+                    // The current visibility read already requested another
+                    // foreground AX pass. It consumes this invocation's retry.
+                    if pid == foregroundRetryHost, invocationCanRetryForegroundDiscovery,
+                       invocationScansStarted.contains(pid) {
+                        invocationCanRetryForegroundDiscovery = false
+                        queuedInvocationRetryHost = pid
+                        invocationRequiredHosts.insert(pid)
+                    }
                 }
             }
             didReadAllSpaces = true
-            if invocation == invocationGeneration { invocationRequiresRecords = false }
-            if !isInvocationReady { invocationRequiredHosts.formUnion(dirtyHosts) }
+            if invocation == invocationGeneration {
+                invocationRequiresRecords = false
+                if !invocationInProgress, !isInvocationReady { invocationRequiredHosts.formUnion(dirtyHosts) }
+            }
             schedulePublication()
             drainRefreshes()
         }

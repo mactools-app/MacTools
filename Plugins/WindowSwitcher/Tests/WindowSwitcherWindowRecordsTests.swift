@@ -56,6 +56,25 @@ final class WindowSwitcherWindowRecordsTests: XCTestCase {
         XCTAssertEqual(snapshot.records.map(\.windowNumber), [1])
     }
 
+    func testNewCaptureSupersedesAnOlderCaptureThatFinishesLater() async throws {
+        let provider = BlockingWindowRecords()
+        let reader = WindowSwitcherWindowRecords(windowRecordRefreshTimeout: 2, windowRecordProvider: { provider.read() })
+        defer { provider.release.signal(); reader.stop() }
+        let older = Task { await reader.freshWindowRecordSnapshot() }
+        try await waitUntil { provider.counts.started == 1 }
+
+        provider.unblock()
+        let current = await reader.freshWindowRecordSnapshot(requiresNewCapture: true)
+        XCTAssertTrue(current.isFresh)
+        XCTAssertEqual(current.records.map(\.windowNumber), [2])
+        XCTAssertEqual(provider.counts.completed, 1)
+
+        provider.release.signal()
+        let superseded = await older.value
+        XCTAssertFalse(superseded.isFresh)
+        XCTAssertEqual(superseded.records.map(\.windowNumber), [2])
+    }
+
     func testTimeoutKeepsPhysicalQueriesBoundedAndIgnoresTheirLateResults() async throws {
         let provider = BlockingWindowRecords()
         let reader = WindowSwitcherWindowRecords(windowRecordRefreshTimeout: 0.03, windowRecordProvider: { provider.read() })

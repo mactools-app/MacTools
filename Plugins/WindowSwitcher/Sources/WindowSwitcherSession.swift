@@ -133,30 +133,38 @@ struct WindowSwitcherSession {
 
 struct WindowSwitcherRecency {
     private(set) var ids: [String] = []
-    private(set) var focusedID: String?
+    private(set) var confirmedFocusID: String?
+    private var inferredFocusID: String?
+    var focusedID: String? { inferredFocusID ?? confirmedFocusID }
 
-    mutating func observeForeground(entries: [WindowSwitcherAppEntry], focusedWindowID: String?, unavailable: Bool) {
+    mutating func observeForeground(entries: [WindowSwitcherAppEntry], focusedWindowID: String?,
+                                    inferredWindowID: String? = nil, unavailable: Bool) {
         if let focusedWindowID, entries.contains(where: { $0.id == focusedWindowID }) {
             record(focusedWindowID)
         } else if !unavailable, entries.count == 1, let fallback = entries.first, !fallback.isWindowEntry {
             record(fallback.id)
         } else {
-            // An unknown foreground target must not keep another app's window
-            // marked current. Keep its recency position, but clear the anchor.
-            focusedID = nil
+            // Inferred focus can lead the current order without changing history.
+            confirmedFocusID = nil
+            inferredFocusID = inferredWindowID
         }
     }
+    mutating func clearInference() { inferredFocusID = nil }
+
     mutating func record(_ id: String) {
-        focusedID = id
+        clearInference()
+        confirmedFocusID = id
         ids.removeAll { $0 == id }
         ids.insert(id, at: 0)
     }
     mutating func retain(_ live: Set<String>) {
         ids.removeAll { !live.contains($0) }
-        if let focusedID, !live.contains(focusedID) { self.focusedID = nil }
+        if let confirmedFocusID, !live.contains(confirmedFocusID) { self.confirmedFocusID = nil }
+        if let inferredFocusID, !live.contains(inferredFocusID) { clearInference() }
     }
     func sort(_ entries: [WindowSwitcherAppEntry]) -> [WindowSwitcherAppEntry] {
-        let ranks = Dictionary(uniqueKeysWithValues: ids.enumerated().map { ($0.element, $0.offset) })
+        var ranks = Dictionary(uniqueKeysWithValues: ids.enumerated().map { ($0.element, $0.offset) })
+        if let inferredFocusID { ranks[inferredFocusID] = -1 }
         return entries.enumerated().sorted {
             let lhs = ranks[$0.element.id] ?? Int.max
             let rhs = ranks[$1.element.id] ?? Int.max

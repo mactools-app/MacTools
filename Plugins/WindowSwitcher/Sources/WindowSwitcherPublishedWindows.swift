@@ -10,6 +10,11 @@ struct WindowSwitcherPublishedWindows {
     private var confirmedAXWindowNumbers: [pid_t: Set<CGWindowID>] = [:]
     private var axAliases: [pid_t: [String: String]] = [:]
 
+    func lostAXConfirmation(_ entry: WindowSwitcherAppEntry) -> Bool {
+        guard entry.windowElement == nil, let number = entry.windowNumber else { return false }
+        return confirmedAXWindowNumbers[entry.processIdentifier]?.contains(number) == true
+    }
+
     mutating func removeProcess(_ pid: pid_t) {
         knownWindowIDs.removeValue(forKey: pid)
         axAliases.removeValue(forKey: pid)

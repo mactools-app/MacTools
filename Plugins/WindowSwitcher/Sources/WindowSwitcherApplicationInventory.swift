@@ -101,26 +101,26 @@ final class WindowSwitcherApplicationInventory {
         if notify, !changed.isEmpty { onChange?(changed) }
     }
 
-    func reload(processIdentifier: pid_t) {
+    func reload(processIdentifier: pid_t, notify: Bool = true) {
         for identity in entries.keys where entries[identity]?.application.processIdentifier == processIdentifier {
-            reload(identity)
+            reload(identity, notify: notify)
             break
         }
     }
 
-    private func reload(_ identity: AnyHashable) {
+    private func reload(_ identity: AnyHashable, notify: Bool = true) {
         guard running, var entry = entries[identity] else { return }
         let old = entry.application
         guard var application = entry.source.load(), application.processIdentifier > 0 else {
             entries.removeValue(forKey: identity)
-            onChange?([old.processIdentifier])
+            if notify { onChange?([old.processIdentifier]) }
             return
         }
         application.lifetime = application.processIdentifier == old.processIdentifier
             ? old.lifetime : UUID()
         entry.application = application
         entries[identity] = entry
-        onChange?([old.processIdentifier, application.processIdentifier])
+        if notify { onChange?([old.processIdentifier, application.processIdentifier]) }
     }
 
     private static func source(_ app: NSRunningApplication) -> Source {
