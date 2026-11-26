@@ -663,8 +663,9 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         // shortcut invocation retains Cycle mode's release-to-switch behavior.
         session.isPersistent = true
         session.usesDirectKeys = mode == .keyWindow
-        session.reconcile(appCatalog.entries(sortMode: store.configuration.sortMode))
-        if session.usesDirectKeys { session.entries = store.assignShortcuts(to: session.entries) }
+        let entries = appCatalog.entries(sortMode: store.configuration.sortMode)
+        session.reconcile(entries)
+        if session.usesDirectKeys { session.entries = store.assignShortcuts(to: session.entries, catalogEntries: entries) }
         self.session = session
         shortcutTap.setEditing(mode == .keyWindow)
         overlayController.applyMode(mode, session: session)
@@ -737,7 +738,9 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         let scope: WindowSwitcherSession.Scope = currentApp
             ? invocationPID.map(WindowSwitcherSession.Scope.currentApplication) ?? .all : .all
         let directKeys = store.configuration.mode == .keyWindow
-        let assignedEntries = directKeys ? store.assignShortcuts(to: opening.entries) : opening.entries
+        let assignedEntries = directKeys
+            ? store.assignShortcuts(to: opening.entries, catalogEntries: appCatalog.entries(sortMode: store.configuration.sortMode))
+            : opening.entries
         let focusedID = opening.focusedWindowID
         var value = WindowSwitcherSession(entries: assignedEntries, selectedID: focusedID,
             scope: scope, isPersistent: persistent, originalWindowID: focusedID)
@@ -783,7 +786,7 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         } else if var session {
             let entries = appCatalog.entries(sortMode: sortMode)
             session.reconcile(entries)
-            if session.usesDirectKeys { session.entries = store.assignShortcuts(to: session.entries) }
+            if session.usesDirectKeys { session.entries = store.assignShortcuts(to: session.entries, catalogEntries: entries) }
             session.protectedCommandKeys.formUnion(store.protectedCommandKeys)
             self.session = session
             if overlayController.isVisible { overlayController.update(session) }

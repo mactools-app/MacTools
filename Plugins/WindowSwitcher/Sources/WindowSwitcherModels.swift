@@ -309,11 +309,12 @@ final class WindowSwitcherStore: ObservableObject {
         })
     }
 
-    func assignShortcuts(to entries: [WindowSwitcherAppEntry]) -> [WindowSwitcherAppEntry] {
+    func assignShortcuts(to entries: [WindowSwitcherAppEntry], catalogEntries: [WindowSwitcherAppEntry]? = nil) -> [WindowSwitcherAppEntry] {
         removeExpiredWindowBindings(for: entries)
         let result = WindowSwitcherShortcutAssignment.assignShortcuts(
             to: entries,
-            bindingState: shortcutBindings
+            bindingState: shortcutBindings,
+            catalogEntries: catalogEntries
         )
 
         if result.bindingState != shortcutBindings {
@@ -701,13 +702,14 @@ enum WindowSwitcherShortcutAssignment {
 
     static func assignShortcuts(
         to entries: [WindowSwitcherAppEntry],
-        bindingState: WindowSwitcherShortcutBindingState
+        bindingState: WindowSwitcherShortcutBindingState,
+        catalogEntries: [WindowSwitcherAppEntry]? = nil
     ) -> Result {
         guard !entries.isEmpty else {
             return Result(entries: [], bindingState: bindingState)
         }
 
-        let targets = assignmentTargets(for: entries)
+        let targets = assignmentTargets(for: entries, catalogEntries: catalogEntries)
         let resolvedBindingState = migrateUnambiguousLegacyBindings(
             from: bindingState,
             targets: targets
@@ -798,10 +800,12 @@ enum WindowSwitcherShortcutAssignment {
         WindowSwitcherSelectionShortcut(storageValue: token)?.storageValue
     }
 
-    private static func assignmentTargets(for entries: [WindowSwitcherAppEntry]) -> [Target] {
+    private static func assignmentTargets(for entries: [WindowSwitcherAppEntry],
+                                          catalogEntries: [WindowSwitcherAppEntry]? = nil) -> [Target] {
         var appOccurrences: [String: Int] = [:]
         var axWindowOccurrences: [String: Int] = [:]
-        let windowCounts = entries.reduce(into: [String: Int]()) { counts, entry in
+        // A pending catalog window still counts for persisted legacy bindings.
+        let windowCounts = (catalogEntries ?? entries).reduce(into: [String: Int]()) { counts, entry in
             guard entry.isWindowEntry else {
                 return
             }

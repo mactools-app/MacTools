@@ -962,6 +962,14 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
     }
 
     func testLaunchCannotRuleOutAXWindowUsingEarlierOffscreenCapture() async throws {
+        try await assertLaunchCannotRuleOutAXWindowUsingEarlierCapture(startsOnOtherDesktop: false)
+    }
+
+    func testHiddenOtherDesktopWindowStillMakesLaunchFocusAmbiguous() async throws {
+        try await assertLaunchCannotRuleOutAXWindowUsingEarlierCapture(startsOnOtherDesktop: true)
+    }
+
+    private func assertLaunchCannotRuleOutAXWindowUsingEarlierCapture(startsOnOtherDesktop: Bool) async throws {
         let previous = CatalogAXAccess(number: 7, elementPID: 201)
         previous.update { $0.focused = true }
         let launched = CatalogAXAccess(number: 8, elementPID: 202)
@@ -976,13 +984,15 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         let captures = CatalogAXAccess(number: nil, elementPID: 203)
         var foreground: pid_t = 42
         let catalog = launchCatalog(previous: previous, launched: launched, foreground: { foreground }) {
-            captures.update { $0.reads += 1 }
+            let retried = captures.read { $0.reads } >= 2
             let second = WindowSwitcherWindowRecord(windowNumber: 9, processIdentifier: 43, title: "Second",
-                isOnScreen: captures.read { $0.reads } > 2, bounds: CGRect(x: 50, y: 50, width: 800, height: 600),
-                hasSpace: true, isOnActiveSpace: true)
+                isOnScreen: retried, bounds: CGRect(x: 50, y: 50, width: 800, height: 600),
+                hasSpace: true, isOnActiveSpace: !startsOnOtherDesktop || retried)
+            captures.update { $0.reads += 1 }
             return [visibleRecord(8, owner: 43), second]
         }
         defer { releaseAX.signal(); catalog.stop() }
+        catalog.listingPolicy.includesOtherDesktopWindows = !startsOnOtherDesktop
         catalog.start()
         try await waitUntil { catalog.isInvocationReady }
         foreground = 43
@@ -996,6 +1006,8 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         XCTAssertEqual(rows.first?.windowNumber, 7)
         XCTAssertTrue(rows.contains { $0.windowNumber == 9 })
         XCTAssertFalse(rows.contains { $0.id == opening.focusedWindowID })
+        XCTAssertEqual(launched.read { $0.reads }, 2)
+        XCTAssertEqual(captures.read { $0.reads }, 3)
     }
 
     func testLaunchRanksExactHelperOwnedWindowWithStaleAppActivity() async throws {

@@ -163,6 +163,41 @@ final class WindowSwitcherLifecycleTests: XCTestCase {
         XCTAssertEqual(plugin.session?.results.first { $0.shortcutToken == originalKey }?.id, arriving.id)
     }
 
+    func testPendingSiblingDoesNotRedirectSavedLegacyShortcut() throws {
+        func fixtureWindow(_ number: CGWindowID, title: String, elementPID: pid_t? = nil) -> WindowSwitcherAppEntry {
+            WindowSwitcherAppEntry(id: "window:\(number)", processIdentifier: 42, bundleIdentifier: "fixture",
+                appName: "Fixture", windowTitle: title, icon: nil, windowElement: elementPID.map(AXUIElementCreateApplication),
+                isMinimized: false, windowNumber: number, shortcutToken: nil)
+        }
+        let window = fixtureWindow(7, title: "First", elementPID: 201)
+        var pending = fixtureWindow(7, title: "First")
+        pending.isAwaitingWindowConfirmation = true
+        let sibling = fixtureWindow(8, title: "Second", elementPID: 202)
+        let storage = WindowSwitcherMemoryStorage()
+        let manual = [window.appIdentifier: "z"]
+        storage.set(try JSONEncoder().encode(WindowSwitcherShortcutBindingState(manual: manual)), forKey: "shortcut-bindings")
+
+        let catalog = ControlledSwitcherCatalog(), tap = ControlledSwitcherTap()
+        catalog.windows = [pending, sibling]
+        catalog.openingOverride = WindowSwitcherOpening(entries: [sibling], focusedWindowID: sibling.id)
+        let plugin = plugin(catalog: catalog, tap: tap, storage: storage)
+        plugin.store.setMode(.keyWindow)
+        defer { plugin.deactivate(reason: .hostShutdown) }
+        tap.onShortcutPressed(false, false, false)
+        XCTAssertEqual(plugin.session?.entries.map(\.id), [sibling.id])
+        XCTAssertNotNil(plugin.session?.selected?.shortcutToken)
+        XCTAssertNotEqual(plugin.session?.selected?.shortcutToken, "z")
+
+        catalog.windows = [window, sibling]
+        catalog.onChange?()
+        let persisted = try XCTUnwrap(storage.data(forKey: "shortcut-bindings"))
+        XCTAssertEqual(try JSONDecoder().decode(WindowSwitcherShortcutBindingState.self, from: persisted).manual, manual)
+
+        catalog.windows = [sibling]
+        catalog.onChange?()
+        XCTAssertEqual(plugin.session?.selected?.shortcutToken, "z")
+    }
+
     func testCatalogPermissionRevocationStillNotifiesHostAndStopsListening() {
         let permission = PermissionFixture()
         let catalog = ControlledSwitcherCatalog(), tap = ControlledSwitcherTap()

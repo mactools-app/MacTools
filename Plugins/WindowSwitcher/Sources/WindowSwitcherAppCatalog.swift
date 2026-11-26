@@ -716,13 +716,14 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         if let observation = check.observation, observation.startedAt >= check.changedAt,
            workers[observation.workerPID]?.lifetime == observation.lifetime,
            observation.workerPID == (activeWorkerPID(for: check.pid) ?? check.pid) {
-            let windows = WindowSwitcherListing.apply(publication.entries, policy: listingPolicy).filter {
+            let windows = publication.entries.filter {
                 $0.processIdentifier == check.pid && $0.isWindowEntry
                     && !$0.isHidden && !$0.isMinimized
             }
             if let id = observation.scan.focusedID,
                let exact = windows.first(where: { entry in
-                   guard entry.windowElement != nil, !entry.metadataUnavailable, !entry.isOnOtherDesktop else { return false }
+                   guard listingPolicy.admits(entry), entry.windowElement != nil,
+                         !entry.metadataUnavailable, !entry.isOnOtherDesktop else { return false }
                    if entry.axWorkerPID == observation.workerPID && entry.workerWindowID == id { return true }
                    // A host and its verified helper can expose the same system window.
                    guard observation.workerPID != check.pid, allSpacesRecordsAreFresh,
@@ -751,7 +752,8 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                     ($0.processIdentifier == check.pid || helpers.contains($0.processIdentifier))
                         && $0.isOnScreen == true && $0.isOnActiveSpace != false
                 }
-                // An eligible window with unknown visibility still competes for focus.
+                // Listing preferences cannot rule out a competing focus candidate.
+                // Only sufficiently recent WindowServer evidence can do that.
                 let possibleWindows = windows.filter { entry in
                     capturedAt < observation.completedAt || !allSpacesRecords.contains {
                         $0.windowNumber == entry.windowNumber && $0.processIdentifier == entry.owningProcessIdentifier
@@ -763,12 +765,12 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                    possibleWindows.count == 1, let entry = possibleWindows.first,
                    entry.windowNumber == number, entry.workerWindowID == id, entry.axWorkerPID == check.pid,
                    entry.owningProcessIdentifier == check.pid, entry.windowElement != nil, !entry.metadataUnavailable,
-                   !entry.isOnOtherDesktop {
+                   !entry.isOnOtherDesktop, listingPolicy.admits(entry) {
                     return .inferred(entry.id)
                 }
             }
             if observation.scan.focusedWindowIsExcluded,
-               !observation.scan.unavailable, !windows.isEmpty {
+               !observation.scan.unavailable, windows.contains(where: listingPolicy.admits) {
                 return .ordinary
             }
         }
