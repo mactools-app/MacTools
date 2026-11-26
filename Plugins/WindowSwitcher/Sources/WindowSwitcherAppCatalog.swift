@@ -513,8 +513,9 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                 unavailableApplicationCount = unavailable.count
                 let previous = snapshots[pid]
                 let allWorkersRead = (helperPIDsByHost[pid] ?? []).isSubset(of: helperObservations.keys)
-                let completeListStartedAt = !unavailableScan && allWorkersRead ? startedAt : nil
                 let previousListStartedAt = completeWindowListsStartedAt[pid]
+                // An incomplete read cannot supersede the last complete list.
+                let completeListStartedAt = !unavailableScan && allWorkersRead ? startedAt : previousListStartedAt
                 completeWindowListsStartedAt[pid] = completeListStartedAt
                 // A failed read is never evidence of a windowless application.
                 if entries.isEmpty && !unavailableScan {
@@ -668,8 +669,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             focusedID = id
         case let .inferred(id): focusedID = id
         }
-        var rows = entries(sortMode: sortMode)
-        if launchCheck != nil { rows.removeAll { $0.isAwaitingWindowConfirmation } }
+        var rows = entries(sortMode: sortMode).filter { !$0.isAwaitingWindowConfirmation }
         if case let .inferred(id) = focus, let index = rows.firstIndex(where: { $0.id == id }) {
             let row = rows.remove(at: index)
             rows.insert(row, at: 0)

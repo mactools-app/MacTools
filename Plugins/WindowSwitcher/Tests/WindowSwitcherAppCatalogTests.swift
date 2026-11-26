@@ -763,18 +763,33 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
     }
 
     func testLaunchDeadlineAppliesConfirmedWindowClosureBeforeQuickSwitch() async throws {
+        try await checkLaunchDeadlineAfterWindowOmission(isOnScreen: true)
+    }
+
+    func testLaunchDeadlineKeepsWindowPendingAfterFailedAccessibilityRead() async throws {
+        try await checkLaunchDeadlineAfterWindowOmission(isOnScreen: true, followUpFails: true)
+    }
+
+    func testLaunchDeadlineExcludesPendingActiveSpaceWindowWithUnknownVisibility() async throws {
+        try await checkLaunchDeadlineAfterWindowOmission(isOnScreen: nil)
+    }
+
+    private func checkLaunchDeadlineAfterWindowOmission(isOnScreen: Bool?, followUpFails: Bool = false) async throws {
         let previous = CatalogAXAccess(number: 6, elementPID: 201)
         previous.update { $0.focused = true; $0.secondWindowNumber = 7 }
         let launched = CatalogAXAccess(number: 8, elementPID: 202)
         let captures = CatalogAXAccess(number: nil, elementPID: 203)
         let releaseCapture = DispatchSemaphore(value: 0)
         let releaseFollowUp = DispatchSemaphore(value: 0)
+        let priorWindow = visibleRecord(6, owner: 42)
+        let omittedWindow = WindowSwitcherWindowRecord(windowNumber: 7, processIdentifier: 42, title: priorWindow.title,
+            isOnScreen: isOnScreen, bounds: priorWindow.bounds, hasSpace: true, isOnActiveSpace: true)
         var foreground: pid_t = 42
         let catalog = launchCatalog(previous: previous, launched: launched,
                                     launchAppIsActive: false, foreground: { foreground }) {
             captures.update { $0.reads += 1 }
             if captures.read({ $0.reads }) == 3 { _ = releaseCapture.wait(timeout: .now() + 1) }
-            return [visibleRecord(6, owner: 42), visibleRecord(7, owner: 42)]
+            return [priorWindow, omittedWindow]
         }
         defer { releaseCapture.signal(); releaseFollowUp.signal(); catalog.stop() }
         catalog.start()
@@ -797,6 +812,15 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         // This read starts only after the catalog has collected the closure.
         try await waitUntil { previous.read { $0.reads } == readsBeforeClosure + 2 }
 
+        if followUpFails {
+            try await waitUntil {
+                self.fixtureEntries(catalog).contains { $0.windowNumber == 7 && $0.isAwaitingWindowConfirmation }
+            }
+            previous.update { $0.windowListUnavailable = true }
+            releaseFollowUp.signal()
+            try await waitUntil { catalog.unavailableApplicationCount == 1 }
+        }
+
         let opening = try XCTUnwrap(catalog.opening(sortMode: .recentUse, deadlineReached: true))
         let rows = fixtureEntries(opening)
         XCTAssertEqual(rows.compactMap(\.windowNumber), [6, 8])
@@ -806,6 +830,49 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         session.normalizeSelection()
         session.advance(1)
         XCTAssertEqual(session.selected?.windowNumber, 8)
+    }
+
+    func testFreshOrdinaryOpeningsExcludePendingWindows() async throws {
+        for sortMode in [WindowSwitcherSortMode.fixed, .recentUse] {
+            let closing = CatalogAXAccess(number: 7, elementPID: 201)
+            let remaining = CatalogAXAccess(number: 8, elementPID: 202)
+            let captures = CatalogAXAccess(number: nil, elementPID: 203)
+            let releaseAX = DispatchSemaphore(value: 0)
+            let catalog = WindowSwitcherAppCatalog(notificationCenter: NotificationCenter(),
+                accessFactory: { $0 == 42 ? closing : remaining },
+                allSpacesCatalog: .init(windowRecordProvider: {
+                    captures.update { $0.reads += 1 }
+                    return [visibleRecord(7, owner: 42), visibleRecord(8, owner: 43)]
+                }), discovery: .init(applications: {
+                    [.init(processIdentifier: 42, localizedName: "Closing"),
+                     .init(processIdentifier: 43, localizedName: "Remaining")]
+                }, foregroundPID: { 43 }, isLaunching: { _ in false },
+                    isAccessibilityTrusted: { true }, isDragging: { false }))
+            defer { releaseAX.signal(); catalog.stop() }
+            catalog.start()
+            try await waitUntil { catalog.isInvocationReady }
+            XCTAssertEqual(fixtureEntries(catalog).compactMap(\.windowNumber), [7, 8])
+
+            let nextRead = closing.read { $0.reads } + 1
+            closing.update {
+                $0.number = nil
+                $0.beforeRead = { [weak closing] in
+                    if closing?.read({ $0.reads }) == nextRead {
+                        _ = releaseAX.wait(timeout: .now() + 0.2)
+                    }
+                }
+            }
+            catalog.invalidate(processIdentifiers: [42], windowRecords: false)
+            try await waitUntil { closing.read { $0.reads } == nextRead }
+            catalog.prepareForInvocation(sortMode: sortMode)
+            try await waitUntil { captures.read { $0.reads } == 2 }
+            releaseAX.signal()
+            try await waitUntil { catalog.isInvocationReady }
+
+            let opening = try XCTUnwrap(catalog.opening(sortMode: sortMode))
+            XCTAssertEqual(fixtureEntries(opening).compactMap(\.windowNumber), [8])
+            XCTAssertEqual(fixtureEntries(catalog).filter(\.isAwaitingWindowConfirmation).compactMap(\.windowNumber), [7])
+        }
     }
 
     func testLaunchDeadlineKeepsOrdinaryReadinessAfterUnrelatedAppAppears() async throws {

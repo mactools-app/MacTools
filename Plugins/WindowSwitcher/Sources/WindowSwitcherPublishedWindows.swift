@@ -60,10 +60,11 @@ struct WindowSwitcherPublishedWindows {
             let unconfirmedWindowNumbers: Set<CGWindowID>
             if let listedAt = completeWindowListsStartedAt[pid], let recordsStartedAt, listedAt > recordsStartedAt {
                 // The window might have closed or moved to another Space.
-                unconfirmedWindowNumbers = Set(processRecords.filter {
-                    $0.isOnScreen == true && $0.isOnActiveSpace != false
-                        && !liveAXNumbers.contains($0.windowNumber)
-                        && confirmedAXWindowNumbers[pid]?.contains($0.windowNumber) == true
+                unconfirmedWindowNumbers = Set(processRecords.filter { record in
+                    let mayBeOnScreen = record.isOnActiveSpace != false
+                        && (record.isOnScreen ?? (record.isOnActiveSpace == true))
+                    return mayBeOnScreen && !liveAXNumbers.contains(record.windowNumber)
+                        && confirmedAXWindowNumbers[pid]?.contains(record.windowNumber) == true
                 }.map(\.windowNumber))
             } else {
                 unconfirmedWindowNumbers = []
