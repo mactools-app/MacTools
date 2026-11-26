@@ -198,6 +198,47 @@ final class WindowSwitcherLifecycleTests: XCTestCase {
         XCTAssertEqual(plugin.session?.selected?.shortcutToken, "z")
     }
 
+    func testEditingAndResettingShortcutPreservesAppBindingWhileSiblingIsPending() throws {
+        var pending = WindowSwitcherAppEntry(id: "window:7", processIdentifier: 42, bundleIdentifier: "fixture",
+            appName: "Fixture", windowTitle: "First", icon: nil, windowElement: nil,
+            isMinimized: false, windowNumber: 7, shortcutToken: nil)
+        pending.isAwaitingWindowConfirmation = true
+        let sibling = WindowSwitcherAppEntry(id: "window:8", processIdentifier: 42, bundleIdentifier: "fixture",
+            appName: "Fixture", windowTitle: "Second", icon: nil, windowElement: AXUIElementCreateApplication(202),
+            isMinimized: false, windowNumber: 8, shortcutToken: nil)
+        let storage = WindowSwitcherMemoryStorage()
+        let storageKey = "shortcut-bindings"
+        let originalBindings = [sibling.appIdentifier: "z"]
+        storage.set(try JSONEncoder().encode(WindowSwitcherShortcutBindingState(manual: originalBindings)), forKey: storageKey)
+
+        let catalog = ControlledSwitcherCatalog(), tap = ControlledSwitcherTap()
+        let overlay = WindowSwitcherOverlayController()
+        catalog.windows = [pending, sibling]
+        catalog.openingOverride = WindowSwitcherOpening(entries: [sibling], focusedWindowID: sibling.id)
+        let plugin = plugin(catalog: catalog, tap: tap, overlay: overlay, storage: storage)
+        plugin.store.setMode(.keyWindow)
+        defer { plugin.deactivate(reason: .hostShutdown) }
+        tap.onShortcutPressed(false, false, false)
+        XCTAssertEqual(plugin.session?.entries.map(\.id), [sibling.id])
+
+        guard case let .updated(editedEntries)? = overlay.onShortcutChange?(sibling, "x") else {
+            return XCTFail("Expected the window-specific shortcut to be saved")
+        }
+        let edited = try XCTUnwrap(editedEntries.first)
+        XCTAssertEqual(edited.shortcutToken, "x")
+        let savedEdit = try XCTUnwrap(storage.data(forKey: storageKey))
+        let editedBindings = try JSONDecoder().decode(WindowSwitcherShortcutBindingState.self, from: savedEdit).manual
+        XCTAssertEqual(editedBindings[sibling.appIdentifier], "z")
+        XCTAssertEqual(editedBindings["window:42:cg:8"], "x")
+
+        guard case let .updated(resetEntries)? = overlay.onShortcutChange?(edited, nil) else {
+            return XCTFail("Expected the window-specific shortcut to reset")
+        }
+        XCTAssertNotEqual(resetEntries.first?.shortcutToken, "z")
+        let savedReset = try XCTUnwrap(storage.data(forKey: storageKey))
+        XCTAssertEqual(try JSONDecoder().decode(WindowSwitcherShortcutBindingState.self, from: savedReset).manual, originalBindings)
+    }
+
     func testCatalogPermissionRevocationStillNotifiesHostAndStopsListening() {
         let permission = PermissionFixture()
         let catalog = ControlledSwitcherCatalog(), tap = ControlledSwitcherTap()

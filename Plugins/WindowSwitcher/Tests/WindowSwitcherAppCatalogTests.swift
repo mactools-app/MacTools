@@ -384,6 +384,39 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         XCTAssertTrue(host.read { $0.actions }.isEmpty)
     }
 
+    func testCloseValidatesOriginalWindowServerRowAfterAccessibilityDiscovery() async throws {
+        for replacesWindow in [false, true] {
+            let host = CatalogAXAccess(number: 6, elementPID: 201)
+            let captures = CatalogAXAccess(number: nil, elementPID: 203)
+            let catalog = catalogWithLingeringWindow(host) {
+                let replaced = captures.read { $0.number != nil }
+                let record = WindowSwitcherWindowRecord(windowNumber: 7, processIdentifier: 42,
+                    title: replaced ? "Replacement" : "Original", isOnScreen: true,
+                    bounds: CGRect(x: replaced ? 20 : 100, y: 20, width: 800, height: 600),
+                    hasSpace: true, isOnActiveSpace: true)
+                return [record, visibleRecord(8, owner: 43)]
+            }
+            defer { catalog.stop() }
+            catalog.start()
+            try await waitUntil { catalog.isInvocationReady }
+            let original = try XCTUnwrap(fixtureEntries(catalog).first { $0.windowNumber == 7 })
+            XCTAssertNil(original.windowElement)
+
+            if replacesWindow { captures.update { $0.number = 7 } }
+            host.update { $0.secondWindowNumber = 7 }
+            catalog.prepareForInvocation(sortMode: .fixed)
+            try await waitUntil {
+                catalog.isInvocationReady && self.fixtureEntries(catalog).contains {
+                    $0.id == original.id && $0.windowElement != nil
+                }
+            }
+
+            let result = await catalog.closeWindow(original)
+            XCTAssertEqual(result, replacesWindow ? .unavailable : .requested)
+            XCTAssertEqual(host.read { $0.actions }, replacesWindow ? [] : [kAXPressAction])
+        }
+    }
+
     func testIdenticalCaptureResolvesPendingRowAfterRepeatedAXOmission() async throws {
         let host = CatalogAXAccess(number: 7, elementPID: 201)
         let captures = CatalogAXAccess(number: nil, elementPID: 203)

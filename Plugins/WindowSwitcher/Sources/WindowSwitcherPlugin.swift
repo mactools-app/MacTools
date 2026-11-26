@@ -166,7 +166,8 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         }
         self.overlayController.onShortcutChange = { [weak self] entry, token in
             guard let self, let session = self.session, session.usesDirectKeys else { return .unavailable }
-            return self.store.setManualShortcut(token, for: entry.id, in: session.entries)
+            let catalogEntries = self.appCatalog.entries(sortMode: self.store.configuration.sortMode)
+            return self.store.setManualShortcut(token, for: entry.id, in: session.entries, catalogEntries: catalogEntries)
         }
         self.overlayController.onSessionChange = { [weak self] session in
             self?.session = session

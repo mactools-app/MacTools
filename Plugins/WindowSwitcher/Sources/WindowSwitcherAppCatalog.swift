@@ -1186,16 +1186,30 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
               let worker = processWorker(for: target) else { return .unavailable }
         let targetID: String
         if let element = target.windowElement {
-            guard entry.windowElement.map({ CFEqual($0, element) }) != false else { return .unavailable }
-            targetID = target.workerWindowID ?? target.id
+            if let originalElement = entry.windowElement {
+                guard CFEqual(originalElement, element) else { return .unavailable }
+                targetID = target.workerWindowID ?? target.id
+            } else {
+                // The menu may still hold a WindowServer-only row. Validate
+                // that row before using the Accessibility handle found later.
+                guard entry.windowNumber == target.windowNumber,
+                      await allSpacesCatalog.isCurrentFallback(entry),
+                      let current = confirmedCloseTarget(matching: entry),
+                      current.windowNumber == entry.windowNumber, processWorker(for: current) === worker,
+                      let currentElement = current.windowElement, CFEqual(currentElement, element) else { return .unavailable }
+                targetID = current.workerWindowID ?? current.id
+            }
         } else {
             let previousElement = publication.retainedAXElement(for: target) ?? entry.windowElement
-            guard await allSpacesCatalog.isCurrentFallback(target) else { return .unavailable }
+            let fallback = entry.windowElement == nil ? entry : target
+            guard fallback.windowNumber == target.windowNumber,
+                  await allSpacesCatalog.isCurrentFallback(fallback) else { return .unavailable }
             let scan = await worker.scan()
             guard scan.windowListReadSucceeded,
                   let matchedID = Self.matchingFallbackWindowID(target, windows: scan.windows, records: allSpacesRecords),
                   let matchedWindow = scan.windows.first(where: { $0.id == matchedID }),
-                  let current = confirmedCloseTarget(matching: target), processWorker(for: current) === worker else { return .unavailable }
+                  let current = confirmedCloseTarget(matching: target), current.windowNumber == target.windowNumber,
+                  processWorker(for: current) === worker else { return .unavailable }
             // A reused WindowServer number cannot override a known AX identity.
             let currentElement = current.windowElement ?? publication.retainedAXElement(for: current)
             guard previousElement.map({ CFEqual($0, matchedWindow.element) }) != false,

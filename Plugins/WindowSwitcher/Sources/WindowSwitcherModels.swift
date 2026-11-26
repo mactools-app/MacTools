@@ -328,7 +328,8 @@ final class WindowSwitcherStore: ObservableObject {
     func setManualShortcut(
         _ rawToken: String?,
         for entryID: String,
-        in entries: [WindowSwitcherAppEntry]
+        in entries: [WindowSwitcherAppEntry],
+        catalogEntries: [WindowSwitcherAppEntry]? = nil
     ) -> WindowSwitcherShortcutCustomizationResult {
         removeExpiredWindowBindings(for: entries)
         let identities = WindowSwitcherShortcutAssignment.identities(for: entries)
@@ -341,7 +342,8 @@ final class WindowSwitcherStore: ObservableObject {
         let targetIdentity = identities[targetIndex]
         let current = WindowSwitcherShortcutAssignment.assignShortcuts(
             to: entries,
-            bindingState: shortcutBindings
+            bindingState: shortcutBindings,
+            catalogEntries: catalogEntries
         )
         var updatedState = current.bindingState
 
@@ -367,12 +369,13 @@ final class WindowSwitcherStore: ObservableObject {
 
         let appIdentity = entries[targetIndex].appIdentifier
         if Self.isPortableIdentity(appIdentity), updatedState.manual[appIdentity] != nil,
-           entries.filter({ $0.appIdentifier == appIdentity }).count == 1 {
+           (catalogEntries ?? entries).filter({ $0.appIdentifier == appIdentity }).count == 1 {
             updatedState.manual[appIdentity] = rawToken.flatMap(WindowSwitcherShortcutAssignment.normalizedManualToken)
         }
         let updated = WindowSwitcherShortcutAssignment.assignShortcuts(
             to: entries,
-            bindingState: updatedState
+            bindingState: updatedState,
+            catalogEntries: catalogEntries
         )
         if updated.bindingState != shortcutBindings {
             shortcutBindings = updated.bindingState
