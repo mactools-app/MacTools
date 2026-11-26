@@ -15,7 +15,10 @@ private final class BlockingWindowRecords: @unchecked Sendable {
     private var calls = 0
     private var completions = 0
     private var blocked = true
+    private let failingCall: Int?
     let release = DispatchSemaphore(value: 0)
+
+    init(failingCall: Int? = nil) { self.failingCall = failingCall }
 
     var counts: (started: Int, completed: Int) {
         lock.lock(); defer { lock.unlock() }
@@ -32,6 +35,7 @@ private final class BlockingWindowRecords: @unchecked Sendable {
         lock.unlock()
         if shouldWait { _ = release.wait(timeout: .now() + 3) }
         lock.lock(); completions += 1; lock.unlock()
+        if number == failingCall { return nil }
         return [.init(windowNumber: UInt32(number), processIdentifier: 42, title: "Fixture", isOnScreen: true,
                       bounds: CGRect(x: 0, y: 30, width: 800, height: 600))]
     }
@@ -102,6 +106,29 @@ final class WindowSwitcherWindowRecordsTests: XCTestCase {
         let current = await reader.freshWindowRecordSnapshot()
         XCTAssertTrue(current.isFresh)
         XCTAssertEqual(current.records.map(\.windowNumber), [3])
+    }
+
+    func testFailedNewCaptureDoesNotMakeOlderRecordsFreshForAnAction() async throws {
+        let provider = BlockingWindowRecords(failingCall: 2)
+        let reader = WindowSwitcherWindowRecords(windowRecordRefreshTimeout: 2, windowRecordProvider: { provider.read() })
+        defer { provider.release.signal(); reader.stop() }
+        let older = Task { await reader.freshWindowRecordSnapshot() }
+        try await waitUntil { provider.counts.started == 1 }
+
+        provider.unblock()
+        let failed = await reader.freshWindowRecordSnapshot(requiresNewCapture: true)
+        XCTAssertFalse(failed.isFresh)
+        let entry = WindowSwitcherAppEntry(id: "latest", processIdentifier: 42, bundleIdentifier: "fixture",
+            appName: "Fixture", windowTitle: "Fixture", icon: nil, windowElement: nil, isMinimized: false,
+            windowNumber: 3, windowBounds: CGRect(x: 0, y: 30, width: 800, height: 600), shortcutToken: nil)
+        let validated = await reader.isCurrentFallback(entry)
+        XCTAssertTrue(validated)
+        XCTAssertEqual(provider.counts.completed, 2)
+
+        provider.release.signal()
+        let superseded = await older.value
+        XCTAssertFalse(superseded.isFresh)
+        XCTAssertEqual(superseded.records.map(\.windowNumber), [3])
     }
 
     func testStopResumesWaitersWithoutWaitingForSystemQuery() async throws {

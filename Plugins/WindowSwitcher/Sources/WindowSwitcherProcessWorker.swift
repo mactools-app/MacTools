@@ -21,6 +21,7 @@ struct WindowSwitcherScan: Sendable {
     var unavailable: Bool
     var windowListReadSucceeded = true
     var reportedFocusedWindow = false
+    var reportedFocusWasExcluded = false
     var excludedWindowNumbers: Set<CGWindowID> = []
 }
 
@@ -158,7 +159,7 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
             windowSubscriptions.removeValue(forKey: old)
         }
         var indexes = Dictionary(uniqueKeysWithValues: records.enumerated().map { (WindowSwitcherAXIdentity(element: $0.element.element), $0.offset) })
-        var excluded = Set<String>()
+        var excluded = Set<WindowSwitcherAXIdentity>()
         var excludedWindowNumbers = Set<CGWindowID>()
         var didRead = 0
         var metadataFailed = false
@@ -176,7 +177,7 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
                 else { indexes[key] = records.count; records.append(snapshot) }
                 if uptime() < deadline { observe(window) }
             case let .excluded(number):
-                if let oldIndex { excluded.insert(records[oldIndex].id) }
+                excluded.insert(key)
                 if let number { excludedWindowNumbers.insert(number) }
             case .unavailable:
                 metadataFailed = true
@@ -184,12 +185,13 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
             }
             didRead += 1
         }
-        records.removeAll { excluded.contains($0.id) }
+        records.removeAll { excluded.contains(WindowSwitcherAXIdentity(element: $0.element)) }
         cursor = count == 0 ? 0 : (cursor + didRead) % count
         let focused = uptime() < deadline ? copyElement(app, kAXFocusedWindowAttribute) : nil
         let focusedID = focused.flatMap { element in records.first { CFEqual($0.element, element) }?.id }
         return WindowSwitcherScan(windows: records, focusedID: focusedID,
             unavailable: metadataFailed || didRead < count, reportedFocusedWindow: focused != nil,
+            reportedFocusWasExcluded: focused.map { excluded.contains(WindowSwitcherAXIdentity(element: $0)) } == true,
             excludedWindowNumbers: excludedWindowNumbers)
     }
 

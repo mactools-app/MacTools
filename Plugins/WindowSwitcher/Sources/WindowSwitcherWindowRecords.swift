@@ -149,7 +149,6 @@ final class WindowSwitcherWindowRecords {
     private var windowRecords: [WindowSwitcherWindowRecord] = []
     private var captures: [UInt64: Capture] = [:]
     private var windowRecordRefreshGeneration: UInt64 = 0
-    private var cachedGeneration: UInt64 = 0
     private var windowRecordRefreshInFlightCount = 0
 
     init(windowRecordRefreshTimeout: TimeInterval = 0.75,
@@ -164,7 +163,6 @@ final class WindowSwitcherWindowRecords {
 
     func stop() {
         windowRecords.removeAll()
-        cachedGeneration = 0
         for generation in Array(captures.keys) {
             finishCapture(generation, records: nil)
         }
@@ -249,7 +247,8 @@ final class WindowSwitcherWindowRecords {
         guard !Task.isCancelled else { return .init(records: windowRecords, isFresh: false) }
         // An older read can still be physically running after a newer one
         // completes. Joining it cannot provide fresh validation.
-        let joinable = captures.keys.max().flatMap { $0 > cachedGeneration ? $0 : nil }
+        let latest = windowRecordRefreshGeneration
+        let joinable = captures[latest] == nil ? nil : latest
         let generation = requiresNewCapture ? startCapture() : joinable ?? startCapture()
         guard let generation else {
             return WindowSwitcherWindowRecordSnapshot(records: windowRecords, isFresh: false)
@@ -276,14 +275,11 @@ final class WindowSwitcherWindowRecords {
         guard let capture = captures.removeValue(forKey: generation) else { return }
         capture.timeout.cancel()
         if records == nil { capture.task.cancel() }
-        // An older capture can finish after a new invocation has already
-        // published its own result. Keep the cache ordered by capture start.
-        if let records, generation > cachedGeneration {
-            cachedGeneration = generation
-            windowRecords = records
-        }
+        // A newer attempt supersedes an older capture even if it fails.
+        let isFresh = records != nil && generation == windowRecordRefreshGeneration
+        if isFresh, let records { windowRecords = records }
         let snapshot = WindowSwitcherWindowRecordSnapshot(records: windowRecords,
-            isFresh: records != nil && generation == cachedGeneration)
+            isFresh: isFresh)
         for continuation in capture.waiters.values { continuation.resume(returning: snapshot) }
     }
 }
