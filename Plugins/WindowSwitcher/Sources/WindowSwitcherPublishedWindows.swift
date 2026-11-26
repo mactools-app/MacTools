@@ -1,4 +1,5 @@
 import AppKit
+import ApplicationServices
 
 /// One publication transaction owns row identities. Readers never modify this
 /// state, and selection, actions, and recency all consume the same published IDs.
@@ -7,12 +8,12 @@ struct WindowSwitcherPublishedWindows {
     struct CompleteWindowList {
         let startedAt: ContinuousClock.Instant
         let windowNumbers: Set<CGWindowID>
-        let isEmpty: Bool
+        var windowServerNumbersAtEmptyRead: Set<CGWindowID>?
     }
 
-    private struct PendingWindow {
-        let omittedAt: ContinuousClock.Instant
-        let previousAX: WindowSwitcherAppEntry?
+    private struct RetainedWindow {
+        var awaitingConfirmationSince: ContinuousClock.Instant?
+        let previousAX: AXUIElement?
     }
 
     private(set) var entries: [WindowSwitcherAppEntry] = []
@@ -20,13 +21,13 @@ struct WindowSwitcherPublishedWindows {
     var recency = WindowSwitcherRecency()
     private var confirmedAXWindowNumbers: [pid_t: Set<CGWindowID>] = [:]
     private var axAliases: [pid_t: [String: String]] = [:]
-    private var pendingWindows: [pid_t: [CGWindowID: PendingWindow]] = [:]
+    private var retainedWindows: [pid_t: [CGWindowID: RetainedWindow]] = [:]
 
     mutating func removeProcess(_ pid: pid_t) {
         knownWindowIDs.removeValue(forKey: pid)
         axAliases.removeValue(forKey: pid)
         confirmedAXWindowNumbers.removeValue(forKey: pid)
-        pendingWindows.removeValue(forKey: pid)
+        retainedWindows.removeValue(forKey: pid)
         entries.removeAll { $0.processIdentifier == pid }
     }
 
@@ -45,18 +46,18 @@ struct WindowSwitcherPublishedWindows {
             let raw = snapshots[pid] ?? []
             let helpers = helperProcessIdentifiers[pid] ?? []
             let processRecords = records.filter { $0.processIdentifier == pid || helpers.contains($0.processIdentifier) }
-            let priorPending = pendingWindows[pid] ?? [:]
+            let priorRetained = retainedWindows[pid] ?? [:]
             let completeList = completeWindowLists[pid]
             // A continuously observed AX replacement is a new lifetime even if
             // WindowServer immediately reuses its number. Fallback-to-AX discovery
-            // retains its public ID across legitimate Space transitions. Pending
-            // rows keep the last AX handle so reuse cannot inherit selection.
+            // retains its public ID across legitimate Space transitions. A retained
+            // row keeps its last AX handle even after its new Space is confirmed.
             let previousAX = Dictionary(entries.filter { $0.processIdentifier == pid && $0.windowElement != nil && $0.windowNumber != nil }
                 .map { ($0.windowNumber!, $0) }, uniquingKeysWith: { first, _ in first })
             for entry in raw where !entry.metadataUnavailable {
                 guard let number = entry.windowNumber, let element = entry.windowElement,
-                      let previous = priorPending[number]?.previousAX ?? previousAX[number],
-                      let oldElement = previous.windowElement, !CFEqual(oldElement, element) else { continue }
+                      let oldElement = priorRetained[number]?.previousAX ?? previousAX[number]?.windowElement,
+                      !CFEqual(oldElement, element) else { continue }
                 knownWindowIDs[pid]?.removeValue(forKey: number)
                 confirmedAXWindowNumbers[pid]?.remove(number)
             }
@@ -72,29 +73,45 @@ struct WindowSwitcherPublishedWindows {
             }
             let liveAXNumbers = Set(raw.filter { $0.windowElement != nil && !$0.metadataUnavailable }.compactMap(\.windowNumber))
             confirmedAXWindowNumbers[pid, default: []].formUnion(liveAXNumbers)
-            var pending: [CGWindowID: PendingWindow] = [:]
+            var retained: [CGWindowID: RetainedWindow] = [:]
+            var unconfirmed = Set<CGWindowID>()
             for record in processRecords {
                 let number = record.windowNumber
                 guard !liveAXNumbers.contains(number), completeList?.windowNumbers.contains(number) != true else { continue }
-                if let previous = priorPending[number] {
+                var window = priorRetained[number]
+                if let omittedAt = window?.awaitingConfirmationSince {
                     let placementIsKnown = record.isOnScreen == true || record.hasSpace != nil || record.isOnActiveSpace != nil
-                    if !recordsAreFresh || recordsStartedAt.map({ $0 >= previous.omittedAt }) != true || !placementIsKnown {
-                        pending[number] = previous
+                    if recordsAreFresh, recordsStartedAt.map({ $0 >= omittedAt }) == true, placementIsKnown {
+                        window?.awaitingConfirmationSince = nil
                     }
                 } else if let completeList, let recordsStartedAt, completeList.startedAt > recordsStartedAt,
                           confirmedAXWindowNumbers[pid]?.contains(number) == true,
                           record.isOnActiveSpace != false, record.isOnScreen ?? (record.isOnActiveSpace == true) {
                     // The complete AX list omitted a previously known window
                     // still shown on the active Space by an older capture.
-                    pending[number] = PendingWindow(omittedAt: completeList.startedAt, previousAX: previousAX[number])
+                    window = RetainedWindow(awaitingConfirmationSince: completeList.startedAt,
+                                            previousAX: window?.previousAX ?? previousAX[number]?.windowElement)
                 }
+                retained[number] = window
+                if window?.awaitingConfirmationSince != nil { unconfirmed.insert(number) }
+            }
+            let excludedWindowNumbers: Set<CGWindowID>
+            if !recordsAreFresh {
+                excludedWindowNumbers = []
+            } else if raw.contains(where: { !$0.isWindowEntry && !$0.metadataUnavailable }) {
+                excludedWindowNumbers = Set(processRecords.map(\.windowNumber))
+            } else {
+                // A failed read carries forward the exclusion of previously seen
+                // records. A new WindowServer row can still pass the usual checks.
+                excludedWindowNumbers = completeList?.windowServerNumbersAtEmptyRead ?? []
             }
             let merged = WindowSwitcherAppCatalog.mergeAllSpacesEntries(normalized, records: processRecords,
                 knownWindowIDs: knownWindowIDs[pid] ?? [:],
                 confirmedAXWindowNumbers: confirmedAXWindowNumbers[pid] ?? [],
-                hasConfirmedEmptyAXSnapshot: recordsAreFresh && completeList?.isEmpty == true,
-                helperProcessIdentifiers: helpers, unconfirmedWindowNumbers: Set(pending.keys))
+                windowNumbersExcludedByEmptyAXList: excludedWindowNumbers,
+                helperProcessIdentifiers: helpers, unconfirmedWindowNumbers: unconfirmed)
             var nextAliases: [String: String] = [:]
+            var publishedRetained: [CGWindowID: RetainedWindow] = [:]
             var seenIDs = Set<String>()
             for var entry in merged {
                 guard entry.isWindowEntry, seenIDs.insert(entry.id).inserted else { continue }
@@ -105,7 +122,8 @@ struct WindowSwitcherPublishedWindows {
                 // the same window a different public identity.
                 if let number = entry.windowNumber {
                     knownWindowIDs[pid, default: [:]][number] = entry.id
-                    entry.isAwaitingWindowConfirmation = pending[number] != nil
+                    entry.isAwaitingWindowConfirmation = unconfirmed.contains(number)
+                    publishedRetained[number] = retained[number]
                 }
                 if let workerID = entry.workerWindowID { nextAliases[workerID] = entry.id }
                 if entry.windowElement == nil && entry.isWindowEntry && !recordsAreFresh {
@@ -118,7 +136,7 @@ struct WindowSwitcherPublishedWindows {
                 published.append(entry)
             }
             axAliases[pid] = nextAliases
-            pendingWindows[pid] = pending.isEmpty ? nil : pending
+            retainedWindows[pid] = publishedRetained.isEmpty ? nil : publishedRetained
             // A failed CG read cannot establish closure. Even a successful read
             // must not discard an ID independently confirmed by live AX data.
             if recordsAreFresh {

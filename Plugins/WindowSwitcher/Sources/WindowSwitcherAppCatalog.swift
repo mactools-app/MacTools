@@ -516,8 +516,11 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                 let previousList = completeWindowLists[pid]
                 if !unavailableScan, allWorkersRead {
                     // AX windows without system numbers still count toward this list.
+                    let windowServerNumbersAtEmptyRead = entries.isEmpty ? Set(allSpacesRecords.lazy
+                        .filter { self.processMapping.host(for: $0.processIdentifier) == pid }.map(\.windowNumber)) : nil
                     completeWindowLists[pid] = .init(startedAt: startedAt,
-                        windowNumbers: Set(entries.compactMap(\.windowNumber)), isEmpty: entries.isEmpty)
+                        windowNumbers: Set(entries.compactMap(\.windowNumber)),
+                        windowServerNumbersAtEmptyRead: windowServerNumbersAtEmptyRead)
                 }
                 let completeList = completeWindowLists[pid]
                 if !result.windowListReadSucceeded, entries.isEmpty, let previous, !previous.isEmpty {
@@ -538,7 +541,8 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                         != (completeList.map { $0.startedAt > capturedAt } == true)
                 } ?? false
                 if previous != entries || changedWindowListFreshness
-                    || previousList?.windowNumbers != completeList?.windowNumbers || previousList?.isEmpty != completeList?.isEmpty {
+                    || previousList?.windowNumbers != completeList?.windowNumbers
+                    || previousList?.windowServerNumbersAtEmptyRead != completeList?.windowServerNumbersAtEmptyRead {
                     markPublicationDirty()
                 }
                 let activePID = activeWorkerPID(for: pid)
@@ -860,6 +864,18 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             }
             let oldHelpers = helperPIDsByHost
             let capturedAt = result.startedAt ?? windowRecordsStartedAt
+            if let startedAt = result.startedAt {
+                // The first capture or one already in flight can arrive after the
+                // AX scan completes. Later captures can retire contradicted IDs.
+                let recordsByHost = Dictionary(grouping: result.records) { processMapping.host(for: $0.processIdentifier) }
+                for (pid, list) in completeWindowLists {
+                    guard let numbersAtEmptyRead = list.windowServerNumbersAtEmptyRead else { continue }
+                    let capturedNumbers = Set(recordsByHost[pid, default: []].map(\.windowNumber))
+                    let belongsToEmptyRead = windowRecordsStartedAt == nil || startedAt <= list.startedAt
+                    completeWindowLists[pid]?.windowServerNumbersAtEmptyRead = belongsToEmptyRead
+                        ? numbersAtEmptyRead.union(capturedNumbers) : numbersAtEmptyRead.intersection(capturedNumbers)
+                }
+            }
             let windowListsChangedFreshness = completeWindowLists.values.contains { list in
                 (windowRecordsStartedAt.map { $0 < list.startedAt } == true) != (capturedAt.map { $0 < list.startedAt } == true)
             }
@@ -898,7 +914,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     static func mergeAllSpacesEntries(_ entries: [WindowSwitcherAppEntry], records: [WindowSwitcherWindowRecord],
                                       knownWindowIDs: [CGWindowID: String] = [:],
                                       confirmedAXWindowNumbers: Set<CGWindowID> = [],
-                                      hasConfirmedEmptyAXSnapshot: Bool = false,
+                                      windowNumbersExcludedByEmptyAXList: Set<CGWindowID> = [],
                                       helperProcessIdentifiers: Set<pid_t> = [],
                                       unconfirmedWindowNumbers: Set<CGWindowID> = []) -> [WindowSwitcherAppEntry] {
         guard let application = entries.first else { return entries }
@@ -938,7 +954,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             // WindowServer may still retain named surfaces after the last window
             // closes. Retain previously known rows while Space evidence catches up.
             let awaitingConfirmation = unconfirmedWindowNumbers.contains(record.windowNumber)
-            guard !hasConfirmedEmptyAXSnapshot || awaitingConfirmation || record.isOnScreen == false
+            guard !windowNumbersExcludedByEmptyAXList.contains(record.windowNumber) || awaitingConfirmation || record.isOnScreen == false
                     || (record.isOnScreen == nil && record.hasSpace == true) else { return nil }
             // Unknown Space membership is not proof that a newly discovered
             // off-screen surface is a window. Previously AX-confirmed windows

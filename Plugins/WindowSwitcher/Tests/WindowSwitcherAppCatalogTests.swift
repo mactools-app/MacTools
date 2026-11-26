@@ -156,7 +156,7 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         let previousCapture = ContinuousClock.now
         let newerAXList = previousCapture.advanced(by: .milliseconds(10))
         let completeWindowLists: [pid_t: WindowSwitcherPublishedWindows.CompleteWindowList] = [
-            42: .init(startedAt: newerAXList, windowNumbers: [], isEmpty: true)
+            42: .init(startedAt: newerAXList, windowNumbers: [], windowServerNumbersAtEmptyRead: [7])
         ]
         let nextCapture = newerAXList.advanced(by: .milliseconds(10))
         var publication = WindowSwitcherPublishedWindows()
@@ -224,14 +224,55 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
                                             isPersistent: true, originalWindowID: original.id)
 
         publication.update(snapshots: [42: [application], 43: [other]], records: records, recordsAreFresh: true,
-                           completeWindowLists: [42: .init(startedAt: oldCapture + .milliseconds(10), windowNumbers: [], isEmpty: true)],
+                           completeWindowLists: [42: .init(startedAt: oldCapture + .milliseconds(10),
+                                                           windowNumbers: [], windowServerNumbersAtEmptyRead: [7])],
                            recordsStartedAt: oldCapture)
         session.reconcile(publication.entries)
         XCTAssertEqual(session.selectedID, original.id)
 
         publication.update(snapshots: [42: [replacement], 43: [other]], records: records, recordsAreFresh: true,
-                           completeWindowLists: [42: .init(startedAt: oldCapture + .milliseconds(20), windowNumbers: [7], isEmpty: false)],
+                           completeWindowLists: [42: .init(startedAt: oldCapture + .milliseconds(20), windowNumbers: [7])],
                            recordsStartedAt: oldCapture)
+        session.reconcile(publication.entries)
+        XCTAssertEqual(session.entries.map(\.id), [other.id, replacement.id])
+        XCTAssertEqual(session.selectedID, other.id)
+    }
+
+    func testReplacementCannotInheritSelectionAfterOtherSpaceConfirmation() throws {
+        let original = catalogRow("original", owner: 42, number: 7, elementPID: 201)
+        let replacement = catalogRow("replacement", owner: 42, number: 7, elementPID: 202)
+        let other = catalogRow("other", owner: 43, number: 8, elementPID: 203)
+        let application = catalogRow("app", owner: 42)
+        let records = [visibleRecord(7, owner: 42), visibleRecord(8, owner: 43)]
+        let oldCapture = ContinuousClock.now
+        let omission = oldCapture + .milliseconds(10)
+        let movedCapture = omission + .milliseconds(10)
+        let omitted: [pid_t: WindowSwitcherPublishedWindows.CompleteWindowList] = [
+            42: .init(startedAt: omission, windowNumbers: [], windowServerNumbersAtEmptyRead: [7])
+        ]
+        var publication = WindowSwitcherPublishedWindows()
+        publication.update(snapshots: [42: [original], 43: [other]], records: records,
+                           recordsAreFresh: true, recordsStartedAt: oldCapture)
+        var session = WindowSwitcherSession(entries: publication.entries, selectedID: original.id,
+                                            isPersistent: true, originalWindowID: original.id)
+        publication.update(snapshots: [42: [application], 43: [other]], records: records,
+                           recordsAreFresh: true, completeWindowLists: omitted, recordsStartedAt: oldCapture)
+        session.reconcile(publication.entries)
+
+        let moved = WindowSwitcherWindowRecord(windowNumber: 7, processIdentifier: 42, title: "Window 7",
+            isOnScreen: false, bounds: original.bounds, hasSpace: true, isOnActiveSpace: false)
+        publication.update(snapshots: [42: [application], 43: [other]], records: [moved, records[1]],
+                           recordsAreFresh: true, completeWindowLists: omitted, recordsStartedAt: movedCapture)
+        session.reconcile(publication.entries)
+        let retained = try XCTUnwrap(session.selected)
+        XCTAssertEqual(retained.id, original.id)
+        XCTAssertTrue(retained.isOnOtherDesktop)
+        XCTAssertFalse(retained.isAwaitingWindowConfirmation)
+        XCTAssertNil(retained.windowElement)
+
+        publication.update(snapshots: [42: [replacement], 43: [other]], records: records, recordsAreFresh: true,
+                           completeWindowLists: [42: .init(startedAt: movedCapture + .milliseconds(10), windowNumbers: [7])],
+                           recordsStartedAt: movedCapture + .milliseconds(20))
         session.reconcile(publication.entries)
         XCTAssertEqual(session.entries.map(\.id), [other.id, replacement.id])
         XCTAssertEqual(session.selectedID, other.id)
@@ -243,7 +284,7 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         let records = [visibleRecord(7, owner: 42), visibleRecord(8, owner: 42)]
         let oldCapture = ContinuousClock.now
         let completeWindowLists: [pid_t: WindowSwitcherPublishedWindows.CompleteWindowList] = [
-            42: .init(startedAt: oldCapture + .milliseconds(10), windowNumbers: [7, 8], isEmpty: false)
+            42: .init(startedAt: oldCapture + .milliseconds(10), windowNumbers: [7, 8])
         ]
         var publication = WindowSwitcherPublishedWindows()
         publication.update(snapshots: [42: [first, second]], records: records, recordsAreFresh: true,
@@ -333,14 +374,52 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         XCTAssertEqual(captures.read { $0.reads }, 1)
     }
 
-    private func catalogWithLingeringWindow(_ first: CatalogAXAccess, captures: CatalogAXAccess? = nil)
+    func testFailedAXReadAdmitsWindowFirstSeenAfterCompleteEmptyList() async throws {
+        let closed = CatalogAXAccess(number: nil, elementPID: 201)
+        let captures = CatalogAXAccess(number: 7, elementPID: 203)
+        let catalog = catalogWithLingeringWindow(closed, captures: captures) {
+            var records = [visibleRecord(8, owner: 43)]
+            if let number = captures.read({ $0.number }) { records.append(visibleRecord(number, owner: 42)) }
+            if closed.read({ $0.windowListUnavailable }) { records.append(visibleRecord(9, owner: 42)) }
+            return records
+        }
+        defer { catalog.stop() }
+        catalog.start()
+        try await waitUntil { catalog.isInvocationReady }
+        let initial = try XCTUnwrap(catalog.opening(sortMode: .fixed))
+        XCTAssertEqual(fixtureEntries(initial).compactMap(\.windowNumber), [8])
+
+        closed.update { $0.windowListUnavailable = true }
+        catalog.prepareForInvocation(sortMode: .fixed)
+        try await waitUntil { catalog.isInvocationReady && catalog.unavailableApplicationCount == 1 }
+        let afterNewCapture = try XCTUnwrap(catalog.opening(sortMode: .fixed))
+        XCTAssertEqual(fixtureEntries(afterNewCapture).compactMap(\.windowNumber).sorted(), [8, 9])
+        XCTAssertGreaterThan(captures.read { $0.reads }, 1)
+
+        captures.update { $0.number = nil }
+        catalog.prepareForInvocation(sortMode: .fixed)
+        try await waitUntil { catalog.isInvocationReady }
+        let afterRemoval = try XCTUnwrap(catalog.opening(sortMode: .fixed))
+        XCTAssertEqual(fixtureEntries(afterRemoval).compactMap(\.windowNumber).sorted(), [8, 9])
+
+        captures.update { $0.number = 7 }
+        catalog.prepareForInvocation(sortMode: .fixed)
+        try await waitUntil { catalog.isInvocationReady }
+        let afterReuse = try XCTUnwrap(catalog.opening(sortMode: .fixed))
+        XCTAssertEqual(fixtureEntries(afterReuse).compactMap(\.windowNumber).sorted(), [7, 8, 9])
+    }
+
+    private func catalogWithLingeringWindow(_ first: CatalogAXAccess, captures: CatalogAXAccess? = nil,
+                                            records: @escaping @Sendable () -> [WindowSwitcherWindowRecord] = {
+                                                [visibleRecord(7, owner: 42), visibleRecord(8, owner: 43)]
+                                            })
         -> WindowSwitcherAppCatalog {
         let other = CatalogAXAccess(number: 8, elementPID: 202)
         return WindowSwitcherAppCatalog(notificationCenter: NotificationCenter(),
             accessFactory: { $0 == 42 ? first : other },
             allSpacesCatalog: .init(windowRecordProvider: {
                 captures?.update { $0.reads += 1 }
-                return [visibleRecord(7, owner: 42), visibleRecord(8, owner: 43)]
+                return records()
             }), discovery: .init(applications: {
                 [.init(processIdentifier: 42, localizedName: "First"),
                  .init(processIdentifier: 43, localizedName: "Other")]
