@@ -7,8 +7,43 @@ final class NotchHoverPanelGeometryTests: XCTestCase {
     private let leftArea = CGRect(x: 0, y: 950, width: 620, height: 32)
     private let rightArea = CGRect(x: 892, y: 950, width: 620, height: 32)
 
+    func testDisplayWithoutCameraHousingHasNoHoverTrigger() {
+        let screen = NotchHoverScreenSnapshot(
+            displayID: 1,
+            frame: screenFrame,
+            auxiliaryTopLeftArea: nil,
+            auxiliaryTopRightArea: nil,
+            isBuiltin: true,
+            isMain: true,
+            isInMirrorSet: false
+        )
+
+        XCTAssertNil(NotchHoverGeometry.display(for: screen, triggerWidth: 52, verticalTriggerReach: 72))
+    }
+
+    func testDefaultTriggerIsOnlyTheIsland() throws {
+        let display = try XCTUnwrap(makeDisplay(
+            triggerWidth: NotchHoverGeometry.defaultTriggerWidth,
+            verticalTriggerReach: NotchHoverGeometry.defaultVerticalTriggerReach
+        ))
+
+        XCTAssertEqual(display.triggerRects, [display.notchFrame])
+        let withBelowTriggerDisabled = try XCTUnwrap(
+            makeDisplay(triggerWidth: 0, enableBelowTrigger: false)
+        )
+        XCTAssertEqual(withBelowTriggerDisabled.triggerRects, [withBelowTriggerDisabled.notchFrame])
+        for point in [CGPoint(x: 610, y: 960), CGPoint(x: 900, y: 960), CGPoint(x: 756, y: 940)] {
+            XCTAssertFalse(NotchHoverGeometry.isPointerActive(
+                point,
+                triggers: display.triggerRects,
+                notchFrame: display.notchFrame,
+                panelFrame: nil
+            ), "Pointer just outside the island at \(point) must not open the panel.")
+        }
+    }
+
     func testTriggersStayImmediatelyBesideAndBelowTheNotch() throws {
-        let display = try XCTUnwrap(makeDisplay(triggerWidth: 52))
+        let display = try XCTUnwrap(makeDisplay(triggerWidth: 52, verticalTriggerReach: 72))
 
         XCTAssertEqual(display.notchFrame, CGRect(x: 620, y: 950, width: 272, height: 32))
         XCTAssertEqual(display.triggerRects.count, 3)
@@ -18,9 +53,9 @@ final class NotchHoverPanelGeometryTests: XCTestCase {
             display.triggerRects[2],
             CGRect(
                 x: 620,
-                y: 950 - NotchHoverGeometry.defaultVerticalTriggerReach,
+                y: 950 - 72,
                 width: 272,
-                height: 32 + NotchHoverGeometry.defaultVerticalTriggerReach
+                height: 32 + 72
             )
         )
 
@@ -40,7 +75,7 @@ final class NotchHoverPanelGeometryTests: XCTestCase {
     }
 
     func testMovingUpwardFromBelowTheNotchTriggersThePanel() throws {
-        let display = try XCTUnwrap(makeDisplay(triggerWidth: 52))
+        let display = try XCTUnwrap(makeDisplay(triggerWidth: 52, verticalTriggerReach: 72))
 
         XCTAssertTrue(NotchHoverGeometry.isPointerActive(
             CGPoint(x: 756, y: 900),
@@ -62,12 +97,13 @@ final class NotchHoverPanelGeometryTests: XCTestCase {
         ), "The trigger below the notch stays within the notch width.")
     }
 
-    func testDisablingBelowTriggerKeepsOnlySideTriggers() throws {
+    func testDisablingBelowTriggerKeepsTheIslandAndSideTriggers() throws {
         let display = try XCTUnwrap(
-            makeDisplay(triggerWidth: 52, enableBelowTrigger: false)
+            makeDisplay(triggerWidth: 52, verticalTriggerReach: 72, enableBelowTrigger: false)
         )
 
-        XCTAssertEqual(display.triggerRects.count, 2, "Only the side triggers remain.")
+        XCTAssertEqual(display.triggerRects.count, 3)
+        XCTAssertEqual(display.triggerRects.last, display.notchFrame)
         XCTAssertEqual(display.triggerRects[0], CGRect(x: 568, y: 950, width: 52, height: 32))
         XCTAssertEqual(display.triggerRects[1], CGRect(x: 892, y: 950, width: 52, height: 32))
         XCTAssertFalse(NotchHoverGeometry.isPointerActive(
@@ -85,7 +121,7 @@ final class NotchHoverPanelGeometryTests: XCTestCase {
     }
 
     func testVerticalTriggerReachIsClampedAndRespected() throws {
-        let minimum = try XCTUnwrap(makeDisplay(triggerWidth: 52, verticalTriggerReach: 1))
+        let minimum = try XCTUnwrap(makeDisplay(triggerWidth: 52, verticalTriggerReach: -10))
         let maximum = try XCTUnwrap(makeDisplay(triggerWidth: 52, verticalTriggerReach: 500))
 
         XCTAssertEqual(
@@ -105,10 +141,9 @@ final class NotchHoverPanelGeometryTests: XCTestCase {
     }
 
     func testTriggerWidthIsClampedToSupportedRange() throws {
-        XCTAssertEqual(
-            try XCTUnwrap(makeDisplay(triggerWidth: 2)).triggerRects[0].width,
-            NotchHoverGeometry.minimumTriggerWidth
-        )
+        // Below the minimum, the side areas disappear and only the island remains.
+        let minimum = try XCTUnwrap(makeDisplay(triggerWidth: -10))
+        XCTAssertEqual(minimum.triggerRects, [minimum.notchFrame])
         XCTAssertEqual(
             try XCTUnwrap(makeDisplay(triggerWidth: 500)).triggerRects[0].width,
             NotchHoverGeometry.maximumTriggerWidth

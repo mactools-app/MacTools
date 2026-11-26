@@ -75,9 +75,12 @@ enum ConfiguredMenuBarPanelLayout {
 
     static func contentHeight(
         components: [PluginPanelWidgetSnapshot], features: [PluginPanelRowSnapshot], screen: NSScreen?,
-        entries: [MenuBarPanelEntry]? = nil, width: CGFloat = MenuBarPanelLayout.surfaceWidth
+        entries: [MenuBarPanelEntry]? = nil, width: CGFloat = MenuBarPanelLayout.surfaceWidth,
+        minimumFeatureContentHeight: CGFloat = MenuBarPanelLayout.minimumContentHeight
     ) -> CGFloat {
-        if entries == nil && width == MenuBarPanelLayout.surfaceWidth && !features.contains(where: \.usesCompactPresentation) {
+        if entries == nil && width == MenuBarPanelLayout.surfaceWidth
+            && minimumFeatureContentHeight == MenuBarPanelLayout.minimumContentHeight
+            && !features.contains(where: \.usesCompactPresentation) {
             if components.isEmpty { return MenuBarPanelLayout.preferredFeatureContentHeight(for: features, screen: screen) }
             if features.isEmpty { return ComponentPanelLayout.preferredContentHeight(for: components, screen: screen) }
         }
@@ -85,11 +88,12 @@ enum ConfiguredMenuBarPanelLayout {
             ?? components.map { ($0.id, PluginPanelItemKind.widget) } + features.map { ($0.id, PluginPanelItemKind.row) }
         let height = placement(order: order, components: components, features: features, width: width).height
         if components.isEmpty {
-            return MenuBarPanelLayout.preferredFeatureContentHeight(featureContentHeight: height,
-                maximumFeatureListHeight: MenuBarPanelLayout.maximumFeatureListHeight(for: screen))
+            let maxHeight = MenuBarPanelLayout.maximumFeatureListHeight(for: screen)
+            let minimum = features.isEmpty ? MenuBarPanelLayout.minimumContentHeight : minimumFeatureContentHeight
+            return max(min(height, maxHeight) + MenuBarPanelLayout.contentVerticalPadding, minimum)
         }
         let raw = height + MenuBarPanelLayout.contentVerticalPadding
-        let minimum = features.isEmpty ? raw : MenuBarPanelLayout.minimumContentHeight
+        let minimum = features.isEmpty ? raw : minimumFeatureContentHeight
         return min(max(raw, minimum), MenuBarPanelLayout.maximumContentHeight(for: screen))
     }
 }

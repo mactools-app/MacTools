@@ -171,11 +171,15 @@ final class MenuBarStatusItemController: NSObject {
             }
             self.handlePresentationResult()
         }
-        pluginHost.anchoredMenuBarPanelPresentationHandler = { [weak self] request in
+        pluginHost.anchoredMenuBarPanelPresentationHandler = { [weak self] request, pluginID, storage in
             guard let self else { return false }
+            let style: NotchHoverPanelStyle = pluginID == NotchHoverPanelStyle.pluginID
+                ? .stored(in: storage)
+                : .classic
             let presented = self.panelPresenter.presentPanelBelowAnchor(
                 panelID: request.panelID,
-                anchorRect: request.anchorRect
+                anchorRect: request.anchorRect,
+                style: style
             )
             if presented { self.handlePresentationResult() }
             return presented

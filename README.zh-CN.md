@@ -95,7 +95,7 @@ brew upgrade --cask --greedy mactools
 
 「自动切换输入法」会在应用切到前台时应用该规则的输入法与键盘模式。键盘模式可选择跟随系统、使用 F1–F12 功能键或保留 MacBook 快捷键，切走后顶部按键会恢复原来的行为。
 
-[灵动岛悬浮面板](docs/plugins/notch-hover-panel.md)会在悬停灵动岛两侧，或从灵动岛正下方往上移动时滑出 MacTools 面板；需要带灵动岛的 Mac 屏幕。安装并启用后默认隐藏 MacTools 菜单栏图标，可在插件设置中重新显示。
+[灵动岛悬停面板](docs/plugins/notch-hover-panel.md)会在鼠标悬停于灵动岛上时，从刘海处展开 MacTools 面板。此插件需要带灵动岛的 Mac 屏幕，并可在设置中调整悬停范围和菜单栏图标的显示。
 
 [Apple Music 桌面歌词](docs/plugins/apple-music-lyrics.md)会在 Apple Music 播放时于屏幕右上角显示毛玻璃桌面歌词，支持自定义字号、透明度、颜色、逐字高亮与可拖动位置。歌词直接读取 Apple Music 已缓存的数据，无需 Apple 账户，通过自动化权限跟随播放状态。
 
