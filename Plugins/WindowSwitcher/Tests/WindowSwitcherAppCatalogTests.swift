@@ -356,6 +356,85 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         XCTAssertTrue(catalog.canActivate(retainedSelection))
     }
 
+    func testCloseFromStaleFallbackDoesNotCloseReplacementWhilePending() async throws {
+        let host = CatalogAXAccess(number: 6, elementPID: 201)
+        let catalog = catalogWithLingeringWindow(host)
+        defer { catalog.stop() }
+        catalog.start()
+        try await waitUntil { catalog.isInvocationReady }
+        let fallback = try XCTUnwrap(fixtureEntries(catalog).first { $0.windowNumber == 7 })
+        XCTAssertNil(fallback.windowElement)
+
+        host.update { $0.secondWindowNumber = 7 }
+        catalog.invalidate(processIdentifiers: [42], windowRecords: false)
+        try await waitUntil {
+            self.fixtureEntries(catalog).contains { $0.id == fallback.id && $0.windowElement != nil }
+        }
+
+        host.update { $0.number = nil; $0.secondWindowNumber = nil }
+        catalog.invalidate(processIdentifiers: [42], windowRecords: false)
+        try await waitUntil {
+            self.fixtureEntries(catalog).contains { $0.id == fallback.id && $0.isAwaitingWindowConfirmation }
+        }
+        // The context menu still holds the fallback row when a different AX
+        // element appears with the original WindowServer number.
+        host.update { $0.number = 7 }
+        let result = await catalog.closeWindow(fallback)
+        XCTAssertEqual(result, .unavailable)
+        XCTAssertTrue(host.read { $0.actions }.isEmpty)
+    }
+
+    func testIdenticalCaptureResolvesPendingRowAfterRepeatedAXOmission() async throws {
+        let host = CatalogAXAccess(number: 7, elementPID: 201)
+        let captures = CatalogAXAccess(number: nil, elementPID: 203)
+        let releaseCapture = DispatchSemaphore(value: 0)
+        let releaseAX = DispatchSemaphore(value: 0)
+        let records = [visibleRecord(7, owner: 42), visibleRecord(8, owner: 43)]
+        let catalog = catalogWithLingeringWindow(host, captures: captures) {
+            if captures.read({ $0.reads }) == 2 { _ = releaseCapture.wait(timeout: .now() + 1) }
+            return records
+        }
+        defer { releaseAX.signal(); releaseCapture.signal(); catalog.stop() }
+        catalog.start()
+        try await waitUntil { catalog.isInvocationReady }
+        let rows = fixtureEntries(catalog)
+        let original = try XCTUnwrap(rows.first { $0.windowNumber == 7 })
+        var session = WindowSwitcherSession(entries: rows, selectedID: original.id,
+                                            isPersistent: true, originalWindowID: original.id)
+        host.update { $0.number = nil }
+        catalog.invalidate(processIdentifiers: [42], windowRecords: false)
+        try await waitUntil {
+            self.fixtureEntries(catalog).contains { $0.id == original.id && $0.isAwaitingWindowConfirmation }
+        }
+        session.reconcile(fixtureEntries(catalog))
+        XCTAssertEqual(session.selectedID, original.id)
+
+        // Leave a failed AX read in flight while the invocation starts capturing
+        // WindowServer again. The invocation's AX read is complete and empty.
+        host.update { $0.windowListUnavailable = true }
+        let priorReads = host.read { $0.reads }
+        host.update { $0.beforeRead = {
+            switch host.read({ $0.reads }) {
+            case priorReads + 1: _ = releaseAX.wait(timeout: .now() + 0.2)
+            case priorReads + 2: host.update { $0.windowListUnavailable = false }
+            default: break
+            }
+        } }
+        catalog.invalidate(processIdentifiers: [42], windowRecords: false)
+        try await waitUntil { host.read { $0.reads } == priorReads + 1 }
+        catalog.prepareForInvocation(sortMode: .fixed)
+        try await waitUntil { captures.read { $0.reads } == 2 }
+        releaseAX.signal()
+        try await waitUntil { host.read { $0.reads } == priorReads + 2 && catalog.unavailableApplicationCount == 0 }
+        XCTAssertNil(catalog.opening(sortMode: .fixed))
+
+        releaseCapture.signal()
+        try await waitUntil { catalog.isInvocationReady }
+        session.reconcile(fixtureEntries(catalog))
+        XCTAssertEqual(session.entries.compactMap(\.windowNumber), [8])
+        XCTAssertEqual(session.selected?.windowNumber, 8)
+    }
+
     func testIncompleteMetadataReadCannotRepublishSuppressedWindow() async throws {
         let closed = CatalogAXAccess(number: nil, elementPID: 201)
         let captures = CatalogAXAccess(number: nil, elementPID: 203)

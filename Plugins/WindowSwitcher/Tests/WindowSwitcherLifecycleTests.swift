@@ -200,10 +200,11 @@ final class WindowSwitcherLifecycleTests: XCTestCase {
     }
     private func plugin(catalog: ControlledSwitcherCatalog, tap: ControlledSwitcherTap,
                         overlay: WindowSwitcherOverlayController? = nil,
-                        storage: WindowSwitcherMemoryStorage = WindowSwitcherMemoryStorage(),
+                        storage: WindowSwitcherMemoryStorage? = nil,
                         trusted: @escaping @MainActor @Sendable () -> Bool = { true }) -> WindowSwitcherPlugin {
         let plugin = WindowSwitcherPlugin(context: PluginRuntimeContext(pluginID: WindowSwitcherConstants.pluginID,
-            storage: storage), appCatalog: catalog, overlayController: overlay ?? WindowSwitcherOverlayController(), shortcutTap: tap,
+            storage: storage ?? WindowSwitcherMemoryStorage()), appCatalog: catalog,
+            overlayController: overlay ?? WindowSwitcherOverlayController(), shortcutTap: tap,
             discoveryTimeout: .milliseconds(30), accessibilityTrusted: trusted)
         // Most lifecycle scenarios below exercise release-to-activate cycling.
         // Search and legacy scenarios opt into their respective mode explicitly.

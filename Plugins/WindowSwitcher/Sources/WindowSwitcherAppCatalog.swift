@@ -879,7 +879,11 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             let windowListsChangedFreshness = completeWindowLists.values.contains { list in
                 (windowRecordsStartedAt.map { $0 < list.startedAt } == true) != (capturedAt.map { $0 < list.startedAt } == true)
             }
-            if allSpacesRecords != result.records || allSpacesRecordsAreFresh != result.isFresh || windowListsChangedFreshness {
+            let pendingWindowEvidenceChanged = result.startedAt.map {
+                publication.hasNewPendingWindowEvidence(from: windowRecordsStartedAt, to: $0)
+            } == true
+            if allSpacesRecords != result.records || allSpacesRecordsAreFresh != result.isFresh
+                || windowListsChangedFreshness || pendingWindowEvidenceChanged {
                 markPublicationDirty()
             }
             allSpacesRecords = result.records
@@ -1176,19 +1180,35 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             refresh()
             return result
         }
-        guard entry.isWindowEntry, currentEntry(matching: entry) != nil, let worker = processWorker(for: entry) else { return .unavailable }
-        var targetID = entry.workerWindowID ?? entry.id
-        if entry.windowElement == nil {
-            guard await allSpacesCatalog.isCurrentFallback(entry) else { return .unavailable }
+        guard let target = confirmedCloseTarget(matching: entry),
+              let worker = processWorker(for: target) else { return .unavailable }
+        let targetID: String
+        if let element = target.windowElement {
+            guard entry.windowElement.map({ CFEqual($0, element) }) != false else { return .unavailable }
+            targetID = target.workerWindowID ?? target.id
+        } else {
+            let previousElement = publication.retainedAXElement(for: target) ?? entry.windowElement
+            guard await allSpacesCatalog.isCurrentFallback(target) else { return .unavailable }
             let scan = await worker.scan()
             guard scan.windowListReadSucceeded,
-                  let matchedID = Self.matchingFallbackWindowID(entry, windows: scan.windows, records: allSpacesRecords) else { return .unavailable }
-            targetID = matchedID
+                  let matchedID = Self.matchingFallbackWindowID(target, windows: scan.windows, records: allSpacesRecords),
+                  let matchedWindow = scan.windows.first(where: { $0.id == matchedID }),
+                  let current = confirmedCloseTarget(matching: target), processWorker(for: current) === worker else { return .unavailable }
+            // A reused WindowServer number cannot override a known AX identity.
+            let currentElement = current.windowElement ?? publication.retainedAXElement(for: current)
+            guard previousElement.map({ CFEqual($0, matchedWindow.element) }) != false,
+                  currentElement.map({ CFEqual($0, matchedWindow.element) }) != false else { return .unavailable }
+            targetID = matchedWindow.id
         }
-        guard processWorker(for: entry) === worker else { return .unavailable }
         let result = await worker.perform(targetID, close: true)
         refresh()
         return result
+    }
+
+    private func confirmedCloseTarget(matching entry: WindowSwitcherAppEntry) -> WindowSwitcherAppEntry? {
+        guard let current = currentEntry(matching: entry), current.processIdentifier == entry.processIdentifier,
+              current.isWindowEntry, !current.isAwaitingWindowConfirmation, !current.metadataUnavailable else { return nil }
+        return current
     }
 
     func quitApplication(_ entry: WindowSwitcherAppEntry) -> WindowSwitcherActionResult {

@@ -23,6 +23,20 @@ struct WindowSwitcherPublishedWindows {
     private var axAliases: [pid_t: [String: String]] = [:]
     private var retainedWindows: [pid_t: [CGWindowID: RetainedWindow]] = [:]
 
+    func retainedAXElement(for entry: WindowSwitcherAppEntry) -> AXUIElement? {
+        guard let number = entry.windowNumber else { return nil }
+        return retainedWindows[entry.processIdentifier]?[number]?.previousAX
+    }
+
+    func hasNewPendingWindowEvidence(from previousCapture: ContinuousClock.Instant?, to capture: ContinuousClock.Instant) -> Bool {
+        retainedWindows.values.contains { windows in
+            windows.values.contains { window in
+                guard let omittedAt = window.awaitingConfirmationSince else { return false }
+                return capture >= omittedAt && previousCapture.map { $0 < omittedAt } != false
+            }
+        }
+    }
+
     mutating func removeProcess(_ pid: pid_t) {
         knownWindowIDs.removeValue(forKey: pid)
         axAliases.removeValue(forKey: pid)
