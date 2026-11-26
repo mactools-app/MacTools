@@ -1,55 +1,55 @@
 {
   "id": "ai-usage",
   "displayName": "AI 用量",
-  "summary": "查看 Codex 与 Claude Code 订阅额度和重置时间",
+  "summary": "查看 Claude、Codex、OpenCode 和 GitHub Copilot 的额度、API 价值、趋势、模型、项目与活动",
   "localizedMetadata": {
     "ar": {
       "displayName": "استخدام الذكاء الاصطناعي",
-      "summary": "عرض حصص اشتراك Codex وClaude Code وأوقات إعادة التعيين."
+      "summary": "اعرض حدود الخطة وقيمة API والاتجاهات والنماذج والمشاريع والنشاط لـ Claude وCodex وOpenCode وGitHub Copilot."
     },
     "de": {
       "displayName": "KI-Nutzung",
-      "summary": "Abonnementkontingente und Rücksetzzeiten für Codex und Claude Code anzeigen."
+      "summary": "Planlimits, API-Wert, Verlauf, Modelle, Projekte und Aktivität von Claude, Codex, OpenCode und GitHub Copilot anzeigen."
     },
     "en": {
       "displayName": "AI Usage",
-      "summary": "View Codex and Claude Code subscription quotas and reset times."
+      "summary": "See plan limits, API value, trends, models, projects and activity for Claude, Codex, OpenCode and GitHub Copilot."
     },
     "es": {
       "displayName": "Uso de IA",
-      "summary": "Consulta las cuotas y los tiempos de reinicio de Codex y Claude Code."
+      "summary": "Consulta los límites del plan, el valor de API, las tendencias, los modelos, los proyectos y la actividad de Claude, Codex, OpenCode y GitHub Copilot."
     },
     "fr": {
       "displayName": "Utilisation IA",
-      "summary": "Consultez les quotas et les heures de réinitialisation de Codex et Claude Code."
+      "summary": "Consultez les limites du forfait, la valeur API, les tendances, les modèles, les projets et l’activité de Claude, Codex, OpenCode et GitHub Copilot."
     },
     "ja": {
       "displayName": "AI 使用量",
-      "summary": "Codex と Claude Code の利用枠とリセット時刻を確認します。"
+      "summary": "Claude、Codex、OpenCode、GitHub Copilot のプラン上限、API 換算額、推移、モデル、プロジェクト、アクティビティを確認します。"
     },
     "ko": {
       "displayName": "AI 사용량",
-      "summary": "Codex 및 Claude Code 구독 한도와 초기화 시간을 확인합니다."
+      "summary": "Claude, Codex, OpenCode, GitHub Copilot의 플랜 한도, API 가치, 추세, 모델, 프로젝트, 활동을 확인합니다."
     },
     "pt": {
       "displayName": "Uso de IA",
-      "summary": "Veja as cotas e os horários de redefinição de Codex e Claude Code."
+      "summary": "Veja os limites do plano, o valor de API, as tendências, os modelos, os projetos e a atividade do Claude, Codex, OpenCode e GitHub Copilot."
     },
     "ru": {
       "displayName": "Использование ИИ",
-      "summary": "Просматривайте квоты подписок Codex и Claude Code и время их сброса."
+      "summary": "Лимиты плана, стоимость API, динамика, модели, проекты и активность Claude, Codex, OpenCode и GitHub Copilot."
     },
     "tr": {
       "displayName": "Yapay Zekâ Kullanımı",
-      "summary": "Codex ve Claude Code abonelik kotalarını ve sıfırlanma zamanlarını görüntüleyin."
+      "summary": "Claude, Codex, OpenCode ve GitHub Copilot için plan sınırlarını, API değerini, eğilimleri, modelleri, projeleri ve etkinliği görün."
     },
     "zh-Hans": {
       "displayName": "AI 用量",
-      "summary": "查看 Codex 与 Claude Code 订阅额度和重置时间"
+      "summary": "查看 Claude、Codex、OpenCode 和 GitHub Copilot 的额度、API 价值、趋势、模型、项目与活动"
     },
     "zh-Hant": {
       "displayName": "AI 用量",
-      "summary": "查看 Codex 與 Claude Code 訂閱額度和重置時間"
+      "summary": "查看 Claude、Codex、OpenCode 和 GitHub Copilot 的額度、API 價值、趨勢、模型、專案與活動"
     }
   },
   "productStrings": {
@@ -71,7 +71,7 @@
       "zh-Hant": "額度消耗速率"
     }
   },
-  "version": "1.2.0",
+  "version": "2.0.0",
   "minHostVersion": "2.0.1",
   "pluginKitVersion": 7,
   "bundleRelativePath": "AIUsage.bundle",
@@ -104,14 +104,19 @@
   },
   "discovery": {
     "keywords": [
+      "agents",
       "ai",
-      "usage",
-      "quota",
-      "codex",
+      "api value",
       "claude",
-      "subscription",
+      "codex",
+      "copilot",
+      "opencode",
+      "quota",
+      "quota pace",
       "remaining quota",
-      "quota pace"
+      "subscription",
+      "tokens",
+      "usage"
     ],
     "localizedSynonyms": {
       "ar": [
@@ -184,8 +189,8 @@
   },
   "privacy": {
     "dataObserved": [
-      "subscription-quota",
-      "local-cli-credentials"
+      "agent-usage-logs",
+      "plan-limits"
     ],
     "dataPersisted": [
       "plugin-configuration"
@@ -193,10 +198,9 @@
     "retention": {
       "policy": "user-controlled"
     },
-    "networkUse": "required",
+    "networkUse": "optional",
     "networkDomains": [
-      "chatgpt.com",
-      "api.anthropic.com"
+      "raw.githubusercontent.com"
     ],
     "allowsUserConfiguredDomains": false,
     "telemetry": "none",
@@ -216,8 +220,6 @@
   "preferencesBackup": {
     "status": "partial",
     "exclusions": [
-      "credentials",
-      "permissions",
       "history"
     ]
   }
