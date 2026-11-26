@@ -23,6 +23,7 @@ struct WindowSwitcherScan: Sendable {
     var reportedFocusedWindow = false
     var reportedFocusWasExcluded = false
     var excludedWindowNumbers: Set<CGWindowID> = []
+    var focusReadStartedAt: ContinuousClock.Instant?
 }
 
 struct WindowSwitcherAXIdentity: Hashable {
@@ -187,12 +188,13 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
         }
         records.removeAll { excluded.contains(WindowSwitcherAXIdentity(element: $0.element)) }
         cursor = count == 0 ? 0 : (cursor + didRead) % count
-        let focused = uptime() < deadline ? copyElement(app, kAXFocusedWindowAttribute) : nil
+        let focusReadStartedAt: ContinuousClock.Instant? = uptime() < deadline ? .now : nil
+        let focused = focusReadStartedAt != nil ? copyElement(app, kAXFocusedWindowAttribute) : nil
         let focusedID = focused.flatMap { element in records.first { CFEqual($0.element, element) }?.id }
         return WindowSwitcherScan(windows: records, focusedID: focusedID,
             unavailable: metadataFailed || didRead < count, reportedFocusedWindow: focused != nil,
             reportedFocusWasExcluded: focused.map { excluded.contains(WindowSwitcherAXIdentity(element: $0)) } == true,
-            excludedWindowNumbers: excludedWindowNumbers)
+            excludedWindowNumbers: excludedWindowNumbers, focusReadStartedAt: focusReadStartedAt)
     }
 
     private enum Admission {
@@ -209,7 +211,7 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
         guard role == kAXWindowRole as String else { return .excluded() }
         if let subrole = values[1] as? String,
            ![kAXStandardWindowSubrole as String, kAXDialogSubrole as String, "AXFullScreenWindow"].contains(subrole) {
-            return .excluded()
+            return .excluded(access.windowNumber(window))
         }
         guard let minimized = values[3] as? Bool,
               let point = decodePoint(values[4]),
