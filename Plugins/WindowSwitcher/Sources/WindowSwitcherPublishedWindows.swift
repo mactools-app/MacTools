@@ -4,23 +4,36 @@ import AppKit
 /// state, and selection, actions, and recency all consume the same published IDs.
 @MainActor
 struct WindowSwitcherPublishedWindows {
+    struct CompleteWindowList {
+        let startedAt: ContinuousClock.Instant
+        let windowNumbers: Set<CGWindowID>
+        let isEmpty: Bool
+    }
+
+    private struct PendingWindow {
+        let omittedAt: ContinuousClock.Instant
+        let previousAX: WindowSwitcherAppEntry?
+    }
+
     private(set) var entries: [WindowSwitcherAppEntry] = []
     private(set) var knownWindowIDs: [pid_t: [CGWindowID: String]] = [:]
     var recency = WindowSwitcherRecency()
     private var confirmedAXWindowNumbers: [pid_t: Set<CGWindowID>] = [:]
     private var axAliases: [pid_t: [String: String]] = [:]
+    private var pendingWindows: [pid_t: [CGWindowID: PendingWindow]] = [:]
 
     mutating func removeProcess(_ pid: pid_t) {
         knownWindowIDs.removeValue(forKey: pid)
         axAliases.removeValue(forKey: pid)
         confirmedAXWindowNumbers.removeValue(forKey: pid)
+        pendingWindows.removeValue(forKey: pid)
         entries.removeAll { $0.processIdentifier == pid }
     }
 
     mutating func update(snapshots: [pid_t: [WindowSwitcherAppEntry]], records: [WindowSwitcherWindowRecord],
                          recordsAreFresh: Bool, localEntries: [WindowSwitcherAppEntry] = [],
                          helperProcessIdentifiers: [pid_t: Set<pid_t>] = [:],
-                         completeWindowListsStartedAt: [pid_t: ContinuousClock.Instant] = [:],
+                         completeWindowLists: [pid_t: CompleteWindowList] = [:],
                          recordsStartedAt: ContinuousClock.Instant? = nil,
                          displayContext: (CGRect) -> (id: UInt32, name: String)? = { _ in nil }) {
         for pid in Set(knownWindowIDs.keys).union(axAliases.keys) where snapshots[pid] == nil {
@@ -30,18 +43,22 @@ struct WindowSwitcherPublishedWindows {
         var claimedWindowNumbers = Set<CGWindowID>()
         for pid in snapshots.keys.sorted() {
             let raw = snapshots[pid] ?? []
+            let helpers = helperProcessIdentifiers[pid] ?? []
+            let processRecords = records.filter { $0.processIdentifier == pid || helpers.contains($0.processIdentifier) }
+            let priorPending = pendingWindows[pid] ?? [:]
+            let completeList = completeWindowLists[pid]
             // A continuously observed AX replacement is a new lifetime even if
             // WindowServer immediately reuses its number. Fallback-to-AX discovery
-            // still retains its public ID across legitimate Space transitions.
+            // retains its public ID across legitimate Space transitions. Pending
+            // rows keep the last AX handle so reuse cannot inherit selection.
             let previousAX = Dictionary(entries.filter { $0.processIdentifier == pid && $0.windowElement != nil && $0.windowNumber != nil }
                 .map { ($0.windowNumber!, $0) }, uniquingKeysWith: { first, _ in first })
-            for entry in raw {
-                if let number = entry.windowNumber, let element = entry.windowElement,
-                   let previous = previousAX[number], let oldElement = previous.windowElement,
-                   !CFEqual(oldElement, element) {
-                    knownWindowIDs[pid]?.removeValue(forKey: number)
-                    confirmedAXWindowNumbers[pid]?.remove(number)
-                }
+            for entry in raw where !entry.metadataUnavailable {
+                guard let number = entry.windowNumber, let element = entry.windowElement,
+                      let previous = priorPending[number]?.previousAX ?? previousAX[number],
+                      let oldElement = previous.windowElement, !CFEqual(oldElement, element) else { continue }
+                knownWindowIDs[pid]?.removeValue(forKey: number)
+                confirmedAXWindowNumbers[pid]?.remove(number)
             }
             let previousAliases = axAliases[pid] ?? [:]
             let normalized = raw.map { entry in
@@ -53,27 +70,30 @@ struct WindowSwitcherPublishedWindows {
                 }
                 return entry
             }
-            let liveAXNumbers = Set(raw.filter { $0.windowElement != nil }.compactMap(\.windowNumber))
+            let liveAXNumbers = Set(raw.filter { $0.windowElement != nil && !$0.metadataUnavailable }.compactMap(\.windowNumber))
             confirmedAXWindowNumbers[pid, default: []].formUnion(liveAXNumbers)
-            let helpers = helperProcessIdentifiers[pid] ?? []
-            let processRecords = records.filter { $0.processIdentifier == pid || helpers.contains($0.processIdentifier) }
-            let unconfirmedWindowNumbers: Set<CGWindowID>
-            if let listedAt = completeWindowListsStartedAt[pid], let recordsStartedAt, listedAt > recordsStartedAt {
-                // The window might have closed or moved to another Space.
-                unconfirmedWindowNumbers = Set(processRecords.filter { record in
-                    let mayBeOnScreen = record.isOnActiveSpace != false
-                        && (record.isOnScreen ?? (record.isOnActiveSpace == true))
-                    return mayBeOnScreen && !liveAXNumbers.contains(record.windowNumber)
-                        && confirmedAXWindowNumbers[pid]?.contains(record.windowNumber) == true
-                }.map(\.windowNumber))
-            } else {
-                unconfirmedWindowNumbers = []
+            var pending: [CGWindowID: PendingWindow] = [:]
+            for record in processRecords {
+                let number = record.windowNumber
+                guard !liveAXNumbers.contains(number), completeList?.windowNumbers.contains(number) != true else { continue }
+                if let previous = priorPending[number] {
+                    let placementIsKnown = record.isOnScreen == true || record.hasSpace != nil || record.isOnActiveSpace != nil
+                    if !recordsAreFresh || recordsStartedAt.map({ $0 >= previous.omittedAt }) != true || !placementIsKnown {
+                        pending[number] = previous
+                    }
+                } else if let completeList, let recordsStartedAt, completeList.startedAt > recordsStartedAt,
+                          confirmedAXWindowNumbers[pid]?.contains(number) == true,
+                          record.isOnActiveSpace != false, record.isOnScreen ?? (record.isOnActiveSpace == true) {
+                    // The complete AX list omitted a previously known window
+                    // still shown on the active Space by an older capture.
+                    pending[number] = PendingWindow(omittedAt: completeList.startedAt, previousAX: previousAX[number])
+                }
             }
             let merged = WindowSwitcherAppCatalog.mergeAllSpacesEntries(normalized, records: processRecords,
                 knownWindowIDs: knownWindowIDs[pid] ?? [:],
                 confirmedAXWindowNumbers: confirmedAXWindowNumbers[pid] ?? [],
-                hasConfirmedEmptyAXSnapshot: recordsAreFresh && raw.contains { !$0.isWindowEntry && !$0.metadataUnavailable },
-                helperProcessIdentifiers: helpers, unconfirmedWindowNumbers: unconfirmedWindowNumbers)
+                hasConfirmedEmptyAXSnapshot: recordsAreFresh && completeList?.isEmpty == true,
+                helperProcessIdentifiers: helpers, unconfirmedWindowNumbers: Set(pending.keys))
             var nextAliases: [String: String] = [:]
             var seenIDs = Set<String>()
             for var entry in merged {
@@ -83,7 +103,10 @@ struct WindowSwitcherPublishedWindows {
                 if let number = entry.windowNumber, !claimedWindowNumbers.insert(number).inserted { continue }
                 // Register CG-only rows too, before later AX discovery can give
                 // the same window a different public identity.
-                if let number = entry.windowNumber { knownWindowIDs[pid, default: [:]][number] = entry.id }
+                if let number = entry.windowNumber {
+                    knownWindowIDs[pid, default: [:]][number] = entry.id
+                    entry.isAwaitingWindowConfirmation = pending[number] != nil
+                }
                 if let workerID = entry.workerWindowID { nextAliases[workerID] = entry.id }
                 if entry.windowElement == nil && entry.isWindowEntry && !recordsAreFresh {
                     entry.metadataUnavailable = true
@@ -95,6 +118,7 @@ struct WindowSwitcherPublishedWindows {
                 published.append(entry)
             }
             axAliases[pid] = nextAliases
+            pendingWindows[pid] = pending.isEmpty ? nil : pending
             // A failed CG read cannot establish closure. Even a successful read
             // must not discard an ID independently confirmed by live AX data.
             if recordsAreFresh {

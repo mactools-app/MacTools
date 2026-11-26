@@ -148,7 +148,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     private var observers: [NSObjectProtocol] = []
     private var workers: [pid_t: WindowSwitcherProcessWorker] = [:]
     private var snapshots: [pid_t: [WindowSwitcherAppEntry]] = [:]
-    private var completeWindowListsStartedAt: [pid_t: ContinuousClock.Instant] = [:]
+    private var completeWindowLists: [pid_t: WindowSwitcherPublishedWindows.CompleteWindowList] = [:]
     private var inFlight: Set<pid_t> = []
     // Kept across stop/start until the actual worker returns.
     private var activeScanCount = 0
@@ -313,7 +313,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         observers.forEach(notificationCenter.removeObserver); observers.removeAll()
         workers.values.forEach { $0.stop() }; workers.removeAll()
         snapshots.removeAll(); inFlight.removeAll(); unavailable.removeAll()
-        completeWindowListsStartedAt.removeAll()
+        completeWindowLists.removeAll()
         unavailableApplicationCount = 0
     }
 
@@ -426,7 +426,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                 inFlight.remove(pid)
                 unavailable.remove(pid)
                 snapshots.removeValue(forKey: pid)
-                completeWindowListsStartedAt.removeValue(forKey: pid)
+                completeWindowLists.removeValue(forKey: pid)
                 pendingFocus.removeValue(forKey: pid)
                 scopedRefreshes.removeValue(forKey: pid)
                 removedProcesses.insert(pid)
@@ -437,7 +437,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         }
         for pid in Array(snapshots.keys) where !expectedHostPIDs.contains(pid) {
             snapshots.removeValue(forKey: pid)
-            completeWindowListsStartedAt.removeValue(forKey: pid)
+            completeWindowLists.removeValue(forKey: pid)
             removedProcesses.insert(pid)
             markPublicationDirty()
         }
@@ -513,26 +513,34 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                 unavailableApplicationCount = unavailable.count
                 let previous = snapshots[pid]
                 let allWorkersRead = (helperPIDsByHost[pid] ?? []).isSubset(of: helperObservations.keys)
-                let previousListStartedAt = completeWindowListsStartedAt[pid]
-                // An incomplete read cannot supersede the last complete list.
-                let completeListStartedAt = !unavailableScan && allWorkersRead ? startedAt : previousListStartedAt
-                completeWindowListsStartedAt[pid] = completeListStartedAt
-                // A failed read is never evidence of a windowless application.
-                if entries.isEmpty && !unavailableScan {
-                    entries = [WindowSwitcherAppEntry(id: "app:\(worker.lifetime)", processIdentifier: pid,
+                let previousList = completeWindowLists[pid]
+                if !unavailableScan, allWorkersRead {
+                    // AX windows without system numbers still count toward this list.
+                    completeWindowLists[pid] = .init(startedAt: startedAt,
+                        windowNumbers: Set(entries.compactMap(\.windowNumber)), isEmpty: entries.isEmpty)
+                }
+                let completeList = completeWindowLists[pid]
+                if !result.windowListReadSucceeded, entries.isEmpty, let previous, !previous.isEmpty {
+                    entries = previous.map { var entry = $0; entry.metadataUnavailable = true; return entry }
+                } else if entries.isEmpty, !unavailableScan || previous?.isEmpty == false {
+                    // Keep app metadata for WindowServer rows even if an incomplete
+                    // read could not produce any current AX windows.
+                    let application = WindowSwitcherAppEntry(id: "app:\(worker.lifetime)", processIdentifier: pid,
                         bundleIdentifier: app.bundleIdentifier, appName: app.localizedName ?? "App",
                         windowTitle: nil, icon: app.icon, windowElement: nil, isMinimized: false,
-                        applicationLaunchDate: app.launchDate, shortcutToken: nil, isHidden: app.isHidden)]
-                }
-                if !result.windowListReadSucceeded, entries.isEmpty, let previous {
-                    entries = previous.map { var entry = $0; entry.metadataUnavailable = true; return entry }
+                        applicationLaunchDate: app.launchDate, shortcutToken: nil, isHidden: app.isHidden,
+                        metadataUnavailable: unavailableScan || !allWorkersRead)
+                    entries = [application]
                 }
                 snapshots[pid] = entries
                 let changedWindowListFreshness = windowRecordsStartedAt.map { capturedAt in
-                    (previousListStartedAt.map { $0 > capturedAt } == true)
-                        != (completeListStartedAt.map { $0 > capturedAt } == true)
+                    (previousList.map { $0.startedAt > capturedAt } == true)
+                        != (completeList.map { $0.startedAt > capturedAt } == true)
                 } ?? false
-                if previous != entries || changedWindowListFreshness { markPublicationDirty() }
+                if previous != entries || changedWindowListFreshness
+                    || previousList?.windowNumbers != completeList?.windowNumbers || previousList?.isEmpty != completeList?.isEmpty {
+                    markPublicationDirty()
+                }
                 let activePID = activeWorkerPID(for: pid)
                 if checksLaunch, invocation == invocationGeneration, launchCheck?.pid == pid {
                     if let activePID, let helper = helperObservations[activePID] {
@@ -632,7 +640,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     private func rebuildPublication() {
         publication.update(snapshots: snapshots, records: allSpacesRecords, recordsAreFresh: allSpacesRecordsAreFresh, localEntries: hostWindows.entries(),
                            helperProcessIdentifiers: helperPIDsByHost,
-                           completeWindowListsStartedAt: completeWindowListsStartedAt,
+                           completeWindowLists: completeWindowLists,
                            recordsStartedAt: windowRecordsStartedAt,
                            displayContext: { self.displayContext(for: $0) })
         if NSApp.isActive, let focusedID = hostWindows.focusedID {
@@ -646,13 +654,15 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         guard let check = launchCheck else { return }
         if case let .requested(startedAt) = check.retry, observation.startedAt < startedAt { return }
         // Ordinary discovery may read the owner again after resolving helpers.
-        // A successful window list with no focus value can corroborate the
-        // previous exact window, while an explicit focus report replaces it.
+        // A successful read with unchanged candidates can corroborate the
+        // earlier exact window when AX temporarily omits the focus value.
         let scan = observation.scan
         if observation.startedAt >= check.changedAt, let previous = check.observation, previous.lifetime == observation.lifetime,
            previous.startedAt >= check.changedAt, let id = previous.scan.focusedID,
            !scan.reportedFocusedWindow, !scan.unavailable,
-           scan.windows.contains(where: { $0.id == id && !$0.unavailable }) {
+           scan.windows.contains(where: { $0.id == id && !$0.unavailable }),
+           Set(scan.windows.filter { !$0.minimized && !$0.unavailable }.map(\.id))
+               == Set(previous.scan.windows.filter { !$0.minimized && !$0.unavailable }.map(\.id)) {
             return
         }
         launchCheck?.observation = observation
@@ -850,8 +860,8 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             }
             let oldHelpers = helperPIDsByHost
             let capturedAt = result.startedAt ?? windowRecordsStartedAt
-            let windowListsChangedFreshness = completeWindowListsStartedAt.values.contains { listedAt in
-                (windowRecordsStartedAt.map { $0 < listedAt } == true) != (capturedAt.map { $0 < listedAt } == true)
+            let windowListsChangedFreshness = completeWindowLists.values.contains { list in
+                (windowRecordsStartedAt.map { $0 < list.startedAt } == true) != (capturedAt.map { $0 < list.startedAt } == true)
             }
             if allSpacesRecords != result.records || allSpacesRecordsAreFresh != result.isFresh || windowListsChangedFreshness {
                 markPublicationDirty()
@@ -952,7 +962,6 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                 windowBounds: record.bounds, applicationLaunchDate: application.applicationLaunchDate,
                 shortcutToken: nil, bounds: record.bounds, isHidden: application.isHidden)
             fallbackEntry.windowOwnerPID = record.processIdentifier
-            fallbackEntry.isAwaitingWindowConfirmation = awaitingConfirmation
             fallbackEntry.isOnOtherDesktop = record.isOnActiveSpace == false
             fallbackEntry.isOnFullscreenSpace = record.isOnFullscreenSpace == true
             return fallbackEntry
@@ -1006,8 +1015,13 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         } while true
     }
 
-    private func containsCurrentEntry(_ entry: WindowSwitcherAppEntry) -> Bool {
-        entries(sortMode: .fixed).contains { $0.id == entry.id }
+    private func currentEntry(matching entry: WindowSwitcherAppEntry) -> WindowSwitcherAppEntry? {
+        entries(sortMode: .fixed).first { $0.id == entry.id }
+    }
+
+    func canActivate(_ entry: WindowSwitcherAppEntry) -> Bool {
+        // The open chooser may still hold the row from before it became pending.
+        currentEntry(matching: entry)?.isAwaitingWindowConfirmation == false
     }
 
     func activate(_ entry: WindowSwitcherAppEntry, intent: WindowSwitcherActivationIntent) async -> WindowSwitcherActionResult {
@@ -1018,7 +1032,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             refresh()
             return result
         }
-        guard containsCurrentEntry(entry),
+        guard canActivate(entry),
               let worker = processWorker(for: entry),
               let app = NSRunningApplication(processIdentifier: entry.processIdentifier), !app.isTerminated else { return .unavailable }
         var isFallback = entry.windowElement == nil && entry.windowNumber != nil
@@ -1051,6 +1065,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             resolved = await worker.resolveOffSpaceWindow(number, ownerPID: ownerPID, cancellation: intent.cancellation)
         } else { resolved = nil }
         guard intent.shouldContinue(), processWorker(for: entry) === worker, !app.isTerminated else { return .cancelled }
+        guard canActivate(entry) else { return .unavailable }
         if let resolved {
             if app.isHidden {
                 _ = app.unhide()
@@ -1145,7 +1160,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             refresh()
             return result
         }
-        guard entry.isWindowEntry, containsCurrentEntry(entry), let worker = processWorker(for: entry) else { return .unavailable }
+        guard entry.isWindowEntry, currentEntry(matching: entry) != nil, let worker = processWorker(for: entry) else { return .unavailable }
         var targetID = entry.workerWindowID ?? entry.id
         if entry.windowElement == nil {
             guard await allSpacesCatalog.isCurrentFallback(entry) else { return .unavailable }
@@ -1161,7 +1176,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     }
 
     func quitApplication(_ entry: WindowSwitcherAppEntry) -> WindowSwitcherActionResult {
-        guard containsCurrentEntry(entry),
+        guard currentEntry(matching: entry) != nil,
               let app = NSRunningApplication(processIdentifier: entry.processIdentifier), !app.isTerminated else { return .unavailable }
         guard entry.applicationLaunchDate == nil || app.launchDate == nil || entry.applicationLaunchDate == app.launchDate else { return .unavailable }
         let requested = app.terminate()

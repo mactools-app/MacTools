@@ -663,9 +663,8 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         // shortcut invocation retains Cycle mode's release-to-switch behavior.
         session.isPersistent = true
         session.usesDirectKeys = mode == .keyWindow
-        session.reconcile(mode == .keyWindow
-            ? store.assignShortcuts(to: appCatalog.entries(sortMode: store.configuration.sortMode))
-            : appCatalog.entries(sortMode: store.configuration.sortMode))
+        session.reconcile(appCatalog.entries(sortMode: store.configuration.sortMode))
+        if session.usesDirectKeys { session.entries = store.assignShortcuts(to: session.entries) }
         self.session = session
         shortcutTap.setEditing(mode == .keyWindow)
         overlayController.applyMode(mode, session: session)
@@ -783,7 +782,8 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
             if pendingRelease { pendingRelease = false; handleShortcutReleased() }
         } else if var session {
             let entries = appCatalog.entries(sortMode: sortMode)
-            session.reconcile(session.usesDirectKeys ? store.assignShortcuts(to: entries) : entries)
+            session.reconcile(entries)
+            if session.usesDirectKeys { session.entries = store.assignShortcuts(to: session.entries) }
             session.protectedCommandKeys.formUnion(store.protectedCommandKeys)
             self.session = session
             if overlayController.isVisible { overlayController.update(session) }
