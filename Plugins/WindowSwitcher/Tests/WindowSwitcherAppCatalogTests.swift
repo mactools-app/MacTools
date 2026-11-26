@@ -500,6 +500,14 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
     }
 
     func testBackgroundExactFocusIgnoresVisibilityAwaitingReplacement() async throws {
+        try await verifyBackgroundExactFocus(refreshesVisibility: true)
+    }
+
+    func testBackgroundFocusOnlyEventIgnoresStaleVisibility() async throws {
+        try await verifyBackgroundExactFocus(refreshesVisibility: false)
+    }
+
+    private func verifyBackgroundExactFocus(refreshesVisibility: Bool) async throws {
         let foreground = CatalogAXAccess(number: 9, elementPID: 201)
         foreground.update { $0.focused = true }
         let initialCapture = DispatchSemaphore(value: 1)
@@ -523,7 +531,11 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         try await waitUntil { catalog.isInvocationReady }
 
         foreground.update { $0.number = 8 }
-        catalog.refresh()
+        if refreshesVisibility {
+            catalog.refresh()
+        } else {
+            catalog.invalidate(processIdentifiers: [42], windowRecords: false, focusChanged: true)
+        }
         try await waitUntil {
             catalog.entries(sortMode: .fixed).contains { $0.windowNumber == 8 && $0.windowElement != nil }
         }
@@ -762,19 +774,9 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         let app = CatalogAXAccess(number: 7, elementPID: 201, secondaryWindowNumber: 8)
         let firstAXStarted = DispatchSemaphore(value: 0)
         let releaseFirstAX = DispatchSemaphore(value: 0)
-        let discoveryRead = hasPriorSnapshot ? 2 : 1
         app.update {
             $0.focused = true
             $0.includesSecondaryWindow = false
-            $0.beforeRead = { [weak app] in
-                if !hasPriorSnapshot, app?.read({ $0.reads }) == 1 {
-                    firstAXStarted.signal()
-                    _ = releaseFirstAX.wait(timeout: .now() + 1)
-                }
-                app?.update { state in
-                    if state.reads > discoveryRead { state.includesSecondaryWindow = true }
-                }
-            }
         }
         let initialCapture = DispatchSemaphore(value: 1)
         let captureStarted = DispatchSemaphore(value: 0)
@@ -809,6 +811,19 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         defer { initialCapture.signal(); releaseCapture.signal(); releaseFirstAX.signal(); catalog.stop() }
         catalog.start()
         try await waitUntil { catalog.isInvocationReady }
+        // Startup can already have reconciled an AX read with WindowServer.
+        let discoveryRead = app.read { $0.reads } + 1
+        app.update {
+            $0.beforeRead = { [weak app] in
+                if !hasPriorSnapshot, app?.read({ $0.reads }) == discoveryRead {
+                    firstAXStarted.signal()
+                    _ = releaseFirstAX.wait(timeout: .now() + 1)
+                }
+                app?.update { state in
+                    if state.reads > discoveryRead { state.includesSecondaryWindow = true }
+                }
+            }
+        }
 
         var windowsAtReadiness: [CGWindowID]?
         catalog.onChange = { [weak catalog] in
@@ -985,6 +1000,227 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
             isPersistent: false, originalWindowID: catalog.focusedWindowID)
         session.advance(1)
         XCTAssertEqual(session.selected?.windowNumber, 7)
+    }
+
+    func testCancelledInvocationKeepsConfirmedForegroundHistory() async throws {
+        let previous = CatalogAXAccess(number: 7, elementPID: 201)
+        previous.update { $0.focused = true }
+        let launched = CatalogAXAccess(number: 8, elementPID: 202)
+        launched.update { $0.focused = true }
+        let next = CatalogAXAccess(number: 9, elementPID: 203)
+        next.update { $0.focused = true }
+        let scanStarted = DispatchSemaphore(value: 0)
+        let releaseScan = DispatchSemaphore(value: 0)
+        var foregroundPID: pid_t = 42
+        var didLaunch = false
+        let catalog = WindowSwitcherAppCatalog(notificationCenter: NotificationCenter(),
+            accessFactory: { pid in
+                switch pid {
+                case 42: previous
+                case 43: launched
+                default: next
+                }
+            }, allSpacesCatalog: .init(windowRecordProvider: { [] }),
+            discovery: .init(applications: {
+                let pids: [pid_t] = didLaunch ? [42, 43, 44] : [42, 44]
+                return pids.map { .init(processIdentifier: $0, localizedName: "Fixture \($0)") }
+            }, foregroundProcessIdentifier: { foregroundPID }, isAccessibilityTrusted: { true }, isDragging: { false }))
+        defer { releaseScan.signal(); catalog.stop() }
+        catalog.start()
+        try await waitUntil { catalog.isInvocationReady }
+
+        launched.update {
+            $0.beforeRead = {
+                scanStarted.signal()
+                _ = releaseScan.wait(timeout: .now() + 2)
+            }
+        }
+        didLaunch = true
+        foregroundPID = 43
+        catalog.prepareForInvocation()
+        try await waitUntil { scanStarted.wait(timeout: .now()) == .success }
+        catalog.cancelInvocation()
+        launched.update { $0.beforeRead = nil }
+        releaseScan.signal()
+        try await waitUntil { catalog.entries(sortMode: .fixed).contains { $0.windowNumber == 8 } }
+        XCTAssertEqual(catalog.entries(sortMode: .recentUse).first?.windowNumber, 8)
+
+        foregroundPID = 44
+        catalog.prepareForInvocation()
+        try await waitUntil { catalog.isInvocationReady }
+        let entries = catalog.entries(sortMode: .recentUse)
+        XCTAssertEqual(entries.compactMap(\.windowNumber), [9, 8, 7])
+        var session = WindowSwitcherSession(entries: entries, selectedID: catalog.focusedWindowID,
+            isPersistent: false, originalWindowID: catalog.focusedWindowID)
+        session.advance(1)
+        XCTAssertEqual(session.selected?.windowNumber, 8)
+    }
+
+    func testRoutineRefreshDoesNotRestoreOffscreenFocus() async throws {
+        try await verifyOffscreenFocusStaysOutOfHistory(cancelsInvocation: false)
+    }
+
+    func testCancelledFocusStillUsesItsVisibilityAfterQueuedRefresh() async throws {
+        try await verifyOffscreenFocusStaysOutOfHistory(cancelsInvocation: true)
+    }
+
+    func testCoalescedFocusEventUsesFreshVisibilityFromRoutineRefresh() async throws {
+        try await verifyOffscreenFocusStaysOutOfHistory(cancelsInvocation: false, coalescesFocusChange: true)
+    }
+
+    func testNewVisibilityCanRejectFocusFromCancelledInvocation() async throws {
+        try await verifyOffscreenFocusStaysOutOfHistory(cancelsInvocation: true, wasOnscreenAtInvocation: true)
+    }
+
+    private func verifyOffscreenFocusStaysOutOfHistory(cancelsInvocation: Bool, coalescesFocusChange: Bool = false,
+                                                      wasOnscreenAtInvocation: Bool = false) async throws {
+        let previous = CatalogAXAccess(number: 7, elementPID: 201)
+        previous.update { $0.focused = true }
+        let launched = CatalogAXAccess(number: 8, elementPID: 202, secondaryWindowNumber: 9)
+        launched.update {
+            $0.focused = true
+            $0.includesSecondaryWindow = false
+        }
+        let holdCapture = DispatchSemaphore(value: 0)
+        let invocationCaptureStarted = DispatchSemaphore(value: 0)
+        let releaseCapture = DispatchSemaphore(value: 0)
+        let showBackgroundCapture = DispatchSemaphore(value: 0)
+        let axStarted = DispatchSemaphore(value: 0)
+        let holdFirstAX = DispatchSemaphore(value: 1)
+        let releaseAX = DispatchSemaphore(value: 0)
+        let releaseFollowupAX = DispatchSemaphore(value: 0)
+        let bounds = CGRect(x: 20, y: 20, width: 800, height: 600)
+        var foregroundPID: pid_t = 42
+        let catalog = WindowSwitcherAppCatalog(notificationCenter: NotificationCenter(),
+            accessFactory: { $0 == 42 ? previous : launched },
+            allSpacesCatalog: .init(windowRecordProvider: {
+                let background = showBackgroundCapture.wait(timeout: .now()) == .success
+                if holdCapture.wait(timeout: .now()) == .success {
+                    invocationCaptureStarted.signal()
+                    _ = releaseCapture.wait(timeout: .now() + 2)
+                }
+                let reportedWindowIsOnscreen = wasOnscreenAtInvocation && !background
+                return [.init(windowNumber: 7, processIdentifier: 42, title: "Previous", isOnScreen: !background,
+                              bounds: bounds, hasSpace: true, isOnActiveSpace: !background),
+                        .init(windowNumber: 8, processIdentifier: 43, title: "Restoring", isOnScreen: reportedWindowIsOnscreen,
+                              bounds: bounds, hasSpace: true, isOnActiveSpace: reportedWindowIsOnscreen),
+                        .init(windowNumber: 9, processIdentifier: 43, title: "Launched", isOnScreen: !reportedWindowIsOnscreen,
+                              bounds: bounds, hasSpace: true, isOnActiveSpace: !reportedWindowIsOnscreen)]
+            }), discovery: .init(applications: {
+                let pids: [pid_t] = foregroundPID == 43 ? [42, 43] : [42]
+                return pids.map { .init(processIdentifier: $0, localizedName: "Fixture \($0)") }
+            }, foregroundProcessIdentifier: { foregroundPID }, isAccessibilityTrusted: { true }, isDragging: { false }))
+        defer {
+            catalog.stop()
+            releaseCapture.signal()
+            releaseAX.signal()
+            releaseFollowupAX.signal()
+            holdFirstAX.signal()
+        }
+        catalog.start()
+        try await waitUntil { catalog.isInvocationReady }
+
+        let holdFocusScan = {
+            launched.update {
+                $0.beforeRead = {
+                    if holdFirstAX.wait(timeout: .now()) == .success {
+                        axStarted.signal()
+                        _ = releaseAX.wait(timeout: .now() + 2)
+                    } else {
+                        _ = releaseFollowupAX.wait(timeout: .now() + 2)
+                    }
+                }
+            }
+        }
+        foregroundPID = 43
+        if cancelsInvocation {
+            holdCapture.signal()
+            holdFocusScan()
+        }
+        catalog.prepareForInvocation()
+        if cancelsInvocation {
+            try await waitUntil { invocationCaptureStarted.wait(timeout: .now()) == .success }
+            try await waitUntil { axStarted.wait(timeout: .now()) == .success }
+            showBackgroundCapture.signal()
+            catalog.invalidate(processIdentifiers: [], windowRecords: true)
+            catalog.cancelInvocation()
+            releaseCapture.signal()
+        } else {
+            try await waitUntil { catalog.isInvocationReady }
+            XCTAssertEqual(catalog.entries(sortMode: .recentUse).first?.windowNumber, 7)
+            holdFocusScan()
+            showBackgroundCapture.signal()
+            if coalescesFocusChange {
+                catalog.invalidate(processIdentifiers: [43], windowRecords: false, focusChanged: true)
+            }
+            catalog.refresh()
+            try await waitUntil { axStarted.wait(timeout: .now()) == .success }
+        }
+        try await waitUntil {
+            catalog.entries(sortMode: .fixed).contains { $0.windowNumber == 7 && $0.isOnOtherDesktop }
+        }
+        launched.update {
+            $0.includesSecondaryWindow = true
+        }
+        releaseAX.signal()
+        try await waitUntil {
+            catalog.entries(sortMode: .fixed).contains { $0.windowNumber == 9 && $0.windowElement != nil }
+        }
+        XCTAssertEqual(catalog.entries(sortMode: .recentUse).first?.windowNumber, 7)
+    }
+
+    func testForegroundHandoffWhileWaitingForRetryUsesNewForeground() async throws {
+        let previous = CatalogAXAccess(number: 7, elementPID: 201)
+        previous.update { $0.focused = true }
+        let launched = CatalogAXAccess(number: 8, elementPID: 202, secondaryWindowNumber: 11)
+        launched.update {
+            $0.focusesSecondaryWindow = true
+            $0.includesSecondaryWindow = false
+        }
+        let next = CatalogAXAccess(number: 9, elementPID: 203)
+        let releaseLaunchScan = DispatchSemaphore(value: 0)
+        var foregroundPID: pid_t = 42
+        var didLaunch = false
+        let catalog = WindowSwitcherAppCatalog(notificationCenter: NotificationCenter(),
+            accessFactory: { pid in
+                switch pid {
+                case 42: previous
+                case 43: launched
+                default: next
+                }
+            }, allSpacesCatalog: .init(windowRecordProvider: { [] }),
+            discovery: .init(applications: {
+                let pids: [pid_t] = didLaunch ? [42, 43, 44] : [42, 44]
+                return pids.map {
+                    .init(processIdentifier: $0, localizedName: "Fixture \($0)", isFinishedLaunching: $0 != 43)
+                }
+            }, foregroundProcessIdentifier: { foregroundPID }, isAccessibilityTrusted: { true }, isDragging: { false }))
+        defer { releaseLaunchScan.signal(); catalog.stop() }
+        catalog.start()
+        try await waitUntil { catalog.isInvocationReady }
+        let initialReads = next.read { $0.reads }
+
+        launched.update { $0.beforeRead = { _ = releaseLaunchScan.wait(timeout: .now() + 2) } }
+        next.update { $0.number = 10 }
+        catalog.onChange = { [weak catalog] in
+            guard let catalog else { return }
+            let numbers = catalog.entries(sortMode: .fixed).compactMap(\.windowNumber)
+            if numbers.contains(10) { releaseLaunchScan.signal() }
+            if foregroundPID == 43, numbers.contains(8), !catalog.isInvocationReady {
+                foregroundPID = 44
+                next.update { $0.focused = true }
+            }
+        }
+        didLaunch = true
+        foregroundPID = 43
+        catalog.prepareForInvocation()
+        try await waitUntil { catalog.isInvocationReady }
+        let entries = catalog.entries(sortMode: .recentUse)
+        XCTAssertEqual(foregroundPID, 44)
+        XCTAssertEqual(entries.first?.windowNumber, 10)
+        XCTAssertEqual(catalog.focusedWindowID, entries.first?.id)
+        XCTAssertEqual(next.read { $0.reads }, initialReads + 2)
+        XCTAssertEqual(launched.read { $0.reads }, 1)
     }
 
     func testForegroundHandoffAndIncompleteAXShareOneRetry() async throws {
@@ -1234,6 +1470,61 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         let entries = catalog.entries(sortMode: .recentUse)
         XCTAssertEqual(entries.compactMap(\.windowNumber), [7, 8])
         XCTAssertEqual(catalog.focusedWindowID, entries.first?.id)
+    }
+
+    func testActiveHelperExactFocusWinsAfterHostFocusIsContradicted() async throws {
+        try await verifyForegroundHostWithActiveHelper(hostIsOffscreen: true)
+    }
+
+    func testVisibleHelperPreventsInferringHostFocus() async throws {
+        try await verifyForegroundHostWithActiveHelper(hostIsOffscreen: false)
+    }
+
+    private func verifyForegroundHostWithActiveHelper(hostIsOffscreen: Bool) async throws {
+        let previous = CatalogAXAccess(number: 7, elementPID: 201)
+        previous.update { $0.focused = true }
+        let host = CatalogAXAccess(number: 8, elementPID: 202)
+        host.update { $0.focused = hostIsOffscreen }
+        let helper = CatalogAXAccess(number: 9, elementPID: 203)
+        helper.update { $0.focused = hostIsOffscreen }
+        var foregroundPID: pid_t = 42
+        let bounds = CGRect(x: 20, y: 20, width: 800, height: 600)
+        let catalog = WindowSwitcherAppCatalog(notificationCenter: NotificationCenter(),
+            accessFactory: { pid in
+                switch pid {
+                case 42: previous
+                case 43: host
+                default: helper
+                }
+            }, allSpacesCatalog: .init(windowRecordProvider: {
+                [.init(windowNumber: 8, processIdentifier: 43, title: "Host", isOnScreen: !hostIsOffscreen,
+                       bounds: bounds, hasSpace: true, isOnActiveSpace: !hostIsOffscreen),
+                 .init(windowNumber: 9, processIdentifier: 44, title: "Helper", isOnScreen: true,
+                       bounds: bounds, hasSpace: true, isOnActiveSpace: true)]
+            }), discovery: .init(applications: {
+                let prior = WindowSwitcherAppCatalog.Application(processIdentifier: 42, localizedName: "Previous")
+                guard foregroundPID == 43 else { return [prior] }
+                return [prior,
+                        .init(processIdentifier: 43, bundleIdentifier: "host", bundlePath: "/Host.app", localizedName: "Host"),
+                        .init(processIdentifier: 44, bundleIdentifier: "host.helper", bundlePath: "/Host.app/Helper.app",
+                              localizedName: "Helper", isRegular: false, isActive: true)]
+            }, foregroundProcessIdentifier: { foregroundPID }, isAccessibilityTrusted: { true }, isDragging: { false }))
+        defer { catalog.stop() }
+        catalog.start()
+        try await waitUntil { catalog.isInvocationReady }
+
+        foregroundPID = 43
+        catalog.prepareForInvocation()
+        try await waitUntil { catalog.isInvocationReady }
+        let entries = catalog.entries(sortMode: .recentUse)
+        XCTAssertEqual(Set(entries.compactMap(\.windowNumber)), [7, 8, 9])
+        XCTAssertEqual(entries.first?.windowNumber, hostIsOffscreen ? 9 : 7)
+        if hostIsOffscreen {
+            XCTAssertEqual(catalog.focusedWindowID, entries.first?.id)
+            XCTAssertEqual(entries.first?.axWorkerPID, 44)
+        } else {
+            XCTAssertNil(catalog.focusedWindowID)
+        }
     }
 
     func testUnlistedHostFocusRetriesBeforeConsideringCachedHelperFocus() async throws {
