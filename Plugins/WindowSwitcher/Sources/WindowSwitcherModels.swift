@@ -495,6 +495,7 @@ struct WindowSwitcherAppEntry: Identifiable {
     var bounds: CGRect = .zero
     var isHidden: Bool = false
     var metadataUnavailable: Bool = false
+    var isAwaitingWindowConfirmation = false
     var displayNameContext: String? = nil
     var displayID: UInt32? = nil
     var axWorkerPID: pid_t? = nil
@@ -659,6 +660,7 @@ extension WindowSwitcherAppEntry: Equatable {
             && lhs.isMinimized == rhs.isMinimized
             && lhs.isHidden == rhs.isHidden
             && lhs.metadataUnavailable == rhs.metadataUnavailable
+            && lhs.isAwaitingWindowConfirmation == rhs.isAwaitingWindowConfirmation
             && lhs.bounds == rhs.bounds
             && lhs.windowNumber == rhs.windowNumber
             && lhs.displayNameContext == rhs.displayNameContext

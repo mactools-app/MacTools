@@ -29,9 +29,14 @@ private final class ControlledSwitcherCatalog: WindowSwitcherCatalog {
     var invocationReady: Bool?
     var isInvocationReady: Bool { invocationReady ?? isInitialDiscoveryComplete }
     var prepareInvocation: (() -> Void)?
-    func prepareForInvocation() { prepareInvocation?() }
-    var cancelledInvocations = 0
-    func cancelInvocation() { cancelledInvocations += 1 }
+    func prepareForInvocation(sortMode: WindowSwitcherSortMode) { prepareInvocation?() }
+    var canOpenAtDeadline = false
+    var openingOverride: WindowSwitcherOpening?
+    func opening(sortMode: WindowSwitcherSortMode, deadlineReached: Bool) -> WindowSwitcherOpening? {
+        guard isInvocationReady || (deadlineReached && canOpenAtDeadline), !windows.isEmpty else { return nil }
+        defer { openingOverride = nil }
+        return openingOverride ?? WindowSwitcherOpening(entries: windows, focusedWindowID: focusedWindowID)
+    }
     var windows: [WindowSwitcherAppEntry] = []
     var activated: [String] = []
     var activationResult: WindowSwitcherActionResult = .succeeded
@@ -69,6 +74,42 @@ final class WindowSwitcherLifecycleTests: XCTestCase {
         await eventually { !catalog.activated.isEmpty }
         XCTAssertEqual(catalog.activated, ["e"])
         XCTAssertNil(plugin.pendingInvocation)
+    }
+
+    func testLaunchCheckDeadlineUsesReadyCatalogForQuickSwitch() async {
+        let catalog = ControlledSwitcherCatalog(), tap = ControlledSwitcherTap()
+        catalog.windows = [entry("a"), entry("b")]
+        let plugin = plugin(catalog: catalog, tap: tap)
+        defer { plugin.deactivate(reason: .hostShutdown) }
+        catalog.prepareInvocation = {
+            catalog.invocationReady = false
+            catalog.canOpenAtDeadline = true
+        }
+        tap.onShortcutPressed(false, false, false)
+        tap.onShortcutReleased()
+
+        await eventually { !catalog.activated.isEmpty }
+        XCTAssertEqual(catalog.activated, ["b"])
+        XCTAssertNil(plugin.pendingInvocation)
+    }
+
+    func testLaunchPromotionAnchorsOnlyTheInitialChooser() {
+        let catalog = ControlledSwitcherCatalog(), tap = ControlledSwitcherTap()
+        catalog.windows = [entry("b"), entry("c"), entry("a")]
+        catalog.focusedWindowID = "b"
+        catalog.openingOverride = WindowSwitcherOpening(
+            entries: [entry("a"), entry("b"), entry("c")], focusedWindowID: "a")
+        let plugin = plugin(catalog: catalog, tap: tap)
+        defer { plugin.deactivate(reason: .hostShutdown) }
+
+        tap.onShortcutPressed(false, false, false)
+        XCTAssertEqual(plugin.session?.originalWindowID, "a")
+        XCTAssertEqual(plugin.session?.selectedID, "b")
+        XCTAssertEqual(catalog.focusedWindowID, "b")
+
+        catalog.onChange?()
+        XCTAssertEqual(plugin.session?.entries.map(\.id), ["a", "b", "c"])
+        XCTAssertEqual(plugin.session?.selectedID, "b")
     }
 
     func testCatalogUpdatesReconcileLiveSessionWithoutInvalidatingHost() {
@@ -340,7 +381,6 @@ final class WindowSwitcherLifecycleTests: XCTestCase {
         XCTAssertNil(plugin.session)
         XCTAssertNil(plugin.pendingInvocation)
         XCTAssertTrue(catalog.activated.isEmpty)
-        XCTAssertEqual(catalog.cancelledInvocations, 1)
     }
 
     func testModifierReleaseAfterEnteringSearchDoesNotCommit() async throws {

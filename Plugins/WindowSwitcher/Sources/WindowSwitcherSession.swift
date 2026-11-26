@@ -87,7 +87,10 @@ struct WindowSwitcherSession {
         // Freeze the session order, updating metadata and appending new arrivals.
         let byID = Dictionary(updated.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         let existing = Set(entries.map(\.id))
-        entries = entries.compactMap { byID[$0.id] } + updated.filter { !existing.contains($0.id) }
+        entries = entries.compactMap { previous in
+            guard let entry = byID[previous.id] else { return nil }
+            return entry.isAwaitingWindowConfirmation ? previous : entry
+        } + updated.filter { !existing.contains($0.id) && !$0.isAwaitingWindowConfirmation }
         normalizeSelection()
     }
 
@@ -133,42 +136,30 @@ struct WindowSwitcherSession {
 
 struct WindowSwitcherRecency {
     private(set) var ids: [String] = []
-    private(set) var confirmedFocusID: String?
-    private var inferredFocusID: String?
-    var focusedID: String? { inferredFocusID ?? confirmedFocusID }
+    private(set) var focusedID: String?
 
-    mutating func observeForeground(entries: [WindowSwitcherAppEntry], focusedWindowID: String?,
-                                    inferredWindowID: String? = nil, unavailable: Bool) {
+    mutating func observeForeground(entries: [WindowSwitcherAppEntry], focusedWindowID: String?, unavailable: Bool) {
         if let focusedWindowID, entries.contains(where: { $0.id == focusedWindowID }) {
             record(focusedWindowID)
         } else if !unavailable, entries.count == 1, let fallback = entries.first, !fallback.isWindowEntry {
             record(fallback.id)
         } else {
-            // Inferred focus can lead the current order without changing history.
-            confirmedFocusID = nil
-            inferredFocusID = inferredWindowID
+            // An unknown foreground target must not keep another app's window
+            // marked current. Keep its recency position, but clear the anchor.
+            focusedID = nil
         }
     }
-    mutating func clearInference() { inferredFocusID = nil }
-    mutating func clearFocus() {
-        confirmedFocusID = nil
-        clearInference()
-    }
-
     mutating func record(_ id: String) {
-        clearInference()
-        confirmedFocusID = id
+        focusedID = id
         ids.removeAll { $0 == id }
         ids.insert(id, at: 0)
     }
     mutating func retain(_ live: Set<String>) {
         ids.removeAll { !live.contains($0) }
-        if let confirmedFocusID, !live.contains(confirmedFocusID) { self.confirmedFocusID = nil }
-        if let inferredFocusID, !live.contains(inferredFocusID) { clearInference() }
+        if let focusedID, !live.contains(focusedID) { self.focusedID = nil }
     }
     func sort(_ entries: [WindowSwitcherAppEntry]) -> [WindowSwitcherAppEntry] {
-        var ranks = Dictionary(uniqueKeysWithValues: ids.enumerated().map { ($0.element, $0.offset) })
-        if let inferredFocusID { ranks[inferredFocusID] = -1 }
+        let ranks = Dictionary(uniqueKeysWithValues: ids.enumerated().map { ($0.element, $0.offset) })
         return entries.enumerated().sorted {
             let lhs = ranks[$0.element.id] ?? Int.max
             let rhs = ranks[$1.element.id] ?? Int.max

@@ -10,11 +10,6 @@ struct WindowSwitcherPublishedWindows {
     private var confirmedAXWindowNumbers: [pid_t: Set<CGWindowID>] = [:]
     private var axAliases: [pid_t: [String: String]] = [:]
 
-    func lostAXConfirmation(_ entry: WindowSwitcherAppEntry) -> Bool {
-        guard entry.windowElement == nil, let number = entry.windowNumber else { return false }
-        return confirmedAXWindowNumbers[entry.processIdentifier]?.contains(number) == true
-    }
-
     mutating func removeProcess(_ pid: pid_t) {
         knownWindowIDs.removeValue(forKey: pid)
         axAliases.removeValue(forKey: pid)
@@ -25,6 +20,8 @@ struct WindowSwitcherPublishedWindows {
     mutating func update(snapshots: [pid_t: [WindowSwitcherAppEntry]], records: [WindowSwitcherWindowRecord],
                          recordsAreFresh: Bool, localEntries: [WindowSwitcherAppEntry] = [],
                          helperProcessIdentifiers: [pid_t: Set<pid_t>] = [:],
+                         completeWindowListsStartedAt: [pid_t: ContinuousClock.Instant] = [:],
+                         recordsStartedAt: ContinuousClock.Instant? = nil,
                          displayContext: (CGRect) -> (id: UInt32, name: String)? = { _ in nil }) {
         for pid in Set(knownWindowIDs.keys).union(axAliases.keys) where snapshots[pid] == nil {
             removeProcess(pid)
@@ -56,14 +53,26 @@ struct WindowSwitcherPublishedWindows {
                 }
                 return entry
             }
-            confirmedAXWindowNumbers[pid, default: []].formUnion(raw.filter { $0.windowElement != nil }.compactMap(\.windowNumber))
+            let liveAXNumbers = Set(raw.filter { $0.windowElement != nil }.compactMap(\.windowNumber))
+            confirmedAXWindowNumbers[pid, default: []].formUnion(liveAXNumbers)
             let helpers = helperProcessIdentifiers[pid] ?? []
             let processRecords = records.filter { $0.processIdentifier == pid || helpers.contains($0.processIdentifier) }
+            let unconfirmedWindowNumbers: Set<CGWindowID>
+            if let listedAt = completeWindowListsStartedAt[pid], let recordsStartedAt, listedAt > recordsStartedAt {
+                // The window might have closed or moved to another Space.
+                unconfirmedWindowNumbers = Set(processRecords.filter {
+                    $0.isOnScreen == true && $0.isOnActiveSpace != false
+                        && !liveAXNumbers.contains($0.windowNumber)
+                        && confirmedAXWindowNumbers[pid]?.contains($0.windowNumber) == true
+                }.map(\.windowNumber))
+            } else {
+                unconfirmedWindowNumbers = []
+            }
             let merged = WindowSwitcherAppCatalog.mergeAllSpacesEntries(normalized, records: processRecords,
                 knownWindowIDs: knownWindowIDs[pid] ?? [:],
                 confirmedAXWindowNumbers: confirmedAXWindowNumbers[pid] ?? [],
                 hasConfirmedEmptyAXSnapshot: recordsAreFresh && raw.contains { !$0.isWindowEntry && !$0.metadataUnavailable },
-                helperProcessIdentifiers: helpers)
+                helperProcessIdentifiers: helpers, unconfirmedWindowNumbers: unconfirmedWindowNumbers)
             var nextAliases: [String: String] = [:]
             var seenIDs = Set<String>()
             for var entry in merged {

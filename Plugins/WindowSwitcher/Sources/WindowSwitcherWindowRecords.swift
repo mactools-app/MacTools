@@ -131,25 +131,22 @@ struct WindowSwitcherWindowRecord: Equatable, Sendable {
 struct WindowSwitcherWindowRecordSnapshot: Sendable {
     let records: [WindowSwitcherWindowRecord]
     let isFresh: Bool
+    var startedAt: ContinuousClock.Instant? = nil
 }
 
 /// The all-Spaces CG reader is kept separate from AX discovery and actions.
 /// Slow system reads are bounded and stale data can never authorize an action.
 @MainActor
 final class WindowSwitcherWindowRecords {
-    private struct Capture {
-        let task: Task<[WindowSwitcherWindowRecord]?, Never>
-        let timeout: Task<Void, Never>
-        var waiters: [UUID: CheckedContinuation<WindowSwitcherWindowRecordSnapshot, Never>] = [:]
-    }
-
     private static let maxWindowRecordRefreshesInFlight = 2
     private let windowRecordProvider: @Sendable () -> [WindowSwitcherWindowRecord]?
     private let windowRecordRefreshTimeout: TimeInterval
     private var windowRecords: [WindowSwitcherWindowRecord] = []
-    private var captures: [UInt64: Capture] = [:]
+    private var windowRecordRefreshTask: Task<(records: [WindowSwitcherWindowRecord]?, startedAt: ContinuousClock.Instant), Never>?
     private var windowRecordRefreshGeneration: UInt64 = 0
     private var windowRecordRefreshInFlightCount = 0
+    private var timeoutTask: Task<Void, Never>?
+    private var waiters: [UUID: CheckedContinuation<WindowSwitcherWindowRecordSnapshot, Never>] = [:]
 
     init(windowRecordRefreshTimeout: TimeInterval = 0.75,
          windowRecordProvider: @escaping @Sendable () -> [WindowSwitcherWindowRecord]? = {
@@ -162,10 +159,13 @@ final class WindowSwitcherWindowRecords {
     }
 
     func stop() {
+        windowRecordRefreshGeneration &+= 1
+        windowRecordRefreshTask?.cancel()
+        windowRecordRefreshTask = nil
+        timeoutTask?.cancel()
+        timeoutTask = nil
         windowRecords.removeAll()
-        for generation in Array(captures.keys) {
-            finishCapture(generation, records: nil)
-        }
+        finishWaiters(isFresh: false)
     }
 
     func windowRecordsSnapshot() async -> [WindowSwitcherWindowRecord] {
@@ -214,73 +214,102 @@ final class WindowSwitcherWindowRecords {
         return record
     }
 
-    private func startCapture() -> UInt64? {
-        guard windowRecordRefreshInFlightCount < Self.maxWindowRecordRefreshesInFlight else { return nil }
+    private func refreshWindowRecords() {
+        guard windowRecordRefreshTask == nil,
+              windowRecordRefreshInFlightCount < Self.maxWindowRecordRefreshesInFlight
+        else {
+            return
+        }
 
         windowRecordRefreshGeneration &+= 1
         let generation = windowRecordRefreshGeneration
         let provider = windowRecordProvider
         windowRecordRefreshInFlightCount += 1
         let task = Task.detached(priority: .userInitiated) {
-            provider()
+            let startedAt = ContinuousClock.now
+            return (records: provider(), startedAt: startedAt)
         }
-        let timeout = Task { [weak self, windowRecordRefreshTimeout] in
-            do { try await Task.sleep(for: .seconds(windowRecordRefreshTimeout)) } catch { return }
-            self?.finishCapture(generation, records: nil)
+        windowRecordRefreshTask = task
+        let timeout = windowRecordRefreshTimeout
+        timeoutTask = Task { [weak self] in
+            do { try await Task.sleep(for: .seconds(timeout)) } catch { return }
+            self?.abandonWindowRecordRefresh(generation: generation)
         }
-        captures[generation] = Capture(task: task, timeout: timeout)
 
         Task { @MainActor [weak self] in
-            let records = await task.value
-            guard let self else { return }
-            windowRecordRefreshInFlightCount -= 1
-            finishCapture(generation, records: records)
+            let (records, startedAt) = await task.value
+            guard let self,
+                  self.windowRecordRefreshInFlightCount > 0
+            else {
+                return
+            }
+            self.windowRecordRefreshInFlightCount -= 1
+
+            guard self.windowRecordRefreshGeneration == generation else {
+                return
+            }
+
+            guard self.windowRecordRefreshTask != nil else {
+                return
+            }
+
+            self.windowRecordRefreshTask = nil
+            self.timeoutTask?.cancel()
+            self.timeoutTask = nil
+            // Failure is not a successful empty scan. Retain the last snapshot
+            // for presentation, but never mark it fresh enough for an action.
+            if let records {
+                self.windowRecords = records
+            }
+            self.finishWaiters(isFresh: records != nil, startedAt: records == nil ? nil : startedAt)
         }
-        return generation
     }
 
     private func freshWindowRecords() async -> [WindowSwitcherWindowRecord] {
         await freshWindowRecordSnapshot().records
     }
 
-    func freshWindowRecordSnapshot(requiresNewCapture: Bool = false) async -> WindowSwitcherWindowRecordSnapshot {
+    func freshWindowRecordSnapshot() async -> WindowSwitcherWindowRecordSnapshot {
         guard !Task.isCancelled else { return .init(records: windowRecords, isFresh: false) }
-        // An older read can still be physically running after a newer one
-        // completes. Joining it cannot provide fresh validation.
-        let latest = windowRecordRefreshGeneration
-        let joinable = captures[latest] == nil ? nil : latest
-        let generation = requiresNewCapture ? startCapture() : joinable ?? startCapture()
-        guard let generation else {
+        refreshWindowRecords()
+        guard windowRecordRefreshTask != nil else {
             return WindowSwitcherWindowRecordSnapshot(records: windowRecords, isFresh: false)
         }
         let id = UUID()
         return await withTaskCancellationHandler {
             await withCheckedContinuation { continuation in
-                guard !Task.isCancelled, captures[generation] != nil else {
+                guard !Task.isCancelled else {
                     continuation.resume(returning: .init(records: windowRecords, isFresh: false))
                     return
                 }
-                captures[generation]?.waiters[id] = continuation
+                waiters[id] = continuation
             }
         } onCancel: {
             Task { @MainActor [weak self] in
                 guard let self else { return }
-                captures[generation]?.waiters.removeValue(forKey: id)?
-                    .resume(returning: .init(records: windowRecords, isFresh: false))
+                waiters.removeValue(forKey: id)?.resume(returning: .init(records: windowRecords, isFresh: false))
             }
         }
     }
 
-    private func finishCapture(_ generation: UInt64, records: [WindowSwitcherWindowRecord]?) {
-        guard let capture = captures.removeValue(forKey: generation) else { return }
-        capture.timeout.cancel()
-        if records == nil { capture.task.cancel() }
-        // A newer attempt supersedes an older capture even if it fails.
-        let isFresh = records != nil && generation == windowRecordRefreshGeneration
-        if isFresh, let records { windowRecords = records }
-        let snapshot = WindowSwitcherWindowRecordSnapshot(records: windowRecords,
-            isFresh: isFresh)
-        for continuation in capture.waiters.values { continuation.resume(returning: snapshot) }
+    private func abandonWindowRecordRefresh(generation: UInt64) {
+        guard windowRecordRefreshGeneration == generation else {
+            return
+        }
+
+        windowRecordRefreshTask?.cancel()
+        windowRecordRefreshTask = nil
+        windowRecordRefreshGeneration &+= 1
+        timeoutTask?.cancel()
+        timeoutTask = nil
+        finishWaiters(isFresh: false)
+    }
+
+    private func finishWaiters(isFresh: Bool, startedAt: ContinuousClock.Instant? = nil) {
+        let pending = waiters
+        waiters.removeAll()
+        let snapshot = WindowSwitcherWindowRecordSnapshot(records: windowRecords, isFresh: isFresh, startedAt: startedAt)
+        for continuation in pending.values { continuation.resume(returning: snapshot) }
     }
 }
 

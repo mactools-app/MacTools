@@ -21,9 +21,7 @@ struct WindowSwitcherScan: Sendable {
     var unavailable: Bool
     var windowListReadSucceeded = true
     var reportedFocusedWindow = false
-    var reportedFocusWasExcluded = false
-    var excludedWindowNumbers: Set<CGWindowID> = []
-    var focusReadStartedAt: ContinuousClock.Instant?
+    var focusedWindowIsExcluded = false
 }
 
 struct WindowSwitcherAXIdentity: Hashable {
@@ -160,8 +158,7 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
             windowSubscriptions.removeValue(forKey: old)
         }
         var indexes = Dictionary(uniqueKeysWithValues: records.enumerated().map { (WindowSwitcherAXIdentity(element: $0.element.element), $0.offset) })
-        var excluded = Set<WindowSwitcherAXIdentity>()
-        var excludedWindowNumbers = Set<CGWindowID>()
+        var excluded = Set<String>()
         var didRead = 0
         var metadataFailed = false
         let count = windows.count
@@ -177,48 +174,43 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
                 if let oldIndex { records[oldIndex] = snapshot }
                 else { indexes[key] = records.count; records.append(snapshot) }
                 if uptime() < deadline { observe(window) }
-            case let .excluded(number):
-                excluded.insert(key)
-                if let number { excludedWindowNumbers.insert(number) }
+            case .excluded:
+                excluded.insert(windowIDs[index])
             case .unavailable:
                 metadataFailed = true
                 if let oldIndex { records[oldIndex].unavailable = true }
             }
             didRead += 1
         }
-        records.removeAll { excluded.contains(WindowSwitcherAXIdentity(element: $0.element)) }
+        records.removeAll { excluded.contains($0.id) }
         cursor = count == 0 ? 0 : (cursor + didRead) % count
-        let focusReadStartedAt: ContinuousClock.Instant? = uptime() < deadline ? .now : nil
-        let focused = focusReadStartedAt != nil ? copyElement(app, kAXFocusedWindowAttribute) : nil
+        let focused = uptime() < deadline ? copyElement(app, kAXFocusedWindowAttribute) : nil
         let focusedID = focused.flatMap { element in records.first { CFEqual($0.element, element) }?.id }
-        return WindowSwitcherScan(windows: records, focusedID: focusedID,
-            unavailable: metadataFailed || didRead < count, reportedFocusedWindow: focused != nil,
-            reportedFocusWasExcluded: focused.map { excluded.contains(WindowSwitcherAXIdentity(element: $0)) } == true,
-            excludedWindowNumbers: excludedWindowNumbers, focusReadStartedAt: focusReadStartedAt)
+        let focusedWindowIsExcluded = focused.map { element in
+            windows.indices.contains { excluded.contains(windowIDs[$0]) && CFEqual(windows[$0], element) }
+        } ?? false
+        return WindowSwitcherScan(windows: records, focusedID: focusedID, unavailable: metadataFailed || didRead < count,
+                                  reportedFocusedWindow: focused != nil, focusedWindowIsExcluded: focusedWindowIsExcluded)
     }
 
-    private enum Admission {
-        case eligible(WindowSwitcherWindowSnapshot)
-        case excluded(CGWindowID? = nil)
-        case unavailable
-    }
+    private enum Admission { case eligible(WindowSwitcherWindowSnapshot), excluded, unavailable }
     private func snapshot(_ window: AXUIElement, id: String) -> Admission {
         guard let values = access.windowAttributes(window), values.count == 6,
               let role = values[0] as? String else { return .unavailable }
         // A process root masquerading as a window is invalid AX data, not
         // evidence that the app has no user windows.
         if role == kAXApplicationRole as String { return .unavailable }
-        guard role == kAXWindowRole as String else { return .excluded() }
+        guard role == kAXWindowRole as String else { return .excluded }
         if let subrole = values[1] as? String,
            ![kAXStandardWindowSubrole as String, kAXDialogSubrole as String, "AXFullScreenWindow"].contains(subrole) {
-            return .excluded(access.windowNumber(window))
+            return .excluded
         }
         guard let minimized = values[3] as? Bool,
               let point = decodePoint(values[4]),
               let size = decodeSize(values[5]) else { return .unavailable }
         guard point.x.isFinite, point.y.isFinite, size.width.isFinite, size.height.isFinite,
               size.width >= 0, size.height >= 0 else { return .unavailable }
-        guard minimized || (size.width >= 80 && size.height >= 60) else { return .excluded() }
+        guard minimized || (size.width >= 80 && size.height >= 60) else { return .excluded }
         let title = values[2] as? String ?? ""
         if !minimized,
            values[1] as? String == kAXDialogSubrole as String,
@@ -229,7 +221,7 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
             // Some apps expose empty, unfocused compositor surfaces as AX
             // dialogs even while WindowServer marks them visible. A dialog
             // with content or foreground status remains a selectable window.
-            return .excluded(access.windowNumber(window))
+            return .excluded
         }
         let snapshot = WindowSwitcherWindowSnapshot(id: id, element: window, title: title,
                                                        minimized: minimized, bounds: CGRect(origin: point, size: size),

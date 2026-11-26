@@ -101,26 +101,26 @@ final class WindowSwitcherApplicationInventory {
         if notify, !changed.isEmpty { onChange?(changed) }
     }
 
-    func reload(processIdentifier: pid_t, notify: Bool = true) {
+    func reload(processIdentifier: pid_t) {
         for identity in entries.keys where entries[identity]?.application.processIdentifier == processIdentifier {
-            reload(identity, notify: notify)
+            reload(identity)
             break
         }
     }
 
-    private func reload(_ identity: AnyHashable, notify: Bool = true) {
+    private func reload(_ identity: AnyHashable) {
         guard running, var entry = entries[identity] else { return }
         let old = entry.application
         guard var application = entry.source.load(), application.processIdentifier > 0 else {
             entries.removeValue(forKey: identity)
-            if notify { onChange?([old.processIdentifier]) }
+            onChange?([old.processIdentifier])
             return
         }
         application.lifetime = application.processIdentifier == old.processIdentifier
             ? old.lifetime : UUID()
         entry.application = application
         entries[identity] = entry
-        if notify { onChange?([old.processIdentifier, application.processIdentifier]) }
+        onChange?([old.processIdentifier, application.processIdentifier])
     }
 
     private static func source(_ app: NSRunningApplication) -> Source {
@@ -182,8 +182,7 @@ final class WindowSwitcherApplicationInventory {
             let active = application.isActive
             return Application(processIdentifier: pid, bundleIdentifier: metadata.bundleIdentifier,
                 bundlePath: metadata.bundlePath, localizedName: nil, launchDate: metadata.launchDate,
-                isRegular: application.activationPolicy == .regular, isFinishedLaunching: application.isFinishedLaunching,
-                isHidden: hidden, isActive: active,
+                isRegular: application.activationPolicy == .regular, isHidden: hidden, isActive: active,
                 loadPresentation: { self.value(isHidden: hidden, isActive: active) })
         }
 
