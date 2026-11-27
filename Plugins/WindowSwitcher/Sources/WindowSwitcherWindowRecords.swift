@@ -131,7 +131,6 @@ struct WindowSwitcherWindowRecord: Equatable, Sendable {
 struct WindowSwitcherWindowRecordSnapshot: Sendable {
     let records: [WindowSwitcherWindowRecord]
     let isFresh: Bool
-    var startedAt: ContinuousClock.Instant? = nil
 }
 
 /// The all-Spaces CG reader is kept separate from AX discovery and actions.
@@ -142,7 +141,7 @@ final class WindowSwitcherWindowRecords {
     private let windowRecordProvider: @Sendable () -> [WindowSwitcherWindowRecord]?
     private let windowRecordRefreshTimeout: TimeInterval
     private var windowRecords: [WindowSwitcherWindowRecord] = []
-    private var windowRecordRefreshTask: Task<(records: [WindowSwitcherWindowRecord]?, startedAt: ContinuousClock.Instant), Never>?
+    private var windowRecordRefreshTask: Task<[WindowSwitcherWindowRecord]?, Never>?
     private var windowRecordRefreshGeneration: UInt64 = 0
     private var windowRecordRefreshInFlightCount = 0
     private var timeoutTask: Task<Void, Never>?
@@ -226,8 +225,7 @@ final class WindowSwitcherWindowRecords {
         let provider = windowRecordProvider
         windowRecordRefreshInFlightCount += 1
         let task = Task.detached(priority: .userInitiated) {
-            let startedAt = ContinuousClock.now
-            return (records: provider(), startedAt: startedAt)
+            provider()
         }
         windowRecordRefreshTask = task
         let timeout = windowRecordRefreshTimeout
@@ -237,7 +235,7 @@ final class WindowSwitcherWindowRecords {
         }
 
         Task { @MainActor [weak self] in
-            let (records, startedAt) = await task.value
+            let records = await task.value
             guard let self,
                   self.windowRecordRefreshInFlightCount > 0
             else {
@@ -261,7 +259,7 @@ final class WindowSwitcherWindowRecords {
             if let records {
                 self.windowRecords = records
             }
-            self.finishWaiters(isFresh: records != nil, startedAt: records == nil ? nil : startedAt)
+            self.finishWaiters(isFresh: records != nil)
         }
     }
 
@@ -305,10 +303,10 @@ final class WindowSwitcherWindowRecords {
         finishWaiters(isFresh: false)
     }
 
-    private func finishWaiters(isFresh: Bool, startedAt: ContinuousClock.Instant? = nil) {
+    private func finishWaiters(isFresh: Bool) {
         let pending = waiters
         waiters.removeAll()
-        let snapshot = WindowSwitcherWindowRecordSnapshot(records: windowRecords, isFresh: isFresh, startedAt: startedAt)
+        let snapshot = WindowSwitcherWindowRecordSnapshot(records: windowRecords, isFresh: isFresh)
         for continuation in pending.values { continuation.resume(returning: snapshot) }
     }
 }

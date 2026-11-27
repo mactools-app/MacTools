@@ -21,7 +21,6 @@ struct WindowSwitcherScan: Sendable {
     var unavailable: Bool
     var windowListReadSucceeded = true
     var reportedFocusedWindow = false
-    var focusedWindowIsExcluded = false
 }
 
 struct WindowSwitcherAXIdentity: Hashable {
@@ -175,7 +174,7 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
                 else { indexes[key] = records.count; records.append(snapshot) }
                 if uptime() < deadline { observe(window) }
             case .excluded:
-                excluded.insert(windowIDs[index])
+                if let oldIndex { excluded.insert(records[oldIndex].id) }
             case .unavailable:
                 metadataFailed = true
                 if let oldIndex { records[oldIndex].unavailable = true }
@@ -186,11 +185,8 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
         cursor = count == 0 ? 0 : (cursor + didRead) % count
         let focused = uptime() < deadline ? copyElement(app, kAXFocusedWindowAttribute) : nil
         let focusedID = focused.flatMap { element in records.first { CFEqual($0.element, element) }?.id }
-        let focusedWindowIsExcluded = focused.map { element in
-            windows.indices.contains { excluded.contains(windowIDs[$0]) && CFEqual(windows[$0], element) }
-        } ?? false
         return WindowSwitcherScan(windows: records, focusedID: focusedID, unavailable: metadataFailed || didRead < count,
-                                  reportedFocusedWindow: focused != nil, focusedWindowIsExcluded: focusedWindowIsExcluded)
+                                  reportedFocusedWindow: focused != nil)
     }
 
     private enum Admission { case eligible(WindowSwitcherWindowSnapshot), excluded, unavailable }

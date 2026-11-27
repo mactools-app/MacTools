@@ -309,12 +309,11 @@ final class WindowSwitcherStore: ObservableObject {
         })
     }
 
-    func assignShortcuts(to entries: [WindowSwitcherAppEntry], catalogEntries: [WindowSwitcherAppEntry]? = nil) -> [WindowSwitcherAppEntry] {
+    func assignShortcuts(to entries: [WindowSwitcherAppEntry]) -> [WindowSwitcherAppEntry] {
         removeExpiredWindowBindings(for: entries)
         let result = WindowSwitcherShortcutAssignment.assignShortcuts(
             to: entries,
-            bindingState: shortcutBindings,
-            catalogEntries: catalogEntries
+            bindingState: shortcutBindings
         )
 
         if result.bindingState != shortcutBindings {
@@ -328,8 +327,7 @@ final class WindowSwitcherStore: ObservableObject {
     func setManualShortcut(
         _ rawToken: String?,
         for entryID: String,
-        in entries: [WindowSwitcherAppEntry],
-        catalogEntries: [WindowSwitcherAppEntry]? = nil
+        in entries: [WindowSwitcherAppEntry]
     ) -> WindowSwitcherShortcutCustomizationResult {
         removeExpiredWindowBindings(for: entries)
         let identities = WindowSwitcherShortcutAssignment.identities(for: entries)
@@ -342,8 +340,7 @@ final class WindowSwitcherStore: ObservableObject {
         let targetIdentity = identities[targetIndex]
         let current = WindowSwitcherShortcutAssignment.assignShortcuts(
             to: entries,
-            bindingState: shortcutBindings,
-            catalogEntries: catalogEntries
+            bindingState: shortcutBindings
         )
         var updatedState = current.bindingState
 
@@ -369,13 +366,12 @@ final class WindowSwitcherStore: ObservableObject {
 
         let appIdentity = entries[targetIndex].appIdentifier
         if Self.isPortableIdentity(appIdentity), updatedState.manual[appIdentity] != nil,
-           (catalogEntries ?? entries).filter({ $0.appIdentifier == appIdentity }).count == 1 {
+           entries.filter({ $0.appIdentifier == appIdentity }).count == 1 {
             updatedState.manual[appIdentity] = rawToken.flatMap(WindowSwitcherShortcutAssignment.normalizedManualToken)
         }
         let updated = WindowSwitcherShortcutAssignment.assignShortcuts(
             to: entries,
-            bindingState: updatedState,
-            catalogEntries: catalogEntries
+            bindingState: updatedState
         )
         if updated.bindingState != shortcutBindings {
             shortcutBindings = updated.bindingState
@@ -499,7 +495,6 @@ struct WindowSwitcherAppEntry: Identifiable {
     var bounds: CGRect = .zero
     var isHidden: Bool = false
     var metadataUnavailable: Bool = false
-    var isAwaitingWindowConfirmation = false
     var displayNameContext: String? = nil
     var displayID: UInt32? = nil
     var axWorkerPID: pid_t? = nil
@@ -664,7 +659,6 @@ extension WindowSwitcherAppEntry: Equatable {
             && lhs.isMinimized == rhs.isMinimized
             && lhs.isHidden == rhs.isHidden
             && lhs.metadataUnavailable == rhs.metadataUnavailable
-            && lhs.isAwaitingWindowConfirmation == rhs.isAwaitingWindowConfirmation
             && lhs.bounds == rhs.bounds
             && lhs.windowNumber == rhs.windowNumber
             && lhs.displayNameContext == rhs.displayNameContext
@@ -705,14 +699,13 @@ enum WindowSwitcherShortcutAssignment {
 
     static func assignShortcuts(
         to entries: [WindowSwitcherAppEntry],
-        bindingState: WindowSwitcherShortcutBindingState,
-        catalogEntries: [WindowSwitcherAppEntry]? = nil
+        bindingState: WindowSwitcherShortcutBindingState
     ) -> Result {
         guard !entries.isEmpty else {
             return Result(entries: [], bindingState: bindingState)
         }
 
-        let targets = assignmentTargets(for: entries, catalogEntries: catalogEntries)
+        let targets = assignmentTargets(for: entries)
         let resolvedBindingState = migrateUnambiguousLegacyBindings(
             from: bindingState,
             targets: targets
@@ -803,12 +796,10 @@ enum WindowSwitcherShortcutAssignment {
         WindowSwitcherSelectionShortcut(storageValue: token)?.storageValue
     }
 
-    private static func assignmentTargets(for entries: [WindowSwitcherAppEntry],
-                                          catalogEntries: [WindowSwitcherAppEntry]? = nil) -> [Target] {
+    private static func assignmentTargets(for entries: [WindowSwitcherAppEntry]) -> [Target] {
         var appOccurrences: [String: Int] = [:]
         var axWindowOccurrences: [String: Int] = [:]
-        // A pending catalog window still counts for persisted legacy bindings.
-        let windowCounts = (catalogEntries ?? entries).reduce(into: [String: Int]()) { counts, entry in
+        let windowCounts = entries.reduce(into: [String: Int]()) { counts, entry in
             guard entry.isWindowEntry else {
                 return
             }

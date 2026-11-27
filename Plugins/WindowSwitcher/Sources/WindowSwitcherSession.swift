@@ -87,10 +87,7 @@ struct WindowSwitcherSession {
         // Freeze the session order, updating metadata and appending new arrivals.
         let byID = Dictionary(updated.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         let existing = Set(entries.map(\.id))
-        entries = entries.compactMap { previous in
-            guard let entry = byID[previous.id] else { return nil }
-            return entry.isAwaitingWindowConfirmation ? previous : entry
-        } + updated.filter { !existing.contains($0.id) && !$0.isAwaitingWindowConfirmation }
+        entries = entries.compactMap { byID[$0.id] } + updated.filter { !existing.contains($0.id) }
         normalizeSelection()
     }
 
