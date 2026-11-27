@@ -29,7 +29,7 @@ private final class ControlledSwitcherCatalog: WindowSwitcherCatalog {
     var invocationReady: Bool?
     var isInvocationReady: Bool { invocationReady ?? isInitialDiscoveryComplete }
     var prepareInvocation: (() -> Void)?
-    func prepareForInvocation() { prepareInvocation?() }
+    func prepareForInvocation(sortMode: WindowSwitcherSortMode) { prepareInvocation?() }
     var windows: [WindowSwitcherAppEntry] = []
     var activated: [String] = []
     var activationResult: WindowSwitcherActionResult = .succeeded

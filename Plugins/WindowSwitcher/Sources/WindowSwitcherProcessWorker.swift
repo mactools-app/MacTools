@@ -20,6 +20,7 @@ struct WindowSwitcherScan: Sendable {
     var focusedID: String?
     var unavailable: Bool
     var windowListReadSucceeded = true
+    var reportedFocusedWindow = false
 }
 
 struct WindowSwitcherAXIdentity: Hashable {
@@ -184,7 +185,8 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
         cursor = count == 0 ? 0 : (cursor + didRead) % count
         let focused = uptime() < deadline ? copyElement(app, kAXFocusedWindowAttribute) : nil
         let focusedID = focused.flatMap { element in records.first { CFEqual($0.element, element) }?.id }
-        return WindowSwitcherScan(windows: records, focusedID: focusedID, unavailable: metadataFailed || didRead < count)
+        return WindowSwitcherScan(windows: records, focusedID: focusedID, unavailable: metadataFailed || didRead < count,
+                                  reportedFocusedWindow: focused != nil)
     }
 
     private enum Admission { case eligible(WindowSwitcherWindowSnapshot), excluded, unavailable }
