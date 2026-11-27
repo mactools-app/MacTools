@@ -20,6 +20,7 @@ struct WindowSwitcherPublishedWindows {
     mutating func update(snapshots: [pid_t: [WindowSwitcherAppEntry]], records: [WindowSwitcherWindowRecord],
                          recordsAreFresh: Bool, localEntries: [WindowSwitcherAppEntry] = [],
                          helperProcessIdentifiers: [pid_t: Set<pid_t>] = [:],
+                         excludedFallbackNumbers: [pid_t: Set<CGWindowID>] = [:],
                          displayContext: (CGRect) -> (id: UInt32, name: String)? = { _ in nil }) {
         for pid in Set(knownWindowIDs.keys).union(axAliases.keys) where snapshots[pid] == nil {
             removeProcess(pid)
@@ -58,7 +59,7 @@ struct WindowSwitcherPublishedWindows {
                 knownWindowIDs: knownWindowIDs[pid] ?? [:],
                 confirmedAXWindowNumbers: confirmedAXWindowNumbers[pid] ?? [],
                 hasConfirmedEmptyAXSnapshot: recordsAreFresh && raw.contains { !$0.isWindowEntry && !$0.metadataUnavailable },
-                helperProcessIdentifiers: helpers)
+                helperProcessIdentifiers: helpers, excludedFallbackNumbers: excludedFallbackNumbers[pid] ?? [])
             var nextAliases: [String: String] = [:]
             var seenIDs = Set<String>()
             for var entry in merged {

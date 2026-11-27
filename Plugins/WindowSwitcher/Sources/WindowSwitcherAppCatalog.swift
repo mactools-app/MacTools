@@ -89,6 +89,8 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         enum Retry { case waiting, queued, reading, complete }
 
         let pid: pid_t
+        let id = UUID()
+        var isOpening = false
         var scan: WindowSwitcherScan?
         var retry: Retry?
         var focusRevision = UUID()
@@ -114,6 +116,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     private var observers: [NSObjectProtocol] = []
     private var workers: [pid_t: WindowSwitcherProcessWorker] = [:]
     private var snapshots: [pid_t: [WindowSwitcherAppEntry]] = [:]
+    private var launchRetryRemovedNumbers: [pid_t: Set<CGWindowID>] = [:]
     private var inFlight: Set<pid_t> = []
     // Kept across stop/start until the actual worker returns.
     private var activeScanCount = 0
@@ -142,8 +145,8 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     private var hasApplicationInventory = false
     private var appsAwaitingFirstForeground: Set<pid_t> = []
     private var foregroundPID: pid_t?
-    private var launchHandoffPID: pid_t?
     private var launchCheck: LaunchCheck?
+    private var openingLaunchPID: pid_t? { launchCheck?.isOpening == true ? launchCheck?.pid : nil }
     private var launchRetryTask: Task<Void, Never>?
     private var launchCheckUpdated = false
     private let allSpacesCatalog: WindowSwitcherWindowRecords
@@ -252,12 +255,12 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         invocationGeneration = UUID()
         invocationRequiredHosts.removeAll()
         invocationRequiresRecords = false
-        cancelInvocation()
+        clearLaunchCheck()
         launchCheckUpdated = false
         hasApplicationInventory = false
         appsAwaitingFirstForeground.removeAll()
         foregroundPID = nil
-        launchHandoffPID = nil
+        launchRetryRemovedNumbers.removeAll()
         isInvocationReady = false
         windowRecordsPending = false
         allSpacesRefreshTask?.cancel(); allSpacesRefreshTask = nil
@@ -285,10 +288,10 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
 
     /// Coalesces events by owner. A dirty host remains queued when a scan is in
     /// flight, so changes arriving during that scan get one follow-up read.
-    func invalidate(processIdentifiers: Set<pid_t>, windowRecords: Bool) {
+    func invalidate(processIdentifiers: Set<pid_t>, windowRecords: Bool, eventKind: WindowSwitcherProcessEvent.Kind? = nil) {
         guard running else { return }
         let hosts = Set(processIdentifiers.map { processMapping.host(for: $0) })
-        if let check = launchCheck, hosts.contains(check.pid) { invalidateLaunchFocus() }
+        if eventKind != .metadata, let check = launchCheck, hosts.contains(check.pid) { invalidateLaunchFocus() }
         pendingInvalidations.formUnion(hosts.intersection(expectedHostPIDs))
         pendingRecordsInvalidation = pendingRecordsInvalidation || windowRecords
         if processIdentifiers.contains(ProcessInfo.processInfo.processIdentifier) { markPublicationDirty() }
@@ -331,9 +334,9 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         isInvocationReady = false
         applicationInventory?.reconcile(notify: false)
         reloadApplications()
-        if sortMode == .recentUse, let pid = launchHandoffPID, expectedHostPIDs.contains(pid) {
-            launchHandoffPID = nil
-            launchCheck = LaunchCheck(pid: pid)
+        if sortMode == .recentUse, let pid = launchCheck?.pid, expectedHostPIDs.contains(pid) {
+            launchCheck?.isOpening = true
+            launchCheck?.scan = nil
             pendingFocus.removeValue(forKey: pid)
         }
         applyInvalidations()
@@ -346,9 +349,17 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     }
 
     func cancelInvocation() {
-        launchCheck = nil
+        launchCheck?.isOpening = false
+        if launchCheck?.retry == .waiting || launchCheck?.retry == .queued {
+            launchCheck?.retry = nil
+        }
         launchRetryTask?.cancel()
         launchRetryTask = nil
+    }
+
+    private func clearLaunchCheck() {
+        cancelInvocation()
+        launchCheck = nil
     }
 
     private func invalidateLaunchFocus() {
@@ -359,15 +370,14 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     private func observeForeground(_ pid: pid_t?) {
         if foregroundPID != pid {
             foregroundPID = pid
-            launchHandoffPID = nil
             if launchCheck != nil {
-                cancelInvocation()
+                clearLaunchCheck()
                 launchCheckUpdated = true
                 schedulePublication()
             }
         }
         if let pid, expectedHostPIDs.contains(pid), appsAwaitingFirstForeground.remove(pid) != nil {
-            launchHandoffPID = pid
+            launchCheck = LaunchCheck(pid: pid)
         }
     }
 
@@ -384,7 +394,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             }
             appsAwaitingFirstForeground.formUnion(newPIDs)
             if let check = launchCheck, newPIDs.contains(check.pid) {
-                cancelInvocation()
+                clearLaunchCheck()
                 launchCheckUpdated = true
                 schedulePublication()
             }
@@ -407,7 +417,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         }.map(\.processIdentifier))
         appsAwaitingFirstForeground.formIntersection(applicationsByPID.keys)
         observeForeground(discovery.foregroundPID())
-        if let pid = launchHandoffPID, !expectedHostPIDs.contains(pid) { launchHandoffPID = nil }
+        if let pid = launchCheck?.pid, !expectedHostPIDs.contains(pid) { clearLaunchCheck() }
         let liveWorkerPIDs = expectedHostPIDs.union(helperPIDsByHost.values.flatMap { $0 })
         for pid in Array(workers.keys) {
             guard liveWorkerPIDs.contains(pid), let app = applicationsByPID[pid],
@@ -417,6 +427,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                 inFlight.remove(pid)
                 unavailable.remove(pid)
                 snapshots.removeValue(forKey: pid)
+                launchRetryRemovedNumbers.removeValue(forKey: pid)
                 pendingFocus.removeValue(forKey: pid)
                 removedProcesses.insert(pid)
                 dirtyHosts.insert(oldMapping.host(for: pid))
@@ -426,6 +437,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         }
         for pid in Array(snapshots.keys) where !expectedHostPIDs.contains(pid) {
             snapshots.removeValue(forKey: pid)
+            launchRetryRemovedNumbers.removeValue(forKey: pid)
             removedProcesses.insert(pid)
             markPublicationDirty()
         }
@@ -445,8 +457,8 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         guard !discovery.isDragging() else { scheduleRefresh(); return }
         if windowRecordsPending { refreshAllSpaces() }
         let pids = dirtyHosts.sorted {
-            let lhsActive = $0 == launchCheck?.pid || activeWorkerPID(for: $0) != nil
-            let rhsActive = $1 == launchCheck?.pid || activeWorkerPID(for: $1) != nil
+            let lhsActive = $0 == openingLaunchPID || activeWorkerPID(for: $0) != nil
+            let rhsActive = $1 == openingLaunchPID || activeWorkerPID(for: $1) != nil
             return lhsActive == rhsActive ? $0 < $1 : lhsActive
         }
         for pid in pids {
@@ -458,9 +470,9 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             activeScanCount += 1
             let app = application.withPresentation()
             let invocation = invocationGeneration
-            let scansLaunch = launchCheck?.pid == pid
+            let handoffID = openingLaunchPID == pid ? launchCheck?.id : nil
             let focusRevision = launchCheck?.focusRevision
-            let isRetry = scansLaunch && launchCheck?.retry == .queued
+            let isRetry = handoffID != nil && launchCheck?.retry == .queued
             if isRetry { launchCheck?.retry = .reading }
             Task { [weak self] in
                 defer {
@@ -490,31 +502,56 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                 let unavailableScan = result.unavailable || helperUnavailable
                 if unavailableScan { unavailable.insert(pid) } else { unavailable.remove(pid) }
                 unavailableApplicationCount = unavailable.count
-                if scansLaunch, invocation == invocationGeneration, launchCheck?.pid == pid {
-                    if launchCheck?.focusRevision == focusRevision { launchCheck?.scan = result }
+                if let handoffID, launchCheck?.id == handoffID {
+                    if (invocation == invocationGeneration || isRetry), openingLaunchPID == pid,
+                       launchCheck?.focusRevision == focusRevision {
+                        launchCheck?.scan = result
+                    }
                     if isRetry { launchCheck?.retry = .complete }
                     launchCheckUpdated = true
                 }
-                // An incomplete retry cannot replace the ready catalog used to
-                // open the chooser, including its last complete AX exclusions.
-                if isRetry, unavailableScan {
+                // A failed window-list read cannot supersede the last AX exclusions.
+                if isRetry, !result.windowListReadSucceeded {
                     schedulePublication()
                     return
                 }
                 let previous = snapshots[pid]
+                if isRetry, unavailableScan, let previous {
+                    let liveIDs = Set(result.windows.map(\.id))
+                    let removedNumbers = Set(previous.compactMap { entry -> CGWindowID? in
+                        guard entry.axWorkerPID == pid, let id = entry.workerWindowID,
+                              !liveIDs.contains(id) else { return nil }
+                        return entry.windowNumber
+                    })
+                    launchRetryRemovedNumbers[pid] = removedNumbers.isEmpty ? nil : removedNumbers
+                    // An incomplete metadata read does not undo an earlier AX
+                    // confirmation that excluded unverified current-Space rows.
+                    if let empty = previous.first(where: { !$0.isWindowEntry && !$0.metadataUnavailable }) {
+                        entries.append(empty)
+                    }
+                }
+                if let excluded = launchRetryRemovedNumbers[pid] {
+                    // A later AX read can confirm a window with a reused number.
+                    // Merely reading the other windows does not clear the exclusion.
+                    let verified = entries.filter { !$0.metadataUnavailable }.compactMap(\.windowNumber)
+                    let remaining = excluded.subtracting(verified)
+                    launchRetryRemovedNumbers[pid] = remaining.isEmpty ? nil : remaining
+                }
                 // A failed read is never evidence of a windowless application.
-                if entries.isEmpty && !unavailableScan {
-                    entries = [WindowSwitcherAppEntry(id: "app:\(worker.lifetime)", processIdentifier: pid,
+                if entries.isEmpty && (!unavailableScan || isRetry) {
+                    var entry = WindowSwitcherAppEntry(id: "app:\(worker.lifetime)", processIdentifier: pid,
                         bundleIdentifier: app.bundleIdentifier, appName: app.localizedName ?? "App",
                         windowTitle: nil, icon: app.icon, windowElement: nil, isMinimized: false,
-                        applicationLaunchDate: app.launchDate, shortcutToken: nil, isHidden: app.isHidden)]
+                        applicationLaunchDate: app.launchDate, shortcutToken: nil, isHidden: app.isHidden)
+                    entry.metadataUnavailable = unavailableScan
+                    entries = [entry]
                 }
                 if !result.windowListReadSucceeded, entries.isEmpty, let previous {
                     entries = previous.map { var entry = $0; entry.metadataUnavailable = true; return entry }
                 }
                 snapshots[pid] = entries
                 if previous != entries { markPublicationDirty() }
-                if !scansLaunch, launchCheck?.pid != pid, let activePID = activeWorkerPID(for: pid) {
+                if handoffID == nil, openingLaunchPID != pid, let activePID = activeWorkerPID(for: pid) {
                     pendingFocus[pid] = (activePID == pid ? result.focusedID : helperFocusIDs[activePID], unavailableScan)
                     markPublicationDirty()
                 }
@@ -550,11 +587,11 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     }
 
     func opening(sortMode: WindowSwitcherSortMode, deadlineReached: Bool = false) -> WindowSwitcherOpening? {
-        if launchCheck != nil && isInvocationReady && launchCheckUpdated { publishCompletedUpdates() }
+        if openingLaunchPID != nil && isInvocationReady && launchCheckUpdated { publishCompletedUpdates() }
         guard isInvocationReady else { return nil }
         var focusedID = focusedWindowID
         var inferredID: String?
-        if let check = launchCheck, discovery.foregroundPID() == check.pid, expectedHostPIDs.contains(check.pid) {
+        if let check = launchCheck, check.isOpening, discovery.foregroundPID() == check.pid, expectedHostPIDs.contains(check.pid) {
             focusedID = nil
             if let scan = check.scan, let id = scan.focusedID,
                let window = launchWindow(pid: check.pid, workerID: id) {
@@ -563,7 +600,8 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             } else if let scan = check.scan, let window = inferLaunchWindow(pid: check.pid, scan: scan) {
                 focusedID = window.id
                 inferredID = window.id
-            } else if !deadlineReached, check.retry != .complete {
+            } else if !deadlineReached, check.retry != .complete || check.scan == nil {
+                // A superseded retry leaves the ordinary refresh to supply focus.
                 if check.retry == nil { scheduleLaunchRetry(for: check.pid) }
                 return nil
             }
@@ -574,7 +612,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             rows.insert(row, at: 0)
         }
         guard !rows.isEmpty else { return nil }
-        cancelInvocation()
+        if openingLaunchPID != nil { clearLaunchCheck() }
         return WindowSwitcherOpening(entries: rows, focusedWindowID: focusedID)
     }
 
@@ -611,7 +649,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             guard let self, invocation == invocationGeneration, launchCheck?.pid == pid else { return }
             launchRetryTask = nil
             guard discovery.foregroundPID() == pid, expectedHostPIDs.contains(pid) else {
-                cancelInvocation()
+                clearLaunchCheck()
                 launchCheckUpdated = true
                 schedulePublication()
                 return
@@ -628,6 +666,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         workers.removeValue(forKey: pid)?.stop()
         if processMapping.host(for: pid) == pid {
             snapshots.removeValue(forKey: pid)
+            launchRetryRemovedNumbers.removeValue(forKey: pid)
             removedProcesses.insert(pid)
             markPublicationDirty()
         }
@@ -636,7 +675,8 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             applicationLifetime: applicationLifetime, access: accessFactory(pid)) { [weak self] event in
             Task { @MainActor [weak self] in
                 guard let self, workers[event.processIdentifier]?.lifetime == event.lifetime else { return }
-                invalidate(processIdentifiers: [event.processIdentifier], windowRecords: event.kind.requiresWindowRecords)
+                invalidate(processIdentifiers: [event.processIdentifier], windowRecords: event.kind.requiresWindowRecords,
+                           eventKind: event.kind)
             }
         }
         workers[pid] = created
@@ -674,6 +714,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
     private func rebuildPublication() {
         publication.update(snapshots: snapshots, records: allSpacesRecords, recordsAreFresh: allSpacesRecordsAreFresh, localEntries: hostWindows.entries(),
                            helperProcessIdentifiers: helperPIDsByHost,
+                           excludedFallbackNumbers: launchRetryRemovedNumbers,
                            displayContext: { self.displayContext(for: $0) })
         if NSApp.isActive, let focusedID = hostWindows.focusedID {
             publication.recency.observeForeground(entries: publication.entries.filter {
@@ -743,6 +784,13 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             let oldHelpers = helperPIDsByHost
             if allSpacesRecords != result.records || allSpacesRecordsAreFresh != result.isFresh { markPublicationDirty() }
             allSpacesRecords = result.records
+            if result.isFresh, !launchRetryRemovedNumbers.isEmpty {
+                let recordedNumbers = Set(result.records.map(\.windowNumber))
+                launchRetryRemovedNumbers = launchRetryRemovedNumbers.compactMapValues { excluded in
+                    let remaining = excluded.intersection(recordedNumbers)
+                    return remaining.isEmpty ? nil : remaining
+                }
+            }
             helperPIDsByHost = processMapping.helpersByHost(owningWindowsIn: allSpacesRecords)
             allSpacesRecordsAreFresh = result.isFresh
             if oldHelpers != helperPIDsByHost { reloadApplications() }
@@ -768,7 +816,8 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                                       knownWindowIDs: [CGWindowID: String] = [:],
                                       confirmedAXWindowNumbers: Set<CGWindowID> = [],
                                       hasConfirmedEmptyAXSnapshot: Bool = false,
-                                      helperProcessIdentifiers: Set<pid_t> = []) -> [WindowSwitcherAppEntry] {
+                                      helperProcessIdentifiers: Set<pid_t> = [],
+                                      excludedFallbackNumbers: Set<CGWindowID> = []) -> [WindowSwitcherAppEntry] {
         guard let application = entries.first else { return entries }
         let hostPID = application.processIdentifier
         let records = records.filter { $0.processIdentifier == hostPID || helperProcessIdentifiers.contains($0.processIdentifier) }
@@ -802,6 +851,8 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
         }
         let fallback = records.compactMap { record -> WindowSwitcherAppEntry? in
             guard !claimed.contains(record.windowNumber) else { return nil }
+            if record.isOnScreen == true, record.isOnActiveSpace != false,
+               excludedFallbackNumbers.contains(record.windowNumber) { return nil }
             // A complete empty AX scan rules out current-Space window rows.
             // WindowServer may still retain named surfaces after the last window
             // closes. Other-Space windows remain discoverable independently.
