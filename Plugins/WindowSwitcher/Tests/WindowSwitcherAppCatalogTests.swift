@@ -243,12 +243,9 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         catalog.prepareForInvocation(sortMode: .recentUse)
         try await waitUntil { catalog.isInvocationReady }
         XCTAssertNil(catalog.opening(sortMode: .recentUse))
-        var opening: WindowSwitcherOpening?
-        try await waitUntil {
-            if opening == nil { opening = catalog.opening(sortMode: .recentUse) }
-            return opening != nil
-        }
-        let rows = try XCTUnwrap(opening)
+        try await waitUntil { catalog.unavailableApplicationCount == 1 }
+        XCTAssertNil(catalog.opening(sortMode: .recentUse))
+        let rows = try XCTUnwrap(catalog.opening(sortMode: .recentUse, deadlineReached: true))
         XCTAssertEqual(fixtureWindowNumbers(in: rows.entries), [6])
         XCTAssertEqual(closing.read { $0.reads }, 2)
     }
@@ -285,7 +282,8 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         defer { launched.update { $0.beforeRead = nil } }
         XCTAssertNil(catalog.opening(sortMode: .recentUse))
 
-        let opening = try await waitForOpening(catalog)
+        try await waitUntil { catalog.unavailableApplicationCount == 1 }
+        let opening = try XCTUnwrap(catalog.opening(sortMode: .recentUse, deadlineReached: true))
         XCTAssertEqual(Set(fixtureWindowNumbers(in: opening.entries)), [6, 9])
         XCTAssertEqual(launched.read { $0.reads }, 2)
     }
@@ -315,6 +313,22 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         XCTAssertEqual(opening.entries.first?.windowNumber, 8)
         XCTAssertEqual(fixtureWindowNumbers(in: opening.entries), [8, 6])
         XCTAssertEqual(launched.read { $0.reads }, 3)
+    }
+
+    func testVisibleLaunchWindowWaitsForAccessibilityAfterEmptyRetry() async throws {
+        try await checkLateLaunchOpening()
+    }
+
+    func testVisibleLaunchWindowWaitsAfterUnavailableWindowList() async throws {
+        try await checkLateLaunchOpening { $0.listUnavailable = true }
+    }
+
+    func testVisibleLaunchWindowWaitsAfterUnreadableWindowMetadata() async throws {
+        try await checkLateLaunchOpening { $0.number = 7; $0.metadataUnavailable = true }
+    }
+
+    func testVisibleLaunchWindowWaitsAfterUnmatchedFocusedElement() async throws {
+        try await checkLateLaunchOpening { $0.focused = true }
     }
 
     func testTitleChangeDuringRetryPreservesVerifiedFocus() async throws {
@@ -502,6 +516,40 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
               bounds: CGRect(x: 20, y: 20, width: 800, height: 600))
     }
 
+    private func checkLateLaunchOpening(retryReply: @escaping (inout CatalogAXAccess.State) -> Void = { _ in }) async throws {
+        let launched = CatalogAXAccess(number: nil, elementPID: 202)
+        let catalog = try await startLaunchInvocation(launched, records: [launchRecord(7)])
+        defer { catalog.onChange = nil; launched.update { $0.beforeRead = nil }; catalog.stop() }
+        launched.update { $0.beforeRead = {
+            if launched.read({ $0.reads }) == 2 { launched.update(retryReply) }
+        } }
+        var firstOpening: WindowSwitcherOpening?
+        var deliveredEvent = false
+        catalog.onChange = {
+            guard launched.read({ $0.reads }) >= 2 else { return }
+            if firstOpening == nil { firstOpening = catalog.opening(sortMode: .recentUse) }
+            if !deliveredEvent {
+                deliveredEvent = true
+                launched.update {
+                    $0.number = 7
+                    $0.focused = true
+                    $0.listUnavailable = false
+                    $0.metadataUnavailable = false
+                }
+                catalog.invalidate(processIdentifiers: [43], windowRecords: true, eventKind: .windows)
+            }
+        }
+        XCTAssertNil(catalog.opening(sortMode: .recentUse))
+        try await waitUntil {
+            firstOpening != nil && catalog.entries(sortMode: .recentUse).contains { $0.windowNumber == 7 }
+        }
+        let opening = try XCTUnwrap(firstOpening)
+        XCTAssertEqual(fixtureWindowNumbers(in: opening.entries), [7, 6])
+        XCTAssertEqual(opening.entries.first?.windowNumber, 7)
+        XCTAssertEqual(opening.focusedWindowID, opening.entries.first?.id)
+        XCTAssertEqual(launched.read { $0.reads }, 3)
+    }
+
     private func checkFocusAfterLaunchInvalidation(_ kind: WindowSwitcherProcessEvent.Kind, expectedReads: Int) async throws {
         let launched = CatalogAXAccess(number: nil, elementPID: 202)
         let catalog = try await startLaunchInvocation(launched)
@@ -612,5 +660,53 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         let focused = try XCTUnwrap(catalog.focusedWindowID)
         XCTAssertEqual(catalog.entries(sortMode: .recentUse).first?.id, focused)
         XCTAssertEqual(catalog.entries(sortMode: .recentUse).first?.axWorkerPID, 43)
+    }
+
+    func testEndedLaunchCheckPublishesExistingVerifiedHelperFocus() async throws {
+        let prior = CatalogAXAccess(number: 6, elementPID: 201)
+        prior.update { $0.focused = true }
+        let host = CatalogAXAccess(number: nil, elementPID: 202)
+        let helper = CatalogAXAccess(number: 8, elementPID: 203)
+        let release = DispatchSemaphore(value: 0)
+        helper.update { $0.focused = true; $0.beforeRead = { _ = release.wait(timeout: .now() + 2) } }
+        let center = NotificationCenter()
+        var foreground: pid_t = 42
+        var helperActivityLoaded = false
+        let record = WindowSwitcherWindowRecord(windowNumber: 8, processIdentifier: 44, title: "Helper",
+            isOnScreen: true, bounds: CGRect(x: 20, y: 20, width: 800, height: 600))
+        let catalog = WindowSwitcherAppCatalog(notificationCenter: center, accessFactory: {
+            switch $0 {
+            case 42: return prior
+            case 43: return host
+            default: return helper
+            }
+        }, allSpacesCatalog: .init(windowRecordProvider: { [record] }), discovery: .init(applications: {
+            let previous = WindowSwitcherAppCatalog.Application(processIdentifier: 42, localizedName: "Previous",
+                isActive: foreground == 42)
+            guard foreground != 42 else { return [previous] }
+            if foreground == 44 { helperActivityLoaded = true }
+            return [previous, .init(processIdentifier: 43, bundleIdentifier: "fixture.host", bundlePath: "/Fixture.app",
+                localizedName: "Host", isActive: foreground == 43),
+                .init(processIdentifier: 44, bundleIdentifier: "fixture.host.helper", bundlePath: "/Fixture.app/Helper.app",
+                    localizedName: "Helper", isRegular: false, isActive: foreground == 44)]
+        }, isAccessibilityTrusted: { true }, isDragging: { false }, foregroundPID: { foreground }))
+        defer { release.signal(); helper.update { $0.beforeRead = nil }; catalog.stop() }
+        catalog.start()
+        try await waitUntil { catalog.isInvocationReady }
+        foreground = 43
+        catalog.prepareForInvocation(sortMode: .recentUse)
+        try await waitUntil { helper.read { $0.reads } == 1 }
+        foreground = 44
+        // The activation callback reloads the inventory supplied by the fixture.
+        center.post(name: NSWorkspace.didActivateApplicationNotification, object: nil,
+            userInfo: [NSWorkspace.applicationUserInfoKey: NSRunningApplication.current])
+        try await waitUntil { helperActivityLoaded }
+        release.signal()
+
+        let opening = try await waitForOpening(catalog)
+        let helperRow = try XCTUnwrap(opening.entries.first { $0.windowNumber == 8 && $0.axWorkerPID == 44 })
+        XCTAssertEqual(fixtureWindowNumbers(in: opening.entries), [8, 6])
+        XCTAssertEqual(opening.entries.first?.id, helperRow.id)
+        XCTAssertEqual(opening.focusedWindowID, helperRow.id)
     }
 }

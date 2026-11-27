@@ -551,7 +551,7 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
                 }
                 snapshots[pid] = entries
                 if previous != entries { markPublicationDirty() }
-                if handoffID == nil, openingLaunchPID != pid, let activePID = activeWorkerPID(for: pid) {
+                if openingLaunchPID != pid, let activePID = activeWorkerPID(for: pid) {
                     pendingFocus[pid] = (activePID == pid ? result.focusedID : helperFocusIDs[activePID], unavailableScan)
                     markPublicationDirty()
                 }
@@ -600,8 +600,8 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             } else if let scan = check.scan, let window = inferLaunchWindow(pid: check.pid, scan: scan) {
                 focusedID = window.id
                 inferredID = window.id
-            } else if !deadlineReached, check.retry != .complete || check.scan == nil {
-                // A superseded retry leaves the ordinary refresh to supply focus.
+            } else if !deadlineReached, check.retry != .complete || check.scan == nil || awaitsLaunchWindow(check) {
+                // The ordinary refresh can supply focus after the targeted retry.
                 if check.retry == nil { scheduleLaunchRetry(for: check.pid) }
                 return nil
             }
@@ -622,6 +622,18 @@ final class WindowSwitcherAppCatalog: WindowSwitcherCatalog {
             $0.processIdentifier == pid && $0.axWorkerPID == pid && $0.workerWindowID == workerID
                 && $0.windowElement != nil && !$0.metadataUnavailable && !$0.isHidden
                 && !$0.isMinimized && !$0.isOnOtherDesktop && listingPolicy.admits($0)
+        }
+    }
+
+    private func awaitsLaunchWindow(_ check: LaunchCheck) -> Bool {
+        guard let scan = check.scan, allSpacesRecordsAreFresh else { return false }
+        // A record can justify waiting for AX without supplying focus or a row.
+        let resolvedNumbers = launchRetryRemovedNumbers[check.pid, default: []].union(
+            scan.windows.lazy.filter { !$0.unavailable }.compactMap(\.windowNumber))
+        return allSpacesRecords.contains {
+            $0.processIdentifier == check.pid && $0.isOnScreen == true && $0.isOnActiveSpace != false
+                && !resolvedNumbers.contains($0.windowNumber)
+                && (listingPolicy.includesFullscreenSpaceWindows || $0.isOnFullscreenSpace != true)
         }
     }
 
