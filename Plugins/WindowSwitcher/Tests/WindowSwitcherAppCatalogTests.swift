@@ -181,7 +181,7 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
         defer { catalog.stop() }
         catalog.start()
         try await waitUntil { catalog.isInvocationReady }
-        XCTAssertEqual(catalog.entries(sortMode: .recentUse).compactMap(\.windowNumber), [6])
+        XCTAssertEqual(fixtureWindowNumbers(in: catalog.entries(sortMode: .recentUse)), [6])
 
         isRunning = true
         catalog.prepareForInvocation(sortMode: .fixed)
@@ -204,7 +204,8 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
             return opening != nil
         }
         let rows = try XCTUnwrap(opening)
-        XCTAssertEqual(rows.entries.compactMap(\.windowNumber), [7, 6])
+        XCTAssertEqual(fixtureWindowNumbers(in: rows.entries), [7, 6])
+        XCTAssertEqual(rows.entries.first?.windowNumber, 7)
         XCTAssertEqual(rows.focusedWindowID, rows.entries.first?.id)
         XCTAssertEqual(launched.read { $0.reads }, reads + 2)
         XCTAssertEqual(previous.read { $0.reads }, otherReads + 1)
@@ -241,7 +242,8 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
             if opening == nil { opening = catalog.opening(sortMode: .recentUse) }
             return opening != nil
         }
-        XCTAssertEqual(opening?.entries.compactMap(\.windowNumber), [6])
+        let rows = try XCTUnwrap(opening)
+        XCTAssertEqual(fixtureWindowNumbers(in: rows.entries), [6])
         XCTAssertEqual(closing.read { $0.reads }, 2)
     }
 
@@ -352,6 +354,11 @@ final class WindowSwitcherAppCatalogTests: XCTestCase {
 
     private func numbers(_ catalog: WindowSwitcherAppCatalog) -> Set<CGWindowID> {
         Set(catalog.entries(sortMode: .fixed).filter { $0.processIdentifier == 42 }.compactMap(\.windowNumber))
+    }
+
+    private func fixtureWindowNumbers(in entries: [WindowSwitcherAppEntry]) -> [CGWindowID] {
+        let hostPID = ProcessInfo.processInfo.processIdentifier
+        return entries.filter { $0.processIdentifier != hostPID }.compactMap(\.windowNumber)
     }
 
     func testStopDuringHelperScanDoesNotRepublishWindows() async throws {
