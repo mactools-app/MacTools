@@ -474,6 +474,14 @@ public final class ContainerIndicatorController: ObservableObject {
         ])
     }
 
+    public func deleteContainer(id: String) {
+        perform(sequences: [["delete", id]])
+    }
+
+    public func deleteMachine(id: String) {
+        perform(sequences: [["machine", "delete", id]])
+    }
+
     // MARK: - Terminal
 
     /// Opens an interactive shell in the user's default terminal. The CLI must

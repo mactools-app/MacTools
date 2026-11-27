@@ -314,6 +314,50 @@ final class ContainerIndicatorPluginTests: XCTestCase {
         XCTAssertFalse(controller.isPerformingAction)
     }
 
+    func testContainerDeleteRunsDeleteCommand() async {
+        let probe = CommandProbe()
+        let controller = makeController(probe: probe)
+
+        controller.deleteContainer(id: "c1")
+        await waitUntil { await probe.recordedInvocations().contains(["delete", "c1"]) }
+
+        let invocations = await probe.recordedInvocations()
+        XCTAssertEqual(invocations.first, ["delete", "c1"])
+        XCTAssertNil(controller.lastErrorMessage)
+        XCTAssertFalse(controller.isPerformingAction)
+    }
+
+    func testMachineDeleteRunsMachineDeleteCommand() async {
+        let probe = CommandProbe()
+        let controller = makeController(probe: probe)
+
+        controller.deleteMachine(id: "default")
+        await waitUntil {
+            await probe.recordedInvocations().contains(["machine", "delete", "default"])
+        }
+
+        let invocations = await probe.recordedInvocations()
+        XCTAssertEqual(invocations.first, ["machine", "delete", "default"])
+        XCTAssertNil(controller.lastErrorMessage)
+        XCTAssertFalse(controller.isPerformingAction)
+    }
+
+    func testContainerDeleteFailureSurfacesCommandError() async {
+        let probe = CommandProbe()
+        await probe.stubCommandResult(
+            arguments: ["delete", "c1"],
+            exitCode: 64,
+            error: "error: container is running"
+        )
+        let controller = makeController(probe: probe)
+
+        controller.deleteContainer(id: "c1")
+        await waitUntil { controller.lastErrorMessage != nil }
+
+        XCTAssertEqual(controller.lastErrorMessage, "操作失败：error: container is running")
+        XCTAssertFalse(controller.isPerformingAction)
+    }
+
     func testFailedListReadKeepsPreviousEntriesAndReportsWhy() async {
         let probe = CommandProbe()
         await probe.stubService(exitCode: 0, output: #"{"status":"running"}"#)
