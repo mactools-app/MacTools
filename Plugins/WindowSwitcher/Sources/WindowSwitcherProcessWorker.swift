@@ -20,6 +20,7 @@ struct WindowSwitcherScan: Sendable {
     var focusedID: String?
     var unavailable: Bool
     var windowListReadSucceeded = true
+    var windowListReadAt: ContinuousClock.Instant? = nil
 }
 
 struct WindowSwitcherAXIdentity: Hashable {
@@ -140,6 +141,7 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
         }
         AXUIElementSetMessagingTimeout(app, 0.06)
         installObserver()
+        let windowListReadAt = ContinuousClock.now
         guard let windows = copyWindows(shouldContinue: { self.uptime() < deadline }) else { return incomplete() }
         let live = Set(windows.map { WindowSwitcherAXIdentity(element: $0) })
         guard uptime() < deadline,
@@ -173,7 +175,7 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
                 else { indexes[key] = records.count; records.append(snapshot) }
                 if uptime() < deadline { observe(window) }
             case .excluded:
-                if let oldIndex { excluded.insert(records[oldIndex].id) }
+                excluded.insert(windowIDs[index])
             case .unavailable:
                 metadataFailed = true
                 if let oldIndex { records[oldIndex].unavailable = true }
@@ -184,7 +186,8 @@ final class WindowSwitcherProcessWorker: @unchecked Sendable {
         cursor = count == 0 ? 0 : (cursor + didRead) % count
         let focused = uptime() < deadline ? copyElement(app, kAXFocusedWindowAttribute) : nil
         let focusedID = focused.flatMap { element in records.first { CFEqual($0.element, element) }?.id }
-        return WindowSwitcherScan(windows: records, focusedID: focusedID, unavailable: metadataFailed || didRead < count)
+        return WindowSwitcherScan(windows: records, focusedID: focusedID, unavailable: metadataFailed || didRead < count,
+                                  windowListReadAt: windowListReadAt)
     }
 
     private enum Admission { case eligible(WindowSwitcherWindowSnapshot), excluded, unavailable }
