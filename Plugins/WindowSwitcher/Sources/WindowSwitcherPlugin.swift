@@ -166,7 +166,8 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         }
         self.overlayController.onShortcutChange = { [weak self] entry, token in
             guard let self, let session = self.session, session.usesDirectKeys else { return .unavailable }
-            return self.store.setManualShortcut(token, for: entry.id, in: session.entries)
+            let catalogEntries = self.appCatalog.entries(sortMode: self.store.configuration.sortMode)
+            return self.store.setManualShortcut(token, for: entry.id, in: session.entries, catalogEntries: catalogEntries)
         }
         self.overlayController.onSessionChange = { [weak self] session in
             self?.session = session
@@ -663,9 +664,9 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         // shortcut invocation retains Cycle mode's release-to-switch behavior.
         session.isPersistent = true
         session.usesDirectKeys = mode == .keyWindow
-        session.reconcile(mode == .keyWindow
-            ? store.assignShortcuts(to: appCatalog.entries(sortMode: store.configuration.sortMode))
-            : appCatalog.entries(sortMode: store.configuration.sortMode))
+        let entries = appCatalog.entries(sortMode: store.configuration.sortMode)
+        session.reconcile(entries)
+        if session.usesDirectKeys { session.entries = store.assignShortcuts(to: session.entries, catalogEntries: entries) }
         self.session = session
         shortcutTap.setEditing(mode == .keyWindow)
         overlayController.applyMode(mode, session: session)
@@ -713,9 +714,8 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         skippedSingleWindow = false
         shortcutTap.setSessionActive(true)
         invocationPID = targetPID ?? NSWorkspace.shared.frontmostApplication?.processIdentifier
-        appCatalog.prepareForInvocation()
-        let entries = appCatalog.entries(sortMode: store.configuration.sortMode)
-        if entries.isEmpty || !appCatalog.isInvocationReady {
+        appCatalog.prepareForInvocation(sortMode: store.configuration.sortMode)
+        guard let opening = appCatalog.opening(sortMode: store.configuration.sortMode, deadlineReached: false) else {
             pendingInvocation = (reversed, currentApp, persistent)
             pendingSteps = persistent ? 0 : (reversed ? -1 : 1)
             shortcutTap.setEditing(false)
@@ -724,22 +724,27 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
             showTask = Task { [weak self] in
                 try? await Task.sleep(for: self?.discoveryTimeout ?? .seconds(2))
                 guard !Task.isCancelled, let self, sessionGeneration == generation, pendingInvocation != nil else { return }
+                catalogDidChange(deadlineReached: true)
+                if pendingInvocation == nil { return }
                 cancelSession()
                 lastError = .discoveryTimeout
                 onStateChange?()
             }
             return
         }
-        present(entries, reversed: reversed, currentApp: currentApp, persistent: persistent)
+        present(opening, reversed: reversed, currentApp: currentApp, persistent: persistent)
     }
 
-    private func present(_ entries: [WindowSwitcherAppEntry], reversed: Bool, currentApp: Bool, persistent: Bool, steps: Int? = nil) {
+    private func present(_ opening: WindowSwitcherOpening, reversed: Bool, currentApp: Bool, persistent: Bool, steps: Int? = nil) {
         let scope: WindowSwitcherSession.Scope = currentApp
             ? invocationPID.map(WindowSwitcherSession.Scope.currentApplication) ?? .all : .all
         let directKeys = store.configuration.mode == .keyWindow
-        let assignedEntries = directKeys ? store.assignShortcuts(to: entries) : entries
-        var value = WindowSwitcherSession(entries: assignedEntries, selectedID: appCatalog.focusedWindowID,
-            scope: scope, isPersistent: persistent, originalWindowID: appCatalog.focusedWindowID)
+        let assignedEntries = directKeys
+            ? store.assignShortcuts(to: opening.entries, catalogEntries: appCatalog.entries(sortMode: store.configuration.sortMode))
+            : opening.entries
+        let focusedID = opening.focusedWindowID
+        var value = WindowSwitcherSession(entries: assignedEntries, selectedID: focusedID,
+            scope: scope, isPersistent: persistent, originalWindowID: focusedID)
         value.usesDirectKeys = directKeys
         value.protectedCommandKeys = store.protectedCommandKeys
         if store.configuration.protectsLegacyCommands { value.protectedCommandKeys.formUnion(["w", "q"]) }
@@ -768,18 +773,21 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
         }
     }
 
-    private func catalogDidChange() {
+    private func catalogDidChange(deadlineReached: Bool = false) {
         guard isActive else { return }
         refreshAccessibilityPermission()
         guard isAccessibilityGranted, pendingInvocation != nil || session != nil else { return }
-        let entries = appCatalog.entries(sortMode: store.configuration.sortMode)
-        if let pending = pendingInvocation, appCatalog.isInvocationReady, !entries.isEmpty {
+        let sortMode = store.configuration.sortMode
+        if let pending = pendingInvocation,
+           let opening = appCatalog.opening(sortMode: sortMode, deadlineReached: deadlineReached) {
             pendingInvocation = nil
-            present(entries, reversed: pending.reversed, currentApp: pending.currentApp, persistent: pending.persistent, steps: pendingSteps)
+            present(opening, reversed: pending.reversed, currentApp: pending.currentApp, persistent: pending.persistent, steps: pendingSteps)
             pendingSteps = 0
             if pendingRelease { pendingRelease = false; handleShortcutReleased() }
         } else if var session {
-            session.reconcile(session.usesDirectKeys ? store.assignShortcuts(to: entries) : entries)
+            let entries = appCatalog.entries(sortMode: sortMode)
+            session.reconcile(entries)
+            if session.usesDirectKeys { session.entries = store.assignShortcuts(to: session.entries, catalogEntries: entries) }
             session.protectedCommandKeys.formUnion(store.protectedCommandKeys)
             self.session = session
             if overlayController.isVisible { overlayController.update(session) }
@@ -829,6 +837,7 @@ final class WindowSwitcherPlugin: MacToolsPlugin, AccessibilityPermissionRefresh
     }
 
     private func cancelSession() {
+        if pendingInvocation != nil { appCatalog.cancelInvocation() }
         shortcutTap.setSessionActive(false)
         shortcutTap.setEditing(false)
         sessionGeneration += 1
