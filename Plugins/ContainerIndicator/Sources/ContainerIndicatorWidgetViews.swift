@@ -19,17 +19,13 @@ private struct ContainerIndicatorContentHeightPreferenceKey: PreferenceKey {
     }
 }
 
-/// Tracks a stopped container or machine awaiting delete confirmation, so the
-/// card can present one dialog for both list kinds.
+/// Tracks a stopped container awaiting delete confirmation, so the card can
+/// present one dialog before any destructive command runs. The creation date is
+/// kept so the delete can verify it is still the same incarnation.
 private struct PendingDeletion {
-    enum Kind {
-        case container
-        case machine
-    }
-
     let id: String
     let name: String
-    let kind: Kind
+    let createdAt: Date?
 }
 
 // MARK: - Widget card
@@ -126,12 +122,10 @@ struct ContainerIndicatorWidgetCard: View {
     private func performDelete() {
         guard let deletion = pendingDeletion else { return }
         pendingDeletion = nil
-        switch deletion.kind {
-        case .container:
-            controller.deleteContainer(id: deletion.id)
-        case .machine:
-            controller.deleteMachine(id: deletion.id)
-        }
+        controller.deleteContainerIfStopped(
+            id: deletion.id,
+            createdAt: deletion.createdAt
+        )
     }
 
     // MARK: Header
@@ -240,7 +234,7 @@ struct ContainerIndicatorWidgetCard: View {
                                 pendingDeletion = PendingDeletion(
                                     id: container.id,
                                     name: container.name,
-                                    kind: .container
+                                    createdAt: container.configuration.createdAt
                                 )
                             },
                             terminalAction: {
@@ -285,13 +279,7 @@ struct ContainerIndicatorWidgetCard: View {
                             startAction: { state.startMachine(id: machine.id) },
                             stopAction: { state.stopMachine(id: machine.id) },
                             restartAction: { state.restartMachine(id: machine.id) },
-                            deleteAction: {
-                                pendingDeletion = PendingDeletion(
-                                    id: machine.id,
-                                    name: machine.name,
-                                    kind: .machine
-                                )
-                            },
+                            deleteAction: nil,
                             terminalAction: {
                                 state.openTerminal(target: .machine(id: machine.id))
                             },
@@ -315,7 +303,7 @@ struct ContainerIndicatorWidgetCard: View {
         startAction: @escaping () -> Void,
         stopAction: @escaping () -> Void,
         restartAction: @escaping () -> Void,
-        deleteAction: @escaping () -> Void,
+        deleteAction: (() -> Void)?,
         terminalAction: @escaping () -> Void,
         detailsAction: (() -> Void)?
     ) -> some View {
@@ -372,12 +360,14 @@ struct ContainerIndicatorWidgetCard: View {
                         action: restartAction
                     )
                 } else {
-                    rowButton(
-                        systemName: "trash",
-                        help: localization.string("panel.action.delete", defaultValue: "删除"),
-                        isEnabled: !state.isPerformingAction,
-                        action: deleteAction
-                    )
+                    if let deleteAction {
+                        rowButton(
+                            systemName: "trash",
+                            help: localization.string("panel.action.delete", defaultValue: "删除"),
+                            isEnabled: !state.isPerformingAction,
+                            action: deleteAction
+                        )
+                    }
                     rowButton(
                         systemName: "play.fill",
                         help: localization.string("panel.action.start", defaultValue: "启动"),

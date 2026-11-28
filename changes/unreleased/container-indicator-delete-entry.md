@@ -2,4 +2,4 @@
 release: plugin
 type: added
 ---
-Stopped containers and virtual machines in the container plugin now show a delete button that asks for confirmation before removing the entry.
+Stopped containers in the container plugin now show a delete button that asks for confirmation and verifies the entry is still the same stopped container before removing it.

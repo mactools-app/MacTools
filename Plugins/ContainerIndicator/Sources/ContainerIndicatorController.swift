@@ -474,12 +474,47 @@ public final class ContainerIndicatorController: ObservableObject {
         ])
     }
 
-    public func deleteContainer(id: String) {
-        perform(sequences: [["delete", id]])
-    }
+    /// Deletes a stopped container, but only while it is still the same
+    /// incarnation the user confirmed. The confirmation dialog can stay open
+    /// while the daemon changes underneath it, so this re-reads the list before
+    /// deleting: a container that started, disappeared, or was replaced by a
+    /// new one reusing the same ID cancels instead of deleting the wrong object.
+    /// `container delete` (without `--force`) also refuses running containers,
+    /// so the stopped condition is enforced again at execution.
+    public func deleteContainerIfStopped(id: String, createdAt: Date?) {
+        guard !isPerformingAction else { return }
+        resolveCommandPathIfNeeded()
+        guard commandPath != nil else {
+            operationErrorMessage = localization.string(
+                "panel.error.commandNotFound",
+                defaultValue: "未找到 container 命令"
+            )
+            onStateChange?()
+            return
+        }
 
-    public func deleteMachine(id: String) {
-        perform(sequences: [["machine", "delete", id]])
+        operationErrorMessage = nil
+        onStateChange?()
+
+        Task { [weak self] in
+            guard let self else { return }
+            // A fresh read is what the confirmation must check: a stale snapshot
+            // could still describe the entry as stopped long after it started.
+            await self.refresh()
+            guard !self.isPerformingAction else { return }
+            guard let container = self.snapshot.containers.first(where: { $0.id == id }),
+                  !container.isRunning,
+                  container.configuration.createdAt == createdAt
+            else {
+                self.operationErrorMessage = self.localization.string(
+                    "panel.error.deleteStateChanged",
+                    defaultValue: "容器状态已变化，已取消删除"
+                )
+                self.onStateChange?()
+                return
+            }
+            self.perform(sequences: [["delete", id]])
+        }
     }
 
     // MARK: - Terminal
