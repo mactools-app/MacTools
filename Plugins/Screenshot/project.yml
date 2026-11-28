@@ -1,6 +1,6 @@
 settings:
   base:
-    OTHER_LDFLAGS: -framework ScreenCaptureKit -framework Vision -framework CoreImage -framework UniformTypeIdentifiers -framework QuartzCore -framework VideoToolbox
+    OTHER_LDFLAGS: -weak_framework ScreenCaptureKit -framework Vision -framework CoreImage -framework UniformTypeIdentifiers -framework QuartzCore -framework VideoToolbox
 
 core:
   sources:
