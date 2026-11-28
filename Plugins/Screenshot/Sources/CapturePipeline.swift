@@ -118,13 +118,7 @@ enum CapturePipeline {
 
     private static func captureDisplay(_ display: CaptureDisplay, legacyDisplays: [SCDisplay]) async throws -> CGImage {
         if #available(macOS 26, *) {
-            let configuration = screenshotConfiguration(pixelWidth: display.pixelWidth, pixelHeight: display.pixelHeight)
-            return try await CaptureCompletion<CGImage>.receive { completion in
-                SCScreenshotManager.captureScreenshot(rect: display.captureRect, configuration: configuration) { output, error in
-                    if let image = output?.sdrImage { completion(.success(image)) }
-                    else { completion(.failure(error ?? CaptureFailure.unavailable)) }
-                }
-            }
+            return try await captureDisplayRect(display)
         }
 
         guard let source = legacyDisplays.first(where: { $0.displayID == display.id }) else {
@@ -151,6 +145,19 @@ enum CapturePipeline {
         // The default also strips shadows and framing from menus and popovers in display captures.
         config.ignoreShadowsSingleWindow = false
         return config
+    }
+
+    /// Rectangle capture references macOS 26 ScreenCaptureKit classes. Keeping that reference in an
+    /// `@available` function lets dyld weak-import `SCScreenshotConfiguration` on earlier systems.
+    @available(macOS 26, *)
+    private static func captureDisplayRect(_ display: CaptureDisplay) async throws -> CGImage {
+        let configuration = screenshotConfiguration(pixelWidth: display.pixelWidth, pixelHeight: display.pixelHeight)
+        return try await CaptureCompletion<CGImage>.receive { completion in
+            SCScreenshotManager.captureScreenshot(rect: display.captureRect, configuration: configuration) { output, error in
+                if let image = output?.sdrImage { completion(.success(image)) }
+                else { completion(.failure(error ?? CaptureFailure.unavailable)) }
+            }
+        }
     }
 
     @available(macOS 26, *)

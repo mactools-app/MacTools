@@ -117,5 +117,57 @@ class GeneratorPrintSchemesTests(unittest.TestCase):
         self.assertEqual(result.stdout.strip(), "ProjectYmlScheme")
 
 
+def other_ldflags(generated: str, target: str) -> str:
+    lines = generated.splitlines()
+    header = f"  {target}:"
+    for index, line in enumerate(lines):
+        if line != header:
+            continue
+        for follower in lines[index + 1 :]:
+            if follower.startswith("  ") and not follower.startswith("   "):
+                break
+            marker = "OTHER_LDFLAGS:"
+            if marker in follower:
+                return follower.split(marker, 1)[1].strip()
+    raise AssertionError(f"{target} does not declare OTHER_LDFLAGS")
+
+
+class ScreenshotScreenCaptureKitLinkTests(unittest.TestCase):
+    def test_screenshot_targets_weak_link_screen_capture_kit(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            output = pathlib.Path(temporary) / "GeneratedPlugins.yml"
+            result = subprocess.run(
+                [
+                    "ruby",
+                    str(GENERATOR),
+                    "--source-dir",
+                    str(REPO_ROOT / "Plugins"),
+                    "--output",
+                    str(output),
+                ],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            generated = output.read_text(encoding="utf-8")
+
+        screenshot_frameworks = (
+            "Vision",
+            "CoreImage",
+            "UniformTypeIdentifiers",
+            "QuartzCore",
+            "VideoToolbox",
+        )
+        for target in ("ScreenshotPluginCore", "ScreenshotPlugin", "MacToolsTests"):
+            flags = other_ldflags(generated, target)
+            self.assertIn("-weak_framework ScreenCaptureKit", flags)
+            self.assertNotIn("-framework ScreenCaptureKit", flags)
+            self.assertEqual(flags.count("-weak_framework ScreenCaptureKit"), 1)
+            if target != "MacToolsTests":
+                for framework in screenshot_frameworks:
+                    self.assertIn(f"-framework {framework}", flags)
+
+
 if __name__ == "__main__":
     unittest.main()
