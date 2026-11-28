@@ -314,6 +314,97 @@ final class ContainerIndicatorPluginTests: XCTestCase {
         XCTAssertFalse(controller.isPerformingAction)
     }
 
+    func testContainerDeleteRunsDeleteCommand() async throws {
+        let probe = CommandProbe()
+        await probe.stubService(exitCode: 0, output: #"{"status":"running"}"#)
+        await probe.stubContainers(stoppedContainerJSON(creationDate: "2026-10-01T12:00:00Z"))
+        let controller = makeController(probe: probe)
+        await controller.refresh()
+        let createdAt = try XCTUnwrap(
+            controller.snapshot.containers.first?.configuration.createdAt
+        )
+
+        controller.deleteContainerIfStopped(id: "c1", createdAt: createdAt)
+        await waitUntil { await probe.recordedInvocations().contains(["delete", "c1"]) }
+
+        let invocations = await probe.recordedInvocations()
+        XCTAssertTrue(invocations.contains(["delete", "c1"]))
+        XCTAssertNil(controller.lastErrorMessage)
+        XCTAssertFalse(controller.isPerformingAction)
+    }
+
+    func testContainerDeleteCancelsWhenContainerStartsWhileConfirming() async throws {
+        let probe = CommandProbe()
+        await probe.stubService(exitCode: 0, output: #"{"status":"running"}"#)
+        await probe.stubContainers(stoppedContainerJSON(creationDate: "2026-10-01T12:00:00Z"))
+        let controller = makeController(probe: probe)
+        await controller.refresh()
+        let createdAt = try XCTUnwrap(
+            controller.snapshot.containers.first?.configuration.createdAt
+        )
+
+        // The container starts while the confirmation dialog is still open, so
+        // the confirm-time verification must cancel instead of deleting it.
+        await probe.stubContainers(runningContainerJSON(creationDate: "2026-10-01T12:00:00Z"))
+        controller.deleteContainerIfStopped(id: "c1", createdAt: createdAt)
+        await waitUntil { controller.lastErrorMessage != nil }
+
+        let invocations = await probe.recordedInvocations()
+        XCTAssertFalse(
+            invocations.contains(["delete", "c1"]),
+            "A container that started while confirming must not be deleted"
+        )
+        XCTAssertEqual(controller.lastErrorMessage, "容器状态已变化，已取消删除")
+        XCTAssertFalse(controller.isPerformingAction)
+    }
+
+    func testContainerDeleteCancelsWhenReplacementReusesID() async throws {
+        let probe = CommandProbe()
+        await probe.stubService(exitCode: 0, output: #"{"status":"running"}"#)
+        await probe.stubContainers(stoppedContainerJSON(creationDate: "2026-10-01T12:00:00Z"))
+        let controller = makeController(probe: probe)
+        await controller.refresh()
+        let originalCreatedAt = try XCTUnwrap(
+            controller.snapshot.containers.first?.configuration.createdAt
+        )
+
+        // The container is deleted and a new one reuses the same ID with a new
+        // creation date; the stale confirmation must not delete the replacement.
+        await probe.stubContainers(stoppedContainerJSON(creationDate: "2026-11-01T08:30:00Z"))
+        controller.deleteContainerIfStopped(id: "c1", createdAt: originalCreatedAt)
+        await waitUntil { controller.lastErrorMessage != nil }
+
+        let invocations = await probe.recordedInvocations()
+        XCTAssertFalse(
+            invocations.contains(["delete", "c1"]),
+            "A replacement that reuses the selected ID must not be deleted"
+        )
+        XCTAssertEqual(controller.lastErrorMessage, "容器状态已变化，已取消删除")
+        XCTAssertFalse(controller.isPerformingAction)
+    }
+
+    func testContainerDeleteFailureSurfacesCommandError() async throws {
+        let probe = CommandProbe()
+        await probe.stubService(exitCode: 0, output: #"{"status":"running"}"#)
+        await probe.stubContainers(stoppedContainerJSON(creationDate: "2026-10-01T12:00:00Z"))
+        await probe.stubCommandResult(
+            arguments: ["delete", "c1"],
+            exitCode: 64,
+            error: "error: container is running"
+        )
+        let controller = makeController(probe: probe)
+        await controller.refresh()
+        let createdAt = try XCTUnwrap(
+            controller.snapshot.containers.first?.configuration.createdAt
+        )
+
+        controller.deleteContainerIfStopped(id: "c1", createdAt: createdAt)
+        await waitUntil { controller.lastErrorMessage != nil }
+
+        XCTAssertEqual(controller.lastErrorMessage, "操作失败：error: container is running")
+        XCTAssertFalse(controller.isPerformingAction)
+    }
+
     func testFailedListReadKeepsPreviousEntriesAndReportsWhy() async {
         let probe = CommandProbe()
         await probe.stubService(exitCode: 0, output: #"{"status":"running"}"#)
@@ -1178,6 +1269,22 @@ final class ContainerIndicatorPluginTests: XCTestCase {
     }
 
     // MARK: - Helpers
+
+    /// One stopped container with the given creation date, used by the delete
+    /// confirmation tests to control the incarnation the dialog captured.
+    private func stoppedContainerJSON(creationDate: String) -> String {
+        """
+        [{"id":"c1","configuration":{"id":"web","creationDate":"\(creationDate)"},\
+        "status":{"state":"stopped"}}]
+        """
+    }
+
+    private func runningContainerJSON(creationDate: String) -> String {
+        """
+        [{"id":"c1","configuration":{"id":"web","creationDate":"\(creationDate)"},\
+        "status":{"state":"running"}}]
+        """
+    }
 
     private func statsJSON(
         cpu: UInt64,
